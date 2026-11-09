@@ -1,2 +1,12 @@
-# Auto detect text files and perform LF normalization
 * text=auto
+*.cs text diff=csharp
+*.unity merge=unityyamlmerge eol=lf
+*.prefab merge=unityyamlmerge eol=lf
+*.asset merge=unityyamlmerge eol=lf
+*.mat merge=unityyamlmerge eol=lf
+*.meta text eol=lf
+*.png binary
+*.jpg binary
+*.wav binary
+*.ogg binary
+*.mp3 binary
