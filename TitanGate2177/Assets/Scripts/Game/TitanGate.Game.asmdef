@@ -1,0 +1,6 @@
+{
+  "name": "TitanGate.Game",
+  "rootNamespace": "TitanGate.Game",
+  "references": ["TitanGate.Core", "Unity.InputSystem"],
+  "autoReferenced": true
+}

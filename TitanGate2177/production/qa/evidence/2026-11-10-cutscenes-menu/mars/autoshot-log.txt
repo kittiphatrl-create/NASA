@@ -1,0 +1,64 @@
+shot 00_menu_th
+shot 00_keyart
+shot 00_settings_th
+shot 00_howto_th
+shot 00_menu_en
+shot c1_intro_a
+shot c1_intro_b
+shot 01_ship_room0
+shot 01_ship_room1
+shot 01_ship_room2
+shot 01_ship_room3
+shot 01_ship_room4
+shot c2_impact
+PASS impact after two shift tasks
+PASS cabin O2 drains in real time (100 -> 97)
+shot 02_leak_fuelbay
+PASS supplies bag taken
+shot 03_keypad_wrong
+PASS locker code from the debris card opens the locker
+PASS breach sealed with the kit
+cabin O2 when sealed: 92
+shot 04_nav
+shot 05_nav_confirm
+PASS route chosen: mars
+PASS manual read for the route
+shot 06_edl_wrong
+shot 07_land_a
+shot 07_land_b
+shot 07_land_c
+shot 07_land_d
+PASS landed, chapter 2 started
+shot 08_carry_report
+shot 09_quarters_landed
+PASS wrong catalyst rejected
+PASS nickel catalyst installed
+shot 10_outside
+PASS plate + sealant combine
+PASS drill bit installed
+shot 11_action_menu
+PASS fuel line repaired
+shot 12_landed_room0
+shot 12_landed_room1
+shot 12_landed_room2
+shot 12_landed_room3
+shot 12_landed_room4
+shot 12_landed_room5
+shot 13_bed
+shot 14_night_report
+PASS sol 2 reached
+PASS daytime emergency started after 2 actions
+shot 15_incident
+PASS emergency fixed by reaching s_recycler
+shot 16_hint
+shot 17_codex
+shot 18_low_o2
+sim sol=4 outcome=Ongoing o2=53 water=37 food=56 power=47
+shot 19_goal_modal
+shot 19_win_a
+shot 19_win_b
+shot 19_win_c
+PASS route won
+shot 20_win
+shot 21_lose
+done errors=0 checksFailed=0 cards=12

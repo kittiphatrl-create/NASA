@@ -1,0 +1,64 @@
+PASS impact after two shift tasks
+PASS cabin O2 drains in real time (100 -> 97)
+shot 02_leak_fuelbay
+shot 03_keypad_wrong
+PASS locker code from the debris card opens the locker
+PASS breach sealed with the kit
+cabin O2 when sealed: 93
+shot 04_nav
+shot 05_nav_confirm
+PASS route chosen: moon
+PASS manual read for the route
+shot 06_edl_wrong
+shot 07_land_a
+shot 07_land_b
+shot 07_land_c
+shot 07_land_d
+PASS landed, chapter 2 started
+shot 08_carry_report
+shot 09_quarters_landed
+shot 10_outside
+PASS pod code 1969 opens the pod
+PASS feed horn + cable combine
+shot 11_aim_choice
+PASS wrong aim rejected
+PASS dish aimed at Earth on the horizon
+PASS drill set in the shadowed crater
+shot 11b_berm_menu
+PASS regolith berm built (radiation shield)
+PASS radiation card shown after landing
+shot 12_landed_room0
+shot 12_landed_room1
+shot 12_landed_room2
+shot 12_landed_room3
+shot 12_landed_room4
+shot 12_landed_room5
+shot 12b_science_menu
+PASS science task sci_earthrise done, card earthrise
+PASS later science task waits for its day
+shot 13_bed
+shot 14_night_report
+shot 14b_dilemma
+PASS sol 2 reached
+PASS morning dilemma answered: moon_report
+PASS daytime emergency started after 2 actions
+shot 15_incident
+PASS emergency fixed by reaching s_o2gen
+shot 16_hint
+shot 17_codex
+shot 18_low_o2
+shot 18b_event
+PASS random event answered: cut_hand
+PASS a random event was drawn during the week
+PASS the stay lasts a full week (sol 7)
+sim sol=7 outcome=Ongoing o2=44 water=71 food=74 power=87
+shot 19_goal_modal
+shot 19_win_a
+shot 19_win_b
+shot 19_win_c
+PASS route won
+PASS debrief stars: mission yes, science not all
+debrief dose=4.8 log=9 stars=True,True,False best=0
+shot 20_win
+shot 21_lose
+done errors=0 checksFailed=0 cards=16
