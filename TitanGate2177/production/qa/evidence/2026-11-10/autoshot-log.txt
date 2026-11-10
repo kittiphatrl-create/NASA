@@ -1,0 +1,37 @@
+shot 01_title_en
+shot 02_title_th
+shot 03_ch1_intro_dialog_th
+shot 04_cockpit_th
+shot 05_cockpit_highlight_th
+shot 06_card_titan_th
+shot 07_walking
+shot 08_impact_th
+shot 09_fuelbay_breach_th
+shot 10_cargo_th
+shot 11_keypad_th
+shot 12_inventory_th
+shot 13_nav_en
+shot 14_edl_th
+ch1 state impact=True sealed=True fuel=True manual=True cards=5
+shot 15_landing_text_th
+shot 16_mars_dialog_th
+shot 17_hab_th
+shot 18_lifesupport_th
+shot 19_cabinet_th
+shot 20_fuelbay2_th
+shot 21_surface_th
+shot 22_solar_menu_th
+shot 23_item_selected_th
+hull patch made: True
+shot 24_bed_th
+shot 25_night_report_th
+shot 26_hab_hud_en
+shot 27_codex_en
+shot 28_codex_th
+sim sol=4 outcome=Ongoing o2=68 water=12 food=26
+shot 29_sol4_fuelbay_th
+shot 30_launch_modal_th
+shot 31_win_th
+shot 32_lose_th
+shot 33_lose_en
+done errors=0 cards=9

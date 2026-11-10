@@ -1,0 +1,6 @@
+{
+  "name": "TitanGate.Core",
+  "rootNamespace": "TitanGate.Core",
+  "references": [],
+  "autoReferenced": true
+}

@@ -1,0 +1,7 @@
+{
+  "name": "TitanGate.Editor",
+  "rootNamespace": "TitanGate.EditorTools",
+  "references": ["TitanGate.Core", "TitanGate.Game"],
+  "includePlatforms": ["Editor"],
+  "autoReferenced": false
+}

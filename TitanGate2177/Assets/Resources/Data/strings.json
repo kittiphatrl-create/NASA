@@ -1,0 +1,5244 @@
+{
+ "entries": [
+  {
+   "k": "ui.cards",
+   "en": "Cards {0}/{1}",
+   "th": "การ์ดความรู้ {0}/{1}"
+  },
+  {
+   "k": "ui.hint",
+   "en": "ORBI Hint",
+   "th": "คำใบ้ ORBI"
+  },
+  {
+   "k": "ui.continue",
+   "en": "click to continue",
+   "th": "คลิกเพื่อไปต่อ"
+  },
+  {
+   "k": "ui.close",
+   "en": "Close",
+   "th": "ปิด"
+  },
+  {
+   "k": "ui.use_on",
+   "en": "Use {0} on {1}",
+   "th": "ใช้ {0} กับ {1}"
+  },
+  {
+   "k": "ui.using",
+   "en": "Holding: {0} — click a thing to use it, or another item to combine (right click to drop)",
+   "th": "ถืออยู่: {0} — คลิกสิ่งของในฉากเพื่อใช้ หรือคลิกไอเทมอื่นเพื่อรวมกัน (คลิกขวาเพื่อวาง)"
+  },
+  {
+   "k": "ui.new_card",
+   "en": "New knowledge card!",
+   "th": "ได้การ์ดความรู้ใหม่!"
+  },
+  {
+   "k": "ui.new_card_named",
+   "en": "New card: {0}  (press C to read)",
+   "th": "การ์ดใหม่: {0}  (กด C เพื่ออ่าน)"
+  },
+  {
+   "k": "ui.card_header",
+   "en": "KNOWLEDGE CARD · REAL SPACE SCIENCE",
+   "th": "การ์ดความรู้ · วิทยาศาสตร์อวกาศของจริง"
+  },
+  {
+   "k": "ui.codex_title",
+   "en": "Knowledge cards {0}/{1} — each route teaches different ones",
+   "th": "การ์ดความรู้ {0}/{1} — แต่ละเส้นทางได้การ์ดไม่เหมือนกัน"
+  },
+  {
+   "k": "ui.card_locked",
+   "en": "??? — not found yet",
+   "th": "??? — ยังไม่พบ"
+  },
+  {
+   "k": "speaker.orbi",
+   "en": "ORBI · mission AI",
+   "th": "ORBI · AI ประจำภารกิจ"
+  },
+  {
+   "k": "speaker.you",
+   "en": "You · Cadet",
+   "th": "คุณ · นักบินฝึกหัด"
+  },
+  {
+   "k": "speaker.sys",
+   "en": "SHIP ALERT",
+   "th": "สัญญาณเตือนของยาน"
+  },
+  {
+   "k": "title.subtitle",
+   "en": "Junior Astronaut Mission Trainer",
+   "th": "ภารกิจฝึกนักบินอวกาศรุ่นเยาว์"
+  },
+  {
+   "k": "title.tagline",
+   "en": "Year 2177. You and the AI ORBI fly the ship Kestrel toward the warp gate at Titan, Saturn's largest moon. Then something hits the ship. Where you go next is your choice.",
+   "th": "ปี 2177 คุณกับ AI ชื่อ ORBI กำลังขับยาน Kestrel ไปยังประตูวาปที่ไททัน ดวงจันทร์ที่ใหญ่ที่สุดของดาวเสาร์ แล้วจู่ๆ ก็มีบางอย่างพุ่งชนยาน จะไปไหนต่อ คุณเป็นคนเลือก"
+  },
+  {
+   "k": "title.start",
+   "en": "Start mission",
+   "th": "เริ่มภารกิจ"
+  },
+  {
+   "k": "title.controls",
+   "en": "Click to walk and use things · hold Space to show everything you can use · H = hint · C = knowledge cards · Esc = close",
+   "th": "คลิกเพื่อเดินและใช้งานสิ่งของ · กด Space ค้างไว้เพื่อดูทุกอย่างที่ใช้ได้ · H = คำใบ้ · C = การ์ดความรู้ · Esc = ปิด"
+  },
+  {
+   "k": "title.credit",
+   "en": "Font: Chakra Petch (SIL Open Font License) · facts from NASA missions · all art drawn in code",
+   "th": "ฟอนต์ Chakra Petch (SIL Open Font License) · ข้อมูลจากภารกิจของ NASA · ภาพทั้งหมดวาดด้วยโค้ด"
+  },
+  {
+   "k": "hud.sol",
+   "en": "Sol {0}/{1}",
+   "th": "Sol {0}/{1}"
+  },
+  {
+   "k": "hud.ap",
+   "en": "time left {0}",
+   "th": "เวลาเหลือ {0}"
+  },
+  {
+   "k": "hud.ap_cost",
+   "en": "Time {0}",
+   "th": "ใช้เวลา {0}"
+  },
+  {
+   "k": "hud.o2",
+   "en": "O₂",
+   "th": "O₂"
+  },
+  {
+   "k": "hud.water",
+   "en": "Water",
+   "th": "น้ำ"
+  },
+  {
+   "k": "hud.power",
+   "en": "Power",
+   "th": "ไฟฟ้า"
+  },
+  {
+   "k": "hud.food",
+   "en": "Food",
+   "th": "อาหาร"
+  },
+  {
+   "k": "hud.stamina",
+   "en": "Energy",
+   "th": "พลังกาย"
+  },
+  {
+   "k": "hud.fuel",
+   "en": "Fuel",
+   "th": "เชื้อเพลิง"
+  },
+  {
+   "k": "hud.solar",
+   "en": "Power source {0}%",
+   "th": "แหล่งไฟฟ้า {0}%"
+  },
+  {
+   "k": "hud.cabin_o2",
+   "en": "CABIN O₂ LEAKING",
+   "th": "O₂ ในยานกำลังรั่ว"
+  },
+  {
+   "k": "ch1.title",
+   "en": "CHAPTER 1 · SHIP KESTREL, DEEP SPACE",
+   "th": "บทที่ 1 · ยาน KESTREL ในห้วงอวกาศ"
+  },
+  {
+   "k": "ch1.intro_card",
+   "en": "Year 2177 — ship Kestrel\nBound for the Titan warp gate at Saturn",
+   "th": "ปี 2177 — ยาน Kestrel\nมุ่งหน้าสู่ประตูวาปที่ไททัน ดาวเสาร์"
+  },
+  {
+   "k": "route.mars.name",
+   "en": "Mars",
+   "th": "ดาวอังคาร"
+  },
+  {
+   "k": "route.moon.name",
+   "en": "the Moon",
+   "th": "ดวงจันทร์"
+  },
+  {
+   "k": "route.titan.name",
+   "en": "Titan",
+   "th": "ไททัน"
+  },
+  {
+   "k": "route.mars.progress",
+   "en": "Fuel",
+   "th": "เชื้อเพลิง"
+  },
+  {
+   "k": "route.moon.progress",
+   "en": "Signal",
+   "th": "สัญญาณ"
+  },
+  {
+   "k": "route.titan.progress",
+   "en": "Gate charge",
+   "th": "พลังประตู"
+  },
+  {
+   "k": "ch2.mars.title",
+   "en": "CHAPTER 2 · MARS, SOL {0}",
+   "th": "บทที่ 2 · ดาวอังคาร SOL {0}"
+  },
+  {
+   "k": "ch2.moon.title",
+   "en": "CHAPTER 2 · MOON SOUTH POLE, DAY {0}",
+   "th": "บทที่ 2 · ขั้วใต้ดวงจันทร์ วันที่ {0}"
+  },
+  {
+   "k": "ch2.titan.title",
+   "en": "CHAPTER 2 · TITAN, DAY {0}",
+   "th": "บทที่ 2 · ไททัน วันที่ {0}"
+  },
+  {
+   "k": "ch2.mars.intro_card",
+   "en": "Chapter 2 — Mars\nSurvive until the launch window",
+   "th": "บทที่ 2 — ดาวอังคาร\nรอดให้ถึงช่วงปล่อยยาน"
+  },
+  {
+   "k": "ch2.moon.intro_card",
+   "en": "Chapter 2 — The Moon\nCall Earth and wait for rescue",
+   "th": "บทที่ 2 — ดวงจันทร์\nติดต่อโลกแล้วรอการช่วยเหลือ"
+  },
+  {
+   "k": "ch2.titan.intro_card",
+   "en": "Chapter 2 — Titan\nThe gate is here. So is the cold.",
+   "th": "บทที่ 2 — ไททัน\nประตูอยู่ตรงนี้ ความหนาวก็เช่นกัน"
+  },
+  {
+   "k": "room.cockpit",
+   "en": "Cockpit",
+   "th": "ห้องนักบิน"
+  },
+  {
+   "k": "room.quarters",
+   "en": "Crew quarters",
+   "th": "ห้องพักลูกเรือ"
+  },
+  {
+   "k": "room.lifesupport",
+   "en": "Life Support",
+   "th": "ห้องระบบยังชีพ"
+  },
+  {
+   "k": "room.fuelbay",
+   "en": "Fuel Bay",
+   "th": "ห้องเชื้อเพลิง"
+  },
+  {
+   "k": "room.cargo",
+   "en": "Cargo & Airlock",
+   "th": "ห้องเก็บของและประตูปรับแรงดัน"
+  },
+  {
+   "k": "room.surface.mars",
+   "en": "Mars surface",
+   "th": "พื้นผิวดาวอังคาร"
+  },
+  {
+   "k": "room.surface.moon",
+   "en": "Lunar surface",
+   "th": "พื้นผิวดวงจันทร์"
+  },
+  {
+   "k": "room.surface.titan",
+   "en": "Titan surface",
+   "th": "พื้นผิวไททัน"
+  },
+  {
+   "k": "spot.s_scope",
+   "en": "Star telescope",
+   "th": "กล้องโทรทรรศน์"
+  },
+  {
+   "k": "spot.s_console",
+   "en": "Main console · daily log",
+   "th": "คอนโซลหลัก · บันทึกประจำวัน"
+  },
+  {
+   "k": "spot.s_console_goal",
+   "en": "Main console · mission goal",
+   "th": "คอนโซลหลัก · เป้าหมายภารกิจ"
+  },
+  {
+   "k": "spot.s_seat",
+   "en": "Pilot seat · landing controls",
+   "th": "เก้าอี้นักบิน · ระบบลงจอด"
+  },
+  {
+   "k": "spot.s_nav",
+   "en": "Navigation computer",
+   "th": "คอมพิวเตอร์นำทาง"
+  },
+  {
+   "k": "spot.s_nav_comms",
+   "en": "Comms computer",
+   "th": "คอมพิวเตอร์สื่อสาร"
+  },
+  {
+   "k": "spot.door_quarters",
+   "en": "To Crew quarters",
+   "th": "ไปห้องพักลูกเรือ"
+  },
+  {
+   "k": "spot.door_cockpit",
+   "en": "To the Cockpit",
+   "th": "ไปห้องนักบิน"
+  },
+  {
+   "k": "spot.door_lifesupport",
+   "en": "To Life Support",
+   "th": "ไปห้องระบบยังชีพ"
+  },
+  {
+   "k": "spot.door_fuelbay",
+   "en": "To the Fuel Bay",
+   "th": "ไปห้องเชื้อเพลิง"
+  },
+  {
+   "k": "spot.door_cargo",
+   "en": "To Cargo & Airlock",
+   "th": "ไปห้องเก็บของ"
+  },
+  {
+   "k": "spot.s_bed",
+   "en": "Bunk · sleep",
+   "th": "เตียง · นอนพัก"
+  },
+  {
+   "k": "spot.s_supplies",
+   "en": "Emergency supply bag",
+   "th": "ถุงเสบียงฉุกเฉิน"
+  },
+  {
+   "k": "spot.s_food",
+   "en": "Food locker",
+   "th": "ตู้อาหาร"
+  },
+  {
+   "k": "spot.s_toolbox",
+   "en": "Toolbox",
+   "th": "กล่องเครื่องมือ"
+  },
+  {
+   "k": "spot.s_board",
+   "en": "Mission board · forecast",
+   "th": "บอร์ดภารกิจ · พยากรณ์"
+  },
+  {
+   "k": "spot.s_o2gen",
+   "en": "Oxygen generator (electrolysis)",
+   "th": "เครื่องผลิตออกซิเจน (แยกน้ำ)"
+  },
+  {
+   "k": "spot.s_moxie",
+   "en": "MOXIE oxygen maker",
+   "th": "เครื่องผลิตออกซิเจน MOXIE"
+  },
+  {
+   "k": "spot.s_recycler",
+   "en": "Water recycler",
+   "th": "เครื่องรีไซเคิลน้ำ"
+  },
+  {
+   "k": "spot.s_cabinet",
+   "en": "Supply cabinet",
+   "th": "ตู้อะไหล่"
+  },
+  {
+   "k": "spot.s_seals",
+   "en": "Habitat panel · seals & heat",
+   "th": "แผงควบคุมห้อง · ซีลและความร้อน"
+  },
+  {
+   "k": "spot.s_tank",
+   "en": "Fuel tank",
+   "th": "ถังเชื้อเพลิง"
+  },
+  {
+   "k": "spot.s_gauge",
+   "en": "Gauge panel",
+   "th": "แผงมาตรวัด"
+  },
+  {
+   "k": "spot.s_reactor",
+   "en": "Fuel processor (idle)",
+   "th": "เครื่องแปรรูปเชื้อเพลิง (ไม่ได้ใช้)"
+  },
+  {
+   "k": "spot.s_reactor_mars",
+   "en": "Sabatier fuel reactor",
+   "th": "เครื่องผลิตเชื้อเพลิง Sabatier"
+  },
+  {
+   "k": "spot.s_line",
+   "en": "Fuel line",
+   "th": "ท่อเชื้อเพลิง"
+  },
+  {
+   "k": "spot.s_line_broken",
+   "en": "Broken fuel line",
+   "th": "ท่อเชื้อเพลิงที่แตก"
+  },
+  {
+   "k": "spot.s_breach",
+   "en": "Hull breach!",
+   "th": "ผนังยานรั่ว!"
+  },
+  {
+   "k": "spot.s_locker",
+   "en": "Emergency locker",
+   "th": "ตู้ฉุกเฉิน"
+  },
+  {
+   "k": "spot.s_shelf",
+   "en": "Manual shelf",
+   "th": "ชั้นวางคู่มือ"
+  },
+  {
+   "k": "spot.s_crates",
+   "en": "Supply crates",
+   "th": "ลังเสบียง"
+  },
+  {
+   "k": "spot.s_airlock",
+   "en": "Airlock (sealed in space)",
+   "th": "ประตูปรับแรงดัน (ปิดตายในอวกาศ)"
+  },
+  {
+   "k": "spot.s_airlock_out",
+   "en": "Airlock · go outside (suit up)",
+   "th": "ประตูปรับแรงดัน · ออกไปข้างนอก (ใส่ชุด)"
+  },
+  {
+   "k": "spot.door_airlock_in",
+   "en": "Airlock · go inside",
+   "th": "ประตูปรับแรงดัน · กลับเข้ายาน"
+  },
+  {
+   "k": "spot.mars_solar",
+   "en": "Solar panels",
+   "th": "แผงโซลาร์เซลล์"
+  },
+  {
+   "k": "spot.mars_drill",
+   "en": "Ice drill",
+   "th": "สว่านเจาะน้ำแข็ง"
+  },
+  {
+   "k": "spot.mars_pod",
+   "en": "Cargo pod (locked)",
+   "th": "กล่องสัมภาระ (ล็อกอยู่)"
+  },
+  {
+   "k": "spot.mars_scrap",
+   "en": "Metal scrap",
+   "th": "เศษแผ่นโลหะ"
+  },
+  {
+   "k": "spot.moon_solar",
+   "en": "Solar panels",
+   "th": "แผงโซลาร์เซลล์"
+  },
+  {
+   "k": "spot.moon_dish",
+   "en": "Radio dish (broken)",
+   "th": "จานสายอากาศ (เสีย)"
+  },
+  {
+   "k": "spot.moon_crater",
+   "en": "Crater edge · ice drill",
+   "th": "ขอบหลุมอุกกาบาต · สว่านน้ำแข็ง"
+  },
+  {
+   "k": "spot.moon_pod",
+   "en": "Cargo pod (locked)",
+   "th": "กล่องสัมภาระ (ล็อกอยู่)"
+  },
+  {
+   "k": "spot.titan_rtg",
+   "en": "RTG power unit",
+   "th": "เครื่องผลิตไฟ RTG"
+  },
+  {
+   "k": "spot.titan_drill",
+   "en": "Ice-rock drill",
+   "th": "สว่านเจาะหินน้ำแข็ง"
+  },
+  {
+   "k": "spot.titan_gate",
+   "en": "THE WARP GATE",
+   "th": "ประตูวาป"
+  },
+  {
+   "k": "item.item_patchkit",
+   "en": "Hull patch kit",
+   "th": "ชุดอุดรอยรั่ว"
+  },
+  {
+   "k": "item.item_drillbit",
+   "en": "Drill bit",
+   "th": "หัวสว่าน"
+  },
+  {
+   "k": "item.item_cat_fe",
+   "en": "Catalyst: Iron (Fe)",
+   "th": "ตัวเร่งปฏิกิริยา: เหล็ก (Fe)"
+  },
+  {
+   "k": "item.item_cat_ni",
+   "en": "Catalyst: Nickel (Ni)",
+   "th": "ตัวเร่งปฏิกิริยา: นิกเกิล (Ni)"
+  },
+  {
+   "k": "item.item_cat_cu",
+   "en": "Catalyst: Copper (Cu)",
+   "th": "ตัวเร่งปฏิกิริยา: ทองแดง (Cu)"
+  },
+  {
+   "k": "item.item_plate",
+   "en": "Metal plate",
+   "th": "แผ่นโลหะ"
+  },
+  {
+   "k": "item.item_sealant",
+   "en": "Sealant tube",
+   "th": "หลอดกาวซีล"
+  },
+  {
+   "k": "item.item_hull_patch",
+   "en": "Pipe patch",
+   "th": "แผ่นปะท่อ"
+  },
+  {
+   "k": "item.item_feedhorn",
+   "en": "Antenna feed horn",
+   "th": "หัวรับสัญญาณจานสายอากาศ"
+  },
+  {
+   "k": "item.item_cable",
+   "en": "Signal cable",
+   "th": "สายสัญญาณ"
+  },
+  {
+   "k": "item.item_antenna_kit",
+   "en": "Antenna repair kit",
+   "th": "ชุดซ่อมจานสายอากาศ"
+  },
+  {
+   "k": "item.item_heater_coil",
+   "en": "Heater coil",
+   "th": "ขดลวดทำความร้อน"
+  },
+  {
+   "k": "item.item_heated_bit",
+   "en": "Heated drill bit",
+   "th": "หัวสว่านแบบให้ความร้อน"
+  },
+  {
+   "k": "use.fail",
+   "en": "Using the {0} on the {1} won't do anything.",
+   "th": "เอา{0}ไปใช้กับ{1}คงไม่ได้ผลอะไร"
+  },
+  {
+   "k": "combine.ok",
+   "en": "Made: {0}",
+   "th": "ประกอบสำเร็จ: {0}"
+  },
+  {
+   "k": "combine.fail",
+   "en": "The {0} and the {1} don't fit together.",
+   "th": "{0}กับ{1}เอามารวมกันไม่ได้"
+  },
+  {
+   "k": "combine.made.item_hull_patch",
+   "en": "A pipe patch! That will fix the fuel line in the Fuel Bay.",
+   "th": "แผ่นปะท่อ! ใช้ซ่อมท่อเชื้อเพลิงในห้องเชื้อเพลิงได้"
+  },
+  {
+   "k": "combine.made.item_antenna_kit",
+   "en": "An antenna repair kit. Take it to the dish outside.",
+   "th": "ชุดซ่อมจานสายอากาศ เอาไปที่จานข้างนอกได้เลย"
+  },
+  {
+   "k": "combine.made.item_heated_bit",
+   "en": "A heated drill bit. Warm metal won't shatter on -179 °C ice.",
+   "th": "หัวสว่านให้ความร้อน โลหะอุ่นๆ จะไม่แตกบนน้ำแข็ง -179 °C"
+  },
+  {
+   "k": "obj.c1_shift",
+   "en": "Morning shift: do routine tasks ({0}/{1})\nStar scan · daily log · gauge check",
+   "th": "กะเช้า: ทำงานประจำ ({0}/{1})\nสแกนดาว · บันทึกประจำวัน · ตรวจมาตรวัด"
+  },
+  {
+   "k": "obj.c1_breach",
+   "en": "SEAL THE HULL BREACH in the Fuel Bay — oxygen is leaking!",
+   "th": "อุดรอยรั่วในห้องเชื้อเพลิงด่วน — ออกซิเจนกำลังรั่ว!"
+  },
+  {
+   "k": "obj.c1_supplies",
+   "en": "Optional: grab the supply bag in Crew quarters (it costs time)",
+   "th": "ทางเลือก: คว้าถุงเสบียงในห้องพัก (แต่เสียเวลา)"
+  },
+  {
+   "k": "obj.c1_fuel",
+   "en": "Read the gauge in the Fuel Bay: how much fuel is left?",
+   "th": "อ่านมาตรวัดในห้องเชื้อเพลิง: เหลือเชื้อเพลิงเท่าไหร่?"
+  },
+  {
+   "k": "obj.c1_nav",
+   "en": "Choose where to go at the navigation computer",
+   "th": "เลือกจุดหมายที่คอมพิวเตอร์นำทาง"
+  },
+  {
+   "k": "obj.c1_manual",
+   "en": "Read the landing manual for {0} (Cargo shelf)",
+   "th": "อ่านคู่มือลงจอดของ{0} (ชั้นวางในห้องเก็บของ)"
+  },
+  {
+   "k": "obj.c1_edl",
+   "en": "Land on {0}: enter the landing steps in order",
+   "th": "ลงจอดบน{0}: ใส่ขั้นตอนการลงจอดให้ถูกลำดับ"
+  },
+  {
+   "k": "c1_intro_1",
+   "en": "Good morning, Cadet! It's 2177, and we are on the ship Kestrel. I'm ORBI, your mission AI.",
+   "th": "อรุณสวัสดิ์ นักบินฝึกหัด! ตอนนี้ปี 2177 เราอยู่บนยาน Kestrel ฉันชื่อ ORBI เป็น AI ประจำภารกิจของคุณ"
+  },
+  {
+   "k": "c1_intro_2",
+   "en": "We are flying to the warp gate at Titan, Saturn's biggest moon. From there we cross to another galaxy!",
+   "th": "เรากำลังบินไปที่ประตูวาปบนไททัน ดวงจันทร์ที่ใหญ่ที่สุดของดาวเสาร์ จากที่นั่นเราจะข้ามไปอีกกาแล็กซีหนึ่ง!"
+  },
+  {
+   "k": "c1_intro_3",
+   "en": "First, your morning shift. Click things to walk over and use them. Hold Space to see everything you can use.",
+   "th": "เริ่มจากงานกะเช้าก่อนนะ คลิกที่สิ่งของเพื่อเดินไปใช้งาน และกด Space ค้างไว้เพื่อดูทุกอย่างที่ใช้ได้"
+  },
+  {
+   "k": "c1_scope_task",
+   "en": "Star scan done. Saturn is ahead, and Titan's orange haze is easy to spot.",
+   "th": "สแกนดาวเสร็จแล้ว เห็นดาวเสาร์อยู่ข้างหน้า หมอกสีส้มของไททันก็เห็นชัดเลย"
+  },
+  {
+   "k": "c1_scope_look",
+   "en": "Saturn's rings shine in the dark. Beautiful.",
+   "th": "วงแหวนของดาวเสาร์ส่องประกายในความมืด สวยมาก"
+  },
+  {
+   "k": "c1_log_task",
+   "en": "Daily log sent. The debris radar shows small rocks moving very fast out here.",
+   "th": "ส่งบันทึกประจำวันแล้ว เรดาร์จับได้ว่ามีหินก้อนเล็กๆ วิ่งเร็วมากอยู่แถวนี้"
+  },
+  {
+   "k": "c1_console_alarm",
+   "en": "Warning lights everywhere. Seal that breach first!",
+   "th": "ไฟเตือนขึ้นเต็มไปหมด อุดรอยรั่วก่อน!"
+  },
+  {
+   "k": "c1_console_look",
+   "en": "All systems green. Well, for now.",
+   "th": "ทุกระบบปกติดี อย่างน้อยก็ตอนนี้"
+  },
+  {
+   "k": "c1_gauge_task",
+   "en": "Fuel check: 64%. Plenty to reach Titan.",
+   "th": "ตรวจเชื้อเพลิง: 64% พอไปถึงไททันสบายๆ"
+  },
+  {
+   "k": "c1_gauge_leaking",
+   "en": "Fuel and air are leaking through the breach! Seal it first.",
+   "th": "เชื้อเพลิงกับอากาศรั่วออกทางรอยรั่ว! อุดก่อน"
+  },
+  {
+   "k": "c1_gauge_low",
+   "en": "The gauge reads {0}%. We lost most of our fuel.",
+   "th": "มาตรวัดขึ้น {0}% เราเสียเชื้อเพลิงไปเกือบหมดแล้ว"
+  },
+  {
+   "k": "c1_gauge_orbi",
+   "en": "That's not much. Different places need different amounts of fuel. Let's look at the navigation computer in the Cockpit.",
+   "th": "เท่านี้ไม่มากเลย แต่ละที่ใช้เชื้อเพลิงไม่เท่ากัน ไปดูที่คอมพิวเตอร์นำทางในห้องนักบินกัน"
+  },
+  {
+   "k": "c1_tanks_look",
+   "en": "A big fuel tank. Our ride to Saturn.",
+   "th": "ถังเชื้อเพลิงใหญ่ ตั๋วเดินทางไปดาวเสาร์ของเรา"
+  },
+  {
+   "k": "c1_tanks_after",
+   "en": "The tank is nearly empty. Most of the fuel vented into space.",
+   "th": "ถังเกือบว่างแล้ว เชื้อเพลิงส่วนใหญ่พุ่งออกไปในอวกาศ"
+  },
+  {
+   "k": "c1_sealed",
+   "en": "Breach sealed! Cabin oxygen held at {0}%. The patch works like a bumper shield.",
+   "th": "อุดรอยรั่วได้แล้ว! O₂ ในยานเหลือ {0}% แผ่นปะทำงานเหมือนโล่กันชน"
+  },
+  {
+   "k": "c1_breach_need",
+   "en": "Air is hissing out! I need something to cover it. Emergency gear is in a locker.",
+   "th": "อากาศกำลังรั่วออก! ต้องหาอะไรมาปิด อุปกรณ์ฉุกเฉินอยู่ในตู้"
+  },
+  {
+   "k": "c1_masks",
+   "en": "Cabin oxygen is critical! Emergency masks deployed. Every second now costs us on the next world.",
+   "th": "O₂ ในยานวิกฤต! หน้ากากฉุกเฉินทำงานแล้ว ทุกวินาทีจากนี้จะทำให้เราลำบากขึ้นที่ดาวถัดไป"
+  },
+  {
+   "k": "c1_supplies",
+   "en": "Emergency supply bag: extra food and water. Worth the seconds.",
+   "th": "ถุงเสบียงฉุกเฉิน: อาหารกับน้ำสำรอง คุ้มกับเวลาที่เสียไป"
+  },
+  {
+   "k": "c1_locker_pre",
+   "en": "Emergency locker. It only opens during an emergency.",
+   "th": "ตู้ฉุกเฉิน เปิดได้เฉพาะตอนเกิดเหตุฉุกเฉินเท่านั้น"
+  },
+  {
+   "k": "c1_locker_empty",
+   "en": "Empty now. I already took the patch kit.",
+   "th": "ว่างแล้ว ชุดอุดรอยรั่วหยิบไปแล้ว"
+  },
+  {
+   "k": "c1_locker_open",
+   "en": "Got the hull patch kit! Back to the Fuel Bay, fast!",
+   "th": "ได้ชุดอุดรอยรั่วแล้ว! รีบกลับไปห้องเชื้อเพลิง!"
+  },
+  {
+   "k": "c1_locker_wrong",
+   "en": "Wrong code. The label asks for the speed of space debris in km/s. Check your knowledge cards (C).",
+   "th": "รหัสผิด ป้ายถามความเร็วของขยะอวกาศเป็นกิโลเมตรต่อวินาที ลองดูการ์ดความรู้ (C)"
+  },
+  {
+   "k": "c1_shelf_choose_first",
+   "en": "Landing manuals for every world. Pick a destination first, then I'll know which one to read.",
+   "th": "คู่มือลงจอดของทุกดาว เลือกจุดหมายก่อน แล้วจะรู้ว่าต้องอ่านเล่มไหน"
+  },
+  {
+   "k": "c1_manual_read.mars",
+   "en": "The Mars landing manual: heat shield, parachute, drop the shield, rockets.",
+   "th": "คู่มือลงจอดดาวอังคาร: โล่กันความร้อน ร่มชูชีพ ปลดโล่ แล้วจรวด"
+  },
+  {
+   "k": "c1_manual_read.moon",
+   "en": "The Moon landing manual. No air at all, so no parachute. Rockets do everything.",
+   "th": "คู่มือลงจอดดวงจันทร์ ไม่มีอากาศเลย เลยใช้ร่มชูชีพไม่ได้ จรวดต้องทำทุกอย่าง"
+  },
+  {
+   "k": "c1_manual_read.titan",
+   "en": "The Titan landing manual, from the Huygens probe. Thick air: parachutes are enough.",
+   "th": "คู่มือลงจอดไททันจากยานฮอยเกนส์ อากาศหนามาก ร่มชูชีพก็พอแล้ว"
+  },
+  {
+   "k": "c1_shelf_look",
+   "en": "Old manuals and a lot of dust. Even in 2177.",
+   "th": "คู่มือเก่าๆ กับฝุ่นเต็มไปหมด ขนาดปี 2177 แล้วนะ"
+  },
+  {
+   "k": "c1_crates_look",
+   "en": "Spare socks, freeze-dried pasta and a rubber duck.",
+   "th": "ถุงเท้าสำรอง พาสต้าแห้ง แล้วก็เป็ดยาง"
+  },
+  {
+   "k": "c1_airlock_space",
+   "en": "The airlock stays sealed in space. Nothing out there but vacuum.",
+   "th": "ประตูปรับแรงดันปิดตายในอวกาศ ข้างนอกมีแต่สุญญากาศ"
+  },
+  {
+   "k": "c1_bed_look",
+   "en": "No naps during a shift, Cadet.",
+   "th": "ห้ามงีบระหว่างกะนะ นักบินฝึกหัด"
+  },
+  {
+   "k": "c1_bed_no",
+   "en": "Not now! The ship is in trouble.",
+   "th": "ไม่ใช่ตอนนี้! ยานกำลังมีปัญหา"
+  },
+  {
+   "k": "c1_food_look",
+   "en": "Freeze-dried meals for the trip to Saturn.",
+   "th": "อาหารแห้งสำหรับเดินทางไปดาวเสาร์"
+  },
+  {
+   "k": "c1_toolbox_look",
+   "en": "Wrenches, tape, sealant. All tidy.",
+   "th": "ประแจ เทปกาว กาวซีล จัดไว้เรียบร้อย"
+  },
+  {
+   "k": "c1_board_look",
+   "en": "Today's shift: star scan, daily log, gauge check.",
+   "th": "งานวันนี้: สแกนดาว บันทึกประจำวัน ตรวจมาตรวัด"
+  },
+  {
+   "k": "c1_o2gen_look",
+   "en": "It splits water into oxygen and hydrogen. Our air comes from here.",
+   "th": "เครื่องนี้แยกน้ำเป็นออกซิเจนกับไฮโดรเจน อากาศของเรามาจากตรงนี้"
+  },
+  {
+   "k": "c1_o2gen_leak",
+   "en": "It can't make air as fast as the breach loses it. Seal the breach!",
+   "th": "ผลิตอากาศไม่ทันที่รอยรั่วทำหายไป อุดรอยรั่วก่อน!"
+  },
+  {
+   "k": "c1_recycler_look",
+   "en": "It turns used water back into drinking water.",
+   "th": "ทำน้ำที่ใช้แล้วให้กลับมาดื่มได้"
+  },
+  {
+   "k": "c1_cabinet_look",
+   "en": "Spare parts, neatly labelled.",
+   "th": "อะไหล่สำรอง ติดป้ายไว้เรียบร้อย"
+  },
+  {
+   "k": "c1_seals_look",
+   "en": "Cabin pressure: normal.",
+   "th": "แรงดันในห้อง: ปกติ"
+  },
+  {
+   "k": "c1_seals_leak",
+   "en": "Pressure is dropping in the Fuel Bay! The breach is there.",
+   "th": "แรงดันในห้องเชื้อเพลิงกำลังลด! รอยรั่วอยู่ที่นั่น"
+  },
+  {
+   "k": "c1_reactor_look",
+   "en": "A Sabatier fuel processor. It only works where there is carbon dioxide to use, like on Mars.",
+   "th": "เครื่องแปรรูปเชื้อเพลิง Sabatier ใช้ได้เฉพาะที่ที่มีคาร์บอนไดออกไซด์ให้ใช้ อย่างบนดาวอังคาร"
+  },
+  {
+   "k": "c1_line_look",
+   "en": "The main fuel line. Holding, for now.",
+   "th": "ท่อเชื้อเพลิงหลัก ตอนนี้ยังไม่เป็นอะไร"
+  },
+  {
+   "k": "c1_nav_pre",
+   "en": "Course locked: Titan warp gate. Arrival in 41 days.",
+   "th": "เส้นทางล็อกไว้แล้ว: ประตูวาปไททัน ถึงในอีก 41 วัน"
+  },
+  {
+   "k": "c1_nav_need_fuel",
+   "en": "Before we pick a new course, stop the leak and read how much fuel is left.",
+   "th": "ก่อนเลือกเส้นทางใหม่ ต้องหยุดการรั่วและอ่านก่อนว่าเหลือเชื้อเพลิงเท่าไหร่"
+  },
+  {
+   "k": "c1_nav_done",
+   "en": "Course set for {0}.",
+   "th": "ตั้งเส้นทางไป{0}แล้ว"
+  },
+  {
+   "k": "c1_seat_pre",
+   "en": "The landing controls. We aren't landing anywhere today. I hope.",
+   "th": "ระบบลงจอด วันนี้เราไม่ได้จะลงจอดที่ไหน หวังว่านะ"
+  },
+  {
+   "k": "c1_seat_need_nav",
+   "en": "Land where? Choose a destination first.",
+   "th": "จะลงจอดที่ไหนล่ะ? เลือกจุดหมายก่อน"
+  },
+  {
+   "k": "c1_seat_need_manual",
+   "en": "Every world has its own landing steps. Read the manual on the Cargo shelf first.",
+   "th": "แต่ละดาวมีขั้นตอนลงจอดไม่เหมือนกัน อ่านคู่มือบนชั้นวางในห้องเก็บของก่อน"
+  },
+  {
+   "k": "c1_impact_sys",
+   "en": "IMPACT · FUEL BAY · CABIN PRESSURE DROPPING",
+   "th": "ตรวจพบการชน · ห้องเชื้อเพลิง · แรงดันในยานลดลง"
+  },
+  {
+   "k": "c1_impact_1",
+   "en": "Space debris hit us! Out here it flies at about 7 kilometres per second.",
+   "th": "ขยะอวกาศพุ่งชนเรา! แถวนี้มันวิ่งเร็วประมาณ 7 กิโลเมตรต่อวินาที"
+  },
+  {
+   "k": "c1_impact_2",
+   "en": "The Fuel Bay has a hull breach. Our oxygen is leaking out right now. The patch kit is in the emergency locker in Cargo!",
+   "th": "ห้องเชื้อเพลิงมีรอยรั่ว ออกซิเจนกำลังรั่วออกไปตอนนี้เลย ชุดอุดรอยรั่วอยู่ในตู้ฉุกเฉินห้องเก็บของ!"
+  },
+  {
+   "k": "c1_impact_3",
+   "en": "Watch the oxygen meter at the top. Whatever is left when you seal it is what we will have on the next world.",
+   "th": "ดูมาตรวัดออกซิเจนด้านบน เหลือเท่าไหร่ตอนอุดได้ เราจะมีเท่านั้นตอนไปถึงดาวถัดไป"
+  },
+  {
+   "k": "nav.title",
+   "en": "Navigation computer · new course",
+   "th": "คอมพิวเตอร์นำทาง · เส้นทางใหม่"
+  },
+  {
+   "k": "nav.fuel",
+   "en": "Fuel left: {0}%",
+   "th": "เชื้อเพลิงคงเหลือ: {0}%"
+  },
+  {
+   "k": "nav.body",
+   "en": "Fuel needed to fly straight to each destination. You can still choose any of them.",
+   "th": "เชื้อเพลิงที่ต้องใช้เพื่อบินตรงไปแต่ละที่ แต่เลือกที่ไหนก็ได้"
+  },
+  {
+   "k": "nav.option",
+   "en": "{0} · needs {1}%",
+   "th": "{0} · ต้องใช้ {1}%"
+  },
+  {
+   "k": "nav.direct",
+   "en": "[enough fuel]",
+   "th": "[เชื้อเพลิงพอ]"
+  },
+  {
+   "k": "nav.not_direct",
+   "en": "[not enough: risky]",
+   "th": "[ไม่พอ: เสี่ยง]"
+  },
+  {
+   "k": "nav.titan",
+   "en": "Titan warp gate (Saturn)",
+   "th": "ประตูวาปไททัน (ดาวเสาร์)"
+  },
+  {
+   "k": "nav.earth",
+   "en": "Earth",
+   "th": "โลก"
+  },
+  {
+   "k": "nav.mars",
+   "en": "Mars",
+   "th": "ดาวอังคาร"
+  },
+  {
+   "k": "nav.go",
+   "en": "Set this course",
+   "th": "ตั้งเส้นทางนี้"
+  },
+  {
+   "k": "nav.back",
+   "en": "Choose again",
+   "th": "เลือกใหม่"
+  },
+  {
+   "k": "nav.confirm.mars",
+   "en": "Mars needs 15%. We have enough to fly straight there and land. Then we must make new fuel from Mars air to leave. Difficulty: MEDIUM.",
+   "th": "ดาวอังคารใช้ 15% เรามีพอบินตรงไปและลงจอดได้ แล้วต้องผลิตเชื้อเพลิงใหม่จากอากาศดาวอังคารเพื่อออกมา ความยาก: ปานกลาง"
+  },
+  {
+   "k": "nav.confirm.earth",
+   "en": "Earth needs 35%. We only have 18%. We would fall short and be caught by the Moon. We would land at its south pole and call Earth for rescue. Difficulty: EASY to MEDIUM.",
+   "th": "โลกต้องใช้ 35% เรามีแค่ 18% จะไปไม่ถึงและถูกดวงจันทร์ดึงไว้ เราจะลงจอดที่ขั้วใต้ดวงจันทร์แล้วติดต่อโลกให้มาช่วย ความยาก: ง่ายถึงปานกลาง"
+  },
+  {
+   "k": "nav.confirm.titan",
+   "en": "Titan needs 60%. We only have 18%. I can swing us past Jupiter for a gravity assist, but the trip is long and our supplies will shrink. If we make it, we land right at the warp gate. Difficulty: HARD.",
+   "th": "ไททันต้องใช้ 60% เรามีแค่ 18% ฉันใช้แรงเหวี่ยงจากดาวพฤหัสได้ แต่ต้องเดินทางนานและเสบียงจะลดลง ถ้ารอดไปได้ เราจะลงจอดข้างประตูวาปเลย ความยาก: ยาก"
+  },
+  {
+   "k": "c1_nav_ok.mars",
+   "en": "Course set for Mars. Next: the Mars landing manual on the Cargo shelf.",
+   "th": "ตั้งเส้นทางไปดาวอังคารแล้ว ต่อไปคือคู่มือลงจอดดาวอังคารบนชั้นวางห้องเก็บของ"
+  },
+  {
+   "k": "c1_nav_ok.moon",
+   "en": "Course set. We'll fall short of Earth, so we land on the Moon. Next: the Moon landing manual.",
+   "th": "ตั้งเส้นทางแล้ว เราจะไปไม่ถึงโลก เลยต้องลงจอดบนดวงจันทร์ ต่อไปคือคู่มือลงจอดดวงจันทร์"
+  },
+  {
+   "k": "c1_nav_ok.titan",
+   "en": "Gravity assist plotted past Jupiter. Long trip ahead. Next: the Titan landing manual.",
+   "th": "วางเส้นทางเหวี่ยงผ่านดาวพฤหัสแล้ว อีกไกลเลย ต่อไปคือคู่มือลงจอดไททัน"
+  },
+  {
+   "k": "keypad.title",
+   "en": "Keypad",
+   "th": "แป้นกดรหัส"
+  },
+  {
+   "k": "keypad.c1_locker",
+   "en": "EMERGENCY LOCKER\nCode = how fast space debris flies, in km/s (whole number).",
+   "th": "ตู้ฉุกเฉิน\nรหัส = ความเร็วของขยะอวกาศ หน่วยกิโลเมตรต่อวินาที (จำนวนเต็ม)"
+  },
+  {
+   "k": "keypad.clear",
+   "en": "Clear",
+   "th": "ลบ"
+  },
+  {
+   "k": "keypad.ok",
+   "en": "OK",
+   "th": "ตกลง"
+  },
+  {
+   "k": "edl.body",
+   "en": "Click the steps in the order they must happen.",
+   "th": "คลิกขั้นตอนตามลำดับที่ต้องเกิดขึ้นจริง"
+  },
+  {
+   "k": "edl.title.mars",
+   "en": "Mars landing · Entry, Descent and Landing",
+   "th": "ลงจอดดาวอังคาร · Entry, Descent and Landing"
+  },
+  {
+   "k": "edl.title.moon",
+   "en": "Moon landing · powered descent",
+   "th": "ลงจอดดวงจันทร์ · ลงด้วยแรงขับจรวด"
+  },
+  {
+   "k": "edl.title.titan",
+   "en": "Titan landing · the Huygens way",
+   "th": "ลงจอดไททัน · แบบยานฮอยเกนส์"
+  },
+  {
+   "k": "edl.edl_entry",
+   "en": "Enter the atmosphere behind the heat shield",
+   "th": "เข้าชั้นบรรยากาศโดยมีโล่กันความร้อนบังหน้า"
+  },
+  {
+   "k": "edl.edl_chute",
+   "en": "Open the parachute",
+   "th": "กางร่มชูชีพ"
+  },
+  {
+   "k": "edl.edl_shield",
+   "en": "Drop the heat shield",
+   "th": "ปลดโล่กันความร้อนทิ้ง"
+  },
+  {
+   "k": "edl.edl_rockets",
+   "en": "Fire the landing rockets and touch down",
+   "th": "จุดจรวดลงจอดแล้วแตะพื้น"
+  },
+  {
+   "k": "edl.moon_deorbit",
+   "en": "Deorbit burn: slow down out of orbit",
+   "th": "จุดจรวดลดความเร็วออกจากวงโคจร"
+  },
+  {
+   "k": "edl.moon_pitch",
+   "en": "Pitch upright so the radar sees the ground",
+   "th": "ปรับยานตั้งตรงให้เรดาร์มองเห็นพื้น"
+  },
+  {
+   "k": "edl.moon_hover",
+   "en": "Hover and pick a safe flat spot",
+   "th": "ลอยตัวแล้วเลือกจุดที่เรียบและปลอดภัย"
+  },
+  {
+   "k": "edl.moon_touch",
+   "en": "Throttle down and touch down",
+   "th": "ลดแรงขับแล้วแตะพื้น"
+  },
+  {
+   "k": "edl.titan_entry",
+   "en": "Enter the thick atmosphere behind the heat shield",
+   "th": "เข้าชั้นบรรยากาศหนาโดยมีโล่กันความร้อนบังหน้า"
+  },
+  {
+   "k": "edl.titan_chute",
+   "en": "Open the main parachute",
+   "th": "กางร่มชูชีพหลัก"
+  },
+  {
+   "k": "edl.titan_shield",
+   "en": "Drop the heat shield",
+   "th": "ปลดโล่กันความร้อนทิ้ง"
+  },
+  {
+   "k": "edl.titan_float",
+   "en": "Float down on the parachute for two hours",
+   "th": "ลอยลงด้วยร่มชูชีพนานสองชั่วโมง"
+  },
+  {
+   "k": "edl.wrong.mars.edl_entry",
+   "en": "The heat shield goes first, before anything else.",
+   "th": "โล่กันความร้อนต้องมาก่อนทุกอย่าง"
+  },
+  {
+   "k": "edl.wrong.mars.edl_chute",
+   "en": "A parachute opened at entry speed (about 20,000 km/h) would burn and tear. Heat shield first!",
+   "th": "ถ้ากางร่มตอนเข้าชั้นบรรยากาศ (ราว 20,000 กม./ชม.) ร่มจะไหม้และขาด โล่กันความร้อนต้องมาก่อน!"
+  },
+  {
+   "k": "edl.wrong.mars.edl_shield",
+   "en": "Without the heat shield, the ship burns up during entry! Drop it only after the parachute slows us.",
+   "th": "ถ้าไม่มีโล่กันความร้อน ยานจะไหม้ตอนเข้าชั้นบรรยากาศ! ปลดโล่ได้หลังร่มชะลอความเร็วแล้วเท่านั้น"
+  },
+  {
+   "k": "edl.wrong.mars.edl_rockets",
+   "en": "Rockets alone can't stop us that fast, and we don't have the fuel. Shield and parachute first.",
+   "th": "จรวดอย่างเดียวหยุดความเร็วขนาดนั้นไม่ได้ และเชื้อเพลิงก็ไม่พอ ต้องใช้โล่กับร่มก่อน"
+  },
+  {
+   "k": "edl.wrong.moon.edl_chute",
+   "en": "A parachute on the Moon? There is no air to catch it! On the Moon, rockets must do all the work.",
+   "th": "ร่มชูชีพบนดวงจันทร์? ไม่มีอากาศให้ร่มกางเลย! บนดวงจันทร์ จรวดต้องทำทุกอย่าง"
+  },
+  {
+   "k": "edl.wrong.moon.moon_deorbit",
+   "en": "First we must slow down and drop out of orbit.",
+   "th": "ต้องลดความเร็วออกจากวงโคจรก่อน"
+  },
+  {
+   "k": "edl.wrong.moon.moon_pitch",
+   "en": "We pitch upright after the deorbit burn, so the radar can see the surface.",
+   "th": "ต้องปรับยานตั้งตรงหลังจุดจรวดลดความเร็ว เพื่อให้เรดาร์เห็นพื้น"
+  },
+  {
+   "k": "edl.wrong.moon.moon_hover",
+   "en": "Hovering comes near the ground, once the radar shows where we are.",
+   "th": "การลอยตัวต้องทำใกล้พื้น หลังจากเรดาร์บอกตำแหน่งแล้ว"
+  },
+  {
+   "k": "edl.wrong.moon.moon_touch",
+   "en": "Touch down last, after we find a safe spot.",
+   "th": "แตะพื้นเป็นขั้นสุดท้าย หลังจากหาจุดปลอดภัยได้แล้ว"
+  },
+  {
+   "k": "edl.wrong.titan.edl_rockets",
+   "en": "No rockets needed! Titan's air is thick and its gravity is low, so a parachute is enough. Save the fuel.",
+   "th": "ไม่ต้องใช้จรวด! อากาศไททันหนาและแรงโน้มถ่วงต่ำ ร่มชูชีพก็พอ เก็บเชื้อเพลิงไว้"
+  },
+  {
+   "k": "edl.wrong.titan.titan_entry",
+   "en": "The heat shield goes first: entry is still very hot.",
+   "th": "โล่กันความร้อนต้องมาก่อน ตอนเข้าชั้นบรรยากาศยังร้อนมาก"
+  },
+  {
+   "k": "edl.wrong.titan.titan_chute",
+   "en": "The parachute opens after entry, once we've slowed down behind the shield.",
+   "th": "ร่มกางหลังเข้าชั้นบรรยากาศ เมื่อโล่ช่วยชะลอความเร็วแล้ว"
+  },
+  {
+   "k": "edl.wrong.titan.titan_shield",
+   "en": "Drop the shield only after the parachute is open.",
+   "th": "ปลดโล่ได้หลังร่มกางแล้วเท่านั้น"
+  },
+  {
+   "k": "edl.wrong.titan.titan_float",
+   "en": "Floating down is the last, long step.",
+   "th": "การลอยลงเป็นขั้นสุดท้ายที่ยาวนาน"
+  },
+  {
+   "k": "c1_edl_ok.mars",
+   "en": "Perfect sequence! Hold on tight. Seven minutes of terror, starting now!",
+   "th": "ลำดับถูกต้อง! จับไว้แน่นๆ 7 นาทีระทึกขวัญเริ่มแล้ว!"
+  },
+  {
+   "k": "c1_edl_ok.moon",
+   "en": "Perfect sequence! Rockets only, all the way down. Hold on!",
+   "th": "ลำดับถูกต้อง! ใช้จรวดอย่างเดียวจนถึงพื้น จับไว้!"
+  },
+  {
+   "k": "c1_edl_ok.titan",
+   "en": "Perfect sequence! First the long trip, then a long, gentle float down.",
+   "th": "ลำดับถูกต้อง! เดินทางไกลก่อน แล้วค่อยลอยลงช้าๆ"
+  },
+  {
+   "k": "cut.mars.1",
+   "en": "ENTRY · the heat shield glows at 1,300 °C",
+   "th": "เข้าชั้นบรรยากาศ · โล่กันความร้อนร้อนถึง 1,300 °C"
+  },
+  {
+   "k": "cut.mars.2",
+   "en": "PARACHUTE · open at twice the speed of sound",
+   "th": "ร่มชูชีพ · กางที่ความเร็วสองเท่าของเสียง"
+  },
+  {
+   "k": "cut.mars.3",
+   "en": "HEAT SHIELD AWAY · radar finds the ground",
+   "th": "ปลดโล่กันความร้อน · เรดาร์จับพื้นได้แล้ว"
+  },
+  {
+   "k": "cut.mars.4",
+   "en": "ROCKETS · slowing to walking speed",
+   "th": "จรวดลงจอด · ช้าลงจนเท่าความเร็วเดิน"
+  },
+  {
+   "k": "cut.mars.5",
+   "en": "TOUCHDOWN · welcome to Mars",
+   "th": "แตะพื้นแล้ว · ยินดีต้อนรับสู่ดาวอังคาร"
+  },
+  {
+   "k": "cut.moon.1",
+   "en": "FALLING SHORT · Earth slips away, the Moon pulls us in",
+   "th": "ไปไม่ถึง · โลกค่อยๆ ไกลออกไป ดวงจันทร์ดึงเราเข้าไป"
+  },
+  {
+   "k": "cut.moon.2",
+   "en": "DEORBIT BURN · leaving lunar orbit",
+   "th": "จุดจรวดลดความเร็ว · ออกจากวงโคจรดวงจันทร์"
+  },
+  {
+   "k": "cut.moon.3",
+   "en": "PITCH UP · radar sees the craters",
+   "th": "ปรับยานตั้งตรง · เรดาร์เห็นหลุมอุกกาบาต"
+  },
+  {
+   "k": "cut.moon.4",
+   "en": "HOVER · a flat spot near a dark crater",
+   "th": "ลอยตัว · จุดเรียบๆ ใกล้หลุมมืด"
+  },
+  {
+   "k": "cut.moon.5",
+   "en": "TOUCHDOWN · the Moon's south pole",
+   "th": "แตะพื้นแล้ว · ขั้วใต้ของดวงจันทร์"
+  },
+  {
+   "k": "cut.titan.1",
+   "en": "GRAVITY ASSIST · Jupiter flings us toward Saturn",
+   "th": "แรงเหวี่ยง · ดาวพฤหัสเหวี่ยงเราไปหาดาวเสาร์"
+  },
+  {
+   "k": "cut.titan.2",
+   "en": "MONTHS LATER · supplies are running low",
+   "th": "หลายเดือนต่อมา · เสบียงเริ่มร่อยหรอ"
+  },
+  {
+   "k": "cut.titan.3",
+   "en": "ENTRY · Titan's orange haze swallows the ship",
+   "th": "เข้าชั้นบรรยากาศ · หมอกสีส้มของไททันกลืนยานเข้าไป"
+  },
+  {
+   "k": "cut.titan.4",
+   "en": "PARACHUTE · two hours of gentle falling",
+   "th": "ร่มชูชีพ · ลอยลงช้าๆ สองชั่วโมง"
+  },
+  {
+   "k": "cut.titan.5",
+   "en": "TOUCHDOWN · beside the warp gate",
+   "th": "แตะพื้นแล้ว · ข้างประตูวาป"
+  },
+  {
+   "k": "carry.title",
+   "en": "What we brought from the ship",
+   "th": "สิ่งที่เรานำติดตัวมาจากยาน"
+  },
+  {
+   "k": "carry.o2",
+   "en": "Cabin oxygen when you sealed the breach: {0}% → starting O₂ {1}",
+   "th": "O₂ ในยานตอนอุดรอยรั่ว: {0}% → O₂ ตอนเริ่ม {1}"
+  },
+  {
+   "k": "carry.supplies_yes",
+   "en": "You grabbed the supply bag: extra food and water.",
+   "th": "คุณคว้าถุงเสบียงมาด้วย: ได้อาหารและน้ำเพิ่ม"
+  },
+  {
+   "k": "carry.supplies_no",
+   "en": "No supply bag. Food will be tight.",
+   "th": "ไม่ได้เอาถุงเสบียงมา อาหารจะตึงมือ"
+  },
+  {
+   "k": "carry.route.mars",
+   "en": "Mars: fly straight, land, make fuel from the air.",
+   "th": "ดาวอังคาร: บินตรง ลงจอด แล้วผลิตเชื้อเพลิงจากอากาศ"
+  },
+  {
+   "k": "carry.route.moon",
+   "en": "The Moon: no air, but water ice and a way to call home.",
+   "th": "ดวงจันทร์: ไม่มีอากาศ แต่มีน้ำแข็งและทางติดต่อกลับบ้าน"
+  },
+  {
+   "k": "carry.route.titan",
+   "en": "Titan: the long voyage cost food and energy. The gate is close.",
+   "th": "ไททัน: การเดินทางไกลทำให้อาหารและพลังกายลดลง แต่ประตูอยู่ใกล้แล้ว"
+  },
+  {
+   "k": "c2_major_warning",
+   "en": "Long-range forecast: {0} on night {1}! To be safe that night: {2}.",
+   "th": "พยากรณ์ล่วงหน้า: {0} ในคืนที่ {1}! คืนนั้นต้อง: {2}"
+  },
+  {
+   "k": "c2_board_1",
+   "en": "Mission board: space weather and tonight's forecast. Space weather means radiation too.",
+   "th": "บอร์ดภารกิจ: สภาพอากาศอวกาศกับพยากรณ์คืนนี้ สภาพอากาศอวกาศหมายถึงรังสีด้วยนะ"
+  },
+  {
+   "k": "look.s_food",
+   "en": "Freeze-dried meals. Eating gives energy, but the food must last.",
+   "th": "อาหารแห้ง กินแล้วมีพลังกาย แต่อาหารต้องพอจนจบภารกิจ"
+  },
+  {
+   "k": "look.s_recycler",
+   "en": "It cleans used water so we can drink it again.",
+   "th": "ทำน้ำที่ใช้แล้วให้สะอาดจนดื่มได้อีก"
+  },
+  {
+   "k": "look.s_o2gen.mars",
+   "en": "MOXIE turns carbon dioxide from the Mars air into oxygen.",
+   "th": "MOXIE เปลี่ยนคาร์บอนไดออกไซด์จากอากาศดาวอังคารเป็นออกซิเจน"
+  },
+  {
+   "k": "look.s_o2gen.moon",
+   "en": "No air to use here, so we split our own water into oxygen.",
+   "th": "ที่นี่ไม่มีอากาศให้ใช้ เราต้องแยกน้ำของเราเองเป็นออกซิเจน"
+  },
+  {
+   "k": "look.s_o2gen.titan",
+   "en": "Titan's air has no oxygen. We split melted ice into oxygen.",
+   "th": "อากาศไททันไม่มีออกซิเจน เราแยกน้ำแข็งที่ละลายเป็นออกซิเจน"
+  },
+  {
+   "k": "look.s_seals.mars",
+   "en": "Checking the seals finds tiny leaks before they grow.",
+   "th": "การตรวจซีลช่วยหารอยรั่วเล็กๆ ก่อนจะลามใหญ่"
+  },
+  {
+   "k": "look.s_seals.moon",
+   "en": "Seals and heaters. The long lunar shadow is bitterly cold.",
+   "th": "ซีลกับเครื่องทำความร้อน เงามืดยาวนานบนดวงจันทร์หนาวจัด"
+  },
+  {
+   "k": "look.s_seals.titan",
+   "en": "Seals and insulation. At -179 °C, heat escapes fast.",
+   "th": "ซีลกับฉนวนกันความร้อน ที่ -179 °C ความร้อนหนีไปเร็วมาก"
+  },
+  {
+   "k": "c2_collapse",
+   "en": "Your energy hit zero and you passed out. You wake up in your bunk, less rested.",
+   "th": "พลังกายหมดจนสลบไป คุณตื่นขึ้นมาบนเตียงแต่ยังไม่ค่อยได้พัก"
+  },
+  {
+   "k": "c2_day_over",
+   "en": "No time left today. Go to bed in Crew quarters.",
+   "th": "วันนี้หมดเวลาแล้ว ไปนอนที่ห้องพักลูกเรือกัน"
+  },
+  {
+   "k": "c2_day_over_launch",
+   "en": "No time left for work, but the goal console takes no time. Go to the Cockpit!",
+   "th": "หมดเวลาทำงานแล้ว แต่คอนโซลเป้าหมายไม่ใช้เวลา ไปที่ห้องนักบินเลย!"
+  },
+  {
+   "k": "c2_tired",
+   "en": "You're tired. Every job now takes twice as long. Eat or rest soon.",
+   "th": "คุณเหนื่อยแล้ว ทุกงานจะใช้เวลาเป็นสองเท่า รีบกินหรือพักนะ"
+  },
+  {
+   "k": "bed.title",
+   "en": "Go to sleep? (end day {0})",
+   "th": "เข้านอน? (จบวันที่ {0})"
+  },
+  {
+   "k": "bed.calm",
+   "en": "Calm night ahead.",
+   "th": "คืนนี้สงบ"
+  },
+  {
+   "k": "bed.night_use",
+   "en": "Overnight the ship uses O₂ {0}, water {1}, food {2} and power {3}.",
+   "th": "ตอนกลางคืนยานจะใช้ O₂ {0} น้ำ {1} อาหาร {2} และไฟฟ้า {3}"
+  },
+  {
+   "k": "bed.ap_left",
+   "en": "You still have {0} time left today.",
+   "th": "วันนี้คุณยังมีเวลาเหลือ {0}"
+  },
+  {
+   "k": "bed.incident",
+   "en": "The alarm is still sounding! Sleeping now means it does its damage.",
+   "th": "สัญญาณเตือนยังดังอยู่! ถ้านอนตอนนี้ ความเสียหายจะเกิดขึ้น"
+  },
+  {
+   "k": "bed.sleep",
+   "en": "Sleep",
+   "th": "นอน"
+  },
+  {
+   "k": "bed.not_yet",
+   "en": "Not yet",
+   "th": "ยังก่อน"
+  },
+  {
+   "k": "report.title",
+   "en": "Night report · day {0}",
+   "th": "รายงานกลางคืน · วันที่ {0}"
+  },
+  {
+   "k": "report.use",
+   "en": "The ship used O₂ {0}, water {1}, food {2} and power {3}.",
+   "th": "ยานใช้ O₂ {0} น้ำ {1} อาหาร {2} และไฟฟ้า {3}"
+  },
+  {
+   "k": "report.collapsed",
+   "en": "You passed out from exhaustion, so you rested less.",
+   "th": "คุณสลบเพราะเหนื่อยเกินไป เลยได้พักน้อยลง"
+  },
+  {
+   "k": "report.calm",
+   "en": "A calm night. Nothing happened.",
+   "th": "คืนที่สงบ ไม่มีอะไรเกิดขึ้น"
+  },
+  {
+   "k": "report.power_out",
+   "en": "POWER RAN OUT! Life support stopped for hours: O₂ -{0}.",
+   "th": "ไฟฟ้าหมด! ระบบยังชีพหยุดทำงานหลายชั่วโมง: O₂ -{0}"
+  },
+  {
+   "k": "report.morning.mars",
+   "en": "Morning sun: the solar panels made {0} power (panels {1}% clean).",
+   "th": "แดดยามเช้า: แผงโซลาร์ผลิตไฟได้ {0} (แผงสะอาด {1}%)"
+  },
+  {
+   "k": "report.morning.moon",
+   "en": "Sunlight on the peaks: the panels made {0} power (panels {1}% clean).",
+   "th": "แสงบนยอดเขา: แผงโซลาร์ผลิตไฟได้ {0} (แผงสะอาด {1}%)"
+  },
+  {
+   "k": "report.morning.titan",
+   "en": "The RTG made {0} power overnight, steady as always.",
+   "th": "RTG ผลิตไฟได้ {0} ตอนกลางคืน สม่ำเสมอเหมือนเดิม"
+  },
+  {
+   "k": "night.text.mars",
+   "en": "Night falls on Mars...\nSol {0}",
+   "th": "ค่ำคืนบนดาวอังคาร...\nSol {0}"
+  },
+  {
+   "k": "night.text.moon",
+   "en": "The shadows grow long...\nDay {0}",
+   "th": "เงามืดทอดยาวขึ้น...\nวันที่ {0}"
+  },
+  {
+   "k": "night.text.titan",
+   "en": "Methane clouds roll in...\nDay {0}",
+   "th": "เมฆมีเทนลอยเข้ามา...\nวันที่ {0}"
+  },
+  {
+   "k": "c2_window_open.mars",
+   "en": "It's Sol 7: the launch window is open! Launch from the Cockpit console as soon as you're ready.",
+   "th": "ถึง Sol 7 แล้ว ช่วงปล่อยยานเปิดแล้ว! ปล่อยยานจากคอนโซลห้องนักบินได้ทันทีที่พร้อม"
+  },
+  {
+   "k": "c2_window_open.moon",
+   "en": "Day 7: the rescue ship has arrived in lunar orbit! Board it from the Cockpit console.",
+   "th": "วันที่ 7: ยานกู้ภัยมาถึงวงโคจรดวงจันทร์แล้ว! ขึ้นยานได้จากคอนโซลห้องนักบิน"
+  },
+  {
+   "k": "c2_window_open.titan",
+   "en": "Day 7: Saturn and the gate are aligned! Open the gate from the Cockpit console.",
+   "th": "วันที่ 7: ดาวเสาร์กับประตูเรียงตัวพอดีแล้ว! เปิดประตูได้จากคอนโซลห้องนักบิน"
+  },
+  {
+   "k": "forecast.orbi_last.mars",
+   "en": "Today is the last sol of the launch window. Launch before you sleep!",
+   "th": "วันนี้เป็น sol สุดท้ายของช่วงปล่อยยาน ต้องปล่อยยานก่อนนอน!"
+  },
+  {
+   "k": "forecast.orbi_last.moon",
+   "en": "The rescue ship waits in orbit only today. Board before you sleep!",
+   "th": "ยานกู้ภัยรออยู่ในวงโคจรแค่วันนี้ ขึ้นยานก่อนนอน!"
+  },
+  {
+   "k": "forecast.orbi_last.titan",
+   "en": "The gate is aligned only today. Open it before you sleep!",
+   "th": "ประตูเรียงตัวแค่วันนี้ เปิดประตูก่อนนอน!"
+  },
+  {
+   "k": "forecast.orbi_calm",
+   "en": "Forecast: a calm night tonight. A good day to get work done.",
+   "th": "พยากรณ์: คืนนี้สงบ เป็นวันที่ดีสำหรับทำงาน"
+  },
+  {
+   "k": "forecast.orbi",
+   "en": "Forecast for tonight: {0}.",
+   "th": "พยากรณ์คืนนี้: {0}"
+  },
+  {
+   "k": "forecast.last_sol.mars",
+   "en": "LAST SOL · launch before you sleep!",
+   "th": "SOL สุดท้าย · ปล่อยยานก่อนนอน!"
+  },
+  {
+   "k": "forecast.last_sol.moon",
+   "en": "LAST DAY · board the rescue ship!",
+   "th": "วันสุดท้าย · ขึ้นยานกู้ภัย!"
+  },
+  {
+   "k": "forecast.last_sol.titan",
+   "en": "LAST DAY · open the gate!",
+   "th": "วันสุดท้าย · เปิดประตูวาป!"
+  },
+  {
+   "k": "forecast.calm",
+   "en": "Tonight: calm",
+   "th": "คืนนี้: สงบ"
+  },
+  {
+   "k": "forecast.tonight",
+   "en": "Tonight: {0}",
+   "th": "คืนนี้: {0}"
+  },
+  {
+   "k": "forecast.prepare",
+   "en": "Prepare: {0}",
+   "th": "เตรียมตัว: {0}"
+  },
+  {
+   "k": "forecast.ready",
+   "en": "READY · you are protected",
+   "th": "พร้อมแล้ว · คุณได้รับการป้องกัน"
+  },
+  {
+   "k": "forecast.not_ready",
+   "en": "NOT READY YET",
+   "th": "ยังไม่พร้อม"
+  },
+  {
+   "k": "forecast.major_in",
+   "en": "! {0} in {1} night(s)",
+   "th": "! {0} อีก {1} คืน"
+  },
+  {
+   "k": "bed.last_sol.mars",
+   "en": "This is the last sol of the launch window! Sleeping without launching ends the mission.",
+   "th": "นี่คือ sol สุดท้ายของช่วงปล่อยยาน! ถ้านอนโดยไม่ปล่อยยาน ภารกิจจะล้มเหลว"
+  },
+  {
+   "k": "bed.last_sol.moon",
+   "en": "The rescue ship leaves tonight! Sleeping without boarding ends the mission.",
+   "th": "ยานกู้ภัยจะออกไปคืนนี้! ถ้านอนโดยไม่ขึ้นยาน ภารกิจจะล้มเหลว"
+  },
+  {
+   "k": "bed.last_sol.titan",
+   "en": "The gate closes tonight! Sleeping without opening it ends the mission.",
+   "th": "ประตูจะปิดคืนนี้! ถ้านอนโดยไม่เปิดประตู ภารกิจจะล้มเหลว"
+  },
+  {
+   "k": "goal.mars.title",
+   "en": "Launch console",
+   "th": "คอนโซลปล่อยยาน"
+  },
+  {
+   "k": "goal.mars.body",
+   "en": "Fuel full. Line repaired. Window open. Return to orbit and continue to the Titan gate?",
+   "th": "เชื้อเพลิงเต็ม ท่อซ่อมแล้ว ช่วงปล่อยยานเปิดแล้ว กลับสู่วงโคจรแล้วเดินทางต่อไปประตูไททันไหม?"
+  },
+  {
+   "k": "goal.mars.go",
+   "en": "LAUNCH!",
+   "th": "ปล่อยยาน!"
+  },
+  {
+   "k": "goal.moon.title",
+   "en": "Rescue rendezvous",
+   "th": "นัดพบยานกู้ภัย"
+  },
+  {
+   "k": "goal.moon.body",
+   "en": "Signal received on Earth. The rescue ship is in orbit. Fly up and dock?",
+   "th": "โลกได้รับสัญญาณแล้ว ยานกู้ภัยอยู่ในวงโคจร บินขึ้นไปเทียบท่าไหม?"
+  },
+  {
+   "k": "goal.moon.go",
+   "en": "GO HOME!",
+   "th": "กลับบ้าน!"
+  },
+  {
+   "k": "goal.titan.title",
+   "en": "Warp gate control",
+   "th": "ระบบควบคุมประตูวาป"
+  },
+  {
+   "k": "goal.titan.body",
+   "en": "Gate charged. Saturn aligned. Open the warp gate to another galaxy?",
+   "th": "ประตูชาร์จเต็มแล้ว ดาวเสาร์เรียงตัวแล้ว เปิดประตูวาปไปอีกกาแล็กซีไหม?"
+  },
+  {
+   "k": "goal.titan.go",
+   "en": "OPEN THE GATE!",
+   "th": "เปิดประตูวาป!"
+  },
+  {
+   "k": "cut.win.mars.1",
+   "en": "IGNITION · methane engines at full power",
+   "th": "จุดระเบิด · เครื่องยนต์มีเทนเต็มกำลัง"
+  },
+  {
+   "k": "cut.win.mars.2",
+   "en": "LIFTOFF · Mars falls away below",
+   "th": "ทะยานขึ้น · ดาวอังคารเล็กลงเรื่อยๆ"
+  },
+  {
+   "k": "cut.win.mars.3",
+   "en": "ORBIT · course set: Titan warp gate",
+   "th": "เข้าสู่วงโคจร · ตั้งเส้นทาง: ประตูวาปไททัน"
+  },
+  {
+   "k": "cut.win.moon.1",
+   "en": "LIFTOFF · the last of our fuel",
+   "th": "ทะยานขึ้น · ใช้เชื้อเพลิงหยดสุดท้าย"
+  },
+  {
+   "k": "cut.win.moon.2",
+   "en": "DOCKING · the rescue crew waves through the window",
+   "th": "เทียบท่า · ลูกเรือกู้ภัยโบกมือผ่านหน้าต่าง"
+  },
+  {
+   "k": "cut.win.moon.3",
+   "en": "THREE DAYS LATER · Earth, blue and close",
+   "th": "สามวันต่อมา · โลกสีฟ้าอยู่ใกล้แค่เอื้อม"
+  },
+  {
+   "k": "cut.win.titan.1",
+   "en": "THE RING LIGHTS UP · all twelve lamps blazing",
+   "th": "วงแหวนสว่างขึ้น · ไฟทั้งสิบสองดวงลุกโชน"
+  },
+  {
+   "k": "cut.win.titan.2",
+   "en": "THE GATE OPENS · stars that no one has seen",
+   "th": "ประตูเปิดออก · ดวงดาวที่ไม่มีใครเคยเห็น"
+  },
+  {
+   "k": "cut.win.titan.3",
+   "en": "THROUGH · into another galaxy",
+   "th": "ผ่านไปแล้ว · สู่อีกกาแล็กซีหนึ่ง"
+  },
+  {
+   "k": "end.win.mars.title",
+   "en": "MISSION COMPLETE",
+   "th": "ภารกิจสำเร็จ"
+  },
+  {
+   "k": "end.win.mars.body",
+   "en": "You survived Mars, made rocket fuel from its air and water, and the Kestrel is on its way to Saturn again.",
+   "th": "คุณเอาชีวิตรอดบนดาวอังคาร ผลิตเชื้อเพลิงจรวดจากอากาศและน้ำที่นั่น และยาน Kestrel ได้ออกเดินทางไปดาวเสาร์อีกครั้ง"
+  },
+  {
+   "k": "end.win.moon.title",
+   "en": "RESCUED",
+   "th": "ได้รับการช่วยเหลือ"
+  },
+  {
+   "k": "end.win.moon.body",
+   "en": "You lived on the Moon with ice and sunlight, called Earth with a repaired dish, and flew home.",
+   "th": "คุณอยู่รอดบนดวงจันทร์ด้วยน้ำแข็งและแสงแดด ติดต่อโลกด้วยจานที่ซ่อมเอง แล้วได้กลับบ้าน"
+  },
+  {
+   "k": "end.win.titan.title",
+   "en": "THROUGH THE GATE",
+   "th": "ผ่านประตูวาป"
+  },
+  {
+   "k": "end.win.titan.body",
+   "en": "The hardest road. You survived the cold of Titan, charged the gate and crossed to another galaxy. Best ending!",
+   "th": "เส้นทางที่ยากที่สุด คุณรอดจากความหนาวของไททัน ชาร์จประตูจนเต็ม แล้วข้ามไปอีกกาแล็กซี ตอนจบที่ดีที่สุด!"
+  },
+  {
+   "k": "end.win.next",
+   "en": "Try the other routes: each world teaches different real space science.",
+   "th": "ลองเส้นทางอื่นดู: แต่ละดาวสอนวิทยาศาสตร์อวกาศของจริงคนละเรื่อง"
+  },
+  {
+   "k": "end.cards",
+   "en": "Knowledge cards found: {0}/{1}",
+   "th": "การ์ดความรู้ที่พบ: {0}/{1}"
+  },
+  {
+   "k": "end.lose.title",
+   "en": "MISSION FAILED",
+   "th": "ภารกิจล้มเหลว"
+  },
+  {
+   "k": "end.lose.tip",
+   "en": "Astronauts train by trying again. The mission restarts from the beginning.",
+   "th": "นักบินอวกาศฝึกด้วยการลองใหม่ ภารกิจจะเริ่มใหม่ตั้งแต่ต้น"
+  },
+  {
+   "k": "end.again",
+   "en": "Play again",
+   "th": "เล่นอีกครั้ง"
+  },
+  {
+   "k": "end.restart",
+   "en": "Restart mission",
+   "th": "เริ่มภารกิจใหม่"
+  },
+  {
+   "k": "end.title",
+   "en": "Title screen",
+   "th": "หน้าแรก"
+  },
+  {
+   "k": "end.lose.mars.LostO2",
+   "en": "Oxygen ran out. MOXIE needs power, and power must last through the night.",
+   "th": "ออกซิเจนหมด MOXIE ต้องใช้ไฟ และไฟต้องพอจนข้ามคืน"
+  },
+  {
+   "k": "end.lose.mars.LostWater",
+   "en": "Water ran out. Recycle it, drill for ice, and watch what uses water.",
+   "th": "น้ำหมด ต้องรีไซเคิล เจาะน้ำแข็ง และดูว่าอะไรใช้น้ำบ้าง"
+  },
+  {
+   "k": "end.lose.mars.LostFood",
+   "en": "Food ran out. Ration your meals, and grab the supply bag next time.",
+   "th": "อาหารหมด ต้องแบ่งมื้อ และครั้งหน้าอย่าลืมคว้าถุงเสบียง"
+  },
+  {
+   "k": "end.lose.mars.LostWindow",
+   "en": "Time ran out. You can launch only on day 7, and only if everything is ready.",
+   "th": "หมดเวลา ปล่อยยานได้ ได้แค่วันที่ 7 และต้องพร้อมทุกอย่าง"
+  },
+  {
+   "k": "end.lose.moon.LostO2",
+   "en": "Oxygen ran out. The oxygen generator needs power, and power must last through the night.",
+   "th": "ออกซิเจนหมด เครื่องผลิตออกซิเจน ต้องใช้ไฟ และไฟต้องพอจนข้ามคืน"
+  },
+  {
+   "k": "end.lose.moon.LostWater",
+   "en": "Water ran out. Recycle it, drill for ice, and watch what uses water.",
+   "th": "น้ำหมด ต้องรีไซเคิล เจาะน้ำแข็ง และดูว่าอะไรใช้น้ำบ้าง"
+  },
+  {
+   "k": "end.lose.moon.LostFood",
+   "en": "Food ran out. Ration your meals, and grab the supply bag next time.",
+   "th": "อาหารหมด ต้องแบ่งมื้อ และครั้งหน้าอย่าลืมคว้าถุงเสบียง"
+  },
+  {
+   "k": "end.lose.moon.LostWindow",
+   "en": "Time ran out. The rescue ship can pick you up only on day 7, and only if everything is ready.",
+   "th": "หมดเวลา ยานกู้ภัยมารับได้ ได้แค่วันที่ 7 และต้องพร้อมทุกอย่าง"
+  },
+  {
+   "k": "end.lose.titan.LostO2",
+   "en": "Oxygen ran out. The oxygen generator needs power, and power must last through the night.",
+   "th": "ออกซิเจนหมด เครื่องผลิตออกซิเจน ต้องใช้ไฟ และไฟต้องพอจนข้ามคืน"
+  },
+  {
+   "k": "end.lose.titan.LostWater",
+   "en": "Water ran out. Recycle it, drill for ice, and watch what uses water.",
+   "th": "น้ำหมด ต้องรีไซเคิล เจาะน้ำแข็ง และดูว่าอะไรใช้น้ำบ้าง"
+  },
+  {
+   "k": "end.lose.titan.LostFood",
+   "en": "Food ran out. Ration your meals, and grab the supply bag next time.",
+   "th": "อาหารหมด ต้องแบ่งมื้อ และครั้งหน้าอย่าลืมคว้าถุงเสบียง"
+  },
+  {
+   "k": "end.lose.titan.LostWindow",
+   "en": "Time ran out. The gate opens only on day 7, and only if everything is ready.",
+   "th": "หมดเวลา ประตูเปิดได้ ได้แค่วันที่ 7 และต้องพร้อมทุกอย่าง"
+  },
+  {
+   "k": "look2.s_scope",
+   "en": "Through the telescope: a sky full of strange stars.",
+   "th": "ส่องกล้อง: ท้องฟ้าเต็มไปด้วยดาวแปลกตา"
+  },
+  {
+   "k": "look2.s_seat",
+   "en": "The pilot seat. Our landing gear held. Barely.",
+   "th": "เก้าอี้นักบิน ขาลงจอดยังรับไหว แบบหวุดหวิด"
+  },
+  {
+   "k": "look2.s_nav",
+   "en": "No new course until we can leave.",
+   "th": "ยังตั้งเส้นทางใหม่ไม่ได้จนกว่าจะออกไปได้"
+  },
+  {
+   "k": "look2.s_tank",
+   "en": "The tank is close to empty.",
+   "th": "ถังเกือบว่างแล้ว"
+  },
+  {
+   "k": "look2.s_gauge",
+   "en": "The gauge shows our mission progress.",
+   "th": "มาตรวัดแสดงความคืบหน้าของภารกิจ"
+  },
+  {
+   "k": "look2.s_shelf",
+   "en": "Manuals, and a photo of home.",
+   "th": "คู่มือ กับรูปถ่ายบ้าน"
+  },
+  {
+   "k": "look2.s_locker",
+   "en": "Empty. The patch kit saved us.",
+   "th": "ว่างเปล่า ชุดอุดรอยรั่วช่วยชีวิตเราไว้"
+  },
+  {
+   "k": "look2.s_crates",
+   "en": "Socks, pasta and that rubber duck.",
+   "th": "ถุงเท้า พาสต้า และเป็ดยางตัวนั้น"
+  },
+  {
+   "k": "look2.s_toolbox",
+   "en": "Wrenches and tape. Nothing we need here.",
+   "th": "ประแจกับเทปกาว ไม่มีอะไรที่ต้องใช้ตรงนี้"
+  },
+  {
+   "k": "look2.s_cabinet",
+   "en": "Spare parts, nothing useful today.",
+   "th": "อะไหล่สำรอง วันนี้ไม่มีอะไรที่ใช้ได้"
+  },
+  {
+   "k": "look2.s_reactor",
+   "en": "The fuel processor needs carbon dioxide. There is none to use here.",
+   "th": "เครื่องแปรรูปเชื้อเพลิงต้องใช้คาร์บอนไดออกไซด์ ที่นี่ไม่มีให้ใช้"
+  },
+  {
+   "k": "look2.s_line",
+   "en": "The fuel line held on landing.",
+   "th": "ท่อเชื้อเพลิงไม่เป็นอะไรตอนลงจอด"
+  },
+  {
+   "k": "look2.door_out",
+   "en": "Back inside.",
+   "th": "กลับเข้ายาน"
+  },
+  {
+   "k": "c2_land_1.mars",
+   "en": "We made it! We're on Mars. The ship is damaged, but we're alive.",
+   "th": "เรารอดแล้ว! เราอยู่บนดาวอังคาร ยานเสียหายแต่เรายังมีชีวิตอยู่"
+  },
+  {
+   "k": "c2_land_2.mars",
+   "en": "On Mars, a day is called a sol. Our next launch window to Saturn opens on Sol 7, a week from now.",
+   "th": "บนดาวอังคาร หนึ่งวันเรียกว่า sol ช่วงที่ปล่อยยานไปดาวเสาร์ได้รอบถัดไปจะเปิดใน Sol 7 อีกหนึ่งสัปดาห์"
+  },
+  {
+   "k": "c2_land_3.mars",
+   "en": "Until then: fix the fuel line, make fuel from Mars air, and keep oxygen, water, power and food up. Every job takes time.",
+   "th": "ระหว่างนี้ต้องซ่อมท่อเชื้อเพลิง ผลิตเชื้อเพลิงจากอากาศดาวอังคาร และรักษาออกซิเจน น้ำ ไฟฟ้า กับอาหารไว้ ทุกงานใช้เวลา"
+  },
+  {
+   "k": "c2_surface_first.mars",
+   "en": "Welcome outside. Your suit uses a little oxygen out here, so plan your trips.",
+   "th": "ยินดีต้อนรับสู่ข้างนอก ชุดอวกาศใช้ออกซิเจนนิดหน่อย วางแผนการออกมาให้ดี"
+  },
+  {
+   "k": "obj.mars.line",
+   "en": "Fix the fuel line (pipe patch)",
+   "th": "ซ่อมท่อเชื้อเพลิง (แผ่นปะท่อ)"
+  },
+  {
+   "k": "obj.mars.catalyst",
+   "en": "Install the fuel reactor catalyst",
+   "th": "ใส่ตัวเร่งปฏิกิริยาให้เครื่องผลิตเชื้อเพลิง"
+  },
+  {
+   "k": "obj.mars.fuel",
+   "en": "Make fuel {0}/{1}",
+   "th": "ผลิตเชื้อเพลิง {0}/{1}"
+  },
+  {
+   "k": "obj.mars.wait",
+   "en": "Stay alive until the launch window (Sol {0})",
+   "th": "มีชีวิตรอดจนถึงช่วงปล่อยยาน (Sol {0})"
+  },
+  {
+   "k": "obj.mars.goal",
+   "en": "Launch from the Cockpit console",
+   "th": "ปล่อยยานจากคอนโซลห้องนักบิน"
+  },
+  {
+   "k": "c2_toolbox_take",
+   "en": "A tube of sealant. Sticky stuff for fixing things.",
+   "th": "หลอดกาวซีล ของเหนียวๆ ไว้ซ่อมของ"
+  },
+  {
+   "k": "c2_toolbox_look",
+   "en": "Wrenches, tape and no more sealant.",
+   "th": "ประแจ เทปกาว แต่ไม่มีกาวซีลเหลือแล้ว"
+  },
+  {
+   "k": "c2_reactor_read",
+   "en": "The reactor label: CO₂ + 4H₂ → CH₄ + 2H₂O. Insert catalyst cartridge.",
+   "th": "ป้ายบนเครื่อง: CO₂ + 4H₂ → CH₄ + 2H₂O ใส่ตลับตัวเร่งปฏิกิริยา"
+  },
+  {
+   "k": "c2_reactor_need",
+   "en": "It needs the right catalyst cartridge. Spares are in the Life Support cabinet. The Sabatier card says which metal.",
+   "th": "ต้องใช้ตลับตัวเร่งปฏิกิริยาที่ถูกต้อง ของสำรองอยู่ในตู้ห้องระบบยังชีพ การ์ด Sabatier บอกว่าเป็นโลหะอะไร"
+  },
+  {
+   "k": "c2_catalyst_ok",
+   "en": "Nickel catalyst installed. The reactor is ready to make fuel!",
+   "th": "ใส่ตัวเร่งปฏิกิริยานิกเกิลแล้ว เครื่องพร้อมผลิตเชื้อเพลิง!"
+  },
+  {
+   "k": "c2_catalyst_wrong",
+   "en": "The reactor rejects the {0}. Wrong metal. Check the Sabatier card and swap it at the cabinet.",
+   "th": "เครื่องไม่รับ{0} โลหะผิดชนิด ลองดูการ์ด Sabatier แล้วไปเปลี่ยนที่ตู้"
+  },
+  {
+   "k": "look.c2_reactor",
+   "en": "Turns carbon dioxide and hydrogen from water into methane fuel.",
+   "th": "เปลี่ยนคาร์บอนไดออกไซด์กับไฮโดรเจนจากน้ำให้เป็นเชื้อเพลิงมีเทน"
+  },
+  {
+   "k": "c2_line_done",
+   "en": "The patch is holding. The fuel line is fixed.",
+   "th": "แผ่นปะยึดแน่นดี ท่อเชื้อเพลิงซ่อมเสร็จแล้ว"
+  },
+  {
+   "k": "look.c2_line_ready",
+   "en": "The pipe patch fits the crack. Repair it?",
+   "th": "แผ่นปะท่อพอดีกับรอยแตก ซ่อมเลยไหม?"
+  },
+  {
+   "k": "c2_line_combine",
+   "en": "You have a plate and sealant. Combine them first: click one item, then the other.",
+   "th": "คุณมีแผ่นโลหะกับกาวซีลแล้ว รวมกันก่อน: คลิกไอเทมหนึ่ง แล้วคลิกอีกอัน"
+  },
+  {
+   "k": "c2_line_need",
+   "en": "The pipe is cracked. I need a patch. A plate and something sticky might work.",
+   "th": "ท่อแตก ต้องใช้แผ่นปะ แผ่นโลหะกับอะไรเหนียวๆ น่าจะใช้ได้"
+  },
+  {
+   "k": "look.c2_solar",
+   "en": "Mars gets less sunlight than Earth, and dust makes it worse.",
+   "th": "ดาวอังคารได้แสงอาทิตย์น้อยกว่าโลก และฝุ่นทำให้แย่ลงไปอีก"
+  },
+  {
+   "k": "c2_pod_empty",
+   "en": "Empty. I already took the drill bit.",
+   "th": "ว่างแล้ว หัวสว่านหยิบไปแล้ว"
+  },
+  {
+   "k": "c2_pod_wrong",
+   "en": "Wrong. A Mars day is 24 hours and some minutes. How many minutes? Check the Sol card.",
+   "th": "ผิด หนึ่งวันบนดาวอังคารคือ 24 ชั่วโมงกับอีกไม่กี่นาที กี่นาทีล่ะ? ลองดูการ์ด Sol"
+  },
+  {
+   "k": "c2_pod_open",
+   "en": "A drill bit! Now the ice drill can work.",
+   "th": "หัวสว่าน! ทีนี้สว่านเจาะน้ำแข็งก็ใช้ได้แล้ว"
+  },
+  {
+   "k": "keypad.c2_pod",
+   "en": "CARGO POD LOCK\nCode = how many minutes longer than 24 hours one Mars day lasts.",
+   "th": "กุญแจกล่องสัมภาระ\nรหัส = หนึ่งวันบนดาวอังคารยาวกว่า 24 ชั่วโมงอยู่กี่นาที"
+  },
+  {
+   "k": "c2_scrap_take",
+   "en": "A clean metal plate, torn off during landing. Useful!",
+   "th": "แผ่นโลหะสภาพดี หลุดมาตอนลงจอด มีประโยชน์!"
+  },
+  {
+   "k": "c2_scrap_look",
+   "en": "Just red Mars dust now.",
+   "th": "เหลือแต่ฝุ่นแดงของดาวอังคาร"
+  },
+  {
+   "k": "c2_drill_ready",
+   "en": "Drill bit attached. There is water ice under this ground!",
+   "th": "ใส่หัวสว่านแล้ว ใต้พื้นตรงนี้มีน้ำแข็งอยู่!"
+  },
+  {
+   "k": "c2_drill_need",
+   "en": "The drill has no bit. Maybe the cargo pod has a spare.",
+   "th": "สว่านไม่มีหัว ในกล่องสัมภาระอาจมีอันสำรอง"
+  },
+  {
+   "k": "look.c2_drill",
+   "en": "Melt the ice from the ground into drinking water.",
+   "th": "ละลายน้ำแข็งจากใต้ดินให้เป็นน้ำดื่ม"
+  },
+  {
+   "k": "cabinet.title",
+   "en": "Supply cabinet · catalyst cartridges",
+   "th": "ตู้อะไหล่ · ตลับตัวเร่งปฏิกิริยา"
+  },
+  {
+   "k": "cabinet.body",
+   "en": "Three cartridges. Take one (the reactor only accepts the right one).",
+   "th": "มีสามตลับ หยิบได้หนึ่งอัน (เครื่องรับเฉพาะอันที่ถูกต้อง)"
+  },
+  {
+   "k": "cabinet.held",
+   "en": "(holding)",
+   "th": "(ถืออยู่)"
+  },
+  {
+   "k": "c2_cabinet_done",
+   "en": "The right catalyst is already in the reactor.",
+   "th": "ตัวเร่งปฏิกิริยาที่ถูกต้องอยู่ในเครื่องแล้ว"
+  },
+  {
+   "k": "c2_cabinet_take",
+   "en": "Took the {0}.",
+   "th": "หยิบ{0}แล้ว"
+  },
+  {
+   "k": "c2_land_1.moon",
+   "en": "We're down! The Moon's south pole. No air, no weather, and Earth is three days away.",
+   "th": "ลงจอดได้แล้ว! ขั้วใต้ของดวงจันทร์ ไม่มีอากาศ ไม่มีลมฟ้าอากาศ และโลกอยู่ห่างไปสามวัน"
+  },
+  {
+   "k": "c2_land_2.moon",
+   "en": "A rescue ship can launch from Earth and reach us by day 7. Apollo crews took three days to fly here. But only if Earth hears us.",
+   "th": "ยานกู้ภัยออกจากโลกแล้วมาถึงเราได้ภายในวันที่ 7 ลูกเรืออพอลโลใช้เวลาบินมาที่นี่สามวัน แต่ต้องให้โลกได้ยินเราก่อน"
+  },
+  {
+   "k": "c2_land_3.moon",
+   "en": "Our dish broke on landing. Find parts, fix it, aim it at Earth, then send the signal from the Comms computer.",
+   "th": "จานสายอากาศพังตอนลงจอด หาอะไหล่ ซ่อม หันไปหาโลก แล้วส่งสัญญาณจากคอมพิวเตอร์สื่อสาร"
+  },
+  {
+   "k": "c2_surface_first.moon",
+   "en": "Look at the horizon: that blue marble is Earth. It hangs low here and barely moves.",
+   "th": "ดูที่ขอบฟ้าสิ ลูกแก้วสีฟ้านั่นคือโลก ที่นี่โลกลอยต่ำและแทบไม่ขยับเลย"
+  },
+  {
+   "k": "obj.moon.parts",
+   "en": "Build an antenna repair kit (feed horn + cable)",
+   "th": "ประกอบชุดซ่อมจานสายอากาศ (หัวรับสัญญาณ + สาย)"
+  },
+  {
+   "k": "obj.moon.antenna",
+   "en": "Fix the dish and aim it at Earth",
+   "th": "ซ่อมจานแล้วหันไปหาโลก"
+  },
+  {
+   "k": "obj.moon.signal",
+   "en": "Send the signal {0}/{1}",
+   "th": "ส่งสัญญาณ {0}/{1}"
+  },
+  {
+   "k": "obj.moon.wait",
+   "en": "Stay alive until the rescue ship (day {0})",
+   "th": "มีชีวิตรอดจนยานกู้ภัยมาถึง (วันที่ {0})"
+  },
+  {
+   "k": "obj.moon.goal",
+   "en": "Board the rescue ship from the Cockpit console",
+   "th": "ขึ้นยานกู้ภัยจากคอนโซลห้องนักบิน"
+  },
+  {
+   "k": "moon_cabinet_empty",
+   "en": "No more cable in here.",
+   "th": "ไม่มีสายเหลือแล้ว"
+  },
+  {
+   "k": "moon_cable_take",
+   "en": "A signal cable. The dish needs one.",
+   "th": "สายสัญญาณ จานสายอากาศต้องใช้"
+  },
+  {
+   "k": "look.moon_comms",
+   "en": "Comms computer. With a working dish, it can send our signal to Earth.",
+   "th": "คอมพิวเตอร์สื่อสาร ถ้าจานใช้ได้ จะส่งสัญญาณถึงโลกได้"
+  },
+  {
+   "k": "look.moon_solar",
+   "en": "Near the south pole some peaks get sunlight almost all the time. Clean panels catch more of it.",
+   "th": "ใกล้ขั้วใต้มียอดเขาที่ได้แสงแดดเกือบตลอดเวลา แผงที่สะอาดรับแสงได้มากกว่า"
+  },
+  {
+   "k": "moon_pod_empty",
+   "en": "Empty. I took the feed horn.",
+   "th": "ว่างแล้ว หยิบหัวรับสัญญาณไปแล้ว"
+  },
+  {
+   "k": "moon_pod_wrong",
+   "en": "Wrong. The label asks: what year did humans first land on the Moon? Check the Apollo card.",
+   "th": "ผิด ป้ายถามว่ามนุษย์ลงจอดบนดวงจันทร์ครั้งแรกปีไหน ลองดูการ์ดอพอลโล"
+  },
+  {
+   "k": "moon_pod_open",
+   "en": "A spare antenna feed horn! Now I need a cable.",
+   "th": "หัวรับสัญญาณสำรอง! ต่อไปต้องหาสาย"
+  },
+  {
+   "k": "keypad.moon_pod",
+   "en": "CARGO POD LOCK\nCode = the year humans first landed on the Moon.",
+   "th": "กุญแจกล่องสัมภาระ\nรหัส = ปีที่มนุษย์ลงจอดบนดวงจันทร์ครั้งแรก"
+  },
+  {
+   "k": "moon_dish_done",
+   "en": "The dish is aimed at Earth. Send the signal from the Comms computer.",
+   "th": "จานหันไปหาโลกแล้ว ส่งสัญญาณจากคอมพิวเตอร์สื่อสาร"
+  },
+  {
+   "k": "moon_dish_broken",
+   "en": "The feed horn snapped off and the cable is torn. I need both parts.",
+   "th": "หัวรับสัญญาณหักและสายขาด ต้องใช้ทั้งสองอย่าง"
+  },
+  {
+   "k": "moon_dish_combine",
+   "en": "I have both parts. Combine them into a kit first: click one item, then the other.",
+   "th": "มีอะไหล่ครบแล้ว รวมเป็นชุดก่อน: คลิกไอเทมหนึ่ง แล้วคลิกอีกอัน"
+  },
+  {
+   "k": "moon_dish_kit_on",
+   "en": "Kit attached! Now point the dish. Where is Earth in this sky?",
+   "th": "ใส่ชุดซ่อมแล้ว! ทีนี้หันจาน โลกอยู่ตรงไหนบนท้องฟ้านี้?"
+  },
+  {
+   "k": "moon_aim.title",
+   "en": "Aim the dish",
+   "th": "หันจานสายอากาศ"
+  },
+  {
+   "k": "moon_aim.body",
+   "en": "Earth must be in the dish's view. Where does Earth sit in the sky at the Moon's south pole?",
+   "th": "จานต้องมองเห็นโลก ที่ขั้วใต้ดวงจันทร์ โลกอยู่ตรงไหนบนท้องฟ้า?"
+  },
+  {
+   "k": "moon_aim.up",
+   "en": "Straight up, overhead",
+   "th": "ชี้ตรงขึ้นฟ้า"
+  },
+  {
+   "k": "moon_aim.horizon",
+   "en": "Low, just above the horizon",
+   "th": "ต่ำๆ เหนือขอบฟ้า"
+  },
+  {
+   "k": "moon_aim.away",
+   "en": "The opposite way, away from Earth",
+   "th": "หันไปทางตรงข้าม ห่างจากโลก"
+  },
+  {
+   "k": "moon_aim_ok",
+   "en": "Signal lock! Earth is right on the horizon, just where the card said.",
+   "th": "จับสัญญาณได้! โลกอยู่ตรงขอบฟ้า ตามที่การ์ดบอกเลย"
+  },
+  {
+   "k": "moon_aim_wrong.up",
+   "en": "Nothing but black sky up there. From the south pole, Earth stays low. Check the Earth card.",
+   "th": "ข้างบนมีแต่ท้องฟ้าดำ จากขั้วใต้ โลกจะอยู่ต่ำ ลองดูการ์ดโลกบนท้องฟ้า"
+  },
+  {
+   "k": "moon_aim_wrong.away",
+   "en": "That points away from home. Find Earth in the sky first.",
+   "th": "แบบนั้นหันออกจากบ้าน หาโลกบนท้องฟ้าก่อน"
+  },
+  {
+   "k": "moon_site.title",
+   "en": "Where should we drill for ice?",
+   "th": "จะเจาะหาน้ำแข็งที่ไหนดี?"
+  },
+  {
+   "k": "moon_site.body",
+   "en": "Water ice only survives where sunlight never reaches.",
+   "th": "น้ำแข็งจะอยู่ได้เฉพาะที่ที่แสงแดดส่องไม่ถึงเลย"
+  },
+  {
+   "k": "moon_site.peak",
+   "en": "On the sunny peak",
+   "th": "บนยอดเขาที่มีแดด"
+  },
+  {
+   "k": "moon_site.crater",
+   "en": "On the floor of the dark crater",
+   "th": "ก้นหลุมที่มืดตลอดเวลา"
+  },
+  {
+   "k": "moon_site.plain",
+   "en": "On the open grey plain",
+   "th": "บนที่ราบสีเทาโล่งๆ"
+  },
+  {
+   "k": "moon_site_ok",
+   "en": "Drill set in permanent shadow. There's ice down there, just like LCROSS found!",
+   "th": "ตั้งสว่านในเงามืดถาวรแล้ว ข้างล่างมีน้ำแข็ง แบบที่ LCROSS ค้นพบเลย!"
+  },
+  {
+   "k": "moon_site_wrong.peak",
+   "en": "Sunlight would have melted and lost any ice up there long ago.",
+   "th": "แสงแดดคงทำให้น้ำแข็งบนนั้นระเหยหายไปนานแล้ว"
+  },
+  {
+   "k": "moon_site_wrong.plain",
+   "en": "The plain gets sunlight too. Ice hides only in places the Sun never touches.",
+   "th": "ที่ราบก็โดนแดดเหมือนกัน น้ำแข็งซ่อนอยู่เฉพาะที่ที่แสงแดดไม่เคยส่องถึง"
+  },
+  {
+   "k": "look.moon_crater",
+   "en": "Drill into the frozen crater floor for water.",
+   "th": "เจาะก้นหลุมที่เป็นน้ำแข็งเพื่อเอาน้ำ"
+  },
+  {
+   "k": "c2_land_1.titan",
+   "en": "We made it to Titan, right beside the warp gate! Outside it is -179 °C.",
+   "th": "เรามาถึงไททันแล้ว ข้างประตูวาปเลย! ข้างนอกหนาว -179 °C"
+  },
+  {
+   "k": "c2_land_2.titan",
+   "en": "The air here is thick nitrogen, with no oxygen. Sunlight is about one percent of Earth's, so our power comes from the RTG.",
+   "th": "อากาศที่นี่เป็นไนโตรเจนหนาแน่น ไม่มีออกซิเจน แสงแดดมีแค่ราวหนึ่งเปอร์เซ็นต์ของโลก ไฟของเราจึงมาจาก RTG"
+  },
+  {
+   "k": "c2_land_3.titan",
+   "en": "The gate aligns with Saturn on day 7. Unlock its panel, charge it to full, and stay alive in the cold.",
+   "th": "ประตูจะเรียงตัวกับดาวเสาร์ในวันที่ 7 ต้องปลดล็อกแผงควบคุม ชาร์จให้เต็ม และอยู่รอดในความหนาว"
+  },
+  {
+   "k": "c2_surface_first.titan",
+   "en": "Methane drizzle and frozen-rock ground. Over there, beyond the hills: a lake of liquid methane.",
+   "th": "ฝนมีเทนปรอยๆ กับพื้นที่เป็นหินน้ำแข็ง ไกลออกไปหลังเนิน: ทะเลสาบมีเทนเหลว"
+  },
+  {
+   "k": "obj.titan.suit",
+   "en": "Choose the right suit for Titan (airlock)",
+   "th": "เลือกชุดที่เหมาะกับไททัน (ประตูปรับแรงดัน)"
+  },
+  {
+   "k": "obj.titan.gate",
+   "en": "Unlock the warp gate panel",
+   "th": "ปลดล็อกแผงควบคุมประตูวาป"
+  },
+  {
+   "k": "obj.titan.charge",
+   "en": "Charge the gate {0}/{1}",
+   "th": "ชาร์จประตู {0}/{1}"
+  },
+  {
+   "k": "obj.titan.wait",
+   "en": "Stay alive until the gate aligns (day {0})",
+   "th": "มีชีวิตรอดจนประตูเรียงตัว (วันที่ {0})"
+  },
+  {
+   "k": "obj.titan.goal",
+   "en": "Open the gate from the Cockpit console",
+   "th": "เปิดประตูจากคอนโซลห้องนักบิน"
+  },
+  {
+   "k": "titan_suit.title",
+   "en": "Which suit for Titan?",
+   "th": "ใส่ชุดแบบไหนออกไปไททัน?"
+  },
+  {
+   "k": "titan_suit.body",
+   "en": "Think about Titan's air: how thick is it, what is in it, and how cold is it?",
+   "th": "ลองคิดถึงอากาศไททัน: หนาแค่ไหน มีอะไรอยู่ข้างใน และหนาวแค่ไหน?"
+  },
+  {
+   "k": "titan_suit.pressure",
+   "en": "Full pressure suit, like on the Moon",
+   "th": "ชุดอัดแรงดันเต็มตัวแบบบนดวงจันทร์"
+  },
+  {
+   "k": "titan_suit.heated",
+   "en": "Heated suit with an oxygen mask",
+   "th": "ชุดให้ความร้อนกับหน้ากากออกซิเจน"
+  },
+  {
+   "k": "titan_suit.none",
+   "en": "Just a warm coat",
+   "th": "แค่เสื้อกันหนาว"
+  },
+  {
+   "k": "titan_suit_ok",
+   "en": "Right! The air is thick enough to push on you, so no pressure suit. But it is deadly cold and has no oxygen.",
+   "th": "ถูกต้อง! อากาศหนาพอจะกดตัวเราไว้ ไม่ต้องใช้ชุดอัดแรงดัน แต่หนาวถึงตายและไม่มีออกซิเจน"
+  },
+  {
+   "k": "titan_suit_wrong.pressure",
+   "en": "A pressure suit is heavy and not needed: Titan's air is thicker than Earth's! What we need is warmth and oxygen.",
+   "th": "ชุดอัดแรงดันหนักและไม่จำเป็น อากาศไททันหนากว่าโลกอีก! สิ่งที่ต้องมีคือความอบอุ่นกับออกซิเจน"
+  },
+  {
+   "k": "titan_suit_wrong.none",
+   "en": "At -179 °C and with no oxygen? You wouldn't last a minute.",
+   "th": "ที่ -179 °C และไม่มีออกซิเจน? อยู่ได้ไม่ถึงนาทีแน่"
+  },
+  {
+   "k": "keypad.titan_gate",
+   "en": "WARP GATE PANEL\nCode = Titan's surface temperature, in degrees below zero.",
+   "th": "แผงควบคุมประตูวาป\nรหัส = อุณหภูมิพื้นผิวไททัน กี่องศาต่ำกว่าศูนย์"
+  },
+  {
+   "k": "titan_gate_wrong",
+   "en": "Wrong. How cold is Titan? The Titan cold card has the number.",
+   "th": "ผิด ไททันหนาวแค่ไหน? การ์ดความหนาวไททันมีตัวเลขอยู่"
+  },
+  {
+   "k": "titan_gate_open",
+   "en": "Panel unlocked! The gate drinks power. Charge it with what the RTG gives us.",
+   "th": "ปลดล็อกแผงแล้ว! ประตูกินไฟมาก ต้องชาร์จด้วยไฟจาก RTG"
+  },
+  {
+   "k": "look.titan_gate",
+   "en": "Each charge lights more lamps on the ring.",
+   "th": "ชาร์จแต่ละครั้งไฟบนวงแหวนจะสว่างเพิ่มขึ้น"
+  },
+  {
+   "k": "look.titan_rtg",
+   "en": "Plutonium heat turns into electricity, day and night. A loose cable in a storm would cost us.",
+   "th": "ความร้อนจากพลูโทเนียมเปลี่ยนเป็นไฟฟ้าทั้งวันทั้งคืน ถ้าสายหลวมตอนพายุ เราจะเสียไฟ"
+  },
+  {
+   "k": "titan_cabinet_empty",
+   "en": "Nothing else useful here.",
+   "th": "ไม่มีอะไรใช้ได้อีกแล้ว"
+  },
+  {
+   "k": "titan_coil_take",
+   "en": "A heater coil. Could warm up a tool.",
+   "th": "ขดลวดทำความร้อน ใช้อุ่นเครื่องมือได้"
+  },
+  {
+   "k": "titan_crates_empty",
+   "en": "Socks, pasta, rubber duck. No more drill bits.",
+   "th": "ถุงเท้า พาสต้า เป็ดยาง ไม่มีหัวสว่านเหลือแล้ว"
+  },
+  {
+   "k": "titan_bit_take",
+   "en": "A spare drill bit, packed between the socks.",
+   "th": "หัวสว่านสำรอง ซุกอยู่ในถุงเท้า"
+  },
+  {
+   "k": "titan_drill_ready",
+   "en": "Heated bit installed. Now the drill can cut ice that is hard as rock.",
+   "th": "ใส่หัวสว่านให้ความร้อนแล้ว สว่านเจาะน้ำแข็งที่แข็งเหมือนหินได้แล้ว"
+  },
+  {
+   "k": "titan_drill_cold",
+   "en": "At -179 °C a cold bit would shatter. Combine it with something that heats it.",
+   "th": "ที่ -179 °C หัวสว่านเย็นๆ จะแตก ต้องรวมกับอะไรที่ให้ความร้อน"
+  },
+  {
+   "k": "titan_drill_need",
+   "en": "The drill has no bit. Check the Cargo crates.",
+   "th": "สว่านไม่มีหัว ลองดูลังในห้องเก็บของ"
+  },
+  {
+   "k": "look.titan_drill",
+   "en": "Cut frozen-rock ice and melt it into water.",
+   "th": "เจาะหินน้ำแข็งแล้วละลายเป็นน้ำ"
+  },
+  {
+   "k": "action.moxie",
+   "en": "Make oxygen (MOXIE)",
+   "th": "ผลิตออกซิเจน (MOXIE)"
+  },
+  {
+   "k": "done.moxie",
+   "en": "MOXIE hums. Fresh oxygen flows into the tanks.",
+   "th": "MOXIE ทำงานเสียงหึ่งๆ ออกซิเจนใหม่ไหลเข้าถังแล้ว"
+  },
+  {
+   "k": "action.electrolyze",
+   "en": "Split water into oxygen",
+   "th": "แยกน้ำเป็นออกซิเจน"
+  },
+  {
+   "k": "done.electrolyze",
+   "en": "Bubbles of oxygen rise. Hydrogen is vented.",
+   "th": "ฟองออกซิเจนลอยขึ้น ไฮโดรเจนถูกระบายออก"
+  },
+  {
+   "k": "action.recycle",
+   "en": "Recycle water",
+   "th": "รีไซเคิลน้ำ"
+  },
+  {
+   "k": "done.recycle",
+   "en": "Clean water again. Every drop counts.",
+   "th": "ได้น้ำสะอาดอีกครั้ง ทุกหยดมีค่า"
+  },
+  {
+   "k": "action.inspect_seals",
+   "en": "Inspect the seals",
+   "th": "ตรวจซีล"
+  },
+  {
+   "k": "done.inspect_seals",
+   "en": "Seals checked and tightened.",
+   "th": "ตรวจและขันซีลแน่นแล้ว"
+  },
+  {
+   "k": "action.eat",
+   "en": "Eat a meal",
+   "th": "กินอาหาร"
+  },
+  {
+   "k": "done.eat",
+   "en": "Freeze-dried curry. Not bad at all.",
+   "th": "แกงกะหรี่แห้ง อร่อยใช้ได้เลย"
+  },
+  {
+   "k": "action.clean_panels",
+   "en": "Clean the solar panels",
+   "th": "เช็ดแผงโซลาร์"
+  },
+  {
+   "k": "done.clean_panels",
+   "en": "Panels wiped. They shine like new.",
+   "th": "เช็ดแผงแล้ว เงาเหมือนใหม่"
+  },
+  {
+   "k": "action.stow_panels",
+   "en": "Stow panels for tonight",
+   "th": "เก็บแผงโซลาร์สำหรับคืนนี้"
+  },
+  {
+   "k": "done.stow_panels",
+   "en": "Panels folded flat and locked.",
+   "th": "พับแผงราบและล็อกแล้ว"
+  },
+  {
+   "k": "action.drill_ice",
+   "en": "Drill for ice",
+   "th": "เจาะหาน้ำแข็ง"
+  },
+  {
+   "k": "done.drill_ice",
+   "en": "Ice melted into water.",
+   "th": "ละลายน้ำแข็งเป็นน้ำแล้ว"
+  },
+  {
+   "k": "action.sabatier",
+   "en": "Run the fuel reactor",
+   "th": "เดินเครื่องผลิตเชื้อเพลิง"
+  },
+  {
+   "k": "done.sabatier",
+   "en": "Methane is flowing into the tank.",
+   "th": "มีเทนกำลังไหลเข้าถังเชื้อเพลิง"
+  },
+  {
+   "k": "action.repair_line",
+   "en": "Repair the fuel line",
+   "th": "ซ่อมท่อเชื้อเพลิง"
+  },
+  {
+   "k": "done.repair_line",
+   "en": "Patch on, sealed tight. The fuel line holds!",
+   "th": "ปะแผ่นแล้ว ซีลแน่นหนา ท่อเชื้อเพลิงใช้ได้แล้ว!"
+  },
+  {
+   "k": "action.close_shutters",
+   "en": "Close the window shutters",
+   "th": "ปิดบานเกล็ดหน้าต่าง"
+  },
+  {
+   "k": "done.close_shutters",
+   "en": "Shutters down. Tiny rocks can't hit the windows now.",
+   "th": "ปิดบานเกล็ดแล้ว หินก้อนเล็กชนหน้าต่างไม่ได้แล้ว"
+  },
+  {
+   "k": "action.set_heaters",
+   "en": "Set heaters for the long shadow",
+   "th": "ตั้งเครื่องทำความร้อนรับเงามืด"
+  },
+  {
+   "k": "done.set_heaters",
+   "en": "Heaters set to run on battery all night.",
+   "th": "ตั้งเครื่องทำความร้อนให้ใช้แบตเตอรี่ทั้งคืนแล้ว"
+  },
+  {
+   "k": "action.transmit",
+   "en": "Send signal to Earth",
+   "th": "ส่งสัญญาณถึงโลก"
+  },
+  {
+   "k": "done.transmit",
+   "en": "Signal sent. Somewhere, a dish on Earth is listening.",
+   "th": "ส่งสัญญาณแล้ว มีจานบนโลกกำลังฟังอยู่"
+  },
+  {
+   "k": "action.insulate",
+   "en": "Seal the insulation",
+   "th": "ปิดฉนวนกันความร้อน"
+  },
+  {
+   "k": "done.insulate",
+   "en": "Insulation panels sealed. The cabin holds its heat.",
+   "th": "ปิดแผงฉนวนแล้ว ห้องเก็บความร้อนได้"
+  },
+  {
+   "k": "action.check_rtg",
+   "en": "Check the RTG cables",
+   "th": "ตรวจสาย RTG"
+  },
+  {
+   "k": "done.check_rtg",
+   "en": "Cables tight, connectors clean.",
+   "th": "สายแน่น ขั้วต่อสะอาด"
+  },
+  {
+   "k": "action.charge_gate",
+   "en": "Charge the warp gate",
+   "th": "ชาร์จประตูวาป"
+  },
+  {
+   "k": "done.charge_gate",
+   "en": "More lamps on the ring light up.",
+   "th": "ไฟบนวงแหวนสว่างเพิ่มขึ้น"
+  },
+  {
+   "k": "reason.need.catalyst_installed",
+   "en": "Needs the catalyst installed first.",
+   "th": "ต้องใส่ตัวเร่งปฏิกิริยาก่อน"
+  },
+  {
+   "k": "reason.need.drill_ready",
+   "en": "The drill isn't ready yet.",
+   "th": "สว่านยังไม่พร้อม"
+  },
+  {
+   "k": "reason.need.has_hull_patch",
+   "en": "Needs a pipe patch.",
+   "th": "ต้องมีแผ่นปะท่อ"
+  },
+  {
+   "k": "reason.need.line_repaired",
+   "en": "The fuel line is still broken.",
+   "th": "ท่อเชื้อเพลิงยังแตกอยู่"
+  },
+  {
+   "k": "reason.need.antenna_ready",
+   "en": "The dish isn't fixed and aimed at Earth yet.",
+   "th": "จานสายอากาศยังไม่ได้ซ่อมและหันไปหาโลก"
+  },
+  {
+   "k": "reason.need.gate_found",
+   "en": "The gate panel is still locked.",
+   "th": "แผงควบคุมประตูยังล็อกอยู่"
+  },
+  {
+   "k": "reason.done.seals_inspected",
+   "en": "Already checked today.",
+   "th": "วันนี้ตรวจไปแล้ว"
+  },
+  {
+   "k": "reason.done.panels_stowed",
+   "en": "Already stowed for tonight.",
+   "th": "คืนนี้เก็บไปแล้ว"
+  },
+  {
+   "k": "reason.done.line_repaired",
+   "en": "Already repaired.",
+   "th": "ซ่อมไปแล้ว"
+  },
+  {
+   "k": "reason.done.shutters_closed",
+   "en": "Already closed for tonight.",
+   "th": "คืนนี้ปิดไปแล้ว"
+  },
+  {
+   "k": "reason.done.heaters_set",
+   "en": "Already set for tonight.",
+   "th": "คืนนี้ตั้งไปแล้ว"
+  },
+  {
+   "k": "reason.done.hab_insulated",
+   "en": "Already sealed for tonight.",
+   "th": "คืนนี้ปิดไปแล้ว"
+  },
+  {
+   "k": "reason.done.rtg_checked",
+   "en": "Already checked today.",
+   "th": "วันนี้ตรวจไปแล้ว"
+  },
+  {
+   "k": "reason.no_ap",
+   "en": "Not enough time left today. Sleep to start a new day.",
+   "th": "วันนี้เวลาไม่พอแล้ว เข้านอนเพื่อเริ่มวันใหม่"
+  },
+  {
+   "k": "reason.no_stamina",
+   "en": "Too exhausted. Eat or sleep first.",
+   "th": "เหนื่อยเกินไป กินหรือนอนก่อน"
+  },
+  {
+   "k": "reason.no_food",
+   "en": "Not enough food left.",
+   "th": "อาหารเหลือไม่พอ"
+  },
+  {
+   "k": "reason.no_power",
+   "en": "Not enough power.",
+   "th": "ไฟฟ้าไม่พอ"
+  },
+  {
+   "k": "reason.no_water",
+   "en": "Not enough water.",
+   "th": "น้ำไม่พอ"
+  },
+  {
+   "k": "reason.fuel_full",
+   "en": "Already full.",
+   "th": "เต็มแล้ว"
+  },
+  {
+   "k": "reason.not_hungry",
+   "en": "You're full of energy already.",
+   "th": "พลังกายเต็มอยู่แล้ว"
+  },
+  {
+   "k": "reason.need_fuel",
+   "en": "Progress must reach {0} first.",
+   "th": "ความคืบหน้าต้องถึง {0} ก่อน"
+  },
+  {
+   "k": "reason.need_fuel.mars",
+   "en": "Fuel must reach {0} before launch.",
+   "th": "เชื้อเพลิงต้องถึง {0} ก่อนปล่อยยาน"
+  },
+  {
+   "k": "reason.need_fuel.moon",
+   "en": "The signal must reach {0} so Earth can find us.",
+   "th": "สัญญาณต้องถึง {0} โลกถึงจะหาเราเจอ"
+  },
+  {
+   "k": "reason.need_fuel.titan",
+   "en": "The gate must be charged to {0}.",
+   "th": "ต้องชาร์จประตูให้ถึง {0}"
+  },
+  {
+   "k": "reason.window_not_open",
+   "en": "Everything is ready, but it only works on day {1}. Survive until then!",
+   "th": "ทุกอย่างพร้อมแล้ว แต่ทำได้ในวันที่ {1} เท่านั้น ต้องรอดให้ถึงวันนั้น!"
+  },
+  {
+   "k": "reason.unknown",
+   "en": "That can't be done.",
+   "th": "ทำแบบนั้นไม่ได้"
+  },
+  {
+   "k": "reason.over",
+   "en": "The mission is over.",
+   "th": "ภารกิจจบแล้ว"
+  },
+  {
+   "k": "event.dust_devil.name",
+   "en": "Dust devil",
+   "th": "พายุหมุนฝุ่น"
+  },
+  {
+   "k": "event.dust_devil.forecast",
+   "en": "A dust devil is crossing the plain tonight. Stow the solar panels before bed.",
+   "th": "คืนนี้มีพายุหมุนฝุ่นพัดผ่าน เก็บแผงโซลาร์ก่อนนอน"
+  },
+  {
+   "k": "event.dust_devil.hit",
+   "en": "The dust devil buried the open panels in dust. Less power tomorrow.",
+   "th": "พายุหมุนฝุ่นพัดฝุ่นใส่แผงที่กางอยู่ พรุ่งนี้ได้ไฟน้อยลง"
+  },
+  {
+   "k": "event.dust_devil.saved",
+   "en": "The dust devil passed. The stowed panels stayed clean!",
+   "th": "พายุหมุนฝุ่นผ่านไปแล้ว แผงที่เก็บไว้ยังสะอาด!"
+  },
+  {
+   "k": "event.dust_devil.prevent",
+   "en": "stow the solar panels (outside)",
+   "th": "เก็บแผงโซลาร์ (ข้างนอก)"
+  },
+  {
+   "k": "event.micro_leak.name",
+   "en": "Seal fatigue",
+   "th": "ซีลเสื่อม"
+  },
+  {
+   "k": "event.micro_leak.forecast",
+   "en": "Cold nights stress the seals. A slow leak is likely tonight. Inspect the seals (Life Support panel).",
+   "th": "คืนที่หนาวจัดทำให้ซีลเสื่อม คืนนี้อาจรั่วช้าๆ ไปตรวจซีลที่แผงห้องระบบยังชีพ"
+  },
+  {
+   "k": "event.micro_leak.hit",
+   "en": "A tiny leak hissed all night. You lost some oxygen.",
+   "th": "รอยรั่วเล็กๆ รั่วทั้งคืน ออกซิเจนหายไปส่วนหนึ่ง"
+  },
+  {
+   "k": "event.micro_leak.saved",
+   "en": "The seals you checked held tight all night.",
+   "th": "ซีลที่ตรวจไว้แน่นหนาตลอดคืน"
+  },
+  {
+   "k": "event.micro_leak.prevent",
+   "en": "inspect the seals (Life Support)",
+   "th": "ตรวจซีล (ห้องระบบยังชีพ)"
+  },
+  {
+   "k": "event.solar_flare.name",
+   "en": "Solar flare",
+   "th": "พายุสุริยะ"
+  },
+  {
+   "k": "event.solar_flare.forecast",
+   "en": "The Sun is flaring. Radiation arrives tonight. Water is a great shield: keep at least 35 water.",
+   "th": "ดวงอาทิตย์ปะทุ รังสีจะมาถึงคืนนี้ น้ำเป็นเกราะกันรังสีที่ดี เก็บน้ำไว้อย่างน้อย 35"
+  },
+  {
+   "k": "event.solar_flare.hit",
+   "en": "Radiation got through the half-empty water wall. You wake up sick and tired.",
+   "th": "รังสีทะลุผนังน้ำที่มีน้ำไม่เต็ม คุณตื่นมาป่วยและเหนื่อยล้า"
+  },
+  {
+   "k": "event.solar_flare.saved",
+   "en": "The water wall around your bunk blocked the radiation. Safe!",
+   "th": "ผนังน้ำรอบเตียงกันรังสีไว้ได้ ปลอดภัย!"
+  },
+  {
+   "k": "event.solar_flare.prevent",
+   "en": "keep 35+ water at bedtime",
+   "th": "มีน้ำ 35 ขึ้นไปตอนเข้านอน"
+  },
+  {
+   "k": "event.global_storm.name",
+   "en": "GREAT DUST STORM",
+   "th": "พายุฝุ่นครั้งใหญ่"
+  },
+  {
+   "k": "event.global_storm.forecast",
+   "en": "The great dust storm hits tonight! Stow the panels AND have at least 40 power at bedtime.",
+   "th": "พายุฝุ่นครั้งใหญ่มาคืนนี้! ต้องเก็บแผงโซลาร์ และมีไฟฟ้าอย่างน้อย 40 ตอนเข้านอน"
+  },
+  {
+   "k": "event.global_storm.hit",
+   "en": "The storm wrecked the open panels and drained the batteries.",
+   "th": "พายุทำแผงที่กางอยู่พังและดูดไฟจากแบตเตอรี่"
+  },
+  {
+   "k": "event.global_storm.saved",
+   "en": "The storm roared all night, but you were ready.",
+   "th": "พายุโหมทั้งคืน แต่คุณเตรียมพร้อมแล้ว"
+  },
+  {
+   "k": "event.global_storm.prevent",
+   "en": "stow panels + 40 power at bedtime",
+   "th": "เก็บแผง + ไฟฟ้า 40 ตอนเข้านอน"
+  },
+  {
+   "k": "event.micrometeoroids.name",
+   "en": "Micrometeoroid shower",
+   "th": "ฝนอุกกาบาตจิ๋ว"
+  },
+  {
+   "k": "event.micrometeoroids.forecast",
+   "en": "With no air to burn them up, tiny space rocks hit the Moon at full speed. A shower is coming tonight: close the window shutters (Life Support panel).",
+   "th": "ดวงจันทร์ไม่มีอากาศเผาหินเล็กๆ ให้ไหม้ หินอวกาศจึงพุ่งชนเต็มความเร็ว คืนนี้มีฝนอุกกาบาตจิ๋ว ปิดบานเกล็ดหน้าต่าง"
+  },
+  {
+   "k": "event.micrometeoroids.hit",
+   "en": "Tiny rocks cracked a window seal. Oxygen leaked out.",
+   "th": "หินจิ๋วทำซีลหน้าต่างร้าว ออกซิเจนรั่วออกไป"
+  },
+  {
+   "k": "event.micrometeoroids.saved",
+   "en": "Pings on the shutters all night, but nothing got through.",
+   "th": "มีเสียงกระทบบานเกล็ดทั้งคืน แต่ไม่มีอะไรทะลุเข้ามา"
+  },
+  {
+   "k": "event.micrometeoroids.prevent",
+   "en": "close the shutters (Life Support panel)",
+   "th": "ปิดบานเกล็ด (แผงห้องระบบยังชีพ)"
+  },
+  {
+   "k": "event.moon_dust.name",
+   "en": "Clinging moon dust",
+   "th": "ฝุ่นดวงจันทร์เกาะ"
+  },
+  {
+   "k": "event.moon_dust.forecast",
+   "en": "Moon dust from your boots is grinding into the seals. Inspect the seals before bed.",
+   "th": "ฝุ่นดวงจันทร์จากรองเท้ากำลังกัดซีล ตรวจซีลก่อนนอน"
+  },
+  {
+   "k": "event.moon_dust.hit",
+   "en": "Sharp dust wore a seal through. Oxygen and water leaked.",
+   "th": "ฝุ่นคมๆ กัดซีลจนทะลุ ออกซิเจนและน้ำรั่วออกไป"
+  },
+  {
+   "k": "event.moon_dust.saved",
+   "en": "Clean seals held all night.",
+   "th": "ซีลที่สะอาดแน่นหนาตลอดคืน"
+  },
+  {
+   "k": "event.moon_dust.prevent",
+   "en": "inspect the seals (Life Support)",
+   "th": "ตรวจซีล (ห้องระบบยังชีพ)"
+  },
+  {
+   "k": "event.lunar_night.name",
+   "en": "THE LONG SHADOW",
+   "th": "เงามืดยาวนาน"
+  },
+  {
+   "k": "event.lunar_night.forecast",
+   "en": "The crater's shadow sweeps over us tonight: hours of deep cold and no sun. Set the heaters AND keep at least 40 power at bedtime.",
+   "th": "เงาของหลุมจะกวาดผ่านเราคืนนี้: หนาวจัดหลายชั่วโมงและไม่มีแดด ต้องตั้งเครื่องทำความร้อน และมีไฟฟ้าอย่างน้อย 40 ตอนเข้านอน"
+  },
+  {
+   "k": "event.lunar_night.hit",
+   "en": "The cold drained the batteries and chilled you to the bone.",
+   "th": "ความหนาวดูดแบตเตอรี่และทำให้คุณหนาวสะท้าน"
+  },
+  {
+   "k": "event.lunar_night.saved",
+   "en": "The heaters kept the cabin warm through the long shadow.",
+   "th": "เครื่องทำความร้อนทำให้ห้องอุ่นตลอดเงามืด"
+  },
+  {
+   "k": "event.lunar_night.prevent",
+   "en": "set heaters + 40 power at bedtime",
+   "th": "ตั้งเครื่องทำความร้อน + ไฟฟ้า 40 ตอนเข้านอน"
+  },
+  {
+   "k": "event.methane_rain.name",
+   "en": "Methane rain",
+   "th": "ฝนมีเทน"
+  },
+  {
+   "k": "event.methane_rain.forecast",
+   "en": "Methane rain tonight. It seeps into any loose seal. Inspect the seals before bed.",
+   "th": "คืนนี้ฝนมีเทนตก มันจะซึมเข้าซีลที่หลวม ตรวจซีลก่อนนอน"
+  },
+  {
+   "k": "event.methane_rain.hit",
+   "en": "Methane seeped in and the scrubbers burned oxygen to clean it.",
+   "th": "มีเทนซึมเข้ามา เครื่องกรองต้องใช้ออกซิเจนกำจัด"
+  },
+  {
+   "k": "event.methane_rain.saved",
+   "en": "Rain drummed on the hull, but the seals held.",
+   "th": "ฝนตกกระหน่ำบนตัวยาน แต่ซีลแน่นหนา"
+  },
+  {
+   "k": "event.methane_rain.prevent",
+   "en": "inspect the seals (Life Support)",
+   "th": "ตรวจซีล (ห้องระบบยังชีพ)"
+  },
+  {
+   "k": "event.cold_snap.name",
+   "en": "Cold snap",
+   "th": "ความหนาวกระชาก"
+  },
+  {
+   "k": "event.cold_snap.forecast",
+   "en": "An extra-cold night. The heaters will need power: keep at least 35 power at bedtime.",
+   "th": "คืนที่หนาวเป็นพิเศษ เครื่องทำความร้อนต้องใช้ไฟ มีไฟฟ้าอย่างน้อย 35 ตอนเข้านอน"
+  },
+  {
+   "k": "event.cold_snap.hit",
+   "en": "Not enough power for the heaters. You shivered all night.",
+   "th": "ไฟไม่พอให้เครื่องทำความร้อน คุณหนาวสั่นทั้งคืน"
+  },
+  {
+   "k": "event.cold_snap.saved",
+   "en": "The heaters ran all night. Warm and rested.",
+   "th": "เครื่องทำความร้อนทำงานทั้งคืน อุ่นและได้พัก"
+  },
+  {
+   "k": "event.cold_snap.prevent",
+   "en": "keep 35+ power at bedtime",
+   "th": "มีไฟฟ้า 35 ขึ้นไปตอนเข้านอน"
+  },
+  {
+   "k": "event.static_storm.name",
+   "en": "Static storm",
+   "th": "พายุไฟฟ้าสถิต"
+  },
+  {
+   "k": "event.static_storm.forecast",
+   "en": "Charged haze is drifting in. Loose RTG cables could short out. Check the RTG outside.",
+   "th": "หมอกที่มีประจุกำลังลอยเข้ามา สาย RTG ที่หลวมอาจลัดวงจร ไปตรวจ RTG ข้างนอก"
+  },
+  {
+   "k": "event.static_storm.hit",
+   "en": "A loose cable sparked. We lost power and the RTG is running weak.",
+   "th": "สายหลวมเกิดประกายไฟ เราเสียไฟและ RTG ทำงานได้ไม่เต็มที่"
+  },
+  {
+   "k": "event.static_storm.saved",
+   "en": "Tight cables, no sparks. The RTG hummed on.",
+   "th": "สายแน่น ไม่มีประกายไฟ RTG ทำงานต่อไป"
+  },
+  {
+   "k": "event.static_storm.prevent",
+   "en": "check the RTG (outside)",
+   "th": "ตรวจ RTG (ข้างนอก)"
+  },
+  {
+   "k": "event.deep_cold.name",
+   "en": "SATURN'S SHADOW",
+   "th": "เงาของดาวเสาร์"
+  },
+  {
+   "k": "event.deep_cold.forecast",
+   "en": "Tonight Titan passes into Saturn's shadow: the coldest night of all. Seal the insulation AND keep at least 40 power at bedtime.",
+   "th": "คืนนี้ไททันเข้าสู่เงาของดาวเสาร์: คืนที่หนาวที่สุด ต้องปิดฉนวนกันความร้อน และมีไฟฟ้าอย่างน้อย 40 ตอนเข้านอน"
+  },
+  {
+   "k": "event.deep_cold.hit",
+   "en": "The cold broke through. Power, energy and oxygen all suffered.",
+   "th": "ความหนาวทะลุเข้ามา ไฟฟ้า พลังกาย และออกซิเจนลดลงหมด"
+  },
+  {
+   "k": "event.deep_cold.saved",
+   "en": "Insulated and powered, the cabin stayed warm in Saturn's shadow.",
+   "th": "มีฉนวนและไฟพอ ห้องยังอุ่นในเงาของดาวเสาร์"
+  },
+  {
+   "k": "event.deep_cold.prevent",
+   "en": "seal insulation + 40 power at bedtime",
+   "th": "ปิดฉนวน + ไฟฟ้า 40 ตอนเข้านอน"
+  },
+  {
+   "k": "incident.recycler_fire.alarm",
+   "en": "FIRE in the water recycler! Reach {1} in {0}s!",
+   "th": "ไฟไหม้เครื่องรีไซเคิลน้ำ! ไปที่{1}ภายใน {0} วินาที!"
+  },
+  {
+   "k": "incident.recycler_fire.fixed",
+   "en": "Fire out. The recycler is scorched but working.",
+   "th": "ดับไฟแล้ว เครื่องรีไซเคิลไหม้นิดหน่อยแต่ยังใช้ได้"
+  },
+  {
+   "k": "incident.recycler_fire.missed",
+   "en": "The fire burned through the recycler's water and wiring.",
+   "th": "ไฟไหม้น้ำและสายไฟของเครื่องรีไซเคิล"
+  },
+  {
+   "k": "incident.hatch_leak.alarm",
+   "en": "AIRLOCK SEAL FAILING! Reach {1} in {0}s!",
+   "th": "ซีลประตูปรับแรงดันกำลังพัง! ไปที่{1}ภายใน {0} วินาที!"
+  },
+  {
+   "k": "incident.hatch_leak.fixed",
+   "en": "Airlock resealed. Close one.",
+   "th": "ปิดซีลประตูใหม่แล้ว หวุดหวิด"
+  },
+  {
+   "k": "incident.hatch_leak.missed",
+   "en": "Air whistled out of the airlock before it sealed itself.",
+   "th": "อากาศรั่วออกทางประตูก่อนมันจะปิดเอง"
+  },
+  {
+   "k": "incident.scrubber_clog.alarm",
+   "en": "OXYGEN GENERATOR CLOGGED! Reach {1} in {0}s!",
+   "th": "เครื่องผลิตออกซิเจนอุดตัน! ไปที่{1}ภายใน {0} วินาที!"
+  },
+  {
+   "k": "incident.scrubber_clog.fixed",
+   "en": "Filter cleared. Oxygen flowing again.",
+   "th": "ล้างตัวกรองแล้ว ออกซิเจนไหลอีกครั้ง"
+  },
+  {
+   "k": "incident.scrubber_clog.missed",
+   "en": "The clogged generator wasted our oxygen.",
+   "th": "เครื่องที่อุดตันทำให้ออกซิเจนสูญเปล่า"
+  },
+  {
+   "k": "incident.heater_fail.alarm",
+   "en": "HEATER FAILURE! Reach {1} in {0}s!",
+   "th": "เครื่องทำความร้อนเสีย! ไปที่{1}ภายใน {0} วินาที!"
+  },
+  {
+   "k": "incident.heater_fail.fixed",
+   "en": "Heater rebooted. Warmth returns.",
+   "th": "รีบูตเครื่องทำความร้อนแล้ว ความอุ่นกลับมา"
+  },
+  {
+   "k": "incident.heater_fail.missed",
+   "en": "The cabin froze for an hour. You're exhausted.",
+   "th": "ห้องเย็นจัดไปหนึ่งชั่วโมง คุณหมดแรง"
+  },
+  {
+   "k": "incident.methane_vent.alarm",
+   "en": "METHANE LEAK in the fuel processor! Reach {1} in {0}s!",
+   "th": "มีเทนรั่วที่เครื่องแปรรูปเชื้อเพลิง! ไปที่{1}ภายใน {0} วินาที!"
+  },
+  {
+   "k": "incident.methane_vent.fixed",
+   "en": "Valve closed. Air is clean.",
+   "th": "ปิดวาล์วแล้ว อากาศสะอาด"
+  },
+  {
+   "k": "incident.methane_vent.missed",
+   "en": "The scrubbers burned oxygen to clear the methane.",
+   "th": "เครื่องกรองต้องใช้ออกซิเจนกำจัดมีเทน"
+  },
+  {
+   "k": "hint.c1_shift.1",
+   "en": "Two routine tasks start every shift. Anything with a screen in the Cockpit could be one.",
+   "th": "กะเช้าต้องทำงานประจำ 2 อย่าง อะไรที่มีหน้าจอในห้องนักบินก็น่าจะเป็นงานได้"
+  },
+  {
+   "k": "hint.c1_shift.2",
+   "en": "Try the star telescope and the main console in the Cockpit, or the gauge in the Fuel Bay.",
+   "th": "ลองใช้กล้องโทรทรรศน์กับคอนโซลหลักในห้องนักบิน หรือมาตรวัดในห้องเชื้อเพลิง"
+  },
+  {
+   "k": "hint.c1_breach.1",
+   "en": "Hurry! A breach needs a patch, and emergency gear is in an emergency locker.",
+   "th": "รีบเลย! รอยรั่วต้องใช้แผ่นปะ อุปกรณ์ฉุกเฉินอยู่ในตู้ฉุกเฉิน"
+  },
+  {
+   "k": "hint.c1_breach.2",
+   "en": "The Cargo locker asks for the speed of space debris in km/s. Your Space Debris card has it.",
+   "th": "ตู้ในห้องเก็บของถามความเร็วขยะอวกาศเป็นกม./วินาที การ์ดขยะอวกาศมีตัวเลข"
+  },
+  {
+   "k": "hint.c1_fuel.1",
+   "en": "Before choosing where to go, know how much fuel you have.",
+   "th": "ก่อนเลือกว่าจะไปไหน ต้องรู้ก่อนว่ามีเชื้อเพลิงเท่าไหร่"
+  },
+  {
+   "k": "hint.c1_fuel.2",
+   "en": "Read the gauge on the Fuel Bay wall.",
+   "th": "ไปอ่านมาตรวัดบนผนังห้องเชื้อเพลิง"
+  },
+  {
+   "k": "hint.c1_nav.1",
+   "en": "Every destination leads somewhere different. Low fuel makes far ones risky.",
+   "th": "ทุกจุดหมายพาไปคนละที่ ถ้าเชื้อเพลิงน้อย ที่ไกลๆ จะเสี่ยง"
+  },
+  {
+   "k": "hint.c1_nav.2",
+   "en": "Mars is the safe choice. Earth ends on the Moon. Titan is the hardest but lands at the gate.",
+   "th": "ดาวอังคารปลอดภัยสุด โลกจะไปจบที่ดวงจันทร์ ไททันยากสุดแต่ลงจอดข้างประตู"
+  },
+  {
+   "k": "hint.c1_manual.1",
+   "en": "Each world has its own landing steps. Real astronauts read them first.",
+   "th": "แต่ละดาวมีขั้นตอนลงจอดของตัวเอง นักบินตัวจริงก็อ่านก่อน"
+  },
+  {
+   "k": "hint.c1_manual.2",
+   "en": "The landing manual is on the shelf in Cargo.",
+   "th": "คู่มือลงจอดอยู่บนชั้นวางในห้องเก็บของ"
+  },
+  {
+   "k": "hint.c1_edl.1",
+   "en": "Ask: does this world have air? Air means heat shields and parachutes; no air means rockets.",
+   "th": "ถามตัวเองว่าดาวนี้มีอากาศไหม มีอากาศ = ใช้โล่กับร่ม ไม่มีอากาศ = ใช้จรวด"
+  },
+  {
+   "k": "hint.c1_edl.2",
+   "en": "Open the landing card for your world (C) and follow its steps in order.",
+   "th": "เปิดการ์ดลงจอดของดาวที่เลือก (C) แล้วทำตามลำดับ"
+  },
+  {
+   "k": "hint.c2_incident.1",
+   "en": "The alarm banner says where to go. Run there and click the flashing thing!",
+   "th": "แถบเตือนบอกว่าต้องไปที่ไหน รีบไปแล้วคลิกสิ่งที่กะพริบ!"
+  },
+  {
+   "k": "hint.c2_incident.2",
+   "en": "Walk to that room and click the blinking machine before the bar runs out.",
+   "th": "เดินไปห้องนั้นแล้วคลิกเครื่องที่กะพริบก่อนแถบเวลาหมด"
+  },
+  {
+   "k": "hint.c2_prepare.1",
+   "en": "Tonight's forecast is on the right. Prepare before you sleep.",
+   "th": "พยากรณ์คืนนี้อยู่ด้านขวา เตรียมตัวก่อนนอน"
+  },
+  {
+   "k": "hint.c2_prepare.2",
+   "en": "Do what the forecast says (it turns green when you are ready), then go to bed.",
+   "th": "ทำตามที่พยากรณ์บอก (พร้อมแล้วจะขึ้นสีเขียว) แล้วค่อยเข้านอน"
+  },
+  {
+   "k": "hint.c2_wait.1",
+   "en": "The work is done. Now stay alive until day 7.",
+   "th": "งานเสร็จแล้ว ตอนนี้ต้องรอดให้ถึงวันที่ 7"
+  },
+  {
+   "k": "hint.c2_wait.2",
+   "en": "Keep O₂, water and food up, prepare for each forecast, and sleep to reach day 7.",
+   "th": "รักษา O₂ น้ำ อาหาร เตรียมรับพยากรณ์ทุกคืน แล้วนอนจนถึงวันที่ 7"
+  },
+  {
+   "k": "hint.mars_low_o2.1",
+   "en": "Oxygen is low! MOXIE in Life Support turns Mars air into oxygen.",
+   "th": "ออกซิเจนเหลือน้อย! MOXIE ในห้องระบบยังชีพเปลี่ยนอากาศดาวอังคารเป็นออกซิเจน"
+  },
+  {
+   "k": "hint.mars_low_o2.2",
+   "en": "Use MOXIE now. It costs power, so watch the power bar too.",
+   "th": "ใช้ MOXIE เลย มันกินไฟ ต้องดูแถบไฟฟ้าด้วย"
+  },
+  {
+   "k": "hint.mars_low_water.1",
+   "en": "Water is low. Recycle it, or drill for ice outside.",
+   "th": "น้ำเหลือน้อย รีไซเคิลหรือเจาะน้ำแข็งข้างนอก"
+  },
+  {
+   "k": "hint.mars_low_water.2",
+   "en": "Use the recycler in Life Support, or the ice drill outside once it has a bit.",
+   "th": "ใช้เครื่องรีไซเคิลในห้องระบบยังชีพ หรือสว่านข้างนอกถ้าใส่หัวแล้ว"
+  },
+  {
+   "k": "hint.mars_low_power.1",
+   "en": "Power is low. Clean panels make more.",
+   "th": "ไฟฟ้าเหลือน้อย แผงที่สะอาดผลิตไฟได้มากกว่า"
+  },
+  {
+   "k": "hint.mars_low_power.2",
+   "en": "Go outside and clean the solar panels.",
+   "th": "ออกไปเช็ดแผงโซลาร์ข้างนอก"
+  },
+  {
+   "k": "hint.c2_line.1",
+   "en": "The fuel line needs a patch: a plate plus something sticky.",
+   "th": "ท่อเชื้อเพลิงต้องใช้แผ่นปะ: แผ่นโลหะกับอะไรเหนียวๆ"
+  },
+  {
+   "k": "hint.c2_line.2",
+   "en": "A metal plate lies outside; sealant is in the Crew quarters toolbox. Click one item, then the other.",
+   "th": "แผ่นโลหะอยู่ข้างนอก กาวซีลอยู่ในกล่องเครื่องมือห้องพัก คลิกไอเทมหนึ่ง แล้วอีกอัน"
+  },
+  {
+   "k": "hint.c2_line_fix.1",
+   "en": "You have the pipe patch. Put it on the fuel line.",
+   "th": "คุณมีแผ่นปะท่อแล้ว เอาไปปะท่อได้เลย"
+  },
+  {
+   "k": "hint.c2_line_fix.2",
+   "en": "Click the broken fuel line in the Fuel Bay.",
+   "th": "คลิกท่อเชื้อเพลิงที่แตกในห้องเชื้อเพลิง"
+  },
+  {
+   "k": "hint.c2_catalyst.1",
+   "en": "The fuel reactor needs the right catalyst. Read the reactor first.",
+   "th": "เครื่องผลิตเชื้อเพลิงต้องใช้ตัวเร่งปฏิกิริยาที่ถูกต้อง อ่านที่เครื่องก่อน"
+  },
+  {
+   "k": "hint.c2_catalyst.2",
+   "en": "The Sabatier card names the metal: nickel (Ni). It's in the Life Support cabinet.",
+   "th": "การ์ด Sabatier บอกว่าเป็นนิกเกิล (Ni) อยู่ในตู้ห้องระบบยังชีพ"
+  },
+  {
+   "k": "hint.mars_progress.1",
+   "en": "Each reactor run makes fuel but uses water and power.",
+   "th": "เดินเครื่องแต่ละครั้งได้เชื้อเพลิง แต่ใช้น้ำและไฟ"
+  },
+  {
+   "k": "hint.mars_progress.2",
+   "en": "Run the Sabatier reactor until fuel is full; keep water and power above red.",
+   "th": "เดินเครื่อง Sabatier จนเต็ม รักษาน้ำกับไฟไม่ให้แดง"
+  },
+  {
+   "k": "hint.mars_goal.1",
+   "en": "Everything is ready. Go home to orbit!",
+   "th": "ทุกอย่างพร้อมแล้ว กลับขึ้นวงโคจรกัน!"
+  },
+  {
+   "k": "hint.mars_goal.2",
+   "en": "Use the main console in the Cockpit.",
+   "th": "ใช้คอนโซลหลักในห้องนักบิน"
+  },
+  {
+   "k": "hint.moon_low_o2.1",
+   "en": "Oxygen is low! The generator splits water into oxygen.",
+   "th": "ออกซิเจนเหลือน้อย! เครื่องแยกน้ำเป็นออกซิเจน"
+  },
+  {
+   "k": "hint.moon_low_o2.2",
+   "en": "Use the oxygen generator in Life Support. It uses water and power.",
+   "th": "ใช้เครื่องผลิตออกซิเจนในห้องระบบยังชีพ ใช้น้ำกับไฟ"
+  },
+  {
+   "k": "hint.moon_low_water.1",
+   "en": "Water is low. Recycle it, or drill ice from the dark crater.",
+   "th": "น้ำเหลือน้อย รีไซเคิลหรือเจาะน้ำแข็งจากหลุมมืด"
+  },
+  {
+   "k": "hint.moon_low_water.2",
+   "en": "Use the recycler, or the drill at the crater edge outside.",
+   "th": "ใช้เครื่องรีไซเคิล หรือสว่านที่ขอบหลุมข้างนอก"
+  },
+  {
+   "k": "hint.moon_low_power.1",
+   "en": "Power is low. Moon dust dims the panels.",
+   "th": "ไฟฟ้าเหลือน้อย ฝุ่นดวงจันทร์ทำให้แผงหมอง"
+  },
+  {
+   "k": "hint.moon_low_power.2",
+   "en": "Go outside and clean the solar panels.",
+   "th": "ออกไปเช็ดแผงโซลาร์ข้างนอก"
+  },
+  {
+   "k": "hint.moon_antenna.1",
+   "en": "The dish needs a feed horn and a cable.",
+   "th": "จานต้องใช้หัวรับสัญญาณกับสาย"
+  },
+  {
+   "k": "hint.moon_antenna.2",
+   "en": "The cable is in the Life Support cabinet; the feed horn is in the cargo pod outside (code: the year of the first Moon landing).",
+   "th": "สายอยู่ในตู้ห้องระบบยังชีพ หัวรับสัญญาณอยู่ในกล่องสัมภาระข้างนอก (รหัส: ปีที่ลงจอดดวงจันทร์ครั้งแรก)"
+  },
+  {
+   "k": "hint.moon_combine.1",
+   "en": "You have both parts. Combine them.",
+   "th": "มีอะไหล่ครบแล้ว รวมกันเลย"
+  },
+  {
+   "k": "hint.moon_combine.2",
+   "en": "Click the feed horn, then the cable, in the item bar.",
+   "th": "คลิกหัวรับสัญญาณ แล้วคลิกสาย ในแถบไอเทม"
+  },
+  {
+   "k": "hint.moon_aim.1",
+   "en": "Point the dish at Earth. Where is Earth in this sky?",
+   "th": "หันจานไปหาโลก โลกอยู่ตรงไหนบนท้องฟ้านี้?"
+  },
+  {
+   "k": "hint.moon_aim.2",
+   "en": "At the south pole Earth sits low on the horizon. Check the Earth card.",
+   "th": "ที่ขั้วใต้ โลกอยู่ต่ำเหนือขอบฟ้า ดูการ์ดโลกบนท้องฟ้า"
+  },
+  {
+   "k": "hint.moon_drill.1",
+   "en": "Ice survives only where the Sun never shines.",
+   "th": "น้ำแข็งอยู่ได้เฉพาะที่ที่แสงแดดไม่เคยส่องถึง"
+  },
+  {
+   "k": "hint.moon_drill.2",
+   "en": "Click the crater edge outside and choose the dark crater floor.",
+   "th": "คลิกขอบหลุมข้างนอกแล้วเลือกก้นหลุมที่มืด"
+  },
+  {
+   "k": "hint.moon_progress.1",
+   "en": "Send the signal again and again until Earth locks on.",
+   "th": "ส่งสัญญาณซ้ำๆ จนโลกจับได้"
+  },
+  {
+   "k": "hint.moon_progress.2",
+   "en": "Use the Comms computer in the Cockpit. Each send uses power.",
+   "th": "ใช้คอมพิวเตอร์สื่อสารในห้องนักบิน ส่งแต่ละครั้งใช้ไฟ"
+  },
+  {
+   "k": "hint.moon_goal.1",
+   "en": "The rescue ship is here!",
+   "th": "ยานกู้ภัยมาแล้ว!"
+  },
+  {
+   "k": "hint.moon_goal.2",
+   "en": "Use the main console in the Cockpit.",
+   "th": "ใช้คอนโซลหลักในห้องนักบิน"
+  },
+  {
+   "k": "hint.titan_low_o2.1",
+   "en": "Oxygen is low! Split water into oxygen.",
+   "th": "ออกซิเจนเหลือน้อย! แยกน้ำเป็นออกซิเจน"
+  },
+  {
+   "k": "hint.titan_low_o2.2",
+   "en": "Use the oxygen generator in Life Support. It uses water and power.",
+   "th": "ใช้เครื่องผลิตออกซิเจนในห้องระบบยังชีพ ใช้น้ำกับไฟ"
+  },
+  {
+   "k": "hint.titan_low_water.1",
+   "en": "Water is low. Titan's ground is made of ice.",
+   "th": "น้ำเหลือน้อย พื้นไททันทำจากน้ำแข็ง"
+  },
+  {
+   "k": "hint.titan_low_water.2",
+   "en": "Use the recycler, or drill outside with a heated bit.",
+   "th": "ใช้เครื่องรีไซเคิล หรือเจาะข้างนอกด้วยหัวสว่านให้ความร้อน"
+  },
+  {
+   "k": "hint.titan_low_power.1",
+   "en": "Power is low. The RTG gives the same power every day, so spend it carefully.",
+   "th": "ไฟฟ้าเหลือน้อย RTG ให้ไฟเท่าเดิมทุกวัน ต้องใช้อย่างระวัง"
+  },
+  {
+   "k": "hint.titan_low_power.2",
+   "en": "Skip power-hungry jobs today and keep enough for the heaters tonight.",
+   "th": "งดงานที่กินไฟวันนี้ และเก็บไว้ให้เครื่องทำความร้อนคืนนี้"
+  },
+  {
+   "k": "hint.titan_suit.1",
+   "en": "Think about Titan's air before you step outside.",
+   "th": "ลองคิดถึงอากาศไททันก่อนออกไป"
+  },
+  {
+   "k": "hint.titan_suit.2",
+   "en": "Thick air means no pressure suit; deadly cold and no oxygen mean heat and a mask.",
+   "th": "อากาศหนา = ไม่ต้องใช้ชุดอัดแรงดัน หนาวจัดและไม่มีออกซิเจน = ต้องมีความร้อนกับหน้ากาก"
+  },
+  {
+   "k": "hint.titan_gate.1",
+   "en": "The gate panel wants a number about Titan.",
+   "th": "แผงประตูต้องการตัวเลขเกี่ยวกับไททัน"
+  },
+  {
+   "k": "hint.titan_gate.2",
+   "en": "It's Titan's temperature in degrees below zero. Check the Titan cold card.",
+   "th": "คืออุณหภูมิไททันกี่องศาต่ำกว่าศูนย์ ดูการ์ดความหนาวไททัน"
+  },
+  {
+   "k": "hint.titan_drill.1",
+   "en": "A frozen drill bit would shatter. Warm it up.",
+   "th": "หัวสว่านเย็นๆ จะแตก ต้องอุ่นก่อน"
+  },
+  {
+   "k": "hint.titan_drill.2",
+   "en": "Drill bit (Cargo crates) + heater coil (Life Support cabinet) = heated bit.",
+   "th": "หัวสว่าน (ลังห้องเก็บของ) + ขดลวดความร้อน (ตู้ห้องระบบยังชีพ) = หัวสว่านให้ความร้อน"
+  },
+  {
+   "k": "hint.titan_progress.1",
+   "en": "Charge the gate outside. Each charge uses a lot of power.",
+   "th": "ชาร์จประตูข้างนอก แต่ละครั้งใช้ไฟมาก"
+  },
+  {
+   "k": "hint.titan_progress.2",
+   "en": "Charge the gate, but keep 40 power for Saturn's shadow night.",
+   "th": "ชาร์จประตู แต่เก็บไฟ 40 ไว้สำหรับคืนเงาดาวเสาร์"
+  },
+  {
+   "k": "hint.titan_goal.1",
+   "en": "The gate is ready. Open it!",
+   "th": "ประตูพร้อมแล้ว เปิดเลย!"
+  },
+  {
+   "k": "hint.titan_goal.2",
+   "en": "Use the main console in the Cockpit.",
+   "th": "ใช้คอนโซลหลักในห้องนักบิน"
+  },
+  {
+   "k": "menu.new",
+   "en": "New mission",
+   "th": "เริ่มภารกิจใหม่"
+  },
+  {
+   "k": "menu.continue",
+   "en": "Continue",
+   "th": "เล่นต่อ"
+  },
+  {
+   "k": "menu.cards",
+   "en": "Knowledge card book",
+   "th": "สมุดการ์ดความรู้"
+  },
+  {
+   "k": "menu.howto",
+   "en": "How to play",
+   "th": "วิธีเล่น"
+  },
+  {
+   "k": "menu.settings",
+   "en": "Settings",
+   "th": "ตั้งค่า"
+  },
+  {
+   "k": "menu.credits",
+   "en": "Credits",
+   "th": "เครดิต"
+  },
+  {
+   "k": "menu.quit",
+   "en": "Quit",
+   "th": "ออกจากเกม"
+  },
+  {
+   "k": "menu.version",
+   "en": "Prototype · NASA Junior Astronaut Mission Trainer",
+   "th": "ต้นแบบ · NASA Junior Astronaut Mission Trainer"
+  },
+  {
+   "k": "pause.title",
+   "en": "Paused",
+   "th": "หยุดชั่วคราว"
+  },
+  {
+   "k": "pause.resume",
+   "en": "Resume",
+   "th": "เล่นต่อ"
+  },
+  {
+   "k": "pause.restart",
+   "en": "Restart mission from the start",
+   "th": "เริ่มภารกิจใหม่ตั้งแต่ต้น"
+  },
+  {
+   "k": "pause.menu",
+   "en": "Main menu",
+   "th": "กลับเมนูหลัก"
+  },
+  {
+   "k": "set.master",
+   "en": "Master volume",
+   "th": "เสียงรวม"
+  },
+  {
+   "k": "set.effects",
+   "en": "Sound effects",
+   "th": "เสียงเอฟเฟกต์"
+  },
+  {
+   "k": "set.ambience",
+   "en": "Ship ambience",
+   "th": "เสียงบรรยากาศในยาน"
+  },
+  {
+   "k": "set.textsize",
+   "en": "Text size",
+   "th": "ขนาดตัวอักษร"
+  },
+  {
+   "k": "set.textspeed",
+   "en": "Dialogue speed",
+   "th": "ความเร็วข้อความ"
+  },
+  {
+   "k": "set.speed.slow",
+   "en": "Slow",
+   "th": "ช้า"
+  },
+  {
+   "k": "set.speed.normal",
+   "en": "Normal",
+   "th": "ปกติ"
+  },
+  {
+   "k": "set.speed.fast",
+   "en": "Fast",
+   "th": "เร็ว"
+  },
+  {
+   "k": "set.speed.instant",
+   "en": "Instant",
+   "th": "ทันที"
+  },
+  {
+   "k": "set.fullscreen",
+   "en": "Full screen",
+   "th": "เต็มจอ"
+  },
+  {
+   "k": "set.on",
+   "en": "On",
+   "th": "เปิด"
+  },
+  {
+   "k": "set.off",
+   "en": "Off",
+   "th": "ปิด"
+  },
+  {
+   "k": "set.language",
+   "en": "Language",
+   "th": "ภาษา"
+  },
+  {
+   "k": "set.note",
+   "en": "Settings are saved automatically.",
+   "th": "ระบบบันทึกการตั้งค่าให้อัตโนมัติ"
+  },
+  {
+   "k": "ui.skip",
+   "en": "Skip  (Space)",
+   "th": "ข้าม  (Space)"
+  },
+  {
+   "k": "end.retry_landing",
+   "en": "Retry from the landing",
+   "th": "ลองใหม่ตั้งแต่ลงจอด"
+  },
+  {
+   "k": "codex.group.1",
+   "en": "Deep space & living in space",
+   "th": "ห้วงอวกาศและการใช้ชีวิตในอวกาศ"
+  },
+  {
+   "k": "codex.group.2",
+   "en": "Route: Mars",
+   "th": "เส้นทาง: ดาวอังคาร"
+  },
+  {
+   "k": "codex.group.3",
+   "en": "Route: the Moon",
+   "th": "เส้นทาง: ดวงจันทร์"
+  },
+  {
+   "k": "codex.group.4",
+   "en": "Route: Titan",
+   "th": "เส้นทาง: ไททัน"
+  },
+  {
+   "k": "cut.intro.1",
+   "en": "YEAR 2177 · the ship Kestrel crosses the outer solar system",
+   "th": "ปี 2177 · ยาน Kestrel เดินทางข้ามระบบสุริยะชั้นนอก"
+  },
+  {
+   "k": "cut.intro.2",
+   "en": "DESTINATION · the warp gate at Titan, door to another galaxy",
+   "th": "จุดหมาย · ประตูวาปที่ไททัน ทางผ่านไปอีกกาแล็กซี"
+  },
+  {
+   "k": "cut.impact.1",
+   "en": "DEBRIS · a fragment at 7 kilometres per second",
+   "th": "ขยะอวกาศ · เศษชิ้นส่วนความเร็ว 7 กิโลเมตรต่อวินาที"
+  },
+  {
+   "k": "cut.impact.2",
+   "en": "THE FUEL BAY IS BREACHED · air and fuel are venting",
+   "th": "ห้องเชื้อเพลิงทะลุ · อากาศและเชื้อเพลิงกำลังรั่วออก"
+  },
+  {
+   "k": "credits.1.title",
+   "en": "Made for",
+   "th": "สร้างเพื่อ"
+  },
+  {
+   "k": "credits.1.body",
+   "en": "NASA activity: Build a Junior Astronaut Mission Trainer. Team Overtimepw.",
+   "th": "กิจกรรม NASA: Build a Junior Astronaut Mission Trainer · ทีม Overtimepw"
+  },
+  {
+   "k": "credits.2.title",
+   "en": "Science",
+   "th": "ข้อมูลวิทยาศาสตร์"
+  },
+  {
+   "k": "credits.2.body",
+   "en": "Facts from NASA missions: Apollo, Artemis, LCROSS, Perseverance and MOXIE, InSight, Phoenix, Opportunity, Cassini-Huygens (NASA/ESA), Dragonfly, the International Space Station.",
+   "th": "ข้อมูลจากภารกิจของ NASA: อพอลโล, Artemis, LCROSS, Perseverance และ MOXIE, InSight, Phoenix, Opportunity, คาสสินี-ฮอยเกนส์ (NASA/ESA), Dragonfly และสถานีอวกาศนานาชาติ"
+  },
+  {
+   "k": "credits.3.title",
+   "en": "Font",
+   "th": "ฟอนต์"
+  },
+  {
+   "k": "credits.3.body",
+   "en": "Chakra Petch by Cadson Demak, SIL Open Font License.",
+   "th": "Chakra Petch โดย Cadson Demak สัญญาอนุญาต SIL Open Font License"
+  },
+  {
+   "k": "credits.4.title",
+   "en": "Art and sound",
+   "th": "ภาพและเสียง"
+  },
+  {
+   "k": "credits.4.body",
+   "en": "All pixel art and sound effects are made in code for this game. No art from other games is used.",
+   "th": "ภาพ pixel art และเสียงทั้งหมดสร้างด้วยโค้ดสำหรับเกมนี้ ไม่ได้ใช้ภาพจากเกมอื่น"
+  },
+  {
+   "k": "credits.5.title",
+   "en": "Engine",
+   "th": "เอนจิน"
+  },
+  {
+   "k": "credits.5.body",
+   "en": "Unity 6000.3. Inspired in mechanics only by point-and-click and survival-management games.",
+   "th": "Unity 6000.3 · ได้แรงบันดาลใจด้านกลไกจากเกมแนว point-and-click และเกมบริหารการเอาชีวิตรอด"
+  },
+  {
+   "k": "howto.1.title",
+   "en": "Click to move and act",
+   "th": "คลิกเพื่อเดินและทำสิ่งต่างๆ"
+  },
+  {
+   "k": "howto.1.body",
+   "en": "Click a thing and the astronaut walks to it and uses it. Hold Space to light up everything you can use.",
+   "th": "คลิกที่สิ่งของ นักบินจะเดินไปใช้งาน กด Space ค้างไว้เพื่อให้ทุกอย่างที่ใช้ได้สว่างขึ้น"
+  },
+  {
+   "k": "howto.2.title",
+   "en": "Items",
+   "th": "ไอเทม"
+  },
+  {
+   "k": "howto.2.body",
+   "en": "Found items go in the bar at the bottom. Click an item, then click a thing to use it on, or another item to combine them.",
+   "th": "ของที่เก็บได้จะอยู่ในแถบด้านล่าง คลิกไอเทมแล้วคลิกสิ่งของเพื่อใช้ หรือคลิกไอเทมอีกอันเพื่อรวมกัน"
+  },
+  {
+   "k": "howto.3.title",
+   "en": "Knowledge cards are your clues",
+   "th": "การ์ดความรู้คือเบาะแส"
+  },
+  {
+   "k": "howto.3.body",
+   "en": "Every code and every right answer is written on a real NASA knowledge card. Open them with C. You never need to guess.",
+   "th": "ทุกรหัสและทุกคำตอบเขียนอยู่บนการ์ดความรู้ของ NASA จริง เปิดดูได้ด้วยปุ่ม C ไม่ต้องเดาเลย"
+  },
+  {
+   "k": "howto.4.title",
+   "en": "ORBI helps",
+   "th": "ORBI ช่วยได้"
+  },
+  {
+   "k": "howto.4.body",
+   "en": "Stuck? Press H. ORBI gives a small nudge first, then a bigger one.",
+   "th": "ติดอยู่? กด H ORBI จะใบ้เล็กๆ ก่อน แล้วค่อยใบ้มากขึ้น"
+  },
+  {
+   "k": "howto.5.title",
+   "en": "Every job takes time",
+   "th": "ทุกงานใช้เวลา"
+  },
+  {
+   "k": "howto.5.body",
+   "en": "On the planet you must survive 7 days, with a few actions each day. Plan them: oxygen, water, power and food are all linked.",
+   "th": "บนดาวต้องรอดให้ได้ 7 วัน และในแต่ละวันคุณทำงานได้ไม่กี่อย่างต่อวัน ต้องวางแผน เพราะออกซิเจน น้ำ ไฟฟ้า และอาหารเชื่อมโยงกันหมด"
+  },
+  {
+   "k": "howto.6.title",
+   "en": "Read the forecast",
+   "th": "อ่านพยากรณ์"
+  },
+  {
+   "k": "howto.6.body",
+   "en": "The panel on the right shows tonight's danger and how to prepare. Green means you are ready. A big event is warned days ahead.",
+   "th": "แผงด้านขวาบอกอันตรายของคืนนี้และวิธีเตรียมตัว สีเขียวแปลว่าพร้อมแล้ว เหตุการณ์ใหญ่จะเตือนล่วงหน้าหลายวัน"
+  },
+  {
+   "k": "howto.7.title",
+   "en": "Emergencies",
+   "th": "เหตุฉุกเฉิน"
+  },
+  {
+   "k": "howto.7.body",
+   "en": "When the red banner appears, run to the flashing machine before the bar runs out.",
+   "th": "เมื่อแถบสีแดงขึ้น ให้รีบวิ่งไปที่เครื่องที่กะพริบก่อนแถบเวลาหมด"
+  },
+  {
+   "k": "howto.8.title",
+   "en": "Three worlds",
+   "th": "สามเส้นทาง"
+  },
+  {
+   "k": "howto.8.body",
+   "en": "After the accident you choose Mars, Earth (the Moon) or Titan. Each is a different chapter with different science. Play them all to fill the card book.",
+   "th": "หลังเกิดอุบัติเหตุ คุณเลือกได้ว่าจะไปดาวอังคาร โลก (ดวงจันทร์) หรือไททัน แต่ละทางเป็นคนละบทและสอนวิทยาศาสตร์คนละเรื่อง เล่นให้ครบเพื่อเก็บการ์ดให้เต็มสมุด"
+  },
+  {
+   "k": "card.titan.title",
+   "en": "Titan, Saturn's giant moon",
+   "th": "ไททัน ดวงจันทร์ยักษ์ของดาวเสาร์"
+  },
+  {
+   "k": "card.titan.body",
+   "en": "Titan is Saturn's largest moon, bigger than the planet Mercury. It has a thick nitrogen atmosphere and lakes of liquid methane. The Huygens probe from the NASA/ESA Cassini-Huygens mission landed there in 2005.",
+   "th": "ไททันเป็นดวงจันทร์ที่ใหญ่ที่สุดของดาวเสาร์ ใหญ่กว่าดาวพุธเสียอีก มีชั้นบรรยากาศไนโตรเจนหนาแน่นและทะเลสาบมีเทนเหลว ยานฮอยเกนส์จากภารกิจคาสสินี-ฮอยเกนส์ของ NASA และ ESA ลงจอดที่นั่นในปี 2005"
+  },
+  {
+   "k": "card.debris.title",
+   "en": "Space debris",
+   "th": "ขยะอวกาศ"
+  },
+  {
+   "k": "card.debris.body",
+   "en": "Old satellites and rocket parts break into millions of pieces. In orbit around Earth they fly at about 7 kilometres per second, roughly ten times faster than a bullet. NASA tracks the big pieces; even a fleck of paint can chip a window. Remember: about 7 km/s.",
+   "th": "ดาวเทียมเก่าและชิ้นส่วนจรวดแตกออกเป็นชิ้นเล็กชิ้นน้อยนับล้านชิ้น ในวงโคจรรอบโลกพวกมันวิ่งเร็วประมาณ 7 กิโลเมตรต่อวินาที เร็วกว่ากระสุนปืนราวสิบเท่า NASA ติดตามชิ้นใหญ่ๆ ไว้ แม้แต่สะเก็ดสีก็ทำให้กระจกยานบิ่นได้ จำไว้: ประมาณ 7 กม./วินาที"
+  },
+  {
+   "k": "card.whipple.title",
+   "en": "The Whipple shield",
+   "th": "โล่วิปเปิล"
+  },
+  {
+   "k": "card.whipple.body",
+   "en": "Spacecraft like the International Space Station use Whipple shields: a thin outer bumper placed a little away from the wall. Debris that hits the bumper shatters into a spray of tiny bits that spreads its energy out, so the main wall survives.",
+   "th": "ยานอวกาศอย่างสถานีอวกาศนานาชาติใช้โล่วิปเปิล คือแผ่นกันชนบางๆ ที่ติดห่างจากผนังยานเล็กน้อย เมื่อขยะอวกาศชนแผ่นนี้ จะแตกกระจายเป็นละอองเล็กๆ ที่กระจายพลังงานออกไป ผนังหลักจึงรอด"
+  },
+  {
+   "k": "card.deltav.title",
+   "en": "Fuel and delta-v",
+   "th": "เชื้อเพลิงกับเดลต้า-วี"
+  },
+  {
+   "k": "card.deltav.body",
+   "en": "In space you change speed or direction only by firing engines. Engineers call this change delta-v. Every destination needs a certain delta-v, so it needs a certain amount of fuel. With little fuel left, every choice has a cost.",
+   "th": "ในอวกาศ การเปลี่ยนความเร็วหรือทิศทางทำได้ด้วยการจุดเครื่องยนต์เท่านั้น วิศวกรเรียกสิ่งนี้ว่าเดลต้า-วี จุดหมายแต่ละที่ต้องใช้เดลต้า-วีต่างกัน จึงต้องใช้เชื้อเพลิงต่างกัน ถ้าเหลือเชื้อเพลิงน้อย ทุกทางเลือกมีราคาที่ต้องจ่าย"
+  },
+  {
+   "k": "card.edl.title",
+   "en": "Mars landing: 7 minutes of terror",
+   "th": "ลงจอดดาวอังคาร: 7 นาทีระทึกขวัญ"
+  },
+  {
+   "k": "card.edl.body",
+   "en": "Landing on Mars takes about seven minutes, too fast for people on Earth to help. 1) The heat shield takes the heat of entry. 2) A supersonic parachute opens. 3) The heat shield drops away so radar can see the ground. 4) Rockets slow the lander for touchdown. NASA's Perseverance rover landed this way in 2021.",
+   "th": "การลงจอดบนดาวอังคารใช้เวลาประมาณ 7 นาที เร็วเกินกว่าคนบนโลกจะช่วยทัน 1) โล่กันความร้อนรับความร้อนตอนเข้าชั้นบรรยากาศ 2) กางร่มชูชีพความเร็วเหนือเสียง 3) ปลดโล่ทิ้งให้เรดาร์เห็นพื้น 4) จุดจรวดชะลอเพื่อแตะพื้น รถสำรวจ Perseverance ของ NASA ลงจอดแบบนี้ในปี 2021"
+  },
+  {
+   "k": "card.sol.title",
+   "en": "A day on Mars: the sol",
+   "th": "หนึ่งวันบนดาวอังคาร: sol"
+  },
+  {
+   "k": "card.sol.body",
+   "en": "Mars spins a little slower than Earth. One Mars day, called a sol, lasts 24 hours, 39 minutes and 35 seconds. Mission teams on Earth even shift their own clocks to Mars time during rover missions.",
+   "th": "ดาวอังคารหมุนรอบตัวเองช้ากว่าโลกเล็กน้อย หนึ่งวันบนดาวอังคารเรียกว่า sol ยาว 24 ชั่วโมง 39 นาที 35 วินาที ทีมภารกิจบนโลกถึงกับปรับนาฬิกาตัวเองเป็นเวลาดาวอังคารระหว่างภารกิจรถสำรวจ"
+  },
+  {
+   "k": "card.mars_air.title",
+   "en": "Mars air",
+   "th": "อากาศบนดาวอังคาร"
+  },
+  {
+   "k": "card.mars_air.body",
+   "en": "The air on Mars is about 95% carbon dioxide and very thin: the pressure is less than 1% of Earth's. People cannot breathe it. But that carbon dioxide is useful: it can be turned into oxygen and fuel.",
+   "th": "อากาศบนดาวอังคารเป็นคาร์บอนไดออกไซด์ประมาณ 95% และเบาบางมาก ความดันไม่ถึง 1% ของโลก คนหายใจไม่ได้ แต่คาร์บอนไดออกไซด์นี้มีประโยชน์ เพราะเปลี่ยนเป็นออกซิเจนและเชื้อเพลิงได้"
+  },
+  {
+   "k": "card.moxie.title",
+   "en": "MOXIE: oxygen from Mars air",
+   "th": "MOXIE: ออกซิเจนจากอากาศดาวอังคาร"
+  },
+  {
+   "k": "card.moxie.body",
+   "en": "MOXIE was a small machine on NASA's Perseverance rover. From 2021 to 2023 it pulled carbon dioxide from the Martian air and split it to make oxygen, 122 grams in total, using electrical power.",
+   "th": "MOXIE เป็นเครื่องเล็กๆ บนรถสำรวจ Perseverance ของ NASA ระหว่างปี 2021 ถึง 2023 มันดึงคาร์บอนไดออกไซด์จากอากาศดาวอังคารแล้วแยกเป็นออกซิเจน ได้ทั้งหมด 122 กรัม โดยใช้ไฟฟ้า"
+  },
+  {
+   "k": "card.water_recycle.title",
+   "en": "Recycling water in space",
+   "th": "รีไซเคิลน้ำในอวกาศ"
+  },
+  {
+   "k": "card.water_recycle.body",
+   "en": "On the International Space Station, the life support system recovers about 98% of the water the crew use, including sweat and urine, and turns it back into clean drinking water.",
+   "th": "บนสถานีอวกาศนานาชาติ ระบบยังชีพนำน้ำที่ลูกเรือใช้กลับมาได้ประมาณ 98% รวมถึงเหงื่อและปัสสาวะ แล้วทำให้เป็นน้ำดื่มสะอาดอีกครั้ง"
+  },
+  {
+   "k": "card.ice.title",
+   "en": "Water ice under Mars",
+   "th": "น้ำแข็งใต้ดินดาวอังคาร"
+  },
+  {
+   "k": "card.ice.body",
+   "en": "Mars has water frozen under its surface. In 2008 NASA's Phoenix lander dug a trench and watched bright bits of ice slowly disappear into the thin air.",
+   "th": "ใต้ผิวดาวอังคารมีน้ำแข็งอยู่ ในปี 2008 ยาน Phoenix ของ NASA ขุดร่องดินแล้วเห็นก้อนน้ำแข็งสีขาวค่อยๆ ระเหยหายไปในอากาศบางๆ"
+  },
+  {
+   "k": "card.solar.title",
+   "en": "Solar power far from the Sun",
+   "th": "พลังงานแสงอาทิตย์ไกลจากดวงอาทิตย์"
+  },
+  {
+   "k": "card.solar.body",
+   "en": "Mars gets only about 43% of the sunlight Earth gets, and dust settles on panels. NASA's InSight lander ended its mission in 2022 when dust covered its panels. Clean panels make much more power.",
+   "th": "ดาวอังคารได้แสงแดดแค่ประมาณ 43% ของโลก และฝุ่นยังเกาะบนแผงอีก ยาน InSight ของ NASA ต้องจบภารกิจในปี 2022 เพราะฝุ่นปกคลุมแผง แผงที่สะอาดผลิตไฟได้มากกว่ามาก"
+  },
+  {
+   "k": "card.sabatier.title",
+   "en": "The Sabatier reaction",
+   "th": "ปฏิกิริยาซาบาติเย"
+  },
+  {
+   "k": "card.sabatier.body",
+   "en": "CO₂ + 4H₂ → CH₄ + 2H₂O. With heat and a NICKEL (Ni) catalyst, carbon dioxide and hydrogen become methane and water. The Space Station uses a Sabatier system to recover water; on Mars the same reaction could make methane rocket fuel.",
+   "th": "CO₂ + 4H₂ → CH₄ + 2H₂O เมื่อมีความร้อนและตัวเร่งปฏิกิริยานิกเกิล (Ni) คาร์บอนไดออกไซด์กับไฮโดรเจนจะกลายเป็นมีเทนและน้ำ สถานีอวกาศใช้ระบบ Sabatier นำน้ำกลับมาใช้ บนดาวอังคารปฏิกิริยาเดียวกันนี้ผลิตเชื้อเพลิงจรวดมีเทนได้"
+  },
+  {
+   "k": "card.radiation.title",
+   "en": "Space radiation and water",
+   "th": "รังสีอวกาศกับน้ำ"
+  },
+  {
+   "k": "card.radiation.body",
+   "en": "Solar flares blast out fast particles. Places with no magnetic field and thin or no air get more radiation at the surface. Water is rich in hydrogen, which makes it a great shield, so shelters can be surrounded by water tanks.",
+   "th": "การปะทุบนดวงอาทิตย์ปล่อยอนุภาคความเร็วสูงออกมา ที่ที่ไม่มีสนามแม่เหล็กและอากาศบางหรือไม่มีเลย รังสีจะลงมาถึงพื้นมากกว่า น้ำมีไฮโดรเจนมากจึงเป็นเกราะที่ดี ที่หลบภัยจึงล้อมด้วยถังน้ำได้"
+  },
+  {
+   "k": "card.dust_storm.title",
+   "en": "Mars dust storms",
+   "th": "พายุฝุ่นบนดาวอังคาร"
+  },
+  {
+   "k": "card.dust_storm.body",
+   "en": "Some Martian dust storms grow until they cover the whole planet for weeks. In 2018 a planet-wide storm blocked the sunlight that NASA's solar-powered Opportunity rover needed, and it never woke up again.",
+   "th": "พายุฝุ่นบางครั้งบนดาวอังคารขยายจนปกคลุมทั้งดาวหลายสัปดาห์ ในปี 2018 พายุทั้งดาวบังแสงที่รถสำรวจ Opportunity ของ NASA ต้องใช้ และมันไม่ตื่นขึ้นมาอีกเลย"
+  },
+  {
+   "k": "card.moon_landing.title",
+   "en": "Landing where there is no air",
+   "th": "ลงจอดในที่ที่ไม่มีอากาศ"
+  },
+  {
+   "k": "card.moon_landing.body",
+   "en": "The Moon has no atmosphere, so parachutes and heat shields are useless. Apollo lunar modules landed using rocket engines only: slow down out of orbit, pitch upright so the radar sees the ground, hover to pick a safe spot, then touch down.",
+   "th": "ดวงจันทร์ไม่มีชั้นบรรยากาศ ร่มชูชีพและโล่กันความร้อนจึงไม่มีประโยชน์ ยานลงจอดของอพอลโลใช้จรวดอย่างเดียว: ลดความเร็วออกจากวงโคจร ปรับยานตั้งตรงให้เรดาร์เห็นพื้น ลอยตัวหาจุดปลอดภัย แล้วแตะพื้น"
+  },
+  {
+   "k": "card.apollo.title",
+   "en": "Apollo: three days to the Moon",
+   "th": "อพอลโล: สามวันถึงดวงจันทร์"
+  },
+  {
+   "k": "card.apollo.body",
+   "en": "Apollo 11 launched on 16 July 1969 and reached the Moon three days later. On 20 July 1969 Neil Armstrong and Buzz Aldrin became the first people to land on the Moon. Remember the year: 1969.",
+   "th": "อพอลโล 11 ปล่อยตัวเมื่อวันที่ 16 กรกฎาคม 1969 และถึงดวงจันทร์ในสามวันต่อมา วันที่ 20 กรกฎาคม 1969 นีล อาร์มสตรองกับบัซ อัลดรินเป็นมนุษย์คู่แรกที่ลงจอดบนดวงจันทร์ จำปีนี้ไว้: 1969"
+  },
+  {
+   "k": "card.moon_south.title",
+   "en": "The Moon's south pole",
+   "th": "ขั้วใต้ของดวงจันทร์"
+  },
+  {
+   "k": "card.moon_south.body",
+   "en": "At the Moon's south pole the Sun stays low on the horizon. Some mountain peaks are lit almost all the time, while some crater floors never see sunlight at all. NASA's Artemis missions plan to land astronauts there.",
+   "th": "ที่ขั้วใต้ของดวงจันทร์ ดวงอาทิตย์อยู่ต่ำเรี่ยขอบฟ้า ยอดเขาบางแห่งได้แสงเกือบตลอดเวลา ขณะที่ก้นหลุมบางแห่งไม่เคยได้แสงเลย ภารกิจ Artemis ของ NASA วางแผนส่งนักบินอวกาศไปลงที่นั่น"
+  },
+  {
+   "k": "card.moon_dust.title",
+   "en": "Sharp moon dust",
+   "th": "ฝุ่นดวงจันทร์ที่แหลมคม"
+  },
+  {
+   "k": "card.moon_dust.body",
+   "en": "Moon dust has never been smoothed by wind or water, so its grains stay sharp and jagged. On Apollo missions it scratched visors, clogged seals and clung to everything.",
+   "th": "ฝุ่นดวงจันทร์ไม่เคยถูกลมหรือน้ำขัดให้เรียบ เม็ดฝุ่นจึงแหลมคมเป็นเหลี่ยม ในภารกิจอพอลโล มันขูดหน้ากากหมวก อุดซีล และเกาะทุกอย่าง"
+  },
+  {
+   "k": "card.earth_sky.title",
+   "en": "Earth in the Moon's sky",
+   "th": "โลกบนท้องฟ้าของดวงจันทร์"
+  },
+  {
+   "k": "card.earth_sky.body",
+   "en": "The Moon always shows the same face to Earth, so from one place on the Moon, Earth stays in almost the same spot in the sky. From near the south pole, Earth hangs low, just above the horizon.",
+   "th": "ดวงจันทร์หันด้านเดิมเข้าหาโลกเสมอ เมื่อมองจากจุดเดียวบนดวงจันทร์ โลกจึงอยู่ที่เดิมบนท้องฟ้าเกือบตลอด จากใกล้ขั้วใต้ โลกลอยต่ำอยู่เหนือขอบฟ้า"
+  },
+  {
+   "k": "card.moon_ice.title",
+   "en": "Ice in the dark craters",
+   "th": "น้ำแข็งในหลุมมืด"
+  },
+  {
+   "k": "card.moon_ice.body",
+   "en": "In 2009 NASA's LCROSS mission crashed a rocket stage into Cabeus crater near the Moon's south pole and found water ice in the cloud it threw up. Craters that never see sunlight stay colder than -200 °C, so ice survives there.",
+   "th": "ในปี 2009 ภารกิจ LCROSS ของ NASA ชนท่อนจรวดเข้ากับหลุม Cabeus ใกล้ขั้วใต้ของดวงจันทร์ แล้วพบน้ำแข็งในกลุ่มฝุ่นที่พุ่งขึ้นมา หลุมที่ไม่เคยได้แสงจะเย็นกว่า -200 °C น้ำแข็งจึงอยู่ได้"
+  },
+  {
+   "k": "card.electrolysis.title",
+   "en": "Oxygen from water",
+   "th": "ออกซิเจนจากน้ำ"
+  },
+  {
+   "k": "card.electrolysis.body",
+   "en": "Electricity can split water (H₂O) into hydrogen and oxygen. This is called electrolysis. The International Space Station makes most of its crew's oxygen this way.",
+   "th": "ไฟฟ้าสามารถแยกน้ำ (H₂O) ออกเป็นไฮโดรเจนกับออกซิเจน เรียกว่าการแยกด้วยไฟฟ้า (อิเล็กโทรลิซิส) สถานีอวกาศนานาชาติผลิตออกซิเจนให้ลูกเรือส่วนใหญ่ด้วยวิธีนี้"
+  },
+  {
+   "k": "card.gravity_assist.title",
+   "en": "Gravity assist",
+   "th": "แรงเหวี่ยงจากดาวเคราะห์"
+  },
+  {
+   "k": "card.gravity_assist.body",
+   "en": "A spacecraft can borrow speed from a planet by flying close past it: a gravity assist. NASA's Voyager and Cassini probes used planet flybys to reach Saturn. Cassini launched in 1997 and arrived in 2004.",
+   "th": "ยานอวกาศยืมความเร็วจากดาวเคราะห์ได้ด้วยการบินเฉียดผ่าน เรียกว่าแรงเหวี่ยง ยาน Voyager และ Cassini ของ NASA ใช้การบินผ่านดาวเคราะห์เพื่อไปถึงดาวเสาร์ Cassini ปล่อยตัวในปี 1997 และไปถึงในปี 2004"
+  },
+  {
+   "k": "card.huygens.title",
+   "en": "Huygens lands on Titan",
+   "th": "ฮอยเกนส์ลงจอดบนไททัน"
+  },
+  {
+   "k": "card.huygens.body",
+   "en": "In 2005 the Huygens probe entered Titan behind a heat shield, opened its parachutes and floated down for about two and a half hours. Titan's air is thick and its gravity is low, so no landing rockets were needed.",
+   "th": "ในปี 2005 ยานฮอยเกนส์เข้าชั้นบรรยากาศไททันโดยมีโล่กันความร้อน กางร่มชูชีพแล้วลอยลงนานราวสองชั่วโมงครึ่ง อากาศไททันหนาและแรงโน้มถ่วงต่ำ จึงไม่ต้องใช้จรวดลงจอด"
+  },
+  {
+   "k": "card.titan_cold.title",
+   "en": "The cold of Titan",
+   "th": "ความหนาวของไททัน"
+  },
+  {
+   "k": "card.titan_cold.body",
+   "en": "Titan's surface is about -179 °C. At that temperature water ice is as hard as rock, and it forms much of Titan's ground. Remember the number: 179 degrees below zero.",
+   "th": "พื้นผิวไททันหนาวประมาณ -179 °C ที่อุณหภูมินั้นน้ำแข็งแข็งเหมือนหิน และเป็นพื้นส่วนใหญ่ของไททัน จำตัวเลขไว้: ต่ำกว่าศูนย์ 179 องศา"
+  },
+  {
+   "k": "card.titan_air.title",
+   "en": "Titan's thick air",
+   "th": "อากาศหนาของไททัน"
+  },
+  {
+   "k": "card.titan_air.body",
+   "en": "Titan's atmosphere is mostly nitrogen, with about 1.5 times the pressure of Earth's at the surface, and its gravity is about one seventh of Earth's. You would not need a pressure suit, only strong heating and oxygen to breathe.",
+   "th": "ชั้นบรรยากาศไททันเป็นไนโตรเจนเป็นส่วนใหญ่ ความดันที่พื้นราว 1.5 เท่าของโลก และแรงโน้มถ่วงประมาณหนึ่งในเจ็ดของโลก จึงไม่ต้องใส่ชุดอัดแรงดัน แค่ต้องมีความร้อนมากๆ และออกซิเจนให้หายใจ"
+  },
+  {
+   "k": "card.rtg.title",
+   "en": "RTG: power from heat",
+   "th": "RTG: ไฟฟ้าจากความร้อน"
+  },
+  {
+   "k": "card.rtg.body",
+   "en": "A radioisotope thermoelectric generator (RTG) turns the heat of decaying plutonium-238 into electricity, day and night, for years. NASA's Curiosity and Perseverance rovers use one. Sunlight at Saturn is only about 1% of Earth's, so solar panels would barely work at Titan.",
+   "th": "เครื่อง RTG เปลี่ยนความร้อนจากการสลายตัวของพลูโทเนียม-238 เป็นไฟฟ้าได้ทั้งวันทั้งคืนเป็นเวลาหลายปี รถสำรวจ Curiosity และ Perseverance ของ NASA ใช้เครื่องนี้ แสงแดดที่ดาวเสาร์มีแค่ราว 1% ของโลก แผงโซลาร์จึงแทบใช้ไม่ได้บนไททัน"
+  },
+  {
+   "k": "card.titan_lakes.title",
+   "en": "Lakes of methane",
+   "th": "ทะเลสาบมีเทน"
+  },
+  {
+   "k": "card.titan_lakes.body",
+   "en": "Titan is the only world besides Earth known to have liquid on its surface: lakes and seas of methane and ethane, such as Kraken Mare, fed by methane rain.",
+   "th": "ไททันเป็นที่เดียวนอกจากโลกที่รู้ว่ามีของเหลวบนพื้นผิว คือทะเลสาบและทะเลมีเทนกับอีเทน เช่น Kraken Mare ซึ่งได้น้ำจากฝนมีเทน"
+  },
+  {
+   "k": "card.dragonfly.title",
+   "en": "Dragonfly",
+   "th": "ดรากอนฟลาย"
+  },
+  {
+   "k": "card.dragonfly.body",
+   "en": "NASA's Dragonfly is a car-sized, nuclear-powered rotorcraft planned to launch in 2028 and reach Titan in the 2030s. It will fly from place to place, studying the chemistry that could lead to life.",
+   "th": "ดรากอนฟลายของ NASA เป็นโดรนใบพัดขนาดเท่ารถยนต์ ใช้พลังงานนิวเคลียร์ มีแผนปล่อยในปี 2028 และไปถึงไททันในทศวรรษ 2030 มันจะบินไปตามจุดต่างๆ เพื่อศึกษาเคมีที่อาจนำไปสู่สิ่งมีชีวิต"
+  },
+  {
+   "k": "action.grow_greens",
+   "en": "Tend the Veggie garden",
+   "th": "ดูแลสวนผัก Veggie"
+  },
+  {
+   "k": "done.grow_greens",
+   "en": "Fresh lettuce, grown under pink LED light.",
+   "th": "ได้ผักกาดสดๆ ที่ปลูกใต้แสงไฟ LED สีชมพู"
+  },
+  {
+   "k": "action.build_berm",
+   "en": "Pile a regolith berm (2 time)",
+   "th": "พูนกำแพงดินดวงจันทร์ (ใช้เวลา 2)"
+  },
+  {
+   "k": "done.build_berm",
+   "en": "A thick wall of moon dirt now hugs the hab. Radiation inside is cut in half.",
+   "th": "กำแพงดินดวงจันทร์หนาๆ ล้อมที่พักไว้แล้ว รังสีข้างในลดลงครึ่งหนึ่ง"
+  },
+  {
+   "k": "action.sci_sunset",
+   "en": "Photograph the sunset (science)",
+   "th": "ถ่ายภาพพระอาทิตย์ตก (งานวิทยาศาสตร์)"
+  },
+  {
+   "k": "done.sci_sunset",
+   "en": "Snap! The Martian sunset glows blue. Mission Control will love this.",
+   "th": "แชะ! พระอาทิตย์ตกบนดาวอังคารเป็นสีฟ้า ศูนย์ควบคุมต้องชอบแน่"
+  },
+  {
+   "k": "action.sci_core",
+   "en": "Drill a rock core (science)",
+   "th": "เจาะแกนหิน (งานวิทยาศาสตร์)"
+  },
+  {
+   "k": "done.sci_core",
+   "en": "A core with fine layers, like pages of an old lake's diary. Sealed in a tube.",
+   "th": "ได้แกนหินเป็นชั้นบางๆ เหมือนหน้าไดอารีของทะเลสาบโบราณ เก็บใส่หลอดปิดผนึกแล้ว"
+  },
+  {
+   "k": "action.sci_weather",
+   "en": "Log the weather station (science)",
+   "th": "บันทึกสถานีตรวจอากาศ (งานวิทยาศาสตร์)"
+  },
+  {
+   "k": "done.sci_weather",
+   "en": "Pressure, wind, dust: logged and sent to Earth.",
+   "th": "ความกดอากาศ ลม ฝุ่น บันทึกแล้วส่งไปโลก"
+  },
+  {
+   "k": "action.sci_earthrise",
+   "en": "Photograph Earth (science)",
+   "th": "ถ่ายภาพโลก (งานวิทยาศาสตร์)"
+  },
+  {
+   "k": "done.sci_earthrise",
+   "en": "Earth, blue and white over the grey horizon. Click.",
+   "th": "โลกสีฟ้าขาวเหนือขอบฟ้าสีเทา แชะ"
+  },
+  {
+   "k": "action.sci_ice_core",
+   "en": "Take an ice core (science)",
+   "th": "เก็บแกนน้ำแข็ง (งานวิทยาศาสตร์)"
+  },
+  {
+   "k": "done.sci_ice_core",
+   "en": "Ice older than the dinosaurs, packed for Earth.",
+   "th": "น้ำแข็งที่เก่ากว่ายุคไดโนเสาร์ แพ็กส่งกลับโลกแล้ว"
+  },
+  {
+   "k": "action.sci_seismo",
+   "en": "Set up a seismometer (science)",
+   "th": "ตั้งเครื่องวัดแผ่นดินไหว (งานวิทยาศาสตร์)"
+  },
+  {
+   "k": "done.sci_seismo",
+   "en": "The seismometer is listening. The Moon is very quiet... for now.",
+   "th": "เครื่องวัดกำลังฟังอยู่ ดวงจันทร์เงียบมาก... ตอนนี้นะ"
+  },
+  {
+   "k": "action.sci_haze",
+   "en": "Study the haze (science)",
+   "th": "ศึกษาหมอก (งานวิทยาศาสตร์)"
+  },
+  {
+   "k": "done.sci_haze",
+   "en": "Orange, orange, orange. No Saturn anywhere, even though it is right up there.",
+   "th": "ส้ม ส้ม แล้วก็ส้ม มองไม่เห็นดาวเสาร์เลย ทั้งที่มันอยู่ตรงนั้นแท้ๆ"
+  },
+  {
+   "k": "action.sci_ice_sample",
+   "en": "Drill a deep ice sample (science)",
+   "th": "เจาะตัวอย่างน้ำแข็งลึก (งานวิทยาศาสตร์)"
+  },
+  {
+   "k": "done.sci_ice_sample",
+   "en": "A deep sample of Titan's ice crust. Somewhere far below is an ocean.",
+   "th": "ได้ตัวอย่างเปลือกน้ำแข็งลึกของไททัน ลึกลงไปข้างล่างมีมหาสมุทรอยู่"
+  },
+  {
+   "k": "action.sci_dunes",
+   "en": "Scoop dune sand (science)",
+   "th": "ตักทรายจากเนินทราย (งานวิทยาศาสตร์)"
+  },
+  {
+   "k": "done.sci_dunes",
+   "en": "Dark, sticky sand. It's not rock at all: it's frozen organic grains.",
+   "th": "ทรายสีเข้มเหนียวๆ ไม่ใช่หินเลย แต่เป็นเม็ดสารอินทรีย์แช่แข็ง"
+  },
+  {
+   "k": "sci.sci_sunset.ask",
+   "en": "Photograph a Martian sunset with the Cockpit telescope.",
+   "th": "ถ่ายภาพพระอาทิตย์ตกบนดาวอังคารด้วยกล้องโทรทรรศน์ในห้องนักบิน"
+  },
+  {
+   "k": "debrief.sci.sci_sunset",
+   "en": "Mars sunset photo",
+   "th": "ภาพพระอาทิตย์ตกบนดาวอังคาร"
+  },
+  {
+   "k": "sci.sci_core.ask",
+   "en": "Drill a rock core with the drill rig outside, to look for an ancient lake.",
+   "th": "เจาะแกนหินด้วยแท่นเจาะข้างนอก เพื่อหาร่องรอยทะเลสาบโบราณ"
+  },
+  {
+   "k": "debrief.sci.sci_core",
+   "en": "Rock core",
+   "th": "แกนหิน"
+  },
+  {
+   "k": "sci.sci_weather.ask",
+   "en": "Log the weather station at the solar array outside.",
+   "th": "บันทึกสถานีตรวจอากาศที่แผงโซลาร์ข้างนอก"
+  },
+  {
+   "k": "debrief.sci.sci_weather",
+   "en": "Weather log",
+   "th": "บันทึกสภาพอากาศ"
+  },
+  {
+   "k": "sci.sci_earthrise.ask",
+   "en": "Photograph Earth on the horizon with the Cockpit telescope.",
+   "th": "ถ่ายภาพโลกที่ขอบฟ้าด้วยกล้องโทรทรรศน์ในห้องนักบิน"
+  },
+  {
+   "k": "debrief.sci.sci_earthrise",
+   "en": "Earth photo",
+   "th": "ภาพโลก"
+  },
+  {
+   "k": "sci.sci_ice_core.ask",
+   "en": "Take an ice core from the dark crater outside.",
+   "th": "เก็บแกนน้ำแข็งจากหลุมมืดข้างนอก"
+  },
+  {
+   "k": "debrief.sci.sci_ice_core",
+   "en": "Ice core",
+   "th": "แกนน้ำแข็ง"
+  },
+  {
+   "k": "sci.sci_seismo.ask",
+   "en": "Set up a seismometer next to the solar array outside.",
+   "th": "ตั้งเครื่องวัดแผ่นดินไหวข้างแผงโซลาร์ข้างนอก"
+  },
+  {
+   "k": "debrief.sci.sci_seismo",
+   "en": "Seismometer",
+   "th": "เครื่องวัดแผ่นดินไหว"
+  },
+  {
+   "k": "sci.sci_haze.ask",
+   "en": "Study the sky haze with the Cockpit telescope.",
+   "th": "ศึกษาหมอกบนท้องฟ้าด้วยกล้องโทรทรรศน์ในห้องนักบิน"
+  },
+  {
+   "k": "debrief.sci.sci_haze",
+   "en": "Haze study",
+   "th": "ศึกษาหมอก"
+  },
+  {
+   "k": "sci.sci_ice_sample.ask",
+   "en": "Drill a deep ice sample with the drill outside.",
+   "th": "เจาะตัวอย่างน้ำแข็งลึกด้วยสว่านข้างนอก"
+  },
+  {
+   "k": "debrief.sci.sci_ice_sample",
+   "en": "Deep ice sample",
+   "th": "ตัวอย่างน้ำแข็งลึก"
+  },
+  {
+   "k": "sci.sci_dunes.ask",
+   "en": "Scoop dune sand near the RTG outside.",
+   "th": "ตักทรายจากเนินทรายใกล้ RTG ข้างนอก"
+  },
+  {
+   "k": "debrief.sci.sci_dunes",
+   "en": "Dune sand",
+   "th": "ทรายจากเนินทราย"
+  },
+  {
+   "k": "debrief.lesson.dust_devil",
+   "en": "Folded panels can't be buried. Stow them when a dust devil is forecast.",
+   "th": "แผงที่พับเก็บไว้จะไม่โดนฝุ่นกลบ เก็บแผงเมื่อมีพยากรณ์พายุหมุนฝุ่น"
+  },
+  {
+   "k": "debrief.lesson.micro_leak",
+   "en": "Cold makes seals shrink. Checking them before a cold night stops slow leaks.",
+   "th": "ความหนาวทำให้ซีลหด ตรวจซีลก่อนคืนที่หนาวจะกันรอยรั่วช้าๆ ได้"
+  },
+  {
+   "k": "debrief.lesson.solar_flare",
+   "en": "Water is a great radiation shield. Keep 35+ water at bedtime when the Sun flares.",
+   "th": "น้ำเป็นเกราะกันรังสีที่ดีมาก เก็บน้ำ 35 ขึ้นไปตอนเข้านอนเมื่อดวงอาทิตย์ปะทุ"
+  },
+  {
+   "k": "debrief.lesson.global_storm",
+   "en": "Mars dust storms can hide the Sun for weeks. Stowed panels and saved power carry you through.",
+   "th": "พายุฝุ่นดาวอังคารบังดวงอาทิตย์ได้หลายสัปดาห์ เก็บแผงและสำรองไฟไว้ถึงจะผ่านไปได้"
+  },
+  {
+   "k": "debrief.lesson.micrometeoroids",
+   "en": "No air means space rocks hit at full speed. Close the shutters before a shower.",
+   "th": "ไม่มีอากาศ หินอวกาศจึงชนเต็มความเร็ว ปิดบานเกล็ดก่อนฝนอุกกาบาตมา"
+  },
+  {
+   "k": "debrief.lesson.moon_dust",
+   "en": "Moon dust is sharp like broken glass. Checked seals keep it out.",
+   "th": "ฝุ่นดวงจันทร์คมเหมือนเศษแก้ว ซีลที่ตรวจแล้วกันมันไว้ได้"
+  },
+  {
+   "k": "debrief.lesson.lunar_night",
+   "en": "Crater shadows near the pole bring deep cold. Heaters need saved power.",
+   "th": "เงาหลุมใกล้ขั้วนำความหนาวจัดมา เครื่องทำความร้อนต้องใช้ไฟที่สำรองไว้"
+  },
+  {
+   "k": "debrief.lesson.methane_rain",
+   "en": "Titan rains methane. Tight seals keep it out of the cabin.",
+   "th": "ไททันมีฝนมีเทน ซีลที่แน่นกันมันไม่ให้เข้ามาในห้อง"
+  },
+  {
+   "k": "debrief.lesson.cold_snap",
+   "en": "At -179 °C the heaters run all night. Save 35+ power for them.",
+   "th": "ที่ -179 °C เครื่องทำความร้อนต้องทำงานทั้งคืน สำรองไฟ 35 ขึ้นไป"
+  },
+  {
+   "k": "debrief.lesson.static_storm",
+   "en": "Charged haze can short loose cables. Check the RTG before the storm.",
+   "th": "หมอกที่มีประจุทำให้สายหลวมลัดวงจรได้ ตรวจ RTG ก่อนพายุมา"
+  },
+  {
+   "k": "debrief.lesson.deep_cold",
+   "en": "In Saturn's shadow Titan gets even colder. Insulation plus saved power keep you warm.",
+   "th": "ในเงาของดาวเสาร์ ไททันยิ่งหนาวขึ้นอีก ฉนวนกับไฟที่สำรองไว้ทำให้อุ่นได้"
+  },
+  {
+   "k": "debrief.lesson.recycler_fire",
+   "en": "Fire spreads fast in a sealed cabin. Run to the alarm at once.",
+   "th": "ไฟลามเร็วในห้องปิด วิ่งไปที่จุดเตือนทันที"
+  },
+  {
+   "k": "debrief.lesson.hatch_leak",
+   "en": "Every second of a leak costs air. Run to the airlock when the alarm sounds.",
+   "th": "ทุกวินาทีที่รั่วคืออากาศที่เสียไป วิ่งไปที่ประตูปรับแรงดันทันทีที่สัญญาณดัง"
+  },
+  {
+   "k": "debrief.lesson.scrubber_clog",
+   "en": "A clogged oxygen generator wastes oxygen. Clear it fast.",
+   "th": "เครื่องผลิตออกซิเจนที่อุดตันทำให้ออกซิเจนสูญเปล่า รีบล้างให้เร็ว"
+  },
+  {
+   "k": "debrief.lesson.heater_fail",
+   "en": "Without heat your energy drains fast. Reboot the heater quickly.",
+   "th": "ถ้าไม่มีความร้อน พลังกายจะหมดเร็ว รีบรีบูตเครื่องทำความร้อน"
+  },
+  {
+   "k": "debrief.lesson.methane_vent",
+   "en": "Methane must not build up inside. Close the valve fast.",
+   "th": "ห้ามปล่อยให้มีเทนสะสมในห้อง รีบปิดวาล์ว"
+  },
+  {
+   "k": "end.lose.mars.LostRadiation",
+   "en": "Radiation reached the mission limit. Keep 35+ water as a shield when the Sun flares.",
+   "th": "รังสีถึงขีดจำกัดของภารกิจ เก็บน้ำ 35 ขึ้นไปไว้เป็นเกราะเมื่อดวงอาทิตย์ปะทุ"
+  },
+  {
+   "k": "end.lose.moon.LostRadiation",
+   "en": "Radiation reached the mission limit. Keep 35+ water for flares and build the regolith berm early.",
+   "th": "รังสีถึงขีดจำกัดของภารกิจ เก็บน้ำ 35 ขึ้นไปรับพายุสุริยะ และสร้างกำแพงดินดวงจันทร์แต่เนิ่นๆ"
+  },
+  {
+   "k": "end.lose.titan.LostRadiation",
+   "en": "Radiation reached the mission limit.",
+   "th": "รังสีถึงขีดจำกัดของภารกิจ"
+  },
+  {
+   "k": "hud.dose",
+   "en": "Rad {0} mSv",
+   "th": "รังสี {0} mSv"
+  },
+  {
+   "k": "reason.later",
+   "en": "Mission Control hasn't asked for this yet.",
+   "th": "ศูนย์ควบคุมยังไม่ได้ของานนี้"
+  },
+  {
+   "k": "reason.done.science",
+   "en": "Already done. Mission Control has the data.",
+   "th": "ทำไปแล้ว ศูนย์ควบคุมได้ข้อมูลแล้ว"
+  },
+  {
+   "k": "reason.done.regolith_berm",
+   "en": "The berm is already built.",
+   "th": "สร้างกำแพงดินไปแล้ว"
+  },
+  {
+   "k": "report.dose",
+   "en": "Radiation tonight +{0} mSv (total {1} mSv)",
+   "th": "รังสีคืนนี้ +{0} mSv (รวม {1} mSv)"
+  },
+  {
+   "k": "obj.science",
+   "en": "Science for Mission Control {0}/{1}",
+   "th": "งานวิทยาศาสตร์ให้ศูนย์ควบคุม {0}/{1}"
+  },
+  {
+   "k": "look.s_scope.sci",
+   "en": "The telescope can record images for Mission Control.",
+   "th": "กล้องโทรทรรศน์บันทึกภาพส่งให้ศูนย์ควบคุมได้"
+  },
+  {
+   "k": "look.s_food.greens",
+   "en": "Meals, and the little Veggie garden under its pink lights.",
+   "th": "อาหาร และสวนผัก Veggie เล็กๆ ใต้ไฟสีชมพู"
+  },
+  {
+   "k": "c2_sci_new",
+   "en": "Message from Mission Control: {0}",
+   "th": "ข้อความจากศูนย์ควบคุม: {0}"
+  },
+  {
+   "k": "c2_sci_open",
+   "en": "Open science requests: {0}",
+   "th": "งานวิทยาศาสตร์ที่ยังค้างอยู่: {0}"
+  },
+  {
+   "k": "c2_sci_none",
+   "en": "No science requests right now. Nice work!",
+   "th": "ตอนนี้ไม่มีงานวิทยาศาสตร์ค้าง เยี่ยมมาก!"
+  },
+  {
+   "k": "c2_rad_intro.mars",
+   "en": "Your badge is a dosimeter: it counts radiation. Mars has thin air and no global magnetic field, so we get about 0.7 mSv a day here. Watch the Rad meter on the HUD.",
+   "th": "ป้ายบนชุดคุณคือเครื่องวัดรังสี ดาวอังคารอากาศบางและไม่มีสนามแม่เหล็กทั้งดวง เราจึงได้รังสีประมาณ 0.7 mSv ต่อวัน ดูมาตรวัดรังสีบนหน้าจอไว้"
+  },
+  {
+   "k": "c2_rad_intro.moon",
+   "en": "Your badge counts radiation. The Moon has no air and no magnetic field: about 1.4 mSv a day, twice as much as Mars. A berm of moon dirt around the hab would cut that in half.",
+   "th": "ป้ายบนชุดคุณวัดรังสี ดวงจันทร์ไม่มีอากาศและไม่มีสนามแม่เหล็ก ได้รังสีประมาณ 1.4 mSv ต่อวัน มากกว่าดาวอังคารสองเท่า ถ้าพูนดินดวงจันทร์ล้อมที่พักไว้จะลดลงได้ครึ่งหนึ่ง"
+  },
+  {
+   "k": "c2_rad_intro.titan",
+   "en": "Good news for once: Titan's thick air shields us better than Earth's does. Radiation here is almost zero. On Titan, the danger is the cold.",
+   "th": "ข่าวดีสักที อากาศหนาของไททันกันรังสีได้ดีกว่าอากาศของโลกอีก รังสีที่นี่แทบเป็นศูนย์ อันตรายบนไททันคือความหนาว"
+  },
+  {
+   "k": "c2_rad_warn",
+   "en": "Careful! Your radiation dose is over {0} mSv. Keep water high for flares and don't stay outside longer than you need.",
+   "th": "ระวัง! รังสีที่คุณได้รับเกิน {0} mSv แล้ว เก็บน้ำไว้เยอะๆ รับพายุสุริยะ และอย่าอยู่ข้างนอกนานเกินจำเป็น"
+  },
+  {
+   "k": "moon_berm_tip",
+   "en": "A flare is coming. Water helps, but a regolith berm halves every dose. You can pile one up at the solar array outside.",
+   "th": "พายุสุริยะกำลังมา น้ำช่วยได้ แต่กำแพงดินดวงจันทร์ลดรังสีได้ครึ่งหนึ่งทุกครั้ง พูนได้ที่แผงโซลาร์ข้างนอก"
+  },
+  {
+   "k": "debrief.title",
+   "en": "MISSION DEBRIEF",
+   "th": "สรุปภารกิจ"
+  },
+  {
+   "k": "debrief.star.done",
+   "en": "Mission complete",
+   "th": "ภารกิจสำเร็จ"
+  },
+  {
+   "k": "debrief.star.health",
+   "en": "Healthy: radiation {0} mSv or less, never collapsed",
+   "th": "สุขภาพดี: รังสีไม่เกิน {0} mSv และไม่เคยหมดแรงล้ม"
+  },
+  {
+   "k": "debrief.star.science",
+   "en": "Science: all {0} Mission Control tasks",
+   "th": "วิทยาศาสตร์: ทำงานของศูนย์ควบคุมครบ {0} อย่าง"
+  },
+  {
+   "k": "debrief.stat.sols",
+   "en": "Days survived: {0}/{1}",
+   "th": "จำนวนวันที่รอด: {0}/{1}"
+  },
+  {
+   "k": "debrief.stat.nights",
+   "en": "Nights prepared for: {0}/{1}",
+   "th": "คืนที่เตรียมรับมือได้: {0}/{1}"
+  },
+  {
+   "k": "debrief.stat.incidents",
+   "en": "Emergencies handled: {0}/{1}",
+   "th": "เหตุฉุกเฉินที่จัดการทัน: {0}/{1}"
+  },
+  {
+   "k": "debrief.stat.dose",
+   "en": "Radiation dose: {0} mSv (limit {1})",
+   "th": "ปริมาณรังสี: {0} mSv (ขีดจำกัด {1})"
+  },
+  {
+   "k": "debrief.stat.science",
+   "en": "Science tasks: {0}/{1}",
+   "th": "งานวิทยาศาสตร์: {0}/{1}"
+  },
+  {
+   "k": "debrief.stat.cards",
+   "en": "Cards found on this world: {0}/{1}",
+   "th": "การ์ดที่พบบนดาวนี้: {0}/{1}"
+  },
+  {
+   "k": "debrief.lessons",
+   "en": "What to remember next time",
+   "th": "สิ่งที่ควรจำไว้ครั้งหน้า"
+  },
+  {
+   "k": "debrief.night",
+   "en": "Night {0}",
+   "th": "คืนที่ {0}"
+  },
+  {
+   "k": "debrief.day",
+   "en": "Day {0}",
+   "th": "วันที่ {0}"
+  },
+  {
+   "k": "debrief.perfect",
+   "en": "Every night prepared, every alarm answered. Textbook astronaut work!",
+   "th": "เตรียมพร้อมทุกคืน รับมือทุกสัญญาณเตือน ทำงานได้แบบนักบินอวกาศตัวจริง!"
+  },
+  {
+   "k": "debrief.sci_missed",
+   "en": "Science not done: {0}",
+   "th": "งานวิทยาศาสตร์ที่ยังไม่ได้ทำ: {0}"
+  },
+  {
+   "k": "debrief.cards_left",
+   "en": "{0} cards are still hidden on this world. Play it again to find them!",
+   "th": "ยังมีการ์ดซ่อนอยู่บนดาวนี้อีก {0} ใบ เล่นอีกรอบเพื่อหาให้ครบ!"
+  },
+  {
+   "k": "debrief.best",
+   "en": "Best on this world: {0}",
+   "th": "ดีที่สุดบนดาวนี้: {0}"
+  },
+  {
+   "k": "debrief.new_best",
+   "en": "New best!",
+   "th": "สถิติใหม่!"
+  },
+  {
+   "k": "menu.stars",
+   "en": "Best debrief stars  ·  Mars {0}/3  ·  Moon {1}/3  ·  Titan {2}/3",
+   "th": "ดาวสูงสุดจากสรุปภารกิจ  ·  ดาวอังคาร {0}/3  ·  ดวงจันทร์ {1}/3  ·  ไททัน {2}/3"
+  },
+  {
+   "k": "hint.c2_science.1",
+   "en": "Mission Control is waiting for science. Check the mission board in the Quarters.",
+   "th": "ศูนย์ควบคุมรองานวิทยาศาสตร์อยู่ ลองดูกระดานภารกิจในห้องพัก"
+  },
+  {
+   "k": "hint.c2_science.2",
+   "en": "Science tasks show up in a machine's menu: the telescope in the Cockpit, or the drill and solar array outside.",
+   "th": "งานวิทยาศาสตร์จะอยู่ในเมนูของเครื่องต่างๆ เช่น กล้องโทรทรรศน์ในห้องนักบิน หรือสว่านกับแผงโซลาร์ข้างนอก"
+  },
+  {
+   "k": "card.rad_dose.title",
+   "en": "Radiation dose",
+   "th": "ปริมาณรังสี"
+  },
+  {
+   "k": "card.rad_dose.body",
+   "en": "Space radiation is measured in millisieverts (mSv). On Earth a person gets about 2 to 3 mSv in a whole year. Astronauts on the ISS get about 0.5 mSv a day. NASA's Curiosity rover measured about 0.7 mSv a day on the surface of Mars, and China's Chang'e 4 lander about 1.4 mSv a day on the Moon. NASA limits an astronaut's whole career to 600 mSv.",
+   "th": "รังสีในอวกาศวัดเป็นมิลลิซีเวิร์ต (mSv) บนโลกคนเราได้รับประมาณ 2 ถึง 3 mSv ต่อปี นักบินอวกาศบนสถานีอวกาศนานาชาติได้ประมาณ 0.5 mSv ต่อวัน ยาน Curiosity ของ NASA วัดบนพื้นดาวอังคารได้ประมาณ 0.7 mSv ต่อวัน และยานฉางเอ๋อ 4 ของจีนวัดบนดวงจันทร์ได้ประมาณ 1.4 mSv ต่อวัน NASA จำกัดรังสีตลอดอาชีพของนักบินอวกาศไว้ที่ 600 mSv"
+  },
+  {
+   "k": "card.veggie.title",
+   "en": "Veggie: a garden in space",
+   "th": "Veggie: สวนผักในอวกาศ"
+  },
+  {
+   "k": "card.veggie.body",
+   "en": "NASA's Veggie plant chamber on the ISS grows food under red, blue and green LED lights. In 2015 astronauts ate lettuce grown in space for the first time. Fresh plants are good for the body, and caring for them is good for the mind on long missions.",
+   "th": "Veggie คือห้องปลูกพืชของ NASA บนสถานีอวกาศนานาชาติ ใช้ไฟ LED สีแดง น้ำเงิน และเขียวปลูกผัก ในปี 2015 นักบินอวกาศได้กินผักกาดที่ปลูกในอวกาศเป็นครั้งแรก ผักสดดีต่อร่างกาย และการดูแลต้นไม้ก็ดีต่อจิตใจในภารกิจที่ยาวนาน"
+  },
+  {
+   "k": "card.mars_sunset.title",
+   "en": "Blue sunsets on Mars",
+   "th": "พระอาทิตย์ตกสีฟ้าบนดาวอังคาร"
+  },
+  {
+   "k": "card.mars_sunset.body",
+   "en": "By day the Martian sky looks butterscotch, but sunsets glow blue. Fine Mars dust lets blue light through more easily near the Sun's direction. NASA's Curiosity rover photographed a blue sunset in Gale crater in 2015.",
+   "th": "ตอนกลางวันท้องฟ้าดาวอังคารเป็นสีน้ำตาลอมส้ม แต่ตอนพระอาทิตย์ตกกลับเป็นสีฟ้า ฝุ่นละเอียดของดาวอังคารปล่อยให้แสงสีฟ้าผ่านได้ง่ายกว่าในทิศทางของดวงอาทิตย์ ยาน Curiosity ของ NASA ถ่ายภาพพระอาทิตย์ตกสีฟ้าในหลุม Gale ไว้เมื่อปี 2015"
+  },
+  {
+   "k": "card.mars_lake.title",
+   "en": "Mars once had lakes",
+   "th": "ดาวอังคารเคยมีทะเลสาบ"
+  },
+  {
+   "k": "card.mars_lake.body",
+   "en": "NASA's Perseverance rover landed in Jezero crater, which held a lake about 3.5 billion years ago. Layers in its rocks record that water. Perseverance seals rock cores in tubes so that a future mission could bring them back to Earth.",
+   "th": "ยาน Perseverance ของ NASA ลงจอดในหลุม Jezero ซึ่งเคยเป็นทะเลสาบเมื่อประมาณ 3,500 ล้านปีก่อน ชั้นหินในหลุมบันทึกเรื่องราวของน้ำไว้ Perseverance เก็บแกนหินใส่หลอดปิดผนึก เพื่อให้ภารกิจในอนาคตนำกลับมาโลกได้"
+  },
+  {
+   "k": "card.mars_pressure.title",
+   "en": "Thin Martian air",
+   "th": "อากาศเบาบางของดาวอังคาร"
+  },
+  {
+   "k": "card.mars_pressure.body",
+   "en": "The air pressure on Mars is less than 1% of Earth's. Water can't stay liquid in the open there: it boils away or freezes. Weather stations on NASA's rovers measure pressure, wind and dust to keep missions safe.",
+   "th": "ความกดอากาศบนดาวอังคารน้อยกว่า 1% ของโลก น้ำจึงอยู่เป็นของเหลวกลางแจ้งไม่ได้ มันจะเดือดหายไปหรือไม่ก็แข็งตัว สถานีตรวจอากาศบนยานสำรวจของ NASA วัดความกดอากาศ ลม และฝุ่น เพื่อให้ภารกิจปลอดภัย"
+  },
+  {
+   "k": "card.regolith.title",
+   "en": "A shield made of moon dirt",
+   "th": "เกราะที่ทำจากดินดวงจันทร์"
+  },
+  {
+   "k": "card.regolith.body",
+   "en": "Lunar soil is called regolith. Piled thick around a base, it blocks much of the radiation from solar storms. Engineers plan to cover future Moon bases with regolith, or even 3D-print walls from it.",
+   "th": "ดินบนดวงจันทร์เรียกว่ารีโกลิท ถ้าพูนหนาๆ รอบฐาน จะกันรังสีจากพายุสุริยะได้มาก วิศวกรวางแผนจะใช้รีโกลิทคลุมฐานบนดวงจันทร์ในอนาคต หรือแม้แต่พิมพ์ผนังด้วยเครื่องพิมพ์ 3 มิติ"
+  },
+  {
+   "k": "card.earthrise.title",
+   "en": "Earthrise",
+   "th": "โลกขึ้น (Earthrise)"
+  },
+  {
+   "k": "card.earthrise.body",
+   "en": "On 24 December 1968, Apollo 8 astronaut Bill Anders photographed Earth rising over the Moon. The picture, called Earthrise, showed how small and alone our planet is, and it helped start the modern environmental movement.",
+   "th": "วันที่ 24 ธันวาคม 1968 บิล แอนเดอร์ส นักบินอวกาศของอพอลโล 8 ถ่ายภาพโลกกำลังขึ้นเหนือดวงจันทร์ ภาพนี้ชื่อว่า Earthrise ทำให้เห็นว่าโลกของเราเล็กและโดดเดี่ยวแค่ไหน และช่วยจุดประกายการอนุรักษ์สิ่งแวดล้อมยุคใหม่"
+  },
+  {
+   "k": "card.moon_resources.title",
+   "en": "Ice is rocket fuel",
+   "th": "น้ำแข็งคือเชื้อเพลิงจรวด"
+  },
+  {
+   "k": "card.moon_resources.body",
+   "en": "Ice from the Moon's dark craters can be melted for drinking water, split into oxygen to breathe, and split into hydrogen and oxygen for rocket fuel. NASA's Artemis program is heading to the south pole to learn how to use it.",
+   "th": "น้ำแข็งจากหลุมมืดบนดวงจันทร์ละลายเป็นน้ำดื่มได้ แยกเป็นออกซิเจนไว้หายใจได้ และแยกเป็นไฮโดรเจนกับออกซิเจนทำเชื้อเพลิงจรวดได้ โครงการอาร์ทิมิสของ NASA จะไปที่ขั้วใต้เพื่อเรียนรู้วิธีใช้มัน"
+  },
+  {
+   "k": "card.moonquakes.title",
+   "en": "Moonquakes",
+   "th": "แผ่นดินไหวบนดวงจันทร์"
+  },
+  {
+   "k": "card.moonquakes.body",
+   "en": "Apollo astronauts left seismometers on the Moon, and they recorded thousands of moonquakes until 1977. Some shallow moonquakes were strong and lasted ten minutes or more, because the dry, cold Moon rings like a bell.",
+   "th": "นักบินอวกาศอพอลโลทิ้งเครื่องวัดแผ่นดินไหวไว้บนดวงจันทร์ มันบันทึกแผ่นดินไหวได้หลายพันครั้งจนถึงปี 1977 แผ่นดินไหวตื้นบางครั้งรุนแรงและสั่นนานกว่าสิบนาที เพราะดวงจันทร์ที่แห้งและเย็นสั่นก้องเหมือนระฆัง"
+  },
+  {
+   "k": "card.titan_haze.title",
+   "en": "Titan's orange haze",
+   "th": "หมอกสีส้มของไททัน"
+  },
+  {
+   "k": "card.titan_haze.body",
+   "en": "High in Titan's air, sunlight breaks up methane and builds an orange haze of organic molecules. The haze is so thick that from the ground you could not see Saturn at all, even though it would look more than ten times wider than the full Moon does from Earth.",
+   "th": "บนชั้นบรรยากาศสูงของไททัน แสงแดดสลายมีเทนแล้วสร้างหมอกสีส้มจากโมเลกุลอินทรีย์ หมอกหนามากจนยืนบนพื้นแล้วมองไม่เห็นดาวเสาร์เลย ทั้งที่มันจะดูใหญ่กว่าดวงจันทร์เต็มดวงที่เห็นจากโลกมากกว่าสิบเท่า"
+  },
+  {
+   "k": "card.titan_ocean.title",
+   "en": "An ocean under the ice",
+   "th": "มหาสมุทรใต้น้ำแข็ง"
+  },
+  {
+   "k": "card.titan_ocean.body",
+   "en": "Cassini measured how much Titan squeezes and stretches as it orbits Saturn. It bends more than solid rock and ice would, so scientists think a salty ocean of liquid water lies deep under its icy crust.",
+   "th": "ยาน Cassini วัดว่าไททันถูกบีบและยืดแค่ไหนขณะโคจรรอบดาวเสาร์ ปรากฏว่ามันยืดหยุ่นกว่าที่หินและน้ำแข็งตันๆ จะเป็น นักวิทยาศาสตร์จึงคิดว่ามีมหาสมุทรน้ำเค็มอยู่ลึกใต้เปลือกน้ำแข็ง"
+  },
+  {
+   "k": "card.titan_dunes.title",
+   "en": "Dunes of organic sand",
+   "th": "เนินทรายจากสารอินทรีย์"
+  },
+  {
+   "k": "card.titan_dunes.body",
+   "en": "Cassini's radar found huge dune fields near Titan's equator, with dunes up to about 100 metres tall. The sand is not rock: it is made of organic grains that fell out of the haze. NASA's Dragonfly is planned to land among these dunes.",
+   "th": "เรดาร์ของยาน Cassini พบทุ่งเนินทรายขนาดใหญ่ใกล้เส้นศูนย์สูตรของไททัน เนินสูงได้ถึงราว 100 เมตร ทรายไม่ใช่หิน แต่เป็นเม็ดสารอินทรีย์ที่ร่วงลงมาจากหมอก ยานดรากอนฟลายของ NASA มีแผนจะลงจอดท่ามกลางเนินทรายเหล่านี้"
+  },
+  {
+   "k": "dilemma.orbi_rest.title",
+   "en": "ORBI is overheating",
+   "th": "ORBI ร้อนเกินไป"
+  },
+  {
+   "k": "dilemma.orbi_rest.body",
+   "en": "My processors are running hot. If I shut down for today, the ship saves power. But I can't give you hints until tomorrow.",
+   "th": "หน่วยประมวลผลของฉันร้อนจัด ถ้าฉันปิดตัวเองวันนี้ ยานจะประหยัดไฟได้ แต่ฉันจะให้คำใบ้ไม่ได้จนถึงพรุ่งนี้"
+  },
+  {
+   "k": "dilemma.orbi_rest.rest",
+   "en": "Let ORBI rest today (no hints)",
+   "th": "ให้ ORBI พักวันนี้ (ไม่มีคำใบ้)"
+  },
+  {
+   "k": "dilemma.orbi_rest.rest.result",
+   "en": "Shutting down... see you tomorrow, cadet. Real spacecraft also go into 'safe mode' to protect themselves.",
+   "th": "กำลังปิดระบบ... เจอกันพรุ่งนี้นะ นักบินฝึกหัด ยานอวกาศจริงก็เข้า 'เซฟโหมด' เพื่อปกป้องตัวเองเหมือนกัน"
+  },
+  {
+   "k": "dilemma.orbi_rest.stay_on",
+   "en": "Keep ORBI on (cooling fans use power)",
+   "th": "ให้ ORBI ทำงานต่อ (พัดลมระบายความร้อนใช้ไฟ)"
+  },
+  {
+   "k": "dilemma.orbi_rest.stay_on.result",
+   "en": "Fans on full. I'm here if you need me.",
+   "th": "เปิดพัดลมเต็มที่ ฉันอยู่ตรงนี้ถ้าคุณต้องการ"
+  },
+  {
+   "k": "dilemma.mars_radish.title",
+   "en": "Grow radishes?",
+   "th": "ปลูกหัวไชเท้าดีไหม?"
+  },
+  {
+   "k": "dilemma.mars_radish.body",
+   "en": "Mission Control says the grow tray can sprout radishes fast, but they need water now. Martian soil has toxic perchlorate salts, so we grow them in water, not in the dirt.",
+   "th": "ศูนย์ควบคุมบอกว่าถาดปลูกพืชเพาะหัวไชเท้าได้เร็ว แต่ต้องใช้น้ำตอนนี้ ดินดาวอังคารมีเกลือเปอร์คลอเรตที่เป็นพิษ เราจึงปลูกในน้ำ ไม่ใช่ในดิน"
+  },
+  {
+   "k": "dilemma.mars_radish.plant",
+   "en": "Plant radishes",
+   "th": "ปลูกหัวไชเท้า"
+  },
+  {
+   "k": "dilemma.mars_radish.plant.result",
+   "en": "Planted! Astronauts grew radishes on the ISS in 2020, because they are ready to eat in under a month.",
+   "th": "ปลูกแล้ว! นักบินอวกาศเคยปลูกหัวไชเท้าบนสถานีอวกาศนานาชาติในปี 2020 เพราะมันโตพอกินได้ในเวลาไม่ถึงเดือน"
+  },
+  {
+   "k": "dilemma.mars_radish.save_water",
+   "en": "Save the water",
+   "th": "เก็บน้ำไว้"
+  },
+  {
+   "k": "dilemma.mars_radish.save_water.result",
+   "en": "Water saved. Every drop counts on Mars.",
+   "th": "เก็บน้ำไว้แล้ว ทุกหยดมีค่าบนดาวอังคาร"
+  },
+  {
+   "k": "dilemma.mars_rover.title",
+   "en": "An old rover nearby",
+   "th": "ยานสำรวจเก่าใกล้ๆ"
+  },
+  {
+   "k": "dilemma.mars_rover.body",
+   "en": "I spotted an old cargo rover 300 metres away. Its battery still holds some charge. Walking there and back takes 2 time, tires you out, and adds a little radiation.",
+   "th": "ฉันเห็นยานขนของเก่าอยู่ห่างไป 300 เมตร แบตเตอรี่ยังมีไฟเหลืออยู่ เดินไปกลับใช้เวลา 2 เหนื่อย และโดนรังสีเพิ่มนิดหน่อย"
+  },
+  {
+   "k": "dilemma.mars_rover.fetch",
+   "en": "Fetch the battery",
+   "th": "ไปเอาแบตเตอรี่"
+  },
+  {
+   "k": "dilemma.mars_rover.fetch.result",
+   "en": "Battery hooked up! Rovers like Curiosity have worked on Mars for over ten years, so old hardware can still help.",
+   "th": "ต่อแบตเตอรี่แล้ว! ยานอย่าง Curiosity ทำงานบนดาวอังคารมานานกว่าสิบปี ของเก่าก็ยังช่วยได้"
+  },
+  {
+   "k": "dilemma.mars_rover.stay",
+   "en": "Stay inside",
+   "th": "อยู่ในยาน"
+  },
+  {
+   "k": "dilemma.mars_rover.stay.result",
+   "en": "Safer to stay put. The rover will wait.",
+   "th": "อยู่ข้างในปลอดภัยกว่า ยานสำรวจรอได้"
+  },
+  {
+   "k": "dilemma.moon_report.title",
+   "en": "Earth asks for a full report",
+   "th": "โลกขอรายงานฉบับเต็ม"
+  },
+  {
+   "k": "dilemma.moon_report.body",
+   "en": "Mission Control wants a long health and status report. It costs power, but it gives the rescue team a strong fix on us.",
+   "th": "ศูนย์ควบคุมขอรายงานสุขภาพและสถานะฉบับยาว ต้องใช้ไฟ แต่ทีมกู้ภัยจะระบุตำแหน่งเราได้แม่นขึ้นมาก"
+  },
+  {
+   "k": "dilemma.moon_report.long",
+   "en": "Send the long report",
+   "th": "ส่งรายงานฉบับยาว"
+  },
+  {
+   "k": "dilemma.moon_report.long.result",
+   "en": "Report sent. Radio waves reach Earth from the Moon in about 1.3 seconds.",
+   "th": "ส่งรายงานแล้ว คลื่นวิทยุเดินทางจากดวงจันทร์ถึงโลกใช้เวลาประมาณ 1.3 วินาที"
+  },
+  {
+   "k": "dilemma.moon_report.ping",
+   "en": "Send a short ping",
+   "th": "ส่งสัญญาณสั้นๆ"
+  },
+  {
+   "k": "dilemma.moon_report.ping.result",
+   "en": "Short and cheap. The rescue team will have to work a bit harder.",
+   "th": "สั้นและประหยัด ทีมกู้ภัยต้องทำงานหนักขึ้นอีกนิด"
+  },
+  {
+   "k": "dilemma.moon_huddle.title",
+   "en": "Heat one room or the whole ship?",
+   "th": "ทำความร้อนห้องเดียวหรือทั้งยาน?"
+  },
+  {
+   "k": "dilemma.moon_huddle.body",
+   "en": "The long shadow is coming. If you seal yourself in the Quarters, the heaters warm only one small room and we save power. It's cramped and tiring.",
+   "th": "เงามืดยาวนานกำลังมา ถ้าคุณปิดตัวเองในห้องพัก เครื่องทำความร้อนจะอุ่นแค่ห้องเล็กห้องเดียว เราจะประหยัดไฟได้ แต่จะอึดอัดและเหนื่อย"
+  },
+  {
+   "k": "dilemma.moon_huddle.huddle",
+   "en": "Huddle in the Quarters",
+   "th": "อยู่รวมในห้องพัก"
+  },
+  {
+   "k": "dilemma.moon_huddle.huddle.result",
+   "en": "Less space to heat means less energy used. Apollo's lunar module was tiny for the same reason.",
+   "th": "พื้นที่ที่ต้องทำให้อุ่นน้อยลง ก็ใช้พลังงานน้อยลง ยานลงจอดของอพอลโลเล็กมากก็ด้วยเหตุผลเดียวกัน"
+  },
+  {
+   "k": "dilemma.moon_huddle.whole_ship",
+   "en": "Heat the whole ship",
+   "th": "ทำความร้อนทั้งยาน"
+  },
+  {
+   "k": "dilemma.moon_huddle.whole_ship.result",
+   "en": "Comfortable, but the heaters will work hard tonight.",
+   "th": "สบายดี แต่เครื่องทำความร้อนต้องทำงานหนักคืนนี้"
+  },
+  {
+   "k": "dilemma.titan_burn.title",
+   "en": "Burn methane for heat?",
+   "th": "เผามีเทนให้ความร้อนดีไหม?"
+  },
+  {
+   "k": "dilemma.titan_burn.body",
+   "en": "Methane rain has pooled by the hatch. We could burn it in the emergency heater for power. But fire needs oxygen, and on Titan the only oxygen is the oxygen we brought.",
+   "th": "ฝนมีเทนขังอยู่ข้างประตู เราเผามันในเครื่องทำความร้อนฉุกเฉินเพื่อได้ไฟได้ แต่ไฟต้องใช้ออกซิเจน และบนไททันออกซิเจนมีแค่ที่เราขนมาเอง"
+  },
+  {
+   "k": "dilemma.titan_burn.burn",
+   "en": "Burn the methane",
+   "th": "เผามีเทน"
+  },
+  {
+   "k": "dilemma.titan_burn.burn.result",
+   "en": "Warm and powered, but we spent oxygen. On Earth oxygen is everywhere and fuel is rare. On Titan it's the opposite!",
+   "th": "อุ่นและได้ไฟ แต่เสียออกซิเจนไป บนโลกมีออกซิเจนทุกที่แต่เชื้อเพลิงหายาก บนไททันกลับกันเลย!"
+  },
+  {
+   "k": "dilemma.titan_burn.no_fire",
+   "en": "Don't light a fire",
+   "th": "ไม่จุดไฟ"
+  },
+  {
+   "k": "dilemma.titan_burn.no_fire.result",
+   "en": "No fire. Our oxygen is for breathing.",
+   "th": "ไม่จุดไฟ ออกซิเจนของเราเอาไว้หายใจ"
+  },
+  {
+   "k": "dilemma.titan_gate_test.title",
+   "en": "Test the gate early?",
+   "th": "ทดสอบประตูก่อนดีไหม?"
+  },
+  {
+   "k": "dilemma.titan_gate_test.body",
+   "en": "We could pour power into a gate test now and add charge. But tonight is Saturn's shadow, and the heaters will need power.",
+   "th": "เราเทไฟเข้าไปทดสอบประตูตอนนี้ได้ จะได้พลังประตูเพิ่ม แต่คืนนี้คือเงาของดาวเสาร์ และเครื่องทำความร้อนต้องใช้ไฟ"
+  },
+  {
+   "k": "dilemma.titan_gate_test.test",
+   "en": "Run the gate test",
+   "th": "ทดสอบประตู"
+  },
+  {
+   "k": "dilemma.titan_gate_test.test.result",
+   "en": "Lamps flicker on across the ring. Watch the power tonight!",
+   "th": "ไฟบนวงแหวนกะพริบติด คืนนี้ระวังไฟฟ้าให้ดี!"
+  },
+  {
+   "k": "dilemma.titan_gate_test.save_power",
+   "en": "Save power for tonight",
+   "th": "เก็บไฟไว้คืนนี้"
+  },
+  {
+   "k": "dilemma.titan_gate_test.save_power.result",
+   "en": "Wise. Heaters first.",
+   "th": "ฉลาดมาก เครื่องทำความร้อนต้องมาก่อน"
+  },
+  {
+   "k": "dilemma.header",
+   "en": "ORBI NEEDS YOUR DECISION · DAY {0}",
+   "th": "ORBI ต้องการให้คุณตัดสินใจ · วันที่ {0}"
+  },
+  {
+   "k": "dilemma.no_right",
+   "en": "There is no single right answer. Think about tonight's forecast.",
+   "th": "ไม่มีคำตอบที่ถูกเพียงข้อเดียว ลองคิดถึงพยากรณ์ของคืนนี้"
+  },
+  {
+   "k": "debrief.choices",
+   "en": "Your choices: {0}",
+   "th": "สิ่งที่คุณเลือก: {0}"
+  },
+  {
+   "k": "orbi_resting",
+   "en": "(ORBI is resting today. No hints until tomorrow.)",
+   "th": "(ORBI พักวันนี้ ไม่มีคำใบ้จนถึงพรุ่งนี้)"
+  },
+  {
+   "k": "howto.9.title",
+   "en": "Radiation",
+   "th": "รังสี"
+  },
+  {
+   "k": "howto.9.body",
+   "en": "The Rad meter counts your radiation dose in mSv. Water at bedtime shields you from solar flares. Stay under 50 for a healthy star; at 150 the mission ends.",
+   "th": "มาตรวัดรังสีนับปริมาณรังสีที่คุณได้รับเป็น mSv น้ำตอนเข้านอนช่วยกันพายุสุริยะ ถ้าไม่เกิน 50 จะได้ดาวสุขภาพดี ถ้าถึง 150 ภารกิจจบ"
+  },
+  {
+   "k": "howto.10.title",
+   "en": "Science for Mission Control",
+   "th": "งานวิทยาศาสตร์ให้ศูนย์ควบคุม"
+  },
+  {
+   "k": "howto.10.body",
+   "en": "On days 1, 3 and 5 Mission Control asks for a science task. They cost time like any job, and each one gives a new knowledge card.",
+   "th": "ในวันที่ 1, 3 และ 5 ศูนย์ควบคุมจะของานวิทยาศาสตร์ งานใช้เวลาเหมือนงานอื่น และแต่ละงานให้การ์ดความรู้ใหม่"
+  },
+  {
+   "k": "howto.11.title",
+   "en": "Hard choices and the debrief",
+   "th": "ทางเลือกยากๆ และสรุปภารกิจ"
+  },
+  {
+   "k": "howto.11.body",
+   "en": "Some mornings bring a random event or a hard choice, like in 60 Seconds. Every answer has a cost, and some need you to have prepared. At the end, the debrief gives up to 3 stars and tells you what to remember next time.",
+   "th": "บางเช้าจะมีเหตุการณ์สุ่มหรือทางเลือกยากๆ ทุกคำตอบมีราคาที่ต้องจ่าย และบางคำตอบต้องเตรียมของไว้ก่อน ตอนจบ หน้าสรุปภารกิจจะให้ดาวสูงสุด 3 ดวง และบอกสิ่งที่ควรจำไว้ครั้งหน้า"
+  },
+  {
+   "k": "dilemma.supply_pod.title",
+   "en": "A supply pod landed nearby",
+   "th": "กล่องเสบียงตกลงมาใกล้ๆ"
+  },
+  {
+   "k": "dilemma.supply_pod.body",
+   "en": "Mission Control dropped a pod 1 km away. Fetching it is a long walk outside.",
+   "th": "ศูนย์ควบคุมส่งกล่องเสบียงลงมาห่างไป 1 กม. ต้องเดินข้างนอกไกลพอสมควร"
+  },
+  {
+   "k": "dilemma.supply_pod.fetch",
+   "en": "Go and fetch it",
+   "th": "ไปเอากล่อง"
+  },
+  {
+   "k": "dilemma.supply_pod.fetch.result",
+   "en": "Food and water! Worth the walk.",
+   "th": "ได้อาหารกับน้ำ! คุ้มที่เดินไป"
+  },
+  {
+   "k": "dilemma.supply_pod.leave",
+   "en": "Leave it",
+   "th": "ปล่อยไว้"
+  },
+  {
+   "k": "dilemma.supply_pod.leave.result",
+   "en": "Too far today.",
+   "th": "วันนี้ไกลเกินไป"
+  },
+  {
+   "k": "dilemma.family_message.title",
+   "en": "A message from home",
+   "th": "ข้อความจากบ้าน"
+  },
+  {
+   "k": "dilemma.family_message.body",
+   "en": "A video from your family just arrived. Watching it takes a little time.",
+   "th": "วิดีโอจากครอบครัวเพิ่งส่งมาถึง ดูแล้วจะเสียเวลานิดหน่อย"
+  },
+  {
+   "k": "dilemma.family_message.watch",
+   "en": "Watch it now",
+   "th": "ดูตอนนี้"
+  },
+  {
+   "k": "dilemma.family_message.watch.result",
+   "en": "You feel stronger. Crews say messages from home really help.",
+   "th": "คุณรู้สึกมีแรงขึ้น ลูกเรือจริงก็บอกว่าข้อความจากบ้านช่วยได้มาก"
+  },
+  {
+   "k": "dilemma.family_message.later",
+   "en": "Save it for later",
+   "th": "เก็บไว้ดูทีหลัง"
+  },
+  {
+   "k": "dilemma.family_message.later.result",
+   "en": "Back to work.",
+   "th": "กลับไปทำงานต่อ"
+  },
+  {
+   "k": "dilemma.greenhouse_leak.title",
+   "en": "The grow tray is leaking",
+   "th": "ถาดปลูกผักรั่ว"
+  },
+  {
+   "k": "dilemma.greenhouse_leak.body",
+   "en": "A seal on the Veggie tray split. Fix it now, or the plants will freeze.",
+   "th": "ซีลของถาดปลูกผักแตก ซ่อมตอนนี้ ไม่อย่างนั้นต้นผักจะแข็งตาย"
+  },
+  {
+   "k": "dilemma.greenhouse_leak.patch",
+   "en": "Patch it",
+   "th": "ซ่อม"
+  },
+  {
+   "k": "dilemma.greenhouse_leak.patch.result",
+   "en": "Sealed. The lettuce lives.",
+   "th": "ซ่อมแล้ว ผักกาดรอด"
+  },
+  {
+   "k": "dilemma.greenhouse_leak.let_freeze",
+   "en": "Let it go",
+   "th": "ปล่อยไป"
+  },
+  {
+   "k": "dilemma.greenhouse_leak.let_freeze.result",
+   "en": "The plants froze. Some food is lost.",
+   "th": "ผักแข็งตาย อาหารหายไปส่วนหนึ่ง"
+  },
+  {
+   "k": "dilemma.spare_parts.title",
+   "en": "A box of spare parts",
+   "th": "กล่องอะไหล่"
+  },
+  {
+   "k": "dilemma.spare_parts.body",
+   "en": "A crate in Cargo is full of loose parts. Sorting it takes time, but there may be something useful.",
+   "th": "ลังในห้องเก็บของมีอะไหล่เต็มไปหมด แยกต้องใช้เวลา แต่อาจมีของที่ใช้ได้"
+  },
+  {
+   "k": "dilemma.spare_parts.sort",
+   "en": "Sort the box",
+   "th": "แยกของ"
+  },
+  {
+   "k": "dilemma.spare_parts.sort.result",
+   "en": "You found a spare air filter. Keep it handy.",
+   "th": "เจอตัวกรองอากาศสำรอง เก็บไว้ใกล้มือ"
+  },
+  {
+   "k": "dilemma.spare_parts.leave_box",
+   "en": "Leave it",
+   "th": "ปล่อยไว้"
+  },
+  {
+   "k": "dilemma.spare_parts.leave_box.result",
+   "en": "Maybe later.",
+   "th": "ไว้ทีหลัง"
+  },
+  {
+   "k": "dilemma.filter_wear.title",
+   "en": "The air filter is worn out",
+   "th": "ตัวกรองอากาศเสื่อม"
+  },
+  {
+   "k": "dilemma.filter_wear.body",
+   "en": "The oxygen filter is clogging. Swap in a spare, or scrub it by hand and lose some oxygen.",
+   "th": "ตัวกรองออกซิเจนเริ่มอุดตัน เปลี่ยนตัวสำรอง หรือขัดเองแล้วเสียออกซิเจนไปบ้าง"
+  },
+  {
+   "k": "dilemma.filter_wear.swap",
+   "en": "Swap in the spare filter",
+   "th": "ใส่ตัวกรองสำรอง"
+  },
+  {
+   "k": "dilemma.filter_wear.swap.result",
+   "en": "Click. Fresh filter, clean air. Being prepared paid off!",
+   "th": "คลิก ตัวกรองใหม่ อากาศสะอาด เตรียมไว้ก่อนได้ผลจริง!"
+  },
+  {
+   "k": "dilemma.filter_wear.clean_by_hand",
+   "en": "Scrub it by hand",
+   "th": "ขัดด้วยมือ"
+  },
+  {
+   "k": "dilemma.filter_wear.clean_by_hand.result",
+   "en": "Hard work, and some oxygen escaped.",
+   "th": "งานหนัก และออกซิเจนรั่วออกไปบ้าง"
+  },
+  {
+   "k": "dilemma.cut_hand.title",
+   "en": "You cut your hand",
+   "th": "มือคุณโดนบาด"
+  },
+  {
+   "k": "dilemma.cut_hand.body",
+   "en": "A sharp panel edge cut your glove and hand. Treat it now, or keep working.",
+   "th": "ขอบแผงคมๆ บาดถุงมือและมือ รักษาตอนนี้ หรือทำงานต่อ"
+  },
+  {
+   "k": "dilemma.cut_hand.bandage",
+   "en": "Clean and bandage it",
+   "th": "ล้างแผลและพันผ้า"
+  },
+  {
+   "k": "dilemma.cut_hand.bandage.result",
+   "en": "Clean and wrapped. Far from a hospital, even a small cut needs care.",
+   "th": "ล้างและพันแล้ว อยู่ไกลโรงพยาบาลแบบนี้ แผลเล็กๆ ก็ต้องดูแล"
+  },
+  {
+   "k": "dilemma.cut_hand.ignore",
+   "en": "Ignore it",
+   "th": "ช่างมัน"
+  },
+  {
+   "k": "dilemma.cut_hand.ignore.result",
+   "en": "It stings all day. You tire faster.",
+   "th": "แสบทั้งวัน คุณเหนื่อยเร็วขึ้น"
+  },
+  {
+   "k": "dilemma.mars_frost.title",
+   "en": "Frost on the panels",
+   "th": "น้ำค้างแข็งบนแผง"
+  },
+  {
+   "k": "dilemma.mars_frost.body",
+   "en": "White frost covers the solar panels this morning. It's dry ice: frozen carbon dioxide.",
+   "th": "เช้านี้มีน้ำค้างแข็งสีขาวเกาะแผงโซลาร์ มันคือน้ำแข็งแห้ง: คาร์บอนไดออกไซด์แช่แข็ง"
+  },
+  {
+   "k": "dilemma.mars_frost.scrape",
+   "en": "Scrape it off",
+   "th": "ขูดออก"
+  },
+  {
+   "k": "dilemma.mars_frost.scrape.result",
+   "en": "Clean panels, full power.",
+   "th": "แผงสะอาด ได้ไฟเต็ม"
+  },
+  {
+   "k": "dilemma.mars_frost.wait",
+   "en": "Wait for the Sun",
+   "th": "รอแดด"
+  },
+  {
+   "k": "dilemma.mars_frost.wait.result",
+   "en": "It turned straight into gas, but you lost a morning of power.",
+   "th": "มันกลายเป็นแก๊สไปเอง แต่เสียไฟช่วงเช้าไป"
+  },
+  {
+   "k": "dilemma.moon_lro.title",
+   "en": "An orbiter passes overhead",
+   "th": "ยานโคจรผ่านเหนือหัว"
+  },
+  {
+   "k": "dilemma.moon_lro.body",
+   "en": "A NASA orbiter will pass over for an hour. It could relay our signal, if we spend power.",
+   "th": "ยานโคจรของ NASA จะผ่านเหนือเราหนึ่งชั่วโมง มันช่วยส่งต่อสัญญาณได้ ถ้าเรายอมใช้ไฟ"
+  },
+  {
+   "k": "dilemma.moon_lro.relay",
+   "en": "Relay through it",
+   "th": "ส่งผ่านยานโคจร"
+  },
+  {
+   "k": "dilemma.moon_lro.relay.result",
+   "en": "Signal boosted through the orbiter.",
+   "th": "สัญญาณแรงขึ้นผ่านยานโคจร"
+  },
+  {
+   "k": "dilemma.moon_lro.skip",
+   "en": "Save the power",
+   "th": "เก็บไฟไว้"
+  },
+  {
+   "k": "dilemma.moon_lro.skip.result",
+   "en": "It passes by.",
+   "th": "มันผ่านไปแล้ว"
+  },
+  {
+   "k": "dilemma.titan_pebbles.title",
+   "en": "Round pebbles outside",
+   "th": "ก้อนกรวดกลมๆ ข้างนอก"
+  },
+  {
+   "k": "dilemma.titan_pebbles.body",
+   "en": "Smooth, round pebbles lie by the hatch, like river stones. Go and look closely?",
+   "th": "มีก้อนกรวดกลมเรียบอยู่ข้างประตู เหมือนหินในแม่น้ำ ออกไปดูใกล้ๆ ไหม?"
+  },
+  {
+   "k": "dilemma.titan_pebbles.collect",
+   "en": "Go and collect some",
+   "th": "ออกไปเก็บ"
+  },
+  {
+   "k": "dilemma.titan_pebbles.collect.result",
+   "en": "They're water ice, smoothed by flowing methane long ago.",
+   "th": "มันคือน้ำแข็ง ถูกมีเทนเหลวไหลผ่านขัดจนกลมเมื่อนานมาแล้ว"
+  },
+  {
+   "k": "dilemma.titan_pebbles.skip",
+   "en": "Stay inside",
+   "th": "อยู่ข้างใน"
+  },
+  {
+   "k": "dilemma.titan_pebbles.skip.result",
+   "en": "Maybe another day.",
+   "th": "ไว้วันอื่น"
+  },
+  {
+   "k": "dilemma.header_event",
+   "en": "EVENT · DAY {0}",
+   "th": "เหตุการณ์ · วันที่ {0}"
+  },
+  {
+   "k": "dilemma.need.spare_filter",
+   "en": "Needs a spare filter (sort the spare parts box first)",
+   "th": "ต้องมีตัวกรองสำรอง (ต้องแยกกล่องอะไหล่ก่อน)"
+  },
+  {
+   "k": "card.isolation.title",
+   "en": "Far from home",
+   "th": "ไกลบ้าน"
+  },
+  {
+   "k": "card.isolation.body",
+   "en": "Long missions are hard on the mind. In the Mars-500 experiment (2010–2011), six people lived sealed inside a mock spaceship in Moscow for 520 days. NASA studies crews in isolation in its HERA habitat. Messages from home, routines and exercise help crews stay well.",
+   "th": "ภารกิจยาวๆ หนักสำหรับจิตใจ ในการทดลอง Mars-500 (2010–2011) คน 6 คนอยู่ในยานจำลองที่ปิดสนิทในมอสโกนาน 520 วัน NASA ศึกษาลูกเรือที่อยู่อย่างโดดเดี่ยวในที่พัก HERA ข้อความจากบ้าน กิจวัตรประจำวัน และการออกกำลังกายช่วยให้ลูกเรือสบายดี"
+  },
+  {
+   "k": "card.co2_frost.title",
+   "en": "Dry-ice frost",
+   "th": "น้ำค้างแข็งจากน้ำแข็งแห้ง"
+  },
+  {
+   "k": "card.co2_frost.body",
+   "en": "Mars's polar caps and winter frost include dry ice: frozen carbon dioxide. Each spring NASA orbiters watch it turn straight from ice into gas, skipping the liquid stage. This is called sublimation. NASA's Viking 2 lander photographed frost on the ground in 1979.",
+   "th": "ขั้วน้ำแข็งและน้ำค้างแข็งฤดูหนาวบนดาวอังคารมีน้ำแข็งแห้ง: คาร์บอนไดออกไซด์แช่แข็ง ทุกฤดูใบไม้ผลิ ยานโคจรของ NASA เห็นมันเปลี่ยนจากน้ำแข็งเป็นแก๊สโดยตรง ไม่ผ่านการเป็นของเหลว เรียกว่าการระเหิด ยาน Viking 2 ของ NASA ถ่ายภาพน้ำค้างแข็งบนพื้นไว้เมื่อปี 1979"
+  },
+  {
+   "k": "card.lro.title",
+   "en": "Lunar Reconnaissance Orbiter",
+   "th": "ยานสำรวจ LRO"
+  },
+  {
+   "k": "card.lro.body",
+   "en": "NASA's Lunar Reconnaissance Orbiter has circled the Moon since 2009. It mapped the surface in detail, measured some of the coldest places in the Solar System inside polar craters, and even photographed the Apollo landing sites.",
+   "th": "ยาน Lunar Reconnaissance Orbiter ของ NASA โคจรรอบดวงจันทร์ตั้งแต่ปี 2009 ทำแผนที่พื้นผิวอย่างละเอียด วัดอุณหภูมิในหลุมขั้วดวงจันทร์ที่หนาวที่สุดแห่งหนึ่งในระบบสุริยะ และถ่ายภาพจุดลงจอดของอพอลโลได้ด้วย"
+  },
+  {
+   "k": "card.titan_pebbles.title",
+   "en": "Pebbles on Titan",
+   "th": "ก้อนกรวดบนไททัน"
+  },
+  {
+   "k": "card.titan_pebbles.body",
+   "en": "When the Huygens probe landed on Titan in 2005, its camera saw rounded pebbles of water ice on the ground, smooth like river stones. Liquid methane once flowed there and shaped them, the way water shapes stones on Earth.",
+   "th": "เมื่อยานฮอยเกนส์ลงจอดบนไททันในปี 2005 กล้องของมันเห็นก้อนกรวดน้ำแข็งกลมๆ บนพื้น เรียบเหมือนหินในแม่น้ำ มีเทนเหลวเคยไหลผ่านที่นั่นและขัดมันจนกลม เหมือนน้ำขัดหินบนโลก"
+  },
+  {
+   "k": "sup.sup_o2.name",
+   "en": "Oxygen bottle",
+   "th": "ถังออกซิเจน"
+  },
+  {
+   "k": "sup.sup_o2.desc",
+   "en": "+12 O₂ on landing",
+   "th": "O₂ +12 ตอนลงจอด"
+  },
+  {
+   "k": "sup.sup_water.name",
+   "en": "Water jug",
+   "th": "ถังน้ำ"
+  },
+  {
+   "k": "sup.sup_water.desc",
+   "en": "+12 water on landing",
+   "th": "น้ำ +12 ตอนลงจอด"
+  },
+  {
+   "k": "sup.sup_food.name",
+   "en": "Ration box",
+   "th": "กล่องเสบียง"
+  },
+  {
+   "k": "sup.sup_food.desc",
+   "en": "+15 food on landing",
+   "th": "อาหาร +15 ตอนลงจอด"
+  },
+  {
+   "k": "sup.sup_battery.name",
+   "en": "Battery pack",
+   "th": "แบตเตอรี่สำรอง"
+  },
+  {
+   "k": "sup.sup_battery.desc",
+   "en": "+15 power on landing",
+   "th": "ไฟฟ้า +15 ตอนลงจอด"
+  },
+  {
+   "k": "sup.sup_cell.name",
+   "en": "Spare power cell",
+   "th": "เซลล์พลังงานสำรอง"
+  },
+  {
+   "k": "sup.sup_cell.desc",
+   "en": "+10 mission progress",
+   "th": "ความคืบหน้าภารกิจ +10"
+  },
+  {
+   "k": "sup.sup_photo.name",
+   "en": "Family photo",
+   "th": "รูปครอบครัว"
+  },
+  {
+   "k": "sup.sup_photo.desc",
+   "en": "+15 energy: a reason to keep going",
+   "th": "พลังกาย +15: กำลังใจให้สู้ต่อ"
+  },
+  {
+   "k": "sup.sup_medkit.name",
+   "en": "First aid kit",
+   "th": "กล่องปฐมพยาบาล"
+  },
+  {
+   "k": "sup.sup_medkit.desc",
+   "en": "treats an injury later",
+   "th": "ใช้รักษาแผลทีหลังได้"
+  },
+  {
+   "k": "sup.sup_filter.name",
+   "en": "Spare air filter",
+   "th": "ตัวกรองอากาศสำรอง"
+  },
+  {
+   "k": "sup.sup_filter.desc",
+   "en": "replaces a worn filter later",
+   "th": "ใช้เปลี่ยนตัวกรองที่เสื่อมทีหลังได้"
+  },
+  {
+   "k": "sup.sup_seeds.name",
+   "en": "Seed packets",
+   "th": "ซองเมล็ดพันธุ์"
+  },
+  {
+   "k": "sup.sup_seeds.desc",
+   "en": "+5 food, and can replant a garden",
+   "th": "อาหาร +5 และใช้ปลูกผักใหม่ได้"
+  },
+  {
+   "k": "c1_scramble_start",
+   "en": "Wait! The impact threw supplies all over the ship. Anything loose will break when we land. You have {0} seconds, and the landing lockers hold {1}. Grab what we'll need!",
+   "th": "เดี๋ยว! แรงชนทำให้ของกระจายไปทั่วยาน ของที่ไม่ได้เก็บจะพังตอนลงจอด คุณมีเวลา {0} วินาที และตู้ลงจอดใส่ได้ {1} ชิ้น เก็บของที่เราต้องใช้!"
+  },
+  {
+   "k": "c1_scramble_banner",
+   "en": "LANDING IN {0}s · lockers {1}/{2} · click supplies to stow them",
+   "th": "ลงจอดใน {0} วินาที · ตู้ {1}/{2} · คลิกของเพื่อเก็บ"
+  },
+  {
+   "k": "c1_stowed",
+   "en": "Stowed: {0} ({1})  {2}/{3}",
+   "th": "เก็บแล้ว: {0} ({1})  {2}/{3}"
+  },
+  {
+   "k": "c1_scramble_hurry",
+   "en": "No time for that! Grab the loose supplies.",
+   "th": "ไม่มีเวลาแล้ว! เก็บของที่กระจายอยู่ก่อน"
+  },
+  {
+   "k": "c1_scramble_full",
+   "en": "Lockers full! Strap in!",
+   "th": "ตู้เต็มแล้ว! คาดเข็มขัด!"
+  },
+  {
+   "k": "c1_scramble_time",
+   "en": "Time's up! We saved {0} of {1}. Strap in!",
+   "th": "หมดเวลา! เก็บได้ {0} จาก {1} ชิ้น คาดเข็มขัด!"
+  },
+  {
+   "k": "obj.c1_scramble",
+   "en": "Stow supplies before landing ({0}/{1})",
+   "th": "เก็บของก่อนลงจอด ({0}/{1})"
+  },
+  {
+   "k": "carry.stowed",
+   "en": "Supplies stowed: {0}/{1}",
+   "th": "ของที่เก็บมา: {0}/{1}"
+  },
+  {
+   "k": "carry.stowed_none",
+   "en": "No supplies saved. It will be a hard week.",
+   "th": "ไม่ได้เก็บของมาเลย สัปดาห์นี้จะหนัก"
+  },
+  {
+   "k": "dilemma.need.med_kit",
+   "en": "Needs the first aid kit (stow it before landing)",
+   "th": "ต้องมีกล่องปฐมพยาบาล (เก็บก่อนลงจอด)"
+  },
+  {
+   "k": "dilemma.need.seed_pack",
+   "en": "Needs seed packets (stow them before landing)",
+   "th": "ต้องมีซองเมล็ดพันธุ์ (เก็บก่อนลงจอด)"
+  },
+  {
+   "k": "dilemma.cut_hand.medkit",
+   "en": "Use the first aid kit",
+   "th": "ใช้กล่องปฐมพยาบาล"
+  },
+  {
+   "k": "dilemma.cut_hand.medkit.result",
+   "en": "Cleaned and dressed in a minute. Glad you packed it.",
+   "th": "ทำแผลเสร็จในนาทีเดียว ดีที่เก็บมา"
+  },
+  {
+   "k": "dilemma.greenhouse_leak.replant",
+   "en": "Replant with the seed packets",
+   "th": "ปลูกใหม่ด้วยซองเมล็ดพันธุ์"
+  },
+  {
+   "k": "dilemma.greenhouse_leak.replant.result",
+   "en": "Fresh seeds in a sealed tray. They'll sprout fast.",
+   "th": "เมล็ดใหม่ในถาดที่ปิดสนิท จะงอกเร็ว"
+  },
+  {
+   "k": "hint.c1_scramble.1",
+   "en": "Click the loose supplies in any room. Each one takes a moment to stow.",
+   "th": "คลิกของที่กระจายอยู่ในห้องไหนก็ได้ เก็บแต่ละชิ้นใช้เวลาแป๊บหนึ่ง"
+  },
+  {
+   "k": "hint.c1_scramble.2",
+   "en": "Air, water, food and power help right away. The first aid kit, spare filter and seeds help in later events.",
+   "th": "อากาศ น้ำ อาหาร และไฟช่วยได้ทันที ส่วนกล่องปฐมพยาบาล ตัวกรองสำรอง และเมล็ดพันธุ์จะช่วยในเหตุการณ์ทีหลัง"
+  }
+ ]
+}

@@ -32,3 +32,13 @@ crashlytics-build.properties
 # OS
 .DS_Store
 Thumbs.db
+
+# Unity (TitanGate2177 project)
+TitanGate2177/[Ll]ibrary/
+TitanGate2177/[Tt]emp/
+TitanGate2177/[Oo]bj/
+TitanGate2177/[Bb]uild/
+TitanGate2177/[Bb]uilds/
+TitanGate2177/[Ll]ogs/
+TitanGate2177/[Uu]ser[Ss]ettings/
+TitanGate2177/[Mm]emory[Cc]aptures/

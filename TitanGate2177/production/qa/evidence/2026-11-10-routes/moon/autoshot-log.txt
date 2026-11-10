@@ -1,0 +1,44 @@
+PASS impact after two shift tasks
+PASS cabin O2 drains in real time (100 -> 98)
+shot 02_leak_fuelbay
+shot 03_keypad_wrong
+PASS locker code from the debris card opens the locker
+PASS breach sealed with the kit
+cabin O2 when sealed: 93
+shot 04_nav
+shot 05_nav_confirm
+PASS route chosen: moon
+PASS manual read for the route
+shot 06_edl_wrong
+shot 07_landing_text
+PASS landed, chapter 2 started
+shot 08_carry_report
+shot 09_quarters_landed
+shot 10_outside
+PASS pod code 1969 opens the pod
+PASS feed horn + cable combine
+shot 11_aim_choice
+PASS wrong aim rejected
+PASS dish aimed at Earth on the horizon
+PASS drill set in the shadowed crater
+shot 12_landed_room0
+shot 12_landed_room1
+shot 12_landed_room2
+shot 12_landed_room3
+shot 12_landed_room4
+shot 12_landed_room5
+shot 13_bed
+shot 14_night_report
+PASS sol 2 reached
+PASS daytime emergency started after 2 actions
+shot 15_incident
+PASS emergency fixed by reaching s_o2gen
+shot 16_hint
+shot 17_codex
+shot 18_low_o2
+sim sol=4 outcome=Ongoing o2=22 water=13 food=36 power=72
+shot 19_goal_modal
+PASS route won
+shot 20_win
+shot 21_lose
+done errors=0 checksFailed=0 cards=12
