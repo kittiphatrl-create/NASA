@@ -106,11 +106,11 @@ namespace TitanGate.Core
         public static bool StepsComplete(IList<string> order, IList<string> expected) =>
             order.Count == expected.Count && FirstWrongStep(order, expected) == -1;
 
-        /// <summary>Which Chapter 2 a navigation choice leads to.</summary>
+        /// <summary>Where a navigation choice leads; null when it is out of reach (no route).</summary>
         public static string RouteFor(PuzzleConfig p, string destinationId)
         {
             var o = p.navOptions.Find(n => n.id == destinationId);
-            return o == null ? null : (string.IsNullOrEmpty(o.route) ? o.id : o.route);
+            return o == null || string.IsNullOrEmpty(o.route) ? null : o.route;
         }
 
         public static Recipe FindRecipe(string a, string b, IList<Recipe> recipes)

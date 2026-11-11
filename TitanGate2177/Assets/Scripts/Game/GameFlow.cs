@@ -46,7 +46,7 @@ namespace TitanGate.Game
 
         public GameConfig Config => _cfg;
         public Localization Loc => _loc;
-        public SurvivalSim Sim => _sim;
+        public OutpostSim Sim => _sim;
         public int Chapter => _chapter;
         public int CurrentRoom => _room;
         public bool Busy => _busy;
@@ -79,6 +79,7 @@ namespace TitanGate.Game
             _ui.Init(_loc);
             _ui.CardsClicked += OnCards;
             _ui.HintClicked += OnHint;
+            _ui.BaseClicked += OnBase;
             _ui.LangClicked += ToggleLang;
             _ui.ItemClicked += OnItemClicked;
             _ui.SkipClicked += SkipCutscene;
@@ -124,6 +125,7 @@ namespace TitanGate.Game
                 {
                     if (kb.hKey.wasPressedThisFrame) OnHint();
                     if (kb.cKey.wasPressedThisFrame) OnCards();
+                    if (kb.bKey.wasPressedThisFrame) OnBase();
                     if (kb.escapeKey.wasPressedThisFrame)
                     {
                         if (_ui.ModalOpen) _ui.CloseModal();
@@ -395,6 +397,7 @@ namespace TitanGate.Game
         {
             if (_busy || _ui.Blocking || _chapter < 1 || _chapter > 2) return;
             if (_chapter == 2 && _sim != null && _sim.State.Has("orbi_off")) { _ui.Say("orbi", "orbi_resting"); return; }
+            if (_chapter == 2 && _sim != null) _sim.State.flags.Add("used_hint");
             string obj = _chapter == 1 ? Ch1Objective() : Ch2HintId();
             int lvl = _hintLevel.TryGetValue(obj, out var l) ? Mathf.Min(l + 1, 2) : 1;
             _hintLevel[obj] = lvl;
@@ -441,7 +444,7 @@ namespace TitanGate.Game
                 }
                 else
                 {
-                    p.x += Time.deltaTime * (0.6f + (d.GetInstanceID() & 7) * 0.12f) * (_sim != null ? 1f + _sim.State.sol * 0.4f : 1f);
+                    p.x += Time.deltaTime * (0.6f + (d.GetInstanceID() & 7) * 0.12f) * (_sim != null ? 1f + _sim.Day * 0.25f : 1f);
                     p.y += Mathf.Sin(Time.time * 1.3f + d.GetInstanceID()) * Time.deltaTime * 0.2f;
                     if (p.x > r.centerX + 8) p.x = r.centerX - 8;
                 }
@@ -475,13 +478,18 @@ namespace TitanGate.Game
 
         static string Signed(int v) => v > 0 ? "+" + v : v.ToString();
 
-        string DeltaText(ResourceDelta d, int ap)
+        /// <summary>"2 h  Air +14  Power -6": what an action or answer costs and gives.</summary>
+        string DeltaText(ResourceDelta d, int hours)
         {
             var sb = new StringBuilder();
-            if (ap > 0) sb.Append(_loc.T("hud.ap_cost", ap));
-            void Add(int v, string key) { if (v != 0) { if (sb.Length > 0) sb.Append("  "); sb.Append(_loc.T(key)).Append(' ').Append(Signed(v)); } }
-            Add(d.o2, "hud.o2"); Add(d.water, "hud.water"); Add(d.power, "hud.power"); Add(d.food, "hud.food");
-            Add(d.stamina, "hud.stamina"); Add(d.fuel, "hud.fuel");
+            if (hours > 0) sb.Append(_loc.T("hud.hours_cost", hours));
+            void Add(float f, string key)
+            {
+                int v = Mathf.RoundToInt(f);
+                if (v != 0) { if (sb.Length > 0) sb.Append("  "); sb.Append(_loc.T(key)).Append(' ').Append(Signed(v)); }
+            }
+            Add(d.air, "hud.air"); Add(d.power, "hud.power"); Add(d.shelter, "hud.shelter");
+            Add(d.supplies, "hud.supplies"); Add(d.energy, "hud.energy");
             return sb.ToString();
         }
     }

@@ -158,4 +158,16 @@ explanation and a retry). Scene 2: 4 sols on Mars, 6 actions a sol; first real t
   filter and seed packets unlock better answers in Chapter 2 events. The old supply bag is gone; the
   checkpoint saves what was stowed.
 
+- **2026-11-11 · round 8 (team handoff "TitanGate → 7-day survival"):** Chapter 2 rebuilt as a **Mars outpost on the
+  landed Kestrel** with one authoritative clock: **hours since landing, 0–168** (Day 1 06:00 → rescue check at hour
+  168). Mars only (Earth/Titan shown as out of fuel range). HUD 3+2: Air, Power, Shelter + Supplies, Energy.
+  Base Control power budget (life support, greenhouse, beacon, shelter support; solar 07:00–19:00). Solar particle
+  event at hour 84 (Day 4 18:00), warned by Earth at hour 28; outcome = shelter readiness × shelter power. Earth link
+  via relay passes (10:00/22:00) + 14-min light delay ("ask Earth" vs. read the cards now). Rescue: repair beacon,
+  switch it on, send coordinates, acknowledged on a 6-hourly pass; endings Rescued / Stranded / Failed. 60-second
+  scramble unchanged (10 supplies, 5 slots, none required). Science & Data Sources screen separates NASA-observed,
+  NASA principle and game simulation. Thai tone-mark stacking fixed. Balance (`tools/balance_sim.py` + EditMode
+  policy test): prepared play rescued 478/480 at worst carry-over, ignoring forecasts fails ~21% and never healthy.
+  Not done: browser build (Unity Web Build Support module not installed).
+
 ## Keep

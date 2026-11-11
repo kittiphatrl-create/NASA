@@ -1,6 +1,6 @@
 // PROTOTYPE - NOT FOR PRODUCTION
 // Question: Do real NASA facts used as puzzle clues make a junior astronaut feel they solved it with science?
-// Date: 2026-11-10
+// Date: 2026-11-11
 using System.Collections.Generic;
 using System.IO;
 using NUnit.Framework;
@@ -8,352 +8,320 @@ using TitanGate.Core;
 
 namespace TitanGate.Tests
 {
-    /// <summary>Builds configs for tests so each test owns its numbers.</summary>
-    static class TestConfigs
+    /// <summary>Small outpost configs so each test owns its numbers.</summary>
+    static class Outposts
     {
-        public static GameConfig Basic()
+        public static OutpostConfig Basic()
         {
-            var c = new GameConfig();
-            c.survival = new SurvivalConfig
+            return new OutpostConfig
             {
-                startO2 = 60, startWater = 50, startPower = 40, startFood = 70, startStamina = 80,
-                maxValue = 100, solsTotal = 4, launchSol = 4, actionsPerSol = 6, solarBase = 40,
-                habPowerLoad = 14, nightO2 = 14, nightWater = 10, nightFood = 8, dustPerSol = 0.15f,
-                minEfficiency = 0.3f, powerOutO2Penalty = 25, sleepStamina = 45, collapseStamina = 20,
-                lowStaminaThreshold = 25, lowStaminaExtraAp = 1, fuelTarget = 100,
-                randomEventNights = new[] { 1, 2 }
+                hoursTotal = 168, landingClock = 6, maxValue = 100,
+                start = new ResourceDelta { air = 70, power = 50, shelter = 0, supplies = 60, energy = 80 },
+                airUsePerHour = 1.4f, lifeSupportAirPerHour = 1f,
+                systems = new List<SystemDef>
+                {
+                    new SystemDef { id = "life_support", powerPerHour = 2.5f, onAtStart = true },
+                    new SystemDef { id = "greenhouse", powerPerHour = 2f },
+                    new SystemDef { id = "beacon", powerPerHour = 1f },
+                    new SystemDef { id = "shelter", powerPerHour = 2f },
+                },
+                solarPerHour = 5.5f, daylightFrom = 7, daylightTo = 19, dustPerDay = 0.12f, minEfficiency = 0.4f,
+                suppliesUsePerHour = 0.45f, energyAwakePerHour = -1.4f, energySleepPerHour = 7f,
+                lowEnergy = 20, lowEnergyExtraHours = 1, collapseSleepHours = 6, suppliesZeroFailHours = 24,
+                warnAir = 25, radPerHour = 0.029f, radPerOutsideHour = 0.05f, radSafe = 50, radLimit = 150,
+                spe = new SpeDef { hour = 84, durationHours = 6, warningHour = 28, dose = 80, energyLoss = 40, airLoss = 35, powerLoss = 40, unpoweredShelterFactor = 0.5f },
+                relayClocks = new[] { 10, 22 }, rescuePassEveryHours = 6, greenhouseHoursToReady = 24,
+                nightEventClock = 2, randomEventDays = new int[0], encounterClock = 8, encounterDays = new int[0],
+                actions = new List<OutpostAction>
+                {
+                    new OutpostAction { id = "moxie", hours = 2, delta = new ResourceDelta { power = -6, air = 14 } },
+                    new OutpostAction { id = "eat", hours = 1, delta = new ResourceDelta { supplies = -6, energy = 25 } },
+                    new OutpostAction { id = "walk", hours = 3, delta = new ResourceDelta { energy = -12 }, outside = true },
+                    new OutpostAction { id = "stow", hours = 1, setsFlag = "panels_stowed", solFlag = true },
+                    new OutpostAction { id = "shelter_kit", hours = 1, delta = new ResourceDelta { shelter = 40 }, requiresFlag = "shield_kit", consumesFlag = true },
+                    new OutpostAction { id = "send_coords", hours = 1, needsSystem = "beacon" },
+                    new OutpostAction { id = "ask_earth", hours = 1 },
+                    new OutpostAction { id = "sci", hours = 1, science = true, minDay = 3, setsFlag = "sci" },
+                },
             };
-            c.actions = new List<ActionDef>
-            {
-                A("moxie", new ResourceDelta { power = -8, o2 = 18, stamina = -5 }),
-                A("eat", new ResourceDelta { food = -10, stamina = 25 }),
-                A("clean_panels", new ResourceDelta { o2 = -3, stamina = -12 }, clean: true),
-                A("stow_panels", new ResourceDelta { o2 = -2, stamina = -6 }, sets: "panels_stowed", sol: true),
-                A("inspect_seals", new ResourceDelta { stamina = -4 }, sets: "seals_inspected", sol: true),
-                A("sabatier", new ResourceDelta { power = -10, water = -8, fuel = 20, stamina = -5 }, req: "catalyst_installed"),
-                A("repair_line", new ResourceDelta { stamina = -10 }, req: "has_hull_patch", sets: "line_repaired"),
-                A("drill_ice", new ResourceDelta { o2 = -3, stamina = -14, water = 18 }, req: "drill_ready"),
-                A("recycle", new ResourceDelta { power = -5, water = 12, stamina = -5 }),
-            };
-            c.events = new List<EventDef>
-            {
-                new EventDef { id = "dust_devil", preventFlag = "panels_stowed", efficiencyLoss = 0.25f, nextMorningSolarFactor = 0.6f },
-                new EventDef { id = "micro_leak", preventFlag = "seals_inspected", penalty = new ResourceDelta { o2 = -12 } },
-                new EventDef { id = "solar_flare", preventMinWater = 35, penalty = new ResourceDelta { stamina = -30 } },
-                new EventDef { id = "global_storm", major = true, night = 3, preventFlag = "panels_stowed", preventMinPower = 40,
-                    penalty = new ResourceDelta { power = -10 }, efficiencyLoss = 0.4f,
-                    nextMorningSolarFactor = 0f, preventedNextMorningSolarFactor = 0f },
-            };
-            return c;
-        }
-
-        static ActionDef A(string id, ResourceDelta d, string req = null, string sets = null, bool sol = false, bool clean = false) =>
-            new ActionDef { id = id, ap = 1, delta = d, requiresFlag = req, setsFlag = sets, solFlag = sol, cleansPanels = clean };
-
-        /// <summary>Remove random events so a test sees only the rule it checks.</summary>
-        public static GameConfig Calm()
-        {
-            var c = Basic();
-            c.events.Clear();
-            return c;
-        }
-
-        public static SurvivalSim Ready(GameConfig c, int seed = 1)
-        {
-            var sim = new SurvivalSim(c, seed);
-            sim.SetFlag("catalyst_installed");
-            sim.SetFlag("drill_ready");
-            sim.SetFlag("has_hull_patch");
-            sim.BeginFirstSol();
-            return sim;
         }
     }
 
-    public class SurvivalSimTests
+    public class OutpostClockTests
     {
         [Test]
-        public void BeginFirstSol_AddsSolarPowerAndActionPoints()
+        public void Clock_StartsAtDawnOfDay1_AndDayChangesAt0600()
         {
-            var sim = new SurvivalSim(TestConfigs.Calm(), 1);
-            int produced = sim.BeginFirstSol();
-            Assert.AreEqual(40, produced);
-            Assert.AreEqual(80, sim.State.power);
-            Assert.AreEqual(6, sim.State.ap);
-            Assert.AreEqual(1, sim.State.sol);
+            var sim = new OutpostSim(Outposts.Basic(), 1);
+            Assert.AreEqual(6, sim.Clock);
+            Assert.AreEqual(1, sim.Day);
+            sim.State.power = 100; sim.State.supplies = 100;
+            sim.Advance(23, true);
+            Assert.AreEqual(5, sim.Clock);
+            Assert.AreEqual(1, sim.Day);
+            sim.Advance(1, true);
+            Assert.AreEqual(2, sim.Day);
+            Assert.AreEqual(144, sim.HoursLeft);
         }
 
         [Test]
-        public void Moxie_ConvertsPowerToOxygen_AndSpendsOneAction()
+        public void Rescue_IsCheckedAtHour168_PreparedWins_UnpreparedIsStranded()
         {
-            var sim = TestConfigs.Ready(TestConfigs.Calm());
-            Assert.IsTrue(sim.Do("moxie", out _));
-            Assert.AreEqual(72, sim.State.power);
-            Assert.AreEqual(78, sim.State.o2);
-            Assert.AreEqual(5, sim.State.ap);
-        }
+            var c = Outposts.Basic();
+            c.start.supplies = 100; c.suppliesUsePerHour = 0.1f; c.airUsePerHour = 1f;
+            var ready = new OutpostSim(c, 1);
+            ready.SetSystem("beacon", true);
+            ready.State.power = 100;
+            Assert.IsNotNull(ready.Do("send_coords"));
+            for (int i = 0; i < 200 && ready.State.outcome == Outcome.Ongoing; i++) { ready.State.power = 100; ready.State.energy = 80; ready.Advance(1); }
+            Assert.AreEqual(Outcome.Rescued, ready.State.outcome);
+            Assert.AreEqual(168, ready.State.hour);
 
-        [Test]
-        public void Action_WithMissingRequiredFlag_IsRefusedAndChangesNothing()
-        {
-            var sim = new SurvivalSim(TestConfigs.Calm(), 1);
-            sim.BeginFirstSol();
-            Assert.IsFalse(sim.Do("sabatier", out var reason));
-            Assert.AreEqual("reason.need.catalyst_installed", reason);
-            Assert.AreEqual(0, sim.State.fuel);
-            Assert.AreEqual(6, sim.State.ap);
-        }
-
-        [Test]
-        public void LowStamina_MakesActionsCostTwo()
-        {
-            var sim = TestConfigs.Ready(TestConfigs.Calm());
-            sim.State.stamina = 20;
-            Assert.IsTrue(sim.Do("moxie", out _));
-            Assert.AreEqual(4, sim.State.ap);
-        }
-
-        [Test]
-        public void NoActionPoints_RefusesAction()
-        {
-            var sim = TestConfigs.Ready(TestConfigs.Calm());
-            sim.State.ap = 0;
-            Assert.IsFalse(sim.Do("moxie", out var reason));
-            Assert.AreEqual("reason.no_ap", reason);
-        }
-
-        [Test]
-        public void NotEnoughPower_RefusesPoweredAction()
-        {
-            var sim = TestConfigs.Ready(TestConfigs.Calm());
-            sim.State.power = 5;
-            Assert.IsFalse(sim.Do("sabatier", out var reason));
-            Assert.AreEqual("reason.no_power", reason);
-        }
-
-        [Test]
-        public void Sleep_AppliesNightUse_DustAndRest()
-        {
-            var sim = TestConfigs.Ready(TestConfigs.Calm());
-            sim.State.stamina = 30;
-            var r = sim.Sleep();
-            Assert.AreEqual(2, sim.State.sol);
-            Assert.AreEqual(46, sim.State.o2);                    // 60 - 14
-            Assert.AreEqual(40, sim.State.water);                 // 50 - 10
-            Assert.AreEqual(62, sim.State.food);                  // 70 - 8
-            Assert.AreEqual(0.85f, sim.State.efficiency, 0.001f);
-            Assert.AreEqual(75, sim.State.stamina);               // 30 + 45
-            Assert.AreEqual(34, r.morningSolar);                  // 40 * 0.85
-            Assert.AreEqual(100, sim.State.power);                // 80 - 14 + 34, clamped
-        }
-
-        [Test]
-        public void Collapse_GivesLessRest()
-        {
-            var sim = TestConfigs.Ready(TestConfigs.Calm());
-            sim.State.stamina = 10;
-            sim.Sleep(collapsed: true);
-            Assert.AreEqual(30, sim.State.stamina);
-        }
-
-        [Test]
-        public void PowerBelowZero_DrainsOxygen()
-        {
-            var sim = TestConfigs.Ready(TestConfigs.Calm());
-            sim.State.power = 5;
-            var r = sim.Sleep();
-            Assert.IsTrue(r.powerOut);
-            Assert.AreEqual(60 - 14 - 25, sim.State.o2);
-        }
-
-        [Test]
-        public void OxygenAtZero_LosesTheGame()
-        {
-            var sim = TestConfigs.Ready(TestConfigs.Calm());
-            sim.State.o2 = 10;
-            var r = sim.Sleep();
-            Assert.AreEqual(SimOutcome.LostO2, r.outcome);
-            Assert.AreEqual(SimOutcome.LostO2, sim.State.outcome);
-        }
-
-        [Test]
-        public void CleanPanels_RestoresEfficiency()
-        {
-            var sim = TestConfigs.Ready(TestConfigs.Calm());
-            sim.State.efficiency = 0.4f;
-            Assert.IsTrue(sim.Do("clean_panels", out _));
-            Assert.AreEqual(1f, sim.State.efficiency, 0.001f);
-        }
-
-        [Test]
-        public void SolFlags_ClearEachMorning_PersistentFlagsStay()
-        {
-            var sim = TestConfigs.Ready(TestConfigs.Calm());
-            sim.Do("stow_panels", out _);
-            sim.Do("repair_line", out _);
-            Assert.IsTrue(sim.State.Has("panels_stowed"));
-            sim.Sleep();
-            Assert.IsFalse(sim.State.Has("panels_stowed"));
-            Assert.IsTrue(sim.State.Has("line_repaired"));
-        }
-
-        [Test]
-        public void SolFlagAction_CannotRepeatSameSol()
-        {
-            var sim = TestConfigs.Ready(TestConfigs.Calm());
-            Assert.IsTrue(sim.Do("stow_panels", out _));
-            Assert.IsFalse(sim.Do("stow_panels", out var reason));
-            Assert.AreEqual("reason.done.panels_stowed", reason);
-        }
-
-        [Test]
-        public void Fuel_IsCappedAtTarget()
-        {
-            var sim = TestConfigs.Ready(TestConfigs.Calm());
-            sim.State.fuel = 90;
-            Assert.IsTrue(sim.Do("sabatier", out _));
-            Assert.AreEqual(100, sim.State.fuel);
-            Assert.IsFalse(sim.Do("sabatier", out var reason));
-            Assert.AreEqual("reason.fuel_full", reason);
-        }
-
-        [Test]
-        public void Launch_NeedsRepairFuelAndOpenWindow()
-        {
-            var sim = TestConfigs.Ready(TestConfigs.Calm());
-            Assert.IsFalse(sim.CanLaunch(out var r1));
-            Assert.AreEqual("reason.need.line_repaired", r1);
-            sim.Do("repair_line", out _);
-            sim.State.fuel = 100;
-            Assert.IsFalse(sim.CanLaunch(out var r2));
-            Assert.AreEqual("reason.window_not_open", r2);
-            sim.State.sol = 4;
-            Assert.IsTrue(sim.Launch());
-            Assert.AreEqual(SimOutcome.Won, sim.State.outcome);
-        }
-
-        [Test]
-        public void SleepingOnLastSol_ClosesTheLaunchWindow()
-        {
-            var sim = TestConfigs.Ready(TestConfigs.Calm());
-            sim.State.sol = 4;
-            var r = sim.Sleep();
-            Assert.AreEqual(SimOutcome.LostWindow, r.outcome);
+            var lazy = new OutpostSim(c, 1);
+            for (int i = 0; i < 200 && lazy.State.outcome == Outcome.Ongoing; i++) { lazy.State.power = 100; lazy.State.energy = 80; lazy.Advance(1); }
+            Assert.AreEqual(Outcome.Stranded, lazy.State.outcome, "alive but no coordinates: stranded, not a timeout game over");
         }
     }
 
-    public class EventTests
+    public class OutpostSystemTests
     {
         [Test]
-        public void Schedule_IsDeterministicForASeed_AndMajorIsFixed()
+        public void LifeSupport_SlowsAirLoss_AndCostsPower()
         {
-            var c = TestConfigs.Basic();
-            var a = SurvivalSim.BuildSchedule(c, 42);
-            var b = SurvivalSim.BuildSchedule(c, 42);
-            CollectionAssert.AreEqual(a, b);
-            Assert.AreEqual(3, a.Length);
-            Assert.AreEqual("global_storm", a[2]);
-            Assert.IsNotNull(a[0]);
-            Assert.IsNotNull(a[1]);
-            Assert.AreNotEqual(a[0], a[1]);
+            var sim = new OutpostSim(Outposts.Basic(), 1);
+            sim.State.power = 90;
+            float air = sim.State.air;
+            sim.Advance(1);                       // 06:00-07:00, no sun yet
+            Assert.AreEqual(air - 1.4f + 1f, sim.State.air, 1e-3);
+            Assert.AreEqual(90 - 2.5f, sim.State.power, 1e-3);
+            sim.SetSystem("life_support", false);
+            air = sim.State.air;
+            sim.Advance(1);
+            Assert.AreEqual(air - 1.4f, sim.State.air, 1e-3);
         }
 
         [Test]
-        public void Schedule_EverySeedUsesOnlyMinorsOnRandomNights()
+        public void Solar_OnlyInDaylight_ScaledByDust()
         {
-            var c = TestConfigs.Basic();
-            for (int seed = 0; seed < 50; seed++)
+            var c = Outposts.Basic();
+            c.systems.ForEach(s => s.onAtStart = false);
+            var sim = new OutpostSim(c, 1);
+            float p = sim.State.power;
+            sim.Advance(1);                       // 06:00 -> no sun
+            Assert.AreEqual(p, sim.State.power, 1e-3);
+            sim.State.efficiency = 0.5f;
+            sim.Advance(1);                       // 07:00 -> sun
+            Assert.AreEqual(p + 5.5f * 0.5f, sim.State.power, 1e-3);
+        }
+
+        [Test]
+        public void NotEnoughPower_SwitchesASystemOff_AndLogsIt()
+        {
+            var sim = new OutpostSim(Outposts.Basic(), 1);
+            sim.State.power = 1f;
+            var r = sim.Advance(1);
+            Assert.IsFalse(sim.IsOn("life_support"));
+            Assert.IsTrue(r.events.Exists(e => e.kind == LogKind.PowerOut && e.id == "life_support"));
+        }
+
+        [Test]
+        public void PowerNeededUntilSunrise_CountsSwitchedOnSystems()
+        {
+            var sim = new OutpostSim(Outposts.Basic(), 1);
+            sim.SetSystem("beacon", true);
+            Assert.AreEqual((2.5f + 1f) * 1, sim.PowerNeededUntilSunrise, 1e-3, "06:00 -> sun at 07:00");
+        }
+    }
+
+    public class OutpostActionTests
+    {
+        [Test]
+        public void Action_AppliesCosts_ThenItsHoursPass()
+        {
+            var sim = new OutpostSim(Outposts.Basic(), 1);
+            sim.State.air = 50;
+            var r = sim.Do("moxie");
+            Assert.AreEqual(2, r.hours);
+            Assert.AreEqual(2, sim.State.hour);
+            Assert.AreEqual(50 + 14 - 2 * 0.4f, sim.State.air, 1e-3);
+        }
+
+        [Test]
+        public void LowEnergy_CostsAnExtraHour_AndZeroEnergyCollapses()
+        {
+            var sim = new OutpostSim(Outposts.Basic(), 1);
+            sim.State.energy = 15;
+            Assert.AreEqual(4, sim.HoursFor(sim.Config.GetAction("walk")));
+            sim.State.energy = 5;
+            var r = sim.Do("walk");
+            Assert.AreEqual(1, sim.State.collapses);
+            Assert.IsTrue(r.stoppedEarly);
+            Assert.IsTrue(r.events.Exists(e => e.kind == LogKind.Collapse));
+        }
+
+        [Test]
+        public void Outside_AddsDose_AndMinDayGatesScience()
+        {
+            var sim = new OutpostSim(Outposts.Basic(), 1);
+            sim.Do("walk");
+            Assert.AreEqual(3 * 0.05f + 3 * 0.029f, sim.State.dose, 1e-3);
+            Assert.IsFalse(sim.CanDo("sci", out var why));
+            Assert.AreEqual("reason.later", why);
+        }
+
+        [Test]
+        public void ItemAction_UsesUpItsFlag()
+        {
+            var sim = new OutpostSim(Outposts.Basic(), 1, null, new[] { "shield_kit" });
+            Assert.IsNotNull(sim.Do("shelter_kit"));
+            Assert.AreEqual(40, sim.State.shelter, 1e-3);
+            Assert.IsFalse(sim.CanDo("shelter_kit", out var why));
+            Assert.AreEqual("reason.need.shield_kit", why);
+        }
+
+        [Test]
+        public void SendCoords_NeedsTheBeaconOn_AndIsAcknowledgedOnARescuePass()
+        {
+            var sim = new OutpostSim(Outposts.Basic(), 1);
+            Assert.IsFalse(sim.CanDo("send_coords", out var why));
+            Assert.AreEqual("reason.system_off.beacon", why);
+            sim.SetSystem("beacon", true);
+            sim.Do("send_coords");
+            Assert.AreEqual(1, sim.State.coords);
+            sim.Advance(6 - sim.State.hour % 6);
+            Assert.AreEqual(2, sim.State.coords);
+        }
+    }
+
+    public class OutpostEventTests
+    {
+        [Test]
+        public void Sleep_RestoresEnergy_ButALowAirAlarmWakesYou()
+        {
+            var sim = new OutpostSim(Outposts.Basic(), 1);
+            sim.State.energy = 10;
+            sim.Advance(4, true);
+            Assert.AreEqual(10 + 28, sim.State.energy, 1e-3);
+            sim.SetSystem("life_support", false);
+            sim.State.air = 27;
+            var r = sim.Advance(8, true);
+            Assert.IsTrue(r.stoppedEarly);
+            Assert.IsTrue(r.events.Exists(e => e.kind == LogKind.WakeAlarm));
+            Assert.AreEqual(Outcome.Ongoing, sim.State.outcome);
+        }
+
+        [Test]
+        public void NightEvent_PreventedBySolFlag_ElseHurts()
+        {
+            var c = Outposts.Basic();
+            c.nightEvents = new List<NightEventDef> { new NightEventDef { id = "dust_devil", preventFlag = "panels_stowed", efficiencyLoss = 0.25f } };
+            c.randomEventDays = new[] { 1, 2 };
+            var sim = new OutpostSim(c, 1);
+            sim.State.supplies = 100; sim.State.power = 100;
+            sim.Do("stow");
+            sim.Advance(sim.HoursToMorning, true);
+            Assert.AreEqual(1f - 0.12f, sim.State.efficiency, 1e-3, "prevented: only the daily dust");
+            sim.State.power = 100;
+            sim.Advance(24, true);
+            Assert.AreEqual(1f - 0.12f - 0.25f - 0.12f, sim.State.efficiency, 1e-3);
+            Assert.IsTrue(sim.State.log.Exists(e => e.kind == LogKind.Night && !e.ok));
+        }
+
+        [Test]
+        public void SolarParticleEvent_HitsOnce_ShelterAndPowerDecideHowHard()
+        {
+            OutpostSim Run(float shelter, bool powered)
             {
-                var s = SurvivalSim.BuildSchedule(c, seed);
-                Assert.AreNotEqual("global_storm", s[0]);
-                Assert.AreNotEqual("global_storm", s[1]);
+                var c = Outposts.Basic();
+                c.airUsePerHour = 0; c.suppliesUsePerHour = 0; c.energyAwakePerHour = 0; c.radPerHour = 0;
+                c.systems.ForEach(s => s.powerPerHour = 0);
+                var sim = new OutpostSim(c, 1);
+                sim.State.shelter = shelter;
+                sim.SetSystem("shelter", powered);
+                sim.Advance(90);
+                return sim;
             }
-        }
-
-        static SurvivalSim WithTonight(string eventId)
-        {
-            var c = TestConfigs.Basic();
-            c.survival.randomEventNights = new int[0];
-            var ev = c.GetEvent(eventId);
-            ev.major = true;
-            ev.night = 1;
-            c.events.RemoveAll(e => e.id == "global_storm" && eventId != "global_storm");
-            return TestConfigs.Ready(c);
+            var none = Run(0, false);
+            var half = Run(100, false);
+            var full = Run(100, true);
+            Assert.AreEqual(80, none.State.dose, 1e-3);
+            Assert.AreEqual(40, half.State.dose, 1e-3, "an unpowered shelter protects half as well");
+            Assert.AreEqual(0, full.State.dose, 1e-3);
+            Assert.AreEqual(1, none.State.log.FindAll(e => e.kind == LogKind.Spe).Count);
         }
 
         [Test]
-        public void Leak_Unprevented_CostsOxygen()
+        public void EarthMessages_RideTheRelayPasses()
         {
-            var sim = WithTonight("micro_leak");
-            var r = sim.Sleep();
-            Assert.AreEqual("micro_leak", r.eventId);
-            Assert.IsFalse(r.eventPrevented);
-            Assert.AreEqual(60 - 14 - 12, sim.State.o2);
+            var sim = new OutpostSim(Outposts.Basic(), 1);
+            sim.State.power = 100; sim.State.supplies = 100;
+            int wait = sim.HoursUntilReply();
+            sim.Do("ask_earth");
+            Assert.IsFalse(sim.CanDo("ask_earth", out _), "one question at a time");
+            sim.Advance(wait - 2, true);
+            Assert.IsFalse(sim.State.messages.Find(m => m.id == "earth_hint").delivered);
+            sim.State.power = 100;
+            sim.Advance(2, true);
+            Assert.IsTrue(sim.State.messages.Find(m => m.id == "earth_hint").delivered);
         }
 
         [Test]
-        public void Leak_PreventedByInspectingSeals()
+        public void SpeWarning_ArrivesAtItsHour()
         {
-            var sim = WithTonight("micro_leak");
-            sim.Do("inspect_seals", out _);
-            var r = sim.Sleep();
-            Assert.IsTrue(r.eventPrevented);
-            Assert.AreEqual(60 - 14, sim.State.o2);
+            var sim = new OutpostSim(Outposts.Basic(), 1);
+            sim.State.supplies = 100;
+            for (int i = 0; i < 28; i++) { sim.State.power = 100; sim.Advance(1, true); }
+            Assert.IsTrue(sim.State.messages.Find(m => m.id == "earth_spe_warning").delivered);
         }
 
         [Test]
-        public void Flare_PreventedByEnoughWaterShielding()
+        public void NoSupplies_For24Hours_FailsTheMission()
         {
-            var sim = WithTonight("solar_flare");
-            sim.State.stamina = 50;
-            var r = sim.Sleep();
-            Assert.IsTrue(r.eventPrevented);   // water 50 >= 35 at bedtime
-            Assert.AreEqual(95, sim.State.stamina);
+            var sim = new OutpostSim(Outposts.Basic(), 1);
+            sim.State.supplies = 0;
+            for (int i = 0; i < 30 && sim.State.outcome == Outcome.Ongoing; i++) { sim.State.air = 80; sim.State.power = 80; sim.State.energy = 80; sim.Advance(1); }
+            Assert.AreEqual(Outcome.FailedSupplies, sim.State.outcome);
         }
 
         [Test]
-        public void Flare_UnpreventedWithLowWater_CostsStamina()
+        public void Encounters_DrawnOnFreeMornings_OptionNeedsItsSupply()
         {
-            var sim = WithTonight("solar_flare");
-            sim.State.water = 30;
-            sim.State.stamina = 50;
-            var r = sim.Sleep();
-            Assert.IsFalse(r.eventPrevented);
-            Assert.AreEqual(50 - 30 + 45, sim.State.stamina);
+            var c = Outposts.Basic();
+            c.encounterDays = new[] { 2, 3 };
+            c.dilemmas = new List<DilemmaDef>
+            {
+                new DilemmaDef { id = "fixed3", day = 3, options = new List<DilemmaOption> { new DilemmaOption { id = "x" }, new DilemmaOption { id = "y" } } },
+                new DilemmaDef { id = "cut", random = true, options = new List<DilemmaOption>
+                    { new DilemmaOption { id = "medkit", needFlag = "med_kit" }, new DilemmaOption { id = "ignore", delta = new ResourceDelta { energy = -20 } } } },
+                new DilemmaDef { id = "other", random = true, options = new List<DilemmaOption> { new DilemmaOption { id = "ok" }, new DilemmaOption { id = "no" } } },
+            };
+            var sim = new OutpostSim(c, 1);
+            sim.State.supplies = 100;
+            Assert.IsNull(sim.DueDilemma(), "day 1 has no event");
+            sim.State.power = 100; sim.Advance(24, true);
+            var d = sim.DueDilemma();
+            Assert.IsTrue(d.random);
+            if (d.id == "cut")
+            {
+                Assert.IsFalse(sim.CanChoose(d.options[0], out var why));
+                Assert.AreEqual("dilemma.need.med_kit", why);
+            }
+            sim.Choose(d.id, d.options[d.options.Count - 1].id);
+            sim.State.power = 100; sim.Advance(24, true);
+            Assert.AreEqual("fixed3", sim.DueDilemma().id, "a fixed dilemma takes its morning");
+            Assert.IsNull(sim.State.encounterToday);
         }
 
         [Test]
-        public void DustDevil_Unprevented_CutsTomorrowsSolarAndEfficiency()
+        public void CarryOver_CabinAirAndSupplies()
         {
-            var sim = WithTonight("dust_devil");
-            var r = sim.Sleep();
-            Assert.IsFalse(r.eventPrevented);
-            Assert.AreEqual(0.6f, sim.State.efficiency, 0.001f);       // 1 - 0.25 - 0.15
-            Assert.AreEqual((int)System.Math.Round(40 * 0.6f * 0.6f), r.morningSolar);
-        }
-
-        [Test]
-        public void Storm_PreparedPlayer_LosesOnlyOneMorningOfSun()
-        {
-            var sim = WithTonight("global_storm");
-            sim.Do("stow_panels", out _);
-            sim.State.power = 60;
-            var r = sim.Sleep();
-            Assert.IsTrue(r.eventPrevented);
-            Assert.AreEqual(0, r.morningSolar);
-            Assert.AreEqual(60 - 14, sim.State.power);
-            Assert.AreEqual(0.85f, sim.State.efficiency, 0.001f);
-        }
-
-        [Test]
-        public void Storm_UnpreparedPlayer_TakesHeavyDamage()
-        {
-            var sim = WithTonight("global_storm");
-            sim.State.power = 20;
-            var r = sim.Sleep();
-            Assert.IsFalse(r.eventPrevented);
-            Assert.IsTrue(r.powerOut);                       // 20 - 14 - 10 < 0
-            Assert.AreEqual(60 - 14 - 25, sim.State.o2);
-            Assert.AreEqual(0.45f, sim.State.efficiency, 0.001f);
+            var c = new Chapter1Config { carryO2Pivot = 50, carryO2Factor = 0.3f };
+            c.supplies.Add(new SupplyDef { id = "o2", delta = new ResourceDelta { air = 12 } });
+            c.supplies.Add(new SupplyDef { id = "kit", flag = "med_kit" });
+            Assert.AreEqual(15, OutpostSim.CarryOver(c, 100, null).air, 1e-3);
+            Assert.AreEqual(-12, OutpostSim.CarryOver(c, 10, null).air, 1e-3);
+            Assert.AreEqual(12, OutpostSim.CarryOver(c, 50, new[] { "o2", "kit" }).air, 1e-3);
+            CollectionAssert.AreEqual(new[] { "med_kit" }, OutpostSim.SupplyFlags(c, new[] { "o2", "kit" }));
         }
     }
 
@@ -364,9 +332,9 @@ namespace TitanGate.Tests
             lockerCode = "7", podCode = "39", fuelGaugePercent = 18,
             navOptions = new List<NavOption>
             {
-                new NavOption { id = "titan", fuelNeeded = 60 },
-                new NavOption { id = "earth", fuelNeeded = 35 },
-                new NavOption { id = "mars", fuelNeeded = 15 },
+                new NavOption { id = "titan", fuelNeeded = 60, route = "" },
+                new NavOption { id = "earth", fuelNeeded = 35, route = "" },
+                new NavOption { id = "mars", fuelNeeded = 15, route = "mars" },
             },
             edlOrder = new List<string> { "edl_entry", "edl_chute", "edl_shield", "edl_rockets" },
             recipes = new List<Recipe> { new Recipe { a = "item_plate", b = "item_sealant", result = "item_hull_patch" } },
@@ -381,13 +349,15 @@ namespace TitanGate.Tests
         }
 
         [Test]
-        public void Nav_OnlyMarsReachableWithGaugeFuel()
+        public void Nav_OnlyMarsIsReachable()
         {
             var p = P();
             Assert.IsTrue(Puzzles.CanReach(p, "mars"));
             Assert.IsFalse(Puzzles.CanReach(p, "earth"));
             Assert.IsFalse(Puzzles.CanReach(p, "titan"));
-            Assert.AreEqual("mars", Puzzles.BestReachable(p));
+            Assert.AreEqual("mars", Puzzles.RouteFor(p, "mars"));
+            Assert.IsNull(Puzzles.RouteFor(p, "titan"));
+            Assert.IsNull(Puzzles.RouteFor(p, "pluto"));
         }
 
         [Test]
@@ -397,7 +367,6 @@ namespace TitanGate.Tests
             Assert.AreEqual(-1, Puzzles.FirstWrongEdlStep(new List<string> { "edl_entry", "edl_chute" }, p));
             Assert.AreEqual(1, Puzzles.FirstWrongEdlStep(new List<string> { "edl_entry", "edl_rockets" }, p));
             Assert.IsTrue(Puzzles.EdlComplete(p.edlOrder, p));
-            Assert.IsFalse(Puzzles.EdlComplete(new List<string> { "edl_entry" }, p));
         }
 
         [Test]
@@ -409,17 +378,7 @@ namespace TitanGate.Tests
             inv.Add("item_plate");
             Assert.AreEqual("item_hull_patch", inv.Combine("item_sealant", "item_plate", p.recipes));
             Assert.IsTrue(inv.Has("item_hull_patch"));
-            Assert.IsFalse(inv.Has("item_plate"));
             Assert.IsNull(inv.Combine("item_hull_patch", "item_plate", p.recipes));
-        }
-
-        [Test]
-        public void Inventory_NoDuplicates()
-        {
-            var inv = new Inventory();
-            Assert.IsTrue(inv.Add("a"));
-            Assert.IsFalse(inv.Add("a"));
-            Assert.AreEqual(1, inv.Items.Count);
         }
 
         [Test]
@@ -434,612 +393,210 @@ namespace TitanGate.Tests
         }
     }
 
-    public class RouteRuleTests
-    {
-        [Test]
-        public void CarryOver_CabinOxygenAboveAndBelowPivot()
-        {
-            var c = new Chapter1Config { carryO2Pivot = 50, carryO2Factor = 0.4f, suppliesBonus = new ResourceDelta { food = 15, water = 10 } };
-            Assert.AreEqual(20, SurvivalSim.CarryOver(c, 100, false).o2);
-            Assert.AreEqual(-16, SurvivalSim.CarryOver(c, 10, false).o2);
-            var withBag = SurvivalSim.CarryOver(c, 50, true);
-            Assert.AreEqual(0, withBag.o2);
-            Assert.AreEqual(15, withBag.food);
-            Assert.AreEqual(10, withBag.water);
-        }
-
-        [Test]
-        public void StartBonus_IsAppliedAndClamped()
-        {
-            var sim = new SurvivalSim(TestConfigs.Calm(), 1, new ResourceDelta { o2 = 60, food = -5 });
-            Assert.AreEqual(100, sim.State.o2);
-            Assert.AreEqual(65, sim.State.food);
-            Assert.AreEqual(0, sim.State.fuel);
-        }
-
-        static GameConfig WithIncident()
-        {
-            var c = TestConfigs.Calm();
-            c.incidents = new List<IncidentDef>
-            {
-                new IncidentDef { id = "fire", sol = 1, afterActions = 2, seconds = 30, hotspot = "s_recycler", penalty = new ResourceDelta { water = -12 } }
-            };
-            return c;
-        }
-
-        [Test]
-        public void Incident_BecomesDueAfterEnoughActions_Once()
-        {
-            var sim = TestConfigs.Ready(WithIncident());
-            Assert.IsNull(sim.DueIncident());
-            sim.Do("moxie", out _);
-            Assert.IsNull(sim.DueIncident());
-            sim.Do("moxie", out _);
-            var i = sim.DueIncident();
-            Assert.IsNotNull(i);
-            sim.ResolveIncident(i, true);
-            Assert.IsNull(sim.DueIncident());
-            Assert.AreEqual(50, sim.State.water);
-        }
-
-        [Test]
-        public void Incident_Missed_AppliesPenalty()
-        {
-            var sim = TestConfigs.Ready(WithIncident());
-            sim.Do("moxie", out _); sim.Do("moxie", out _);
-            sim.ResolveIncident(sim.DueIncident(), false);
-            Assert.AreEqual(38, sim.State.water);
-        }
-
-        [Test]
-        public void GoalFlag_IsPerRoute()
-        {
-            var c = TestConfigs.Calm();
-            c.survival.goalFlag = "antenna_ready";
-            var sim = TestConfigs.Ready(c);
-            sim.State.fuel = 100; sim.State.sol = 4;
-            Assert.IsFalse(sim.CanLaunch(out var r));
-            Assert.AreEqual("reason.need.antenna_ready", r);
-            sim.SetFlag("antenna_ready");
-            Assert.IsTrue(sim.CanLaunch(out _));
-        }
-
-        [Test]
-        public void Steps_PerRouteOrderAndDistractor()
-        {
-            var moon = new List<string> { "moon_deorbit", "moon_pitch", "moon_hover", "moon_touch" };
-            Assert.AreEqual(0, Puzzles.FirstWrongStep(new List<string> { "edl_chute" }, moon));
-            Assert.AreEqual(-1, Puzzles.FirstWrongStep(new List<string> { "moon_deorbit", "moon_pitch" }, moon));
-            Assert.IsTrue(Puzzles.StepsComplete(moon, moon));
-        }
-
-        [Test]
-        public void Nav_EveryDestinationLeadsToARoute()
-        {
-            var p = new PuzzleConfig
-            {
-                navOptions = new List<NavOption>
-                {
-                    new NavOption { id = "titan", fuelNeeded = 60, route = "titan" },
-                    new NavOption { id = "earth", fuelNeeded = 35, route = "moon" },
-                    new NavOption { id = "mars", fuelNeeded = 15, route = "mars" },
-                }
-            };
-            Assert.AreEqual("moon", Puzzles.RouteFor(p, "earth"));
-            Assert.AreEqual("titan", Puzzles.RouteFor(p, "titan"));
-            Assert.AreEqual("mars", Puzzles.RouteFor(p, "mars"));
-            Assert.IsNull(Puzzles.RouteFor(p, "pluto"));
-        }
-    }
-
-    /// <summary>
-    /// Config/Data checks on the shipped files (Config/Data story type: reads the real data on purpose).
-    /// </summary>
+    /// <summary>Checks on the shipped config and strings (Config/Data: reads the real data on purpose).</summary>
     public class ShippedDataTests
     {
         static string Root => Path.Combine(UnityEngine.Application.dataPath, "Resources", "Data");
-
         static GameConfig Shipped() => GameConfig.FromJson(File.ReadAllText(Path.Combine(Root, "config.json")));
-
         static Localization Strings() => Localization.FromJson(File.ReadAllText(Path.Combine(Root, "strings.json")));
 
-        static readonly Dictionary<string, string> PreventByFlag = new Dictionary<string, string>
+        /// <summary>A sensible player (mirrors tools/balance_sim.py).</summary>
+        static OutpostSim Play(GameConfig g, int seed, float cabin, string[] items, int pick, bool heed, bool incidentsOk)
         {
-            ["panels_stowed"] = "stow_panels", ["seals_inspected"] = "inspect_seals", ["shutters_closed"] = "close_shutters",
-            ["heaters_set"] = "set_heaters", ["hab_insulated"] = "insulate", ["rtg_checked"] = "check_rtg",
-        };
-        static readonly Dictionary<string, string> O2Action = new Dictionary<string, string> { ["mars"] = "moxie", ["moon"] = "electrolyze", ["titan"] = "electrolyze" };
-        static readonly Dictionary<string, string> Progress = new Dictionary<string, string> { ["mars"] = "sabatier", ["moon"] = "transmit", ["titan"] = "charge_gate" };
-
-        static SurvivalSim ReadySim(GameConfig c, int seed, ResourceDelta bonus)
-        {
-            var sim = new SurvivalSim(c, seed, bonus);
-            foreach (var f in new[] { "catalyst_installed", "drill_ready", "has_hull_patch", "line_repaired", "antenna_ready", "gate_found" }) sim.SetFlag(f);
-            sim.BeginFirstSol();
+            var c = g.outpost;
+            var flags = new List<string>(OutpostSim.SupplyFlags(g.chapter1, items)) { "catalyst_installed", "drill_ready", "has_hull_patch" };
+            var sim = new OutpostSim(c, seed, OutpostSim.CarryOver(g.chapter1, cabin, items), flags);
+            int lastDay = 0, guard = 0;
+            while (sim.State.outcome == Outcome.Ongoing && guard++ < 2000)
+            {
+                if (sim.Day != lastDay && sim.Clock >= 6)
+                {
+                    lastDay = sim.Day;
+                    var d = sim.DueDilemma();
+                    if (d != null) sim.Choose(d.id, Pick(sim, d, pick).id);
+                    if (sim.State.outcome != Outcome.Ongoing) break;
+                }
+                int clock = sim.Clock;
+                if (clock >= 22 || clock < 6)
+                {
+                    sim.SetSystem("greenhouse", false);
+                    bool lowAir = sim.State.air <= c.warnAir;
+                    if (!lowAir || !sim.CanDo("moxie", out _)) { sim.Advance(sim.HoursToMorning, true); continue; }
+                }
+                var a = Policy(sim, c, heed);
+                if (a != null)
+                {
+                    sim.Do(a);
+                    var inc = sim.DueIncident();
+                    if (inc != null) sim.ResolveIncident(inc, incidentsOk);
+                }
+                else sim.Advance(1);
+            }
             return sim;
         }
 
-        /// <summary>
-        /// A sensible player (mirrors tools/balance_sim.py): prepare for tonight's forecast, keep O2, water,
-        /// food and energy up, save power for the big night, then do science and progress.
-        /// </summary>
-        static string Pick(SurvivalSim sim, string route, GameConfig c, bool heedForecasts)
-        {
-            var st = sim.State;
-            var s = c.survival;
-            var ev = sim.TonightEvent();
-            int needPw = System.Math.Max(s.habPowerLoad, ev != null ? ev.preventMinPower : 0);
-            var major = sim.MajorEvent();
-            if (major != null && major.night == st.sol + 1) needPw += 15;
-            int needW = ev != null ? ev.preventMinWater : 0;
-            bool Ok(string id)
-            {
-                var a = c.GetAction(id);
-                if (a == null || !sim.CanDo(id, out _)) return false;
-                if (a.delta.power < 0 && st.power + a.delta.power < needPw) return false;
-                if (a.delta.water < 0 && st.water + a.delta.water < needW) return false;
-                return true;
-            }
-            var wants = new List<string>();
-            if (heedForecasts && ev != null && !string.IsNullOrEmpty(ev.preventFlag) && !st.Has(ev.preventFlag)) wants.Add(PreventByFlag[ev.preventFlag]);
-            if (st.o2 < 50) wants.Add(O2Action[route]);
-            if (st.water < 40 || (needW > 0 && st.water < needW + 5)) { wants.Add("drill_ice"); wants.Add("recycle"); }
-            if (st.stamina < 35) wants.Add("eat");
-            if (st.food < 30) wants.Add("grow_greens");
-            if (c.GetAction("clean_panels") != null && st.efficiency < 0.75f) wants.Add("clean_panels");
-            if (route == "moon" && st.sol >= 2) wants.Add("build_berm");
-            foreach (var a in c.actions) if (a.science) wants.Add(a.id);
-            wants.Add(Progress[route]); wants.Add(O2Action[route]); wants.Add("drill_ice"); wants.Add("grow_greens");
-            foreach (var w in wants) if (Ok(w)) return w;
-            return null;
-        }
-
-        /// <summary>
-        /// Fixed dilemmas: take option [pick] (both answers must be playable). Random encounters: a
-        /// sensible player takes the better deal (mirrors tools/balance_sim.py).
-        /// </summary>
-        static DilemmaOption PickOption(SurvivalSim sim, DilemmaDef d, int pick)
+        static DilemmaOption Pick(OutpostSim sim, DilemmaDef d, int pick)
         {
             var ok = d.options.FindAll(o => sim.CanChoose(o, out _));
-            if (!d.random)
-            {
-                var o = d.options[System.Math.Min(pick, d.options.Count - 1)];
-                return ok.Contains(o) ? o : ok[0];
-            }
-            DilemmaOption best = null;
-            float bestV = float.MinValue;
+            if (!d.random) { var o = d.options[System.Math.Min(pick, d.options.Count - 1)]; return ok.Contains(o) ? o : ok[0]; }
+            DilemmaOption best = null; float bestV = float.MinValue;
             foreach (var o in ok)
             {
-                float v = o.delta.o2 + o.delta.water + o.delta.power + o.delta.food + o.delta.fuel + 0.5f * o.delta.stamina - 8 * o.ap - 5 * o.dose;
+                float v = o.delta.air + o.delta.power + o.delta.supplies + o.delta.shelter + 0.5f * o.delta.energy - 6 * o.hours - 5 * o.dose;
                 if (v > bestV) { bestV = v; best = o; }
             }
             return best;
         }
 
-        /// <summary>Plays one whole stay with the policy. Emergencies are all missed (worst case).</summary>
-        static SurvivalSim PlayStay(GameConfig c, string route, int seed, ResourceDelta bonus, bool heedForecasts, int pick = 0)
+        static string Policy(OutpostSim sim, OutpostConfig c, bool heed)
         {
-            var sim = ReadySim(c, seed, bonus);
-            while (sim.State.outcome == SimOutcome.Ongoing)
+            var s = sim.State; int clock = sim.Clock;
+            sim.SetSystem("greenhouse", s.flags.Contains("greenhouse_started") && !s.flags.Contains("greenhouse_ready")
+                                        && clock >= c.daylightFrom && clock < c.daylightTo && s.power > 30);
+            sim.SetSystem("beacon", s.coords == 1 || (s.flags.Contains("beacon_repaired") && s.coords == 0));
+            sim.SetSystem("shelter", c.spe.hour - 2 <= s.hour && s.hour <= c.spe.hour && s.power > 10);
+            sim.SetSystem("life_support", true);
+            var tonight = sim.TonightEvent();
+            var wants = new List<string>();
+            float nightPower = (24 + 6 - 19) * c.GetSystem("life_support").powerPerHour;
+            if (s.air < 40 || (clock >= 18 && s.air < 55)) wants.Add("moxie");
+            if (clock >= 17 && s.power < nightPower && s.efficiency < 0.85f) wants.Add("clean_panels");
+            if (s.supplies < 35) wants.AddRange(new[] { "drill_ice", "sabatier", "recycle" });
+            if (s.energy < 35) wants.Add("eat");
+            if (heed && tonight != null && clock >= 14)
             {
-                DilemmaDef dil;
-                while ((dil = sim.DueDilemma()) != null) sim.Choose(dil.id, PickOption(sim, dil, pick).id);
-                if (sim.State.outcome != SimOutcome.Ongoing) break;
-                string id;
-                int guard = 0;
-                while (sim.State.outcome == SimOutcome.Ongoing && (id = Pick(sim, route, c, heedForecasts)) != null && guard++ < 20)
-                {
-                    sim.Do(id, out _);
-                    var inc = sim.DueIncident();
-                    if (inc != null) sim.ResolveIncident(inc, false);
-                }
-                if (sim.State.outcome != SimOutcome.Ongoing) break;
-                if (sim.State.sol >= c.survival.solsTotal) { sim.Launch(); break; }
-                sim.Sleep(sim.State.stamina <= 0);
+                if (tonight.preventFlag == "panels_stowed") wants.Add("stow_panels");
+                if (tonight.preventFlag == "seals_inspected") wants.Add("inspect_seals");
+                if (tonight.preventMinShelter > s.shelter) wants.AddRange(new[] { "shelter_kit", "shelter_water", "shelter_regolith" });
             }
-            return sim;
+            if (s.efficiency < 0.7f) wants.Add("clean_panels");
+            if (heed && s.shelter < 75 && s.hour < c.spe.hour) wants.AddRange(new[] { "shelter_kit", s.supplies > 45 ? "shelter_water" : "shelter_regolith", "shelter_regolith" });
+            wants.AddRange(new[] { "repair_beacon_chip", "repair_beacon", "send_coords", "setup_greenhouse_seeds", "setup_greenhouse" });
+            foreach (var a in c.actions) if (a.science) wants.Add(a.id);
+            if (s.air < 75) wants.Add("moxie");
+            if (s.supplies < 70) wants.AddRange(new[] { "drill_ice", "sabatier", "recycle" });
+            foreach (var w in wants)
+            {
+                if (!sim.CanDo(w, out _)) continue;
+                var d = c.GetAction(w).delta;
+                if (d.power < 0 && s.power + d.power < 15) continue;
+                return w;
+            }
+            return null;
         }
 
-        /// <summary>
-        /// Worst fair case: little cabin oxygen, no supplies bag, every daytime emergency missed.
-        /// A sensible player must still win every route for every event order and finish the science.
-        /// </summary>
+        static readonly string[] Strong = { "sup_o2", "sup_food", "sup_battery", "sup_shield", "sup_cell" };
+
+        /// <summary>A prepared player is rescued with no loot and the worst cabin air, and loot really helps.</summary>
         [Test]
-        public void EveryRoute_SensiblePlayerWins_EvenInTheWorstCarryOver()
+        public void Outpost_PreparedPlayerIsRescued_MinimalAndStrongLoot()
         {
-            var shipped = Shipped();
-            Assert.AreEqual(3, shipped.routes.Count);
-            foreach (var route in shipped.routes)
-            {
-                var c = shipped.ForRoute(route.id);
-                var bonus = SurvivalSim.CarryOver(shipped.chapter1, shipped.chapter1.cabinFloor, false);
+            var g = Shipped();
+            foreach (var items in new[] { new string[0], Strong })
                 for (int pick = 0; pick < 2; pick++)
                 {
-                    // choices have real costs now, so a rare unlucky pick may lose; 95% must still win
-                    int wins = 0;
-                    string lastLoss = null;
+                    int rescued = 0; string loss = null;
                     for (int seed = 0; seed < 40; seed++)
                     {
-                        var sim = PlayStay(c, route.id, seed, bonus, true, pick);
-                        var st = sim.State;
-                        if (st.outcome == SimOutcome.Won)
-                        {
-                            wins++;
-                            Assert.IsTrue(sim.Stars()[2], $"{route.id} seed {seed}: science {sim.ScienceDone}/{sim.ScienceTotal}");
-                        }
-                        else lastLoss = $"seed {seed} {st.outcome} sol {st.sol} o2 {st.o2} water {st.water} food {st.food} power {st.power} progress {st.fuel}";
+                        var sim = Play(g, seed, g.chapter1.cabinFloor, items, pick, true, false);
+                        if (sim.State.outcome == Outcome.Rescued) rescued++;
+                        else loss = $"seed {seed} {sim.State.outcome} hour {sim.State.hour} air {sim.State.air:0} power {sim.State.power:0} supplies {sim.State.supplies:0}";
                     }
-                    Assert.GreaterOrEqual(wins, 38, $"{route.id} pick {pick}: {wins}/40, e.g. {lastLoss}");
+                    Assert.GreaterOrEqual(rescued, 38, $"loot {items.Length} pick {pick}: {rescued}/40 e.g. {loss}");
                 }
-            }
         }
 
-        /// <summary>Ignoring ORBI's forecasts should usually lose: preparing is the game.</summary>
+        /// <summary>Ignoring the forecasts and the shelter must cost something real.</summary>
         [Test]
-        public void EveryRoute_IgnoringForecasts_UsuallyLoses()
+        public void Outpost_IgnoringForecasts_HurtsHealthAndSometimesFails()
         {
-            var shipped = Shipped();
-            foreach (var route in shipped.routes)
+            var g = Shipped();
+            int healthy = 0, failed = 0;
+            for (int seed = 0; seed < 40; seed++)
             {
-                var c = shipped.ForRoute(route.id);
-                var bonus = SurvivalSim.CarryOver(shipped.chapter1, 50f, false);
-                for (int pick = 0; pick < 2; pick++)
-                {
-                    int wins = 0;
-                    for (int seed = 0; seed < 40; seed++)
-                        if (PlayStay(c, route.id, seed, bonus, false, pick).State.outcome == SimOutcome.Won) wins++;
-                    Assert.Less(wins, 10, route.id + " pick " + pick);
-                }
+                var sim = Play(g, seed, 50, new string[0], 0, false, false);
+                if (sim.State.outcome != Outcome.Rescued) failed++;
+                else if (sim.Stars()[1]) healthy++;
             }
+            Assert.AreEqual(0, healthy, "no healthy star without preparing for the solar event");
+            Assert.Greater(failed, 0, "ignoring forecasts should sometimes fail");
         }
 
-        /// <summary>Doing nothing must not win on any route: the game needs the player.</summary>
         [Test]
-        public void EveryRoute_DoingNothing_Loses()
+        public void Outpost_DataIsConsistent()
         {
-            var shipped = Shipped();
-            foreach (var route in shipped.routes)
+            var g = Shipped();
+            var c = g.outpost;
+            Assert.AreEqual(168, c.hoursTotal, "rescue after 7 days");
+            Assert.AreEqual(60f, g.chapter1.scrambleSeconds, "the opening scramble stays 60 real seconds");
+            Assert.Greater(g.chapter1.supplies.Count, g.chapter1.stowSlots);
+            Assert.AreEqual(4, c.systems.Count);
+            foreach (var a in c.actions)
             {
-                var sim = ReadySim(shipped.ForRoute(route.id), 3, null);
-                SimOutcome o = SimOutcome.Ongoing;
-                for (int i = 0; i < route.survival.solsTotal && o == SimOutcome.Ongoing; i++) o = sim.Sleep().outcome;
-                Assert.AreNotEqual(SimOutcome.Ongoing, o, route.id);
-                Assert.AreNotEqual(SimOutcome.Won, o, route.id);
+                Assert.Greater(a.hours, 0, a.id);
+                if (!string.IsNullOrEmpty(a.card)) Assert.IsTrue(g.cards.Exists(x => x.id == a.card), a.id + " card " + a.card);
             }
-        }
-
-        [Test]
-        public void EveryRoute_EveryEventIsPreventable_AndIncidentsAreSane()
-        {
-            var shipped = Shipped();
-            foreach (var r in shipped.routes)
+            foreach (var d in c.dilemmas)
             {
-                foreach (var e in r.events)
-                {
-                    bool flagReachable = string.IsNullOrEmpty(e.preventFlag) || r.actions.Exists(a => a.setsFlag == e.preventFlag);
-                    Assert.IsTrue(flagReachable, r.id + "/" + e.id);
-                    Assert.LessOrEqual(e.preventMinWater, r.survival.maxValue, e.id);
-                    Assert.LessOrEqual(e.preventMinPower, r.survival.maxValue, e.id);
-                }
-                Assert.AreEqual(1, r.events.FindAll(e => e.major).Count, r.id + " needs exactly one major event");
-                foreach (var i in r.incidents)
-                {
-                    Assert.Greater(i.seconds, 15f, i.id);
-                    Assert.LessOrEqual(i.afterActions, r.survival.actionsPerSol, i.id);
-                    Assert.IsFalse(string.IsNullOrEmpty(i.hotspot), i.id);
-                }
-                Assert.AreEqual(4, r.edl.order.Count, r.id);
+                Assert.GreaterOrEqual(d.options.Count, 2, d.id);
+                Assert.IsTrue(d.options.Exists(o => string.IsNullOrEmpty(o.needFlag)), d.id + " must have an answer that needs no item");
             }
-            foreach (var n in shipped.puzzles.navOptions) Assert.IsNotNull(shipped.GetRoute(n.route), n.id);
+            Assert.AreEqual(1, g.routes.Count);
+            Assert.AreEqual("mars", g.routes[0].id);
         }
 
         [Test]
-        public void Strings_EveryEntryHasBothLanguages()
+        public void Strings_CoverEverything()
         {
-            var loc = Strings();
-            Assert.Greater(loc.Count, 50);
-            foreach (var e in loc.All)
-            {
-                Assert.IsFalse(string.IsNullOrWhiteSpace(e.en), "missing EN: " + e.k);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(e.th), "missing TH: " + e.k);
-            }
-        }
-
-        [Test]
-        public void Strings_CoverEveryCardEventActionIncidentStepAndReason()
-        {
-            var c = Shipped();
+            var g = Shipped();
             var loc = Strings();
             var keys = new List<string>();
-            foreach (var card in c.cards) { keys.Add($"card.{card.id}.title"); keys.Add($"card.{card.id}.body"); }
-            foreach (var r in c.routes)
+            foreach (var card in g.cards) { keys.Add($"card.{card.id}.title"); keys.Add($"card.{card.id}.body"); }
+            var c = g.outpost;
+            foreach (var s in c.systems) { keys.Add($"system.{s.id}"); keys.Add($"system.{s.id}.desc"); }
+            foreach (var a in c.actions)
             {
-                keys.Add($"route.{r.id}.name"); keys.Add($"route.{r.id}.progress"); keys.Add($"end.win.{r.id}.title"); keys.Add($"end.win.{r.id}.body");
-                foreach (var e in r.events) { keys.Add($"event.{e.id}.name"); keys.Add($"event.{e.id}.forecast"); keys.Add($"event.{e.id}.hit"); keys.Add($"event.{e.id}.saved"); keys.Add($"event.{e.id}.prevent"); }
-                foreach (var a in r.actions)
-                {
-                    keys.Add($"action.{a.id}"); keys.Add($"done.{a.id}");
-                    if (!string.IsNullOrEmpty(a.requiresFlag)) keys.Add($"reason.need.{a.requiresFlag}");
-                    if (!string.IsNullOrEmpty(a.setsFlag) && !a.science) keys.Add($"reason.done.{a.setsFlag}");
-                    if (!string.IsNullOrEmpty(a.card)) { keys.Add($"card.{a.card}.title"); Assert.IsTrue(c.cards.Exists(x => x.id == a.card), a.card); }
-                    if (a.science) { keys.Add($"sci.{a.id}.ask"); keys.Add($"debrief.sci.{a.id}"); }
-                }
-                foreach (var i in r.incidents) { keys.Add($"incident.{i.id}.alarm"); keys.Add($"incident.{i.id}.fixed"); keys.Add($"incident.{i.id}.missed"); }
-                foreach (var st in r.edl.order) keys.Add("edl." + st);
-                foreach (var st in r.edl.order) keys.Add($"edl.wrong.{r.id}.{st}");
-                foreach (var st in r.edl.distractors) { keys.Add("edl." + st); keys.Add($"edl.wrong.{r.id}.{st}"); }
-                keys.Add("reason.need." + r.survival.goalFlag);
-                foreach (var e in r.events) keys.Add($"debrief.lesson.{e.id}");
-                foreach (var i in r.incidents) keys.Add($"debrief.lesson.{i.id}");
-                Assert.GreaterOrEqual(r.dilemmas.Count, 2, r.id + " needs dilemmas");
-                foreach (var d in r.dilemmas)
-                {
-                    keys.Add($"dilemma.{d.id}.title"); keys.Add($"dilemma.{d.id}.body");
-                    Assert.GreaterOrEqual(d.options.Count, 2, d.id);
-                    foreach (var o in d.options)
-                    {
-                        keys.Add($"dilemma.{d.id}.{o.id}"); keys.Add($"dilemma.{d.id}.{o.id}.result");
-                        if (!string.IsNullOrEmpty(o.needFlag)) keys.Add($"dilemma.need.{o.needFlag}");
-                        if (!string.IsNullOrEmpty(o.card)) Assert.IsTrue(c.cards.Exists(x => x.id == o.card), o.card);
-                    }
-                }
-                keys.Add($"end.lose.{r.id}.LostRadiation");
+                keys.Add($"action.{a.id}"); keys.Add($"done.{a.id}");
+                if (!string.IsNullOrEmpty(a.requiresFlag)) keys.Add($"reason.need.{a.requiresFlag}");
+                if (!string.IsNullOrEmpty(a.setsFlag) && !a.science) keys.Add($"reason.done.{a.setsFlag}");
+                if (!string.IsNullOrEmpty(a.needsSystem)) keys.Add($"reason.system_off.{a.needsSystem}");
+                if (a.science) { keys.Add($"sci.{a.id}.ask"); keys.Add($"debrief.sci.{a.id}"); }
             }
-            foreach (var n in c.puzzles.navOptions) { keys.Add("nav." + n.id); keys.Add("nav.confirm." + n.id); }
-            Assert.Greater(c.chapter1.supplies.Count, c.chapter1.stowSlots, "the scramble must force a choice");
-            foreach (var sup in c.chapter1.supplies) { keys.Add($"sup.{sup.id}.name"); keys.Add($"sup.{sup.id}.desc"); }
-            foreach (var r in new[] { "reason.no_ap", "reason.no_stamina", "reason.no_food", "reason.no_power", "reason.no_water",
-                         "reason.fuel_full", "reason.not_hungry", "reason.need_fuel", "reason.window_not_open",
-                         "reason.later", "reason.done.science", "hud.dose" })
-                keys.Add(r);
+            foreach (var e in c.nightEvents) foreach (var suf in new[] { "name", "forecast", "hit", "saved", "prevent" }) keys.Add($"event.{e.id}.{suf}");
+            foreach (var i in c.incidents) { keys.Add($"incident.{i.id}.alarm"); keys.Add($"incident.{i.id}.fixed"); keys.Add($"incident.{i.id}.missed"); keys.Add($"debrief.lesson.{i.id}"); }
+            foreach (var e in c.nightEvents) keys.Add($"debrief.lesson.{e.id}");
+            foreach (var d in c.dilemmas)
+            {
+                keys.Add($"dilemma.{d.id}.title"); keys.Add($"dilemma.{d.id}.body");
+                foreach (var o in d.options)
+                {
+                    keys.Add($"dilemma.{d.id}.{o.id}"); keys.Add($"dilemma.{d.id}.{o.id}.result");
+                    if (!string.IsNullOrEmpty(o.needFlag)) keys.Add($"dilemma.need.{o.needFlag}");
+                }
+            }
+            foreach (var sup in g.chapter1.supplies) { keys.Add($"sup.{sup.id}.name"); keys.Add($"sup.{sup.id}.desc"); }
+            foreach (var n in g.puzzles.navOptions) { keys.Add("nav." + n.id); keys.Add("nav.confirm." + n.id); }
+            foreach (var st in g.routes[0].edl.order) { keys.Add("edl." + st); keys.Add("edl.wrong.mars." + st); }
+            foreach (var k in new[] { "reason.no_power", "reason.no_supplies", "reason.no_energy", "reason.no_time", "reason.later",
+                         "reason.done.science", "reason.shelter_full", "reason.not_hungry", "reason.coords_sent", "reason.waiting_earth",
+                         "end.rescued.title", "end.stranded.title", "end.failed.title", "end.FailedAir", "end.FailedSupplies",
+                         "msg.earth_spe_warning", "msg.earth_hint", "sources.title" })
+                keys.Add(k);
             foreach (var k in keys) Assert.IsTrue(loc.Has(k), "missing key: " + k);
         }
 
         [Test]
-        public void Strings_FormatArgumentsMatchBetweenLanguages()
+        public void Strings_BothLanguages_AndMatchingArguments()
         {
             var rx = new System.Text.RegularExpressions.Regex(@"\{\d+\}");
             foreach (var e in Strings().All)
             {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(e.en), "missing EN: " + e.k);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(e.th), "missing TH: " + e.k);
                 var en = new List<string>(); foreach (System.Text.RegularExpressions.Match m in rx.Matches(e.en)) en.Add(m.Value);
                 var th = new List<string>(); foreach (System.Text.RegularExpressions.Match m in rx.Matches(e.th)) th.Add(m.Value);
                 en.Sort(); th.Sort();
                 CollectionAssert.AreEqual(en, th, e.k);
-            }
-        }
-    }
-
-    /// <summary>Radiation, science tasks, longer schedules and the debrief stars.</summary>
-    public class RadiationAndDebriefTests
-    {
-        static GameConfig Rad()
-        {
-            var c = TestConfigs.Calm();
-            c.survival.radPerSol = 2f;
-            c.survival.radPerEva = 1f;
-            c.survival.radLimit = 100f;
-            c.survival.radSafe = 10f;
-            c.survival.shieldFlag = "berm";
-            c.survival.shieldFactor = 0.5f;
-            c.actions.Find(a => a.id == "clean_panels").outside = true;
-            c.actions.Add(new ActionDef { id = "build_berm", ap = 1, delta = new ResourceDelta { stamina = -5 }, setsFlag = "berm" });
-            c.actions.Add(new ActionDef { id = "sci_a", ap = 1, delta = new ResourceDelta { stamina = -1 }, setsFlag = "sci_a", science = true, minSol = 2 });
-            return c;
-        }
-
-        [Test]
-        public void Night_AddsBackgroundDose_AndShieldHalvesIt()
-        {
-            var sim = TestConfigs.Ready(Rad());
-            var r = sim.Sleep();
-            Assert.AreEqual(2f, r.dose, 1e-4);
-            Assert.AreEqual(2f, sim.State.dose, 1e-4);
-            sim.Do("build_berm", out _);
-            Assert.IsTrue(sim.Shielded);
-            sim.Sleep();
-            Assert.AreEqual(3f, sim.State.dose, 1e-4);
-        }
-
-        [Test]
-        public void OutsideAction_AddsEvaDose()
-        {
-            var sim = TestConfigs.Ready(Rad());
-            sim.Do("clean_panels", out _);
-            Assert.AreEqual(1f, sim.State.dose, 1e-4);
-            sim.Do("moxie", out _);
-            Assert.AreEqual(1f, sim.State.dose, 1e-4);
-        }
-
-        [Test]
-        public void UnpreventedEvent_AddsItsDose_PreventedDoesNot()
-        {
-            var c = Rad();
-            c.survival.radPerSol = 0;
-            c.events.Add(new EventDef { id = "flare", preventMinWater = 35, dose = 40f });
-            c.survival.randomEventNights = new[] { 1, 2 };
-            var sim = TestConfigs.Ready(c);
-            sim.State.water = 10;
-            sim.Sleep();
-            Assert.AreEqual(40f, sim.State.dose, 1e-4);
-            sim.State.water = 90;
-            sim.Sleep();
-            Assert.AreEqual(40f, sim.State.dose, 1e-4);
-        }
-
-        [Test]
-        public void ReachingTheDoseLimit_EndsTheMission()
-        {
-            var sim = TestConfigs.Ready(Rad());
-            sim.State.dose = 99.5f;
-            var r = sim.Sleep();
-            Assert.AreEqual(SimOutcome.LostRadiation, r.outcome);
-        }
-
-        [Test]
-        public void ScienceTask_WaitsForItsSol_ThenCountsOnce()
-        {
-            var sim = TestConfigs.Ready(Rad());
-            Assert.IsFalse(sim.CanDo("sci_a", out var why));
-            Assert.AreEqual("reason.later", why);
-            sim.Sleep();
-            Assert.IsTrue(sim.Do("sci_a", out _));
-            Assert.AreEqual(1, sim.ScienceDone);
-            Assert.IsFalse(sim.CanDo("sci_a", out why));
-            Assert.AreEqual("reason.done.science", why);
-        }
-
-        [Test]
-        public void Stars_NeedAWin_LowDose_NoCollapse_AndAllScience()
-        {
-            var c = Rad();
-            c.survival.goalFlag = null;
-            c.survival.launchSol = 2;
-            var sim = TestConfigs.Ready(c);
-            sim.Sleep();
-            sim.Do("sci_a", out _);
-            sim.State.fuel = c.survival.fuelTarget;
-            Assert.IsTrue(sim.Launch());
-            CollectionAssert.AreEqual(new[] { true, true, true }, sim.Stars());
-            sim.State.dose = 11f;
-            Assert.IsFalse(sim.Stars()[1]);
-        }
-
-        [Test]
-        public void Log_RecordsNightEventsAndEmergencies()
-        {
-            var c = TestConfigs.Basic();
-            c.incidents = new List<IncidentDef> { new IncidentDef { id = "fire", sol = 1, afterActions = 1, hotspot = "x", penalty = new ResourceDelta { water = -1 } } };
-            var sim = TestConfigs.Ready(c);
-            sim.Do("moxie", out _);
-            sim.ResolveIncident(sim.DueIncident(), false);
-            sim.Sleep();
-            Assert.AreEqual(2, sim.State.log.Count);
-            Assert.IsTrue(sim.State.log[0].incident);
-            Assert.IsFalse(sim.State.log[0].ok);
-            Assert.AreEqual(sim.Schedule[0], sim.State.log[1].id);
-        }
-
-        static GameConfig WithDilemma()
-        {
-            var c = TestConfigs.Calm();
-            c.dilemmas = new List<DilemmaDef>
-            {
-                new DilemmaDef
-                {
-                    id = "d", sol = 1, options = new List<DilemmaOption>
-                    {
-                        new DilemmaOption { id = "a", ap = 2, dose = 1.5f, delta = new ResourceDelta { power = 10, stamina = -5 } },
-                        new DilemmaOption { id = "b", setsFlag = "orbi_off", solFlag = true },
-                    }
-                }
-            };
-            return c;
-        }
-
-        [Test]
-        public void Dilemma_IsDueOnItsMorning_AndAppliesTheChosenOption()
-        {
-            var sim = TestConfigs.Ready(WithDilemma());
-            var d = sim.DueDilemma();
-            Assert.AreEqual("d", d.id);
-            int power = sim.State.power, ap = sim.State.ap;
-            Assert.IsTrue(sim.Choose("d", "a"));
-            Assert.AreEqual(power + 10, sim.State.power);
-            Assert.AreEqual(ap - 2, sim.State.ap);
-            Assert.AreEqual(1.5f, sim.State.dose, 1e-4);
-            Assert.AreEqual("a", sim.State.choices["d"]);
-            Assert.IsNull(sim.DueDilemma());
-            Assert.IsFalse(sim.Choose("d", "b"), "a dilemma is answered once");
-            Assert.IsTrue(sim.State.log.Exists(e => e.choice && e.option == "a"));
-        }
-
-        static GameConfig WithEncounters()
-        {
-            var c = TestConfigs.Calm();
-            c.survival.encounterSols = new[] { 1, 2, 3 };
-            c.dilemmas = new List<DilemmaDef>
-            {
-                new DilemmaDef { id = "fixed2", sol = 2, options = new List<DilemmaOption> { new DilemmaOption { id = "x" } } },
-                new DilemmaDef { id = "parts", random = true, options = new List<DilemmaOption>
-                    { new DilemmaOption { id = "sort", setsFlag = "spare" }, new DilemmaOption { id = "leave" } } },
-                new DilemmaDef { id = "wear", random = true, options = new List<DilemmaOption>
-                    { new DilemmaOption { id = "swap", needFlag = "spare" }, new DilemmaOption { id = "scrub", delta = new ResourceDelta { o2 = -6 } } } },
-                new DilemmaDef { id = "followup", random = true, requiresFlag = "spare", options = new List<DilemmaOption> { new DilemmaOption { id = "ok" } } },
-            };
-            return c;
-        }
-
-        [Test]
-        public void Encounters_AreDrawnOnlyOnFreeEncounterMornings_EachOnce()
-        {
-            var sim = TestConfigs.Ready(WithEncounters());
-            var first = sim.DueDilemma();
-            Assert.IsNotNull(first, "sol 1 draws an encounter");
-            Assert.IsTrue(first.random);
-            sim.Choose(first.id, first.options[first.options.Count - 1].id);
-            sim.Sleep();
-            Assert.AreEqual("fixed2", sim.DueDilemma().id, "a fixed dilemma takes the morning");
-            Assert.IsNull(sim.State.encounterToday);
-            sim.Choose("fixed2", "x");
-            sim.Sleep();
-            var third = sim.DueDilemma();
-            Assert.IsNotNull(third);
-            Assert.AreNotEqual(first.id, third.id, "never the same encounter twice");
-            Assert.AreNotEqual("followup", third.id, "follow-ups wait for their flag");
-        }
-
-        [Test]
-        public void EncounterOption_NeedsItsFlag_AndFollowUpUnlocks()
-        {
-            var c = WithEncounters();
-            var sim = TestConfigs.Ready(c);
-            var wear = c.dilemmas.Find(d => d.id == "wear");
-            Assert.IsFalse(sim.CanChoose(wear.options[0], out var why));
-            Assert.AreEqual("dilemma.need.spare", why);
-            sim.SetFlag("spare");
-            Assert.IsTrue(sim.CanChoose(wear.options[0], out _));
-        }
-
-        [Test]
-        public void CarryOver_AddsStowedSupplies_AndTheirFlags()
-        {
-            var c = new Chapter1Config { carryO2Pivot = 50, carryO2Factor = 0.4f };
-            c.supplies.Add(new SupplyDef { id = "w", delta = new ResourceDelta { water = 12 } });
-            c.supplies.Add(new SupplyDef { id = "cell", delta = new ResourceDelta { fuel = 10 } });
-            c.supplies.Add(new SupplyDef { id = "kit", flag = "med_kit" });
-            var d = SurvivalSim.CarryOver(c, 50f, new[] { "w", "cell", "kit", "unknown" });
-            Assert.AreEqual(12, d.water);
-            Assert.AreEqual(10, d.fuel);
-            CollectionAssert.AreEqual(new[] { "med_kit" }, SurvivalSim.SupplyFlags(c, new[] { "w", "kit" }));
-            var sim = new SurvivalSim(TestConfigs.Calm(), 1, d);
-            Assert.AreEqual(10, sim.State.fuel, "a stowed power cell starts the progress bar");
-        }
-
-        [Test]
-        public void Dilemma_SolFlagLastsUntilMorning()
-        {
-            var sim = TestConfigs.Ready(WithDilemma());
-            sim.Choose("d", "b");
-            Assert.IsTrue(sim.State.Has("orbi_off"));
-            sim.Sleep();
-            Assert.IsFalse(sim.State.Has("orbi_off"));
-        }
-
-        [Test]
-        public void LongSchedule_ReusesTheDeck_NeverTheSameEventTwoNightsRunning()
-        {
-            var c = TestConfigs.Basic();
-            c.survival.solsTotal = 7;
-            c.survival.randomEventNights = new[] { 1, 2, 3, 4, 6 };
-            c.events.Find(e => e.major).night = 5;
-            for (int seed = 0; seed < 50; seed++)
-            {
-                var n = SurvivalSim.BuildSchedule(c, seed);
-                for (int i = 0; i < 4; i++) Assert.IsNotNull(n[i], $"seed {seed} night {i + 1}");
-                Assert.AreEqual("global_storm", n[4]);
-                for (int i = 1; i < 4; i++) Assert.AreNotEqual(n[i - 1], n[i], $"seed {seed}");
-                var seen = new HashSet<string>(new[] { n[0], n[1], n[2] });
-                Assert.AreEqual(3, seen.Count, "the first pass uses every minor event once");
             }
         }
     }

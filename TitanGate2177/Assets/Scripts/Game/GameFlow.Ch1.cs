@@ -331,7 +331,7 @@ namespace TitanGate.Game
                         {
                             if (Puzzles.CheckCode(entry, code)) { solved = true; _sfx.Play("good"); _ui.CloseModal(); return; }
                             _sfx.Play("bad");
-                            status.text = _loc.T(wrongKey);
+                            status.text = GameUI.Thai(_loc.T(wrongKey));
                             entry = "";
                         }
                         else if (entry.Length < 4) { entry += key; _sfx.Play("click"); }
@@ -378,16 +378,18 @@ namespace TitanGate.Game
                 foreach (var o in _cfg.puzzles.navOptions)
                 {
                     string id = o.id;
-                    bool reach = o.fuelNeeded <= _cfg.puzzles.fuelGaugePercent;
-                    var b = _ui.B(_loc.T("nav.option", _loc.T("nav." + id), o.fuelNeeded) + "   " + _loc.T(reach ? "nav.direct" : "nav.not_direct"),
+                    // only Mars is in reach with the fuel left; the others show why not (delta-v)
+                    bool reach = !string.IsNullOrEmpty(o.route) && o.fuelNeeded <= _cfg.puzzles.fuelGaugePercent;
+                    var b = _ui.B(_loc.T("nav.option", _loc.T("nav." + id), o.fuelNeeded) + "   " + _loc.T(reach ? "nav.direct" : "nav.out_of_reach"),
                         () => { chosen = id; _ui.CloseModal(); }, 26, reach);
+                    b.SetEnabled(reach);
                     p.Add(b);
                 }
             });
             yield return WaitModal();
             if (chosen == null) yield break;
 
-            // every destination is allowed: show what it will cost, then confirm
+            // confirm the emergency course to Mars
             bool go = false;
             _ui.ShowModal(p =>
             {
@@ -407,7 +409,6 @@ namespace TitanGate.Game
             _sfx.Play("good");
             RefreshAll();
             yield return Say("orbi", "c1_nav_ok." + _route);
-            if (_route == "titan") yield return Card("gravity_assist");
         }
 
         IEnumerator EdlModal()

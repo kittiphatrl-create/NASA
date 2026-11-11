@@ -272,8 +272,8 @@
   },
   {
    "k": "spot.s_console_goal",
-   "en": "Main console · mission goal",
-   "th": "คอนโซลหลัก · เป้าหมายภารกิจ"
+   "en": "Base Control (power)",
+   "th": "ศูนย์ควบคุมฐาน (ไฟฟ้า)"
   },
   {
    "k": "spot.s_seat",
@@ -287,8 +287,8 @@
   },
   {
    "k": "spot.s_nav_comms",
-   "en": "Comms computer",
-   "th": "คอมพิวเตอร์สื่อสาร"
+   "en": "Comms: beacon & Earth link",
+   "th": "สื่อสาร: บีคอนและลิงก์กับโลก"
   },
   {
    "k": "spot.door_quarters",
@@ -392,8 +392,8 @@
   },
   {
    "k": "spot.s_line_broken",
-   "en": "Broken fuel line",
-   "th": "ท่อเชื้อเพลิงที่แตก"
+   "en": "Broken beacon cable",
+   "th": "สายบีคอนที่ขาด"
   },
   {
    "k": "spot.s_breach",
@@ -887,8 +887,8 @@
   },
   {
    "k": "nav.body",
-   "en": "Fuel needed to fly straight to each destination. You can still choose any of them.",
-   "th": "เชื้อเพลิงที่ต้องใช้เพื่อบินตรงไปแต่ละที่ แต่เลือกที่ไหนก็ได้"
+   "en": "Fuel needed to fly straight to each destination. With 18% left, only one is in reach.",
+   "th": "เชื้อเพลิงที่ต้องใช้บินตรงไปแต่ละที่ เหลืออยู่ 18% ไปถึงได้แค่ที่เดียว"
   },
   {
    "k": "nav.option",
@@ -1562,8 +1562,8 @@
   },
   {
    "k": "cut.win.mars.1",
-   "en": "IGNITION · methane engines at full power",
-   "th": "จุดระเบิด · เครื่องยนต์มีเทนเต็มกำลัง"
+   "en": "RESCUE · the lander lifts off with you aboard",
+   "th": "กู้ภัย · ยานลงจอดทะยานขึ้นพร้อมคุณ"
   },
   {
    "k": "cut.win.mars.2",
@@ -1572,8 +1572,8 @@
   },
   {
    "k": "cut.win.mars.3",
-   "en": "ORBIT · course set: Titan warp gate",
-   "th": "เข้าสู่วงโคจร · ตั้งเส้นทาง: ประตูวาปไททัน"
+   "en": "ORBIT · docked with the rescue ship",
+   "th": "วงโคจร · เทียบท่ากับยานกู้ภัยแล้ว"
   },
   {
    "k": "cut.win.moon.1",
@@ -1797,23 +1797,23 @@
   },
   {
    "k": "c2_land_1.mars",
-   "en": "We made it! We're on Mars. The ship is damaged, but we're alive.",
-   "th": "เรารอดแล้ว! เราอยู่บนดาวอังคาร ยานเสียหายแต่เรายังมีชีวิตอยู่"
+   "en": "We made it! The Kestrel is down on Mars. She's damaged, but she will be our outpost now.",
+   "th": "เรารอดแล้ว! Kestrel ลงจอดบนดาวอังคาร ยานเสียหายแต่จะเป็นฐานของเราจากนี้"
   },
   {
    "k": "c2_land_2.mars",
-   "en": "On Mars, a day is called a sol. Our next launch window to Saturn opens on Sol 7, a week from now.",
-   "th": "บนดาวอังคาร หนึ่งวันเรียกว่า sol ช่วงที่ปล่อยยานไปดาวเสาร์ได้รอบถัดไปจะเปิดใน Sol 7 อีกหนึ่งสัปดาห์"
+   "en": "A rescue ship is already near Mars. It can land here in 7 days: 168 hours. On Mars a day is called a sol.",
+   "th": "มียานกู้ภัยอยู่ใกล้ดาวอังคารแล้ว มันลงมารับเราได้ในอีก 7 วัน หรือ 168 ชั่วโมง บนดาวอังคาร หนึ่งวันเรียกว่า sol"
   },
   {
    "k": "c2_land_3.mars",
-   "en": "Until then: fix the fuel line, make fuel from Mars air, and keep oxygen, water, power and food up. Every job takes time.",
-   "th": "ระหว่างนี้ต้องซ่อมท่อเชื้อเพลิง ผลิตเชื้อเพลิงจากอากาศดาวอังคาร และรักษาออกซิเจน น้ำ ไฟฟ้า กับอาหารไว้ ทุกงานใช้เวลา"
+   "en": "Until then: keep the air, power and supplies going, build a radiation shelter, and fix the beacon so the rescue ship can find us. Every job takes hours.",
+   "th": "ระหว่างนี้: รักษาอากาศ ไฟฟ้า และเสบียง สร้างห้องหลบรังสี และซ่อมบีคอนให้ยานกู้ภัยหาเราเจอ ทุกงานใช้เวลาเป็นชั่วโมง"
   },
   {
    "k": "c2_surface_first.mars",
-   "en": "Welcome outside. Your suit uses a little oxygen out here, so plan your trips.",
-   "th": "ยินดีต้อนรับสู่ข้างนอก ชุดอวกาศใช้ออกซิเจนนิดหน่อย วางแผนการออกมาให้ดี"
+   "en": "Outside: every hour out here adds a little radiation, so plan your trips.",
+   "th": "ข้างนอก: ทุกชั่วโมงที่อยู่ข้างนอกจะได้รับรังสีเพิ่มนิดหน่อย วางแผนการออกมาให้ดี"
   },
   {
    "k": "obj.mars.line",
@@ -1862,8 +1862,8 @@
   },
   {
    "k": "c2_catalyst_ok",
-   "en": "Nickel catalyst installed. The reactor is ready to make fuel!",
-   "th": "ใส่ตัวเร่งปฏิกิริยานิกเกิลแล้ว เครื่องพร้อมผลิตเชื้อเพลิง!"
+   "en": "Nickel catalyst installed. The reactor can make water now!",
+   "th": "ใส่ตัวเร่งนิกเกิลแล้ว เครื่องผลิตน้ำได้แล้ว!"
   },
   {
    "k": "c2_catalyst_wrong",
@@ -1877,8 +1877,8 @@
   },
   {
    "k": "c2_line_done",
-   "en": "The patch is holding. The fuel line is fixed.",
-   "th": "แผ่นปะยึดแน่นดี ท่อเชื้อเพลิงซ่อมเสร็จแล้ว"
+   "en": "The patch holds. The beacon has power.",
+   "th": "แผ่นปะยึดแน่น บีคอนมีไฟแล้ว"
   },
   {
    "k": "look.c2_line_ready",
@@ -1892,8 +1892,8 @@
   },
   {
    "k": "c2_line_need",
-   "en": "The pipe is cracked. I need a patch. A plate and something sticky might work.",
-   "th": "ท่อแตก ต้องใช้แผ่นปะ แผ่นโลหะกับอะไรเหนียวๆ น่าจะใช้ได้"
+   "en": "The beacon cable is torn. I need a patch: a plate and something sticky might work.",
+   "th": "สายบีคอนขาด ต้องใช้แผ่นปะ แผ่นโลหะกับอะไรเหนียวๆ น่าจะใช้ได้"
   },
   {
    "k": "look.c2_solar",
@@ -2392,13 +2392,13 @@
   },
   {
    "k": "action.sabatier",
-   "en": "Run the fuel reactor",
-   "th": "เดินเครื่องผลิตเชื้อเพลิง"
+   "en": "Make water (Sabatier reactor)",
+   "th": "ผลิตน้ำ (เครื่องซาบาติเย)"
   },
   {
    "k": "done.sabatier",
-   "en": "Methane is flowing into the tank.",
-   "th": "มีเทนกำลังไหลเข้าถังเชื้อเพลิง"
+   "en": "CO₂ + hydrogen → water + methane. Fresh water drips out.",
+   "th": "CO₂ + ไฮโดรเจน → น้ำ + มีเทน น้ำสะอาดหยดออกมา"
   },
   {
    "k": "action.repair_line",
@@ -3077,33 +3077,33 @@
   },
   {
    "k": "hint.c2_line.1",
-   "en": "The fuel line needs a patch: a plate plus something sticky.",
-   "th": "ท่อเชื้อเพลิงต้องใช้แผ่นปะ: แผ่นโลหะกับอะไรเหนียวๆ"
+   "en": "The rescue beacon's cable needs a patch: a plate plus something sticky.",
+   "th": "สายของบีคอนกู้ภัยต้องปะ: แผ่นโลหะกับอะไรเหนียวๆ"
   },
   {
    "k": "hint.c2_line.2",
    "en": "A metal plate lies outside; sealant is in the Crew quarters toolbox. Click one item, then the other.",
-   "th": "แผ่นโลหะอยู่ข้างนอก กาวซีลอยู่ในกล่องเครื่องมือห้องพัก คลิกไอเทมหนึ่ง แล้วอีกอัน"
+   "th": "แผ่นโลหะอยู่ข้างนอก กาวซีลอยู่ในกล่องเครื่องมือห้องพักลูกเรือ คลิกไอเทมหนึ่ง แล้วคลิกอีกอัน"
   },
   {
    "k": "hint.c2_line_fix.1",
-   "en": "You have the pipe patch. Put it on the fuel line.",
-   "th": "คุณมีแผ่นปะท่อแล้ว เอาไปปะท่อได้เลย"
+   "en": "You can fix the beacon cable now.",
+   "th": "ตอนนี้ซ่อมสายบีคอนได้แล้ว"
   },
   {
    "k": "hint.c2_line_fix.2",
-   "en": "Click the broken fuel line in the Fuel Bay.",
-   "th": "คลิกท่อเชื้อเพลิงที่แตกในห้องเชื้อเพลิง"
+   "en": "Click the broken beacon cable in the Fuel Bay.",
+   "th": "คลิกสายบีคอนที่ขาดในห้องเชื้อเพลิง"
   },
   {
    "k": "hint.c2_catalyst.1",
-   "en": "The fuel reactor needs the right catalyst. Read the reactor first.",
-   "th": "เครื่องผลิตเชื้อเพลิงต้องใช้ตัวเร่งปฏิกิริยาที่ถูกต้อง อ่านที่เครื่องก่อน"
+   "en": "Low on supplies? The Sabatier reactor can make water, with the right catalyst.",
+   "th": "เสบียงน้อย? เครื่องซาบาติเยผลิตน้ำได้ ถ้ามีตัวเร่งปฏิกิริยาที่ถูกต้อง"
   },
   {
    "k": "hint.c2_catalyst.2",
    "en": "The Sabatier card names the metal: nickel (Ni). It's in the Life Support cabinet.",
-   "th": "การ์ด Sabatier บอกว่าเป็นนิกเกิล (Ni) อยู่ในตู้ห้องระบบยังชีพ"
+   "th": "การ์ดซาบาติเยบอกชื่อโลหะ: นิกเกิล (Ni) อยู่ในตู้ห้องระบบยังชีพ"
   },
   {
    "k": "hint.mars_progress.1",
@@ -3572,8 +3572,8 @@
   },
   {
    "k": "howto.5.body",
-   "en": "On the planet you must survive 7 days, with a few actions each day. Plan them: oxygen, water, power and food are all linked.",
-   "th": "บนดาวต้องรอดให้ได้ 7 วัน และในแต่ละวันคุณทำงานได้ไม่กี่อย่างต่อวัน ต้องวางแผน เพราะออกซิเจน น้ำ ไฟฟ้า และอาหารเชื่อมโยงกันหมด"
+   "en": "You must survive 7 days (168 hours). Every job takes hours, and air, power and supplies keep running out while you work.",
+   "th": "ต้องอยู่รอด 7 วัน (168 ชั่วโมง) ทุกงานใช้เวลาเป็นชั่วโมง และอากาศ ไฟฟ้า กับเสบียงลดลงเรื่อยๆ ระหว่างที่ทำงาน"
   },
   {
    "k": "howto.6.title",
@@ -3582,8 +3582,8 @@
   },
   {
    "k": "howto.6.body",
-   "en": "The panel on the right shows tonight's danger and how to prepare. Green means you are ready. A big event is warned days ahead.",
-   "th": "แผงด้านขวาบอกอันตรายของคืนนี้และวิธีเตรียมตัว สีเขียวแปลว่าพร้อมแล้ว เหตุการณ์ใหญ่จะเตือนล่วงหน้าหลายวัน"
+   "en": "Base Control (B) shares the power. You can't run everything: life support, greenhouse, beacon and shelter all need power, and night has no sun.",
+   "th": "ศูนย์ควบคุมฐาน (B) ใช้แบ่งไฟฟ้า เปิดทุกอย่างพร้อมกันไม่ได้: ระบบยังชีพ โรงปลูกพืช บีคอน และห้องหลบภัยต้องใช้ไฟทั้งหมด และกลางคืนไม่มีแดด"
   },
   {
    "k": "howto.7.title",
@@ -4352,8 +4352,8 @@
   },
   {
    "k": "menu.stars",
-   "en": "Best debrief stars  ·  Mars {0}/3  ·  Moon {1}/3  ·  Titan {2}/3",
-   "th": "ดาวสูงสุดจากสรุปภารกิจ  ·  ดาวอังคาร {0}/3  ·  ดวงจันทร์ {1}/3  ·  ไททัน {2}/3"
+   "en": "Best debrief stars on Mars: {0}/3",
+   "th": "ดาวสูงสุดจากสรุปภารกิจบนดาวอังคาร: {0}/3"
   },
   {
    "k": "hint.c2_science.1",
@@ -4417,13 +4417,13 @@
   },
   {
    "k": "card.regolith.title",
-   "en": "A shield made of moon dirt",
-   "th": "เกราะที่ทำจากดินดวงจันทร์"
+   "en": "Regolith: a shield made of dirt",
+   "th": "รีโกลิท: เกราะที่ทำจากดิน"
   },
   {
    "k": "card.regolith.body",
-   "en": "Lunar soil is called regolith. Piled thick around a base, it blocks much of the radiation from solar storms. Engineers plan to cover future Moon bases with regolith, or even 3D-print walls from it.",
-   "th": "ดินบนดวงจันทร์เรียกว่ารีโกลิท ถ้าพูนหนาๆ รอบฐาน จะกันรังสีจากพายุสุริยะได้มาก วิศวกรวางแผนจะใช้รีโกลิทคลุมฐานบนดวงจันทร์ในอนาคต หรือแม้แต่พิมพ์ผนังด้วยเครื่องพิมพ์ 3 มิติ"
+   "en": "The loose rock and dust on Mars and the Moon is called regolith. Piled thick around a base, it blocks much of the radiation from solar storms. Engineers plan to cover future bases with it, or 3D-print walls from it.",
+   "th": "หินและฝุ่นหลวมๆ บนดาวอังคารและดวงจันทร์เรียกว่ารีโกลิท ถ้าพูนหนาๆ รอบฐาน จะกันรังสีจากพายุสุริยะได้มาก วิศวกรวางแผนใช้มันคลุมฐานในอนาคต หรือพิมพ์ผนังด้วยเครื่องพิมพ์ 3 มิติ"
   },
   {
    "k": "card.earthrise.title",
@@ -4722,8 +4722,8 @@
   },
   {
    "k": "howto.9.body",
-   "en": "The Rad meter counts your radiation dose in mSv. Water at bedtime shields you from solar flares. Stay under 50 for a healthy star; at 150 the mission ends.",
-   "th": "มาตรวัดรังสีนับปริมาณรังสีที่คุณได้รับเป็น mSv น้ำตอนเข้านอนช่วยกันพายุสุริยะ ถ้าไม่เกิน 50 จะได้ดาวสุขภาพดี ถ้าถึง 150 ภารกิจจบ"
+   "en": "A solar storm reaches Mars around day 4. Earth warns you first. Build the shelter (water wall, regolith, blanket) and give it power when the storm hits.",
+   "th": "พายุสุริยะจะมาถึงดาวอังคารราววันที่ 4 โลกจะเตือนก่อน สร้างห้องหลบภัย (ผนังน้ำ ดินดาวอังคาร ผ้าห่มกันรังสี) และจ่ายไฟให้ตอนพายุมา"
   },
   {
    "k": "howto.10.title",
@@ -4732,8 +4732,8 @@
   },
   {
    "k": "howto.10.body",
-   "en": "On days 1, 3 and 5 Mission Control asks for a science task. They cost time like any job, and each one gives a new knowledge card.",
-   "th": "ในวันที่ 1, 3 และ 5 ศูนย์ควบคุมจะของานวิทยาศาสตร์ งานใช้เวลาเหมือนงานอื่น และแต่ละงานให้การ์ดความรู้ใหม่"
+   "en": "Messages to Earth ride a relay orbiter that passes at 10:00 and 22:00, and radio takes minutes each way. Ask Earth, or read your cards now.",
+   "th": "ข้อความถึงโลกต้องฝากไปกับยานโคจรถ่ายทอดที่ผ่านตอน 10:00 และ 22:00 และคลื่นวิทยุใช้เวลาหลายนาทีต่อเที่ยว จะถามโลก หรือเปิดการ์ดอ่านเองตอนนี้ก็ได้"
   },
   {
    "k": "howto.11.title",
@@ -5072,8 +5072,8 @@
   },
   {
    "k": "sup.sup_o2.desc",
-   "en": "+12 O₂ on landing",
-   "th": "O₂ +12 ตอนลงจอด"
+   "en": "+12 air at the outpost",
+   "th": "อากาศ +12 ที่ฐาน"
   },
   {
    "k": "sup.sup_water.name",
@@ -5082,8 +5082,8 @@
   },
   {
    "k": "sup.sup_water.desc",
-   "en": "+12 water on landing",
-   "th": "น้ำ +12 ตอนลงจอด"
+   "en": "+8 supplies",
+   "th": "เสบียง +8"
   },
   {
    "k": "sup.sup_food.name",
@@ -5092,8 +5092,8 @@
   },
   {
    "k": "sup.sup_food.desc",
-   "en": "+15 food on landing",
-   "th": "อาหาร +15 ตอนลงจอด"
+   "en": "+10 supplies",
+   "th": "เสบียง +10"
   },
   {
    "k": "sup.sup_battery.name",
@@ -5102,18 +5102,18 @@
   },
   {
    "k": "sup.sup_battery.desc",
-   "en": "+15 power on landing",
-   "th": "ไฟฟ้า +15 ตอนลงจอด"
+   "en": "+20 power",
+   "th": "ไฟฟ้า +20"
   },
   {
    "k": "sup.sup_cell.name",
-   "en": "Spare power cell",
-   "th": "เซลล์พลังงานสำรอง"
+   "en": "Beacon data chip",
+   "th": "ชิปข้อมูลบีคอน"
   },
   {
    "k": "sup.sup_cell.desc",
-   "en": "+10 mission progress",
-   "th": "ความคืบหน้าภารกิจ +10"
+   "en": "fix the beacon in 1 h, no patch needed",
+   "th": "ซ่อมบีคอนใน 1 ชม. ไม่ต้องใช้แผ่นปะ"
   },
   {
    "k": "sup.sup_photo.name",
@@ -5152,8 +5152,8 @@
   },
   {
    "k": "sup.sup_seeds.desc",
-   "en": "+5 food, and can replant a garden",
-   "th": "อาหาร +5 และใช้ปลูกผักใหม่ได้"
+   "en": "plant the greenhouse in 1 h instead of 3",
+   "th": "ปลูกโรงปลูกพืชใน 1 ชม. แทน 3"
   },
   {
    "k": "c1_scramble_start",
@@ -5239,6 +5239,841 @@
    "k": "hint.c1_scramble.2",
    "en": "Air, water, food and power help right away. The first aid kit, spare filter and seeds help in later events.",
    "th": "อากาศ น้ำ อาหาร และไฟช่วยได้ทันที ส่วนกล่องปฐมพยาบาล ตัวกรองสำรอง และเมล็ดพันธุ์จะช่วยในเหตุการณ์ทีหลัง"
+  },
+  {
+   "k": "ch2.intro_card",
+   "en": "Chapter 2 — The Kestrel, Mars\nSurvive 7 days until the rescue ship arrives",
+   "th": "บทที่ 2 — ยาน Kestrel บนดาวอังคาร\nอยู่รอด 7 วันจนยานกู้ภัยมาถึง"
+  },
+  {
+   "k": "ch2.title",
+   "en": "CHAPTER 2 · MARS OUTPOST · DAY {0}",
+   "th": "บทที่ 2 · ฐานบนดาวอังคาร · วันที่ {0}"
+  },
+  {
+   "k": "ui.base",
+   "en": "Base Control",
+   "th": "ศูนย์ควบคุมฐาน"
+  },
+  {
+   "k": "hud.time",
+   "en": "Day {0}/{1} · {2}:00",
+   "th": "วันที่ {0}/{1} · {2}:00"
+  },
+  {
+   "k": "hud.rescue_in",
+   "en": "Rescue in {0} h",
+   "th": "ยานกู้ภัยมาในอีก {0} ชม."
+  },
+  {
+   "k": "hud.air",
+   "en": "Air",
+   "th": "อากาศ"
+  },
+  {
+   "k": "hud.shelter",
+   "en": "Shelter",
+   "th": "ห้องหลบภัย"
+  },
+  {
+   "k": "hud.supplies",
+   "en": "Supplies",
+   "th": "เสบียง"
+  },
+  {
+   "k": "hud.energy",
+   "en": "Energy",
+   "th": "พลังกาย"
+  },
+  {
+   "k": "hud.hours_cost",
+   "en": "{0} h",
+   "th": "{0} ชม."
+  },
+  {
+   "k": "hud.outside",
+   "en": "(outside: + radiation)",
+   "th": "(ข้างนอก: + รังสี)"
+  },
+  {
+   "k": "carry.air",
+   "en": "Cabin air when the leak was sealed: {0}% → starting Air {1}",
+   "th": "อากาศในยานตอนอุดรอยรั่ว: {0}% → อากาศตอนเริ่ม {1}"
+  },
+  {
+   "k": "carry.plan",
+   "en": "The rescue ship lands in {0} hours. Keep the base alive until then.",
+   "th": "ยานกู้ภัยจะลงจอดในอีก {0} ชั่วโมง รักษาฐานให้อยู่รอดจนถึงตอนนั้น"
+  },
+  {
+   "k": "obj.beacon",
+   "en": "Repair the rescue beacon",
+   "th": "ซ่อมบีคอนกู้ภัย"
+  },
+  {
+   "k": "obj.coords",
+   "en": "Send our coordinates to the rescue ship",
+   "th": "ส่งพิกัดให้ยานกู้ภัย"
+  },
+  {
+   "k": "obj.coords_waiting",
+   "en": "Coordinates sent: keep the beacon on until they answer",
+   "th": "ส่งพิกัดแล้ว: เปิดบีคอนไว้จนกว่าจะตอบกลับ"
+  },
+  {
+   "k": "obj.shelter",
+   "en": "Prepare the radiation shelter ({0}%)",
+   "th": "เตรียมห้องหลบรังสี ({0}%)"
+  },
+  {
+   "k": "obj.shelter_done",
+   "en": "Solar storm survived",
+   "th": "ผ่านพายุสุริยะแล้ว"
+  },
+  {
+   "k": "obj.greenhouse",
+   "en": "Get the greenhouse going ({0}/{1} h of light)",
+   "th": "เริ่มโรงปลูกพืช (ได้แสง {0}/{1} ชม.)"
+  },
+  {
+   "k": "obj.survive",
+   "en": "Survive until the rescue ship lands (end of day {0})",
+   "th": "อยู่รอดจนยานกู้ภัยลงจอด (สิ้นวันที่ {0})"
+  },
+  {
+   "k": "forecast.spe",
+   "en": "SOLAR STORM in {0} h · shelter protects {1}%",
+   "th": "พายุสุริยะในอีก {0} ชม. · ห้องหลบภัยป้องกันได้ {1}%"
+  },
+  {
+   "k": "forecast.power_short",
+   "en": "Not enough power until sunrise: need {0}, have {1}",
+   "th": "ไฟไม่พอถึงเช้า: ต้องใช้ {0} มีอยู่ {1}"
+  },
+  {
+   "k": "forecast.relay",
+   "en": "Next Earth link {0}:00 · radio delay {1} min",
+   "th": "ลิงก์กับโลกรอบถัดไป {0}:00 · คลื่นวิทยุช้า {1} นาที"
+  },
+  {
+   "k": "system.life_support",
+   "en": "Life support",
+   "th": "ระบบยังชีพ"
+  },
+  {
+   "k": "system.life_support.desc",
+   "en": "Scrubs CO₂ and makes air. Off = air drops fast.",
+   "th": "กรอง CO₂ และสร้างอากาศ ปิด = อากาศลดเร็ว"
+  },
+  {
+   "k": "system.greenhouse",
+   "en": "Greenhouse lamps",
+   "th": "ไฟโรงปลูกพืช"
+  },
+  {
+   "k": "system.greenhouse.desc",
+   "en": "Plants need light, water and nutrients. 24 h of light gets the garden going.",
+   "th": "พืชต้องการแสง น้ำ และสารอาหาร ได้แสงครบ 24 ชม. โรงปลูกพืชจะเริ่มทำงาน"
+  },
+  {
+   "k": "system.beacon",
+   "en": "Rescue beacon",
+   "th": "บีคอนกู้ภัย"
+  },
+  {
+   "k": "system.beacon.desc",
+   "en": "Must be on for the rescue ship to hear our coordinates.",
+   "th": "ต้องเปิดไว้ ยานกู้ภัยถึงจะได้ยินพิกัดของเรา"
+  },
+  {
+   "k": "system.shelter",
+   "en": "Shelter support",
+   "th": "ระบบห้องหลบภัย"
+  },
+  {
+   "k": "system.shelter.desc",
+   "en": "Powers the shelter's fans and sensors. A powered shelter protects twice as well.",
+   "th": "จ่ายไฟให้พัดลมและเซนเซอร์ในห้องหลบภัย ห้องที่มีไฟป้องกันได้ดีกว่าสองเท่า"
+  },
+  {
+   "k": "base.title",
+   "en": "BASE CONTROL · power budget",
+   "th": "ศูนย์ควบคุมฐาน · งบไฟฟ้า"
+  },
+  {
+   "k": "base.intro",
+   "en": "Solar panels charge the battery from 07:00 to 19:00. Every system you switch on uses power every hour. You can't run them all.",
+   "th": "แผงโซลาร์ชาร์จแบตเตอรี่ตั้งแต่ 07:00 ถึง 19:00 ทุกระบบที่เปิดใช้ไฟทุกชั่วโมง เปิดทั้งหมดพร้อมกันไม่ได้"
+  },
+  {
+   "k": "base.power_line",
+   "en": "Battery {0} · using {1}/h · solar now +{2}/h",
+   "th": "แบตเตอรี่ {0} · ใช้อยู่ {1}/ชม. · โซลาร์ตอนนี้ +{2}/ชม."
+  },
+  {
+   "k": "base.night_line",
+   "en": "Power needed until sunrise with these systems: {0}",
+   "th": "ไฟที่ต้องใช้ถึงเช้ากับระบบที่เปิดอยู่: {0}"
+  },
+  {
+   "k": "base.on",
+   "en": "ON",
+   "th": "เปิด"
+  },
+  {
+   "k": "base.off",
+   "en": "OFF",
+   "th": "ปิด"
+  },
+  {
+   "k": "base.draw",
+   "en": "({0}/h)",
+   "th": "({0}/ชม.)"
+  },
+  {
+   "k": "base.wait1",
+   "en": "Wait 1 hour",
+   "th": "รอ 1 ชั่วโมง"
+  },
+  {
+   "k": "base.wait_event",
+   "en": "Wait until something happens",
+   "th": "รอจนกว่าจะมีอะไรเกิดขึ้น"
+  },
+  {
+   "k": "c2_base_intro",
+   "en": "This is Base Control. Our battery is small, so we choose what gets power. Life support first, always.",
+   "th": "นี่คือศูนย์ควบคุมฐาน แบตเตอรี่เราเล็ก ต้องเลือกว่าจะจ่ายไฟให้อะไร ระบบยังชีพต้องมาก่อนเสมอ"
+  },
+  {
+   "k": "out_power_cut",
+   "en": "POWER CUT · {0} switched off",
+   "th": "ไฟดับ · {0} ถูกปิด"
+  },
+  {
+   "k": "out_waited",
+   "en": "{0} h passed.",
+   "th": "ผ่านไป {0} ชม."
+  },
+  {
+   "k": "out_bedtime",
+   "en": "It's night. Rest at the bunk in the Crew quarters.",
+   "th": "กลางคืนแล้ว ไปนอนที่เตียงในห้องพักลูกเรือ"
+  },
+  {
+   "k": "out_wake_alarm",
+   "en": "Wake up! The air alarm is going off. Make oxygen or check life support!",
+   "th": "ตื่น! สัญญาณอากาศดังแล้ว ผลิตออกซิเจนหรือตรวจระบบยังชีพ!"
+  },
+  {
+   "k": "c2_coords_sent",
+   "en": "Coordinates on the air. The rescue ship passes overhead in {0} h: keep the beacon on.",
+   "th": "ส่งพิกัดออกไปแล้ว ยานกู้ภัยจะผ่านเหนือหัวในอีก {0} ชม. เปิดบีคอนไว้"
+  },
+  {
+   "k": "c2_asked_earth",
+   "en": "Question queued for the relay orbiter. Earth's answer arrives in about {0} h (radio delay {1} min each way).",
+   "th": "ฝากคำถามไว้กับยานโคจรถ่ายทอดแล้ว คำตอบจากโลกจะมาถึงในอีกราว {0} ชม. (คลื่นวิทยุช้าเที่ยวละ {1} นาที)"
+  },
+  {
+   "k": "c2_spe_soon",
+   "en": "The solar storm arrives in {0} h. Right now the shelter would block {1}% of it.",
+   "th": "พายุสุริยะจะมาในอีก {0} ชม. ตอนนี้ห้องหลบภัยกันได้ {1}%"
+  },
+  {
+   "k": "action.shelter_water",
+   "en": "Build a water wall around the bunk",
+   "th": "สร้างผนังน้ำรอบเตียง"
+  },
+  {
+   "k": "done.shelter_water",
+   "en": "Water bags stacked around the bunk. Water is a great radiation shield.",
+   "th": "วางถุงน้ำล้อมเตียงแล้ว น้ำเป็นเกราะกันรังสีที่ดีมาก"
+  },
+  {
+   "k": "action.shelter_regolith",
+   "en": "Pile regolith sandbags (outside)",
+   "th": "พูนกระสอบดินดาวอังคาร (ข้างนอก)"
+  },
+  {
+   "k": "done.shelter_regolith",
+   "en": "Sandbags of Mars soil now line the quarters wall.",
+   "th": "กระสอบดินดาวอังคารเรียงแนวผนังห้องพักแล้ว"
+  },
+  {
+   "k": "action.shelter_kit",
+   "en": "Hang the radiation blanket",
+   "th": "แขวนผ้าห่มกันรังสี"
+  },
+  {
+   "k": "done.shelter_kit",
+   "en": "The blanket is up. Quick and strong.",
+   "th": "แขวนผ้าห่มแล้ว เร็วและแข็งแรง"
+  },
+  {
+   "k": "action.repair_beacon",
+   "en": "Repair the beacon cable",
+   "th": "ซ่อมสายบีคอน"
+  },
+  {
+   "k": "done.repair_beacon",
+   "en": "Patch on, sealed tight. The beacon has power!",
+   "th": "ปะแผ่นแล้ว ซีลแน่นหนา บีคอนมีไฟแล้ว!"
+  },
+  {
+   "k": "action.repair_beacon_chip",
+   "en": "Load the data chip into the beacon",
+   "th": "ใส่ชิปข้อมูลเข้าบีคอน"
+  },
+  {
+   "k": "done.repair_beacon_chip",
+   "en": "The chip has the beacon's software. Fixed in no time!",
+   "th": "ชิปมีซอฟต์แวร์ของบีคอน ซ่อมเสร็จในพริบตา!"
+  },
+  {
+   "k": "action.send_coords",
+   "en": "Send our coordinates",
+   "th": "ส่งพิกัดของเรา"
+  },
+  {
+   "k": "done.send_coords",
+   "en": "Coordinates transmitted.",
+   "th": "ส่งพิกัดแล้ว"
+  },
+  {
+   "k": "action.ask_earth",
+   "en": "Ask Mission Control for help",
+   "th": "ถามศูนย์ควบคุมบนโลก"
+  },
+  {
+   "k": "done.ask_earth",
+   "en": "Message queued for the next relay pass.",
+   "th": "ฝากข้อความไว้กับรอบถ่ายทอดถัดไปแล้ว"
+  },
+  {
+   "k": "action.setup_greenhouse",
+   "en": "Set up the greenhouse tray",
+   "th": "ตั้งถาดโรงปลูกพืช"
+  },
+  {
+   "k": "done.setup_greenhouse",
+   "en": "Tray set up with backup seeds. Now it needs light.",
+   "th": "ตั้งถาดพร้อมเมล็ดสำรองแล้ว ตอนนี้ต้องการแสง"
+  },
+  {
+   "k": "action.setup_greenhouse_seeds",
+   "en": "Plant the seed packets",
+   "th": "ปลูกซองเมล็ดพันธุ์"
+  },
+  {
+   "k": "done.setup_greenhouse_seeds",
+   "en": "Seeds planted fast. Now they need light.",
+   "th": "ปลูกเมล็ดเสร็จเร็ว ตอนนี้ต้องการแสง"
+  },
+  {
+   "k": "reason.need.shield_kit",
+   "en": "Needs the radiation blanket.",
+   "th": "ต้องมีผ้าห่มกันรังสี"
+  },
+  {
+   "k": "reason.need.data_chip",
+   "en": "Needs the data chip.",
+   "th": "ต้องมีชิปข้อมูล"
+  },
+  {
+   "k": "reason.need.seed_pack",
+   "en": "Needs the seed packets.",
+   "th": "ต้องมีซองเมล็ดพันธุ์"
+  },
+  {
+   "k": "reason.need.beacon_repaired",
+   "en": "Repair the beacon first.",
+   "th": "ต้องซ่อมบีคอนก่อน"
+  },
+  {
+   "k": "reason.done.beacon_repaired",
+   "en": "The beacon is already fixed.",
+   "th": "ซ่อมบีคอนแล้ว"
+  },
+  {
+   "k": "reason.done.greenhouse_started",
+   "en": "The greenhouse is already set up.",
+   "th": "ตั้งโรงปลูกพืชแล้ว"
+  },
+  {
+   "k": "reason.system_off.beacon",
+   "en": "Switch the beacon on in Base Control first.",
+   "th": "เปิดบีคอนที่ศูนย์ควบคุมฐานก่อน"
+  },
+  {
+   "k": "reason.no_supplies",
+   "en": "Not enough supplies.",
+   "th": "เสบียงไม่พอ"
+  },
+  {
+   "k": "reason.no_energy",
+   "en": "Too exhausted. Eat or sleep first.",
+   "th": "เหนื่อยเกินไป กินหรือนอนก่อน"
+  },
+  {
+   "k": "reason.no_time",
+   "en": "Not enough hours left before the rescue.",
+   "th": "เหลือเวลาไม่พอก่อนยานกู้ภัยมา"
+  },
+  {
+   "k": "reason.shelter_full",
+   "en": "The shelter is already at 100%.",
+   "th": "ห้องหลบภัยเต็ม 100% แล้ว"
+  },
+  {
+   "k": "reason.coords_sent",
+   "en": "Already sent.",
+   "th": "ส่งไปแล้ว"
+  },
+  {
+   "k": "reason.waiting_earth",
+   "en": "Still waiting for Earth's answer.",
+   "th": "ยังรอคำตอบจากโลกอยู่"
+  },
+  {
+   "k": "nav.out_of_reach",
+   "en": "[out of reach]",
+   "th": "[ไปไม่ถึง]"
+  },
+  {
+   "k": "look.out.s_o2gen",
+   "en": "MOXIE splits CO₂ from the Mars air into oxygen. It needs power.",
+   "th": "MOXIE แยก CO₂ จากอากาศดาวอังคารเป็นออกซิเจน ต้องใช้ไฟ"
+  },
+  {
+   "k": "look.out.s_recycler",
+   "en": "Cleans used water so we can drink it again.",
+   "th": "ทำน้ำที่ใช้แล้วให้สะอาดดื่มได้อีก"
+  },
+  {
+   "k": "look.out.s_reactor",
+   "en": "The Sabatier reactor: CO₂ + hydrogen → water + methane.",
+   "th": "เครื่องซาบาติเย: CO₂ + ไฮโดรเจน → น้ำ + มีเทน"
+  },
+  {
+   "k": "look.out.s_food",
+   "en": "Meals, and the greenhouse tray under its lamps.",
+   "th": "อาหาร และถาดโรงปลูกพืชใต้หลอดไฟ"
+  },
+  {
+   "k": "look.out.s_seals",
+   "en": "Seals keep our air in. Cold nights make them shrink.",
+   "th": "ซีลเก็บอากาศไว้ในยาน คืนที่หนาวทำให้มันหด"
+  },
+  {
+   "k": "look.out.s_line",
+   "en": "The cable that feeds the rescue beacon.",
+   "th": "สายที่จ่ายไฟให้บีคอนกู้ภัย"
+  },
+  {
+   "k": "look.out.s_nav",
+   "en": "The beacon talks to the rescue ship. The relay orbiter carries messages to Earth.",
+   "th": "บีคอนคุยกับยานกู้ภัย ส่วนยานโคจรถ่ายทอดส่งข้อความไปโลก"
+  },
+  {
+   "k": "look.out.s_scope",
+   "en": "The telescope can record images for Mission Control.",
+   "th": "กล้องโทรทรรศน์บันทึกภาพส่งศูนย์ควบคุมได้"
+  },
+  {
+   "k": "look.out.mars_solar",
+   "en": "Dust settles on the panels and steals power. Folded panels survive dust devils.",
+   "th": "ฝุ่นเกาะแผงแล้วกินไฟ แผงที่พับเก็บรอดจากพายุหมุนฝุ่น"
+  },
+  {
+   "k": "look.out.mars_drill",
+   "en": "Ice lies just under the dust here.",
+   "th": "มีน้ำแข็งอยู่ใต้ฝุ่นตรงนี้"
+  },
+  {
+   "k": "look.out.mars_scrap",
+   "en": "Loose rock and dust: regolith. Bagged and piled, it blocks radiation.",
+   "th": "หินและฝุ่นหลวมๆ เรียกว่ารีโกลิท ใส่กระสอบแล้วพูนกันรังสีได้"
+  },
+  {
+   "k": "event.minor_flare.name",
+   "en": "Small solar flare",
+   "th": "พายุสุริยะขนาดเล็ก"
+  },
+  {
+   "k": "event.minor_flare.forecast",
+   "en": "A small flare tonight. Get the shelter to 30% before bed and you'll be fine.",
+   "th": "คืนนี้มีพายุสุริยะเล็กๆ ทำห้องหลบภัยให้ถึง 30% ก่อนนอนก็จะไม่เป็นไร"
+  },
+  {
+   "k": "event.minor_flare.hit",
+   "en": "Particles got through the thin shelter. You slept badly.",
+   "th": "อนุภาคทะลุห้องหลบภัยที่ยังบาง คุณนอนไม่หลับ"
+  },
+  {
+   "k": "event.minor_flare.saved",
+   "en": "The shelter stopped the small flare.",
+   "th": "ห้องหลบภัยกันพายุเล็กไว้ได้"
+  },
+  {
+   "k": "event.minor_flare.prevent",
+   "en": "shelter 30%+ at bedtime",
+   "th": "ห้องหลบภัย 30% ขึ้นไปตอนเข้านอน"
+  },
+  {
+   "k": "debrief.lesson.minor_flare",
+   "en": "Even small flares add dose. A shelter of 30% or more stops them.",
+   "th": "แม้พายุเล็กก็เพิ่มรังสี ห้องหลบภัย 30% ขึ้นไปกันได้"
+  },
+  {
+   "k": "spe.arrives",
+   "en": "SOLAR STORM ARRIVING · fast particles from the Sun are hitting Mars",
+   "th": "พายุสุริยะมาแล้ว · อนุภาคเร็วจากดวงอาทิตย์กำลังพุ่งชนดาวอังคาร"
+  },
+  {
+   "k": "spe.protected",
+   "en": "The shelter held. You took only {0} mSv extra. (Shelter {1}%)",
+   "th": "ห้องหลบภัยกันไว้ได้ ได้รับรังสีเพิ่มแค่ {0} mSv (ห้องหลบภัย {1}%)"
+  },
+  {
+   "k": "spe.hit",
+   "en": "The shelter wasn't ready. You took {0} mSv, and the storm knocked out power and air. (Shelter {1}%)",
+   "th": "ห้องหลบภัยยังไม่พร้อม ได้รับรังสี {0} mSv และพายุทำให้ไฟกับอากาศเสียหาย (ห้องหลบภัย {1}%)"
+  },
+  {
+   "k": "msg.earth_spe_warning",
+   "en": "EARTH (sent {0} min ago): NASA's space weather team saw an eruption on the Sun. Fast particles will reach Mars on day {1} around {2}:00. Prepare your shelter!",
+   "th": "จากโลก (ส่งมาเมื่อ {0} นาทีก่อน): ทีมสภาพอวกาศของ NASA เห็นการปะทุบนดวงอาทิตย์ อนุภาคเร็วจะถึงดาวอังคารวันที่ {1} ราว {2}:00 เตรียมห้องหลบภัย!"
+  },
+  {
+   "k": "msg.earth_hint",
+   "en": "EARTH (sent {0} min ago): We looked at your problem. Here is our advice:",
+   "th": "จากโลก (ส่งมาเมื่อ {0} นาทีก่อน): เราดูปัญหาของคุณแล้ว นี่คือคำแนะนำ:"
+  },
+  {
+   "k": "msg.coords_ack",
+   "en": "RESCUE SHIP: Coordinates received. We'll land at your site at the end of day 7.",
+   "th": "ยานกู้ภัย: ได้รับพิกัดแล้ว เราจะลงจอดที่ฐานของคุณตอนสิ้นวันที่ 7"
+  },
+  {
+   "k": "msg.rescue_arrives",
+   "en": "RESCUE SHIP: Touchdown! Suit up, cadet. You're going home.",
+   "th": "ยานกู้ภัย: ลงจอดแล้ว! ใส่ชุดเลย นักบินฝึกหัด กลับบ้านกัน"
+  },
+  {
+   "k": "bed.title_time",
+   "en": "Bunk · day {0}, {1}:00",
+   "th": "เตียง · วันที่ {0} เวลา {1}:00"
+  },
+  {
+   "k": "bed.sleep_morning",
+   "en": "Sleep until 06:00 ({0} h)",
+   "th": "นอนถึง 06:00 ({0} ชม.)"
+  },
+  {
+   "k": "bed.nap",
+   "en": "Nap 2 hours",
+   "th": "งีบ 2 ชั่วโมง"
+  },
+  {
+   "k": "bed.too_early",
+   "en": "Too early for a full night. Full sleep from 20:00.",
+   "th": "ยังเร็วไปสำหรับนอนทั้งคืน นอนเต็มได้ตั้งแต่ 20:00"
+  },
+  {
+   "k": "night.wake",
+   "en": "Day {0} · {1}:00",
+   "th": "วันที่ {0} · {1}:00"
+  },
+  {
+   "k": "report.title_hours",
+   "en": "While you slept ({0} h)",
+   "th": "ระหว่างที่นอน ({0} ชม.)"
+  },
+  {
+   "k": "report.change",
+   "en": "Air {0} · Power {1} · Supplies {2} · Energy {3}",
+   "th": "อากาศ {0} · ไฟฟ้า {1} · เสบียง {2} · พลังกาย {3}"
+  },
+  {
+   "k": "report.rescue_in",
+   "en": "Rescue in {0} h",
+   "th": "ยานกู้ภัยมาในอีก {0} ชม."
+  },
+  {
+   "k": "hint.out_low_air.1",
+   "en": "Air is low. MOXIE in Life Support makes oxygen, and life support must stay on.",
+   "th": "อากาศเหลือน้อย MOXIE ในห้องระบบยังชีพผลิตออกซิเจนได้ และต้องเปิดระบบยังชีพไว้"
+  },
+  {
+   "k": "hint.out_low_air.2",
+   "en": "Run MOXIE now, and check Base Control: is life support switched on and powered?",
+   "th": "เดินเครื่อง MOXIE ตอนนี้ แล้วเช็กศูนย์ควบคุมฐานว่าระบบยังชีพเปิดและมีไฟไหม"
+  },
+  {
+   "k": "hint.out_low_supplies.1",
+   "en": "Supplies are low. Water can come from ice, the recycler, or the Sabatier reactor.",
+   "th": "เสบียงเหลือน้อย น้ำได้จากน้ำแข็ง เครื่องรีไซเคิล หรือเครื่องซาบาติเย"
+  },
+  {
+   "k": "hint.out_low_supplies.2",
+   "en": "Drill ice outside, recycle water, and eat less often.",
+   "th": "เจาะน้ำแข็งข้างนอก รีไซเคิลน้ำ และกินให้ห่างขึ้น"
+  },
+  {
+   "k": "hint.out_low_power.1",
+   "en": "Power won't last the night. Switch something off, or clean the solar panels.",
+   "th": "ไฟจะไม่พอข้ามคืน ปิดบางระบบ หรือเช็ดแผงโซลาร์"
+  },
+  {
+   "k": "hint.out_low_power.2",
+   "en": "Open Base Control (B): turn off the greenhouse or beacon until morning. Dusty panels make less power.",
+   "th": "เปิดศูนย์ควบคุมฐาน (B) ปิดโรงปลูกพืชหรือบีคอนจนถึงเช้า แผงที่มีฝุ่นผลิตไฟได้น้อย"
+  },
+  {
+   "k": "hint.out_shelter.1",
+   "en": "A solar storm is coming. Build the shelter before it hits.",
+   "th": "พายุสุริยะกำลังมา สร้างห้องหลบภัยก่อนมันมาถึง"
+  },
+  {
+   "k": "hint.out_shelter.2",
+   "en": "Water wall at the bunk, regolith sandbags outside, or the radiation blanket. Power the shelter when the storm arrives.",
+   "th": "ผนังน้ำที่เตียง กระสอบดินข้างนอก หรือผ้าห่มกันรังสี และจ่ายไฟให้ห้องหลบภัยตอนพายุมา"
+  },
+  {
+   "k": "hint.out_coords.1",
+   "en": "The beacon works. Now the rescue ship needs to know where we are.",
+   "th": "บีคอนใช้ได้แล้ว ตอนนี้ยานกู้ภัยต้องรู้ว่าเราอยู่ที่ไหน"
+  },
+  {
+   "k": "hint.out_coords.2",
+   "en": "Switch the beacon on in Base Control, then send coordinates from the Comms computer in the Cockpit.",
+   "th": "เปิดบีคอนที่ศูนย์ควบคุมฐาน แล้วส่งพิกัดจากคอมพิวเตอร์สื่อสารในห้องนักบิน"
+  },
+  {
+   "k": "hint.out_greenhouse.1",
+   "en": "Fresh food will matter on a long stay. Start the greenhouse.",
+   "th": "อาหารสดสำคัญเมื่ออยู่นาน เริ่มโรงปลูกพืช"
+  },
+  {
+   "k": "hint.out_greenhouse.2",
+   "en": "Set up the tray at the food locker, then give the greenhouse lamps power in daylight.",
+   "th": "ตั้งถาดที่ตู้อาหาร แล้วจ่ายไฟให้ไฟโรงปลูกพืชตอนกลางวัน"
+  },
+  {
+   "k": "hint.out_wait.1",
+   "en": "Everything is on track. Keep the base running until the rescue.",
+   "th": "ทุกอย่างเป็นไปตามแผน รักษาฐานไว้จนยานกู้ภัยมา"
+  },
+  {
+   "k": "hint.out_wait.2",
+   "en": "Rest, eat, and use Base Control's Wait when there's nothing to do.",
+   "th": "พัก กิน และใช้ปุ่มรอในศูนย์ควบคุมฐานเมื่อไม่มีอะไรต้องทำ"
+  },
+  {
+   "k": "sup.sup_shield.name",
+   "en": "Radiation blanket",
+   "th": "ผ้าห่มกันรังสี"
+  },
+  {
+   "k": "sup.sup_shield.desc",
+   "en": "+40 shelter in 1 h",
+   "th": "ห้องหลบภัย +40 ใน 1 ชม."
+  },
+  {
+   "k": "end.rescued.title",
+   "en": "RESCUED",
+   "th": "ได้รับการช่วยเหลือ"
+  },
+  {
+   "k": "end.rescued.body",
+   "en": "You kept the Kestrel alive on Mars for 7 days, sheltered from the solar storm, and guided the rescue ship down.",
+   "th": "คุณรักษายาน Kestrel บนดาวอังคารให้อยู่รอด 7 วัน หลบพายุสุริยะได้ และนำทางยานกู้ภัยลงมาได้"
+  },
+  {
+   "k": "end.stranded.title",
+   "en": "SURVIVED, STRANDED",
+   "th": "รอดแต่ติดค้าง"
+  },
+  {
+   "k": "end.stranded.body",
+   "en": "You are alive, but the rescue ship never got your coordinates. It will try again on its next pass, weeks from now.",
+   "th": "คุณยังมีชีวิตอยู่ แต่ยานกู้ภัยไม่ได้รับพิกัด มันจะลองใหม่ในรอบถัดไป ซึ่งอีกหลายสัปดาห์"
+  },
+  {
+   "k": "end.failed.title",
+   "en": "SIMULATION FAILED",
+   "th": "การจำลองล้มเหลว"
+  },
+  {
+   "k": "end.FailedAir",
+   "en": "The air ran out. Life support needs power all night, and MOXIE can top up the air.",
+   "th": "อากาศหมด ระบบยังชีพต้องมีไฟตลอดคืน และ MOXIE ช่วยเติมอากาศได้"
+  },
+  {
+   "k": "end.FailedSupplies",
+   "en": "Supplies ran out for a whole day. Ice, the recycler and the Sabatier reactor all make water.",
+   "th": "เสบียงหมดไปทั้งวัน น้ำแข็ง เครื่องรีไซเคิล และเครื่องซาบาติเยผลิตน้ำได้ทั้งหมด"
+  },
+  {
+   "k": "debrief.star.rescued",
+   "en": "Rescued at the end of day 7",
+   "th": "ได้รับการช่วยเหลือตอนสิ้นวันที่ 7"
+  },
+  {
+   "k": "debrief.star.tasks",
+   "en": "All {0} science tasks + greenhouse ready",
+   "th": "งานวิทยาศาสตร์ครบ {0} อย่าง + โรงปลูกพืชพร้อม"
+  },
+  {
+   "k": "debrief.stat.hours",
+   "en": "Hours survived: {0}/{1}",
+   "th": "ชั่วโมงที่รอด: {0}/{1}"
+  },
+  {
+   "k": "debrief.stat.spe",
+   "en": "Solar storm dose: {0} mSv",
+   "th": "รังสีจากพายุสุริยะ: {0} mSv"
+  },
+  {
+   "k": "debrief.stat.greenhouse_yes",
+   "en": "Greenhouse: ready",
+   "th": "โรงปลูกพืช: พร้อม"
+  },
+  {
+   "k": "debrief.stat.greenhouse_no",
+   "en": "Greenhouse: not ready",
+   "th": "โรงปลูกพืช: ยังไม่พร้อม"
+  },
+  {
+   "k": "debrief.lesson.spe",
+   "en": "Solar storm: build the shelter before the warning runs out, and give it power when it hits.",
+   "th": "พายุสุริยะ: สร้างห้องหลบภัยก่อนพายุมา และจ่ายไฟให้ตอนพายุถึง"
+  },
+  {
+   "k": "debrief.lesson.coords",
+   "en": "Rescue: fix the beacon, switch it on, and send coordinates early. The ship only hears you when it passes overhead.",
+   "th": "การกู้ภัย: ซ่อมบีคอน เปิดมัน และส่งพิกัดแต่เนิ่นๆ ยานจะได้ยินเราตอนผ่านเหนือหัวเท่านั้น"
+  },
+  {
+   "k": "debrief.data_note",
+   "en": "Real NASA facts vs. game numbers: see Science & Data Sources.",
+   "th": "ข้อมูลจริงของ NASA กับตัวเลขในเกม: ดูที่ วิทยาศาสตร์และแหล่งข้อมูล"
+  },
+  {
+   "k": "menu.sources",
+   "en": "Science & Data Sources",
+   "th": "วิทยาศาสตร์และแหล่งข้อมูล"
+  },
+  {
+   "k": "sources.title",
+   "en": "SCIENCE & DATA SOURCES",
+   "th": "วิทยาศาสตร์และแหล่งข้อมูล"
+  },
+  {
+   "k": "sources.observed",
+   "en": "OBSERVED BY NASA (measured)",
+   "th": "NASA วัดได้จริง"
+  },
+  {
+   "k": "sources.observed.1",
+   "en": "Mars surface radiation about 0.64 mSv per day: Curiosity rover's RAD instrument (Hassler et al., Science, 2014). The game rounds it to 0.7 per day.",
+   "th": "รังสีบนพื้นดาวอังคารประมาณ 0.64 mSv ต่อวัน: เครื่องมือ RAD บนยาน Curiosity (Hassler และคณะ, Science, 2014) เกมปัดเป็น 0.7 ต่อวัน"
+  },
+  {
+   "k": "sources.observed.2",
+   "en": "September 2017: a solar storm was detected at Mars by Curiosity RAD and the MAVEN orbiter. It inspired the day-4 storm.",
+   "th": "กันยายน 2017: Curiosity RAD และยาน MAVEN ตรวจพบพายุสุริยะที่ดาวอังคาร เป็นแรงบันดาลใจของพายุวันที่ 4"
+  },
+  {
+   "k": "sources.observed.3",
+   "en": "MOXIE made oxygen from Mars air on the Perseverance rover, 2021–2023.",
+   "th": "MOXIE ผลิตออกซิเจนจากอากาศดาวอังคารบนยาน Perseverance ปี 2021–2023"
+  },
+  {
+   "k": "sources.observed.4",
+   "en": "A Mars day (sol) lasts 24 h 39 min 35 s.",
+   "th": "หนึ่งวันบนดาวอังคาร (sol) ยาว 24 ชม. 39 นาที 35 วินาที"
+  },
+  {
+   "k": "sources.principle",
+   "en": "NASA SCIENCE PRINCIPLES",
+   "th": "หลักวิทยาศาสตร์ของ NASA"
+  },
+  {
+   "k": "sources.principle.1",
+   "en": "Space weather alerts like the storm warning come from NASA's DONKI space weather database (ccmc.gsfc.nasa.gov/tools/DONKI).",
+   "th": "คำเตือนพายุแบบในเกมมาจากฐานข้อมูลสภาพอวกาศ DONKI ของ NASA (ccmc.gsfc.nasa.gov/tools/DONKI)"
+  },
+  {
+   "k": "sources.principle.2",
+   "en": "Life support (ECLSS) removes CO₂, recycles water and makes oxygen (nasa.gov, ECLSS).",
+   "th": "ระบบยังชีพ (ECLSS) กำจัด CO₂ รีไซเคิลน้ำ และผลิตออกซิเจน (nasa.gov, ECLSS)"
+  },
+  {
+   "k": "sources.principle.3",
+   "en": "Plants in space need light, water and nutrients (nasa.gov, growing plants in space).",
+   "th": "พืชในอวกาศต้องการแสง น้ำ และสารอาหาร (nasa.gov, การปลูกพืชในอวกาศ)"
+  },
+  {
+   "k": "sources.principle.4",
+   "en": "Water and dense material like regolith block radiation; shelters cut the dose.",
+   "th": "น้ำและวัสดุหนาแน่นอย่างดินรีโกลิทกันรังสีได้ ห้องหลบภัยช่วยลดรังสี"
+  },
+  {
+   "k": "sources.principle.5",
+   "en": "Radio between Earth and Mars takes about 4–24 minutes each way, depending on where the planets are. Relay orbiters carry rover messages.",
+   "th": "คลื่นวิทยุระหว่างโลกกับดาวอังคารใช้เวลาราว 4–24 นาทีต่อเที่ยว ขึ้นกับตำแหน่งดาว ยานโคจรถ่ายทอดส่งข้อความของยานสำรวจ"
+  },
+  {
+   "k": "sources.simulated",
+   "en": "GAME SIMULATION (made up for play)",
+   "th": "การจำลองในเกม (ตัวเลขสมมติ)"
+  },
+  {
+   "k": "sources.simulated.1",
+   "en": "The 7-day rescue, the storm's size and timing, and every penalty are invented for the game.",
+   "th": "การกู้ภัย 7 วัน ขนาดและเวลาของพายุ และค่าปรับทุกอย่างเป็นเรื่องที่แต่งขึ้นสำหรับเกม"
+  },
+  {
+   "k": "sources.simulated.2",
+   "en": "Air, power, shelter, supplies and energy are 0–100 game bars, not real units. The 14-minute radio delay is one value picked from the real range.",
+   "th": "อากาศ ไฟฟ้า ห้องหลบภัย เสบียง และพลังกาย เป็นแถบ 0–100 ในเกม ไม่ใช่หน่วยจริง ความล่าช้าของวิทยุ 14 นาทีเป็นค่าหนึ่งที่เลือกจากช่วงจริง"
+  },
+  {
+   "k": "sources.simulated.3",
+   "en": "The game does not read live data: no number here is presented as a live NASA reading.",
+   "th": "เกมไม่ได้ดึงข้อมูลสด ไม่มีตัวเลขไหนที่อ้างว่าเป็นค่าสดจาก NASA"
+  },
+  {
+   "k": "card.comm_delay.title",
+   "en": "Talking to Earth takes time",
+   "th": "คุยกับโลกต้องใช้เวลา"
+  },
+  {
+   "k": "card.comm_delay.body",
+   "en": "Radio travels at the speed of light, but Mars is far: a message takes about 4 to 24 minutes each way, depending on where Earth and Mars are. Rovers send most data through relay orbiters that pass overhead a few times a day, so crews on Mars would have to solve many problems on their own.",
+   "th": "คลื่นวิทยุเดินทางด้วยความเร็วแสง แต่ดาวอังคารอยู่ไกล ข้อความใช้เวลาราว 4 ถึง 24 นาทีต่อเที่ยว ขึ้นกับตำแหน่งของโลกกับดาวอังคาร ยานสำรวจส่งข้อมูลส่วนใหญ่ผ่านยานโคจรถ่ายทอดที่ผ่านเหนือหัววันละไม่กี่รอบ ลูกเรือบนดาวอังคารจึงต้องแก้ปัญหาหลายอย่างเอง"
+  },
+  {
+   "k": "card.sep_2017.title",
+   "en": "The September 2017 solar storm",
+   "th": "พายุสุริยะกันยายน 2017"
+  },
+  {
+   "k": "card.sep_2017.body",
+   "en": "In September 2017 a big eruption on the Sun sent fast particles across the solar system. At Mars, NASA's Curiosity rover measured the radiation rise on the surface and the MAVEN orbiter saw a global aurora. Storms like this are why Mars bases will need shelters.",
+   "th": "ในเดือนกันยายน 2017 การปะทุครั้งใหญ่บนดวงอาทิตย์ส่งอนุภาคเร็วไปทั่วระบบสุริยะ ที่ดาวอังคาร ยาน Curiosity ของ NASA วัดได้ว่ารังสีบนพื้นเพิ่มขึ้น และยาน MAVEN เห็นแสงออโรราทั่วดาว พายุแบบนี้คือเหตุผลที่ฐานบนดาวอังคารต้องมีห้องหลบภัย"
+  },
+  {
+   "k": "card.eclss.title",
+   "en": "Life support (ECLSS)",
+   "th": "ระบบยังชีพ (ECLSS)"
+  },
+  {
+   "k": "card.eclss.body",
+   "en": "On the International Space Station, the Environmental Control and Life Support System removes carbon dioxide, recycles water and makes oxygen. It runs on electricity, so on a planet, power and air are linked.",
+   "th": "บนสถานีอวกาศนานาชาติ ระบบควบคุมสภาพแวดล้อมและยังชีพ (ECLSS) กำจัดคาร์บอนไดออกไซด์ รีไซเคิลน้ำ และผลิตออกซิเจน มันใช้ไฟฟ้า บนดาวเคราะห์ ไฟฟ้ากับอากาศจึงผูกกันอยู่"
   }
  ]
 }

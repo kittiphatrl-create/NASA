@@ -131,7 +131,7 @@ namespace TitanGate.Game
         {
             _loc.Current = Lang.TH;
             yield return new WaitForSeconds(1.0f);
-            string R = _autoRoute;
+            string R = "mars"; // the outpost game has one destination
             if (R == "mars")
             {
                 yield return new WaitForSeconds(1.2f);
@@ -185,7 +185,7 @@ namespace TitanGate.Game
 
             yield return ClickToModal("s_nav");
             yield return Shot("04_nav");
-            string dest = R == "moon" ? "earth" : R;
+            string dest = "mars";
             _ui.Press(_loc.T("nav." + dest));
             yield return new WaitForSeconds(0.4f);
             yield return Shot("05_nav_confirm");
@@ -229,116 +229,93 @@ namespace TitanGate.Game
             yield return Settle();
             yield return Shot("09_quarters_landed");
 
-            switch (R)
-            {
-                case "mars":
-                    yield return Click("s_toolbox");
-                    yield return ClickToModal("s_cabinet");
-                    _ui.Press(_loc.T("item.item_cat_cu")); yield return Settle();
-                    yield return Click("s_reactor");
-                    Check(!_sim.State.flags.Contains("catalyst_installed"), "wrong catalyst rejected");
-                    yield return ClickToModal("s_cabinet");
-                    _ui.Press(_loc.T("item.item_cat_ni")); yield return Settle();
-                    yield return Click("s_reactor");
-                    Check(_sim.State.flags.Contains("catalyst_installed"), "nickel catalyst installed");
-                    yield return Click("s_airlock");
-                    yield return Shot("10_outside");
-                    yield return Click("mars_scrap");
-                    OnItemClicked("item_plate"); OnItemClicked("item_sealant");
-                    yield return Settle();
-                    Check(_inv.Has("item_hull_patch"), "plate + sealant combine");
-                    yield return ClickToModal("mars_pod");
-                    PressKeys(_cfg.puzzles.podCode); yield return Settle();
-                    yield return Click("mars_drill");
-                    Check(_sim.State.flags.Contains("drill_ready"), "drill bit installed");
-                    yield return ClickToModal("s_line");
-                    yield return Shot("11_action_menu");
-                    _ui.Press(_loc.T("action.repair_line")); yield return Settle();
-                    Check(_sim.State.flags.Contains("line_repaired"), "fuel line repaired");
-                    break;
-                case "moon":
-                    yield return Click("s_cabinet");
-                    yield return Click("s_airlock");
-                    yield return Shot("10_outside");
-                    yield return ClickToModal("moon_pod");
-                    PressKeys(_cfg.puzzles.moonPodCode); yield return Settle();
-                    Check(_inv.Has("item_feedhorn"), "pod code 1969 opens the pod");
-                    OnItemClicked("item_feedhorn"); OnItemClicked("item_cable");
-                    yield return Settle();
-                    Check(_inv.Has("item_antenna_kit"), "feed horn + cable combine");
-                    yield return ClickToModal("moon_dish");
-                    yield return Shot("11_aim_choice");
-                    _ui.Press(_loc.T("moon_aim.up")); yield return Settle();
-                    Check(!_sim.State.flags.Contains("antenna_ready"), "wrong aim rejected");
-                    yield return ClickToModal("moon_dish");
-                    _ui.Press(_loc.T("moon_aim.horizon")); yield return Settle();
-                    Check(_sim.State.flags.Contains("antenna_ready"), "dish aimed at Earth on the horizon");
-                    yield return ClickToModal("moon_crater");
-                    _ui.Press(_loc.T("moon_site.crater")); yield return Settle();
-                    Check(_sim.State.flags.Contains("drill_ready"), "drill set in the shadowed crater");
-                    break;
-                default:
-                    yield return ClickToModal("s_airlock");
-                    yield return Shot("10_suit_choice");
-                    _ui.Press(_loc.T("titan_suit.pressure")); yield return Settle();
-                    Check(!_titanSuitOk, "pressure suit rejected");
-                    yield return ClickToModal("s_airlock");
-                    _ui.Press(_loc.T("titan_suit.heated")); yield return Settle();
-                    Check(_titanSuitOk && _room == ROutside, "heated suit + mask, outside");
-                    yield return Shot("11_outside");
-                    yield return ClickToModal("titan_gate");
-                    PressKeys(_cfg.puzzles.titanGateCode); yield return Settle();
-                    Check(_sim.State.flags.Contains("gate_found"), "gate code 179 unlocks the gate");
-                    yield return Click("s_cabinet");
-                    yield return Click("s_crates");
-                    OnItemClicked("item_drillbit"); OnItemClicked("item_heater_coil");
-                    yield return Settle();
-                    Check(_inv.Has("item_heated_bit"), "drill bit + heater coil combine");
-                    yield return Click("titan_drill");
-                    Check(_sim.State.flags.Contains("drill_ready"), "heated bit installed");
-                    break;
-            }
+            Check(_sim.State.hour == 0 && _sim.Day == 1 && _sim.Clock == 6, "survival starts Day 1 06:00, hour 0 of 168");
+            Check(_sim.HoursLeft == 168, "rescue countdown is 168 h (7 days)");
 
-            if (R == "moon")
-            {
-                yield return ClickToModal("moon_solar");
-                yield return Shot("11b_berm_menu");
-                _ui.Press(_loc.T("action.build_berm")); yield return Settle();
-                Check(_sim.Shielded, "regolith berm built (radiation shield)");
-            }
-            Check(_codex.Has("rad_dose"), "radiation card shown after landing");
+            // the old Mars puzzles still work and feed the outpost
+            yield return Click("s_toolbox");
+            yield return ClickToModal("s_cabinet");
+            _ui.Press(_loc.T("item.item_cat_cu")); yield return Settle();
+            yield return Click("s_reactor");
+            Check(!_sim.State.flags.Contains("catalyst_installed"), "wrong catalyst rejected");
+            yield return ClickToModal("s_cabinet");
+            _ui.Press(_loc.T("item.item_cat_ni")); yield return Settle();
+            yield return Click("s_reactor");
+            Check(_sim.State.flags.Contains("catalyst_installed"), "nickel catalyst installed");
+            yield return Click("s_airlock");
+            yield return Shot("10_outside");
+            yield return Click("mars_scrap");
+            OnItemClicked("item_plate"); OnItemClicked("item_sealant");
+            yield return Settle();
+            Check(_inv.Has("item_hull_patch"), "plate + sealant combine");
+            yield return ClickToModal("mars_pod");
+            PressKeys(_cfg.puzzles.podCode); yield return Settle();
+            yield return Click("mars_drill");
+            Check(_sim.State.flags.Contains("drill_ready"), "drill bit installed");
+            int hourBefore = _sim.State.hour;
+            yield return ClickToModal("s_line");
+            yield return Shot("11_action_menu");
+            _ui.Press(_loc.T("action.repair_beacon")); yield return Settle();
+            Check(_sim.State.flags.Contains("beacon_repaired"), "beacon line repaired with the patch");
+            Check(_sim.State.hour - hourBefore >= 3, $"repair takes in-game hours ({hourBefore} -> {_sim.State.hour})");
+
+            // Base Control: the power budget
+            PlaceInRoom(RCockpit, -1f); _player.SetSuit(false);
+            OnBase();
+            yield return new WaitForSeconds(0.3f);
+            _sim.SetSystem("beacon", true); RefreshAll(); _ui.RebuildModal();
+            yield return new WaitForSeconds(0.2f);
+            yield return Shot("11b_base_control");
+            _ui.CloseModal();
+            Check(_sim.IsOn("beacon") && _sim.PowerDrawPerHour > 3f, "switching the beacon on adds to the power draw");
+            yield return ClickToModal("s_nav");
+            yield return Shot("11c_comms");
+            _ui.Press(_loc.T("action.send_coords")); yield return Settle();
+            Check(_sim.State.coords >= 1, "coordinates sent through the beacon");
+            yield return ClickToModal("s_nav");
+            _ui.Press(_loc.T("action.ask_earth")); yield return Settle();
+            Check(_sim.State.messages.Exists(m => m.id == "earth_hint"), "question queued for Earth (relay pass + light delay)");
+            yield return ClickToModal("s_scope");
+            yield return Shot("12b_science_menu");
+            _ui.Press(_loc.T("action.sci_sunset")); yield return Settle();
+            Check(_sim.State.flags.Contains("sci_sunset") && _codex.Has("mars_sunset"), "science task done, card mars_sunset");
+            PlaceInRoom(RQuarters, 1f);
+            yield return ClickToModal("s_bed");
+            yield return Shot("12c_bed_shelter");
+            float shelter0 = _sim.State.shelter;
+            _ui.Press(_loc.T("action.shelter_water")); yield return Settle();
+            Check(_sim.State.shelter > shelter0, $"water wall raises shelter readiness ({shelter0:0} -> {_sim.State.shelter:0})");
 
             for (int i = 0; i < 6; i++) { PlaceInRoom(i, -1.5f); _player.SetSuit(i == ROutside); RefreshAll(); yield return Shot($"12_landed_room{i}"); }
 
-            PlaceInRoom(RCockpit, -1f); _player.SetSuit(false);
-            var sci1 = _rc.actions.Find(a => a.science && a.minSol == 1);
-            yield return ClickToModal("s_scope");
-            yield return Shot("12b_science_menu");
-            _ui.Press(_loc.T("action." + sci1.id)); yield return Settle();
-            Check(_sim.State.flags.Contains(sci1.setsFlag) && _codex.Has(sci1.card), $"science task {sci1.id} done, card {sci1.card}");
-            var later = _rc.actions.Find(a => a.science && a.minSol > 1);
-            Check(!_sim.CanDo(later.id, out var laterWhy) && laterWhy == "reason.later", "later science task waits for its day");
-
+            // night: sleep until morning, report, the morning event
             PlaceInRoom(RQuarters, 1.2f); _player.SetSuit(false);
+            _sim.Advance((21 - _sim.Clock + 24) % 24); RefreshAll();   // evening: full sleep is offered from 20:00
+            int dayBefore = _sim.Day;
             yield return ClickToModal("s_bed");
             yield return Shot("13_bed");
-            _ui.Press(_loc.T("bed.sleep"));
+            _ui.Press(_loc.T("bed.sleep_morning", _sim.HoursToMorning));
             t = 0;
             _autoAdvance = true;
             while (!_ui.ModalOpen && t < 15) { t += Time.deltaTime; yield return null; }
             _autoAdvance = false;
             yield return Shot("14_night_report");
+            Check(_sim.Day == dayBefore + 1 && _sim.Clock == 6, $"slept until 06:00 of day {_sim.Day}");
             _ui.CloseModal();
             yield return UntilModal();
-            yield return Shot("14b_dilemma");
-            var dil = _rc.dilemmas.Find(d => d.sol == 2);
-            _ui.Press(_loc.T($"dilemma.{dil.id}.{dil.options[0].id}"));
+            if (_sim.DueDilemma() != null)
+            {
+                yield return Shot("14b_event");
+                var dil = _sim.DueDilemma();
+                var opt = dil.options.Find(o => _sim.CanChoose(o, out _));
+                _ui.Press(_loc.T($"dilemma.{dil.id}.{opt.id}"));
+            }
             yield return Settle();
-            Check(_sim.State.sol == 2, "sol 2 reached");
-            Check(_sim.State.choices.TryGetValue(dil.id, out var chose) && chose == dil.options[0].id, "morning dilemma answered: " + dil.id);
+            Check(_sim.State.choices.Count >= 1, "morning event answered");
 
+            // daytime emergency after two actions on day 2
             yield return ClickToModal("s_recycler"); _ui.Press(_loc.T("action.recycle")); yield return Settle();
-            yield return ClickToModal("s_o2gen"); _ui.Press(_loc.T("action." + O2Action)); yield return Settle();
+            yield return ClickToModal("s_o2gen"); _ui.Press(_loc.T("action.moxie")); yield return Settle();
             Check(_incident != null, "daytime emergency started after 2 actions");
             if (_incident != null)
             {
@@ -356,42 +333,34 @@ namespace TitanGate.Game
             OnCards();
             yield return Shot("17_codex");
             _ui.CloseModal();
-
-            int keepO2 = _sim.State.o2;
-            _sim.State.o2 = 18; RefreshAll();
+            float keepAir = _sim.State.air;
+            _sim.State.air = 18; RefreshAll();
             yield return new WaitForSeconds(0.5f);
-            yield return Shot("18_low_o2");
-            _sim.State.o2 = keepO2; RefreshAll();
+            yield return Shot("18_low_air");
+            _sim.State.air = keepAir; RefreshAll();
 
+            // fast-forward with a prepared base up to just before the solar storm
             DebugSolvePuzzles();
-            _sim.State.fuel = _rc.survival.fuelTarget;
-            bool eventShot = false;
-            while (_sim.State.sol < _rc.survival.launchSol && _sim.State.outcome == SimOutcome.Ongoing)
-            {
-                var ss = _sim.State;
-                ss.o2 = ss.water = ss.food = ss.power = ss.stamina = 80;
-                _sim.Sleep();
-                if (!eventShot && _sim.State.encounterToday != null)
-                {
-                    eventShot = true;
-                    var ev = _rc.dilemmas.Find(d => d.id == _sim.State.encounterToday);
-                    RefreshAll();
-                    StartCoroutine(MorningDilemma());
-                    yield return UntilModal();
-                    yield return Shot("18b_event");
-                    var opt = ev.options.Find(o => _sim.CanChoose(o, out _));
-                    _ui.Press(_loc.T($"dilemma.{ev.id}.{opt.id}"));
-                    yield return Settle();
-                    Check(_sim.State.choices.ContainsKey(ev.id), "random event answered: " + ev.id);
-                }
-            }
-            Check(eventShot, "a random event was drawn during the week");
-            Check(_sim.State.sol == 7, "the stay lasts a full week (sol 7)");
+            void Topped() { var ss = _sim.State; ss.air = ss.supplies = ss.energy = 80; ss.power = 90; }
+            while (_sim.State.hour < OC.spe.hour - 1 && _sim.State.outcome == Outcome.Ongoing) { Topped(); _sim.Advance(1); if (_sim.DueDilemma() is DilemmaDef dd) _sim.Choose(dd.id, dd.options.Find(o => _sim.CanChoose(o, out _)).id); }
+            Check(_sim.State.messages.Exists(m => m.id == "earth_spe_warning" && m.delivered), "Earth's storm warning arrived on its relay pass");
+            Check(_sim.State.messages.Exists(m => m.id == "earth_hint" && m.delivered), "Earth answered the question after the relay delay");
+            _sim.State.shelter = 100; _sim.SetSystem("shelter", true); _sim.SetSystem("beacon", true);
             RefreshAll();
-            Log($"sim sol={_sim.State.sol} outcome={_sim.State.outcome} o2={_sim.State.o2} water={_sim.State.water} food={_sim.State.food} power={_sim.State.power}");
-            yield return ClickToModal("s_console");
-            yield return Shot("19_goal_modal");
-            _ui.Press(_loc.T($"goal.{R}.go"));
+            PlaceInRoom(RQuarters, 0f);
+            yield return Shot("15b_spe_forecast");
+            StartCoroutine(WaitHours(1));
+            t = 0; while (!_ui.DialogOpen && t < 5) { t += Time.deltaTime; yield return null; }
+            yield return new WaitForSeconds(0.6f);
+            yield return Shot("16b_spe");
+            yield return Settle();
+            Check(_sim.State.speDone && _sim.State.log.Exists(e => e.kind == LogKind.Spe && e.ok), "solar storm hit once; the ready shelter protected the crew");
+
+            while (_sim.State.hour < OC.hoursTotal - 1 && _sim.State.outcome == Outcome.Ongoing) { Topped(); _sim.Advance(1); if (_sim.DueDilemma() is DilemmaDef dd) _sim.Choose(dd.id, dd.options.Find(o => _sim.CanChoose(o, out _)).id); }
+            Topped();
+            Log($"sim hour={_sim.State.hour} day={_sim.Day} coords={_sim.State.coords} air={_sim.State.air:0} power={_sim.State.power:0} dose={_sim.State.dose:0.0}");
+            Check(_sim.State.coords == 2, "rescue ship acknowledged the coordinates");
+            StartCoroutine(WaitHours(1));
             t = 0;
             _autoAdvance = true;
             while (!InCutscene && t < 10) { t += Time.deltaTime; yield return null; }
@@ -402,13 +371,20 @@ namespace TitanGate.Game
             while (!_ui.ScreenOpen && t < 25) { t += Time.deltaTime; yield return null; }
             _autoAdvance = false;
             yield return new WaitForSeconds(0.8f);
-            Check(_chapter == 3 && _sim.State.outcome == SimOutcome.Won, "route won");
+            Check(_chapter == 3 && _sim.State.outcome == Outcome.Rescued && _sim.State.hour == 168, "rescued at the end of day 7 (hour 168)");
             var stars = _sim.Stars();
-            Check(stars[0] && !stars[2], "debrief stars: mission yes, science not all");
-            Log($"debrief dose={_sim.State.dose:0.0} log={_sim.State.log.Count} stars={stars[0]},{stars[1]},{stars[2]} best={Settings.BestStars(R)}");
+            Check(stars[0], "debrief: rescue star");
+            Log($"debrief dose={_sim.State.dose:0.0} log={_sim.State.log.Count} stars={stars[0]},{stars[1]},{stars[2]}");
             yield return Shot("20_win");
-            ShowEnd(false, SimOutcome.LostO2);
+            ShowEnd(Outcome.Stranded);
+            yield return Shot("21_stranded");
+            ShowEnd(Outcome.FailedAir);
             yield return Shot("21_lose");
+            _ui.HideScreen();
+            ShowSources();
+            yield return new WaitForSeconds(0.3f);
+            yield return Shot("22_sources");
+            _ui.CloseModal();
 
             Log($"done errors={_errors} checksFailed={_checksFailed} cards={_codex.Cards.Count}");
             _autoLog?.Close();

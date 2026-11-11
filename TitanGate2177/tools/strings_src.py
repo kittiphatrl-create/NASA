@@ -1159,6 +1159,269 @@ H7 = [("c1_scramble","Click the loose supplies in any room. Each one takes a mom
 for hid, e1, e2, t1, t2 in H7:
     k(f"hint.{hid}.1", e1, t1); k(f"hint.{hid}.2", e2, t2)
 
+# ======================================================================= round 8: 7-day Mars outpost on the Kestrel (168 h)
+def ov(key, en, th):
+    """Replace an existing line (or add it when missing)."""
+    for e in S:
+        if e["k"] == key:
+            e["en"], e["th"] = en, th
+            return
+    k(key, en, th)
+
+# --- story: the rescue replaces the launch window
+ov("ch2.intro_card", "Chapter 2 — The Kestrel, Mars\nSurvive 7 days until the rescue ship arrives", "บทที่ 2 — ยาน Kestrel บนดาวอังคาร\nอยู่รอด 7 วันจนยานกู้ภัยมาถึง")
+ov("ch2.title", "CHAPTER 2 · MARS OUTPOST · DAY {0}", "บทที่ 2 · ฐานบนดาวอังคาร · วันที่ {0}")
+ov("c2_land_1.mars", "We made it! The Kestrel is down on Mars. She's damaged, but she will be our outpost now.", "เรารอดแล้ว! Kestrel ลงจอดบนดาวอังคาร ยานเสียหายแต่จะเป็นฐานของเราจากนี้")
+ov("c2_land_2.mars", "A rescue ship is already near Mars. It can land here in 7 days: 168 hours. On Mars a day is called a sol.", "มียานกู้ภัยอยู่ใกล้ดาวอังคารแล้ว มันลงมารับเราได้ในอีก 7 วัน หรือ 168 ชั่วโมง บนดาวอังคาร หนึ่งวันเรียกว่า sol")
+ov("c2_land_3.mars", "Until then: keep the air, power and supplies going, build a radiation shelter, and fix the beacon so the rescue ship can find us. Every job takes hours.", "ระหว่างนี้: รักษาอากาศ ไฟฟ้า และเสบียง สร้างห้องหลบรังสี และซ่อมบีคอนให้ยานกู้ภัยหาเราเจอ ทุกงานใช้เวลาเป็นชั่วโมง")
+ov("c2_surface_first.mars", "Outside: every hour out here adds a little radiation, so plan your trips.", "ข้างนอก: ทุกชั่วโมงที่อยู่ข้างนอกจะได้รับรังสีเพิ่มนิดหน่อย วางแผนการออกมาให้ดี")
+ov("spot.s_line_broken", "Broken beacon cable", "สายบีคอนที่ขาด")
+ov("spot.s_console_goal", "Base Control (power)", "ศูนย์ควบคุมฐาน (ไฟฟ้า)")
+ov("spot.s_nav_comms", "Comms: beacon & Earth link", "สื่อสาร: บีคอนและลิงก์กับโลก")
+ov("c2_line_need", "The beacon cable is torn. I need a patch: a plate and something sticky might work.", "สายบีคอนขาด ต้องใช้แผ่นปะ แผ่นโลหะกับอะไรเหนียวๆ น่าจะใช้ได้")
+ov("c2_line_done", "The patch holds. The beacon has power.", "แผ่นปะยึดแน่น บีคอนมีไฟแล้ว")
+ov("hint.c2_line.1", "The rescue beacon's cable needs a patch: a plate plus something sticky.", "สายของบีคอนกู้ภัยต้องปะ: แผ่นโลหะกับอะไรเหนียวๆ")
+ov("hint.c2_line.2", "A metal plate lies outside; sealant is in the Crew quarters toolbox. Click one item, then the other.", "แผ่นโลหะอยู่ข้างนอก กาวซีลอยู่ในกล่องเครื่องมือห้องพักลูกเรือ คลิกไอเทมหนึ่ง แล้วคลิกอีกอัน")
+ov("hint.c2_line_fix.1", "You can fix the beacon cable now.", "ตอนนี้ซ่อมสายบีคอนได้แล้ว")
+ov("hint.c2_line_fix.2", "Click the broken beacon cable in the Fuel Bay.", "คลิกสายบีคอนที่ขาดในห้องเชื้อเพลิง")
+ov("hint.c2_catalyst.1", "Low on supplies? The Sabatier reactor can make water, with the right catalyst.", "เสบียงน้อย? เครื่องซาบาติเยผลิตน้ำได้ ถ้ามีตัวเร่งปฏิกิริยาที่ถูกต้อง")
+ov("hint.c2_catalyst.2", "The Sabatier card names the metal: nickel (Ni). It's in the Life Support cabinet.", "การ์ดซาบาติเยบอกชื่อโลหะ: นิกเกิล (Ni) อยู่ในตู้ห้องระบบยังชีพ")
+ov("c2_catalyst_ok", "Nickel catalyst installed. The reactor can make water now!", "ใส่ตัวเร่งนิกเกิลแล้ว เครื่องผลิตน้ำได้แล้ว!")
+ov("nav.body", "Fuel needed to fly straight to each destination. With 18% left, only one is in reach.", "เชื้อเพลิงที่ต้องใช้บินตรงไปแต่ละที่ เหลืออยู่ 18% ไปถึงได้แค่ที่เดียว")
+ov("cut.win.mars.1", "RESCUE · the lander lifts off with you aboard", "กู้ภัย · ยานลงจอดทะยานขึ้นพร้อมคุณ")
+ov("cut.win.mars.2", "LIFTOFF · Mars falls away below", "ทะยานขึ้น · ดาวอังคารเล็กลงเรื่อยๆ")
+ov("cut.win.mars.3", "ORBIT · docked with the rescue ship", "วงโคจร · เทียบท่ากับยานกู้ภัยแล้ว")
+ov("action.sabatier", "Make water (Sabatier reactor)", "ผลิตน้ำ (เครื่องซาบาติเย)")
+ov("done.sabatier", "CO₂ + hydrogen → water + methane. Fresh water drips out.", "CO₂ + ไฮโดรเจน → น้ำ + มีเทน น้ำสะอาดหยดออกมา")
+ov("action.moxie", "Make oxygen (MOXIE)", "ผลิตออกซิเจน (MOXIE)")
+ov("menu.stars", "Best debrief stars on Mars: {0}/3", "ดาวสูงสุดจากสรุปภารกิจบนดาวอังคาร: {0}/3")
+ov("howto.5.body", "You must survive 7 days (168 hours). Every job takes hours, and air, power and supplies keep running out while you work.", "ต้องอยู่รอด 7 วัน (168 ชั่วโมง) ทุกงานใช้เวลาเป็นชั่วโมง และอากาศ ไฟฟ้า กับเสบียงลดลงเรื่อยๆ ระหว่างที่ทำงาน")
+ov("howto.6.body", "Base Control (B) shares the power. You can't run everything: life support, greenhouse, beacon and shelter all need power, and night has no sun.", "ศูนย์ควบคุมฐาน (B) ใช้แบ่งไฟฟ้า เปิดทุกอย่างพร้อมกันไม่ได้: ระบบยังชีพ โรงปลูกพืช บีคอน และห้องหลบภัยต้องใช้ไฟทั้งหมด และกลางคืนไม่มีแดด")
+ov("howto.9.body", "A solar storm reaches Mars around day 4. Earth warns you first. Build the shelter (water wall, regolith, blanket) and give it power when the storm hits.", "พายุสุริยะจะมาถึงดาวอังคารราววันที่ 4 โลกจะเตือนก่อน สร้างห้องหลบภัย (ผนังน้ำ ดินดาวอังคาร ผ้าห่มกันรังสี) และจ่ายไฟให้ตอนพายุมา")
+ov("howto.10.body", "Messages to Earth ride a relay orbiter that passes at 10:00 and 22:00, and radio takes minutes each way. Ask Earth, or read your cards now.", "ข้อความถึงโลกต้องฝากไปกับยานโคจรถ่ายทอดที่ผ่านตอน 10:00 และ 22:00 และคลื่นวิทยุใช้เวลาหลายนาทีต่อเที่ยว จะถามโลก หรือเปิดการ์ดอ่านเองตอนนี้ก็ได้")
+
+# --- HUD and time
+many([
+ ("ui.base", "Base Control", "ศูนย์ควบคุมฐาน"),
+ ("hud.time", "Day {0}/{1} · {2}:00", "วันที่ {0}/{1} · {2}:00"),
+ ("hud.rescue_in", "Rescue in {0} h", "ยานกู้ภัยมาในอีก {0} ชม."),
+ ("hud.air", "Air", "อากาศ"),
+ ("hud.shelter", "Shelter", "ห้องหลบภัย"),
+ ("hud.supplies", "Supplies", "เสบียง"),
+ ("hud.energy", "Energy", "พลังกาย"),
+ ("hud.hours_cost", "{0} h", "{0} ชม."),
+ ("hud.outside", "(outside: + radiation)", "(ข้างนอก: + รังสี)"),
+ ("carry.air", "Cabin air when the leak was sealed: {0}% → starting Air {1}", "อากาศในยานตอนอุดรอยรั่ว: {0}% → อากาศตอนเริ่ม {1}"),
+ ("carry.plan", "The rescue ship lands in {0} hours. Keep the base alive until then.", "ยานกู้ภัยจะลงจอดในอีก {0} ชั่วโมง รักษาฐานให้อยู่รอดจนถึงตอนนั้น"),
+ ("obj.beacon", "Repair the rescue beacon", "ซ่อมบีคอนกู้ภัย"),
+ ("obj.coords", "Send our coordinates to the rescue ship", "ส่งพิกัดให้ยานกู้ภัย"),
+ ("obj.coords_waiting", "Coordinates sent: keep the beacon on until they answer", "ส่งพิกัดแล้ว: เปิดบีคอนไว้จนกว่าจะตอบกลับ"),
+ ("obj.shelter", "Prepare the radiation shelter ({0}%)", "เตรียมห้องหลบรังสี ({0}%)"),
+ ("obj.shelter_done", "Solar storm survived", "ผ่านพายุสุริยะแล้ว"),
+ ("obj.greenhouse", "Get the greenhouse going ({0}/{1} h of light)", "เริ่มโรงปลูกพืช (ได้แสง {0}/{1} ชม.)"),
+ ("obj.survive", "Survive until the rescue ship lands (end of day {0})", "อยู่รอดจนยานกู้ภัยลงจอด (สิ้นวันที่ {0})"),
+ ("forecast.spe", "SOLAR STORM in {0} h · shelter protects {1}%", "พายุสุริยะในอีก {0} ชม. · ห้องหลบภัยป้องกันได้ {1}%"),
+ ("forecast.power_short", "Not enough power until sunrise: need {0}, have {1}", "ไฟไม่พอถึงเช้า: ต้องใช้ {0} มีอยู่ {1}"),
+ ("forecast.relay", "Next Earth link {0}:00 · radio delay {1} min", "ลิงก์กับโลกรอบถัดไป {0}:00 · คลื่นวิทยุช้า {1} นาที"),
+])
+
+# --- systems and Base Control
+many([
+ ("system.life_support", "Life support", "ระบบยังชีพ"),
+ ("system.life_support.desc", "Scrubs CO₂ and makes air. Off = air drops fast.", "กรอง CO₂ และสร้างอากาศ ปิด = อากาศลดเร็ว"),
+ ("system.greenhouse", "Greenhouse lamps", "ไฟโรงปลูกพืช"),
+ ("system.greenhouse.desc", "Plants need light, water and nutrients. 24 h of light gets the garden going.", "พืชต้องการแสง น้ำ และสารอาหาร ได้แสงครบ 24 ชม. โรงปลูกพืชจะเริ่มทำงาน"),
+ ("system.beacon", "Rescue beacon", "บีคอนกู้ภัย"),
+ ("system.beacon.desc", "Must be on for the rescue ship to hear our coordinates.", "ต้องเปิดไว้ ยานกู้ภัยถึงจะได้ยินพิกัดของเรา"),
+ ("system.shelter", "Shelter support", "ระบบห้องหลบภัย"),
+ ("system.shelter.desc", "Powers the shelter's fans and sensors. A powered shelter protects twice as well.", "จ่ายไฟให้พัดลมและเซนเซอร์ในห้องหลบภัย ห้องที่มีไฟป้องกันได้ดีกว่าสองเท่า"),
+ ("base.title", "BASE CONTROL · power budget", "ศูนย์ควบคุมฐาน · งบไฟฟ้า"),
+ ("base.intro", "Solar panels charge the battery from 07:00 to 19:00. Every system you switch on uses power every hour. You can't run them all.", "แผงโซลาร์ชาร์จแบตเตอรี่ตั้งแต่ 07:00 ถึง 19:00 ทุกระบบที่เปิดใช้ไฟทุกชั่วโมง เปิดทั้งหมดพร้อมกันไม่ได้"),
+ ("base.power_line", "Battery {0} · using {1}/h · solar now +{2}/h", "แบตเตอรี่ {0} · ใช้อยู่ {1}/ชม. · โซลาร์ตอนนี้ +{2}/ชม."),
+ ("base.night_line", "Power needed until sunrise with these systems: {0}", "ไฟที่ต้องใช้ถึงเช้ากับระบบที่เปิดอยู่: {0}"),
+ ("base.on", "ON", "เปิด"), ("base.off", "OFF", "ปิด"),
+ ("base.draw", "({0}/h)", "({0}/ชม.)"),
+ ("base.wait1", "Wait 1 hour", "รอ 1 ชั่วโมง"),
+ ("base.wait_event", "Wait until something happens", "รอจนกว่าจะมีอะไรเกิดขึ้น"),
+ ("c2_base_intro", "This is Base Control. Our battery is small, so we choose what gets power. Life support first, always.", "นี่คือศูนย์ควบคุมฐาน แบตเตอรี่เราเล็ก ต้องเลือกว่าจะจ่ายไฟให้อะไร ระบบยังชีพต้องมาก่อนเสมอ"),
+ ("out_power_cut", "POWER CUT · {0} switched off", "ไฟดับ · {0} ถูกปิด"),
+ ("out_waited", "{0} h passed.", "ผ่านไป {0} ชม."),
+ ("out_bedtime", "It's night. Rest at the bunk in the Crew quarters.", "กลางคืนแล้ว ไปนอนที่เตียงในห้องพักลูกเรือ"),
+ ("out_wake_alarm", "Wake up! The air alarm is going off. Make oxygen or check life support!", "ตื่น! สัญญาณอากาศดังแล้ว ผลิตออกซิเจนหรือตรวจระบบยังชีพ!"),
+ ("c2_coords_sent", "Coordinates on the air. The rescue ship passes overhead in {0} h: keep the beacon on.", "ส่งพิกัดออกไปแล้ว ยานกู้ภัยจะผ่านเหนือหัวในอีก {0} ชม. เปิดบีคอนไว้"),
+ ("c2_asked_earth", "Question queued for the relay orbiter. Earth's answer arrives in about {0} h (radio delay {1} min each way).", "ฝากคำถามไว้กับยานโคจรถ่ายทอดแล้ว คำตอบจากโลกจะมาถึงในอีกราว {0} ชม. (คลื่นวิทยุช้าเที่ยวละ {1} นาที)"),
+ ("c2_spe_soon", "The solar storm arrives in {0} h. Right now the shelter would block {1}% of it.", "พายุสุริยะจะมาในอีก {0} ชม. ตอนนี้ห้องหลบภัยกันได้ {1}%"),
+])
+
+# --- actions (hours)
+A8 = [("shelter_water", "Build a water wall around the bunk", "สร้างผนังน้ำรอบเตียง", "Water bags stacked around the bunk. Water is a great radiation shield.", "วางถุงน้ำล้อมเตียงแล้ว น้ำเป็นเกราะกันรังสีที่ดีมาก"),
+      ("shelter_regolith", "Pile regolith sandbags (outside)", "พูนกระสอบดินดาวอังคาร (ข้างนอก)", "Sandbags of Mars soil now line the quarters wall.", "กระสอบดินดาวอังคารเรียงแนวผนังห้องพักแล้ว"),
+      ("shelter_kit", "Hang the radiation blanket", "แขวนผ้าห่มกันรังสี", "The blanket is up. Quick and strong.", "แขวนผ้าห่มแล้ว เร็วและแข็งแรง"),
+      ("repair_beacon", "Repair the beacon cable", "ซ่อมสายบีคอน", "Patch on, sealed tight. The beacon has power!", "ปะแผ่นแล้ว ซีลแน่นหนา บีคอนมีไฟแล้ว!"),
+      ("repair_beacon_chip", "Load the data chip into the beacon", "ใส่ชิปข้อมูลเข้าบีคอน", "The chip has the beacon's software. Fixed in no time!", "ชิปมีซอฟต์แวร์ของบีคอน ซ่อมเสร็จในพริบตา!"),
+      ("send_coords", "Send our coordinates", "ส่งพิกัดของเรา", "Coordinates transmitted.", "ส่งพิกัดแล้ว"),
+      ("ask_earth", "Ask Mission Control for help", "ถามศูนย์ควบคุมบนโลก", "Message queued for the next relay pass.", "ฝากข้อความไว้กับรอบถ่ายทอดถัดไปแล้ว"),
+      ("setup_greenhouse", "Set up the greenhouse tray", "ตั้งถาดโรงปลูกพืช", "Tray set up with backup seeds. Now it needs light.", "ตั้งถาดพร้อมเมล็ดสำรองแล้ว ตอนนี้ต้องการแสง"),
+      ("setup_greenhouse_seeds", "Plant the seed packets", "ปลูกซองเมล็ดพันธุ์", "Seeds planted fast. Now they need light.", "ปลูกเมล็ดเสร็จเร็ว ตอนนี้ต้องการแสง")]
+for aid, en, th, de, dt in A8:
+    ov(f"action.{aid}", en, th); ov(f"done.{aid}", de, dt)
+
+many([
+ ("reason.need.shield_kit", "Needs the radiation blanket.", "ต้องมีผ้าห่มกันรังสี"),
+ ("reason.need.data_chip", "Needs the data chip.", "ต้องมีชิปข้อมูล"),
+ ("reason.need.seed_pack", "Needs the seed packets.", "ต้องมีซองเมล็ดพันธุ์"),
+ ("reason.need.beacon_repaired", "Repair the beacon first.", "ต้องซ่อมบีคอนก่อน"),
+ ("reason.done.beacon_repaired", "The beacon is already fixed.", "ซ่อมบีคอนแล้ว"),
+ ("reason.done.greenhouse_started", "The greenhouse is already set up.", "ตั้งโรงปลูกพืชแล้ว"),
+ ("reason.system_off.beacon", "Switch the beacon on in Base Control first.", "เปิดบีคอนที่ศูนย์ควบคุมฐานก่อน"),
+ ("reason.no_supplies", "Not enough supplies.", "เสบียงไม่พอ"),
+ ("reason.no_energy", "Too exhausted. Eat or sleep first.", "เหนื่อยเกินไป กินหรือนอนก่อน"),
+ ("reason.no_time", "Not enough hours left before the rescue.", "เหลือเวลาไม่พอก่อนยานกู้ภัยมา"),
+ ("reason.shelter_full", "The shelter is already at 100%.", "ห้องหลบภัยเต็ม 100% แล้ว"),
+ ("reason.coords_sent", "Already sent.", "ส่งไปแล้ว"),
+ ("reason.waiting_earth", "Still waiting for Earth's answer.", "ยังรอคำตอบจากโลกอยู่"),
+ ("nav.out_of_reach", "[out of reach]", "[ไปไม่ถึง]"),
+])
+
+# --- look lines for menus
+many([
+ ("look.out.s_o2gen", "MOXIE splits CO₂ from the Mars air into oxygen. It needs power.", "MOXIE แยก CO₂ จากอากาศดาวอังคารเป็นออกซิเจน ต้องใช้ไฟ"),
+ ("look.out.s_recycler", "Cleans used water so we can drink it again.", "ทำน้ำที่ใช้แล้วให้สะอาดดื่มได้อีก"),
+ ("look.out.s_reactor", "The Sabatier reactor: CO₂ + hydrogen → water + methane.", "เครื่องซาบาติเย: CO₂ + ไฮโดรเจน → น้ำ + มีเทน"),
+ ("look.out.s_food", "Meals, and the greenhouse tray under its lamps.", "อาหาร และถาดโรงปลูกพืชใต้หลอดไฟ"),
+ ("look.out.s_seals", "Seals keep our air in. Cold nights make them shrink.", "ซีลเก็บอากาศไว้ในยาน คืนที่หนาวทำให้มันหด"),
+ ("look.out.s_line", "The cable that feeds the rescue beacon.", "สายที่จ่ายไฟให้บีคอนกู้ภัย"),
+ ("look.out.s_nav", "The beacon talks to the rescue ship. The relay orbiter carries messages to Earth.", "บีคอนคุยกับยานกู้ภัย ส่วนยานโคจรถ่ายทอดส่งข้อความไปโลก"),
+ ("look.out.s_scope", "The telescope can record images for Mission Control.", "กล้องโทรทรรศน์บันทึกภาพส่งศูนย์ควบคุมได้"),
+ ("look.out.mars_solar", "Dust settles on the panels and steals power. Folded panels survive dust devils.", "ฝุ่นเกาะแผงแล้วกินไฟ แผงที่พับเก็บรอดจากพายุหมุนฝุ่น"),
+ ("look.out.mars_drill", "Ice lies just under the dust here.", "มีน้ำแข็งอยู่ใต้ฝุ่นตรงนี้"),
+ ("look.out.mars_scrap", "Loose rock and dust: regolith. Bagged and piled, it blocks radiation.", "หินและฝุ่นหลวมๆ เรียกว่ารีโกลิท ใส่กระสอบแล้วพูนกันรังสีได้"),
+])
+
+# --- events, storm, messages
+ov("event.minor_flare.name", "Small solar flare", "พายุสุริยะขนาดเล็ก")
+ov("event.minor_flare.forecast", "A small flare tonight. Get the shelter to 30% before bed and you'll be fine.", "คืนนี้มีพายุสุริยะเล็กๆ ทำห้องหลบภัยให้ถึง 30% ก่อนนอนก็จะไม่เป็นไร")
+ov("event.minor_flare.hit", "Particles got through the thin shelter. You slept badly.", "อนุภาคทะลุห้องหลบภัยที่ยังบาง คุณนอนไม่หลับ")
+ov("event.minor_flare.saved", "The shelter stopped the small flare.", "ห้องหลบภัยกันพายุเล็กไว้ได้")
+ov("event.minor_flare.prevent", "shelter 30%+ at bedtime", "ห้องหลบภัย 30% ขึ้นไปตอนเข้านอน")
+ov("debrief.lesson.minor_flare", "Even small flares add dose. A shelter of 30% or more stops them.", "แม้พายุเล็กก็เพิ่มรังสี ห้องหลบภัย 30% ขึ้นไปกันได้")
+many([
+ ("spe.arrives", "SOLAR STORM ARRIVING · fast particles from the Sun are hitting Mars", "พายุสุริยะมาแล้ว · อนุภาคเร็วจากดวงอาทิตย์กำลังพุ่งชนดาวอังคาร"),
+ ("spe.protected", "The shelter held. You took only {0} mSv extra. (Shelter {1}%)", "ห้องหลบภัยกันไว้ได้ ได้รับรังสีเพิ่มแค่ {0} mSv (ห้องหลบภัย {1}%)"),
+ ("spe.hit", "The shelter wasn't ready. You took {0} mSv, and the storm knocked out power and air. (Shelter {1}%)", "ห้องหลบภัยยังไม่พร้อม ได้รับรังสี {0} mSv และพายุทำให้ไฟกับอากาศเสียหาย (ห้องหลบภัย {1}%)"),
+ ("msg.earth_spe_warning", "EARTH (sent {0} min ago): NASA's space weather team saw an eruption on the Sun. Fast particles will reach Mars on day {1} around {2}:00. Prepare your shelter!", "จากโลก (ส่งมาเมื่อ {0} นาทีก่อน): ทีมสภาพอวกาศของ NASA เห็นการปะทุบนดวงอาทิตย์ อนุภาคเร็วจะถึงดาวอังคารวันที่ {1} ราว {2}:00 เตรียมห้องหลบภัย!"),
+ ("msg.earth_hint", "EARTH (sent {0} min ago): We looked at your problem. Here is our advice:", "จากโลก (ส่งมาเมื่อ {0} นาทีก่อน): เราดูปัญหาของคุณแล้ว นี่คือคำแนะนำ:"),
+ ("msg.coords_ack", "RESCUE SHIP: Coordinates received. We'll land at your site at the end of day 7.", "ยานกู้ภัย: ได้รับพิกัดแล้ว เราจะลงจอดที่ฐานของคุณตอนสิ้นวันที่ 7"),
+ ("msg.rescue_arrives", "RESCUE SHIP: Touchdown! Suit up, cadet. You're going home.", "ยานกู้ภัย: ลงจอดแล้ว! ใส่ชุดเลย นักบินฝึกหัด กลับบ้านกัน"),
+])
+
+# --- bed and night
+many([
+ ("bed.title_time", "Bunk · day {0}, {1}:00", "เตียง · วันที่ {0} เวลา {1}:00"),
+ ("bed.sleep_morning", "Sleep until 06:00 ({0} h)", "นอนถึง 06:00 ({0} ชม.)"),
+ ("bed.nap", "Nap 2 hours", "งีบ 2 ชั่วโมง"),
+ ("bed.too_early", "Too early for a full night. Full sleep from 20:00.", "ยังเร็วไปสำหรับนอนทั้งคืน นอนเต็มได้ตั้งแต่ 20:00"),
+ ("night.wake", "Day {0} · {1}:00", "วันที่ {0} · {1}:00"),
+ ("report.title_hours", "While you slept ({0} h)", "ระหว่างที่นอน ({0} ชม.)"),
+ ("report.change", "Air {0} · Power {1} · Supplies {2} · Energy {3}", "อากาศ {0} · ไฟฟ้า {1} · เสบียง {2} · พลังกาย {3}"),
+ ("report.rescue_in", "Rescue in {0} h", "ยานกู้ภัยมาในอีก {0} ชม."),
+])
+
+# --- hints (level 1 nudge, level 2 the answer)
+H8 = [("out_low_air", "Air is low. MOXIE in Life Support makes oxygen, and life support must stay on.", "Run MOXIE now, and check Base Control: is life support switched on and powered?",
+       "อากาศเหลือน้อย MOXIE ในห้องระบบยังชีพผลิตออกซิเจนได้ และต้องเปิดระบบยังชีพไว้", "เดินเครื่อง MOXIE ตอนนี้ แล้วเช็กศูนย์ควบคุมฐานว่าระบบยังชีพเปิดและมีไฟไหม"),
+      ("out_low_supplies", "Supplies are low. Water can come from ice, the recycler, or the Sabatier reactor.", "Drill ice outside, recycle water, and eat less often.",
+       "เสบียงเหลือน้อย น้ำได้จากน้ำแข็ง เครื่องรีไซเคิล หรือเครื่องซาบาติเย", "เจาะน้ำแข็งข้างนอก รีไซเคิลน้ำ และกินให้ห่างขึ้น"),
+      ("out_low_power", "Power won't last the night. Switch something off, or clean the solar panels.", "Open Base Control (B): turn off the greenhouse or beacon until morning. Dusty panels make less power.",
+       "ไฟจะไม่พอข้ามคืน ปิดบางระบบ หรือเช็ดแผงโซลาร์", "เปิดศูนย์ควบคุมฐาน (B) ปิดโรงปลูกพืชหรือบีคอนจนถึงเช้า แผงที่มีฝุ่นผลิตไฟได้น้อย"),
+      ("out_shelter", "A solar storm is coming. Build the shelter before it hits.", "Water wall at the bunk, regolith sandbags outside, or the radiation blanket. Power the shelter when the storm arrives.",
+       "พายุสุริยะกำลังมา สร้างห้องหลบภัยก่อนมันมาถึง", "ผนังน้ำที่เตียง กระสอบดินข้างนอก หรือผ้าห่มกันรังสี และจ่ายไฟให้ห้องหลบภัยตอนพายุมา"),
+      ("out_coords", "The beacon works. Now the rescue ship needs to know where we are.", "Switch the beacon on in Base Control, then send coordinates from the Comms computer in the Cockpit.",
+       "บีคอนใช้ได้แล้ว ตอนนี้ยานกู้ภัยต้องรู้ว่าเราอยู่ที่ไหน", "เปิดบีคอนที่ศูนย์ควบคุมฐาน แล้วส่งพิกัดจากคอมพิวเตอร์สื่อสารในห้องนักบิน"),
+      ("out_greenhouse", "Fresh food will matter on a long stay. Start the greenhouse.", "Set up the tray at the food locker, then give the greenhouse lamps power in daylight.",
+       "อาหารสดสำคัญเมื่ออยู่นาน เริ่มโรงปลูกพืช", "ตั้งถาดที่ตู้อาหาร แล้วจ่ายไฟให้ไฟโรงปลูกพืชตอนกลางวัน"),
+      ("out_wait", "Everything is on track. Keep the base running until the rescue.", "Rest, eat, and use Base Control's Wait when there's nothing to do.",
+       "ทุกอย่างเป็นไปตามแผน รักษาฐานไว้จนยานกู้ภัยมา", "พัก กิน และใช้ปุ่มรอในศูนย์ควบคุมฐานเมื่อไม่มีอะไรต้องทำ")]
+for hid, e1, e2, t1, t2 in H8:
+    ov(f"hint.{hid}.1", e1, t1); ov(f"hint.{hid}.2", e2, t2)
+
+# --- supplies for the scramble
+SUP8 = [("sup_o2", "Oxygen bottle", "ถังออกซิเจน", "+12 air at the outpost", "อากาศ +12 ที่ฐาน"),
+        ("sup_water", "Water jug", "ถังน้ำ", "+8 supplies", "เสบียง +8"),
+        ("sup_food", "Ration box", "กล่องเสบียง", "+10 supplies", "เสบียง +10"),
+        ("sup_battery", "Battery pack", "แบตเตอรี่สำรอง", "+20 power", "ไฟฟ้า +20"),
+        ("sup_photo", "Family photo", "รูปครอบครัว", "+15 energy: a reason to keep going", "พลังกาย +15: กำลังใจให้สู้ต่อ"),
+        ("sup_medkit", "First aid kit", "กล่องปฐมพยาบาล", "treats an injury later", "ใช้รักษาแผลทีหลังได้"),
+        ("sup_filter", "Spare air filter", "ตัวกรองอากาศสำรอง", "replaces a worn filter later", "ใช้เปลี่ยนตัวกรองที่เสื่อมทีหลังได้"),
+        ("sup_seeds", "Seed packets", "ซองเมล็ดพันธุ์", "plant the greenhouse in 1 h instead of 3", "ปลูกโรงปลูกพืชใน 1 ชม. แทน 3"),
+        ("sup_cell", "Beacon data chip", "ชิปข้อมูลบีคอน", "fix the beacon in 1 h, no patch needed", "ซ่อมบีคอนใน 1 ชม. ไม่ต้องใช้แผ่นปะ"),
+        ("sup_shield", "Radiation blanket", "ผ้าห่มกันรังสี", "+40 shelter in 1 h", "ห้องหลบภัย +40 ใน 1 ชม.")]
+for sid, ne, nt, de, dt in SUP8:
+    ov(f"sup.{sid}.name", ne, nt); ov(f"sup.{sid}.desc", de, dt)
+
+# --- endings and debrief
+many([
+ ("end.rescued.title", "RESCUED", "ได้รับการช่วยเหลือ"),
+ ("end.rescued.body", "You kept the Kestrel alive on Mars for 7 days, sheltered from the solar storm, and guided the rescue ship down.", "คุณรักษายาน Kestrel บนดาวอังคารให้อยู่รอด 7 วัน หลบพายุสุริยะได้ และนำทางยานกู้ภัยลงมาได้"),
+ ("end.stranded.title", "SURVIVED, STRANDED", "รอดแต่ติดค้าง"),
+ ("end.stranded.body", "You are alive, but the rescue ship never got your coordinates. It will try again on its next pass, weeks from now.", "คุณยังมีชีวิตอยู่ แต่ยานกู้ภัยไม่ได้รับพิกัด มันจะลองใหม่ในรอบถัดไป ซึ่งอีกหลายสัปดาห์"),
+ ("end.failed.title", "SIMULATION FAILED", "การจำลองล้มเหลว"),
+ ("end.FailedAir", "The air ran out. Life support needs power all night, and MOXIE can top up the air.", "อากาศหมด ระบบยังชีพต้องมีไฟตลอดคืน และ MOXIE ช่วยเติมอากาศได้"),
+ ("end.FailedSupplies", "Supplies ran out for a whole day. Ice, the recycler and the Sabatier reactor all make water.", "เสบียงหมดไปทั้งวัน น้ำแข็ง เครื่องรีไซเคิล และเครื่องซาบาติเยผลิตน้ำได้ทั้งหมด"),
+ ("debrief.star.rescued", "Rescued at the end of day 7", "ได้รับการช่วยเหลือตอนสิ้นวันที่ 7"),
+ ("debrief.star.tasks", "All {0} science tasks + greenhouse ready", "งานวิทยาศาสตร์ครบ {0} อย่าง + โรงปลูกพืชพร้อม"),
+ ("debrief.stat.hours", "Hours survived: {0}/{1}", "ชั่วโมงที่รอด: {0}/{1}"),
+ ("debrief.stat.spe", "Solar storm dose: {0} mSv", "รังสีจากพายุสุริยะ: {0} mSv"),
+ ("debrief.stat.greenhouse_yes", "Greenhouse: ready", "โรงปลูกพืช: พร้อม"),
+ ("debrief.stat.greenhouse_no", "Greenhouse: not ready", "โรงปลูกพืช: ยังไม่พร้อม"),
+ ("debrief.lesson.spe", "Solar storm: build the shelter before the warning runs out, and give it power when it hits.", "พายุสุริยะ: สร้างห้องหลบภัยก่อนพายุมา และจ่ายไฟให้ตอนพายุถึง"),
+ ("debrief.lesson.coords", "Rescue: fix the beacon, switch it on, and send coordinates early. The ship only hears you when it passes overhead.", "การกู้ภัย: ซ่อมบีคอน เปิดมัน และส่งพิกัดแต่เนิ่นๆ ยานจะได้ยินเราตอนผ่านเหนือหัวเท่านั้น"),
+ ("debrief.data_note", "Real NASA facts vs. game numbers: see Science & Data Sources.", "ข้อมูลจริงของ NASA กับตัวเลขในเกม: ดูที่ วิทยาศาสตร์และแหล่งข้อมูล"),
+])
+
+# --- science & data sources (three kinds, kept apart)
+many([
+ ("menu.sources", "Science & Data Sources", "วิทยาศาสตร์และแหล่งข้อมูล"),
+ ("sources.title", "SCIENCE & DATA SOURCES", "วิทยาศาสตร์และแหล่งข้อมูล"),
+ ("sources.observed", "OBSERVED BY NASA (measured)", "NASA วัดได้จริง"),
+ ("sources.observed.1", "Mars surface radiation about 0.64 mSv per day: Curiosity rover's RAD instrument (Hassler et al., Science, 2014). The game rounds it to 0.7 per day.", "รังสีบนพื้นดาวอังคารประมาณ 0.64 mSv ต่อวัน: เครื่องมือ RAD บนยาน Curiosity (Hassler และคณะ, Science, 2014) เกมปัดเป็น 0.7 ต่อวัน"),
+ ("sources.observed.2", "September 2017: a solar storm was detected at Mars by Curiosity RAD and the MAVEN orbiter. It inspired the day-4 storm.", "กันยายน 2017: Curiosity RAD และยาน MAVEN ตรวจพบพายุสุริยะที่ดาวอังคาร เป็นแรงบันดาลใจของพายุวันที่ 4"),
+ ("sources.observed.3", "MOXIE made oxygen from Mars air on the Perseverance rover, 2021–2023.", "MOXIE ผลิตออกซิเจนจากอากาศดาวอังคารบนยาน Perseverance ปี 2021–2023"),
+ ("sources.observed.4", "A Mars day (sol) lasts 24 h 39 min 35 s.", "หนึ่งวันบนดาวอังคาร (sol) ยาว 24 ชม. 39 นาที 35 วินาที"),
+ ("sources.principle", "NASA SCIENCE PRINCIPLES", "หลักวิทยาศาสตร์ของ NASA"),
+ ("sources.principle.1", "Space weather alerts like the storm warning come from NASA's DONKI space weather database (ccmc.gsfc.nasa.gov/tools/DONKI).", "คำเตือนพายุแบบในเกมมาจากฐานข้อมูลสภาพอวกาศ DONKI ของ NASA (ccmc.gsfc.nasa.gov/tools/DONKI)"),
+ ("sources.principle.2", "Life support (ECLSS) removes CO₂, recycles water and makes oxygen (nasa.gov, ECLSS).", "ระบบยังชีพ (ECLSS) กำจัด CO₂ รีไซเคิลน้ำ และผลิตออกซิเจน (nasa.gov, ECLSS)"),
+ ("sources.principle.3", "Plants in space need light, water and nutrients (nasa.gov, growing plants in space).", "พืชในอวกาศต้องการแสง น้ำ และสารอาหาร (nasa.gov, การปลูกพืชในอวกาศ)"),
+ ("sources.principle.4", "Water and dense material like regolith block radiation; shelters cut the dose.", "น้ำและวัสดุหนาแน่นอย่างดินรีโกลิทกันรังสีได้ ห้องหลบภัยช่วยลดรังสี"),
+ ("sources.principle.5", "Radio between Earth and Mars takes about 4–24 minutes each way, depending on where the planets are. Relay orbiters carry rover messages.", "คลื่นวิทยุระหว่างโลกกับดาวอังคารใช้เวลาราว 4–24 นาทีต่อเที่ยว ขึ้นกับตำแหน่งดาว ยานโคจรถ่ายทอดส่งข้อความของยานสำรวจ"),
+ ("sources.simulated", "GAME SIMULATION (made up for play)", "การจำลองในเกม (ตัวเลขสมมติ)"),
+ ("sources.simulated.1", "The 7-day rescue, the storm's size and timing, and every penalty are invented for the game.", "การกู้ภัย 7 วัน ขนาดและเวลาของพายุ และค่าปรับทุกอย่างเป็นเรื่องที่แต่งขึ้นสำหรับเกม"),
+ ("sources.simulated.2", "Air, power, shelter, supplies and energy are 0–100 game bars, not real units. The 14-minute radio delay is one value picked from the real range.", "อากาศ ไฟฟ้า ห้องหลบภัย เสบียง และพลังกาย เป็นแถบ 0–100 ในเกม ไม่ใช่หน่วยจริง ความล่าช้าของวิทยุ 14 นาทีเป็นค่าหนึ่งที่เลือกจากช่วงจริง"),
+ ("sources.simulated.3", "The game does not read live data: no number here is presented as a live NASA reading.", "เกมไม่ได้ดึงข้อมูลสด ไม่มีตัวเลขไหนที่อ้างว่าเป็นค่าสดจาก NASA"),
+])
+
+# --- new cards
+C8 = [
+ ("comm_delay", "Talking to Earth takes time", "คุยกับโลกต้องใช้เวลา",
+  "Radio travels at the speed of light, but Mars is far: a message takes about 4 to 24 minutes each way, depending on where Earth and Mars are. Rovers send most data through relay orbiters that pass overhead a few times a day, so crews on Mars would have to solve many problems on their own.",
+  "คลื่นวิทยุเดินทางด้วยความเร็วแสง แต่ดาวอังคารอยู่ไกล ข้อความใช้เวลาราว 4 ถึง 24 นาทีต่อเที่ยว ขึ้นกับตำแหน่งของโลกกับดาวอังคาร ยานสำรวจส่งข้อมูลส่วนใหญ่ผ่านยานโคจรถ่ายทอดที่ผ่านเหนือหัววันละไม่กี่รอบ ลูกเรือบนดาวอังคารจึงต้องแก้ปัญหาหลายอย่างเอง"),
+ ("sep_2017", "The September 2017 solar storm", "พายุสุริยะกันยายน 2017"),
+ ("eclss", "Life support (ECLSS)", "ระบบยังชีพ (ECLSS)"),
+]
+for row in C8:
+    if len(row) == 5:
+        cid, te, tt, be, bt = row
+        ov(f"card.{cid}.title", te, tt); ov(f"card.{cid}.body", be, bt)
+ov("card.sep_2017.title", "The September 2017 solar storm", "พายุสุริยะกันยายน 2017")
+ov("card.sep_2017.body", "In September 2017 a big eruption on the Sun sent fast particles across the solar system. At Mars, NASA's Curiosity rover measured the radiation rise on the surface and the MAVEN orbiter saw a global aurora. Storms like this are why Mars bases will need shelters.",
+   "ในเดือนกันยายน 2017 การปะทุครั้งใหญ่บนดวงอาทิตย์ส่งอนุภาคเร็วไปทั่วระบบสุริยะ ที่ดาวอังคาร ยาน Curiosity ของ NASA วัดได้ว่ารังสีบนพื้นเพิ่มขึ้น และยาน MAVEN เห็นแสงออโรราทั่วดาว พายุแบบนี้คือเหตุผลที่ฐานบนดาวอังคารต้องมีห้องหลบภัย")
+ov("card.eclss.title", "Life support (ECLSS)", "ระบบยังชีพ (ECLSS)")
+ov("card.eclss.body", "On the International Space Station, the Environmental Control and Life Support System removes carbon dioxide, recycles water and makes oxygen. It runs on electricity, so on a planet, power and air are linked.",
+   "บนสถานีอวกาศนานาชาติ ระบบควบคุมสภาพแวดล้อมและยังชีพ (ECLSS) กำจัดคาร์บอนไดออกไซด์ รีไซเคิลน้ำ และผลิตออกซิเจน มันใช้ไฟฟ้า บนดาวเคราะห์ ไฟฟ้ากับอากาศจึงผูกกันอยู่")
+ov("card.regolith.title", "Regolith: a shield made of dirt", "รีโกลิท: เกราะที่ทำจากดิน")
+ov("card.regolith.body", "The loose rock and dust on Mars and the Moon is called regolith. Piled thick around a base, it blocks much of the radiation from solar storms. Engineers plan to cover future bases with it, or 3D-print walls from it.",
+   "หินและฝุ่นหลวมๆ บนดาวอังคารและดวงจันทร์เรียกว่ารีโกลิท ถ้าพูนหนาๆ รอบฐาน จะกันรังสีจากพายุสุริยะได้มาก วิศวกรวางแผนใช้มันคลุมฐานในอนาคต หรือพิมพ์ผนังด้วยเครื่องพิมพ์ 3 มิติ")
+
 if __name__ == "__main__":
     keys = [s["k"] for s in S]
     dup = sorted(set(x for x in keys if keys.count(x) > 1))
