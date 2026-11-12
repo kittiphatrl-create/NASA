@@ -4,48 +4,38 @@
     "cabinDrainPerSec": 0.8,
     "cabinFloor": 10,
     "carryO2Pivot": 50,
-    "carryO2Factor": 0.4,
-    "suppliesBonus": {
-      "food": 15,
-      "water": 10
-    },
+    "carryO2Factor": 0.3,
     "scrambleSeconds": 60,
     "stowSlots": 5,
     "supplies": [
       {
         "id": "sup_o2",
         "delta": {
-          "o2": 12
+          "air": 12
         }
       },
       {
         "id": "sup_water",
         "delta": {
-          "water": 12
+          "supplies": 8
         }
       },
       {
         "id": "sup_food",
         "delta": {
-          "food": 15
+          "supplies": 10
         }
       },
       {
         "id": "sup_battery",
         "delta": {
-          "power": 15
-        }
-      },
-      {
-        "id": "sup_cell",
-        "delta": {
-          "fuel": 10
+          "power": 20
         }
       },
       {
         "id": "sup_photo",
         "delta": {
-          "stamina": 15
+          "energy": 15
         }
       },
       {
@@ -60,29 +50,35 @@
       },
       {
         "id": "sup_seeds",
-        "delta": {
-          "food": 5
-        },
+        "delta": {},
         "flag": "seed_pack"
+      },
+      {
+        "id": "sup_cell",
+        "delta": {},
+        "flag": "data_chip"
+      },
+      {
+        "id": "sup_shield",
+        "delta": {},
+        "flag": "shield_kit"
       }
     ]
   },
   "puzzles": {
     "lockerCode": "7",
     "podCode": "39",
-    "moonPodCode": "1969",
-    "titanGateCode": "179",
     "fuelGaugePercent": 18,
     "navOptions": [
       {
         "id": "titan",
         "fuelNeeded": 60,
-        "route": "titan"
+        "route": ""
       },
       {
         "id": "earth",
         "fuelNeeded": 35,
-        "route": "moon"
+        "route": ""
       },
       {
         "id": "mars",
@@ -107,16 +103,6 @@
         "a": "item_plate",
         "b": "item_sealant",
         "result": "item_hull_patch"
-      },
-      {
-        "a": "item_feedhorn",
-        "b": "item_cable",
-        "result": "item_antenna_kit"
-      },
-      {
-        "a": "item_drillbit",
-        "b": "item_heater_coil",
-        "result": "item_heated_bit"
       }
     ],
     "shiftTasksBeforeImpact": 2
@@ -124,266 +110,6 @@
   "routes": [
     {
       "id": "mars",
-      "survival": {
-        "startO2": 60,
-        "startWater": 45,
-        "startPower": 40,
-        "startFood": 65,
-        "startStamina": 80,
-        "maxValue": 100,
-        "solsTotal": 7,
-        "launchSol": 7,
-        "actionsPerSol": 6,
-        "solarBase": 44,
-        "habPowerLoad": 14,
-        "nightO2": 17,
-        "nightWater": 10,
-        "nightFood": 6,
-        "dustPerSol": 0.15,
-        "minEfficiency": 0.3,
-        "powerOutO2Penalty": 25,
-        "sleepStamina": 45,
-        "collapseStamina": 20,
-        "lowStaminaThreshold": 25,
-        "lowStaminaExtraAp": 1,
-        "fuelTarget": 100,
-        "warnThreshold": 25,
-        "randomEventNights": [
-          1,
-          2,
-          3,
-          4,
-          6
-        ],
-        "goalFlag": "line_repaired",
-        "radPerSol": 0.7,
-        "radPerEva": 0.3,
-        "radLimit": 150,
-        "radSafe": 50,
-        "encounterSols": [
-          2,
-          3,
-          4,
-          5,
-          6
-        ]
-      },
-      "actions": [
-        {
-          "id": "moxie",
-          "ap": 1,
-          "delta": {
-            "power": -8,
-            "o2": 20,
-            "stamina": -5
-          }
-        },
-        {
-          "id": "recycle",
-          "ap": 1,
-          "delta": {
-            "power": -5,
-            "water": 12,
-            "stamina": -5
-          }
-        },
-        {
-          "id": "inspect_seals",
-          "ap": 1,
-          "delta": {
-            "stamina": -4
-          },
-          "setsFlag": "seals_inspected",
-          "solFlag": true
-        },
-        {
-          "id": "eat",
-          "ap": 1,
-          "delta": {
-            "food": -10,
-            "stamina": 25
-          }
-        },
-        {
-          "id": "clean_panels",
-          "ap": 1,
-          "delta": {
-            "o2": -3,
-            "stamina": -12
-          },
-          "cleansPanels": true,
-          "outside": true
-        },
-        {
-          "id": "stow_panels",
-          "ap": 1,
-          "delta": {
-            "o2": -2,
-            "stamina": -6
-          },
-          "setsFlag": "panels_stowed",
-          "solFlag": true,
-          "outside": true
-        },
-        {
-          "id": "drill_ice",
-          "ap": 1,
-          "delta": {
-            "o2": -3,
-            "stamina": -14,
-            "water": 18
-          },
-          "requiresFlag": "drill_ready",
-          "outside": true
-        },
-        {
-          "id": "sabatier",
-          "ap": 1,
-          "delta": {
-            "power": -8,
-            "water": -6,
-            "fuel": 15,
-            "stamina": -5
-          },
-          "requiresFlag": "catalyst_installed"
-        },
-        {
-          "id": "repair_line",
-          "ap": 1,
-          "delta": {
-            "stamina": -10
-          },
-          "setsFlag": "line_repaired",
-          "requiresFlag": "has_hull_patch"
-        },
-        {
-          "id": "grow_greens",
-          "ap": 1,
-          "delta": {
-            "power": -5,
-            "water": -4,
-            "food": 14,
-            "stamina": -3
-          },
-          "card": "veggie"
-        },
-        {
-          "id": "sci_sunset",
-          "ap": 1,
-          "delta": {
-            "stamina": -6
-          },
-          "setsFlag": "sci_sunset",
-          "science": true,
-          "minSol": 1,
-          "hotspot": "s_scope",
-          "outside": false,
-          "card": "mars_sunset"
-        },
-        {
-          "id": "sci_core",
-          "ap": 1,
-          "delta": {
-            "stamina": -6
-          },
-          "setsFlag": "sci_core",
-          "science": true,
-          "minSol": 3,
-          "hotspot": "mars_drill",
-          "outside": true,
-          "card": "mars_lake",
-          "requiresFlag": "drill_ready"
-        },
-        {
-          "id": "sci_weather",
-          "ap": 1,
-          "delta": {
-            "stamina": -6
-          },
-          "setsFlag": "sci_weather",
-          "science": true,
-          "minSol": 5,
-          "hotspot": "mars_solar",
-          "outside": true,
-          "card": "mars_pressure"
-        }
-      ],
-      "events": [
-        {
-          "id": "dust_devil",
-          "preventFlag": "panels_stowed",
-          "penalty": {},
-          "efficiencyLoss": 0.25,
-          "nextMorningSolarFactor": 0.6,
-          "preventedNextMorningSolarFactor": 1.0
-        },
-        {
-          "id": "micro_leak",
-          "preventFlag": "seals_inspected",
-          "penalty": {
-            "o2": -12
-          },
-          "nextMorningSolarFactor": 1.0,
-          "preventedNextMorningSolarFactor": 1.0
-        },
-        {
-          "id": "solar_flare",
-          "preventMinWater": 35,
-          "penalty": {
-            "stamina": -30
-          },
-          "nextMorningSolarFactor": 1.0,
-          "preventedNextMorningSolarFactor": 1.0,
-          "dose": 60
-        },
-        {
-          "id": "global_storm",
-          "major": true,
-          "night": 5,
-          "preventFlag": "panels_stowed",
-          "preventMinPower": 40,
-          "penalty": {
-            "power": -15,
-            "o2": -10
-          },
-          "efficiencyLoss": 0.4,
-          "nextMorningSolarFactor": 0.0,
-          "preventedNextMorningSolarFactor": 0.0
-        }
-      ],
-      "incidents": [
-        {
-          "id": "recycler_fire",
-          "sol": 2,
-          "afterActions": 2,
-          "seconds": 30,
-          "hotspot": "s_recycler",
-          "penalty": {
-            "water": -12,
-            "power": -6
-          }
-        },
-        {
-          "id": "hatch_leak",
-          "sol": 3,
-          "afterActions": 3,
-          "seconds": 30,
-          "hotspot": "s_airlock",
-          "penalty": {
-            "o2": -12
-          }
-        },
-        {
-          "id": "scrubber_clog",
-          "sol": 5,
-          "afterActions": 2,
-          "seconds": 30,
-          "hotspot": "s_o2gen",
-          "penalty": {
-            "o2": -12
-          }
-        }
-      ],
       "edl": {
         "order": [
           "edl_entry",
@@ -392,1292 +118,7 @@
           "edl_rockets"
         ],
         "distractors": []
-      },
-      "dilemmas": [
-        {
-          "id": "mars_radish",
-          "sol": 2,
-          "options": [
-            {
-              "id": "plant",
-              "ap": 0,
-              "delta": {
-                "water": -10,
-                "food": 12
-              },
-              "dose": 0
-            },
-            {
-              "id": "save_water",
-              "ap": 0,
-              "delta": {},
-              "dose": 0
-            }
-          ]
-        },
-        {
-          "id": "mars_rover",
-          "sol": 6,
-          "options": [
-            {
-              "id": "fetch",
-              "ap": 2,
-              "delta": {
-                "power": 12,
-                "stamina": -12
-              },
-              "dose": 1.0
-            },
-            {
-              "id": "stay",
-              "ap": 0,
-              "delta": {},
-              "dose": 0
-            }
-          ]
-        },
-        {
-          "id": "orbi_rest",
-          "random": true,
-          "sol": 0,
-          "options": [
-            {
-              "id": "rest",
-              "ap": 0,
-              "delta": {
-                "power": 8
-              },
-              "dose": 0,
-              "setsFlag": "orbi_off",
-              "solFlag": true
-            },
-            {
-              "id": "stay_on",
-              "ap": 0,
-              "delta": {
-                "power": -4
-              },
-              "dose": 0
-            }
-          ]
-        },
-        {
-          "id": "supply_pod",
-          "random": true,
-          "sol": 0,
-          "options": [
-            {
-              "id": "fetch",
-              "ap": 2,
-              "delta": {
-                "stamina": -15,
-                "food": 10,
-                "water": 8
-              },
-              "dose": 0.5
-            },
-            {
-              "id": "leave",
-              "ap": 0,
-              "delta": {},
-              "dose": 0
-            }
-          ]
-        },
-        {
-          "id": "family_message",
-          "random": true,
-          "sol": 0,
-          "options": [
-            {
-              "id": "watch",
-              "ap": 1,
-              "delta": {
-                "stamina": 20
-              },
-              "dose": 0,
-              "card": "isolation"
-            },
-            {
-              "id": "later",
-              "ap": 0,
-              "delta": {},
-              "dose": 0
-            }
-          ]
-        },
-        {
-          "id": "greenhouse_leak",
-          "random": true,
-          "sol": 0,
-          "options": [
-            {
-              "id": "replant",
-              "ap": 0,
-              "delta": {
-                "food": 4
-              },
-              "dose": 0,
-              "needFlag": "seed_pack"
-            },
-            {
-              "id": "patch",
-              "ap": 1,
-              "delta": {
-                "stamina": -8
-              },
-              "dose": 0
-            },
-            {
-              "id": "let_freeze",
-              "ap": 0,
-              "delta": {
-                "food": -12
-              },
-              "dose": 0
-            }
-          ]
-        },
-        {
-          "id": "spare_parts",
-          "random": true,
-          "sol": 0,
-          "options": [
-            {
-              "id": "sort",
-              "ap": 1,
-              "delta": {
-                "stamina": -5
-              },
-              "dose": 0,
-              "setsFlag": "spare_filter",
-              "solFlag": false
-            },
-            {
-              "id": "leave_box",
-              "ap": 0,
-              "delta": {},
-              "dose": 0
-            }
-          ]
-        },
-        {
-          "id": "filter_wear",
-          "random": true,
-          "sol": 0,
-          "options": [
-            {
-              "id": "swap",
-              "ap": 0,
-              "delta": {},
-              "dose": 0,
-              "needFlag": "spare_filter"
-            },
-            {
-              "id": "clean_by_hand",
-              "ap": 1,
-              "delta": {
-                "stamina": -10,
-                "o2": -6
-              },
-              "dose": 0
-            }
-          ]
-        },
-        {
-          "id": "cut_hand",
-          "random": true,
-          "sol": 0,
-          "options": [
-            {
-              "id": "medkit",
-              "ap": 0,
-              "delta": {},
-              "dose": 0,
-              "needFlag": "med_kit"
-            },
-            {
-              "id": "bandage",
-              "ap": 1,
-              "delta": {},
-              "dose": 0
-            },
-            {
-              "id": "ignore",
-              "ap": 0,
-              "delta": {
-                "stamina": -20
-              },
-              "dose": 0
-            }
-          ]
-        },
-        {
-          "id": "mars_frost",
-          "random": true,
-          "sol": 0,
-          "options": [
-            {
-              "id": "scrape",
-              "ap": 1,
-              "delta": {
-                "stamina": -10
-              },
-              "dose": 0,
-              "card": "co2_frost"
-            },
-            {
-              "id": "wait",
-              "ap": 0,
-              "delta": {
-                "power": -10
-              },
-              "dose": 0,
-              "card": "co2_frost"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "moon",
-      "survival": {
-        "startO2": 55,
-        "startWater": 40,
-        "startPower": 40,
-        "startFood": 60,
-        "startStamina": 75,
-        "maxValue": 100,
-        "solsTotal": 7,
-        "launchSol": 7,
-        "actionsPerSol": 6,
-        "solarBase": 42,
-        "habPowerLoad": 15,
-        "nightO2": 16,
-        "nightWater": 9,
-        "nightFood": 6,
-        "dustPerSol": 0.08,
-        "minEfficiency": 0.4,
-        "powerOutO2Penalty": 25,
-        "sleepStamina": 45,
-        "collapseStamina": 20,
-        "lowStaminaThreshold": 25,
-        "lowStaminaExtraAp": 1,
-        "fuelTarget": 100,
-        "warnThreshold": 25,
-        "randomEventNights": [
-          1,
-          2,
-          3,
-          4,
-          6
-        ],
-        "goalFlag": "antenna_ready",
-        "radPerSol": 1.4,
-        "radPerEva": 0.6,
-        "radLimit": 150,
-        "radSafe": 50,
-        "shieldFlag": "regolith_berm",
-        "shieldFactor": 0.5,
-        "encounterSols": [
-          2,
-          3,
-          4,
-          5,
-          6
-        ]
-      },
-      "actions": [
-        {
-          "id": "electrolyze",
-          "ap": 1,
-          "delta": {
-            "power": -8,
-            "water": -6,
-            "o2": 18,
-            "stamina": -5
-          }
-        },
-        {
-          "id": "recycle",
-          "ap": 1,
-          "delta": {
-            "power": -5,
-            "water": 12,
-            "stamina": -5
-          }
-        },
-        {
-          "id": "inspect_seals",
-          "ap": 1,
-          "delta": {
-            "stamina": -4
-          },
-          "setsFlag": "seals_inspected",
-          "solFlag": true
-        },
-        {
-          "id": "eat",
-          "ap": 1,
-          "delta": {
-            "food": -10,
-            "stamina": 25
-          }
-        },
-        {
-          "id": "clean_panels",
-          "ap": 1,
-          "delta": {
-            "o2": -3,
-            "stamina": -12
-          },
-          "cleansPanels": true,
-          "outside": true
-        },
-        {
-          "id": "close_shutters",
-          "ap": 1,
-          "delta": {
-            "stamina": -4
-          },
-          "setsFlag": "shutters_closed",
-          "solFlag": true
-        },
-        {
-          "id": "set_heaters",
-          "ap": 1,
-          "delta": {
-            "stamina": -4,
-            "power": -2
-          },
-          "setsFlag": "heaters_set",
-          "solFlag": true
-        },
-        {
-          "id": "drill_ice",
-          "ap": 1,
-          "delta": {
-            "o2": -3,
-            "stamina": -14,
-            "water": 20
-          },
-          "requiresFlag": "drill_ready",
-          "outside": true
-        },
-        {
-          "id": "transmit",
-          "ap": 1,
-          "delta": {
-            "power": -8,
-            "stamina": -4,
-            "fuel": 15
-          },
-          "requiresFlag": "antenna_ready"
-        },
-        {
-          "id": "grow_greens",
-          "ap": 1,
-          "delta": {
-            "power": -5,
-            "water": -4,
-            "food": 14,
-            "stamina": -3
-          },
-          "card": "veggie"
-        },
-        {
-          "id": "build_berm",
-          "ap": 2,
-          "delta": {
-            "stamina": -20,
-            "o2": -4
-          },
-          "setsFlag": "regolith_berm",
-          "outside": true,
-          "card": "regolith"
-        },
-        {
-          "id": "sci_earthrise",
-          "ap": 1,
-          "delta": {
-            "stamina": -6
-          },
-          "setsFlag": "sci_earthrise",
-          "science": true,
-          "minSol": 1,
-          "hotspot": "s_scope",
-          "outside": false,
-          "card": "earthrise"
-        },
-        {
-          "id": "sci_ice_core",
-          "ap": 1,
-          "delta": {
-            "stamina": -6
-          },
-          "setsFlag": "sci_ice_core",
-          "science": true,
-          "minSol": 3,
-          "hotspot": "moon_crater",
-          "outside": true,
-          "card": "moon_resources",
-          "requiresFlag": "drill_ready"
-        },
-        {
-          "id": "sci_seismo",
-          "ap": 1,
-          "delta": {
-            "stamina": -6
-          },
-          "setsFlag": "sci_seismo",
-          "science": true,
-          "minSol": 5,
-          "hotspot": "moon_solar",
-          "outside": true,
-          "card": "moonquakes"
-        }
-      ],
-      "events": [
-        {
-          "id": "micrometeoroids",
-          "preventFlag": "shutters_closed",
-          "penalty": {
-            "o2": -20
-          },
-          "nextMorningSolarFactor": 1.0,
-          "preventedNextMorningSolarFactor": 1.0
-        },
-        {
-          "id": "solar_flare",
-          "preventMinWater": 35,
-          "penalty": {
-            "stamina": -30
-          },
-          "nextMorningSolarFactor": 1.0,
-          "preventedNextMorningSolarFactor": 1.0,
-          "dose": 110
-        },
-        {
-          "id": "moon_dust",
-          "preventFlag": "seals_inspected",
-          "penalty": {
-            "o2": -14,
-            "water": -10
-          },
-          "nextMorningSolarFactor": 1.0,
-          "preventedNextMorningSolarFactor": 1.0
-        },
-        {
-          "id": "lunar_night",
-          "major": true,
-          "night": 5,
-          "preventFlag": "heaters_set",
-          "preventMinPower": 40,
-          "penalty": {
-            "power": -20,
-            "stamina": -30,
-            "o2": -14
-          },
-          "nextMorningSolarFactor": 0.5,
-          "preventedNextMorningSolarFactor": 0.5
-        }
-      ],
-      "incidents": [
-        {
-          "id": "scrubber_clog",
-          "sol": 2,
-          "afterActions": 2,
-          "seconds": 30,
-          "hotspot": "s_o2gen",
-          "penalty": {
-            "o2": -12
-          }
-        },
-        {
-          "id": "hatch_leak",
-          "sol": 3,
-          "afterActions": 3,
-          "seconds": 30,
-          "hotspot": "s_airlock",
-          "penalty": {
-            "o2": -12
-          }
-        },
-        {
-          "id": "recycler_fire",
-          "sol": 5,
-          "afterActions": 2,
-          "seconds": 30,
-          "hotspot": "s_recycler",
-          "penalty": {
-            "water": -10
-          }
-        }
-      ],
-      "edl": {
-        "order": [
-          "moon_deorbit",
-          "moon_pitch",
-          "moon_hover",
-          "moon_touch"
-        ],
-        "distractors": [
-          "edl_chute"
-        ]
-      },
-      "dilemmas": [
-        {
-          "id": "moon_report",
-          "sol": 2,
-          "options": [
-            {
-              "id": "long",
-              "ap": 0,
-              "delta": {
-                "power": -12,
-                "fuel": 14
-              },
-              "dose": 0
-            },
-            {
-              "id": "ping",
-              "ap": 0,
-              "delta": {},
-              "dose": 0
-            }
-          ]
-        },
-        {
-          "id": "moon_huddle",
-          "sol": 5,
-          "options": [
-            {
-              "id": "huddle",
-              "ap": 0,
-              "delta": {
-                "power": 8,
-                "stamina": -12
-              },
-              "dose": 0
-            },
-            {
-              "id": "whole_ship",
-              "ap": 0,
-              "delta": {},
-              "dose": 0
-            }
-          ]
-        },
-        {
-          "id": "orbi_rest",
-          "random": true,
-          "sol": 0,
-          "options": [
-            {
-              "id": "rest",
-              "ap": 0,
-              "delta": {
-                "power": 8
-              },
-              "dose": 0,
-              "setsFlag": "orbi_off",
-              "solFlag": true
-            },
-            {
-              "id": "stay_on",
-              "ap": 0,
-              "delta": {
-                "power": -4
-              },
-              "dose": 0
-            }
-          ]
-        },
-        {
-          "id": "supply_pod",
-          "random": true,
-          "sol": 0,
-          "options": [
-            {
-              "id": "fetch",
-              "ap": 2,
-              "delta": {
-                "stamina": -15,
-                "food": 10,
-                "water": 8
-              },
-              "dose": 0.5
-            },
-            {
-              "id": "leave",
-              "ap": 0,
-              "delta": {},
-              "dose": 0
-            }
-          ]
-        },
-        {
-          "id": "family_message",
-          "random": true,
-          "sol": 0,
-          "options": [
-            {
-              "id": "watch",
-              "ap": 1,
-              "delta": {
-                "stamina": 20
-              },
-              "dose": 0,
-              "card": "isolation"
-            },
-            {
-              "id": "later",
-              "ap": 0,
-              "delta": {},
-              "dose": 0
-            }
-          ]
-        },
-        {
-          "id": "greenhouse_leak",
-          "random": true,
-          "sol": 0,
-          "options": [
-            {
-              "id": "replant",
-              "ap": 0,
-              "delta": {
-                "food": 4
-              },
-              "dose": 0,
-              "needFlag": "seed_pack"
-            },
-            {
-              "id": "patch",
-              "ap": 1,
-              "delta": {
-                "stamina": -8
-              },
-              "dose": 0
-            },
-            {
-              "id": "let_freeze",
-              "ap": 0,
-              "delta": {
-                "food": -12
-              },
-              "dose": 0
-            }
-          ]
-        },
-        {
-          "id": "spare_parts",
-          "random": true,
-          "sol": 0,
-          "options": [
-            {
-              "id": "sort",
-              "ap": 1,
-              "delta": {
-                "stamina": -5
-              },
-              "dose": 0,
-              "setsFlag": "spare_filter",
-              "solFlag": false
-            },
-            {
-              "id": "leave_box",
-              "ap": 0,
-              "delta": {},
-              "dose": 0
-            }
-          ]
-        },
-        {
-          "id": "filter_wear",
-          "random": true,
-          "sol": 0,
-          "options": [
-            {
-              "id": "swap",
-              "ap": 0,
-              "delta": {},
-              "dose": 0,
-              "needFlag": "spare_filter"
-            },
-            {
-              "id": "clean_by_hand",
-              "ap": 1,
-              "delta": {
-                "stamina": -10,
-                "o2": -6
-              },
-              "dose": 0
-            }
-          ]
-        },
-        {
-          "id": "cut_hand",
-          "random": true,
-          "sol": 0,
-          "options": [
-            {
-              "id": "medkit",
-              "ap": 0,
-              "delta": {},
-              "dose": 0,
-              "needFlag": "med_kit"
-            },
-            {
-              "id": "bandage",
-              "ap": 1,
-              "delta": {},
-              "dose": 0
-            },
-            {
-              "id": "ignore",
-              "ap": 0,
-              "delta": {
-                "stamina": -20
-              },
-              "dose": 0
-            }
-          ]
-        },
-        {
-          "id": "moon_lro",
-          "random": true,
-          "sol": 0,
-          "options": [
-            {
-              "id": "relay",
-              "ap": 0,
-              "delta": {
-                "power": -8,
-                "fuel": 7
-              },
-              "dose": 0,
-              "card": "lro"
-            },
-            {
-              "id": "skip",
-              "ap": 0,
-              "delta": {},
-              "dose": 0
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "titan",
-      "survival": {
-        "startO2": 50,
-        "startWater": 45,
-        "startPower": 55,
-        "startFood": 68,
-        "startStamina": 65,
-        "maxValue": 100,
-        "solsTotal": 7,
-        "launchSol": 7,
-        "actionsPerSol": 6,
-        "solarBase": 38,
-        "habPowerLoad": 15,
-        "nightO2": 15,
-        "nightWater": 8,
-        "nightFood": 6,
-        "dustPerSol": 0.0,
-        "minEfficiency": 1.0,
-        "powerOutO2Penalty": 25,
-        "sleepStamina": 45,
-        "collapseStamina": 20,
-        "lowStaminaThreshold": 25,
-        "lowStaminaExtraAp": 1,
-        "fuelTarget": 100,
-        "warnThreshold": 25,
-        "randomEventNights": [
-          1,
-          2,
-          3,
-          4,
-          6
-        ],
-        "goalFlag": "gate_found",
-        "radPerSol": 0.0,
-        "radPerEva": 0.0,
-        "radLimit": 150,
-        "radSafe": 50,
-        "encounterSols": [
-          2,
-          3,
-          4,
-          5,
-          6
-        ]
-      },
-      "actions": [
-        {
-          "id": "electrolyze",
-          "ap": 1,
-          "delta": {
-            "power": -8,
-            "water": -6,
-            "o2": 20,
-            "stamina": -5
-          }
-        },
-        {
-          "id": "recycle",
-          "ap": 1,
-          "delta": {
-            "power": -5,
-            "water": 12,
-            "stamina": -5
-          }
-        },
-        {
-          "id": "inspect_seals",
-          "ap": 1,
-          "delta": {
-            "stamina": -4
-          },
-          "setsFlag": "seals_inspected",
-          "solFlag": true
-        },
-        {
-          "id": "eat",
-          "ap": 1,
-          "delta": {
-            "food": -10,
-            "stamina": 25
-          }
-        },
-        {
-          "id": "insulate",
-          "ap": 1,
-          "delta": {
-            "stamina": -6,
-            "power": -3
-          },
-          "setsFlag": "hab_insulated",
-          "solFlag": true
-        },
-        {
-          "id": "check_rtg",
-          "ap": 1,
-          "delta": {
-            "stamina": -6,
-            "o2": -2
-          },
-          "setsFlag": "rtg_checked",
-          "solFlag": true,
-          "outside": true
-        },
-        {
-          "id": "drill_ice",
-          "ap": 1,
-          "delta": {
-            "o2": -2,
-            "stamina": -12,
-            "water": 22
-          },
-          "requiresFlag": "drill_ready",
-          "outside": true
-        },
-        {
-          "id": "charge_gate",
-          "ap": 1,
-          "delta": {
-            "power": -10,
-            "stamina": -8,
-            "o2": -3,
-            "fuel": 15
-          },
-          "requiresFlag": "gate_found",
-          "outside": true
-        },
-        {
-          "id": "grow_greens",
-          "ap": 1,
-          "delta": {
-            "power": -5,
-            "water": -4,
-            "food": 14,
-            "stamina": -3
-          },
-          "card": "veggie"
-        },
-        {
-          "id": "sci_haze",
-          "ap": 1,
-          "delta": {
-            "stamina": -6
-          },
-          "setsFlag": "sci_haze",
-          "science": true,
-          "minSol": 1,
-          "hotspot": "s_scope",
-          "outside": false,
-          "card": "titan_haze"
-        },
-        {
-          "id": "sci_ice_sample",
-          "ap": 1,
-          "delta": {
-            "stamina": -6
-          },
-          "setsFlag": "sci_ice_sample",
-          "science": true,
-          "minSol": 3,
-          "hotspot": "titan_drill",
-          "outside": true,
-          "card": "titan_ocean",
-          "requiresFlag": "drill_ready"
-        },
-        {
-          "id": "sci_dunes",
-          "ap": 1,
-          "delta": {
-            "stamina": -6
-          },
-          "setsFlag": "sci_dunes",
-          "science": true,
-          "minSol": 5,
-          "hotspot": "titan_rtg",
-          "outside": true,
-          "card": "titan_dunes"
-        }
-      ],
-      "events": [
-        {
-          "id": "methane_rain",
-          "preventFlag": "seals_inspected",
-          "penalty": {
-            "o2": -10
-          },
-          "nextMorningSolarFactor": 1.0,
-          "preventedNextMorningSolarFactor": 1.0
-        },
-        {
-          "id": "cold_snap",
-          "preventMinPower": 35,
-          "penalty": {
-            "stamina": -25,
-            "power": -8
-          },
-          "nextMorningSolarFactor": 1.0,
-          "preventedNextMorningSolarFactor": 1.0
-        },
-        {
-          "id": "static_storm",
-          "preventFlag": "rtg_checked",
-          "penalty": {
-            "power": -12
-          },
-          "nextMorningSolarFactor": 0.5,
-          "preventedNextMorningSolarFactor": 1.0
-        },
-        {
-          "id": "deep_cold",
-          "major": true,
-          "night": 5,
-          "preventFlag": "hab_insulated",
-          "preventMinPower": 40,
-          "penalty": {
-            "power": -15,
-            "stamina": -30,
-            "o2": -8
-          },
-          "nextMorningSolarFactor": 1.0,
-          "preventedNextMorningSolarFactor": 1.0
-        }
-      ],
-      "incidents": [
-        {
-          "id": "heater_fail",
-          "sol": 2,
-          "afterActions": 2,
-          "seconds": 30,
-          "hotspot": "s_seals",
-          "penalty": {
-            "stamina": -20,
-            "power": -6
-          }
-        },
-        {
-          "id": "methane_vent",
-          "sol": 3,
-          "afterActions": 3,
-          "seconds": 30,
-          "hotspot": "s_reactor",
-          "penalty": {
-            "o2": -12
-          }
-        },
-        {
-          "id": "hatch_leak",
-          "sol": 5,
-          "afterActions": 2,
-          "seconds": 30,
-          "hotspot": "s_airlock",
-          "penalty": {
-            "o2": -12
-          }
-        }
-      ],
-      "edl": {
-        "order": [
-          "titan_entry",
-          "titan_chute",
-          "titan_shield",
-          "titan_float"
-        ],
-        "distractors": [
-          "edl_rockets"
-        ]
-      },
-      "dilemmas": [
-        {
-          "id": "titan_burn",
-          "sol": 2,
-          "options": [
-            {
-              "id": "burn",
-              "ap": 0,
-              "delta": {
-                "o2": -8,
-                "power": 12
-              },
-              "dose": 0
-            },
-            {
-              "id": "no_fire",
-              "ap": 0,
-              "delta": {},
-              "dose": 0
-            }
-          ]
-        },
-        {
-          "id": "titan_gate_test",
-          "sol": 5,
-          "options": [
-            {
-              "id": "test",
-              "ap": 0,
-              "delta": {
-                "power": -15,
-                "fuel": 14
-              },
-              "dose": 0
-            },
-            {
-              "id": "save_power",
-              "ap": 0,
-              "delta": {},
-              "dose": 0
-            }
-          ]
-        },
-        {
-          "id": "orbi_rest",
-          "random": true,
-          "sol": 0,
-          "options": [
-            {
-              "id": "rest",
-              "ap": 0,
-              "delta": {
-                "power": 8
-              },
-              "dose": 0,
-              "setsFlag": "orbi_off",
-              "solFlag": true
-            },
-            {
-              "id": "stay_on",
-              "ap": 0,
-              "delta": {
-                "power": -4
-              },
-              "dose": 0
-            }
-          ]
-        },
-        {
-          "id": "supply_pod",
-          "random": true,
-          "sol": 0,
-          "options": [
-            {
-              "id": "fetch",
-              "ap": 2,
-              "delta": {
-                "stamina": -15,
-                "food": 10,
-                "water": 8
-              },
-              "dose": 0.5
-            },
-            {
-              "id": "leave",
-              "ap": 0,
-              "delta": {},
-              "dose": 0
-            }
-          ]
-        },
-        {
-          "id": "family_message",
-          "random": true,
-          "sol": 0,
-          "options": [
-            {
-              "id": "watch",
-              "ap": 1,
-              "delta": {
-                "stamina": 20
-              },
-              "dose": 0,
-              "card": "isolation"
-            },
-            {
-              "id": "later",
-              "ap": 0,
-              "delta": {},
-              "dose": 0
-            }
-          ]
-        },
-        {
-          "id": "greenhouse_leak",
-          "random": true,
-          "sol": 0,
-          "options": [
-            {
-              "id": "replant",
-              "ap": 0,
-              "delta": {
-                "food": 4
-              },
-              "dose": 0,
-              "needFlag": "seed_pack"
-            },
-            {
-              "id": "patch",
-              "ap": 1,
-              "delta": {
-                "stamina": -8
-              },
-              "dose": 0
-            },
-            {
-              "id": "let_freeze",
-              "ap": 0,
-              "delta": {
-                "food": -12
-              },
-              "dose": 0
-            }
-          ]
-        },
-        {
-          "id": "spare_parts",
-          "random": true,
-          "sol": 0,
-          "options": [
-            {
-              "id": "sort",
-              "ap": 1,
-              "delta": {
-                "stamina": -5
-              },
-              "dose": 0,
-              "setsFlag": "spare_filter",
-              "solFlag": false
-            },
-            {
-              "id": "leave_box",
-              "ap": 0,
-              "delta": {},
-              "dose": 0
-            }
-          ]
-        },
-        {
-          "id": "filter_wear",
-          "random": true,
-          "sol": 0,
-          "options": [
-            {
-              "id": "swap",
-              "ap": 0,
-              "delta": {},
-              "dose": 0,
-              "needFlag": "spare_filter"
-            },
-            {
-              "id": "clean_by_hand",
-              "ap": 1,
-              "delta": {
-                "stamina": -10,
-                "o2": -6
-              },
-              "dose": 0
-            }
-          ]
-        },
-        {
-          "id": "cut_hand",
-          "random": true,
-          "sol": 0,
-          "options": [
-            {
-              "id": "medkit",
-              "ap": 0,
-              "delta": {},
-              "dose": 0,
-              "needFlag": "med_kit"
-            },
-            {
-              "id": "bandage",
-              "ap": 1,
-              "delta": {},
-              "dose": 0
-            },
-            {
-              "id": "ignore",
-              "ap": 0,
-              "delta": {
-                "stamina": -20
-              },
-              "dose": 0
-            }
-          ]
-        },
-        {
-          "id": "titan_pebbles",
-          "random": true,
-          "sol": 0,
-          "options": [
-            {
-              "id": "collect",
-              "ap": 1,
-              "delta": {
-                "stamina": -8
-              },
-              "dose": 0,
-              "card": "titan_pebbles"
-            },
-            {
-              "id": "skip",
-              "ap": 0,
-              "delta": {},
-              "dose": 0
-            }
-          ]
-        }
-      ]
+      }
     }
   ],
   "cards": [
@@ -1738,62 +179,6 @@
       "chapter": 2
     },
     {
-      "id": "moon_landing",
-      "chapter": 3
-    },
-    {
-      "id": "apollo",
-      "chapter": 3
-    },
-    {
-      "id": "moon_ice",
-      "chapter": 3
-    },
-    {
-      "id": "moon_south",
-      "chapter": 3
-    },
-    {
-      "id": "moon_dust",
-      "chapter": 3
-    },
-    {
-      "id": "earth_sky",
-      "chapter": 3
-    },
-    {
-      "id": "electrolysis",
-      "chapter": 3
-    },
-    {
-      "id": "gravity_assist",
-      "chapter": 4
-    },
-    {
-      "id": "huygens",
-      "chapter": 4
-    },
-    {
-      "id": "titan_cold",
-      "chapter": 4
-    },
-    {
-      "id": "titan_air",
-      "chapter": 4
-    },
-    {
-      "id": "rtg",
-      "chapter": 4
-    },
-    {
-      "id": "titan_lakes",
-      "chapter": 4
-    },
-    {
-      "id": "dragonfly",
-      "chapter": 4
-    },
-    {
       "id": "rad_dose",
       "chapter": 1
     },
@@ -1815,31 +200,7 @@
     },
     {
       "id": "regolith",
-      "chapter": 3
-    },
-    {
-      "id": "earthrise",
-      "chapter": 3
-    },
-    {
-      "id": "moon_resources",
-      "chapter": 3
-    },
-    {
-      "id": "moonquakes",
-      "chapter": 3
-    },
-    {
-      "id": "titan_haze",
-      "chapter": 4
-    },
-    {
-      "id": "titan_ocean",
-      "chapter": 4
-    },
-    {
-      "id": "titan_dunes",
-      "chapter": 4
+      "chapter": 2
     },
     {
       "id": "isolation",
@@ -1850,12 +211,16 @@
       "chapter": 2
     },
     {
-      "id": "lro",
-      "chapter": 3
+      "id": "comm_delay",
+      "chapter": 2
     },
     {
-      "id": "titan_pebbles",
-      "chapter": 4
+      "id": "sep_2017",
+      "chapter": 2
+    },
+    {
+      "id": "eclss",
+      "chapter": 2
     }
   ],
   "presentation": {
@@ -1864,5 +229,1621 @@
     "roomSpacing": 16,
     "cameraMoveSeconds": 0.5,
     "textScale": 1.0
+  },
+  "outpost": {
+    "hoursTotal": 168,
+    "landingClock": 6,
+    "maxValue": 100,
+    "start": {
+      "air": 70,
+      "power": 50,
+      "shelter": 0,
+      "supplies": 55,
+      "energy": 80
+    },
+    "airUsePerHour": 1.4,
+    "lifeSupportAirPerHour": 1.0,
+    "systems": [
+      {
+        "id": "life_support",
+        "powerPerHour": 2.5,
+        "onAtStart": true
+      },
+      {
+        "id": "greenhouse",
+        "powerPerHour": 2.0,
+        "onAtStart": false
+      },
+      {
+        "id": "beacon",
+        "powerPerHour": 1.0,
+        "onAtStart": false
+      },
+      {
+        "id": "shelter",
+        "powerPerHour": 2.0,
+        "onAtStart": false
+      }
+    ],
+    "solarPerHour": 5.5,
+    "daylightFrom": 7,
+    "daylightTo": 19,
+    "dustPerDay": 0.12,
+    "minEfficiency": 0.4,
+    "suppliesUsePerHour": 0.45,
+    "energyAwakePerHour": -1.4,
+    "energySleepPerHour": 7.0,
+    "lowEnergy": 20,
+    "lowEnergyExtraHours": 1,
+    "collapseSleepHours": 6,
+    "suppliesZeroFailHours": 24,
+    "warnAir": 25,
+    "critAir": 10,
+    "warnSupplies": 20,
+    "warnPower": 15,
+    "radPerHour": 0.029,
+    "radPerOutsideHour": 0.05,
+    "radSafe": 50,
+    "radLimit": 150,
+    "spe": {
+      "hour": 84,
+      "durationHours": 6,
+      "dose": 80,
+      "energyLoss": 40,
+      "airLoss": 35,
+      "unpoweredShelterFactor": 0.5,
+      "warningHour": 28,
+      "powerLoss": 40
+    },
+    "relayClocks": [
+      10,
+      22
+    ],
+    "rescuePassEveryHours": 6,
+    "commDelayMinutes": 14,
+    "greenhouseHoursToReady": 24,
+    "nightEventClock": 2,
+    "randomEventDays": [
+      1,
+      2,
+      4,
+      5,
+      6
+    ],
+    "encounterClock": 8,
+    "encounterDays": [
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "actions": [
+      {
+        "id": "moxie",
+        "hours": 2,
+        "delta": {
+          "power": -6,
+          "air": 14
+        },
+        "hotspot": "s_o2gen",
+        "card": "moxie"
+      },
+      {
+        "id": "recycle",
+        "hours": 2,
+        "delta": {
+          "power": -4,
+          "supplies": 6
+        },
+        "hotspot": "s_recycler",
+        "card": "water_recycle"
+      },
+      {
+        "id": "drill_ice",
+        "hours": 3,
+        "delta": {
+          "energy": -12,
+          "supplies": 12
+        },
+        "requiresFlag": "drill_ready",
+        "outside": true,
+        "hotspot": "mars_drill",
+        "card": "ice"
+      },
+      {
+        "id": "sabatier",
+        "hours": 2,
+        "delta": {
+          "power": -6,
+          "supplies": 8
+        },
+        "requiresFlag": "catalyst_installed",
+        "hotspot": "s_reactor",
+        "card": "sabatier"
+      },
+      {
+        "id": "eat",
+        "hours": 1,
+        "delta": {
+          "supplies": -6,
+          "energy": 25
+        },
+        "hotspot": "s_food"
+      },
+      {
+        "id": "clean_panels",
+        "hours": 2,
+        "delta": {
+          "energy": -8
+        },
+        "outside": true,
+        "cleansPanels": true,
+        "hotspot": "mars_solar",
+        "card": "solar"
+      },
+      {
+        "id": "stow_panels",
+        "hours": 1,
+        "delta": {
+          "energy": -4
+        },
+        "setsFlag": "panels_stowed",
+        "solFlag": true,
+        "outside": true,
+        "hotspot": "mars_solar"
+      },
+      {
+        "id": "inspect_seals",
+        "hours": 1,
+        "delta": {
+          "energy": -3
+        },
+        "setsFlag": "seals_inspected",
+        "solFlag": true,
+        "hotspot": "s_seals"
+      },
+      {
+        "id": "shelter_water",
+        "hours": 2,
+        "delta": {
+          "supplies": -10,
+          "shelter": 25
+        },
+        "hotspot": "s_bed",
+        "card": "radiation"
+      },
+      {
+        "id": "shelter_regolith",
+        "hours": 4,
+        "delta": {
+          "energy": -20,
+          "shelter": 35
+        },
+        "outside": true,
+        "hotspot": "mars_scrap",
+        "card": "regolith"
+      },
+      {
+        "id": "shelter_kit",
+        "hours": 1,
+        "delta": {
+          "shelter": 40
+        },
+        "requiresFlag": "shield_kit",
+        "consumesFlag": true,
+        "hotspot": "s_bed"
+      },
+      {
+        "id": "repair_beacon",
+        "hours": 3,
+        "delta": {
+          "energy": -8
+        },
+        "requiresFlag": "has_hull_patch",
+        "setsFlag": "beacon_repaired",
+        "hotspot": "s_line"
+      },
+      {
+        "id": "repair_beacon_chip",
+        "hours": 1,
+        "delta": {
+          "energy": -2
+        },
+        "requiresFlag": "data_chip",
+        "setsFlag": "beacon_repaired",
+        "hotspot": "s_line"
+      },
+      {
+        "id": "send_coords",
+        "hours": 1,
+        "delta": {},
+        "requiresFlag": "beacon_repaired",
+        "needsSystem": "beacon",
+        "hotspot": "s_nav"
+      },
+      {
+        "id": "ask_earth",
+        "hours": 1,
+        "delta": {},
+        "hotspot": "s_nav"
+      },
+      {
+        "id": "setup_greenhouse",
+        "hours": 3,
+        "delta": {
+          "energy": -6
+        },
+        "setsFlag": "greenhouse_started",
+        "hotspot": "s_food",
+        "card": "veggie"
+      },
+      {
+        "id": "setup_greenhouse_seeds",
+        "hours": 1,
+        "delta": {},
+        "requiresFlag": "seed_pack",
+        "setsFlag": "greenhouse_started",
+        "hotspot": "s_food",
+        "card": "veggie"
+      },
+      {
+        "id": "sci_sunset",
+        "hours": 1,
+        "delta": {
+          "energy": -3
+        },
+        "science": true,
+        "minDay": 1,
+        "setsFlag": "sci_sunset",
+        "hotspot": "s_scope",
+        "card": "mars_sunset"
+      },
+      {
+        "id": "sci_core",
+        "hours": 2,
+        "delta": {
+          "energy": -6
+        },
+        "science": true,
+        "minDay": 3,
+        "setsFlag": "sci_core",
+        "requiresFlag": "drill_ready",
+        "outside": true,
+        "hotspot": "mars_drill",
+        "card": "mars_lake"
+      },
+      {
+        "id": "sci_weather",
+        "hours": 1,
+        "delta": {
+          "energy": -3
+        },
+        "science": true,
+        "minDay": 5,
+        "setsFlag": "sci_weather",
+        "outside": true,
+        "hotspot": "mars_solar",
+        "card": "mars_pressure"
+      }
+    ],
+    "nightEvents": [
+      {
+        "id": "dust_devil",
+        "preventFlag": "panels_stowed",
+        "penalty": {},
+        "efficiencyLoss": 0.3
+      },
+      {
+        "id": "micro_leak",
+        "preventFlag": "seals_inspected",
+        "penalty": {
+          "air": -15
+        }
+      },
+      {
+        "id": "minor_flare",
+        "preventMinShelter": 30,
+        "penalty": {
+          "energy": -15
+        },
+        "dose": 8
+      }
+    ],
+    "incidents": [
+      {
+        "id": "recycler_fire",
+        "day": 2,
+        "afterActions": 2,
+        "seconds": 30,
+        "hotspot": "s_recycler",
+        "penalty": {
+          "supplies": -10,
+          "power": -6
+        }
+      },
+      {
+        "id": "hatch_leak",
+        "day": 3,
+        "afterActions": 3,
+        "seconds": 30,
+        "hotspot": "s_airlock",
+        "penalty": {
+          "air": -12
+        }
+      },
+      {
+        "id": "scrubber_clog",
+        "day": 5,
+        "afterActions": 2,
+        "seconds": 30,
+        "hotspot": "s_o2gen",
+        "penalty": {
+          "air": -12
+        }
+      }
+    ],
+    "dilemmas": [
+      {
+        "id": "mars_rover",
+        "day": 6,
+        "options": [
+          {
+            "id": "fetch",
+            "hours": 2,
+            "delta": {
+              "power": 12,
+              "energy": -12
+            },
+            "dose": 1.0
+          },
+          {
+            "id": "stay",
+            "hours": 0,
+            "delta": {}
+          }
+        ]
+      },
+      {
+        "id": "orbi_rest",
+        "random": true,
+        "options": [
+          {
+            "id": "rest",
+            "hours": 0,
+            "delta": {
+              "power": 8
+            },
+            "setsFlag": "orbi_off",
+            "solFlag": true
+          },
+          {
+            "id": "stay_on",
+            "hours": 0,
+            "delta": {
+              "power": -4
+            }
+          }
+        ]
+      },
+      {
+        "id": "supply_pod",
+        "random": true,
+        "options": [
+          {
+            "id": "fetch",
+            "hours": 2,
+            "delta": {
+              "energy": -15,
+              "supplies": 15
+            },
+            "dose": 0.5
+          },
+          {
+            "id": "leave",
+            "hours": 0,
+            "delta": {}
+          }
+        ]
+      },
+      {
+        "id": "family_message",
+        "random": true,
+        "options": [
+          {
+            "id": "watch",
+            "hours": 1,
+            "delta": {
+              "energy": 20
+            },
+            "card": "isolation"
+          },
+          {
+            "id": "later",
+            "hours": 0,
+            "delta": {}
+          }
+        ]
+      },
+      {
+        "id": "greenhouse_leak",
+        "random": true,
+        "options": [
+          {
+            "id": "replant",
+            "hours": 0,
+            "delta": {},
+            "needFlag": "seed_pack"
+          },
+          {
+            "id": "patch",
+            "hours": 1,
+            "delta": {
+              "energy": -8
+            }
+          },
+          {
+            "id": "let_freeze",
+            "hours": 0,
+            "delta": {
+              "supplies": -8
+            }
+          }
+        ]
+      },
+      {
+        "id": "spare_parts",
+        "random": true,
+        "options": [
+          {
+            "id": "sort",
+            "hours": 1,
+            "delta": {
+              "energy": -5
+            },
+            "setsFlag": "spare_filter"
+          },
+          {
+            "id": "leave_box",
+            "hours": 0,
+            "delta": {}
+          }
+        ]
+      },
+      {
+        "id": "filter_wear",
+        "random": true,
+        "options": [
+          {
+            "id": "swap",
+            "hours": 0,
+            "delta": {},
+            "needFlag": "spare_filter"
+          },
+          {
+            "id": "clean_by_hand",
+            "hours": 1,
+            "delta": {
+              "energy": -10,
+              "air": -6
+            }
+          }
+        ]
+      },
+      {
+        "id": "cut_hand",
+        "random": true,
+        "options": [
+          {
+            "id": "medkit",
+            "hours": 0,
+            "delta": {},
+            "needFlag": "med_kit"
+          },
+          {
+            "id": "bandage",
+            "hours": 1,
+            "delta": {}
+          },
+          {
+            "id": "ignore",
+            "hours": 0,
+            "delta": {
+              "energy": -20
+            }
+          }
+        ]
+      },
+      {
+        "id": "mars_frost",
+        "random": true,
+        "options": [
+          {
+            "id": "scrape",
+            "hours": 1,
+            "delta": {
+              "energy": -10
+            },
+            "card": "co2_frost"
+          },
+          {
+            "id": "wait",
+            "hours": 0,
+            "delta": {
+              "power": -10
+            },
+            "card": "co2_frost"
+          }
+        ]
+      }
+    ]
+  },
+  "lifeboat": {
+    "daysTotal": 7,
+    "sliceDays": 0,
+    "health": 3,
+    "start": {
+      "o2": 10,
+      "water": 8,
+      "food": 8,
+      "power": 4
+    },
+    "crewPerDay": {
+      "o2": 1,
+      "water": 1,
+      "food": 1,
+      "power": 0
+    },
+    "lifeSupportPower": 1,
+    "solarPerDay": 1,
+    "o2PenaltyNoPower": 1,
+    "o2PenaltyClogged": 1,
+    "pets": [
+      {
+        "id": "comet",
+        "trait": "brave",
+        "foodPerDay": 1
+      },
+      {
+        "id": "pixel",
+        "trait": "smart",
+        "foodPerDay": 1
+      },
+      {
+        "id": "luna",
+        "trait": "careful",
+        "foodPerDay": 1
+      }
+    ],
+    "visitors": [
+      {
+        "id": "tik",
+        "perDay": {
+          "o2": 1,
+          "water": 1,
+          "food": 1,
+          "power": 0
+        },
+        "giftPerDay": {
+          "o2": 0,
+          "water": 1,
+          "food": 0,
+          "power": 1
+        },
+        "steals": false,
+        "stealFood": 0,
+        "monster": false,
+        "failsScans": []
+      },
+      {
+        "id": "mu",
+        "perDay": {
+          "o2": 1,
+          "water": 1,
+          "food": 1,
+          "power": 0
+        },
+        "giftPerDay": {
+          "o2": 0,
+          "water": 0,
+          "food": 0,
+          "power": 0
+        },
+        "steals": true,
+        "stealFood": 2,
+        "monster": false,
+        "failsScans": []
+      },
+      {
+        "id": "zee",
+        "perDay": {
+          "o2": 0,
+          "water": 0,
+          "food": 0,
+          "power": 0
+        },
+        "giftPerDay": {
+          "o2": 0,
+          "water": 0,
+          "food": 0,
+          "power": 0
+        },
+        "steals": false,
+        "stealFood": 0,
+        "monster": false,
+        "failsScans": []
+      },
+      {
+        "id": "nok",
+        "perDay": {
+          "o2": 1,
+          "water": 1,
+          "food": 1,
+          "power": 0
+        },
+        "giftPerDay": {
+          "o2": 0,
+          "water": 0,
+          "food": 0,
+          "power": 0
+        },
+        "steals": false,
+        "stealFood": 0,
+        "monster": false,
+        "failsScans": []
+      },
+      {
+        "id": "shade",
+        "perDay": {
+          "o2": 1,
+          "water": 1,
+          "food": 1,
+          "power": 0
+        },
+        "giftPerDay": {
+          "o2": 0,
+          "water": 0,
+          "food": 0,
+          "power": 0
+        },
+        "steals": false,
+        "stealFood": 0,
+        "monster": true,
+        "failsScans": [
+          "thermal",
+          "breath"
+        ]
+      },
+      {
+        "id": "ree",
+        "perDay": {
+          "o2": 1,
+          "water": 1,
+          "food": 1,
+          "power": 0
+        },
+        "giftPerDay": {
+          "o2": 2,
+          "water": 0,
+          "food": 0,
+          "power": 0
+        },
+        "steals": false,
+        "stealFood": 0,
+        "monster": false,
+        "failsScans": []
+      },
+      {
+        "id": "mimic",
+        "perDay": {
+          "o2": 1,
+          "water": 1,
+          "food": 1,
+          "power": 0
+        },
+        "giftPerDay": {
+          "o2": 0,
+          "water": 0,
+          "food": 0,
+          "power": 0
+        },
+        "steals": false,
+        "stealFood": 0,
+        "monster": true,
+        "failsScans": [
+          "breath",
+          "heartbeat"
+        ]
+      }
+    ],
+    "cards": [
+      {
+        "id": "filter",
+        "day": 1,
+        "visitor": "",
+        "clues": 0,
+        "options": [
+          {
+            "id": "swap",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            },
+            "needItem": "spare_filter",
+            "consumesItem": true
+          },
+          {
+            "id": "wash",
+            "delta": {
+              "o2": 0,
+              "water": -1,
+              "food": 0,
+              "power": 0
+            }
+          },
+          {
+            "id": "ignore",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            },
+            "setsFlag": "filter_clogged"
+          }
+        ]
+      },
+      {
+        "id": "visitor_tik",
+        "day": 1,
+        "visitor": "tik",
+        "clues": 3,
+        "options": [
+          {
+            "id": "admit",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            },
+            "admits": "tik"
+          },
+          {
+            "id": "trade",
+            "delta": {
+              "o2": 0,
+              "water": -1,
+              "food": 0,
+              "power": 2
+            }
+          },
+          {
+            "id": "refuse",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            }
+          }
+        ]
+      },
+      {
+        "id": "crate",
+        "day": 2,
+        "visitor": "",
+        "clues": 0,
+        "options": [
+          {
+            "id": "walk",
+            "delta": {
+              "o2": -1,
+              "water": 1,
+              "food": 2,
+              "power": 0
+            }
+          },
+          {
+            "id": "send_pet",
+            "delta": {
+              "o2": 0,
+              "water": 1,
+              "food": 2,
+              "power": 0
+            },
+            "needTrait": "brave"
+          },
+          {
+            "id": "leave",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            }
+          }
+        ]
+      },
+      {
+        "id": "visitor_mu",
+        "day": 2,
+        "visitor": "mu",
+        "clues": 3,
+        "options": [
+          {
+            "id": "admit",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            },
+            "admits": "mu"
+          },
+          {
+            "id": "gift",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": -1,
+              "power": 0
+            },
+            "setsFlag": "mu_fed"
+          },
+          {
+            "id": "refuse",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            }
+          }
+        ]
+      },
+      {
+        "id": "locker",
+        "day": 2,
+        "visitor": "",
+        "clues": 0,
+        "options": [
+          {
+            "id": "lock",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": -1
+            },
+            "setsFlag": "locker_locked"
+          },
+          {
+            "id": "open",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            }
+          }
+        ]
+      },
+      {
+        "id": "recycler",
+        "day": 3,
+        "visitor": "",
+        "clues": 0,
+        "options": [
+          {
+            "id": "repair",
+            "delta": {
+              "o2": 0,
+              "water": 2,
+              "food": 0,
+              "power": -1
+            }
+          },
+          {
+            "id": "tik_repair",
+            "delta": {
+              "o2": 0,
+              "water": 3,
+              "food": 0,
+              "power": 0
+            },
+            "needGuest": "tik"
+          },
+          {
+            "id": "skip",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            }
+          }
+        ]
+      },
+      {
+        "id": "storm_warning",
+        "day": 3,
+        "visitor": "",
+        "clues": 0,
+        "options": [
+          {
+            "id": "water_wall",
+            "delta": {
+              "o2": 0,
+              "water": -2,
+              "food": 0,
+              "power": 0
+            },
+            "setsFlag": "shelter_ready"
+          },
+          {
+            "id": "shield_kit",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            },
+            "needItem": "shield_kit",
+            "consumesItem": true,
+            "setsFlag": "shelter_ready"
+          },
+          {
+            "id": "later",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            }
+          }
+        ]
+      },
+      {
+        "id": "visitor_zee",
+        "day": 3,
+        "visitor": "zee",
+        "clues": 3,
+        "options": [
+          {
+            "id": "buy_o2",
+            "delta": {
+              "o2": 2,
+              "water": 0,
+              "food": 0,
+              "power": -2
+            }
+          },
+          {
+            "id": "buy_food",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 2,
+              "power": -2
+            }
+          },
+          {
+            "id": "refuse",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            }
+          }
+        ]
+      },
+      {
+        "id": "storm_last",
+        "day": 4,
+        "visitor": "",
+        "clues": 0,
+        "unlessFlag": "shelter_ready",
+        "options": [
+          {
+            "id": "sandbags",
+            "delta": {
+              "o2": -1,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            },
+            "setsFlag": "shelter_ready"
+          },
+          {
+            "id": "send_pet",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            },
+            "needTrait": "brave",
+            "setsFlag": "shelter_ready"
+          },
+          {
+            "id": "hide",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            }
+          }
+        ]
+      },
+      {
+        "id": "storm_power",
+        "day": 4,
+        "visitor": "",
+        "clues": 0,
+        "options": [
+          {
+            "id": "safe_mode",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": -1
+            },
+            "setsFlag": "electronics_safe"
+          },
+          {
+            "id": "leave_on",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            }
+          }
+        ]
+      },
+      {
+        "id": "visitor_shade",
+        "day": 4,
+        "visitor": "shade",
+        "clues": 3,
+        "ifFlag": "",
+        "unlessFlag": "",
+        "ifGuest": "",
+        "options": [
+          {
+            "id": "admit",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            },
+            "admits": "shade"
+          },
+          {
+            "id": "refuse",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            }
+          }
+        ]
+      },
+      {
+        "id": "visitor_nok",
+        "day": 5,
+        "visitor": "nok",
+        "clues": 3,
+        "options": [
+          {
+            "id": "admit",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            },
+            "admits": "nok",
+            "setsFlag": "nok_helped"
+          },
+          {
+            "id": "treat",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            },
+            "needItem": "med_kit",
+            "consumesItem": true,
+            "setsFlag": "nok_helped"
+          },
+          {
+            "id": "water",
+            "delta": {
+              "o2": 0,
+              "water": -1,
+              "food": 0,
+              "power": 0
+            },
+            "setsFlag": "nok_helped"
+          },
+          {
+            "id": "refuse",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            }
+          }
+        ]
+      },
+      {
+        "id": "mu_returns",
+        "day": 5,
+        "visitor": "mu",
+        "clues": 0,
+        "ifFlag": "mu_fed",
+        "options": [
+          {
+            "id": "accept",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 2,
+              "power": 0
+            }
+          },
+          {
+            "id": "decline",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            }
+          }
+        ]
+      },
+      {
+        "id": "far_crate",
+        "day": 6,
+        "visitor": "",
+        "clues": 0,
+        "options": [
+          {
+            "id": "walk",
+            "delta": {
+              "o2": -2,
+              "water": 1,
+              "food": 3,
+              "power": 0
+            }
+          },
+          {
+            "id": "send_pet",
+            "delta": {
+              "o2": 0,
+              "water": 1,
+              "food": 3,
+              "power": 0
+            },
+            "needTrait": "brave"
+          },
+          {
+            "id": "leave",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            }
+          }
+        ]
+      },
+      {
+        "id": "beacon",
+        "day": 6,
+        "visitor": "",
+        "clues": 0,
+        "options": [
+          {
+            "id": "nok_part",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 2,
+              "power": 0
+            },
+            "needFlag": "nok_helped",
+            "setsFlag": "beacon_fixed"
+          },
+          {
+            "id": "tik_fix",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": -1
+            },
+            "needGuest": "tik",
+            "setsFlag": "beacon_fixed"
+          },
+          {
+            "id": "chip",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            },
+            "needItem": "data_chip",
+            "consumesItem": true,
+            "setsFlag": "beacon_fixed"
+          },
+          {
+            "id": "climb",
+            "delta": {
+              "o2": -1,
+              "water": 0,
+              "food": 0,
+              "power": -2
+            },
+            "setsFlag": "beacon_fixed"
+          },
+          {
+            "id": "wait",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            }
+          }
+        ]
+      },
+      {
+        "id": "coords",
+        "day": 6,
+        "visitor": "",
+        "clues": 0,
+        "ifFlag": "beacon_fixed",
+        "options": [
+          {
+            "id": "send",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": -1
+            },
+            "setsFlag": "coords_sent"
+          },
+          {
+            "id": "crank",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            },
+            "health": -1,
+            "setsFlag": "coords_sent"
+          },
+          {
+            "id": "wait",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            }
+          }
+        ]
+      },
+      {
+        "id": "visitor_ree",
+        "day": 6,
+        "visitor": "ree",
+        "clues": 3,
+        "ifFlag": "",
+        "unlessFlag": "",
+        "ifGuest": "",
+        "options": [
+          {
+            "id": "admit",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            },
+            "admits": "ree"
+          },
+          {
+            "id": "trade",
+            "delta": {
+              "o2": 0,
+              "water": -1,
+              "food": 1,
+              "power": 0
+            }
+          },
+          {
+            "id": "refuse",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            }
+          }
+        ]
+      },
+      {
+        "id": "beacon_last",
+        "day": 7,
+        "visitor": "",
+        "clues": 0,
+        "unlessFlag": "beacon_fixed",
+        "options": [
+          {
+            "id": "nok_part",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 2,
+              "power": 0
+            },
+            "needFlag": "nok_helped",
+            "setsFlag": "beacon_fixed"
+          },
+          {
+            "id": "tik_fix",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": -1
+            },
+            "needGuest": "tik",
+            "setsFlag": "beacon_fixed"
+          },
+          {
+            "id": "chip",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            },
+            "needItem": "data_chip",
+            "consumesItem": true,
+            "setsFlag": "beacon_fixed"
+          },
+          {
+            "id": "climb",
+            "delta": {
+              "o2": -1,
+              "water": 0,
+              "food": 0,
+              "power": -2
+            },
+            "setsFlag": "beacon_fixed"
+          },
+          {
+            "id": "give_up",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            }
+          }
+        ]
+      },
+      {
+        "id": "coords_last",
+        "day": 7,
+        "visitor": "",
+        "clues": 0,
+        "ifFlag": "beacon_fixed",
+        "unlessFlag": "coords_sent",
+        "options": [
+          {
+            "id": "send",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": -1
+            },
+            "setsFlag": "coords_sent"
+          },
+          {
+            "id": "crank",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            },
+            "health": -1,
+            "setsFlag": "coords_sent"
+          },
+          {
+            "id": "skip",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            }
+          }
+        ]
+      },
+      {
+        "id": "visitor_mimic",
+        "day": 7,
+        "visitor": "mimic",
+        "clues": 3,
+        "ifFlag": "",
+        "unlessFlag": "",
+        "ifGuest": "",
+        "options": [
+          {
+            "id": "admit",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            },
+            "admits": "mimic"
+          },
+          {
+            "id": "refuse",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            }
+          }
+        ]
+      },
+      {
+        "id": "log",
+        "day": 7,
+        "visitor": "",
+        "clues": 0,
+        "options": [
+          {
+            "id": "air",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            }
+          },
+          {
+            "id": "water",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            }
+          },
+          {
+            "id": "friends",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            }
+          }
+        ]
+      }
+    ],
+    "supplies": [
+      {
+        "id": "sup_o2",
+        "stock": {
+          "o2": 3,
+          "water": 0,
+          "food": 0,
+          "power": 0
+        }
+      },
+      {
+        "id": "sup_water",
+        "stock": {
+          "o2": 0,
+          "water": 3,
+          "food": 0,
+          "power": 0
+        }
+      },
+      {
+        "id": "sup_food",
+        "stock": {
+          "o2": 0,
+          "water": 0,
+          "food": 3,
+          "power": 0
+        }
+      },
+      {
+        "id": "sup_battery",
+        "stock": {
+          "o2": 0,
+          "water": 0,
+          "food": 0,
+          "power": 3
+        }
+      }
+    ],
+    "demoStowed": [
+      "sup_water",
+      "sup_food",
+      "sup_battery",
+      "sup_filter",
+      "sup_medkit"
+    ],
+    "nights": [
+      {
+        "id": "storm_crew",
+        "day": 4,
+        "safeFlag": "shelter_ready",
+        "healthLoss": 1,
+        "delta": {
+          "o2": 0,
+          "water": 0,
+          "food": 0,
+          "power": 0
+        }
+      },
+      {
+        "id": "storm_power",
+        "day": 4,
+        "safeFlag": "electronics_safe",
+        "healthLoss": 0,
+        "delta": {
+          "o2": 0,
+          "water": 0,
+          "food": 0,
+          "power": -2
+        }
+      }
+    ],
+    "beaconFlag": "beacon_fixed",
+    "rescueFlag": "coords_sent",
+    "kindFlag": "nok_helped",
+    "o2Maker": {
+      "o2": 2,
+      "water": 0,
+      "food": 0,
+      "power": 2
+    },
+    "scans": [
+      "thermal",
+      "breath",
+      "heartbeat"
+    ],
+    "scansPerVisitor": 1,
+    "extraScanTrait": "careful",
+    "replacesOutpost": true
   }
 }

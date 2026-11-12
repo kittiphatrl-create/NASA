@@ -38,13 +38,16 @@ namespace TitanGate.Game
         public static bool HasSave => !string.IsNullOrEmpty(PlayerPrefs.GetString("save_route", ""));
         public static string SaveRoute => PlayerPrefs.GetString("save_route", "");
         public static float SaveCabin => PlayerPrefs.GetFloat("save_cabin", 50f);
+        /// <summary>Pet picked before the scramble (empty = none).</summary>
+        public static string SavePet { get { var p = PlayerPrefs.GetString("save_pet", ""); return p == "" ? null : p; } }
         /// <summary>Supplies stowed in the Chapter 1 scramble (ids).</summary>
         public static System.Collections.Generic.List<string> SaveItems =>
             new System.Collections.Generic.List<string>(PlayerPrefs.GetString("save_items", "").Split(new[] { ',' }, System.StringSplitOptions.RemoveEmptyEntries));
 
         /// <summary>Checkpoint at the start of Chapter 2: the route and what Chapter 1 carried over.</summary>
-        public static void SaveCheckpoint(string route, float cabin, System.Collections.Generic.IEnumerable<string> items)
+        public static void SaveCheckpoint(string route, float cabin, System.Collections.Generic.IEnumerable<string> items, string pet = null)
         {
+            PlayerPrefs.SetString("save_pet", pet ?? "");
             PlayerPrefs.SetString("save_route", route);
             PlayerPrefs.SetFloat("save_cabin", cabin);
             PlayerPrefs.SetString("save_items", string.Join(",", items));

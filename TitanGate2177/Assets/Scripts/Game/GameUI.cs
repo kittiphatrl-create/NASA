@@ -39,20 +39,20 @@ namespace TitanGate.Game
         public void SetCinematic(bool on)
         {
             _cine.style.display = on ? DisplayStyle.Flex : DisplayStyle.None;
-            if (on) { _cine.BringToFront(); _fader.BringToFront(); _skip.text = _loc.T("ui.skip"); }
+            if (on) { _cine.BringToFront(); _fader.BringToFront(); _skip.text = Thai(_loc.T("ui.skip")); }
             _caption.text = "";
         }
 
         public void SetCaption(string text)
         {
-            _caption.text = text ?? "";
+            _caption.text = Thai(text ?? "");
             _caption.style.opacity = 0;
             _caption.schedule.Execute(() => _caption.style.opacity = 1).StartingIn(60);
         }
         Label _incidentLabel;
         VisualElement _root, _hud, _topLeft, _topRight, _resRow, _forecast, _invBar, _hover, _dialog, _dialogBlocker, _modalLayer, _toastBox, _fader, _flash, _screen;
         Label _objective, _chapterLabel, _hoverLabel, _dialogSpeaker, _dialogText, _dialogMore, _forecastLabel, _invHint;
-        Button _btnCards, _btnHint, _btnLang;
+        Button _btnCards, _btnHint, _btnLang, _btnBase;
         Image _dialogPortrait;
 
         // dialogue
@@ -67,7 +67,7 @@ namespace TitanGate.Game
         Action _modalClosed;
         bool _modalClosable;
 
-        public event Action CardsClicked, HintClicked, LangClicked;
+        public event Action CardsClicked, HintClicked, LangClicked, BaseClicked;
         public event Action<string> ItemClicked;
 
         public bool DialogOpen => _lineOpen;
@@ -106,7 +106,7 @@ namespace TitanGate.Game
 
         public Label L(string text, int size = 26, bool bold = false, Color? color = null)
         {
-            var l = new Label(text);
+            var l = new Label(Thai(text));
             Txt(l, bold);
             l.style.fontSize = Mathf.Round(size * Settings.TextScale);
             l.style.whiteSpace = WhiteSpace.Normal;
@@ -135,7 +135,7 @@ namespace TitanGate.Game
         public Button B(string text, Action onClick, int size = 26, bool primary = false)
         {
             if (_pressable.Count > 400) _pressable.RemoveRange(0, 200);
-            var b = new Button(() => { sfx?.Play("click"); onClick?.Invoke(); }) { text = text };
+            var b = new Button(() => { sfx?.Play("click"); onClick?.Invoke(); }) { text = Thai(text) };
             b.RegisterCallback<MouseEnterEvent>(_ => { if (b.enabledSelf) sfx?.Play("hover"); });
             Txt(b, true);
             b.style.fontSize = Mathf.Round(size * Settings.TextScale);
@@ -209,12 +209,14 @@ namespace TitanGate.Game
             _btnCards = B("", () => CardsClicked?.Invoke(), 24);
             _btnHint = B("", () => HintClicked?.Invoke(), 24);
             _btnLang = B("", () => LangClicked?.Invoke(), 24, true);
-            _topRight.Add(_btnCards); _topRight.Add(_btnHint); _topRight.Add(_btnLang);
+            _btnBase = B("", () => BaseClicked?.Invoke(), 24, true);
+            _btnBase.style.display = DisplayStyle.None;
+            _topRight.Add(_btnBase); _topRight.Add(_btnCards); _topRight.Add(_btnHint); _topRight.Add(_btnLang);
             _hud.Add(_topRight);
 
             // resources row (Mars only)
             _resRow = Abs(new VisualElement());
-            _resRow.style.left = 600; _resRow.style.right = 560; _resRow.style.top = 16;
+            _resRow.style.left = 600; _resRow.style.right = 760; _resRow.style.top = 16;
             _resRow.style.flexDirection = FlexDirection.Row; _resRow.style.flexWrap = Wrap.Wrap;
             _resRow.style.justifyContent = Justify.Center;
             _resRow.pickingMode = PickingMode.Ignore;
@@ -354,15 +356,16 @@ namespace TitanGate.Game
 
         public void RefreshButtons(int cards, int total)
         {
-            _btnCards.text = _loc.T("ui.cards", cards, total);
-            _btnHint.text = _loc.T("ui.hint");
+            _btnCards.text = Thai(_loc.T("ui.cards", cards, total));
+            _btnHint.text = Thai(_loc.T("ui.hint"));
+            _btnBase.text = Thai(_loc.T("ui.base"));
             _btnLang.text = _loc.Current == Lang.TH ? "TH | en" : "th | EN";
         }
 
         public void SetObjective(string chapter, string text)
         {
-            _chapterLabel.text = chapter;
-            _objective.text = text;
+            _chapterLabel.text = Thai(chapter);
+            _objective.text = Thai(text);
         }
 
         /// <summary>Chapter 1 after the impact: one flashing cabin-oxygen meter.</summary>
@@ -375,41 +378,40 @@ namespace TitanGate.Game
         }
 
         /// <summary>Show the survival bars; pass null to hide them (ship chapter).</summary>
-        public void SetResources(SurvivalState s, SurvivalConfig c, string progressKey = "hud.fuel")
+        /// <summary>Show/hide the Base Control button (Chapter 2 only).</summary>
+        public void SetBaseButton(bool on) => _btnBase.style.display = on ? DisplayStyle.Flex : DisplayStyle.None;
+
+        /// <summary>
+        /// The outpost HUD: the clock and rescue countdown, three big gauges (Air, Power, Shelter) and
+        /// two small ones (Supplies, Energy), plus radiation and solar output. Null hides it.
+        /// </summary>
+        public void SetOutpost(OutpostSim sim)
         {
             _resRow.Clear();
-            if (s == null) { _resRow.style.display = DisplayStyle.None; _forecast.style.display = DisplayStyle.None; return; }
+            if (sim == null) { _resRow.style.display = DisplayStyle.None; _forecast.style.display = DisplayStyle.None; return; }
             _resRow.style.display = DisplayStyle.Flex;
-
-            var solBox = Chip();
-            solBox.Add(L(_loc.T("hud.sol", s.sol, c.solsTotal), 24, true, CCyan));
-            var pips = new VisualElement { pickingMode = PickingMode.Ignore };
-            pips.style.flexDirection = FlexDirection.Row; pips.style.marginLeft = 8; pips.style.alignItems = Align.Center;
-            for (int i = 0; i < c.actionsPerSol; i++)
-            {
-                var p = new VisualElement { pickingMode = PickingMode.Ignore };
-                p.style.width = 14; p.style.height = 22; p.style.marginLeft = 3;
-                p.style.backgroundColor = i < s.ap ? CCyan : new Color(0.2f, 0.25f, 0.4f);
-                pips.Add(p);
-            }
-            solBox.Add(pips);
-            solBox.Add(L(" " + _loc.T("hud.ap", s.ap), 20, false, CDim));
-            _resRow.Add(solBox);
-
-            _resRow.Add(Bar("hud.o2", s.o2, c.maxValue, new Color(0.45f, 0.85f, 1f), c.warnThreshold));
-            _resRow.Add(Bar("hud.water", s.water, c.maxValue, new Color(0.3f, 0.55f, 1f), c.warnThreshold));
-            _resRow.Add(Bar("hud.power", s.power, c.maxValue, CAmber, c.warnThreshold));
-            _resRow.Add(Bar("hud.food", s.food, c.maxValue, CGreen, c.warnThreshold));
-            _resRow.Add(Bar("hud.stamina", s.stamina, c.maxValue, new Color(1f, 0.55f, 0.75f), c.lowStaminaThreshold));
-            _resRow.Add(Bar(progressKey, s.fuel, c.fuelTarget, new Color(1f, 0.6f, 0.2f), -1));
+            var s = sim.State;
+            var c = sim.Config;
+            var time = Chip();
+            time.Add(L(_loc.T("hud.time", sim.Day, c.hoursTotal / 24, sim.Clock.ToString("00")), 24, true, CCyan));
+            time.Add(L("   " + _loc.T("hud.rescue_in", sim.HoursLeft), 22, true, sim.HoursLeft <= 24 ? CGreen : CAmber));
+            _resRow.Add(time);
+            var brk = new VisualElement { pickingMode = PickingMode.Ignore }; brk.style.width = Length.Percent(100); brk.style.height = 0;
+            _resRow.Add(brk);
+            _resRow.Add(Bar("hud.air", Mathf.RoundToInt(s.air), 100, new Color(0.45f, 0.85f, 1f), (int)c.warnAir, 120));
+            _resRow.Add(Bar("hud.power", Mathf.RoundToInt(s.power), 100, CAmber, (int)c.warnPower, 120));
+            _resRow.Add(Bar("hud.shelter", Mathf.RoundToInt(s.shelter), 100, new Color(0.75f, 0.6f, 1f), -1, 120));
+            var brk2 = new VisualElement { pickingMode = PickingMode.Ignore }; brk2.style.width = Length.Percent(100); brk2.style.height = 0;
+            _resRow.Add(brk2);
+            _resRow.Add(Bar("hud.supplies", Mathf.RoundToInt(s.supplies), 100, CGreen, (int)c.warnSupplies, 70));
+            _resRow.Add(Bar("hud.energy", Mathf.RoundToInt(s.energy), 100, new Color(1f, 0.55f, 0.75f), (int)c.lowEnergy, 70));
             var rad = Chip();
             bool radHigh = s.dose > c.radSafe;
-            rad.Add(L(_loc.T("hud.dose", s.dose.ToString("0.0")), 20, radHigh,
-                radHigh ? CRed : s.dose > c.radSafe * 0.6f ? CAmber : new Color(0.75f, 1f, 0.55f)));
+            rad.Add(L(_loc.T("hud.dose", s.dose.ToString("0.0")), 18, radHigh, radHigh ? CRed : new Color(0.75f, 1f, 0.55f)));
             _resRow.Add(rad);
-            var eff = Chip();
-            eff.Add(L(_loc.T("hud.solar", Mathf.RoundToInt(s.efficiency * 100)), 20, false, s.efficiency < 0.7f ? CAmber : CDim));
-            _resRow.Add(eff);
+            var sun = Chip();
+            sun.Add(L(_loc.T("hud.solar", Mathf.RoundToInt(s.efficiency * 100)), 18, false, s.efficiency < 0.7f ? CAmber : CDim));
+            _resRow.Add(sun);
         }
 
         VisualElement Chip()
@@ -450,7 +452,7 @@ namespace TitanGate.Game
         {
             if (string.IsNullOrEmpty(text)) { _incident.style.display = DisplayStyle.None; return; }
             _incident.style.display = DisplayStyle.Flex;
-            _incidentLabel.text = text;
+            _incidentLabel.text = Thai(text);
             _incidentFill.style.width = Length.Percent(Mathf.Clamp01(frac) * 100f);
             _incident.style.opacity = (Time.unscaledTime * 3f % 1f) < 0.5f ? 1f : 0.82f;
         }
@@ -460,7 +462,7 @@ namespace TitanGate.Game
             if (string.IsNullOrEmpty(text)) { _forecast.style.display = DisplayStyle.None; return; }
             _forecast.style.display = DisplayStyle.Flex;
             Border(_forecast, danger ? CRed : CAmber, 2, 8);
-            _forecastLabel.text = text;
+            _forecastLabel.text = Thai(text);
         }
 
         public void SetInventory(IReadOnlyList<string> items, string selected, Func<string, string> nameOf)
@@ -483,20 +485,20 @@ namespace TitanGate.Game
                     img.style.width = 64; img.style.height = 64;
                     slot.Add(img);
                     slot.RegisterCallback<PointerDownEvent>(e => { e.StopPropagation(); ItemClicked?.Invoke(id); });
-                    slot.RegisterCallback<MouseEnterEvent>(_ => _invHint.text = nameOf(id));
+                    slot.RegisterCallback<MouseEnterEvent>(_ => _invHint.text = Thai(nameOf(id)));
                     slot.RegisterCallback<MouseLeaveEvent>(_ => _invHint.text = selected != null ? _loc.T("ui.using", nameOf(selected)) : "");
                 }
                 else slot.pickingMode = PickingMode.Ignore;
                 _invBar.Add(slot);
             }
-            _invHint.text = selected != null ? _loc.T("ui.using", nameOf(selected)) : "";
+            _invHint.text = Thai(selected != null ? _loc.T("ui.using", nameOf(selected)) : "");
         }
 
         public void SetHover(string text, Vector2 panelPos)
         {
             if (string.IsNullOrEmpty(text)) { _hover.style.display = DisplayStyle.None; return; }
             _hover.style.display = DisplayStyle.Flex;
-            _hoverLabel.text = text;
+            _hoverLabel.text = Thai(text);
             _hover.style.left = panelPos.x - 120;
             _hover.style.top = panelPos.y - 56;
         }
@@ -531,11 +533,11 @@ namespace TitanGate.Game
         void RenderLine()
         {
             string sp = _current.speaker;
-            _dialogSpeaker.text = _loc.T("speaker." + sp);
+            _dialogSpeaker.text = Thai(_loc.T("speaker." + sp));
             _fullLine = _loc.T(_current.key, _current.args);
             _typed = Settings.TextSpeed <= 0 ? _fullLine.Length : 0;
-            _dialogText.text = SafeCut(_fullLine, (int)_typed);
-            _dialogMore.text = _loc.T("ui.continue");
+            _dialogText.text = Thai(SafeCut(_fullLine, (int)_typed));
+            _dialogMore.text = Thai(_loc.T("ui.continue"));
             _dialogPortrait.image = sp == "orbi" ? Art.Orbi(0).texture : (sp == "you" ? Art.Astronaut(false, Pose.Idle0).texture : null);
             _dialogPortrait.style.display = _dialogPortrait.image != null ? DisplayStyle.Flex : DisplayStyle.None;
             Border(_dialog, sp == "sys" ? CAmber : CCyan, 3, 10);
@@ -552,6 +554,32 @@ namespace TitanGate.Game
             return s.Substring(0, n);
         }
 
+        /// <summary>
+        /// Unity's text shaper does not stack a Thai tone mark above an upper vowel (mark-to-mark), so
+        /// ที่ / เชื้อ / เสี่ยง / น้ำ draw the tone on top of the vowel. Raise those tone marks with a
+        /// rich-text offset. Every string shown in the UI goes through this.
+        /// </summary>
+        public static string Thai(string s)
+        {
+            if (string.IsNullOrEmpty(s)) return s;
+            bool any = false;
+            foreach (var ch in s) if (ch >= '่' && ch <= '์') { any = true; break; }
+            if (!any) return s;
+            var sb = new System.Text.StringBuilder(s.Length + 32);
+            for (int i = 0; i < s.Length; i++)
+            {
+                char ch = s[i];
+                bool tone = ch >= '่' && ch <= '์';
+                bool afterUpper = i > 0 && IsUpperVowel(s[i - 1]);
+                bool beforeAm = i + 1 < s.Length && s[i + 1] == 'ำ';
+                if (tone && (afterUpper || beforeAm)) sb.Append("<voffset=0.3em>").Append(ch).Append("</voffset>");
+                else sb.Append(ch);
+            }
+            return sb.ToString();
+        }
+
+        static bool IsUpperVowel(char c) => c == 'ั' || (c >= 'ิ' && c <= 'ื') || c == '็' || c == 'ํ';
+
         static bool IsThaiMark(char c) => c == 'ั' || (c >= 'ิ' && c <= 'ฺ') || (c >= '็' && c <= '๎');
 
         /// <summary>True while the current line is still being typed out.</summary>
@@ -560,7 +588,7 @@ namespace TitanGate.Game
         public void Advance()
         {
             if (!_lineOpen || Time.unscaledTime - _lineShownAt < 0.15f) return;
-            if (Typing) { _typed = _fullLine.Length; _dialogText.text = _fullLine; return; }
+            if (Typing) { _typed = _fullLine.Length; _dialogText.text = Thai(_fullLine); return; }
             var done = _current.done;
             Next();
             done?.Invoke();
@@ -686,7 +714,7 @@ namespace TitanGate.Game
             if (Typing)
             {
                 _typed = Mathf.Min(_fullLine.Length, _typed + Settings.TextSpeed * Time.unscaledDeltaTime);
-                _dialogText.text = SafeCut(_fullLine, (int)_typed);
+                _dialogText.text = Thai(SafeCut(_fullLine, (int)_typed));
             }
             if (!Mathf.Approximately(_fadeVal, _fadeTarget))
             {

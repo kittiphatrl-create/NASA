@@ -25,7 +25,7 @@ namespace TitanGate.Game
             ("sup_o2", RCockpit, 1.0f), ("sup_photo", RCockpit, -1.3f),
             ("sup_food", RQuarters, -0.5f), ("sup_seeds", RQuarters, -2.8f),
             ("sup_water", RLife, 0.5f), ("sup_filter", RLife, -2.6f),
-            ("sup_battery", RFuel, 0.4f),
+            ("sup_battery", RFuel, 0.4f), ("sup_shield", RFuel, -2.4f),
             ("sup_medkit", RCargo, -1.3f), ("sup_cell", RCargo, 0.9f),
         };
 
@@ -35,6 +35,7 @@ namespace TitanGate.Game
         {
             _sfx.Play("alarm");
             _rig.Shake(0.4f, 0.08f);
+            if (UseLifeboat) yield return LbPickBeforeScramble();
             yield return Say("orbi", "c1_scramble_start", Mathf.RoundToInt(_cfg.chapter1.scrambleSeconds), StowSlots);
             foreach (var (id, room, x) in LooseSpots)
             {
@@ -66,7 +67,7 @@ namespace TitanGate.Game
             h.SetVisible(false);
             h.SetInteractable(false);
             _sfx.Play("good");
-            _ui.Toast(_loc.T("c1_stowed", _loc.T($"sup.{id}.name"), _loc.T($"sup.{id}.desc"), _stowed.Count, StowSlots), GameUI.CGreen);
+            _ui.Toast(_loc.T("c1_stowed", _loc.T($"sup.{id}.name"), _loc.T(UseLifeboat ? $"life.sup.{id}" : $"sup.{id}.desc"), _stowed.Count, StowSlots), GameUI.CGreen);
             if (_stowed.Count >= StowSlots) _scrambleLeft = 0f;
         }
 

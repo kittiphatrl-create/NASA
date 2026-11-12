@@ -1,0 +1,104 @@
+shot 00_menu_th
+shot 00_keyart
+shot 00_settings_th
+shot 00_howto_th
+shot 00_menu_en
+shot c1_intro_a
+shot c1_intro_b
+shot 01_ship_room0
+shot 01_ship_room1
+shot 01_ship_room2
+shot 01_ship_room3
+shot 01_ship_room4
+shot c2_impact
+PASS impact after two shift tasks
+PASS cabin O2 drains in real time (100 -> 97)
+shot 02_leak_fuelbay
+shot 03_keypad_wrong
+PASS locker code from the debris card opens the locker
+PASS breach sealed with the kit
+cabin O2 when sealed: 93
+shot 04_nav
+shot 05_nav_confirm
+PASS route chosen: mars
+PASS manual read for the route
+shot 06_edl_wrong
+PASS 60-second scramble started after the landing steps
+shot 06b_scramble
+PASS stowed 3 supplies: sup_food,sup_medkit,sup_o2
+PASS scramble clock runs (59 -> 57)
+shot 07_land_a
+shot 07_land_b
+shot 07_land_c
+shot 07_land_d
+PASS landed, chapter 2 started
+shot 08_carry_report
+PASS stowed first aid kit becomes a Chapter 2 flag
+shot 09_quarters_landed
+PASS survival starts Day 1 06:00, hour 0 of 168
+PASS rescue countdown is 168 h (7 days)
+PASS wrong catalyst rejected
+PASS nickel catalyst installed
+shot 10_outside
+PASS plate + sealant combine
+PASS drill bit installed
+shot 11_action_menu
+PASS beacon line repaired with the patch
+PASS repair takes in-game hours (0 -> 3)
+shot 11b_base_control
+PASS switching the beacon on adds to the power draw
+shot 11c_comms
+PASS coordinates sent through the beacon
+PASS question queued for Earth (relay pass + light delay)
+shot 12b_science_menu
+PASS science task done, card mars_sunset
+shot 12c_bed_shelter
+PASS water wall raises shelter readiness (0 -> 25)
+shot 12_landed_room0
+shot 12_landed_room1
+shot 12_landed_room2
+shot 12_landed_room3
+shot 12_landed_room4
+shot 12_landed_room5
+PASS bunk warns before sleeping: bed.air_low
+shot 13a_bed_air_low
+PASS bunk warns before sleeping: bed.air_critical
+shot 13a_bed_air_critical
+shot 13_bed
+shot 14_night_report
+PASS slept until 06:00 of day 2
+shot 14b_event
+PASS morning event answered
+PASS daytime emergency started after 2 actions
+shot 15_incident
+PASS emergency fixed by reaching s_recycler
+shot 16_hint
+shot 17_codex
+shot 18_low_air
+PASS Earth's storm warning arrived on its relay pass
+PASS Earth answered the question after the relay delay
+shot 15b_spe_forecast
+shot 16b_spe
+PASS solar storm hit once; the ready shelter protected the crew
+sim hour=167 day=7 coords=2 air=80 power=90 dose=13.8
+PASS rescue ship acknowledged the coordinates
+shot 19_win_a
+shot 19_win_b
+shot 19_win_c
+PASS rescued at the end of day 7 (hour 168)
+PASS debrief: rescue star
+debrief dose=13.9 log=15 stars=True,True,False
+shot 20_win
+PASS debrief numbers nights from 1
+PASS stranded ending explains: no_beacon
+shot 21_stranded_no_beacon_th
+shot 21_stranded_no_beacon_en
+PASS stranded ending explains: not_sent
+shot 21_stranded_not_sent_th
+shot 21_stranded_not_sent_en
+PASS stranded ending explains: not_heard
+shot 21_stranded_not_heard_th
+shot 21_stranded_not_heard_en
+shot 21_lose
+shot 22_sources
+done errors=0 checksFailed=0 cards=16

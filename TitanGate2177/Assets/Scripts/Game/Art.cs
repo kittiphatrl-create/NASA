@@ -905,6 +905,9 @@ namespace TitanGate.Game
                     c.Rect(2, 1, 12, 9, Pal.White); c.Rect(6, 2, 4, 7, Pal.Red); c.Rect(4, 4, 8, 3, Pal.Red); c.Rect(6, 10, 4, 1, Pal.Grey); break;
                 case "sup_filter": // air filter cartridge
                     c.Rect(3, 1, 10, 11, Pal.Steel); for (int y = 2; y < 11; y += 2) c.HLine(4, 11, y, Pal.Grey); c.Rect(6, 12, 4, 2, Pal.Steel0); break;
+                case "sup_shield": // folded radiation shield
+                    c.Rect(2, 2, 12, 10, Pal.Steel0); c.Rect(3, 3, 10, 8, Pal.Amber); c.HLine(3, 12, 6, Pal.OrangeD); c.HLine(3, 12, 9, Pal.OrangeD);
+                    c.Rect(6, 12, 4, 2, Pal.Steel); break;
                 case "sup_seeds": // seed packets
                     c.Rect(2, 1, 7, 10, Pal.Green); c.Rect(7, 2, 7, 10, Pal.Amber); c.Set(4, 6, Pal.White); c.Set(10, 7, Pal.White); c.Set(11, 5, Pal.GreenD); break;
                 default:

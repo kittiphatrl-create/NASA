@@ -1,6 +1,6 @@
 // PROTOTYPE - NOT FOR PRODUCTION
 // Question: Do real NASA facts used as puzzle clues make a junior astronaut feel they solved it with science?
-// Date: 2026-11-10
+// Date: 2026-11-11
 using System.Collections;
 using TitanGate.Core;
 using UnityEngine;
@@ -8,7 +8,7 @@ using UnityEngine.UIElements;
 
 namespace TitanGate.Game
 {
-    /// <summary>Route: Mars. MOXIE, solar panels, ice, Sabatier fuel, the great dust storm, launch to orbit.</summary>
+    /// <summary>The Mars surface around the landed Kestrel: MOXIE, solar panels, ice, the Sabatier reactor, the beacon line.</summary>
     public partial class GameFlow
     {
         bool _sealantTaken, _plateTaken, _podOpen;
@@ -39,29 +39,22 @@ namespace TitanGate.Game
             yield return Card("mars_air");
         }
 
-        void MarsObjectives(System.Action<bool, string> line)
-        {
-            var s = _sim.State;
-            line(s.flags.Contains("line_repaired"), _loc.T("obj.mars.line"));
-            line(s.flags.Contains("catalyst_installed"), _loc.T("obj.mars.catalyst"));
-            line(s.fuel >= _rc.survival.fuelTarget, _loc.T("obj.mars.fuel", s.fuel, _rc.survival.fuelTarget));
-        }
-
         string MarsHint()
         {
             var s = _sim.State;
-            if (!s.flags.Contains("line_repaired")) return _inv.Has("item_hull_patch") ? "c2_line_fix" : "c2_line";
-            if (!s.flags.Contains("catalyst_installed")) return "c2_catalyst";
+            if (!s.flags.Contains("beacon_repaired"))
+                return _inv.Has("item_hull_patch") || s.flags.Contains("data_chip") ? "c2_line_fix" : "c2_line";
+            if (!s.flags.Contains("catalyst_installed") && s.supplies < 40) return "c2_catalyst";
             return null;
         }
 
-        void MarsRefresh(SurvivalState s)
+        void MarsRefresh(OutpostState s)
         {
             var w = _world;
-            bool stowed = s.Has(SurvivalSim.FlagPanelsStowed);
+            bool stowed = s.Has("panels_stowed");
             w.Find("mars_solar")?.SetSprite(Art.SolarArray(stowed, s.efficiency < 0.75f));
             w.Find("s_reactor")?.SetSprite(Art.Sabatier(s.flags.Contains("catalyst_installed"), false));
-            w.Find("s_line")?.SetSprite(Art.FuelLine(s.flags.Contains("line_repaired"), 0));
+            w.Find("s_line")?.SetSprite(Art.FuelLine(s.flags.Contains("beacon_repaired"), 0));
             w.Find("mars_pod")?.SetSprite(Art.CargoPod(_podOpen));
             w.Find("s_toolbox")?.SetSprite(Art.Toolbox(!_sealantTaken));
             w.Find("mars_scrap")?.SetSprite(Art.Scrap(!_plateTaken));
@@ -82,9 +75,9 @@ namespace TitanGate.Game
                 case "s_cabinet": return CabinetModal();
                 case "s_reactor": return MarsReactor();
                 case "s_line": return MarsLine();
-                case "mars_solar": return Seq(Card("solar"), ActionMenu(h, "look.c2_solar", new[] { "clean_panels", "stow_panels" }));
+                case "mars_solar": return ActionMenu(h);
                 case "mars_scrap":
-                    if (_plateTaken) return Say("you", "c2_scrap_look");
+                    if (_plateTaken) return ActionMenu(h);
                     _plateTaken = true;
                     return TakeOnce("item_plate", "c2_scrap_take", Pose.Kneel0, Pose.Kneel1);
                 case "mars_pod": return MarsPod();
@@ -101,7 +94,7 @@ namespace TitanGate.Game
         IEnumerator MarsReactor()
         {
             var s = _sim.State;
-            if (s.flags.Contains("catalyst_installed")) { yield return ActionMenu(_world.Find("s_reactor"), "look.c2_reactor", new[] { "sabatier" }); yield break; }
+            if (s.flags.Contains("catalyst_installed")) { yield return ActionMenu(_world.Find("s_reactor")); yield break; }
             string cat = _cfg.puzzles.catalysts.Find(c => _inv.Has(c));
             if (cat == null)
             {
@@ -127,17 +120,20 @@ namespace TitanGate.Game
             }
         }
 
+        /// <summary>The broken line in the Fuel Bay now feeds the rescue beacon. Patch it (or use the data chip).</summary>
         IEnumerator MarsLine()
         {
             var s = _sim.State;
-            if (s.flags.Contains("line_repaired")) { yield return Say("you", "c2_line_done"); yield break; }
+            var h = _world.Find("s_line");
+            if (s.flags.Contains("beacon_repaired")) { yield return Say("you", "c2_line_done"); yield break; }
             if (_inv.Has("item_hull_patch"))
             {
                 _sim.SetFlag("has_hull_patch");
                 bool did = false;
-                yield return ActionMenu(_world.Find("s_line"), "look.c2_line_ready", new[] { "repair_line" }, a => did = a == "repair_line");
+                yield return ActionMenu(h, a => did = a == "repair_beacon");
                 if (did) _inv.Remove("item_hull_patch");
             }
+            else if (s.flags.Contains("data_chip")) yield return ActionMenu(h);
             else if (_inv.Has("item_plate") && _inv.Has("item_sealant")) yield return Say("orbi", "c2_line_combine");
             else yield return Say("you", "c2_line_need");
         }
@@ -154,7 +150,7 @@ namespace TitanGate.Game
 
         IEnumerator MarsDrill(Hotspot h)
         {
-            if (_sim.State.flags.Contains("drill_ready")) { yield return ActionMenu(h, "look.c2_drill", new[] { "drill_ice" }); yield break; }
+            if (_sim.State.flags.Contains("drill_ready")) { yield return ActionMenu(h); yield break; }
             if (!_inv.Has("item_drillbit")) { yield return Say("you", "c2_drill_need"); yield break; }
             yield return _player.Act(Pose.Work0, Pose.Work1, _cfg.presentation.actionSeconds);
             _inv.Remove("item_drillbit");

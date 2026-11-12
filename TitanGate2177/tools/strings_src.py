@@ -1159,6 +1159,560 @@ H7 = [("c1_scramble","Click the loose supplies in any room. Each one takes a mom
 for hid, e1, e2, t1, t2 in H7:
     k(f"hint.{hid}.1", e1, t1); k(f"hint.{hid}.2", e2, t2)
 
+# ======================================================================= round 8: 7-day Mars outpost on the Kestrel (168 h)
+def ov(key, en, th):
+    """Replace an existing line (or add it when missing)."""
+    for e in S:
+        if e["k"] == key:
+            e["en"], e["th"] = en, th
+            return
+    k(key, en, th)
+
+# --- story: the rescue replaces the launch window
+ov("ch2.intro_card", "Chapter 2 — The Kestrel, Mars\nSurvive 7 days until the rescue ship arrives", "บทที่ 2 — ยาน Kestrel บนดาวอังคาร\nอยู่รอด 7 วันจนยานกู้ภัยมาถึง")
+ov("ch2.title", "CHAPTER 2 · MARS OUTPOST · DAY {0}", "บทที่ 2 · ฐานบนดาวอังคาร · วันที่ {0}")
+ov("c2_land_1.mars", "We made it! The Kestrel is down on Mars. She's damaged, but she will be our outpost now.", "เรารอดแล้ว! Kestrel ลงจอดบนดาวอังคาร ยานเสียหายแต่จะเป็นฐานของเราจากนี้")
+ov("c2_land_2.mars", "A rescue ship is already near Mars. It can land here in 7 days: 168 hours. On Mars a day is called a sol.", "มียานกู้ภัยอยู่ใกล้ดาวอังคารแล้ว มันลงมารับเราได้ในอีก 7 วัน หรือ 168 ชั่วโมง บนดาวอังคาร หนึ่งวันเรียกว่า sol")
+ov("c2_land_3.mars", "Until then: keep the air, power and supplies going, build a radiation shelter, and fix the beacon so the rescue ship can find us. Every job takes hours.", "ระหว่างนี้: รักษาอากาศ ไฟฟ้า และเสบียง สร้างห้องหลบรังสี และซ่อมบีคอนให้ยานกู้ภัยหาเราเจอ ทุกงานใช้เวลาเป็นชั่วโมง")
+ov("c2_surface_first.mars", "Outside: every hour out here adds a little radiation, so plan your trips.", "ข้างนอก: ทุกชั่วโมงที่อยู่ข้างนอกจะได้รับรังสีเพิ่มนิดหน่อย วางแผนการออกมาให้ดี")
+ov("spot.s_line_broken", "Broken beacon cable", "สายบีคอนที่ขาด")
+ov("spot.s_console_goal", "Base Control (power)", "ศูนย์ควบคุมฐาน (ไฟฟ้า)")
+ov("spot.s_nav_comms", "Comms: beacon & Earth link", "สื่อสาร: บีคอนและลิงก์กับโลก")
+ov("c2_line_need", "The beacon cable is torn. I need a patch: a plate and something sticky might work.", "สายบีคอนขาด ต้องใช้แผ่นปะ แผ่นโลหะกับอะไรเหนียวๆ น่าจะใช้ได้")
+ov("c2_line_done", "The patch holds. The beacon has power.", "แผ่นปะยึดแน่น บีคอนมีไฟแล้ว")
+ov("hint.c2_line.1", "The rescue beacon's cable needs a patch: a plate plus something sticky.", "สายของบีคอนกู้ภัยต้องปะ: แผ่นโลหะกับอะไรเหนียวๆ")
+ov("hint.c2_line.2", "A metal plate lies outside; sealant is in the Crew quarters toolbox. Click one item, then the other.", "แผ่นโลหะอยู่ข้างนอก กาวซีลอยู่ในกล่องเครื่องมือห้องพักลูกเรือ คลิกไอเทมหนึ่ง แล้วคลิกอีกอัน")
+ov("hint.c2_line_fix.1", "You can fix the beacon cable now.", "ตอนนี้ซ่อมสายบีคอนได้แล้ว")
+ov("hint.c2_line_fix.2", "Click the broken beacon cable in the Fuel Bay.", "คลิกสายบีคอนที่ขาดในห้องเชื้อเพลิง")
+ov("hint.c2_catalyst.1", "Low on supplies? The Sabatier reactor can make water, with the right catalyst.", "เสบียงน้อย? เครื่องซาบาติเยผลิตน้ำได้ ถ้ามีตัวเร่งปฏิกิริยาที่ถูกต้อง")
+ov("hint.c2_catalyst.2", "The Sabatier card names the metal: nickel (Ni). It's in the Life Support cabinet.", "การ์ดซาบาติเยบอกชื่อโลหะ: นิกเกิล (Ni) อยู่ในตู้ห้องระบบยังชีพ")
+ov("c2_catalyst_ok", "Nickel catalyst installed. The reactor can make water now!", "ใส่ตัวเร่งนิกเกิลแล้ว เครื่องผลิตน้ำได้แล้ว!")
+ov("nav.body", "Fuel needed to fly straight to each destination. With 18% left, only one is in reach.", "เชื้อเพลิงที่ต้องใช้บินตรงไปแต่ละที่ เหลืออยู่ 18% ไปถึงได้แค่ที่เดียว")
+ov("cut.win.mars.1", "RESCUE · the lander lifts off with you aboard", "กู้ภัย · ยานลงจอดทะยานขึ้นพร้อมคุณ")
+ov("cut.win.mars.2", "LIFTOFF · Mars falls away below", "ทะยานขึ้น · ดาวอังคารเล็กลงเรื่อยๆ")
+ov("cut.win.mars.3", "ORBIT · docked with the rescue ship", "วงโคจร · เทียบท่ากับยานกู้ภัยแล้ว")
+ov("action.sabatier", "Make water (Sabatier reactor)", "ผลิตน้ำ (เครื่องซาบาติเย)")
+ov("done.sabatier", "CO₂ + hydrogen → water + methane. Fresh water drips out.", "CO₂ + ไฮโดรเจน → น้ำ + มีเทน น้ำสะอาดหยดออกมา")
+ov("action.moxie", "Make oxygen (MOXIE)", "ผลิตออกซิเจน (MOXIE)")
+ov("menu.stars", "Best debrief stars on Mars: {0}/3", "ดาวสูงสุดจากสรุปภารกิจบนดาวอังคาร: {0}/3")
+ov("howto.5.body", "You must survive 7 days (168 hours). Every job takes hours, and air, power and supplies keep running out while you work.", "ต้องอยู่รอด 7 วัน (168 ชั่วโมง) ทุกงานใช้เวลาเป็นชั่วโมง และอากาศ ไฟฟ้า กับเสบียงลดลงเรื่อยๆ ระหว่างที่ทำงาน")
+ov("howto.6.body", "Base Control (B) shares the power. You can't run everything: life support, greenhouse, beacon and shelter all need power, and night has no sun.", "ศูนย์ควบคุมฐาน (B) ใช้แบ่งไฟฟ้า เปิดทุกอย่างพร้อมกันไม่ได้: ระบบยังชีพ โรงปลูกพืช บีคอน และห้องหลบภัยต้องใช้ไฟทั้งหมด และกลางคืนไม่มีแดด")
+ov("howto.9.body", "A solar storm reaches Mars around day 4. Earth warns you first. Build the shelter (water wall, regolith, blanket) and give it power when the storm hits.", "พายุสุริยะจะมาถึงดาวอังคารราววันที่ 4 โลกจะเตือนก่อน สร้างห้องหลบภัย (ผนังน้ำ ดินดาวอังคาร ผ้าห่มกันรังสี) และจ่ายไฟให้ตอนพายุมา")
+ov("howto.10.body", "Messages to Earth ride a relay orbiter that passes at 10:00 and 22:00, and radio takes minutes each way. Ask Earth, or read your cards now.", "ข้อความถึงโลกต้องฝากไปกับยานโคจรถ่ายทอดที่ผ่านตอน 10:00 และ 22:00 และคลื่นวิทยุใช้เวลาหลายนาทีต่อเที่ยว จะถามโลก หรือเปิดการ์ดอ่านเองตอนนี้ก็ได้")
+
+# --- HUD and time
+many([
+ ("ui.base", "Base Control", "ศูนย์ควบคุมฐาน"),
+ ("hud.time", "Day {0}/{1} · {2}:00", "วันที่ {0}/{1} · {2}:00"),
+ ("hud.rescue_in", "Rescue in {0} h", "ยานกู้ภัยมาในอีก {0} ชม."),
+ ("hud.air", "Air", "อากาศ"),
+ ("hud.shelter", "Shelter", "ห้องหลบภัย"),
+ ("hud.supplies", "Supplies", "เสบียง"),
+ ("hud.energy", "Energy", "พลังกาย"),
+ ("hud.hours_cost", "{0} h", "{0} ชม."),
+ ("hud.outside", "(outside: + radiation)", "(ข้างนอก: + รังสี)"),
+ ("carry.air", "Cabin air when the leak was sealed: {0}% → starting Air {1}", "อากาศในยานตอนอุดรอยรั่ว: {0}% → อากาศตอนเริ่ม {1}"),
+ ("carry.plan", "The rescue ship lands in {0} hours. Keep the base alive until then.", "ยานกู้ภัยจะลงจอดในอีก {0} ชั่วโมง รักษาฐานให้อยู่รอดจนถึงตอนนั้น"),
+ ("obj.beacon", "Repair the rescue beacon", "ซ่อมบีคอนกู้ภัย"),
+ ("obj.coords", "Send our coordinates to the rescue ship", "ส่งพิกัดให้ยานกู้ภัย"),
+ ("obj.coords_waiting", "Coordinates sent: keep the beacon on until they answer", "ส่งพิกัดแล้ว: เปิดบีคอนไว้จนกว่าจะตอบกลับ"),
+ ("obj.shelter", "Prepare the radiation shelter ({0}%)", "เตรียมห้องหลบรังสี ({0}%)"),
+ ("obj.shelter_done", "Solar storm survived", "ผ่านพายุสุริยะแล้ว"),
+ ("obj.greenhouse", "Get the greenhouse going ({0}/{1} h of light)", "เริ่มโรงปลูกพืช (ได้แสง {0}/{1} ชม.)"),
+ ("obj.survive", "Survive until the rescue ship lands (end of day {0})", "อยู่รอดจนยานกู้ภัยลงจอด (สิ้นวันที่ {0})"),
+ ("forecast.spe", "SOLAR STORM in {0} h · shelter protects {1}%", "พายุสุริยะในอีก {0} ชม. · ห้องหลบภัยป้องกันได้ {1}%"),
+ ("forecast.power_short", "Not enough power until sunrise: need {0}, have {1}", "ไฟไม่พอถึงเช้า: ต้องใช้ {0} มีอยู่ {1}"),
+ ("forecast.relay", "Next Earth link {0}:00 · radio delay {1} min", "ลิงก์กับโลกรอบถัดไป {0}:00 · คลื่นวิทยุช้า {1} นาที"),
+])
+
+# --- systems and Base Control
+many([
+ ("system.life_support", "Life support", "ระบบยังชีพ"),
+ ("system.life_support.desc", "Scrubs CO₂ and makes air. Off = air drops fast.", "กรอง CO₂ และสร้างอากาศ ปิด = อากาศลดเร็ว"),
+ ("system.greenhouse", "Greenhouse lamps", "ไฟโรงปลูกพืช"),
+ ("system.greenhouse.desc", "Plants need light, water and nutrients. 24 h of light gets the garden going.", "พืชต้องการแสง น้ำ และสารอาหาร ได้แสงครบ 24 ชม. โรงปลูกพืชจะเริ่มทำงาน"),
+ ("system.beacon", "Rescue beacon", "บีคอนกู้ภัย"),
+ ("system.beacon.desc", "Must be on for the rescue ship to hear our coordinates.", "ต้องเปิดไว้ ยานกู้ภัยถึงจะได้ยินพิกัดของเรา"),
+ ("system.shelter", "Shelter support", "ระบบห้องหลบภัย"),
+ ("system.shelter.desc", "Powers the shelter's fans and sensors. A powered shelter protects twice as well.", "จ่ายไฟให้พัดลมและเซนเซอร์ในห้องหลบภัย ห้องที่มีไฟป้องกันได้ดีกว่าสองเท่า"),
+ ("base.title", "BASE CONTROL · power budget", "ศูนย์ควบคุมฐาน · งบไฟฟ้า"),
+ ("base.intro", "Solar panels charge the battery from 07:00 to 19:00. Every system you switch on uses power every hour. You can't run them all.", "แผงโซลาร์ชาร์จแบตเตอรี่ตั้งแต่ 07:00 ถึง 19:00 ทุกระบบที่เปิดใช้ไฟทุกชั่วโมง เปิดทั้งหมดพร้อมกันไม่ได้"),
+ ("base.power_line", "Battery {0} · using {1}/h · solar now +{2}/h", "แบตเตอรี่ {0} · ใช้อยู่ {1}/ชม. · โซลาร์ตอนนี้ +{2}/ชม."),
+ ("base.night_line", "Power needed until sunrise with these systems: {0}", "ไฟที่ต้องใช้ถึงเช้ากับระบบที่เปิดอยู่: {0}"),
+ ("base.on", "ON", "เปิด"), ("base.off", "OFF", "ปิด"),
+ ("base.draw", "({0}/h)", "({0}/ชม.)"),
+ ("base.wait1", "Wait 1 hour", "รอ 1 ชั่วโมง"),
+ ("base.wait_event", "Wait until something happens", "รอจนกว่าจะมีอะไรเกิดขึ้น"),
+ ("c2_base_intro", "This is Base Control. Our battery is small, so we choose what gets power. Life support first, always.", "นี่คือศูนย์ควบคุมฐาน แบตเตอรี่เราเล็ก ต้องเลือกว่าจะจ่ายไฟให้อะไร ระบบยังชีพต้องมาก่อนเสมอ"),
+ ("out_power_cut", "POWER CUT · {0} switched off", "ไฟดับ · {0} ถูกปิด"),
+ ("out_waited", "{0} h passed.", "ผ่านไป {0} ชม."),
+ ("out_bedtime", "It's night. Rest at the bunk in the Crew quarters.", "กลางคืนแล้ว ไปนอนที่เตียงในห้องพักลูกเรือ"),
+ ("out_wake_alarm", "Wake up! The air alarm is going off. Make oxygen or check life support!", "ตื่น! สัญญาณอากาศดังแล้ว ผลิตออกซิเจนหรือตรวจระบบยังชีพ!"),
+ ("out_wake_critical", "Wake up! Air is critical! This is the last alarm. Run MOXIE and check that life support has power!", "ตื่น! อากาศถึงขั้นวิกฤตแล้ว! นี่คือสัญญาณเตือนครั้งสุดท้าย เปิด MOXIE และตรวจว่าระบบยังชีพมีไฟ!"),
+ ("bed.air_low", "Air is low ({0}%). The alarm will wake you once more, when it falls to {1}%.", "อากาศเหลือน้อย ({0}%) สัญญาณเตือนจะปลุกอีกครั้งเดียว เมื่ออากาศลดถึง {1}%"),
+ ("bed.air_critical", "Air is critical ({0}%). No alarm is left to wake you. Make oxygen before you sleep!", "อากาศถึงขั้นวิกฤต ({0}%) ไม่เหลือสัญญาณเตือนที่จะปลุกคุณแล้ว ผลิตออกซิเจนก่อนนอน!"),
+ ("c2_coords_sent", "Coordinates on the air. The rescue ship passes overhead in {0} h: keep the beacon on.", "ส่งพิกัดออกไปแล้ว ยานกู้ภัยจะผ่านเหนือหัวในอีก {0} ชม. เปิดบีคอนไว้"),
+ ("c2_asked_earth", "Question queued for the relay orbiter. Earth's answer arrives in about {0} h (radio delay {1} min each way).", "ฝากคำถามไว้กับยานโคจรถ่ายทอดแล้ว คำตอบจากโลกจะมาถึงในอีกราว {0} ชม. (คลื่นวิทยุช้าเที่ยวละ {1} นาที)"),
+ ("c2_spe_soon", "The solar storm arrives in {0} h. Right now the shelter would block {1}% of it.", "พายุสุริยะจะมาในอีก {0} ชม. ตอนนี้ห้องหลบภัยกันได้ {1}%"),
+])
+
+# --- actions (hours)
+A8 = [("shelter_water", "Build a water wall around the bunk", "สร้างผนังน้ำรอบเตียง", "Water bags stacked around the bunk. Water is a great radiation shield.", "วางถุงน้ำล้อมเตียงแล้ว น้ำเป็นเกราะกันรังสีที่ดีมาก"),
+      ("shelter_regolith", "Pile regolith sandbags (outside)", "พูนกระสอบดินดาวอังคาร (ข้างนอก)", "Sandbags of Mars soil now line the quarters wall.", "กระสอบดินดาวอังคารเรียงแนวผนังห้องพักแล้ว"),
+      ("shelter_kit", "Hang the radiation blanket", "แขวนผ้าห่มกันรังสี", "The blanket is up. Quick and strong.", "แขวนผ้าห่มแล้ว เร็วและแข็งแรง"),
+      ("repair_beacon", "Repair the beacon cable", "ซ่อมสายบีคอน", "Patch on, sealed tight. The beacon has power!", "ปะแผ่นแล้ว ซีลแน่นหนา บีคอนมีไฟแล้ว!"),
+      ("repair_beacon_chip", "Load the data chip into the beacon", "ใส่ชิปข้อมูลเข้าบีคอน", "The chip has the beacon's software. Fixed in no time!", "ชิปมีซอฟต์แวร์ของบีคอน ซ่อมเสร็จในพริบตา!"),
+      ("send_coords", "Send our coordinates", "ส่งพิกัดของเรา", "Coordinates transmitted.", "ส่งพิกัดแล้ว"),
+      ("ask_earth", "Ask Mission Control for help", "ถามศูนย์ควบคุมบนโลก", "Message queued for the next relay pass.", "ฝากข้อความไว้กับรอบถ่ายทอดถัดไปแล้ว"),
+      ("setup_greenhouse", "Set up the greenhouse tray", "ตั้งถาดโรงปลูกพืช", "Tray set up with backup seeds. Now it needs light.", "ตั้งถาดพร้อมเมล็ดสำรองแล้ว ตอนนี้ต้องการแสง"),
+      ("setup_greenhouse_seeds", "Plant the seed packets", "ปลูกซองเมล็ดพันธุ์", "Seeds planted fast. Now they need light.", "ปลูกเมล็ดเสร็จเร็ว ตอนนี้ต้องการแสง")]
+for aid, en, th, de, dt in A8:
+    ov(f"action.{aid}", en, th); ov(f"done.{aid}", de, dt)
+
+many([
+ ("reason.need.shield_kit", "Needs the radiation blanket.", "ต้องมีผ้าห่มกันรังสี"),
+ ("reason.need.data_chip", "Needs the data chip.", "ต้องมีชิปข้อมูล"),
+ ("reason.need.seed_pack", "Needs the seed packets.", "ต้องมีซองเมล็ดพันธุ์"),
+ ("reason.need.beacon_repaired", "Repair the beacon first.", "ต้องซ่อมบีคอนก่อน"),
+ ("reason.done.beacon_repaired", "The beacon is already fixed.", "ซ่อมบีคอนแล้ว"),
+ ("reason.done.greenhouse_started", "The greenhouse is already set up.", "ตั้งโรงปลูกพืชแล้ว"),
+ ("reason.system_off.beacon", "Switch the beacon on in Base Control first.", "เปิดบีคอนที่ศูนย์ควบคุมฐานก่อน"),
+ ("reason.no_supplies", "Not enough supplies.", "เสบียงไม่พอ"),
+ ("reason.no_energy", "Too exhausted. Eat or sleep first.", "เหนื่อยเกินไป กินหรือนอนก่อน"),
+ ("reason.no_time", "Not enough hours left before the rescue.", "เหลือเวลาไม่พอก่อนยานกู้ภัยมา"),
+ ("reason.shelter_full", "The shelter is already at 100%.", "ห้องหลบภัยเต็ม 100% แล้ว"),
+ ("reason.coords_sent", "Already sent.", "ส่งไปแล้ว"),
+ ("reason.waiting_earth", "Still waiting for Earth's answer.", "ยังรอคำตอบจากโลกอยู่"),
+ ("nav.out_of_reach", "[out of reach]", "[ไปไม่ถึง]"),
+])
+
+# --- look lines for menus
+many([
+ ("look.out.s_o2gen", "MOXIE splits CO₂ from the Mars air into oxygen. It needs power.", "MOXIE แยก CO₂ จากอากาศดาวอังคารเป็นออกซิเจน ต้องใช้ไฟ"),
+ ("look.out.s_recycler", "Cleans used water so we can drink it again.", "ทำน้ำที่ใช้แล้วให้สะอาดดื่มได้อีก"),
+ ("look.out.s_reactor", "The Sabatier reactor: CO₂ + hydrogen → water + methane.", "เครื่องซาบาติเย: CO₂ + ไฮโดรเจน → น้ำ + มีเทน"),
+ ("look.out.s_food", "Meals, and the greenhouse tray under its lamps.", "อาหาร และถาดโรงปลูกพืชใต้หลอดไฟ"),
+ ("look.out.s_seals", "Seals keep our air in. Cold nights make them shrink.", "ซีลเก็บอากาศไว้ในยาน คืนที่หนาวทำให้มันหด"),
+ ("look.out.s_line", "The cable that feeds the rescue beacon.", "สายที่จ่ายไฟให้บีคอนกู้ภัย"),
+ ("look.out.s_nav", "The beacon talks to the rescue ship. The relay orbiter carries messages to Earth.", "บีคอนคุยกับยานกู้ภัย ส่วนยานโคจรถ่ายทอดส่งข้อความไปโลก"),
+ ("look.out.s_scope", "The telescope can record images for Mission Control.", "กล้องโทรทรรศน์บันทึกภาพส่งศูนย์ควบคุมได้"),
+ ("look.out.mars_solar", "Dust settles on the panels and steals power. Folded panels survive dust devils.", "ฝุ่นเกาะแผงแล้วกินไฟ แผงที่พับเก็บรอดจากพายุหมุนฝุ่น"),
+ ("look.out.mars_drill", "Ice lies just under the dust here.", "มีน้ำแข็งอยู่ใต้ฝุ่นตรงนี้"),
+ ("look.out.mars_scrap", "Loose rock and dust: regolith. Bagged and piled, it blocks radiation.", "หินและฝุ่นหลวมๆ เรียกว่ารีโกลิท ใส่กระสอบแล้วพูนกันรังสีได้"),
+])
+
+# --- events, storm, messages
+ov("event.minor_flare.name", "Small solar flare", "พายุสุริยะขนาดเล็ก")
+ov("event.minor_flare.forecast", "A small flare tonight. Get the shelter to 30% before bed and you'll be fine.", "คืนนี้มีพายุสุริยะเล็กๆ ทำห้องหลบภัยให้ถึง 30% ก่อนนอนก็จะไม่เป็นไร")
+ov("event.minor_flare.hit", "Particles got through the thin shelter. You slept badly.", "อนุภาคทะลุห้องหลบภัยที่ยังบาง คุณนอนไม่หลับ")
+ov("event.minor_flare.saved", "The shelter stopped the small flare.", "ห้องหลบภัยกันพายุเล็กไว้ได้")
+ov("event.minor_flare.prevent", "shelter 30%+ at bedtime", "ห้องหลบภัย 30% ขึ้นไปตอนเข้านอน")
+ov("debrief.lesson.minor_flare", "Even small flares add dose. A shelter of 30% or more stops them.", "แม้พายุเล็กก็เพิ่มรังสี ห้องหลบภัย 30% ขึ้นไปกันได้")
+many([
+ ("spe.arrives", "SOLAR STORM ARRIVING · fast particles from the Sun are hitting Mars", "พายุสุริยะมาแล้ว · อนุภาคเร็วจากดวงอาทิตย์กำลังพุ่งชนดาวอังคาร"),
+ ("spe.protected", "The shelter held. You took only {0} mSv extra. (Shelter {1}%)", "ห้องหลบภัยกันไว้ได้ ได้รับรังสีเพิ่มแค่ {0} mSv (ห้องหลบภัย {1}%)"),
+ ("spe.hit", "The shelter wasn't ready. You took {0} mSv, and the storm knocked out power and air. (Shelter {1}%)", "ห้องหลบภัยยังไม่พร้อม ได้รับรังสี {0} mSv และพายุทำให้ไฟกับอากาศเสียหาย (ห้องหลบภัย {1}%)"),
+ ("msg.earth_spe_warning", "EARTH (sent {0} min ago): NASA's space weather team saw an eruption on the Sun. Fast particles will reach Mars on day {1} around {2}:00. Prepare your shelter!", "จากโลก (ส่งมาเมื่อ {0} นาทีก่อน): ทีมสภาพอวกาศของ NASA เห็นการปะทุบนดวงอาทิตย์ อนุภาคเร็วจะถึงดาวอังคารวันที่ {1} ราว {2}:00 เตรียมห้องหลบภัย!"),
+ ("msg.earth_hint", "EARTH (sent {0} min ago): We looked at your problem. Here is our advice:", "จากโลก (ส่งมาเมื่อ {0} นาทีก่อน): เราดูปัญหาของคุณแล้ว นี่คือคำแนะนำ:"),
+ ("msg.coords_ack", "RESCUE SHIP: Coordinates received. We'll land at your site at the end of day 7.", "ยานกู้ภัย: ได้รับพิกัดแล้ว เราจะลงจอดที่ฐานของคุณตอนสิ้นวันที่ 7"),
+ ("msg.rescue_arrives", "RESCUE SHIP: Touchdown! Suit up, cadet. You're going home.", "ยานกู้ภัย: ลงจอดแล้ว! ใส่ชุดเลย นักบินฝึกหัด กลับบ้านกัน"),
+])
+
+# --- bed and night
+many([
+ ("bed.title_time", "Bunk · day {0}, {1}:00", "เตียง · วันที่ {0} เวลา {1}:00"),
+ ("bed.sleep_morning", "Sleep until 06:00 ({0} h)", "นอนถึง 06:00 ({0} ชม.)"),
+ ("bed.nap", "Nap 2 hours", "งีบ 2 ชั่วโมง"),
+ ("bed.too_early", "Too early for a full night. Full sleep from 20:00.", "ยังเร็วไปสำหรับนอนทั้งคืน นอนเต็มได้ตั้งแต่ 20:00"),
+ ("night.wake", "Day {0} · {1}:00", "วันที่ {0} · {1}:00"),
+ ("report.title_hours", "While you slept ({0} h)", "ระหว่างที่นอน ({0} ชม.)"),
+ ("report.change", "Air {0} · Power {1} · Supplies {2} · Energy {3}", "อากาศ {0} · ไฟฟ้า {1} · เสบียง {2} · พลังกาย {3}"),
+ ("report.rescue_in", "Rescue in {0} h", "ยานกู้ภัยมาในอีก {0} ชม."),
+])
+
+# --- hints (level 1 nudge, level 2 the answer)
+H8 = [("out_low_air", "Air is low. MOXIE in Life Support makes oxygen, and life support must stay on.", "Run MOXIE now, and check Base Control: is life support switched on and powered?",
+       "อากาศเหลือน้อย MOXIE ในห้องระบบยังชีพผลิตออกซิเจนได้ และต้องเปิดระบบยังชีพไว้", "เดินเครื่อง MOXIE ตอนนี้ แล้วเช็กศูนย์ควบคุมฐานว่าระบบยังชีพเปิดและมีไฟไหม"),
+      ("out_low_supplies", "Supplies are low. Water can come from ice, the recycler, or the Sabatier reactor.", "Drill ice outside, recycle water, and eat less often.",
+       "เสบียงเหลือน้อย น้ำได้จากน้ำแข็ง เครื่องรีไซเคิล หรือเครื่องซาบาติเย", "เจาะน้ำแข็งข้างนอก รีไซเคิลน้ำ และกินให้ห่างขึ้น"),
+      ("out_low_power", "Power won't last the night. Switch something off, or clean the solar panels.", "Open Base Control (B): turn off the greenhouse or beacon until morning. Dusty panels make less power.",
+       "ไฟจะไม่พอข้ามคืน ปิดบางระบบ หรือเช็ดแผงโซลาร์", "เปิดศูนย์ควบคุมฐาน (B) ปิดโรงปลูกพืชหรือบีคอนจนถึงเช้า แผงที่มีฝุ่นผลิตไฟได้น้อย"),
+      ("out_shelter", "A solar storm is coming. Build the shelter before it hits.", "Water wall at the bunk, regolith sandbags outside, or the radiation blanket. Power the shelter when the storm arrives.",
+       "พายุสุริยะกำลังมา สร้างห้องหลบภัยก่อนมันมาถึง", "ผนังน้ำที่เตียง กระสอบดินข้างนอก หรือผ้าห่มกันรังสี และจ่ายไฟให้ห้องหลบภัยตอนพายุมา"),
+      ("out_coords", "The beacon works. Now the rescue ship needs to know where we are.", "Switch the beacon on in Base Control, then send coordinates from the Comms computer in the Cockpit.",
+       "บีคอนใช้ได้แล้ว ตอนนี้ยานกู้ภัยต้องรู้ว่าเราอยู่ที่ไหน", "เปิดบีคอนที่ศูนย์ควบคุมฐาน แล้วส่งพิกัดจากคอมพิวเตอร์สื่อสารในห้องนักบิน"),
+      ("out_greenhouse", "Fresh food will matter on a long stay. Start the greenhouse.", "Set up the tray at the food locker, then give the greenhouse lamps power in daylight.",
+       "อาหารสดสำคัญเมื่ออยู่นาน เริ่มโรงปลูกพืช", "ตั้งถาดที่ตู้อาหาร แล้วจ่ายไฟให้ไฟโรงปลูกพืชตอนกลางวัน"),
+      ("out_wait", "Everything is on track. Keep the base running until the rescue.", "Rest, eat, and use Base Control's Wait when there's nothing to do.",
+       "ทุกอย่างเป็นไปตามแผน รักษาฐานไว้จนยานกู้ภัยมา", "พัก กิน และใช้ปุ่มรอในศูนย์ควบคุมฐานเมื่อไม่มีอะไรต้องทำ")]
+for hid, e1, e2, t1, t2 in H8:
+    ov(f"hint.{hid}.1", e1, t1); ov(f"hint.{hid}.2", e2, t2)
+
+# --- supplies for the scramble
+SUP8 = [("sup_o2", "Oxygen bottle", "ถังออกซิเจน", "+12 air at the outpost", "อากาศ +12 ที่ฐาน"),
+        ("sup_water", "Water jug", "ถังน้ำ", "+8 supplies", "เสบียง +8"),
+        ("sup_food", "Ration box", "กล่องเสบียง", "+10 supplies", "เสบียง +10"),
+        ("sup_battery", "Battery pack", "แบตเตอรี่สำรอง", "+20 power", "ไฟฟ้า +20"),
+        ("sup_photo", "Family photo", "รูปครอบครัว", "+15 energy: a reason to keep going", "พลังกาย +15: กำลังใจให้สู้ต่อ"),
+        ("sup_medkit", "First aid kit", "กล่องปฐมพยาบาล", "treats an injury later", "ใช้รักษาแผลทีหลังได้"),
+        ("sup_filter", "Spare air filter", "ตัวกรองอากาศสำรอง", "replaces a worn filter later", "ใช้เปลี่ยนตัวกรองที่เสื่อมทีหลังได้"),
+        ("sup_seeds", "Seed packets", "ซองเมล็ดพันธุ์", "plant the greenhouse in 1 h instead of 3", "ปลูกโรงปลูกพืชใน 1 ชม. แทน 3"),
+        ("sup_cell", "Beacon data chip", "ชิปข้อมูลบีคอน", "fix the beacon in 1 h, no patch needed", "ซ่อมบีคอนใน 1 ชม. ไม่ต้องใช้แผ่นปะ"),
+        ("sup_shield", "Radiation blanket", "ผ้าห่มกันรังสี", "+40 shelter in 1 h", "ห้องหลบภัย +40 ใน 1 ชม.")]
+for sid, ne, nt, de, dt in SUP8:
+    ov(f"sup.{sid}.name", ne, nt); ov(f"sup.{sid}.desc", de, dt)
+
+# --- endings and debrief
+many([
+ ("end.rescued.title", "RESCUED", "ได้รับการช่วยเหลือ"),
+ ("end.rescued.body", "You kept the Kestrel alive on Mars for 7 days, sheltered from the solar storm, and guided the rescue ship down.", "คุณรักษายาน Kestrel บนดาวอังคารให้อยู่รอด 7 วัน หลบพายุสุริยะได้ และนำทางยานกู้ภัยลงมาได้"),
+ ("end.stranded.title", "SURVIVED, STRANDED", "รอดแต่ติดค้าง"),
+ ("end.stranded.body", "You are alive, but the rescue ship never got your coordinates. It will try again on its next pass, weeks from now.", "คุณยังมีชีวิตอยู่ แต่ยานกู้ภัยไม่ได้รับพิกัด มันจะลองใหม่ในรอบถัดไป ซึ่งอีกหลายสัปดาห์"),
+ ("end.stranded.no_beacon", "You are alive, but the rescue ship could not find you: the rescue beacon was never repaired. Repair it first, then switch it on in Base Control and send your coordinates.", "คุณยังมีชีวิตอยู่ แต่ยานกู้ภัยหาคุณไม่เจอ เพราะบีคอนกู้ภัยยังไม่ได้ซ่อม ต้องซ่อมก่อน แล้วเปิดบีคอนที่แผงควบคุมฐาน และส่งพิกัด"),
+ ("end.stranded.not_sent", "You are alive and the beacon works, but you never sent your coordinates. The rescue ship did not know where to land.", "คุณยังมีชีวิตอยู่และบีคอนใช้งานได้ แต่คุณยังไม่ได้ส่งพิกัด ยานกู้ภัยจึงไม่รู้ว่าต้องลงจอดที่ไหน"),
+ ("end.stranded.not_heard", "You are alive and you sent your coordinates, but the beacon was off each time the rescue ship passed overhead (every {0} hours), so it never heard you. The beacon needs power until the ship answers.", "คุณยังมีชีวิตอยู่และส่งพิกัดแล้ว แต่บีคอนปิดอยู่ทุกครั้งที่ยานกู้ภัยโคจรผ่าน (ทุก {0} ชั่วโมง) ยานจึงไม่ได้ยินสัญญาณ บีคอนต้องมีไฟจนกว่ายานจะตอบกลับ"),
+ ("end.failed.title", "SIMULATION FAILED", "การจำลองล้มเหลว"),
+ ("end.FailedAir", "The air ran out. Life support needs power all night, and MOXIE can top up the air.", "อากาศหมด ระบบยังชีพต้องมีไฟตลอดคืน และ MOXIE ช่วยเติมอากาศได้"),
+ ("end.FailedSupplies", "Supplies ran out for a whole day. Ice, the recycler and the Sabatier reactor all make water.", "เสบียงหมดไปทั้งวัน น้ำแข็ง เครื่องรีไซเคิล และเครื่องซาบาติเยผลิตน้ำได้ทั้งหมด"),
+ ("debrief.star.rescued", "Rescued at the end of day 7", "ได้รับการช่วยเหลือตอนสิ้นวันที่ 7"),
+ ("debrief.star.tasks", "All {0} science tasks + greenhouse ready", "งานวิทยาศาสตร์ครบ {0} อย่าง + โรงปลูกพืชพร้อม"),
+ ("debrief.stat.hours", "Hours survived: {0}/{1}", "ชั่วโมงที่รอด: {0}/{1}"),
+ ("debrief.stat.spe", "Solar storm dose: {0} mSv", "รังสีจากพายุสุริยะ: {0} mSv"),
+ ("debrief.stat.greenhouse_yes", "Greenhouse: ready", "โรงปลูกพืช: พร้อม"),
+ ("debrief.stat.greenhouse_no", "Greenhouse: not ready", "โรงปลูกพืช: ยังไม่พร้อม"),
+ ("debrief.lesson.spe", "Solar storm: build the shelter before the warning runs out, and give it power when it hits.", "พายุสุริยะ: สร้างห้องหลบภัยก่อนพายุมา และจ่ายไฟให้ตอนพายุถึง"),
+ ("debrief.lesson.coords", "Rescue: fix the beacon, switch it on, and send coordinates early. The ship only hears you when it passes overhead.", "การกู้ภัย: ซ่อมบีคอน เปิดมัน และส่งพิกัดแต่เนิ่นๆ ยานจะได้ยินเราตอนผ่านเหนือหัวเท่านั้น"),
+ ("debrief.data_note", "Real NASA facts vs. game numbers: see Science & Data Sources.", "ข้อมูลจริงของ NASA กับตัวเลขในเกม: ดูที่ วิทยาศาสตร์และแหล่งข้อมูล"),
+])
+
+# --- science & data sources (three kinds, kept apart)
+many([
+ ("menu.sources", "Science & Data Sources", "วิทยาศาสตร์และแหล่งข้อมูล"),
+ ("sources.title", "SCIENCE & DATA SOURCES", "วิทยาศาสตร์และแหล่งข้อมูล"),
+ ("sources.observed", "OBSERVED BY NASA (measured)", "NASA วัดได้จริง"),
+ ("sources.observed.1", "Mars surface radiation about 0.64 mSv per day: Curiosity rover's RAD instrument (Hassler et al., Science, 2014). The game rounds it to 0.7 per day.", "รังสีบนพื้นดาวอังคารประมาณ 0.64 mSv ต่อวัน: เครื่องมือ RAD บนยาน Curiosity (Hassler และคณะ, Science, 2014) เกมปัดเป็น 0.7 ต่อวัน"),
+ ("sources.observed.2", "September 2017: a solar storm was detected at Mars by Curiosity RAD and the MAVEN orbiter. It inspired the day-4 storm.", "กันยายน 2017: Curiosity RAD และยาน MAVEN ตรวจพบพายุสุริยะที่ดาวอังคาร เป็นแรงบันดาลใจของพายุวันที่ 4"),
+ ("sources.observed.3", "MOXIE made oxygen from Mars air on the Perseverance rover, 2021–2023.", "MOXIE ผลิตออกซิเจนจากอากาศดาวอังคารบนยาน Perseverance ปี 2021–2023"),
+ ("sources.observed.4", "A Mars day (sol) lasts 24 h 39 min 35 s.", "หนึ่งวันบนดาวอังคาร (sol) ยาว 24 ชม. 39 นาที 35 วินาที"),
+ ("sources.principle", "NASA SCIENCE PRINCIPLES", "หลักวิทยาศาสตร์ของ NASA"),
+ ("sources.principle.1", "Space weather alerts like the storm warning come from NASA's DONKI space weather database (ccmc.gsfc.nasa.gov/tools/DONKI).", "คำเตือนพายุแบบในเกมมาจากฐานข้อมูลสภาพอวกาศ DONKI ของ NASA (ccmc.gsfc.nasa.gov/tools/DONKI)"),
+ ("sources.principle.2", "Life support (ECLSS) removes CO₂, recycles water and makes oxygen (nasa.gov, ECLSS).", "ระบบยังชีพ (ECLSS) กำจัด CO₂ รีไซเคิลน้ำ และผลิตออกซิเจน (nasa.gov, ECLSS)"),
+ ("sources.principle.3", "Plants in space need light, water and nutrients (nasa.gov, growing plants in space).", "พืชในอวกาศต้องการแสง น้ำ และสารอาหาร (nasa.gov, การปลูกพืชในอวกาศ)"),
+ ("sources.principle.4", "Water and dense material like regolith block radiation; shelters cut the dose.", "น้ำและวัสดุหนาแน่นอย่างดินรีโกลิทกันรังสีได้ ห้องหลบภัยช่วยลดรังสี"),
+ ("sources.principle.5", "Radio between Earth and Mars takes about 4–24 minutes each way, depending on where the planets are. Relay orbiters carry rover messages.", "คลื่นวิทยุระหว่างโลกกับดาวอังคารใช้เวลาราว 4–24 นาทีต่อเที่ยว ขึ้นกับตำแหน่งดาว ยานโคจรถ่ายทอดส่งข้อความของยานสำรวจ"),
+ ("sources.simulated", "GAME SIMULATION (made up for play)", "การจำลองในเกม (ตัวเลขสมมติ)"),
+ ("sources.simulated.1", "The 7-day rescue, the storm's size and timing, and every penalty are invented for the game.", "การกู้ภัย 7 วัน ขนาดและเวลาของพายุ และค่าปรับทุกอย่างเป็นเรื่องที่แต่งขึ้นสำหรับเกม"),
+ ("sources.simulated.2", "Air, power, shelter, supplies and energy are 0–100 game bars, not real units. The 14-minute radio delay is one value picked from the real range.", "อากาศ ไฟฟ้า ห้องหลบภัย เสบียง และพลังกาย เป็นแถบ 0–100 ในเกม ไม่ใช่หน่วยจริง ความล่าช้าของวิทยุ 14 นาทีเป็นค่าหนึ่งที่เลือกจากช่วงจริง"),
+ ("sources.simulated.3", "The game does not read live data: no number here is presented as a live NASA reading.", "เกมไม่ได้ดึงข้อมูลสด ไม่มีตัวเลขไหนที่อ้างว่าเป็นค่าสดจาก NASA"),
+])
+
+# --- new cards
+C8 = [
+ ("comm_delay", "Talking to Earth takes time", "คุยกับโลกต้องใช้เวลา",
+  "Radio travels at the speed of light, but Mars is far: a message takes about 4 to 24 minutes each way, depending on where Earth and Mars are. Rovers send most data through relay orbiters that pass overhead a few times a day, so crews on Mars would have to solve many problems on their own.",
+  "คลื่นวิทยุเดินทางด้วยความเร็วแสง แต่ดาวอังคารอยู่ไกล ข้อความใช้เวลาราว 4 ถึง 24 นาทีต่อเที่ยว ขึ้นกับตำแหน่งของโลกกับดาวอังคาร ยานสำรวจส่งข้อมูลส่วนใหญ่ผ่านยานโคจรถ่ายทอดที่ผ่านเหนือหัววันละไม่กี่รอบ ลูกเรือบนดาวอังคารจึงต้องแก้ปัญหาหลายอย่างเอง"),
+ ("sep_2017", "The September 2017 solar storm", "พายุสุริยะกันยายน 2017"),
+ ("eclss", "Life support (ECLSS)", "ระบบยังชีพ (ECLSS)"),
+]
+for row in C8:
+    if len(row) == 5:
+        cid, te, tt, be, bt = row
+        ov(f"card.{cid}.title", te, tt); ov(f"card.{cid}.body", be, bt)
+ov("card.sep_2017.title", "The September 2017 solar storm", "พายุสุริยะกันยายน 2017")
+ov("card.sep_2017.body", "In September 2017 a big eruption on the Sun sent fast particles across the solar system. At Mars, NASA's Curiosity rover measured the radiation rise on the surface and the MAVEN orbiter saw a global aurora. Storms like this are why Mars bases will need shelters.",
+   "ในเดือนกันยายน 2017 การปะทุครั้งใหญ่บนดวงอาทิตย์ส่งอนุภาคเร็วไปทั่วระบบสุริยะ ที่ดาวอังคาร ยาน Curiosity ของ NASA วัดได้ว่ารังสีบนพื้นเพิ่มขึ้น และยาน MAVEN เห็นแสงออโรราทั่วดาว พายุแบบนี้คือเหตุผลที่ฐานบนดาวอังคารต้องมีห้องหลบภัย")
+ov("card.eclss.title", "Life support (ECLSS)", "ระบบยังชีพ (ECLSS)")
+ov("card.eclss.body", "On the International Space Station, the Environmental Control and Life Support System removes carbon dioxide, recycles water and makes oxygen. It runs on electricity, so on a planet, power and air are linked.",
+   "บนสถานีอวกาศนานาชาติ ระบบควบคุมสภาพแวดล้อมและยังชีพ (ECLSS) กำจัดคาร์บอนไดออกไซด์ รีไซเคิลน้ำ และผลิตออกซิเจน มันใช้ไฟฟ้า บนดาวเคราะห์ ไฟฟ้ากับอากาศจึงผูกกันอยู่")
+ov("card.regolith.title", "Regolith: a shield made of dirt", "รีโกลิท: เกราะที่ทำจากดิน")
+ov("card.regolith.body", "The loose rock and dust on Mars and the Moon is called regolith. Piled thick around a base, it blocks much of the radiation from solar storms. Engineers plan to cover future bases with it, or 3D-print walls from it.",
+   "หินและฝุ่นหลวมๆ บนดาวอังคารและดวงจันทร์เรียกว่ารีโกลิท ถ้าพูนหนาๆ รอบฐาน จะกันรังสีจากพายุสุริยะได้มาก วิศวกรวางแผนใช้มันคลุมฐานในอนาคต หรือพิมพ์ผนังด้วยเครื่องพิมพ์ 3 มิติ")
+
+# ======================================================================= LIFEBOAT (card-based Chapter 2 prototype)
+many([
+ ("menu.lifeboat", "New Chapter 2: survival diary (prototype)", "บทที่ 2 แบบใหม่: บันทึกเอาชีวิตรอด (ต้นแบบ)"),
+ ("life.title_day", "DAY {0} OF {1} · LIFEBOAT ON MARS", "วันที่ {0} จาก {1} · ยานสำรองบนดาวอังคาร"),
+ ("life.res.o2", "O2", "O2"),
+ ("life.res.water", "Water", "น้ำ"),
+ ("life.res.food", "Food", "อาหาร"),
+ ("life.res.power", "Power", "ไฟฟ้า"),
+ ("life.res.health", "Health {0}/{1}", "สุขภาพ {0}/{1}"),
+ ("life.unit_note", "1 unit is enough for 1 person for 1 day (a game simplification).", "1 หน่วย พอสำหรับ 1 คน 1 วัน (ตัวเลขสมมติของเกม)"),
+ ("life.days_left", "For this crew the supplies last {0} more day(s). Rescue comes at the end of day {1}.", "เสบียงพอสำหรับทุกคนบนยานอีก {0} วัน ยานกู้ภัยจะมาถึงตอนสิ้นวันที่ {1}"),
+ ("life.crew", "Aboard: {0}", "บนยาน: {0}"),
+ ("life.crew.me", "You", "คุณ"),
+ ("life.items", "In the locker: {0}", "ในตู้เก็บของ: {0}"),
+ ("life.items.none", "nothing special", "ไม่มีของพิเศษ"),
+ ("life.item.spare_filter", "spare filter", "ตัวกรองสำรอง"),
+ ("life.item.med_kit", "first aid kit", "กล่องปฐมพยาบาล"),
+ ("life.item.seed_pack", "seed pack", "ซองเมล็ดพันธุ์"),
+ ("life.item.data_chip", "data chip", "ชิปข้อมูล"),
+ ("life.item.shield_kit", "shield kit", "ชุดเกราะกันรังสี"),
+ ("life.card_count", "Situation {0} of {1} today", "สถานการณ์ที่ {0} จาก {1} ของวันนี้"),
+ ("life.visitor_header", "SOMEONE IS AT THE AIRLOCK", "มีใครบางคนอยู่ที่ประตูปรับแรงดัน"),
+ ("life.clues", "What you can see:", "สิ่งที่คุณสังเกตเห็น:"),
+ ("life.hint_from", "{0} ({1}) thinks:", "{0} ({1}) คิดว่า:"),
+ ("life.hint_hungry", "{0} is hungry and has nothing to say today.", "{0} หิวจนไม่มีแรงออกความเห็นวันนี้"),
+ ("life.fiction", "The Martian visitors are fiction. No life has been found on Mars.", "ผู้มาเยือนชาวดาวอังคารเป็นเรื่องแต่ง ยังไม่เคยพบสิ่งมีชีวิตบนดาวอังคาร"),
+ ("life.need.item.spare_filter", "Needs the spare filter", "ต้องมีตัวกรองสำรอง"),
+ ("life.need.trait.brave", "Needs a brave pet", "ต้องมีสัตว์เลี้ยงที่กล้าหาญ"),
+ ("life.need.pet_fed", "Your pet is too hungry to help", "สัตว์เลี้ยงหิวเกินกว่าจะช่วยได้"),
+ ("life.need.stock", "Not enough left", "ของไม่พอ"),
+ ("life.need.air", "Not enough air for tonight", "อากาศไม่พอสำหรับคืนนี้"),
+ ("life.tonight", "Tonight the cabin will use {0} O2.", "คืนนี้ห้องโดยสารจะใช้ O2 {0} หน่วย"),
+ ("life.no_cost", "costs nothing", "ไม่เสียอะไร"),
+ ("life.per_day", "every day", "ทุกวัน"),
+ ("life.result_header", "WHAT HAPPENED", "สิ่งที่เกิดขึ้น"),
+ ("life.you_chose", "You chose: {0}", "คุณเลือก: {0}"),
+ ("life.continue", "Continue", "ไปต่อ"),
+ ("life.ration.title", "EVENING · WHO EATS AND DRINKS TONIGHT?", "ตอนเย็น · คืนนี้ใครได้กินและดื่ม?"),
+ ("life.ration.body", "Food and water can be shared or skipped. Air cannot: everyone inside the ship breathes it.", "อาหารและน้ำแบ่งหรืองดได้ แต่อากาศงดไม่ได้ ทุกคนที่อยู่ในยานต้องหายใจ"),
+ ("life.ration.fed", "Gets a share", "ได้กิน"),
+ ("life.ration.skipped", "Skips tonight", "งดคืนนี้"),
+ ("life.ration.cost", "water {0} · food {1}", "น้ำ {0} · อาหาร {1}"),
+ ("life.ration.skip_me", "If you skip, you lose 1 health.", "ถ้าคุณงด สุขภาพจะลด 1"),
+ ("life.ration.skip_pet", "A hungry pet gives no advice tomorrow.", "สัตว์เลี้ยงที่หิวจะไม่ช่วยออกความเห็นพรุ่งนี้"),
+ ("life.ration.skip_guest", "A visitor who gets nothing leaves in the morning.", "ผู้มาเยือนที่ไม่ได้อะไรเลยจะจากไปตอนเช้า"),
+ ("life.ration.total", "Tonight uses: water {0} of {1} · food {2} of {3} · O2 {4} of {5}", "คืนนี้ใช้: น้ำ {0} จาก {1} · อาหาร {2} จาก {3} · O2 {4} จาก {5}"),
+ ("life.ration.o2_clog", "The clogged filter costs 1 extra O2.", "ตัวกรองที่อุดตันทำให้ใช้ O2 เพิ่ม 1"),
+ ("life.ration.o2_power", "No power for the air scrubber tonight: 1 extra O2.", "คืนนี้ไม่มีไฟให้เครื่องฟอกอากาศ: ใช้ O2 เพิ่ม 1"),
+ ("life.ration.o2_short", "Not enough O2 for everyone inside tonight!", "O2 ไม่พอสำหรับทุกคนในยานคืนนี้!"),
+ ("life.ration.cant", "Not enough food or water for this plan. Someone has to skip.", "อาหารหรือน้ำไม่พอสำหรับแผนนี้ ต้องมีคนงด"),
+ ("life.ration.confirm", "Go to sleep", "เข้านอน"),
+ ("life.night.title", "NIGHT {0} REPORT", "รายงานคืนที่ {0}"),
+ ("life.night.calm", "A quiet night. Nothing unusual happened.", "คืนนี้สงบ ไม่มีอะไรผิดปกติ"),
+ ("life.night.used", "Used tonight: water {0} · food {1} · O2 {2}", "คืนนี้ใช้ไป: น้ำ {0} · อาหาร {1} · O2 {2}"),
+ ("life.night.Hungry", "You went without food and water. Health -1.", "คุณไม่ได้กินและดื่ม สุขภาพ -1"),
+ ("life.night.PetHungry", "{0} went hungry and will not help tomorrow.", "{0} ไม่ได้กิน พรุ่งนี้จะไม่ช่วยออกความเห็น"),
+ ("life.night.NoPower", "The battery was empty. The air scrubber stopped and the cabin used 1 extra O2.", "แบตเตอรี่หมด เครื่องฟอกอากาศหยุดทำงาน ห้องโดยสารใช้ O2 เพิ่ม 1"),
+ ("life.night.Gift.tik", "Tik fixed the water recycler and wiped the solar panel. Water +1, power +1.", "ติ๊กซ่อมเครื่องรีไซเคิลน้ำและเช็ดแผงโซลาร์ น้ำ +1 ไฟฟ้า +1"),
+ ("life.night.Theft", "{0} slipped out during the night and took {1} food.", "{0} แอบออกไปกลางดึกพร้อมอาหาร {1} หน่วย"),
+ ("life.night.Theft.item", "It also took the {0}.", "และเอา{0}ไปด้วย"),
+ ("life.night.TheftStopped.pet", "{0} tried to open the locker. {1} chased it out, and it left with nothing.", "{0} พยายามเปิดตู้เก็บของ แต่ {1} ไล่ออกไป มันจึงไม่ได้อะไรไปเลย"),
+ ("life.night.TheftStopped.lock", "{0} tried the locker, found it locked, and left before sunrise with nothing.", "{0} ลองเปิดตู้เก็บของ แต่ตู้ล็อกอยู่ มันจึงจากไปก่อนเช้าโดยไม่ได้อะไร"),
+ ("life.night.GuestLeftHungry", "{0} got no food or water and walked back into the desert.", "{0} ไม่ได้อาหารและน้ำ จึงเดินกลับเข้าไปในทะเลทราย"),
+ ("life.pick.title", "CHOOSE ONE COMPANION", "เลือกเพื่อนร่วมทางหนึ่งตัว"),
+ ("life.pick.body", "There is room for one pet in the lifeboat. Each one eats 1 food a day and helps in its own way.", "ยานสำรองมีที่ให้สัตว์เลี้ยงตัวเดียว แต่ละตัวกินอาหารวันละ 1 หน่วย และช่วยคุณในแบบของมันเอง"),
+ ("life.pick.kit", "Already packed from the ship: {0}", "ของที่ขนมาจากยานแล้ว: {0}"),
+ ("life.pick.choose", "Take {0}", "พา{0}ไปด้วย"),
+ ("trait.brave", "brave", "กล้าหาญ"),
+ ("trait.smart", "smart", "ฉลาด"),
+ ("trait.careful", "careful", "รอบคอบ"),
+ ("pet.comet.name", "Comet", "โคเมท"),
+ ("pet.comet.desc", "A dog who runs toward trouble. Guards the ship at night and can go where it is risky.", "สุนัขที่วิ่งเข้าหาปัญหา เฝ้ายานตอนกลางคืน และไปในที่เสี่ยงแทนคุณได้"),
+ ("pet.pixel.name", "Pixel", "พิกเซล"),
+ ("pet.pixel.desc", "A cat who counts everything. Tells you what a choice really costs, and why.", "แมวที่ชอบนับทุกอย่าง บอกได้ว่าแต่ละทางเลือกต้องเสียอะไรจริงๆ และเพราะอะไร"),
+ ("pet.luna.name", "Luna", "ลูน่า"),
+ ("pet.luna.desc", "A rabbit who notices small things. Warns you when someone or something is not what it seems.", "กระต่ายที่สังเกตเรื่องเล็กๆ คอยเตือนเมื่อมีใครหรืออะไรไม่ชอบมาพากล"),
+ ("visitor.tik.name", "Tik", "ติ๊ก"),
+ ("visitor.mu.name", "Mu", "มู"),
+ ("life.end.Survived.title", "END OF THE PROTOTYPE · YOU REACHED THE END OF DAY {0}", "จบต้นแบบ · คุณอยู่รอดถึงสิ้นวันที่ {0}"),
+ ("life.end.on_track", "Rescue comes at the end of day {0}. Your supplies last {1} more day(s): enough, if nothing goes wrong.", "ยานกู้ภัยจะมาตอนสิ้นวันที่ {0} เสบียงของคุณพออีก {1} วัน: เพียงพอ ถ้าไม่มีอะไรผิดพลาด"),
+ ("life.end.short", "Rescue comes at the end of day {0}. Your supplies last only {1} more day(s). You need {2}. The coming days must bring in more.", "ยานกู้ภัยจะมาตอนสิ้นวันที่ {0} แต่เสบียงของคุณพออีกแค่ {1} วัน คุณต้องการ {2} วัน วันต่อๆ ไปต้องหาเพิ่มให้ได้"),
+ ("life.end.next", "Days {0} to {1} are not written yet. This prototype tests one question: is reading and choosing more fun than walking and clicking?", "วันที่ {0} ถึง {1} ยังไม่ได้เขียน ต้นแบบนี้มีไว้ทดสอบคำถามเดียว: การอ่านแล้วเลือกสนุกกว่าการเดินแล้วกดหรือไม่?"),
+ ("life.end.failed.title", "SIMULATION FAILED", "การจำลองล้มเหลว"),
+ ("life.end.FailedAir", "The oxygen ran out. Everyone inside the ship breathes, so every guest and every broken part of the air system costs O2 each night.", "ออกซิเจนหมด ทุกคนในยานต้องหายใจ ผู้มาเยือนทุกคนและทุกจุดที่ระบบอากาศเสีย จึงทำให้เสีย O2 ทุกคืน"),
+ ("life.end.FailedHealth", "You skipped food and water too many times. An astronaut must look after their own body first to look after anyone else.", "คุณงดอาหารและน้ำบ่อยเกินไป นักบินอวกาศต้องดูแลร่างกายตัวเองก่อน จึงจะดูแลคนอื่นได้"),
+ ("life.end.choices", "What you decided:", "สิ่งที่คุณตัดสินใจ:"),
+ ("life.end.choice_row", "Day {0} · {1}: {2}", "วันที่ {0} · {1}: {2}"),
+ ("life.end.again", "Play again", "เล่นอีกครั้ง"),
+])
+
+LIFE_CARDS = [
+ ("filter",
+  "Dust in the air filter", "ฝุ่นในตัวกรองอากาศ",
+  "The landing shook red dust into the air scrubber. Its filter is grey with dust. The scrubber is the machine that takes the carbon dioxide you breathe out away from the cabin air.",
+  "แรงกระแทกตอนลงจอดทำให้ฝุ่นแดงเข้าไปในเครื่องฟอกอากาศ ตัวกรองเป็นสีเทาเพราะฝุ่น เครื่องฟอกอากาศคือเครื่องที่ดึงคาร์บอนไดออกไซด์ที่คุณหายใจออกมาออกจากอากาศในห้อง",
+  [],
+  [("swap", "Put in the spare filter", "ใส่ตัวกรองสำรอง",
+    "Clean filter, clean air. The scrubber runs as it should.", "ตัวกรองสะอาด อากาศก็สะอาด เครื่องฟอกอากาศทำงานได้ตามปกติ"),
+   ("wash", "Wash the filter with water", "ล้างตัวกรองด้วยน้ำ",
+    "The filter drips dry and works again. It cost one unit of water.", "ตัวกรองแห้งและใช้งานได้อีกครั้ง แต่เสียน้ำไปหนึ่งหน่วย"),
+   ("ignore", "Leave it for now", "ปล่อยไว้ก่อน",
+    "The scrubber struggles with the dust. From tonight the cabin uses 1 extra O2 every day.", "เครื่องฟอกอากาศทำงานหนักเพราะฝุ่น ตั้งแต่คืนนี้ห้องโดยสารจะใช้ O2 เพิ่มวันละ 1 หน่วย")],
+  ("I am not scared of a little dust! But I do like breathing.", "ฝุ่นแค่นี้ไม่กลัวหรอก! แต่ก็ชอบหายใจนะ"),
+  ("A clogged filter catches less carbon dioxide. We would use 1 extra O2 every single day. Fixing it once is cheaper.", "ตัวกรองที่อุดตันดักคาร์บอนไดออกไซด์ได้น้อยลง เราจะเสีย O2 เพิ่มวันละ 1 หน่วยทุกวัน ซ่อมครั้งเดียวคุ้มกว่า"),
+  ("Fix small problems on day one. They only grow.", "ปัญหาเล็กๆ ควรแก้ตั้งแต่วันแรก ปล่อยไว้มีแต่จะใหญ่ขึ้น")),
+ ("visitor_tik",
+  "A knock at the airlock", "เสียงเคาะที่ประตู",
+  "A small Martian stands outside. It taps the hatch three times, then waits. It wants to come in.",
+  "ชาวดาวอังคารตัวเล็กยืนอยู่ข้างนอก มันเคาะประตูสามครั้งแล้วยืนรอ มันอยากเข้ามาข้างใน",
+  [("It carries a belt of worn tools.", "มันคาดเข็มขัดเครื่องมือที่ใช้มาจนเก่า"),
+   ("It points at your dusty solar panel, then at itself.", "มันชี้ไปที่แผงโซลาร์ที่เปื้อนฝุ่นของคุณ แล้วชี้ที่ตัวเอง"),
+   ("Its water flask is empty.", "กระติกน้ำของมันว่างเปล่า")],
+  [("admit", "Let it in", "รับเข้ามา",
+    "It bows and says its name: Tik. From tonight Tik needs air, water and food every day, just like you.", "มันโค้งคำนับและบอกชื่อว่า ติ๊ก ตั้งแต่คืนนี้ติ๊กต้องใช้อากาศ น้ำ และอาหารทุกวัน เหมือนกับคุณ"),
+   ("trade", "Trade through the hatch: water for work", "แลกผ่านช่องประตู: น้ำแลกแรงงาน",
+    "Tik drinks, then wipes the solar panel until it shines. Then it walks on.", "ติ๊กดื่มน้ำ แล้วเช็ดแผงโซลาร์จนเงาวับ จากนั้นก็เดินทางต่อ"),
+   ("refuse", "Keep the hatch closed", "ไม่เปิดประตู",
+    "The Martian waits a while, then walks away across the dust.", "ชาวดาวอังคารยืนรออยู่ครู่หนึ่ง แล้วเดินจากไปบนผืนฝุ่น")],
+  ("It is small. If it makes trouble, I can handle it.", "ตัวเล็กแค่นี้ ถ้ามันก่อเรื่อง ฉันจัดการเอง"),
+  ("Tools, and it pointed at the panel: it is offering to work. A worker who lives here costs air, water and food every day. A trade costs water once.", "มีเครื่องมือ แล้วยังชี้ที่แผง: มันเสนอตัวทำงาน ถ้าให้อยู่ด้วยจะเสียอากาศ น้ำ และอาหารทุกวัน แต่ถ้าแลกกัน เสียน้ำแค่ครั้งเดียว"),
+  ("Empty flask, honest tools, and it waited after knocking. I see no trick. But count our food first.", "กระติกว่าง เครื่องมือของจริง และเคาะแล้วยังยืนรอ ไม่เห็นมีเล่ห์กลอะไร แต่นับอาหารของเราก่อนนะ")),
+ ("crate",
+  "A crate in the dust", "ลังเสบียงกลางฝุ่น",
+  "A supply crate from the Kestrel lies about 200 metres from the lifeboat. You can see it through the window. Reaching it means a suit and a walk.",
+  "ลังเสบียงจากยาน Kestrel ตกอยู่ห่างจากยานสำรองราว 200 เมตร มองเห็นได้จากหน้าต่าง ถ้าจะไปเอาต้องใส่ชุดอวกาศแล้วเดินออกไป",
+  [],
+  [("walk", "Suit up and fetch it", "ใส่ชุดแล้วออกไปเอา",
+    "The walk uses one unit of suit air. The crate holds 2 food and 1 water.", "การเดินใช้อากาศในชุดไปหนึ่งหน่วย ในลังมีอาหาร 2 และน้ำ 1"),
+   ("send_pet", "Send your brave pet with the tow line", "ให้สัตว์เลี้ยงผู้กล้าลากสายจูงไปเอา",
+    "Your pet drags the crate home in its little suit, tail up. 2 food and 1 water, and none of your suit air used.", "สัตว์เลี้ยงในชุดตัวจิ๋วลากลังกลับมาอย่างภูมิใจ ได้อาหาร 2 น้ำ 1 โดยไม่เสียอากาศในชุดของคุณเลย"),
+   ("leave", "Leave it there", "ปล่อยมันไว้",
+    "The crate stays where it is. The dust slowly covers it.", "ลังยังอยู่ที่เดิม ฝุ่นค่อยๆ กลบมันไป")],
+  ("Let me go! I will be back before you finish counting.", "ให้ฉันไปเอง! กลับมาก่อนเธอนับเสร็จแน่"),
+  ("The walk costs 1 O2. The crate gives 2 food and 1 water. Food is what we run out of first.", "เดินไปเสีย O2 1 หน่วย ในลังมีอาหาร 2 น้ำ 1 และอาหารคือสิ่งที่เราจะหมดก่อน"),
+  ("It is close and the sky is clear. The risk is small, and we need the food.", "มันอยู่ใกล้และฟ้าก็เปิด ความเสี่ยงน้อย แล้วเราก็ต้องการอาหาร")),
+ ("visitor_mu",
+  "Another visitor", "ผู้มาเยือนอีกราย",
+  "A tall Martian is already leaning on the hatch when you look out. It did not knock. It smiles and waves you over.",
+  "ชาวดาวอังคารตัวสูงยืนพิงประตูอยู่แล้วตอนที่คุณมองออกไป มันไม่ได้เคาะ มันยิ้มและกวักมือเรียกคุณ",
+  [("Its bag is full and clinks like metal.", "กระเป๋าของมันตุงและมีเสียงโลหะกระทบกัน"),
+   ("It keeps looking past you, at the storage locker.", "มันคอยมองข้ามไหล่คุณไปที่ตู้เก็บของ"),
+   ("It does not ask for water or food.", "มันไม่ได้ขอน้ำหรืออาหารเลย")],
+  [("admit", "Let it in", "รับเข้ามา",
+    "It says its name is Mu and sits down right next to the locker. Mu needs air, water and food too.", "มันบอกว่าชื่อ มู แล้วนั่งลงข้างตู้เก็บของทันที มูก็ต้องใช้อากาศ น้ำ และอาหารเช่นกัน"),
+   ("gift", "Hand out some food and say goodbye", "ยื่นอาหารให้แล้วบอกลา",
+    "Mu takes the food, looks surprised, and leaves. It keeps looking back at the ship.", "มูรับอาหารไปด้วยท่าทางแปลกใจ แล้วเดินจากไป มันหันกลับมามองยานอยู่หลายครั้ง"),
+   ("refuse", "Keep the hatch closed", "ไม่เปิดประตู",
+    "Mu shrugs, taps the window once, and wanders off.", "มูยักไหล่ เคาะหน้าต่างหนึ่งที แล้วเดินจากไป")],
+  ("If it touches our things, it will have me to deal with. I will stay awake by the locker.", "ถ้ามันแตะของของเรา ต้องเจอฉันก่อน คืนนี้ฉันจะเฝ้าตู้ไม่นอน"),
+  ("A full bag that clinks, and there are no shops on Mars. Where did those things come from?", "กระเป๋าตุงมีเสียงโลหะ แต่บนดาวอังคารไม่มีร้านค้า ของพวกนั้นมาจากไหนกัน?"),
+  ("It did not knock, and it is watching the locker, not us. I do not trust it.", "มันไม่ได้เคาะ แล้วยังมองตู้เก็บของ ไม่ได้มองเรา ฉันไม่ไว้ใจมัน")),
+ ("locker",
+  "Before you sleep", "ก่อนเข้านอน",
+  "The storage locker holds your food and tools. Its lock runs on a small motor.",
+  "ตู้เก็บของมีอาหารและเครื่องมือของคุณอยู่ กลอนของตู้ทำงานด้วยมอเตอร์ตัวเล็ก",
+  [],
+  [("lock", "Lock the locker tonight", "ล็อกตู้คืนนี้",
+    "The bolt slides shut. Nothing leaves the locker tonight.", "กลอนเลื่อนปิดสนิท คืนนี้ไม่มีอะไรออกจากตู้ได้"),
+   ("open", "Leave it open", "ไม่ล็อก",
+    "You leave the locker as it is and save the power.", "คุณปล่อยตู้ไว้อย่างเดิมและประหยัดไฟ")],
+  ("Lock or no lock, I am guarding it.", "จะล็อกหรือไม่ล็อก ฉันก็เฝ้าให้อยู่แล้ว"),
+  ("The lock costs 1 power. An empty battery stops the air scrubber, and then we use more O2. Check the battery first.", "การล็อกใช้ไฟ 1 หน่วย ถ้าแบตหมด เครื่องฟอกอากาศจะหยุด แล้วเราจะใช้ O2 มากขึ้น ดูแบตก่อนตัดสินใจ"),
+  ("If a stranger sleeps here tonight, lock it. If we are alone, save the power.", "ถ้าคืนนี้มีคนแปลกหน้านอนที่นี่ ให้ล็อก ถ้าอยู่กันเอง ก็ประหยัดไฟไว้")),
+]
+many([
+ ("life.res.health_name", "Health", "สุขภาพ"),
+ ("life.need.item.med_kit", "Needs the first aid kit", "ต้องมีกล่องปฐมพยาบาล"),
+ ("life.need.item.shield_kit", "Needs the shield kit", "ต้องมีชุดเกราะกันรังสี"),
+ ("life.need.item.data_chip", "Needs the data chip", "ต้องมีชิปข้อมูล"),
+ ("life.need.flag.nok_helped", "Only if you helped Nok", "ต้องเคยช่วยน็อกไว้"),
+ ("life.need.guest.tik", "Only if Tik lives aboard", "ต้องมีติ๊กอยู่บนยาน"),
+ ("life.need.health", "You are too weak for this", "คุณอ่อนแรงเกินไป"),
+ ("visitor.zee.name", "Zee", "ซี"),
+ ("visitor.nok.name", "Nok", "น็อก"),
+ ("life.night.event.storm_crew.safe", "The solar storm passed while you slept behind the shield. You are fine.", "พายุสุริยะผ่านไประหว่างที่คุณนอนอยู่หลังเกราะ คุณปลอดภัยดี"),
+ ("life.night.event.storm_crew.hit", "The solar storm reached the bunk. You feel sick and weak. Health -1.", "พายุสุริยะทะลุถึงเตียงนอน คุณรู้สึกป่วยและอ่อนแรง สุขภาพ -1"),
+ ("life.night.event.storm_power.safe", "The electronics slept through the storm in safe mode. Nothing was damaged.", "อุปกรณ์ไฟฟ้าอยู่ในโหมดปลอดภัยตลอดพายุ ไม่มีอะไรเสียหาย"),
+ ("life.night.event.storm_power.hit", "The storm damaged part of the battery. Power -2.", "พายุทำให้แบตเตอรี่เสียหายบางส่วน ไฟฟ้า -2"),
+ ("life.end.Rescued.title", "RESCUED", "ได้รับการช่วยเหลือ"),
+ ("life.end.Rescued.body", "The rescue ship lands at dawn, right on your coordinates. You stayed alive for 7 days on Mars and guided the rescue to you.", "ยานกู้ภัยลงจอดตอนรุ่งสาง ตรงพิกัดที่คุณส่งไปพอดี คุณอยู่รอดบนดาวอังคาร 7 วัน และนำทางยานกู้ภัยมาหาคุณได้"),
+ ("life.end.Stranded.title", "SURVIVED, STRANDED", "รอดแต่ติดค้าง"),
+ ("life.end.stranded.no_beacon", "You are alive, but the rescue ship could not find you: the beacon was never repaired. The ship will look again on a later orbit, many days from now.", "คุณยังมีชีวิตอยู่ แต่ยานกู้ภัยหาคุณไม่เจอ เพราะบีคอนไม่เคยได้ซ่อม ยานจะกลับมาค้นหาอีกครั้งในรอบโคจรถัดไป ซึ่งอีกหลายวัน"),
+ ("life.end.stranded.not_sent", "You are alive and the beacon works, but your coordinates were never sent. The rescue ship did not know where to land.", "คุณยังมีชีวิตอยู่และบีคอนใช้งานได้ แต่คุณไม่ได้ส่งพิกัด ยานกู้ภัยจึงไม่รู้ว่าต้องลงจอดที่ไหน"),
+ ("life.end.with", "With you at the end: {0}", "อยู่กับคุณจนจบ: {0}"),
+ ("life.star.1", "Rescued at the end of day 7", "ได้รับการช่วยเหลือตอนสิ้นวันที่ 7"),
+ ("life.star.2", "In full health: never hurt, never went hungry", "สุขภาพเต็ม: ไม่บาดเจ็บ ไม่เคยอด"),
+ ("life.star.3", "Helped someone who needed it", "ได้ช่วยคนที่ต้องการความช่วยเหลือ"),
+ ("life.maker.name", "Oxygen maker", "เครื่องผลิตออกซิเจน"),
+ ("life.maker.on", "Runs tonight", "เปิดคืนนี้"),
+ ("life.maker.off", "Stays off", "ปิดไว้"),
+ ("life.maker.cost", "power -{0}  →  O2 +{1}", "ไฟฟ้า -{0}  →  O2 +{1}"),
+ ("life.maker.no_power", "Not enough power to run it.", "ไฟไม่พอเปิดเครื่อง"),
+ ("life.maker.fact", "It pulls oxygen out of Mars air, which is mostly carbon dioxide. NASA tested this for real: the MOXIE experiment on the Perseverance rover made oxygen on Mars.", "เครื่องนี้ดึงออกซิเจนออกจากอากาศดาวอังคาร ซึ่งส่วนใหญ่เป็นคาร์บอนไดออกไซด์ NASA ทดลองเรื่องนี้จริงแล้ว: การทดลอง MOXIE บนรถสำรวจ Perseverance ผลิตออกซิเจนบนดาวอังคารได้"),
+ ("life.night.MakerRan", "The oxygen maker ran all evening. O2 +{0}.", "เครื่องผลิตออกซิเจนทำงานตลอดช่วงค่ำ O2 +{0}"),
+ ("life.end.event_row", "Night {0}: {1}", "คืนที่ {0}: {1}"),
+ ("life.star.got", "[*]", "[*]"),
+ ("life.star.missed", "[  ]", "[  ]"),
+])
+
+LIFE_CARDS += [
+ ('recycler', 'The water recycler drips', 'เครื่องรีไซเคิลน้ำรั่ว', 'A seal in the water recycler has cracked. The recycler turns used water back into clean water, so a working one is worth more than a full bottle.', 'ซีลในเครื่องรีไซเคิลน้ำร้าว เครื่องนี้เปลี่ยนน้ำใช้แล้วให้กลับเป็นน้ำสะอาด เครื่องที่ใช้งานได้จึงมีค่ากว่าน้ำเต็มขวด', [], [('repair', 'Repair it yourself with the heat tool', 'ซ่อมเองด้วยเครื่องมือความร้อน', 'The heat tool uses one unit of power and seals the crack. The recycler gives back 2 water.', 'เครื่องมือความร้อนใช้ไฟหนึ่งหน่วยและปิดรอยร้าวได้ เครื่องรีไซเคิลคืนน้ำให้ 2 หน่วย'), ('tik_repair', 'Ask Tik to repair it', 'ขอให้ติ๊กซ่อม', 'Tik hums, tightens three bolts you had not even noticed, and the recycler runs better than before: 3 water.', 'ติ๊กฮัมเพลง ขันน็อตสามตัวที่คุณไม่เคยสังเกต แล้วเครื่องก็ทำงานดีกว่าเดิม: ได้น้ำ 3 หน่วย'), ('skip', 'Leave it dripping', 'ปล่อยให้หยดต่อไป', 'The drip goes on. You put a cup under it.', 'น้ำยังหยดต่อไป คุณเอาถ้วยไปรองไว้')], ('Pass me the tool! ...Fine, you hold it. I will watch.', 'ส่งเครื่องมือมาสิ! ...ก็ได้ เธอถือ ฉันดูให้'), ('One power in, two water out. Water we recycle is water we do not have to find.', 'ใช้ไฟหนึ่ง ได้น้ำสอง น้ำที่รีไซเคิลได้คือน้ำที่เราไม่ต้องออกไปหา'), ('A small leak wastes a little every day. Seven days is a long time.', 'รอยรั่วเล็กๆ เสียน้ำทีละนิดทุกวัน เจ็ดวันนานนะ')),
+ ('storm_warning', 'A message from Earth', 'ข้อความจากโลก', 'Mission Control writes: a solar storm will reach Mars tomorrow night. The message left Earth 14 minutes ago, because radio needs time to cross space. A solar storm is a burst of fast particles from the Sun. Thick walls of water or soil stop many of them.', 'ศูนย์ควบคุมภารกิจแจ้งว่า พายุสุริยะจะมาถึงดาวอังคารคืนพรุ่งนี้ ข้อความนี้ออกจากโลกเมื่อ 14 นาทีก่อน เพราะคลื่นวิทยุต้องใช้เวลาเดินทางข้ามอวกาศ พายุสุริยะคืออนุภาคความเร็วสูงที่พุ่งออกมาจากดวงอาทิตย์ ผนังหนาที่ทำจากน้ำหรือดินกันอนุภาคพวกนี้ได้มาก', [], [('water_wall', 'Stack water bags around the bunk', 'เรียงถุงน้ำรอบเตียงนอน', 'You wall the bunk in with water bags. That water is now a shield, not a drink.', 'คุณเรียงถุงน้ำเป็นผนังรอบเตียง น้ำส่วนนี้กลายเป็นเกราะ ไม่ใช่น้ำดื่มแล้ว'), ('shield_kit', 'Unfold the shield kit', 'กางชุดเกราะกันรังสี', 'The shield kit snaps into place around the bunk in minutes. No water needed.', 'ชุดเกราะล็อกเข้าที่รอบเตียงในไม่กี่นาที ไม่ต้องใช้น้ำเลย'), ('later', 'Deal with it tomorrow', 'ไว้ค่อยทำพรุ่งนี้', 'You leave it for tomorrow. Tomorrow there will be less time.', 'คุณเก็บไว้ทำพรุ่งนี้ แต่พรุ่งนี้จะมีเวลาน้อยกว่านี้')], ('A storm? I am not hiding. ...Okay, maybe behind something thick.', 'พายุเหรอ? ฉันไม่หลบหรอก ...ก็ได้ หลบหลังอะไรหนาๆ ก็ดี'), ('Water is full of hydrogen, and hydrogen is good at stopping fast particles. Two water now protects your whole body tomorrow.', 'น้ำมีไฮโดรเจนอยู่มาก และไฮโดรเจนหยุดอนุภาคเร็วได้ดี ใช้น้ำสองหน่วยตอนนี้ ปกป้องทั้งตัวเธอได้พรุ่งนี้'), ('We were warned a whole day early. Use the day.', 'เราได้คำเตือนล่วงหน้าทั้งวัน ใช้วันนี้ให้คุ้มนะ')),
+ ('visitor_zee', 'A trader with a cart', 'พ่อค้ากับรถเข็น', 'A round Martian parks a cart of tanks and boxes by the airlock. It holds up a sign with pictures: a battery, an arrow, and a choice of two things.', 'ชาวดาวอังคารตัวกลมจอดรถเข็นที่เต็มไปด้วยถังและกล่องไว้ข้างประตู มันชูป้ายที่มีรูปภาพ: แบตเตอรี่ ลูกศร และของสองอย่างให้เลือก', [('The cart carries sealed air tanks and food boxes.', 'บนรถเข็นมีถังอากาศปิดผนึกและกล่องอาหาร'), ('It shows you the price before you ask.', 'มันบอกราคาให้ดูก่อนที่คุณจะถาม'), ('It stays outside and does not try the door.', 'มันรออยู่ข้างนอก ไม่พยายามเปิดประตู')], [('buy_o2', 'Trade power for air', 'แลกไฟฟ้ากับอากาศ', 'Zee plugs your battery into its cart, then rolls two air tanks through the hatch.', 'ซีเสียบแบตเตอรี่ของคุณเข้ากับรถเข็น แล้วกลิ้งถังอากาศสองถังเข้ามาทางประตู'), ('buy_food', 'Trade power for food', 'แลกไฟฟ้ากับอาหาร', 'Zee charges its cart from your battery and hands over two food boxes.', 'ซีชาร์จรถเข็นจากแบตเตอรี่ของคุณ แล้วยื่นกล่องอาหารสองกล่องให้'), ('refuse', 'No trade today', 'วันนี้ไม่แลก', 'Zee nods, turns its sign around, and pushes the cart on.', 'ซีพยักหน้า พลิกป้ายกลับ แล้วเข็นรถต่อไป')], ('It wants our battery? ...Its tanks do look heavy. I will carry them.', 'มันอยากได้แบตของเราเหรอ? ...แต่ถังนั่นดูหนักนะ เดี๋ยวฉันช่วยลาก'), ('Look for our lowest number. Trade for the thing we will run out of first, and only if the battery can spare 2.', 'ดูว่าตัวเลขไหนของเราต่ำสุด แลกเอาของที่จะหมดก่อน และแลกก็ต่อเมื่อแบตเหลือพอให้เสีย 2 หน่วย'), ('It showed the price first and stayed outside. This one is honest. Still, keep enough power for the beacon later.', 'มันบอกราคาก่อนและรออยู่ข้างนอก รายนี้ซื่อตรง แต่เก็บไฟไว้ให้พอสำหรับบีคอนทีหลังด้วยนะ')),
+ ('storm_last', 'The storm is hours away', 'พายุจะมาถึงในไม่กี่ชั่วโมง', 'The bunk still has no shield, and the solar storm arrives tonight. There is time for one quick job.', 'เตียงนอนยังไม่มีเกราะ และพายุสุริยะจะมาถึงคืนนี้ เหลือเวลาพอสำหรับงานด่วนหนึ่งอย่าง', [], [('sandbags', 'Go out and pile soil bags against the wall', 'ออกไปเรียงถุงดินพิงผนัง', 'You fill bags with Mars soil and stack them against the bunk wall. It costs one unit of suit air, and it will hold.', 'คุณกรอกดินดาวอังคารใส่ถุงแล้วเรียงพิงผนังห้องนอน เสียอากาศในชุดไปหนึ่งหน่วย แต่เกราะนี้กันได้'), ('send_pet', 'Let your brave pet drag the soil bags', 'ให้สัตว์เลี้ยงผู้กล้าลากถุงดิน', 'Your pet hauls bag after bag to the wall and comes back red with dust and very proud.', 'สัตว์เลี้ยงลากถุงดินทีละถุงไปพิงผนัง แล้วกลับมาตัวแดงเพราะฝุ่นอย่างภูมิใจ'), ('hide', 'Stay inside and hope', 'อยู่ข้างในแล้วภาวนา', 'You pull the blanket over your head. A blanket does not stop fast particles.', 'คุณดึงผ้าห่มคลุมหัว แต่ผ้าห่มกันอนุภาคเร็วไม่ได้')], ('Bags of dirt? I can pull those. Open the hatch!', 'ถุงดินเหรอ? ฉันลากไหว เปิดประตูเลย!'), ("Soil works like the water wall: thick stuff between you and the Sun's particles. One O2 for the walk is cheap next to your health.", 'ดินใช้ได้เหมือนผนังน้ำ: ของหนาๆ กั้นระหว่างเธอกับอนุภาคจากดวงอาทิตย์ เสีย O2 หนึ่งหน่วยถูกกว่าเสียสุขภาพ'), ('This is the last chance before tonight. Please do not skip it.', 'นี่คือโอกาสสุดท้ายก่อนคืนนี้ อย่าข้ามเลยนะ')),
+ ('storm_power', 'Electronics before the storm', 'อุปกรณ์ไฟฟ้าก่อนพายุมา', 'Fast particles from the Sun can upset electronics. Before a storm, operators sometimes switch off the parts of a spacecraft that are not needed. Shutting down and starting again uses some power.', 'อนุภาคเร็วจากดวงอาทิตย์รบกวนอุปกรณ์ไฟฟ้าได้ ก่อนพายุมา ผู้ควบคุมบางครั้งจะปิดส่วนของยานที่ไม่จำเป็น การปิดแล้วเปิดใหม่ต้องใช้ไฟอยู่บ้าง', [], [('safe_mode', 'Switch to safe mode tonight', 'เข้าโหมดปลอดภัยคืนนี้', 'Screens go dark one by one. Only life support keeps running. Starting everything again costs one unit of power.', 'หน้าจอดับลงทีละจอ เหลือแค่ระบบยังชีพที่ทำงานอยู่ การเปิดทุกอย่างใหม่ใช้ไฟหนึ่งหน่วย'), ('leave_on', 'Leave everything on', 'เปิดทุกอย่างไว้', 'Everything stays on. The lights look brave.', 'ทุกอย่างยังเปิดอยู่ แสงไฟดูกล้าหาญดี')], ('A dark ship? I am not afraid of the dark. Much.', 'ยานมืดๆ เหรอ? ฉันไม่กลัวความมืดหรอก ไม่ค่อยกลัว'), ('Safe mode costs 1 power for sure. A storm hit could cost more. I would pay the 1.', 'โหมดปลอดภัยเสียไฟ 1 แน่ๆ แต่ถ้าโดนพายุอาจเสียมากกว่า ฉันยอมจ่าย 1'), ('We cannot repair burnt electronics out here. Switch them off.', 'อยู่ตรงนี้เราซ่อมวงจรที่ไหม้ไม่ได้ ปิดไว้ดีกว่า')),
+ ('visitor_nok', 'Someone small at the hatch', 'ร่างเล็กๆ ที่ประตู', 'A young Martian sits against the airlock, holding one arm. The storm caught it in the open. It looks up at the window and says nothing.', 'ชาวดาวอังคารตัวน้อยนั่งพิงประตู มือกุมแขนข้างหนึ่งไว้ มันโดนพายุตอนอยู่กลางแจ้ง มันเงยหน้ามองหน้าต่างโดยไม่พูดอะไร', [('Its arm is burned and it is shaking.', 'แขนของมันมีแผลไหม้ และตัวมันสั่น'), ('It carries nothing at all.', 'มันไม่ได้ถืออะไรมาเลย'), ('It keeps looking back toward the hills it came from.', 'มันคอยหันมองไปทางเนินเขาที่มันจากมา')], [('admit', 'Bring it inside to rest', 'พาเข้ามาพักข้างใน', 'You carry it in. It whispers its name: Nok. Nok needs air, water and food while it heals.', 'คุณอุ้มมันเข้ามา มันกระซิบชื่อตัวเองว่า น็อก ระหว่างพักฟื้นน็อกต้องใช้อากาศ น้ำ และอาหาร'), ('treat', 'Treat the burn with the first aid kit', 'ทำแผลไหม้ด้วยกล่องปฐมพยาบาล', 'You clean and wrap the burn at the hatch. Nok touches your hand, then walks slowly home toward the hills.', 'คุณล้างและพันแผลให้ที่ประตู น็อกแตะมือคุณ แล้วค่อยๆ เดินกลับบ้านไปทางเนินเขา'), ('water', 'Give it water and point the way home', 'ให้น้ำแล้วชี้ทางกลับบ้าน', 'Nok drinks all of it, bows, and limps off toward the hills. It looks back twice.', 'น็อกดื่มจนหมด โค้งคำนับ แล้วเดินกะเผลกไปทางเนินเขา มันหันกลับมามองสองครั้ง'), ('refuse', 'Keep the hatch closed', 'ไม่เปิดประตู', 'You stay inside. After a long while the small shape gets up and limps away.', 'คุณอยู่ข้างใน ผ่านไปนาน ร่างเล็กๆ นั้นก็ลุกขึ้นแล้วเดินกะเผลกจากไป')], ('It is hurt! Open the hatch, I will keep it warm.', 'มันเจ็บนะ! เปิดประตูสิ ฉันจะช่วยให้มันอุ่น'), ('It carries nothing, so it is not here to trade or to take. Helping at the hatch costs little. Letting it move in costs air, water and food every day.', 'มันไม่ได้ถืออะไรมา แปลว่าไม่ได้มาค้าขายหรือมาเอาของ ช่วยที่ประตูเสียนิดเดียว แต่ถ้าให้อยู่ด้วยจะเสียอากาศ น้ำ และอาหารทุกวัน'), ('No bag, no tools, a real burn. This is not a trick. Help it, but count what we can spare.', 'ไม่มีกระเป๋า ไม่มีเครื่องมือ แผลไหม้ของจริง นี่ไม่ใช่กลลวง ช่วยมันเถอะ แต่นับดูว่าเราแบ่งได้แค่ไหน')),
+ ('mu_returns', 'Mu is back', 'มูกลับมา', 'The tall Martian you fed at the hatch is back. This time it knocks. It puts a bundle on the ground and steps away from it.', 'ชาวดาวอังคารตัวสูงที่คุณเคยให้อาหารกลับมาแล้ว คราวนี้มันเคาะประตู มันวางห่อของไว้บนพื้นแล้วถอยออกห่าง', [], [('accept', 'Take the bundle', 'รับห่อของ', 'Inside are two food boxes. Mu found them in the wreck field and remembered who shared.', 'ข้างในมีกล่องอาหารสองกล่อง มูเจอมันในทุ่งซากยาน และจำได้ว่าใครเคยแบ่งให้'), ('decline', 'Wave it away', 'โบกมือปฏิเสธ', 'Mu shrugs, picks the bundle up again, and leaves.', 'มูยักไหล่ หยิบห่อของขึ้นมา แล้วจากไป')], ('It knocked this time. I think it likes us. I am still watching the locker.', 'คราวนี้มันเคาะนะ ฉันว่ามันชอบเรา แต่ฉันยังเฝ้าตู้อยู่ดี'), ('You gave 1 food and it brings 2. Sharing with it paid off.', 'เธอให้อาหารไป 1 มันเอามาคืน 2 การแบ่งปันครั้งนั้นคุ้มค่า'), ('It stepped back from the bundle so we can see its hands. That is honest behaviour. Take it.', 'มันถอยออกจากห่อของให้เราเห็นมือทั้งสองข้าง แบบนี้คือจริงใจ รับไว้เถอะ')),
+ ('far_crate', 'A second crate, farther out', 'ลังที่สอง ไกลกว่าเดิม', 'The storm uncovered another Kestrel crate, about one kilometre away. It is a long walk in a suit.', 'พายุพัดฝุ่นออกจนเห็นลังของยาน Kestrel อีกใบ ห่างออกไปราวหนึ่งกิโลเมตร ถ้าใส่ชุดเดินไปก็ไกลพอดู', [], [('walk', 'Walk there and back', 'เดินไปแล้วกลับ', 'A long, slow walk. Two units of suit air gone, three food and one water gained.', 'เดินช้าๆ เป็นระยะทางไกล เสียอากาศในชุดสองหน่วย ได้อาหารสามและน้ำหนึ่ง'), ('send_pet', 'Send your brave pet with the sled', 'ให้สัตว์เลี้ยงผู้กล้าลากเลื่อนไปเอา', 'Your pet is gone for an hour and comes back pulling the sled, crate on top, tail high.', 'สัตว์เลี้ยงหายไปหนึ่งชั่วโมง แล้วกลับมาพร้อมเลื่อนที่มีลังวางอยู่ หางชี้ฟ้า'), ('leave', 'Leave it', 'ปล่อยมันไว้', 'Too far. The crate stays a dot on the horizon.', 'ไกลเกินไป ลังยังเป็นแค่จุดเล็กๆ ที่ขอบฟ้า')], ('One kilometre? That is a warm-up. Sled, please!', 'กิโลเดียวเอง? แค่อุ่นเครื่อง ขอเลื่อนด้วย!'), ('Two O2 for three food and one water. Only worth it if air is not our lowest number.', 'เสีย O2 สอง ได้อาหารสามกับน้ำหนึ่ง คุ้มก็ต่อเมื่ออากาศไม่ใช่ตัวเลขที่ต่ำสุดของเรา'), ("It is far. Go only if the air gauge still looks good after tonight's share.", 'มันไกลนะ ไปก็ต่อเมื่อหักอากาศของคืนนี้แล้วยังเหลือพอ')),
+ ('beacon', 'The rescue beacon', 'บีคอนกู้ภัย', "The rescue ship is close now, but it needs a signal to find you. The beacon's antenna snapped off in the landing. Without it, your signal goes nowhere.", 'ยานกู้ภัยเข้ามาใกล้แล้ว แต่ต้องมีสัญญาณถึงจะหาคุณเจอ เสาอากาศของบีคอนหักตอนลงจอด ถ้าไม่มีเสา สัญญาณของคุณก็ไปไม่ถึงไหน', [], [('nok_part', "Use the antenna piece Nok's family brings", 'ใช้ชิ้นส่วนเสาอากาศที่ครอบครัวของน็อกนำมาให้', 'Three Martians come over the hill with Nok. They carry the missing antenna piece and a bag of dried food, and they fit the piece themselves.', 'ชาวดาวอังคารสามคนเดินข้ามเนินมาพร้อมน็อก พวกเขาถือชิ้นส่วนเสาอากาศที่หายไปกับถุงอาหารแห้ง และช่วยประกอบให้ด้วยตัวเอง'), ('tik_fix', 'Ask Tik to rebuild the antenna', 'ขอให้ติ๊กสร้างเสาอากาศใหม่', 'Tik builds a new antenna arm from spare tubing and tests it with a little power. It stands straight.', 'ติ๊กสร้างแขนเสาอากาศใหม่จากท่อสำรอง แล้วทดสอบด้วยไฟเล็กน้อย เสาตั้งตรงดี'), ('chip', 'Load the backup antenna settings from the data chip', 'โหลดค่าตั้งเสาอากาศสำรองจากชิปข้อมูล', "The data chip tells the beacon how to use the ship's own hull as an antenna. No climbing needed.", 'ชิปข้อมูลสอนบีคอนให้ใช้ตัวยานเป็นเสาอากาศแทน ไม่ต้องปีนออกไปเลย'), ('climb', 'Climb out and splint the antenna yourself', 'ปีนออกไปดามเสาอากาศเอง', 'You climb onto the hull, splint the antenna with a tent pole and weld it with the heat tool. It costs air and power, and it works.', 'คุณปีนขึ้นไปบนตัวยาน ดามเสาอากาศด้วยเสาเต็นท์แล้วเชื่อมด้วยเครื่องมือความร้อน เสียทั้งอากาศและไฟ แต่ใช้งานได้'), ('wait', 'Leave it for tomorrow', 'ไว้พรุ่งนี้', 'You leave the antenna lying in the dust. One day left.', 'คุณปล่อยเสาอากาศนอนอยู่ในฝุ่น เหลืออีกหนึ่งวัน')], ('I will hold the ladder. Up you go!', 'ฉันจับบันไดให้ ขึ้นไปเลย!'), ('No beacon, no rescue, however well we ate. Pick the cheapest way we have and do it today.', 'ไม่มีบีคอนก็ไม่มีการช่วยเหลือ ต่อให้เรากินดีแค่ไหน เลือกวิธีที่เสียน้อยที่สุดแล้วทำวันนี้เลย'), ('Do not leave this for the last day. If something goes wrong tomorrow, there is no day after.', 'อย่าทิ้งเรื่องนี้ไว้วันสุดท้าย ถ้าพรุ่งนี้มีอะไรผิดพลาด จะไม่มีวันถัดไปให้แก้')),
+ ('coords', 'Send your coordinates', 'ส่งพิกัด', 'The beacon works. Now it must tell the rescue ship where you are. The ship flies around Mars and only hears you when it passes overhead, so the beacon has to keep sending for hours.', 'บีคอนใช้งานได้แล้ว ตอนนี้ต้องบอกยานกู้ภัยว่าคุณอยู่ที่ไหน ยานโคจรรอบดาวอังคารและได้ยินคุณเฉพาะตอนผ่านเหนือหัว บีคอนจึงต้องส่งสัญญาณต่อเนื่องหลายชั่วโมง', [], [('send', 'Send on battery power', 'ส่งด้วยไฟจากแบตเตอรี่', 'The beacon blinks through the night. Near dawn a short reply arrives: POSITION RECEIVED.', 'บีคอนกะพริบตลอดคืน ใกล้รุ่งมีข้อความสั้นๆ ตอบกลับมา: ได้รับตำแหน่งแล้ว'), ('crank', 'Send by turning the hand crank all night', 'ส่งด้วยการหมุนมือหมุนทั้งคืน', 'You turn the crank for hours with aching arms. Near dawn a short reply arrives: POSITION RECEIVED. You are worn out.', 'คุณหมุนมือหมุนอยู่หลายชั่วโมงจนแขนล้า ใกล้รุ่งมีข้อความสั้นๆ ตอบกลับมา: ได้รับตำแหน่งแล้ว คุณหมดแรง'), ('wait', 'Send tomorrow', 'ไว้ส่งพรุ่งนี้', 'You decide to wait. The ship passes overhead and hears nothing.', 'คุณตัดสินใจรอ ยานผ่านเหนือหัวไปโดยไม่ได้ยินอะไร')], ('I will bark at the sky until they hear us! ...The beacon is probably better.', 'ฉันจะเห่าใส่ฟ้าจนกว่าเขาจะได้ยิน! ...ใช้บีคอนน่าจะดีกว่า'), ('It costs 1 power. If the battery is empty the crank works too, but then it costs you health.', 'ใช้ไฟ 1 หน่วย ถ้าแบตหมดก็ใช้มือหมุนได้ แต่จะเสียสุขภาพแทน'), ('Send it today. Tomorrow is the last chance, and last chances go wrong.', 'ส่งวันนี้เลย พรุ่งนี้คือโอกาสสุดท้าย และโอกาสสุดท้ายมักพลาด')),
+ ('beacon_last', 'Last day: the beacon is still broken', 'วันสุดท้าย: บีคอนยังเสียอยู่', 'The rescue ship arrives at dawn tomorrow. If the beacon stays silent tonight, the ship will not know where to land.', 'ยานกู้ภัยจะมาถึงรุ่งเช้าพรุ่งนี้ ถ้าคืนนี้บีคอนยังเงียบ ยานจะไม่รู้ว่าต้องลงจอดที่ไหน', [], [('nok_part', "Use the antenna piece Nok's family brings", 'ใช้ชิ้นส่วนเสาอากาศที่ครอบครัวของน็อกนำมาให้', 'Three Martians come over the hill with Nok. They carry the missing antenna piece and a bag of dried food, and they fit the piece themselves.', 'ชาวดาวอังคารสามคนเดินข้ามเนินมาพร้อมน็อก พวกเขาถือชิ้นส่วนเสาอากาศที่หายไปกับถุงอาหารแห้ง และช่วยประกอบให้ด้วยตัวเอง'), ('tik_fix', 'Ask Tik to rebuild the antenna', 'ขอให้ติ๊กสร้างเสาอากาศใหม่', 'Tik builds a new antenna arm from spare tubing and tests it with a little power. It stands straight.', 'ติ๊กสร้างแขนเสาอากาศใหม่จากท่อสำรอง แล้วทดสอบด้วยไฟเล็กน้อย เสาตั้งตรงดี'), ('chip', 'Load the backup antenna settings from the data chip', 'โหลดค่าตั้งเสาอากาศสำรองจากชิปข้อมูล', "The data chip tells the beacon how to use the ship's own hull as an antenna. No climbing needed.", 'ชิปข้อมูลสอนบีคอนให้ใช้ตัวยานเป็นเสาอากาศแทน ไม่ต้องปีนออกไปเลย'), ('climb', 'Climb out and splint the antenna yourself', 'ปีนออกไปดามเสาอากาศเอง', 'You climb onto the hull, splint the antenna with a tent pole and weld it with the heat tool. It costs air and power, and it works.', 'คุณปีนขึ้นไปบนตัวยาน ดามเสาอากาศด้วยเสาเต็นท์แล้วเชื่อมด้วยเครื่องมือความร้อน เสียทั้งอากาศและไฟ แต่ใช้งานได้'), ('give_up', 'There is nothing left to try', 'ไม่มีอะไรให้ลองแล้ว', 'You sit by the window and watch the sky.', 'คุณนั่งข้างหน้าต่างแล้วมองท้องฟ้า')], ('Now or never. I am right behind you!', 'ตอนนี้หรือไม่มีอีกแล้ว ฉันอยู่ข้างหลังเธอนี่แหละ!'), ('Everything we saved is worth nothing if they cannot find us. Spend it now.', 'ของที่เราเก็บออมมาทั้งหมดไม่มีค่าเลยถ้าเขาหาเราไม่เจอ ใช้มันตอนนี้'), ('After today there is no other day. Fix it.', 'หลังจากวันนี้ไม่มีวันอื่นแล้ว ซ่อมเถอะ')),
+ ('coords_last', 'Last day: send your coordinates', 'วันสุดท้าย: ส่งพิกัด', 'The beacon works, but the rescue ship still does not know where you are. Tonight is its last pass before it lands.', 'บีคอนใช้งานได้ แต่ยานกู้ภัยยังไม่รู้ว่าคุณอยู่ที่ไหน คืนนี้คือรอบสุดท้ายที่ยานจะผ่านก่อนลงจอด', [], [('send', 'Send on battery power', 'ส่งด้วยไฟจากแบตเตอรี่', 'The beacon blinks through the night. Near dawn a short reply arrives: POSITION RECEIVED.', 'บีคอนกะพริบตลอดคืน ใกล้รุ่งมีข้อความสั้นๆ ตอบกลับมา: ได้รับตำแหน่งแล้ว'), ('crank', 'Send by turning the hand crank all night', 'ส่งด้วยการหมุนมือหมุนทั้งคืน', 'You turn the crank for hours with aching arms. Near dawn a short reply arrives: POSITION RECEIVED. You are worn out.', 'คุณหมุนมือหมุนอยู่หลายชั่วโมงจนแขนล้า ใกล้รุ่งมีข้อความสั้นๆ ตอบกลับมา: ได้รับตำแหน่งแล้ว คุณหมดแรง'), ('skip', 'Do not send', 'ไม่ส่ง', 'The beacon stays quiet.', 'บีคอนยังคงเงียบ')], ('Send it! Send it! Send it!', 'ส่งเลย! ส่งเลย! ส่งเลย!'), ('1 power, or 1 health with the crank. Either is cheaper than being left behind.', 'ไฟ 1 หน่วย หรือสุขภาพ 1 ถ้าใช้มือหมุน ทางไหนก็ถูกกว่าการถูกทิ้งไว้ที่นี่'), ('This is the last pass. Please send it.', 'นี่คือรอบสุดท้ายแล้ว ส่งเถอะนะ')),
+ ('log', 'The last log entry', 'บันทึกหน้าสุดท้าย', "Rescue is due at dawn. You open the ship's log one last time. What mattered most this week?", 'ยานกู้ภัยจะมาถึงตอนรุ่งสาง คุณเปิดสมุดบันทึกของยานเป็นครั้งสุดท้าย สัปดาห์นี้อะไรสำคัญที่สุด?', [], [('air', 'Counting the air first', 'นับอากาศก่อนเสมอ', 'On the International Space Station, life support cleans and recycles the air all the time, because nobody can carry enough air for a long mission.', 'บนสถานีอวกาศนานาชาติ ระบบยังชีพฟอกและหมุนเวียนอากาศตลอดเวลา เพราะไม่มีใครขนอากาศไปได้พอสำหรับภารกิจยาวๆ'), ('water', 'Never wasting water', 'ไม่ทิ้งน้ำเปล่าๆ', 'On the International Space Station most of the water is recycled and used again, even sweat.', 'บนสถานีอวกาศนานาชาติ น้ำส่วนใหญ่ถูกรีไซเคิลกลับมาใช้ใหม่ แม้แต่เหงื่อ'), ('friends', 'Knowing who to trust', 'รู้ว่าควรไว้ใจใคร', 'Astronauts train for years to work as a crew. Deciding who to rely on, and sharing fairly, is part of the job.', 'นักบินอวกาศฝึกกันหลายปีเพื่อทำงานเป็นทีม การตัดสินใจว่าจะพึ่งใคร และการแบ่งปันอย่างยุติธรรม เป็นส่วนหนึ่งของงาน')], ('Write that I was very brave.', 'เขียนด้วยว่าฉันกล้าหาญมาก'), ('Write down the numbers. Numbers kept us alive.', 'จดตัวเลขไว้ด้วย ตัวเลขนี่แหละที่ทำให้เรารอด'), ('Write what you would do differently. That is what logs are for.', 'เขียนว่าครั้งหน้าจะทำอะไรต่างไป บันทึกมีไว้เพื่อสิ่งนี้')),
+]
+many([
+ ("life.pick.body_scramble", "The ship is going down. Before you run for the lifeboat, take one pet. Each eats 1 food a day and helps in its own way.", "ยานกำลังตก ก่อนวิ่งไปยานสำรอง พาสัตว์เลี้ยงไปได้หนึ่งตัว แต่ละตัวกินอาหารวันละ 1 หน่วย และช่วยคุณในแบบของมันเอง"),
+ ("life.sup.sup_o2", '+3 O2 in the lifeboat', 'O2 +3 ในยานสำรอง'),
+ ("life.sup.sup_water", '+3 water', 'น้ำ +3'),
+ ("life.sup.sup_food", '+3 food', 'อาหาร +3'),
+ ("life.sup.sup_battery", '+3 power', 'ไฟฟ้า +3'),
+ ("life.sup.sup_photo", 'No use for survival, but it reminds you of home', 'ไม่ช่วยให้รอด แต่ทำให้คิดถึงบ้าน'),
+ ("life.sup.sup_medkit", 'Can treat an injured visitor', 'ใช้รักษาผู้มาเยือนที่บาดเจ็บได้'),
+ ("life.sup.sup_filter", 'Fixes a dusty air filter at once', 'เปลี่ยนตัวกรองอากาศที่อุดตันได้ทันที'),
+ ("life.sup.sup_seeds", 'No use this week: plants need weeks to grow', 'สัปดาห์นี้ยังใช้ไม่ได้: ต้นไม้ต้องใช้เวลาหลายสัปดาห์ถึงจะโต'),
+ ("life.sup.sup_cell", 'Holds backup antenna settings for the beacon', 'มีค่าตั้งเสาอากาศสำรองสำหรับบีคอน'),
+ ("life.sup.sup_shield", 'Shields your bunk from a solar storm, no water needed', 'กันรังสีพายุสุริยะให้เตียงนอนได้ ไม่ต้องใช้น้ำ'),
+ ("route.lifeboat.name", "Mars lifeboat", "ยานสำรองบนดาวอังคาร"),
+ ("life.scan.title", "CHECK BEFORE YOU OPEN · scans left: {0}", "ตรวจก่อนเปิดประตู · สแกนได้อีก {0} ครั้ง"),
+ ("life.scan.extra", "{0} helps you check: one extra scan.", "{0} ช่วยคุณตรวจ: สแกนเพิ่มได้อีก 1 ครั้ง"),
+ ("life.scan.none_left", "No scans left for this visitor. Decide with what you know.", "สแกนผู้มาเยือนรายนี้ครบแล้ว ตัดสินใจจากสิ่งที่รู้"),
+ ("life.scan.odd", "NOT RIGHT for a living being!", "ผิดปกติ ไม่ใช่สิ่งมีชีวิตแบบนี้!"),
+ ("life.scan.normal", "Normal for a living being.", "ปกติของสิ่งมีชีวิต"),
+ ("life.scan.thermal.name", "Infrared camera", "กล้องอินฟราเรด"),
+ ("life.scan.thermal.how", "Warm things give off infrared light that eyes cannot see. A living body is much warmer than the Mars ground, which is about −60 °C on average.", "ของที่อุ่นจะปล่อยแสงอินฟราเรดที่ตามองไม่เห็น ร่างกายที่มีชีวิตอุ่นกว่าพื้นดาวอังคารมาก ซึ่งเฉลี่ยราว −60 °C"),
+ ("life.scan.breath.name", "Breath sensor", "เซ็นเซอร์ลมหายใจ"),
+ ("life.scan.breath.how", "Animals breathe out carbon dioxide. Mars air is already about 95% carbon dioxide, so the sensor looks for the small puff that comes and goes with each breath.", "สัตว์หายใจออกเป็นคาร์บอนไดออกไซด์ อากาศดาวอังคารมีคาร์บอนไดออกไซด์อยู่แล้วราว 95% เซ็นเซอร์จึงมองหาลมหายใจเล็กๆ ที่มาแล้วหายไปทุกครั้งที่หายใจ"),
+ ("life.scan.heartbeat.name", "Hatch microphone", "ไมโครโฟนติดประตู"),
+ ("life.scan.heartbeat.how", "Sound travels well through solid metal, even when the air outside is very thin. A beating heart makes a steady thump.", "เสียงเดินทางผ่านโลหะได้ดี แม้อากาศข้างนอกจะเบาบางมาก หัวใจที่เต้นจะทำให้เกิดเสียงตุบๆ สม่ำเสมอ"),
+ ("life.scan.tik.thermal", "Warm: about 30 °C. The ground around it is about −50 °C.", "อุ่น: ราว 30 °C ส่วนพื้นรอบตัวราว −50 °C"),
+ ("life.scan.tik.breath", "A small puff of carbon dioxide every few seconds. It breathes.", "มีคาร์บอนไดออกไซด์พ่นออกมาทุกไม่กี่วินาที มันหายใจ"),
+ ("life.scan.tik.heartbeat", "A quick, steady thump. A heartbeat.", "เสียงตุบๆ เร็วและสม่ำเสมอ คือเสียงหัวใจ"),
+ ("life.scan.mu.thermal", "Warm: about 28 °C.", "อุ่น: ราว 28 °C"),
+ ("life.scan.mu.breath", "It breathes, a little fast.", "มันหายใจ เร็วไปนิด"),
+ ("life.scan.mu.heartbeat", "A heartbeat, a little fast. Nervous? A scanner can tell you something is alive, not whether it is honest.", "หัวใจเต้น เร็วไปนิด ตื่นเต้นหรือ? สแกนเนอร์บอกได้ว่ามีชีวิต แต่บอกไม่ได้ว่าซื่อสัตย์หรือเปล่า"),
+ ("life.scan.zee.thermal", "Warm: about 32 °C. The cart beside it is as cold as the ground.", "อุ่น: ราว 32 °C ส่วนรถเข็นข้างๆ เย็นเท่าพื้นดิน"),
+ ("life.scan.zee.breath", "Slow, calm breathing.", "หายใจช้าๆ สงบ"),
+ ("life.scan.zee.heartbeat", "A slow, calm heartbeat.", "หัวใจเต้นช้าๆ สงบ"),
+ ("life.scan.nok.thermal", "Warm, and hotter around the burned arm.", "อุ่น และร้อนกว่าตรงแขนที่ไหม้"),
+ ("life.scan.nok.breath", "Short, quick breaths. It is in pain.", "หายใจสั้นและถี่ มันกำลังเจ็บ"),
+ ("life.scan.nok.heartbeat", "A fast, light heartbeat.", "หัวใจเต้นเร็วและเบา"),
+ ("life.scan.shade.thermal", "Cold: about −50 °C, the same as the rocks. Nothing alive stays that cold.", "เย็น: ราว −50 °C เท่ากับก้อนหิน สิ่งมีชีวิตไม่มีทางเย็นขนาดนี้"),
+ ("life.scan.shade.breath", "No change in the gas at all. It is not breathing.", "ก๊าซไม่เปลี่ยนเลย มันไม่ได้หายใจ"),
+ ("life.scan.shade.heartbeat", "A slow knock... knock... It matches the rhythm it knocked on the hatch.", "เสียงเคาะช้าๆ ...ก๊อก ...ก๊อก ตรงกับจังหวะที่มันเคาะประตูเมื่อกี้"),
+ ("life.scan.ree.thermal", "Warm: about 29 °C. The plants are warmer than the ground too.", "อุ่น: ราว 29 °C และต้นไม้ก็อุ่นกว่าพื้นดินด้วย"),
+ ("life.scan.ree.breath", "It breathes out carbon dioxide, and the plants in its box take some in.", "มันหายใจออกเป็นคาร์บอนไดออกไซด์ และต้นไม้ในกล่องก็ดูดเข้าไปบางส่วน"),
+ ("life.scan.ree.heartbeat", "A steady heartbeat.", "หัวใจเต้นสม่ำเสมอ"),
+ ("life.scan.mimic.thermal", "Warm: about 30 °C.", "อุ่น: ราว 30 °C"),
+ ("life.scan.mimic.breath", "No puff of carbon dioxide. Not once. It is not breathing.", "ไม่มีคาร์บอนไดออกไซด์พ่นออกมาเลยสักครั้ง มันไม่ได้หายใจ"),
+ ("life.scan.mimic.heartbeat", "Silence. No heartbeat at all.", "เงียบ ไม่มีเสียงหัวใจเลย"),
+ ("visitor.shade.name", "the hooded stranger", "คนแปลกหน้าในผ้าคลุม"),
+ ("visitor.ree.name", "Ree", "รี"),
+ ("visitor.mimic.name", "the copy of Tik", "ร่างที่เหมือนติ๊ก"),
+ ("life.night.Gift.ree", "Ree's plants turned carbon dioxide and lamp light into oxygen overnight. O2 +2.", "ต้นไม้ของรีเปลี่ยนคาร์บอนไดออกไซด์และแสงไฟให้เป็นออกซิเจนตลอดคืน O2 +2"),
+ ("life.end.FailedMonster", "You opened the hatch for {0}. It was not a living visitor at all, and it does not need air, water or food. The simulation ends here. Next time, check first: living beings are warm, breathe out carbon dioxide, and have a heartbeat.", "คุณเปิดประตูให้{0} แต่มันไม่ใช่ผู้มาเยือนที่มีชีวิตเลย มันไม่ต้องการอากาศ น้ำ หรืออาหาร การจำลองจบตรงนี้ ครั้งหน้าตรวจก่อนนะ: สิ่งมีชีวิตจะอุ่น หายใจออกเป็นคาร์บอนไดออกไซด์ และมีเสียงหัวใจ"),
+ ("life.end.FailedMonster.scans", "You scanned it with: {0}.", "คุณสแกนมันด้วย: {0}"),
+ ("life.end.FailedMonster.noscan", "You did not scan it before opening.", "คุณไม่ได้สแกนก่อนเปิดประตู"),
+])
+
+LIFE_CARDS += [
+ ('visitor_shade', 'Shelter from the storm', 'ขอหลบพายุ', "A tall figure in a hooded cloak stands at the hatch. It asks, in a flat voice, to wait out tonight's storm inside your ship.", 'ร่างสูงในผ้าคลุมมีฮู้ดยืนอยู่ที่ประตู มันพูดด้วยเสียงเรียบๆ ว่าขอเข้ามาหลบพายุคืนนี้ในยานของคุณ', [('It stands perfectly still. Red dust has settled on its shoulders.', 'มันยืนนิ่งสนิท ฝุ่นแดงเกาะอยู่บนไหล่'), ('The glass of its visor never fogs.', 'กระจกหน้ากากของมันไม่เคยเป็นฝ้าเลย'), ('It knocks again, in exactly the same rhythm as before.', 'มันเคาะอีกครั้ง จังหวะเดิมเป๊ะ')], [('admit', 'Let it in', 'ให้เข้ามา', 'The hatch opens. The cloak falls to the floor, and there is nobody inside it.', 'ประตูเปิดออก ผ้าคลุมร่วงลงพื้น และข้างในไม่มีใครอยู่เลย'), ('refuse', 'Keep the hatch closed', 'ไม่เปิดประตู', 'The figure stays by the hatch until the dust covers its feet. In the morning it is gone, and there are no footprints.', 'ร่างนั้นยืนอยู่ที่ประตูจนฝุ่นกลบเท้า พอเช้าก็หายไป และไม่มีรอยเท้าเลย')], ('Something about it makes my fur stand up. I am not opening that door.', 'มีอะไรบางอย่างทำให้ขนฉันลุก ฉันไม่เปิดประตูนั่นหรอก'), ('Dust settles on rocks, not on things that move and breathe. Use a scanner before you decide.', 'ฝุ่นเกาะบนก้อนหิน ไม่เกาะบนสิ่งที่ขยับและหายใจ ใช้สแกนเนอร์ก่อนตัดสินใจ'), ('A visor fogs when warm breath touches cold glass. This one never does. I would check its breath.', 'หน้ากากจะเป็นฝ้าเมื่อลมหายใจอุ่นๆ โดนกระจกเย็น แต่อันนี้ไม่เป็นเลย ฉันจะตรวจลมหายใจของมัน')),
+ ('visitor_ree', 'A gardener at the hatch', 'คนสวนที่ประตู', 'A Martian with a clear box of small green plants waves at the window. It asks to come in for a while, and points at your water bottle.', 'ชาวดาวอังคารถือกล่องใสที่มีต้นไม้เล็กๆ สีเขียวโบกมือที่หน้าต่าง มันขอเข้ามาพักสักครู่ และชี้ไปที่ขวดน้ำของคุณ', [('The plants in the box are green and growing.', 'ต้นไม้ในกล่องเขียวและกำลังโต'), ('Its breath fogs the window when it leans close.', 'ลมหายใจของมันทำให้หน้าต่างเป็นฝ้าเวลามันเข้ามาใกล้'), ('It holds the plants up to your cabin light, not to itself.', 'มันยกต้นไม้ขึ้นรับแสงไฟในห้องของคุณ ไม่ได้ยกเข้าหาตัวเอง')], [('admit', 'Let Ree and the plants in', 'ให้รีและต้นไม้เข้ามา', 'Ree sets the plants under your cabin lamp. Plants take in carbon dioxide and, with light, give out oxygen. Ree needs air, water and food too.', 'รีวางต้นไม้ไว้ใต้โคมไฟในห้อง ต้นไม้ดูดคาร์บอนไดออกไซด์เข้าไป และเมื่อได้แสงก็ปล่อยออกซิเจนออกมา รีเองก็ต้องใช้อากาศ น้ำ และอาหารด้วย'), ('trade', 'Trade water for a food parcel', 'แลกน้ำกับห่ออาหาร', 'Ree waters its plants with your water and hands over a parcel of dried roots.', 'รีรดน้ำต้นไม้ด้วยน้ำของคุณ แล้วยื่นห่อรากไม้แห้งให้'), ('refuse', 'Keep the hatch closed', 'ไม่เปิดประตู', 'Ree nods and walks off with its plants.', 'รีพยักหน้าแล้วเดินจากไปพร้อมต้นไม้')], ('Plants! Can I sniff them? I promise not to eat them.', 'ต้นไม้! ขอดมได้ไหม? สัญญาว่าจะไม่กิน'), ('Plants make oxygen from carbon dioxide and light. Two nights of plants could pay back the air Ree breathes, and more.', 'ต้นไม้สร้างออกซิเจนจากคาร์บอนไดออกไซด์และแสง สองคืนที่มีต้นไม้อาจคืนอากาศที่รีใช้ได้ แถมเหลือด้วย'), ('Its breath fogs the glass and its plants are alive. Still, one scan is cheap.', 'ลมหายใจของมันทำให้กระจกเป็นฝ้า และต้นไม้ก็มีชีวิต แต่สแกนสักครั้งก็ไม่เสียอะไร')),
+ ('visitor_mimic', 'A familiar face', 'หน้าที่คุ้นเคย', 'It is the last evening. Someone is waving at the window. It looks exactly like Tik, tool belt and all, and asks to spend the last night inside.', 'เย็นวันสุดท้ายแล้ว มีใครบางคนโบกมืออยู่ที่หน้าต่าง หน้าตาเหมือนติ๊กทุกอย่าง แม้แต่เข็มขัดเครื่องมือ และขอเข้ามาค้างคืนสุดท้ายด้วย', [('It never blinks.', 'มันไม่กะพริบตาเลย'), ('It says your name, but in your own voice.', 'มันเรียกชื่อคุณ แต่ด้วยเสียงของคุณเอง'), ('Its tool belt has no scratches at all.', 'เข็มขัดเครื่องมือของมันไม่มีรอยขีดข่วนเลย')], [('admit', 'Let it in', 'ให้เข้ามา', 'The hatch opens. The shape that looked like Tik melts into a grey cloud and fills the cabin.', 'ประตูเปิดออก ร่างที่ดูเหมือนติ๊กละลายเป็นหมอกสีเทาแล้วลอยเต็มห้อง'), ('refuse', 'Keep the hatch closed', 'ไม่เปิดประตู', 'It keeps waving, smiling the same smile, until the sun goes down. Then it is simply not there.', 'มันโบกมือ ยิ้มแบบเดิมไม่เปลี่ยน จนพระอาทิตย์ตก แล้วมันก็หายไปเฉยๆ')], ('That is not Tik. Tik smells like oil. This smells like nothing.', 'นั่นไม่ใช่ติ๊ก ติ๊กมีกลิ่นน้ำมัน แต่อันนี้ไม่มีกลิ่นอะไรเลย'), ('Looking the same is not proof. A heartbeat and breath are. Scan before you trust a face.', 'หน้าตาเหมือนกันไม่ใช่หลักฐาน เสียงหัวใจกับลมหายใจต่างหาก สแกนก่อนจะเชื่อใบหน้า'), ('Real tools get scratched. Real eyes blink. Something is wrong.', 'เครื่องมือที่ใช้จริงต้องมีรอยขีดข่วน ตาจริงต้องกะพริบ มีบางอย่างผิดปกติ')),
+]
+for cid, te, tt, be, bt, clues, opts, hb, hs, hc in LIFE_CARDS:
+    k(f"life.card.{cid}.title", te, tt)
+    k(f"life.card.{cid}.body", be, bt)
+    for i, (ce, ct) in enumerate(clues):
+        k(f"life.card.{cid}.clue{i + 1}", ce, ct)
+    for oid, le, lt, re_, rt in opts:
+        k(f"life.card.{cid}.{oid}", le, lt)
+        k(f"life.card.{cid}.{oid}.result", re_, rt)
+    k(f"life.card.{cid}.hint.brave", *hb)
+    k(f"life.card.{cid}.hint.smart", *hs)
+    k(f"life.card.{cid}.hint.careful", *hc)
+
 if __name__ == "__main__":
     keys = [s["k"] for s in S]
     dup = sorted(set(x for x in keys if keys.count(x) > 1))

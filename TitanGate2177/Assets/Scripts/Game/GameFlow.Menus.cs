@@ -69,12 +69,14 @@ namespace TitanGate.Game
                 start.name = "btn-start";
                 Big("menu.continue", () => { _ui.HideScreen(); ContinueGame(); }, false, Settings.HasSave,
                     Settings.HasSave ? "(" + _loc.T("route." + Settings.SaveRoute + ".name") + ")" : null);
+                Big("menu.lifeboat", () => { _ui.HideScreen(); StartLifeboat(); });
                 Big("menu.cards", ShowCardBook, false, true, $"{CardsEverCount()}/{_cfg.cards.Count}");
                 Big("menu.howto", ShowHowTo);
                 Big("menu.settings", ShowSettings);
+                Big("menu.sources", ShowSources);
                 Big("menu.credits", ShowCredits);
                 Big("menu.quit", () => { Application.Quit(); });
-                var best = _ui.L(_loc.T("menu.stars", Settings.BestStars("mars"), Settings.BestStars("moon"), Settings.BestStars("titan")), 20, false, GameUI.CAmber);
+                var best = _ui.L(_loc.T("menu.stars", Settings.BestStars("mars")), 20, false, GameUI.CAmber);
                 best.style.marginTop = 8;
                 col.Add(best);
 
@@ -88,6 +90,7 @@ namespace TitanGate.Game
 
         void ContinueGame()
         {
+            if (Settings.SaveRoute == "lifeboat") { StartLifeboat(Settings.SaveItems, Settings.SavePet); return; }
             _cabinO2 = Settings.SaveCabin;
             _stowed.Clear();
             _stowed.AddRange(Settings.SaveItems);
@@ -186,6 +189,30 @@ namespace TitanGate.Game
                     box.Add(c);
                     scroll.Add(box);
                 }
+                p.Add(scroll);
+            });
+        }
+
+        /// <summary>
+        /// Where the science comes from, in three kinds the player can tell apart: measured by NASA,
+        /// a NASA scientific principle, or made up for the game (event sizes, penalties, the 7-day rescue).
+        /// </summary>
+        void ShowSources()
+        {
+            _ui.ShowModal(p =>
+            {
+                p.style.width = 1240;
+                _ui.Title(p, _loc.T("sources.title"));
+                var scroll = new ScrollView(ScrollViewMode.Vertical);
+                scroll.style.maxHeight = 680;
+                void Head(string key, Color c) { var l = _ui.L(_loc.T(key), 26, true, c); l.style.marginTop = 10; scroll.Add(l); }
+                void Item(string key) { var l = _ui.L("· " + _loc.T(key), 21, false, GameUI.CText); l.style.whiteSpace = WhiteSpace.Normal; l.style.marginTop = 3; scroll.Add(l); }
+                Head("sources.observed", GameUI.CGreen);
+                for (int i = 1; i <= 4; i++) Item($"sources.observed.{i}");
+                Head("sources.principle", GameUI.CCyan);
+                for (int i = 1; i <= 5; i++) Item($"sources.principle.{i}");
+                Head("sources.simulated", GameUI.CAmber);
+                for (int i = 1; i <= 3; i++) Item($"sources.simulated.{i}");
                 p.Add(scroll);
             });
         }
