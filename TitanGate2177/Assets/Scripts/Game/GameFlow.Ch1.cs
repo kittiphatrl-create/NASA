@@ -474,6 +474,12 @@ namespace TitanGate.Game
             yield return _player.Act(Pose.Work0, Pose.Work1, 0.8f);
             yield return Fade(1f, 0.8f);
             yield return PlayCutscene("land_" + _route);
+            if (UseLifeboat)
+            {
+                Settings.SaveCheckpoint("lifeboat", _cabinO2, _stowed, _lbScramblePet);
+                StartLifeboat(new List<string>(_stowed), _lbScramblePet);
+                yield break;
+            }
             yield return StartChapter2(_route);
         }
 

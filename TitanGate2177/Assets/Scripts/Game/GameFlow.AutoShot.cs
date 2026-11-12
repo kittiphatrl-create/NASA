@@ -15,7 +15,7 @@ namespace TitanGate.Game
     /// </summary>
     public partial class GameFlow
     {
-        bool _autoAdvance, _autoCloseModals;
+        bool _autoAdvance, _autoCloseModals, _ch1Lifeboat;
         StreamWriter _autoLog;
         int _errors, _checksFailed;
         string _autoRoute = "mars", _shotDir;
@@ -31,6 +31,11 @@ namespace TitanGate.Game
             if (!AutoShotRequested()) return;
             var args = System.Environment.GetCommandLineArgs();
             for (int i = 0; i < args.Length - 1; i++) if (args[i] == "-route") _autoRoute = args[i + 1];
+            bool lifeboat = System.Array.IndexOf(args, "-lifeboat") >= 0;   // the card-based Chapter 2 on its own
+            _ch1Lifeboat = System.Array.IndexOf(args, "-ch1lifeboat") >= 0; // Chapter 1, then the landing into the diary
+            if (lifeboat) _autoRoute = "lifeboat";
+            else if (_ch1Lifeboat) _autoRoute = "ch1lifeboat";
+            else ForceOutpost = true;   // the default pass checks the old walk-and-click outpost
             _shotDir = Path.Combine(Directory.GetParent(Application.dataPath).FullName, "Captures", _autoRoute);
             Directory.CreateDirectory(_shotDir);
             _autoLog = new StreamWriter(Path.Combine(_shotDir, "autoshot-log.txt"), false);
@@ -45,7 +50,7 @@ namespace TitanGate.Game
             };
             SeedOverride = 7;
             Application.runInBackground = true;
-            StartCoroutine(AutoShot());
+            StartCoroutine(lifeboat ? AutoLifeboat() : AutoShot());
             StartCoroutine(AutoHelper());
         }
 
@@ -202,7 +207,15 @@ namespace TitanGate.Game
             yield return new WaitForSeconds(0.3f);
             yield return Shot("06_edl_wrong");
             foreach (var st in edl.order) { _ui.Press(_loc.T("edl." + st)); yield return new WaitForSeconds(0.15f); }
-            { float ws = 0; while (!_scramble && ws < 10) { ws += Time.deltaTime; if (_ui.DialogOpen) _ui.Advance(); yield return null; } }
+            { float ws = 0; while (!_scramble && ws < 10) {
+                ws += Time.deltaTime;
+                if (_lbPickForScramble && _ui.ScreenOpen)
+                {
+                    yield return Shot("06a_pet_pick");
+                    Check(_ui.Press(_loc.T("life.pick.choose", _loc.T("pet.luna.name"))), "pet picked before the 60-second scramble");
+                }
+                if (_ui.DialogOpen) _ui.Advance();
+                yield return null; } }
             Check(_scramble, "60-second scramble started after the landing steps");
             yield return new WaitForSeconds(0.3f);
             PlaceInRoom(RQuarters, -1.5f); RefreshAll();
@@ -218,6 +231,7 @@ namespace TitanGate.Game
             yield return new WaitForSeconds(3.2f); yield return Shot("07_land_b");
             yield return new WaitForSeconds(3.0f); yield return Shot("07_land_c");
             yield return new WaitForSeconds(2.8f); yield return Shot("07_land_d");
+            if (_ch1Lifeboat) { yield return AutoCh1LifeboatTail(); yield break; }
             float t = 0;
             while (_chapter != 2 && t < 30) { t += Time.deltaTime; yield return null; }
             Check(_chapter == 2, "landed, chapter 2 started");
@@ -292,6 +306,18 @@ namespace TitanGate.Game
             PlaceInRoom(RQuarters, 1.2f); _player.SetSuit(false);
             _sim.Advance((21 - _sim.Clock + 24) % 24); RefreshAll();   // evening: full sleep is offered from 20:00
             int dayBefore = _sim.Day;
+            float bedAir = _sim.State.air;
+            foreach (var lvl in new[] { OC.warnAir - 5, OC.critAir - 2 })
+            {
+                _sim.State.air = lvl; RefreshAll();
+                string warn = _sim.SleepAirWarning;
+                Check(warn != null && !_loc.T(warn).StartsWith("#"), "bunk warns before sleeping: " + warn);
+                yield return ClickToModal("s_bed");
+                yield return Shot(warn == "bed.air_critical" ? "13a_bed_air_critical" : "13a_bed_air_low");
+                _ui.CloseModal();
+                yield return new WaitForSeconds(0.5f);
+            }
+            _sim.State.air = bedAir; RefreshAll();
             yield return ClickToModal("s_bed");
             yield return Shot("13_bed");
             _ui.Press(_loc.T("bed.sleep_morning", _sim.HoursToMorning));
@@ -376,8 +402,20 @@ namespace TitanGate.Game
             Check(stars[0], "debrief: rescue star");
             Log($"debrief dose={_sim.State.dose:0.0} log={_sim.State.log.Count} stars={stars[0]},{stars[1]},{stars[2]}");
             yield return Shot("20_win");
-            ShowEnd(Outcome.Stranded);
-            yield return Shot("21_stranded");
+            // the stranded ending names the first rescue step that was missing: show each one, in both languages
+            Check(_sim.State.log.TrueForAll(e => e.kind != LogKind.Night || _sim.NightAt(e.hour) >= 1), "debrief numbers nights from 1");
+            _sim.State.outcome = Outcome.Stranded;   // so the debrief stars match the screen being shown
+            foreach (var why in new[] { "no_beacon", "not_sent", "not_heard" })
+            {
+                if (why == "no_beacon") _sim.State.flags.Remove("beacon_repaired"); else _sim.State.flags.Add("beacon_repaired");
+                _sim.State.coords = why == "not_heard" ? 1 : 0;
+                Check(_sim.StrandedReason == why && !_loc.T("end.stranded." + why).StartsWith("#"), "stranded ending explains: " + why);
+                ShowEnd(Outcome.Stranded);
+                yield return Shot("21_stranded_" + why + "_th");
+                ToggleLang(); ShowEnd(Outcome.Stranded);
+                yield return Shot("21_stranded_" + why + "_en");
+                ToggleLang();
+            }
             ShowEnd(Outcome.FailedAir);
             yield return Shot("21_lose");
             _ui.HideScreen();

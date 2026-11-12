@@ -81,6 +81,45 @@ namespace TitanGate.Tests
             for (int i = 0; i < 200 && lazy.State.outcome == Outcome.Ongoing; i++) { lazy.State.power = 100; lazy.State.energy = 80; lazy.Advance(1); }
             Assert.AreEqual(Outcome.Stranded, lazy.State.outcome, "alive but no coordinates: stranded, not a timeout game over");
         }
+
+        [Test]
+        public void Stranded_NamesTheFirstMissingRescueStep()
+        {
+            var c = Outposts.Basic();
+            c.start.supplies = 100; c.suppliesUsePerHour = 0.1f; c.airUsePerHour = 1f;
+            c.GetAction("send_coords").requiresFlag = "beacon_repaired";
+            void RunOut(OutpostSim s, bool beaconOn)
+            {
+                for (int i = 0; i < 200 && s.State.outcome == Outcome.Ongoing; i++)
+                {
+                    s.State.power = 100; s.State.energy = 80; s.SetSystem("beacon", beaconOn);
+                    s.Advance(1);
+                }
+            }
+
+            var noBeacon = new OutpostSim(c, 1);
+            RunOut(noBeacon, true);
+            Assert.AreEqual(Outcome.Stranded, noBeacon.State.outcome);
+            Assert.AreEqual("no_beacon", noBeacon.StrandedReason);
+
+            var notSent = new OutpostSim(c, 1, null, new[] { "beacon_repaired" });
+            RunOut(notSent, true);
+            Assert.AreEqual("not_sent", notSent.StrandedReason);
+
+            var notHeard = new OutpostSim(c, 1, null, new[] { "beacon_repaired" });
+            notHeard.SetSystem("beacon", true);
+            Assert.IsNotNull(notHeard.Do("send_coords"));
+            RunOut(notHeard, false);
+            Assert.AreEqual(Outcome.Stranded, notHeard.State.outcome, "coordinates sent but the beacon was off on every pass");
+            Assert.AreEqual("not_heard", notHeard.StrandedReason);
+
+            var heard = new OutpostSim(c, 1, null, new[] { "beacon_repaired" });
+            heard.SetSystem("beacon", true);
+            heard.Do("send_coords");
+            RunOut(heard, true);
+            Assert.AreEqual(Outcome.Rescued, heard.State.outcome);
+            Assert.IsNull(heard.StrandedReason);
+        }
     }
 
     public class OutpostSystemTests
@@ -211,6 +250,41 @@ namespace TitanGate.Tests
         }
 
         [Test]
+        public void Sleep_StartedWithLowAir_IsWokenAgainAtTheCriticalLevel()
+        {
+            var c = Outposts.Basic();
+            var sim = new OutpostSim(c, 1);
+            sim.SetSystem("life_support", false);
+            sim.State.air = c.warnAir - 5;   // already under the first alarm when going to bed
+            Assert.AreEqual("bed.air_low", sim.SleepAirWarning);
+            var r = sim.Advance(24, true);
+            Assert.IsTrue(r.stoppedEarly, "must not sleep on until the air is gone");
+            Assert.IsTrue(r.events.Exists(e => e.kind == LogKind.WakeAlarm && e.id == "critical_air"));
+            Assert.AreEqual(Outcome.Ongoing, sim.State.outcome);
+            Assert.LessOrEqual(sim.State.air, c.critAir);
+            Assert.Greater(sim.State.air, 0f);
+            Assert.AreEqual("bed.air_critical", sim.SleepAirWarning, "below the last alarm the bunk must say nothing will wake you");
+
+            var fine = new OutpostSim(c, 1);
+            Assert.IsNull(fine.SleepAirWarning);
+        }
+
+        [Test]
+        public void Sleep_FromHealthyAir_RingsBothAlarmsInTurn()
+        {
+            var c = Outposts.Basic();
+            var sim = new OutpostSim(c, 1);
+            sim.SetSystem("life_support", false);
+            sim.State.air = c.warnAir + 2;
+            var first = sim.Advance(24, true);
+            Assert.IsTrue(first.events.Exists(e => e.kind == LogKind.WakeAlarm && e.id == "low_air"));
+            Assert.Greater(sim.State.air, c.critAir);
+            var second = sim.Advance(24, true);
+            Assert.IsTrue(second.events.Exists(e => e.kind == LogKind.WakeAlarm && e.id == "critical_air"));
+            Assert.AreEqual(Outcome.Ongoing, sim.State.outcome);
+        }
+
+        [Test]
         public void NightEvent_PreventedBySolFlag_ElseHurts()
         {
             var c = Outposts.Basic();
@@ -225,6 +299,21 @@ namespace TitanGate.Tests
             sim.Advance(24, true);
             Assert.AreEqual(1f - 0.12f - 0.25f - 0.12f, sim.State.efficiency, 1e-3);
             Assert.IsTrue(sim.State.log.Exists(e => e.kind == LogKind.Night && !e.ok));
+        }
+
+        [Test]
+        public void NightEvent_IsNumberedByTheDayItEnds_FirstNightIsNight1()
+        {
+            var c = Outposts.Basic();
+            c.nightEvents = new List<NightEventDef> { new NightEventDef { id = "dust_devil", preventFlag = "panels_stowed", efficiencyLoss = 0.25f } };
+            c.randomEventDays = new[] { 1, 2 };
+            var sim = new OutpostSim(c, 1);
+            for (int i = 0; i < 48; i++) { sim.State.supplies = 100; sim.State.power = 100; sim.Advance(1, true); }
+            var nights = sim.State.log.FindAll(e => e.kind == LogKind.Night);
+            Assert.AreEqual(2, nights.Count);
+            Assert.AreEqual(1, sim.NightAt(nights[0].hour), "the first night on Mars is night 1, not night 0");
+            Assert.AreEqual(2, sim.NightAt(nights[1].hour));
+            Assert.AreEqual("dust_devil", sim.NightEventFor(sim.NightAt(nights[0].hour)).id, "same number the forecast uses");
         }
 
         [Test]

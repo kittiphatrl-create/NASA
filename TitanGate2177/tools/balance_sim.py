@@ -105,7 +105,8 @@ class Sim:
         start_air = self.v["air"]
         for _ in range(n):
             if self.outcome: return False
-            if sleeping and self.v["air"] <= self.o["warnAir"] and start_air > self.o["warnAir"]:
+            crit = self.o.get("critAir", 10)
+            if sleeping and ((self.v["air"] <= crit and start_air > crit) or (self.v["air"] <= self.o["warnAir"] and start_air > self.o["warnAir"])):
                 return False
             self.tick(sleeping)
             if not sleeping and self.v["energy"] <= 0 and not self.outcome:

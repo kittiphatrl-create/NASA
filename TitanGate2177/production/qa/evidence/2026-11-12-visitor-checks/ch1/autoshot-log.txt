@@ -1,0 +1,42 @@
+shot 00_menu_th
+shot 00_keyart
+shot 00_settings_th
+shot 00_howto_th
+shot 00_menu_en
+shot c1_intro_a
+shot c1_intro_b
+shot 01_ship_room0
+shot 01_ship_room1
+shot 01_ship_room2
+shot 01_ship_room3
+shot 01_ship_room4
+shot c2_impact
+PASS impact after two shift tasks
+PASS cabin O2 drains in real time (100 -> 97)
+shot 02_leak_fuelbay
+shot 03_keypad_wrong
+PASS locker code from the debris card opens the locker
+PASS breach sealed with the kit
+cabin O2 when sealed: 93
+shot 04_nav
+shot 05_nav_confirm
+PASS route chosen: mars
+PASS manual read for the route
+shot 06_edl_wrong
+shot 06a_pet_pick
+PASS pet picked before the 60-second scramble
+PASS 60-second scramble started after the landing steps
+shot 06b_scramble
+PASS stowed 3 supplies: sup_food,sup_medkit,sup_o2
+PASS scramble clock runs (59 -> 57)
+shot 07_land_a
+shot 07_land_b
+shot 07_land_c
+shot 07_land_d
+PASS the landing leads into the survival diary
+PASS the pet picked before the scramble is aboard
+PASS the stowed first aid kit is in the locker
+PASS stowed food and oxygen were added to the stock
+PASS checkpoint saved for Continue
+shot 08_diary_day1_th
+done errors=0 checksFailed=0

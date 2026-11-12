@@ -122,6 +122,8 @@ namespace TitanGate.Core
         public int Day => DayAt(State.hour);
         public int ClockAt(int h) => (_c.landingClock + h) % 24;
         public int DayAt(int h) => 1 + h / 24;
+        /// <summary>Night number for an hour in the small hours: night N ends day N, because days change at 06:00.</summary>
+        public int NightAt(int h) => DayAt(h);
         public int HoursLeft => _c.hoursTotal - State.hour;
         public bool IsDaylight => Clock >= _c.daylightFrom && Clock < _c.daylightTo;
         public bool IsNight => Clock >= 22 || Clock < 6;
@@ -173,7 +175,13 @@ namespace TitanGate.Core
 
         // ------------------------------------------------------------------ time
 
-        /// <summary>Let time pass hour by hour. Sleeping restores energy; a low-air alarm wakes the astronaut.</summary>
+        /// <summary>What the bunk should warn about before sleeping (a localisation key), or null when the air is fine.
+        /// An alarm only rings when the air falls past its level, so below the last level nothing is left to wake you.</summary>
+        public string SleepAirWarning =>
+            State.air <= _c.critAir ? "bed.air_critical" : State.air <= _c.warnAir ? "bed.air_low" : null;
+
+        /// <summary>Let time pass hour by hour. Sleeping restores energy; the air alarm wakes the astronaut at the warning
+        /// level and again at the critical level.</summary>
         public AdvanceResult Advance(int hours, bool sleeping = false)
         {
             var r = new AdvanceResult { air0 = State.air, power0 = State.power, supplies0 = State.supplies, energy0 = State.energy, dose0 = State.dose };
@@ -181,10 +189,12 @@ namespace TitanGate.Core
             for (int i = 0; i < hours; i++)
             {
                 if (State.outcome != Outcome.Ongoing) break;
-                if (sleeping && State.air <= _c.warnAir && startAir > _c.warnAir)
+                // the air alarm rings twice: at the warning level and again at the critical level
+                bool critical = State.air <= _c.critAir && startAir > _c.critAir;
+                if (sleeping && (critical || (State.air <= _c.warnAir && startAir > _c.warnAir)))
                 {
                     r.stoppedEarly = true;
-                    Log(r, LogKind.WakeAlarm, "low_air", false);
+                    Log(r, LogKind.WakeAlarm, critical ? "critical_air" : "low_air", false);
                     break;
                 }
                 Tick(sleeping, r);
@@ -451,6 +461,13 @@ namespace TitanGate.Core
         }
 
         // ------------------------------------------------------------------ results
+
+        /// <summary>Why no rescue came, as a key suffix for "end.stranded.*": the first rescue step that is still missing.</summary>
+        public string StrandedReason =>
+            State.coords == 2 ? null
+            : !State.flags.Contains("beacon_repaired") ? "no_beacon"
+            : State.coords == 0 ? "not_sent"
+            : "not_heard";
 
         public int ScienceTotal => _c.actions.FindAll(a => a.science).Count;
         public int ScienceDone => _c.actions.FindAll(a => a.science && State.flags.Contains(a.setsFlag)).Count;

@@ -69,6 +69,7 @@ namespace TitanGate.Game
                 start.name = "btn-start";
                 Big("menu.continue", () => { _ui.HideScreen(); ContinueGame(); }, false, Settings.HasSave,
                     Settings.HasSave ? "(" + _loc.T("route." + Settings.SaveRoute + ".name") + ")" : null);
+                Big("menu.lifeboat", () => { _ui.HideScreen(); StartLifeboat(); });
                 Big("menu.cards", ShowCardBook, false, true, $"{CardsEverCount()}/{_cfg.cards.Count}");
                 Big("menu.howto", ShowHowTo);
                 Big("menu.settings", ShowSettings);
@@ -89,6 +90,7 @@ namespace TitanGate.Game
 
         void ContinueGame()
         {
+            if (Settings.SaveRoute == "lifeboat") { StartLifeboat(Settings.SaveItems, Settings.SavePet); return; }
             _cabinO2 = Settings.SaveCabin;
             _stowed.Clear();
             _stowed.AddRange(Settings.SaveItems);

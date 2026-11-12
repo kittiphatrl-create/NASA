@@ -1,0 +1,200 @@
+shot 00_menu_th
+PASS main menu opens the survival diary
+shot 01_pick_th
+shot 01_pick_en
+PASS picked the careful pet
+shot a_d1_filter_th
+PASS run a day 1: filter -> swap
+shot a_d1_visitor_tik_th
+PASS run a day 1: scanned tik with thermal
+PASS run a day 1: scanned tik with breath
+shot a_d1_visitor_tik_scanned_th
+PASS run a day 1: visitor_tik -> trade
+shot a_d1_visitor_tik_result_th
+shot a_d1_ration_th
+shot a_d1_ration_skip_th
+PASS run a day 1: went to sleep
+shot a_d1_night_th
+shot a_d2_crate_th
+PASS run a day 2: crate -> walk
+shot a_d2_visitor_mu_th
+PASS run a day 2: scanned mu with heartbeat
+shot a_d2_visitor_mu_scanned_th
+shot a_d2_visitor_mu_en
+PASS run a day 2: visitor_mu -> admit
+shot a_d2_locker_th
+PASS run a day 2: locker -> open
+shot a_d2_ration_th
+PASS run a day 2: went to sleep with the oxygen maker on
+shot a_d2_night_th
+shot a_d3_recycler_th
+PASS run a day 3: recycler -> repair
+shot a_d3_storm_warning_th
+shot a_d3_storm_warning_en
+PASS run a day 3: storm_warning -> water_wall
+shot a_d3_visitor_zee_th
+PASS run a day 3: visitor_zee -> buy_food
+shot a_d3_ration_th
+PASS run a day 3: went to sleep
+shot a_d3_night_th
+shot a_d4_storm_power_th
+PASS run a day 4: storm_power -> safe_mode
+shot a_d4_visitor_shade_th
+PASS run a day 4: scanned shade with heartbeat
+PASS run a day 4: scanned shade with breath
+shot a_d4_visitor_shade_scanned_th
+PASS run a day 4: visitor_shade -> refuse
+shot a_d4_ration_th
+PASS run a day 4: went to sleep
+shot a_d4_night_th
+shot a_d4_night_en
+shot a_d5_visitor_nok_th
+PASS run a day 5: visitor_nok -> water
+shot a_d5_ration_th
+PASS run a day 5: went to sleep
+shot a_d5_night_th
+shot a_d6_far_crate_th
+PASS run a day 6: far_crate -> walk
+shot a_d6_beacon_th
+shot a_d6_beacon_en
+PASS run a day 6: beacon -> nok_part
+shot a_d6_beacon_result_th
+shot a_d6_coords_th
+PASS run a day 6: coords -> send
+shot a_d6_visitor_ree_th
+PASS run a day 6: scanned ree with breath
+shot a_d6_visitor_ree_scanned_th
+PASS run a day 6: visitor_ree -> trade
+shot a_d6_ration_th
+PASS run a day 6: went to sleep
+shot a_d6_night_th
+shot a_d7_visitor_mimic_th
+PASS run a day 7: scanned mimic with breath
+PASS run a day 7: scanned mimic with heartbeat
+shot a_d7_visitor_mimic_scanned_th
+PASS run a day 7: visitor_mimic -> refuse
+shot a_d7_log_th
+PASS run a day 7: log -> friends
+shot a_d7_log_result_th
+shot a_d7_ration_th
+PASS run a day 7: went to sleep
+shot a_d7_night_th
+PASS run a reached the end screen
+PASS run A: rescued at the end of day 7
+PASS run A: Mu stole food and an item from the open locker
+PASS run A: the storm found the shelter ready and the electronics in safe mode
+PASS run A: three stars
+shot a_end_th
+shot a_end_en
+PASS play again restarts the diary
+PASS picked the brave pet
+PASS run b day 1: filter -> wash
+PASS run b day 1: visitor_tik -> trade
+PASS run b day 1: went to sleep
+shot b_d2_crate_th
+PASS run b day 2: crate -> send_pet
+PASS run b day 2: visitor_mu -> admit
+PASS run b day 2: locker -> open
+shot b_d2_ration_th
+PASS run b day 2: went to sleep with the oxygen maker on
+shot b_d2_night_th
+PASS run b day 3: recycler -> repair
+PASS run b day 3: storm_warning -> later
+PASS run b day 3: visitor_zee -> buy_o2
+PASS run b day 3: went to sleep
+shot b_d4_storm_last_th
+PASS run b day 4: storm_last -> send_pet
+PASS run b day 4: storm_power -> leave_on
+shot b_d4_visitor_shade_th
+PASS run b day 4: visitor_shade -> refuse
+PASS run b day 4: went to sleep
+shot b_d4_night_th
+shot b_d5_visitor_nok_th
+PASS run b day 5: visitor_nok -> admit
+PASS run b day 5: went to sleep
+PASS run b day 6: far_crate -> send_pet
+PASS run b day 6: beacon -> wait
+PASS run b day 6: visitor_ree -> refuse
+PASS run b day 6: went to sleep
+shot b_d7_beacon_last_th
+PASS run b day 7: beacon_last -> climb
+shot b_d7_coords_last_th
+PASS run b day 7: coords_last -> crank
+PASS run b day 7: visitor_mimic -> refuse
+PASS run b day 7: log -> air
+PASS run b day 7: went to sleep
+PASS run b reached the end screen
+PASS run B: rescued on the last possible day
+PASS run B: the brave pet stopped the theft
+PASS run B: the storm damaged the battery that was left on
+PASS run B: the hand crank cost health, so no health star
+shot b_end_th
+PASS play again restarts the diary
+PASS picked the smart pet
+PASS run c day 1: filter -> ignore
+PASS run c day 1: visitor_tik -> refuse
+shot c_d1_ration_th
+PASS run c day 1: went to sleep with the oxygen maker on
+shot c_d2_crate_th
+PASS run c day 2: crate -> leave
+PASS run c day 2: visitor_mu -> gift
+PASS run c day 2: locker -> open
+shot c_d2_ration_th
+PASS run c day 2: went to sleep with the oxygen maker on
+shot c_d2_night_th
+PASS run c day 3: recycler -> skip
+PASS run c day 3: storm_warning -> later
+PASS run c day 3: visitor_zee -> refuse
+PASS run c day 3: went to sleep
+shot c_d4_storm_last_th
+PASS run c day 4: storm_last -> hide
+PASS run c day 4: storm_power -> leave_on
+shot c_d4_visitor_shade_th
+PASS run c day 4: visitor_shade -> refuse
+PASS run c day 4: went to sleep
+shot c_d4_night_th
+shot c_d5_visitor_nok_th
+PASS run c day 5: visitor_nok -> refuse
+shot c_d5_mu_returns_th
+PASS run c day 5: mu_returns -> accept
+PASS run c day 5: went to sleep
+PASS run c day 6: far_crate -> leave
+PASS run c day 6: beacon -> wait
+PASS run c day 6: visitor_ree -> refuse
+PASS run c day 6: went to sleep
+shot c_d7_beacon_last_th
+PASS run c day 7: beacon_last -> give_up
+PASS run c day 7: visitor_mimic -> refuse
+PASS run c day 7: log -> water
+PASS run c day 7: went to sleep
+PASS run c reached the end screen
+PASS run C: alive but stranded, because the beacon was never repaired
+PASS run C: the storm hurt the unsheltered cadet
+PASS run C: Mu came back because it was fed at the hatch
+shot c_end_th
+shot c_end_en
+PASS play again restarts the diary
+PASS picked the smart pet
+PASS run d day 1: filter -> wash
+PASS run d day 1: visitor_tik -> refuse
+PASS run d day 1: went to sleep
+shot d_d2_crate_th
+PASS run d day 2: crate -> walk
+PASS run d day 2: visitor_mu -> refuse
+PASS run d day 2: locker -> open
+PASS run d day 2: went to sleep
+shot d_d2_night_th
+PASS run d day 3: recycler -> repair
+PASS run d day 3: storm_warning -> water_wall
+PASS run d day 3: visitor_zee -> refuse
+PASS run d day 3: went to sleep
+PASS run d day 4: storm_power -> safe_mode
+shot d_d4_visitor_shade_th
+PASS run d day 4: scanned shade with heartbeat
+shot d_d4_visitor_shade_scanned_th
+PASS run d day 4: visitor_shade -> admit
+PASS run d reached the end screen
+PASS run D: letting the monster in ends the run at once
+shot d_end_th
+shot d_end_en
+done errors=0 checksFailed=0

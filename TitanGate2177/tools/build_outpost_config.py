@@ -36,7 +36,7 @@ outpost = {
     "energyAwakePerHour": -1.4, "energySleepPerHour": 7.0,
     "lowEnergy": 20, "lowEnergyExtraHours": 1, "collapseSleepHours": 6,
     "suppliesZeroFailHours": 24,
-    "warnAir": 25, "warnSupplies": 20, "warnPower": 15,
+    "warnAir": 25, "critAir": 10, "warnSupplies": 20, "warnPower": 15,
     "radPerHour": 0.029, "radPerOutsideHour": 0.05, "radSafe": 50, "radLimit": 150,
     "spe": {"hour": 84, "durationHours": 6, "dose": 60, "energyLoss": 30, "airLoss": 10,
             "unpoweredShelterFactor": 0.5, "warningHour": 28},

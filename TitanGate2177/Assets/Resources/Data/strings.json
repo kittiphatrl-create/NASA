@@ -5466,6 +5466,21 @@
    "th": "ตื่น! สัญญาณอากาศดังแล้ว ผลิตออกซิเจนหรือตรวจระบบยังชีพ!"
   },
   {
+   "k": "out_wake_critical",
+   "en": "Wake up! Air is critical! This is the last alarm. Run MOXIE and check that life support has power!",
+   "th": "ตื่น! อากาศถึงขั้นวิกฤตแล้ว! นี่คือสัญญาณเตือนครั้งสุดท้าย เปิด MOXIE และตรวจว่าระบบยังชีพมีไฟ!"
+  },
+  {
+   "k": "bed.air_low",
+   "en": "Air is low ({0}%). The alarm will wake you once more, when it falls to {1}%.",
+   "th": "อากาศเหลือน้อย ({0}%) สัญญาณเตือนจะปลุกอีกครั้งเดียว เมื่ออากาศลดถึง {1}%"
+  },
+  {
+   "k": "bed.air_critical",
+   "en": "Air is critical ({0}%). No alarm is left to wake you. Make oxygen before you sleep!",
+   "th": "อากาศถึงขั้นวิกฤต ({0}%) ไม่เหลือสัญญาณเตือนที่จะปลุกคุณแล้ว ผลิตออกซิเจนก่อนนอน!"
+  },
+  {
    "k": "c2_coords_sent",
    "en": "Coordinates on the air. The rescue ship passes overhead in {0} h: keep the beacon on.",
    "th": "ส่งพิกัดออกไปแล้ว ยานกู้ภัยจะผ่านเหนือหัวในอีก {0} ชม. เปิดบีคอนไว้"
@@ -5901,6 +5916,21 @@
    "th": "คุณยังมีชีวิตอยู่ แต่ยานกู้ภัยไม่ได้รับพิกัด มันจะลองใหม่ในรอบถัดไป ซึ่งอีกหลายสัปดาห์"
   },
   {
+   "k": "end.stranded.no_beacon",
+   "en": "You are alive, but the rescue ship could not find you: the rescue beacon was never repaired. Repair it first, then switch it on in Base Control and send your coordinates.",
+   "th": "คุณยังมีชีวิตอยู่ แต่ยานกู้ภัยหาคุณไม่เจอ เพราะบีคอนกู้ภัยยังไม่ได้ซ่อม ต้องซ่อมก่อน แล้วเปิดบีคอนที่แผงควบคุมฐาน และส่งพิกัด"
+  },
+  {
+   "k": "end.stranded.not_sent",
+   "en": "You are alive and the beacon works, but you never sent your coordinates. The rescue ship did not know where to land.",
+   "th": "คุณยังมีชีวิตอยู่และบีคอนใช้งานได้ แต่คุณยังไม่ได้ส่งพิกัด ยานกู้ภัยจึงไม่รู้ว่าต้องลงจอดที่ไหน"
+  },
+  {
+   "k": "end.stranded.not_heard",
+   "en": "You are alive and you sent your coordinates, but the beacon was off each time the rescue ship passed overhead (every {0} hours), so it never heard you. The beacon needs power until the ship answers.",
+   "th": "คุณยังมีชีวิตอยู่และส่งพิกัดแล้ว แต่บีคอนปิดอยู่ทุกครั้งที่ยานกู้ภัยโคจรผ่าน (ทุก {0} ชั่วโมง) ยานจึงไม่ได้ยินสัญญาณ บีคอนต้องมีไฟจนกว่ายานจะตอบกลับ"
+  },
+  {
    "k": "end.failed.title",
    "en": "SIMULATION FAILED",
    "th": "การจำลองล้มเหลว"
@@ -6074,6 +6104,2111 @@
    "k": "card.eclss.body",
    "en": "On the International Space Station, the Environmental Control and Life Support System removes carbon dioxide, recycles water and makes oxygen. It runs on electricity, so on a planet, power and air are linked.",
    "th": "บนสถานีอวกาศนานาชาติ ระบบควบคุมสภาพแวดล้อมและยังชีพ (ECLSS) กำจัดคาร์บอนไดออกไซด์ รีไซเคิลน้ำ และผลิตออกซิเจน มันใช้ไฟฟ้า บนดาวเคราะห์ ไฟฟ้ากับอากาศจึงผูกกันอยู่"
+  },
+  {
+   "k": "menu.lifeboat",
+   "en": "New Chapter 2: survival diary (prototype)",
+   "th": "บทที่ 2 แบบใหม่: บันทึกเอาชีวิตรอด (ต้นแบบ)"
+  },
+  {
+   "k": "life.title_day",
+   "en": "DAY {0} OF {1} · LIFEBOAT ON MARS",
+   "th": "วันที่ {0} จาก {1} · ยานสำรองบนดาวอังคาร"
+  },
+  {
+   "k": "life.res.o2",
+   "en": "O2",
+   "th": "O2"
+  },
+  {
+   "k": "life.res.water",
+   "en": "Water",
+   "th": "น้ำ"
+  },
+  {
+   "k": "life.res.food",
+   "en": "Food",
+   "th": "อาหาร"
+  },
+  {
+   "k": "life.res.power",
+   "en": "Power",
+   "th": "ไฟฟ้า"
+  },
+  {
+   "k": "life.res.health",
+   "en": "Health {0}/{1}",
+   "th": "สุขภาพ {0}/{1}"
+  },
+  {
+   "k": "life.unit_note",
+   "en": "1 unit is enough for 1 person for 1 day (a game simplification).",
+   "th": "1 หน่วย พอสำหรับ 1 คน 1 วัน (ตัวเลขสมมติของเกม)"
+  },
+  {
+   "k": "life.days_left",
+   "en": "For this crew the supplies last {0} more day(s). Rescue comes at the end of day {1}.",
+   "th": "เสบียงพอสำหรับทุกคนบนยานอีก {0} วัน ยานกู้ภัยจะมาถึงตอนสิ้นวันที่ {1}"
+  },
+  {
+   "k": "life.crew",
+   "en": "Aboard: {0}",
+   "th": "บนยาน: {0}"
+  },
+  {
+   "k": "life.crew.me",
+   "en": "You",
+   "th": "คุณ"
+  },
+  {
+   "k": "life.items",
+   "en": "In the locker: {0}",
+   "th": "ในตู้เก็บของ: {0}"
+  },
+  {
+   "k": "life.items.none",
+   "en": "nothing special",
+   "th": "ไม่มีของพิเศษ"
+  },
+  {
+   "k": "life.item.spare_filter",
+   "en": "spare filter",
+   "th": "ตัวกรองสำรอง"
+  },
+  {
+   "k": "life.item.med_kit",
+   "en": "first aid kit",
+   "th": "กล่องปฐมพยาบาล"
+  },
+  {
+   "k": "life.item.seed_pack",
+   "en": "seed pack",
+   "th": "ซองเมล็ดพันธุ์"
+  },
+  {
+   "k": "life.item.data_chip",
+   "en": "data chip",
+   "th": "ชิปข้อมูล"
+  },
+  {
+   "k": "life.item.shield_kit",
+   "en": "shield kit",
+   "th": "ชุดเกราะกันรังสี"
+  },
+  {
+   "k": "life.card_count",
+   "en": "Situation {0} of {1} today",
+   "th": "สถานการณ์ที่ {0} จาก {1} ของวันนี้"
+  },
+  {
+   "k": "life.visitor_header",
+   "en": "SOMEONE IS AT THE AIRLOCK",
+   "th": "มีใครบางคนอยู่ที่ประตูปรับแรงดัน"
+  },
+  {
+   "k": "life.clues",
+   "en": "What you can see:",
+   "th": "สิ่งที่คุณสังเกตเห็น:"
+  },
+  {
+   "k": "life.hint_from",
+   "en": "{0} ({1}) thinks:",
+   "th": "{0} ({1}) คิดว่า:"
+  },
+  {
+   "k": "life.hint_hungry",
+   "en": "{0} is hungry and has nothing to say today.",
+   "th": "{0} หิวจนไม่มีแรงออกความเห็นวันนี้"
+  },
+  {
+   "k": "life.fiction",
+   "en": "The Martian visitors are fiction. No life has been found on Mars.",
+   "th": "ผู้มาเยือนชาวดาวอังคารเป็นเรื่องแต่ง ยังไม่เคยพบสิ่งมีชีวิตบนดาวอังคาร"
+  },
+  {
+   "k": "life.need.item.spare_filter",
+   "en": "Needs the spare filter",
+   "th": "ต้องมีตัวกรองสำรอง"
+  },
+  {
+   "k": "life.need.trait.brave",
+   "en": "Needs a brave pet",
+   "th": "ต้องมีสัตว์เลี้ยงที่กล้าหาญ"
+  },
+  {
+   "k": "life.need.pet_fed",
+   "en": "Your pet is too hungry to help",
+   "th": "สัตว์เลี้ยงหิวเกินกว่าจะช่วยได้"
+  },
+  {
+   "k": "life.need.stock",
+   "en": "Not enough left",
+   "th": "ของไม่พอ"
+  },
+  {
+   "k": "life.need.air",
+   "en": "Not enough air for tonight",
+   "th": "อากาศไม่พอสำหรับคืนนี้"
+  },
+  {
+   "k": "life.tonight",
+   "en": "Tonight the cabin will use {0} O2.",
+   "th": "คืนนี้ห้องโดยสารจะใช้ O2 {0} หน่วย"
+  },
+  {
+   "k": "life.no_cost",
+   "en": "costs nothing",
+   "th": "ไม่เสียอะไร"
+  },
+  {
+   "k": "life.per_day",
+   "en": "every day",
+   "th": "ทุกวัน"
+  },
+  {
+   "k": "life.result_header",
+   "en": "WHAT HAPPENED",
+   "th": "สิ่งที่เกิดขึ้น"
+  },
+  {
+   "k": "life.you_chose",
+   "en": "You chose: {0}",
+   "th": "คุณเลือก: {0}"
+  },
+  {
+   "k": "life.continue",
+   "en": "Continue",
+   "th": "ไปต่อ"
+  },
+  {
+   "k": "life.ration.title",
+   "en": "EVENING · WHO EATS AND DRINKS TONIGHT?",
+   "th": "ตอนเย็น · คืนนี้ใครได้กินและดื่ม?"
+  },
+  {
+   "k": "life.ration.body",
+   "en": "Food and water can be shared or skipped. Air cannot: everyone inside the ship breathes it.",
+   "th": "อาหารและน้ำแบ่งหรืองดได้ แต่อากาศงดไม่ได้ ทุกคนที่อยู่ในยานต้องหายใจ"
+  },
+  {
+   "k": "life.ration.fed",
+   "en": "Gets a share",
+   "th": "ได้กิน"
+  },
+  {
+   "k": "life.ration.skipped",
+   "en": "Skips tonight",
+   "th": "งดคืนนี้"
+  },
+  {
+   "k": "life.ration.cost",
+   "en": "water {0} · food {1}",
+   "th": "น้ำ {0} · อาหาร {1}"
+  },
+  {
+   "k": "life.ration.skip_me",
+   "en": "If you skip, you lose 1 health.",
+   "th": "ถ้าคุณงด สุขภาพจะลด 1"
+  },
+  {
+   "k": "life.ration.skip_pet",
+   "en": "A hungry pet gives no advice tomorrow.",
+   "th": "สัตว์เลี้ยงที่หิวจะไม่ช่วยออกความเห็นพรุ่งนี้"
+  },
+  {
+   "k": "life.ration.skip_guest",
+   "en": "A visitor who gets nothing leaves in the morning.",
+   "th": "ผู้มาเยือนที่ไม่ได้อะไรเลยจะจากไปตอนเช้า"
+  },
+  {
+   "k": "life.ration.total",
+   "en": "Tonight uses: water {0} of {1} · food {2} of {3} · O2 {4} of {5}",
+   "th": "คืนนี้ใช้: น้ำ {0} จาก {1} · อาหาร {2} จาก {3} · O2 {4} จาก {5}"
+  },
+  {
+   "k": "life.ration.o2_clog",
+   "en": "The clogged filter costs 1 extra O2.",
+   "th": "ตัวกรองที่อุดตันทำให้ใช้ O2 เพิ่ม 1"
+  },
+  {
+   "k": "life.ration.o2_power",
+   "en": "No power for the air scrubber tonight: 1 extra O2.",
+   "th": "คืนนี้ไม่มีไฟให้เครื่องฟอกอากาศ: ใช้ O2 เพิ่ม 1"
+  },
+  {
+   "k": "life.ration.o2_short",
+   "en": "Not enough O2 for everyone inside tonight!",
+   "th": "O2 ไม่พอสำหรับทุกคนในยานคืนนี้!"
+  },
+  {
+   "k": "life.ration.cant",
+   "en": "Not enough food or water for this plan. Someone has to skip.",
+   "th": "อาหารหรือน้ำไม่พอสำหรับแผนนี้ ต้องมีคนงด"
+  },
+  {
+   "k": "life.ration.confirm",
+   "en": "Go to sleep",
+   "th": "เข้านอน"
+  },
+  {
+   "k": "life.night.title",
+   "en": "NIGHT {0} REPORT",
+   "th": "รายงานคืนที่ {0}"
+  },
+  {
+   "k": "life.night.calm",
+   "en": "A quiet night. Nothing unusual happened.",
+   "th": "คืนนี้สงบ ไม่มีอะไรผิดปกติ"
+  },
+  {
+   "k": "life.night.used",
+   "en": "Used tonight: water {0} · food {1} · O2 {2}",
+   "th": "คืนนี้ใช้ไป: น้ำ {0} · อาหาร {1} · O2 {2}"
+  },
+  {
+   "k": "life.night.Hungry",
+   "en": "You went without food and water. Health -1.",
+   "th": "คุณไม่ได้กินและดื่ม สุขภาพ -1"
+  },
+  {
+   "k": "life.night.PetHungry",
+   "en": "{0} went hungry and will not help tomorrow.",
+   "th": "{0} ไม่ได้กิน พรุ่งนี้จะไม่ช่วยออกความเห็น"
+  },
+  {
+   "k": "life.night.NoPower",
+   "en": "The battery was empty. The air scrubber stopped and the cabin used 1 extra O2.",
+   "th": "แบตเตอรี่หมด เครื่องฟอกอากาศหยุดทำงาน ห้องโดยสารใช้ O2 เพิ่ม 1"
+  },
+  {
+   "k": "life.night.Gift.tik",
+   "en": "Tik fixed the water recycler and wiped the solar panel. Water +1, power +1.",
+   "th": "ติ๊กซ่อมเครื่องรีไซเคิลน้ำและเช็ดแผงโซลาร์ น้ำ +1 ไฟฟ้า +1"
+  },
+  {
+   "k": "life.night.Theft",
+   "en": "{0} slipped out during the night and took {1} food.",
+   "th": "{0} แอบออกไปกลางดึกพร้อมอาหาร {1} หน่วย"
+  },
+  {
+   "k": "life.night.Theft.item",
+   "en": "It also took the {0}.",
+   "th": "และเอา{0}ไปด้วย"
+  },
+  {
+   "k": "life.night.TheftStopped.pet",
+   "en": "{0} tried to open the locker. {1} chased it out, and it left with nothing.",
+   "th": "{0} พยายามเปิดตู้เก็บของ แต่ {1} ไล่ออกไป มันจึงไม่ได้อะไรไปเลย"
+  },
+  {
+   "k": "life.night.TheftStopped.lock",
+   "en": "{0} tried the locker, found it locked, and left before sunrise with nothing.",
+   "th": "{0} ลองเปิดตู้เก็บของ แต่ตู้ล็อกอยู่ มันจึงจากไปก่อนเช้าโดยไม่ได้อะไร"
+  },
+  {
+   "k": "life.night.GuestLeftHungry",
+   "en": "{0} got no food or water and walked back into the desert.",
+   "th": "{0} ไม่ได้อาหารและน้ำ จึงเดินกลับเข้าไปในทะเลทราย"
+  },
+  {
+   "k": "life.pick.title",
+   "en": "CHOOSE ONE COMPANION",
+   "th": "เลือกเพื่อนร่วมทางหนึ่งตัว"
+  },
+  {
+   "k": "life.pick.body",
+   "en": "There is room for one pet in the lifeboat. Each one eats 1 food a day and helps in its own way.",
+   "th": "ยานสำรองมีที่ให้สัตว์เลี้ยงตัวเดียว แต่ละตัวกินอาหารวันละ 1 หน่วย และช่วยคุณในแบบของมันเอง"
+  },
+  {
+   "k": "life.pick.kit",
+   "en": "Already packed from the ship: {0}",
+   "th": "ของที่ขนมาจากยานแล้ว: {0}"
+  },
+  {
+   "k": "life.pick.choose",
+   "en": "Take {0}",
+   "th": "พา{0}ไปด้วย"
+  },
+  {
+   "k": "trait.brave",
+   "en": "brave",
+   "th": "กล้าหาญ"
+  },
+  {
+   "k": "trait.smart",
+   "en": "smart",
+   "th": "ฉลาด"
+  },
+  {
+   "k": "trait.careful",
+   "en": "careful",
+   "th": "รอบคอบ"
+  },
+  {
+   "k": "pet.comet.name",
+   "en": "Comet",
+   "th": "โคเมท"
+  },
+  {
+   "k": "pet.comet.desc",
+   "en": "A dog who runs toward trouble. Guards the ship at night and can go where it is risky.",
+   "th": "สุนัขที่วิ่งเข้าหาปัญหา เฝ้ายานตอนกลางคืน และไปในที่เสี่ยงแทนคุณได้"
+  },
+  {
+   "k": "pet.pixel.name",
+   "en": "Pixel",
+   "th": "พิกเซล"
+  },
+  {
+   "k": "pet.pixel.desc",
+   "en": "A cat who counts everything. Tells you what a choice really costs, and why.",
+   "th": "แมวที่ชอบนับทุกอย่าง บอกได้ว่าแต่ละทางเลือกต้องเสียอะไรจริงๆ และเพราะอะไร"
+  },
+  {
+   "k": "pet.luna.name",
+   "en": "Luna",
+   "th": "ลูน่า"
+  },
+  {
+   "k": "pet.luna.desc",
+   "en": "A rabbit who notices small things. Warns you when someone or something is not what it seems.",
+   "th": "กระต่ายที่สังเกตเรื่องเล็กๆ คอยเตือนเมื่อมีใครหรืออะไรไม่ชอบมาพากล"
+  },
+  {
+   "k": "visitor.tik.name",
+   "en": "Tik",
+   "th": "ติ๊ก"
+  },
+  {
+   "k": "visitor.mu.name",
+   "en": "Mu",
+   "th": "มู"
+  },
+  {
+   "k": "life.end.Survived.title",
+   "en": "END OF THE PROTOTYPE · YOU REACHED THE END OF DAY {0}",
+   "th": "จบต้นแบบ · คุณอยู่รอดถึงสิ้นวันที่ {0}"
+  },
+  {
+   "k": "life.end.on_track",
+   "en": "Rescue comes at the end of day {0}. Your supplies last {1} more day(s): enough, if nothing goes wrong.",
+   "th": "ยานกู้ภัยจะมาตอนสิ้นวันที่ {0} เสบียงของคุณพออีก {1} วัน: เพียงพอ ถ้าไม่มีอะไรผิดพลาด"
+  },
+  {
+   "k": "life.end.short",
+   "en": "Rescue comes at the end of day {0}. Your supplies last only {1} more day(s). You need {2}. The coming days must bring in more.",
+   "th": "ยานกู้ภัยจะมาตอนสิ้นวันที่ {0} แต่เสบียงของคุณพออีกแค่ {1} วัน คุณต้องการ {2} วัน วันต่อๆ ไปต้องหาเพิ่มให้ได้"
+  },
+  {
+   "k": "life.end.next",
+   "en": "Days {0} to {1} are not written yet. This prototype tests one question: is reading and choosing more fun than walking and clicking?",
+   "th": "วันที่ {0} ถึง {1} ยังไม่ได้เขียน ต้นแบบนี้มีไว้ทดสอบคำถามเดียว: การอ่านแล้วเลือกสนุกกว่าการเดินแล้วกดหรือไม่?"
+  },
+  {
+   "k": "life.end.failed.title",
+   "en": "SIMULATION FAILED",
+   "th": "การจำลองล้มเหลว"
+  },
+  {
+   "k": "life.end.FailedAir",
+   "en": "The oxygen ran out. Everyone inside the ship breathes, so every guest and every broken part of the air system costs O2 each night.",
+   "th": "ออกซิเจนหมด ทุกคนในยานต้องหายใจ ผู้มาเยือนทุกคนและทุกจุดที่ระบบอากาศเสีย จึงทำให้เสีย O2 ทุกคืน"
+  },
+  {
+   "k": "life.end.FailedHealth",
+   "en": "You skipped food and water too many times. An astronaut must look after their own body first to look after anyone else.",
+   "th": "คุณงดอาหารและน้ำบ่อยเกินไป นักบินอวกาศต้องดูแลร่างกายตัวเองก่อน จึงจะดูแลคนอื่นได้"
+  },
+  {
+   "k": "life.end.choices",
+   "en": "What you decided:",
+   "th": "สิ่งที่คุณตัดสินใจ:"
+  },
+  {
+   "k": "life.end.choice_row",
+   "en": "Day {0} · {1}: {2}",
+   "th": "วันที่ {0} · {1}: {2}"
+  },
+  {
+   "k": "life.end.again",
+   "en": "Play again",
+   "th": "เล่นอีกครั้ง"
+  },
+  {
+   "k": "life.res.health_name",
+   "en": "Health",
+   "th": "สุขภาพ"
+  },
+  {
+   "k": "life.need.item.med_kit",
+   "en": "Needs the first aid kit",
+   "th": "ต้องมีกล่องปฐมพยาบาล"
+  },
+  {
+   "k": "life.need.item.shield_kit",
+   "en": "Needs the shield kit",
+   "th": "ต้องมีชุดเกราะกันรังสี"
+  },
+  {
+   "k": "life.need.item.data_chip",
+   "en": "Needs the data chip",
+   "th": "ต้องมีชิปข้อมูล"
+  },
+  {
+   "k": "life.need.flag.nok_helped",
+   "en": "Only if you helped Nok",
+   "th": "ต้องเคยช่วยน็อกไว้"
+  },
+  {
+   "k": "life.need.guest.tik",
+   "en": "Only if Tik lives aboard",
+   "th": "ต้องมีติ๊กอยู่บนยาน"
+  },
+  {
+   "k": "life.need.health",
+   "en": "You are too weak for this",
+   "th": "คุณอ่อนแรงเกินไป"
+  },
+  {
+   "k": "visitor.zee.name",
+   "en": "Zee",
+   "th": "ซี"
+  },
+  {
+   "k": "visitor.nok.name",
+   "en": "Nok",
+   "th": "น็อก"
+  },
+  {
+   "k": "life.night.event.storm_crew.safe",
+   "en": "The solar storm passed while you slept behind the shield. You are fine.",
+   "th": "พายุสุริยะผ่านไประหว่างที่คุณนอนอยู่หลังเกราะ คุณปลอดภัยดี"
+  },
+  {
+   "k": "life.night.event.storm_crew.hit",
+   "en": "The solar storm reached the bunk. You feel sick and weak. Health -1.",
+   "th": "พายุสุริยะทะลุถึงเตียงนอน คุณรู้สึกป่วยและอ่อนแรง สุขภาพ -1"
+  },
+  {
+   "k": "life.night.event.storm_power.safe",
+   "en": "The electronics slept through the storm in safe mode. Nothing was damaged.",
+   "th": "อุปกรณ์ไฟฟ้าอยู่ในโหมดปลอดภัยตลอดพายุ ไม่มีอะไรเสียหาย"
+  },
+  {
+   "k": "life.night.event.storm_power.hit",
+   "en": "The storm damaged part of the battery. Power -2.",
+   "th": "พายุทำให้แบตเตอรี่เสียหายบางส่วน ไฟฟ้า -2"
+  },
+  {
+   "k": "life.end.Rescued.title",
+   "en": "RESCUED",
+   "th": "ได้รับการช่วยเหลือ"
+  },
+  {
+   "k": "life.end.Rescued.body",
+   "en": "The rescue ship lands at dawn, right on your coordinates. You stayed alive for 7 days on Mars and guided the rescue to you.",
+   "th": "ยานกู้ภัยลงจอดตอนรุ่งสาง ตรงพิกัดที่คุณส่งไปพอดี คุณอยู่รอดบนดาวอังคาร 7 วัน และนำทางยานกู้ภัยมาหาคุณได้"
+  },
+  {
+   "k": "life.end.Stranded.title",
+   "en": "SURVIVED, STRANDED",
+   "th": "รอดแต่ติดค้าง"
+  },
+  {
+   "k": "life.end.stranded.no_beacon",
+   "en": "You are alive, but the rescue ship could not find you: the beacon was never repaired. The ship will look again on a later orbit, many days from now.",
+   "th": "คุณยังมีชีวิตอยู่ แต่ยานกู้ภัยหาคุณไม่เจอ เพราะบีคอนไม่เคยได้ซ่อม ยานจะกลับมาค้นหาอีกครั้งในรอบโคจรถัดไป ซึ่งอีกหลายวัน"
+  },
+  {
+   "k": "life.end.stranded.not_sent",
+   "en": "You are alive and the beacon works, but your coordinates were never sent. The rescue ship did not know where to land.",
+   "th": "คุณยังมีชีวิตอยู่และบีคอนใช้งานได้ แต่คุณไม่ได้ส่งพิกัด ยานกู้ภัยจึงไม่รู้ว่าต้องลงจอดที่ไหน"
+  },
+  {
+   "k": "life.end.with",
+   "en": "With you at the end: {0}",
+   "th": "อยู่กับคุณจนจบ: {0}"
+  },
+  {
+   "k": "life.star.1",
+   "en": "Rescued at the end of day 7",
+   "th": "ได้รับการช่วยเหลือตอนสิ้นวันที่ 7"
+  },
+  {
+   "k": "life.star.2",
+   "en": "In full health: never hurt, never went hungry",
+   "th": "สุขภาพเต็ม: ไม่บาดเจ็บ ไม่เคยอด"
+  },
+  {
+   "k": "life.star.3",
+   "en": "Helped someone who needed it",
+   "th": "ได้ช่วยคนที่ต้องการความช่วยเหลือ"
+  },
+  {
+   "k": "life.maker.name",
+   "en": "Oxygen maker",
+   "th": "เครื่องผลิตออกซิเจน"
+  },
+  {
+   "k": "life.maker.on",
+   "en": "Runs tonight",
+   "th": "เปิดคืนนี้"
+  },
+  {
+   "k": "life.maker.off",
+   "en": "Stays off",
+   "th": "ปิดไว้"
+  },
+  {
+   "k": "life.maker.cost",
+   "en": "power -{0}  →  O2 +{1}",
+   "th": "ไฟฟ้า -{0}  →  O2 +{1}"
+  },
+  {
+   "k": "life.maker.no_power",
+   "en": "Not enough power to run it.",
+   "th": "ไฟไม่พอเปิดเครื่อง"
+  },
+  {
+   "k": "life.maker.fact",
+   "en": "It pulls oxygen out of Mars air, which is mostly carbon dioxide. NASA tested this for real: the MOXIE experiment on the Perseverance rover made oxygen on Mars.",
+   "th": "เครื่องนี้ดึงออกซิเจนออกจากอากาศดาวอังคาร ซึ่งส่วนใหญ่เป็นคาร์บอนไดออกไซด์ NASA ทดลองเรื่องนี้จริงแล้ว: การทดลอง MOXIE บนรถสำรวจ Perseverance ผลิตออกซิเจนบนดาวอังคารได้"
+  },
+  {
+   "k": "life.night.MakerRan",
+   "en": "The oxygen maker ran all evening. O2 +{0}.",
+   "th": "เครื่องผลิตออกซิเจนทำงานตลอดช่วงค่ำ O2 +{0}"
+  },
+  {
+   "k": "life.end.event_row",
+   "en": "Night {0}: {1}",
+   "th": "คืนที่ {0}: {1}"
+  },
+  {
+   "k": "life.star.got",
+   "en": "[*]",
+   "th": "[*]"
+  },
+  {
+   "k": "life.star.missed",
+   "en": "[  ]",
+   "th": "[  ]"
+  },
+  {
+   "k": "life.pick.body_scramble",
+   "en": "The ship is going down. Before you run for the lifeboat, take one pet. Each eats 1 food a day and helps in its own way.",
+   "th": "ยานกำลังตก ก่อนวิ่งไปยานสำรอง พาสัตว์เลี้ยงไปได้หนึ่งตัว แต่ละตัวกินอาหารวันละ 1 หน่วย และช่วยคุณในแบบของมันเอง"
+  },
+  {
+   "k": "life.sup.sup_o2",
+   "en": "+3 O2 in the lifeboat",
+   "th": "O2 +3 ในยานสำรอง"
+  },
+  {
+   "k": "life.sup.sup_water",
+   "en": "+3 water",
+   "th": "น้ำ +3"
+  },
+  {
+   "k": "life.sup.sup_food",
+   "en": "+3 food",
+   "th": "อาหาร +3"
+  },
+  {
+   "k": "life.sup.sup_battery",
+   "en": "+3 power",
+   "th": "ไฟฟ้า +3"
+  },
+  {
+   "k": "life.sup.sup_photo",
+   "en": "No use for survival, but it reminds you of home",
+   "th": "ไม่ช่วยให้รอด แต่ทำให้คิดถึงบ้าน"
+  },
+  {
+   "k": "life.sup.sup_medkit",
+   "en": "Can treat an injured visitor",
+   "th": "ใช้รักษาผู้มาเยือนที่บาดเจ็บได้"
+  },
+  {
+   "k": "life.sup.sup_filter",
+   "en": "Fixes a dusty air filter at once",
+   "th": "เปลี่ยนตัวกรองอากาศที่อุดตันได้ทันที"
+  },
+  {
+   "k": "life.sup.sup_seeds",
+   "en": "No use this week: plants need weeks to grow",
+   "th": "สัปดาห์นี้ยังใช้ไม่ได้: ต้นไม้ต้องใช้เวลาหลายสัปดาห์ถึงจะโต"
+  },
+  {
+   "k": "life.sup.sup_cell",
+   "en": "Holds backup antenna settings for the beacon",
+   "th": "มีค่าตั้งเสาอากาศสำรองสำหรับบีคอน"
+  },
+  {
+   "k": "life.sup.sup_shield",
+   "en": "Shields your bunk from a solar storm, no water needed",
+   "th": "กันรังสีพายุสุริยะให้เตียงนอนได้ ไม่ต้องใช้น้ำ"
+  },
+  {
+   "k": "route.lifeboat.name",
+   "en": "Mars lifeboat",
+   "th": "ยานสำรองบนดาวอังคาร"
+  },
+  {
+   "k": "life.scan.title",
+   "en": "CHECK BEFORE YOU OPEN · scans left: {0}",
+   "th": "ตรวจก่อนเปิดประตู · สแกนได้อีก {0} ครั้ง"
+  },
+  {
+   "k": "life.scan.extra",
+   "en": "{0} helps you check: one extra scan.",
+   "th": "{0} ช่วยคุณตรวจ: สแกนเพิ่มได้อีก 1 ครั้ง"
+  },
+  {
+   "k": "life.scan.none_left",
+   "en": "No scans left for this visitor. Decide with what you know.",
+   "th": "สแกนผู้มาเยือนรายนี้ครบแล้ว ตัดสินใจจากสิ่งที่รู้"
+  },
+  {
+   "k": "life.scan.odd",
+   "en": "NOT RIGHT for a living being!",
+   "th": "ผิดปกติ ไม่ใช่สิ่งมีชีวิตแบบนี้!"
+  },
+  {
+   "k": "life.scan.normal",
+   "en": "Normal for a living being.",
+   "th": "ปกติของสิ่งมีชีวิต"
+  },
+  {
+   "k": "life.scan.thermal.name",
+   "en": "Infrared camera",
+   "th": "กล้องอินฟราเรด"
+  },
+  {
+   "k": "life.scan.thermal.how",
+   "en": "Warm things give off infrared light that eyes cannot see. A living body is much warmer than the Mars ground, which is about −60 °C on average.",
+   "th": "ของที่อุ่นจะปล่อยแสงอินฟราเรดที่ตามองไม่เห็น ร่างกายที่มีชีวิตอุ่นกว่าพื้นดาวอังคารมาก ซึ่งเฉลี่ยราว −60 °C"
+  },
+  {
+   "k": "life.scan.breath.name",
+   "en": "Breath sensor",
+   "th": "เซ็นเซอร์ลมหายใจ"
+  },
+  {
+   "k": "life.scan.breath.how",
+   "en": "Animals breathe out carbon dioxide. Mars air is already about 95% carbon dioxide, so the sensor looks for the small puff that comes and goes with each breath.",
+   "th": "สัตว์หายใจออกเป็นคาร์บอนไดออกไซด์ อากาศดาวอังคารมีคาร์บอนไดออกไซด์อยู่แล้วราว 95% เซ็นเซอร์จึงมองหาลมหายใจเล็กๆ ที่มาแล้วหายไปทุกครั้งที่หายใจ"
+  },
+  {
+   "k": "life.scan.heartbeat.name",
+   "en": "Hatch microphone",
+   "th": "ไมโครโฟนติดประตู"
+  },
+  {
+   "k": "life.scan.heartbeat.how",
+   "en": "Sound travels well through solid metal, even when the air outside is very thin. A beating heart makes a steady thump.",
+   "th": "เสียงเดินทางผ่านโลหะได้ดี แม้อากาศข้างนอกจะเบาบางมาก หัวใจที่เต้นจะทำให้เกิดเสียงตุบๆ สม่ำเสมอ"
+  },
+  {
+   "k": "life.scan.tik.thermal",
+   "en": "Warm: about 30 °C. The ground around it is about −50 °C.",
+   "th": "อุ่น: ราว 30 °C ส่วนพื้นรอบตัวราว −50 °C"
+  },
+  {
+   "k": "life.scan.tik.breath",
+   "en": "A small puff of carbon dioxide every few seconds. It breathes.",
+   "th": "มีคาร์บอนไดออกไซด์พ่นออกมาทุกไม่กี่วินาที มันหายใจ"
+  },
+  {
+   "k": "life.scan.tik.heartbeat",
+   "en": "A quick, steady thump. A heartbeat.",
+   "th": "เสียงตุบๆ เร็วและสม่ำเสมอ คือเสียงหัวใจ"
+  },
+  {
+   "k": "life.scan.mu.thermal",
+   "en": "Warm: about 28 °C.",
+   "th": "อุ่น: ราว 28 °C"
+  },
+  {
+   "k": "life.scan.mu.breath",
+   "en": "It breathes, a little fast.",
+   "th": "มันหายใจ เร็วไปนิด"
+  },
+  {
+   "k": "life.scan.mu.heartbeat",
+   "en": "A heartbeat, a little fast. Nervous? A scanner can tell you something is alive, not whether it is honest.",
+   "th": "หัวใจเต้น เร็วไปนิด ตื่นเต้นหรือ? สแกนเนอร์บอกได้ว่ามีชีวิต แต่บอกไม่ได้ว่าซื่อสัตย์หรือเปล่า"
+  },
+  {
+   "k": "life.scan.zee.thermal",
+   "en": "Warm: about 32 °C. The cart beside it is as cold as the ground.",
+   "th": "อุ่น: ราว 32 °C ส่วนรถเข็นข้างๆ เย็นเท่าพื้นดิน"
+  },
+  {
+   "k": "life.scan.zee.breath",
+   "en": "Slow, calm breathing.",
+   "th": "หายใจช้าๆ สงบ"
+  },
+  {
+   "k": "life.scan.zee.heartbeat",
+   "en": "A slow, calm heartbeat.",
+   "th": "หัวใจเต้นช้าๆ สงบ"
+  },
+  {
+   "k": "life.scan.nok.thermal",
+   "en": "Warm, and hotter around the burned arm.",
+   "th": "อุ่น และร้อนกว่าตรงแขนที่ไหม้"
+  },
+  {
+   "k": "life.scan.nok.breath",
+   "en": "Short, quick breaths. It is in pain.",
+   "th": "หายใจสั้นและถี่ มันกำลังเจ็บ"
+  },
+  {
+   "k": "life.scan.nok.heartbeat",
+   "en": "A fast, light heartbeat.",
+   "th": "หัวใจเต้นเร็วและเบา"
+  },
+  {
+   "k": "life.scan.shade.thermal",
+   "en": "Cold: about −50 °C, the same as the rocks. Nothing alive stays that cold.",
+   "th": "เย็น: ราว −50 °C เท่ากับก้อนหิน สิ่งมีชีวิตไม่มีทางเย็นขนาดนี้"
+  },
+  {
+   "k": "life.scan.shade.breath",
+   "en": "No change in the gas at all. It is not breathing.",
+   "th": "ก๊าซไม่เปลี่ยนเลย มันไม่ได้หายใจ"
+  },
+  {
+   "k": "life.scan.shade.heartbeat",
+   "en": "A slow knock... knock... It matches the rhythm it knocked on the hatch.",
+   "th": "เสียงเคาะช้าๆ ...ก๊อก ...ก๊อก ตรงกับจังหวะที่มันเคาะประตูเมื่อกี้"
+  },
+  {
+   "k": "life.scan.ree.thermal",
+   "en": "Warm: about 29 °C. The plants are warmer than the ground too.",
+   "th": "อุ่น: ราว 29 °C และต้นไม้ก็อุ่นกว่าพื้นดินด้วย"
+  },
+  {
+   "k": "life.scan.ree.breath",
+   "en": "It breathes out carbon dioxide, and the plants in its box take some in.",
+   "th": "มันหายใจออกเป็นคาร์บอนไดออกไซด์ และต้นไม้ในกล่องก็ดูดเข้าไปบางส่วน"
+  },
+  {
+   "k": "life.scan.ree.heartbeat",
+   "en": "A steady heartbeat.",
+   "th": "หัวใจเต้นสม่ำเสมอ"
+  },
+  {
+   "k": "life.scan.mimic.thermal",
+   "en": "Warm: about 30 °C.",
+   "th": "อุ่น: ราว 30 °C"
+  },
+  {
+   "k": "life.scan.mimic.breath",
+   "en": "No puff of carbon dioxide. Not once. It is not breathing.",
+   "th": "ไม่มีคาร์บอนไดออกไซด์พ่นออกมาเลยสักครั้ง มันไม่ได้หายใจ"
+  },
+  {
+   "k": "life.scan.mimic.heartbeat",
+   "en": "Silence. No heartbeat at all.",
+   "th": "เงียบ ไม่มีเสียงหัวใจเลย"
+  },
+  {
+   "k": "visitor.shade.name",
+   "en": "the hooded stranger",
+   "th": "คนแปลกหน้าในผ้าคลุม"
+  },
+  {
+   "k": "visitor.ree.name",
+   "en": "Ree",
+   "th": "รี"
+  },
+  {
+   "k": "visitor.mimic.name",
+   "en": "the copy of Tik",
+   "th": "ร่างที่เหมือนติ๊ก"
+  },
+  {
+   "k": "life.night.Gift.ree",
+   "en": "Ree's plants turned carbon dioxide and lamp light into oxygen overnight. O2 +2.",
+   "th": "ต้นไม้ของรีเปลี่ยนคาร์บอนไดออกไซด์และแสงไฟให้เป็นออกซิเจนตลอดคืน O2 +2"
+  },
+  {
+   "k": "life.end.FailedMonster",
+   "en": "You opened the hatch for {0}. It was not a living visitor at all, and it does not need air, water or food. The simulation ends here. Next time, check first: living beings are warm, breathe out carbon dioxide, and have a heartbeat.",
+   "th": "คุณเปิดประตูให้{0} แต่มันไม่ใช่ผู้มาเยือนที่มีชีวิตเลย มันไม่ต้องการอากาศ น้ำ หรืออาหาร การจำลองจบตรงนี้ ครั้งหน้าตรวจก่อนนะ: สิ่งมีชีวิตจะอุ่น หายใจออกเป็นคาร์บอนไดออกไซด์ และมีเสียงหัวใจ"
+  },
+  {
+   "k": "life.end.FailedMonster.scans",
+   "en": "You scanned it with: {0}.",
+   "th": "คุณสแกนมันด้วย: {0}"
+  },
+  {
+   "k": "life.end.FailedMonster.noscan",
+   "en": "You did not scan it before opening.",
+   "th": "คุณไม่ได้สแกนก่อนเปิดประตู"
+  },
+  {
+   "k": "life.card.filter.title",
+   "en": "Dust in the air filter",
+   "th": "ฝุ่นในตัวกรองอากาศ"
+  },
+  {
+   "k": "life.card.filter.body",
+   "en": "The landing shook red dust into the air scrubber. Its filter is grey with dust. The scrubber is the machine that takes the carbon dioxide you breathe out away from the cabin air.",
+   "th": "แรงกระแทกตอนลงจอดทำให้ฝุ่นแดงเข้าไปในเครื่องฟอกอากาศ ตัวกรองเป็นสีเทาเพราะฝุ่น เครื่องฟอกอากาศคือเครื่องที่ดึงคาร์บอนไดออกไซด์ที่คุณหายใจออกมาออกจากอากาศในห้อง"
+  },
+  {
+   "k": "life.card.filter.swap",
+   "en": "Put in the spare filter",
+   "th": "ใส่ตัวกรองสำรอง"
+  },
+  {
+   "k": "life.card.filter.swap.result",
+   "en": "Clean filter, clean air. The scrubber runs as it should.",
+   "th": "ตัวกรองสะอาด อากาศก็สะอาด เครื่องฟอกอากาศทำงานได้ตามปกติ"
+  },
+  {
+   "k": "life.card.filter.wash",
+   "en": "Wash the filter with water",
+   "th": "ล้างตัวกรองด้วยน้ำ"
+  },
+  {
+   "k": "life.card.filter.wash.result",
+   "en": "The filter drips dry and works again. It cost one unit of water.",
+   "th": "ตัวกรองแห้งและใช้งานได้อีกครั้ง แต่เสียน้ำไปหนึ่งหน่วย"
+  },
+  {
+   "k": "life.card.filter.ignore",
+   "en": "Leave it for now",
+   "th": "ปล่อยไว้ก่อน"
+  },
+  {
+   "k": "life.card.filter.ignore.result",
+   "en": "The scrubber struggles with the dust. From tonight the cabin uses 1 extra O2 every day.",
+   "th": "เครื่องฟอกอากาศทำงานหนักเพราะฝุ่น ตั้งแต่คืนนี้ห้องโดยสารจะใช้ O2 เพิ่มวันละ 1 หน่วย"
+  },
+  {
+   "k": "life.card.filter.hint.brave",
+   "en": "I am not scared of a little dust! But I do like breathing.",
+   "th": "ฝุ่นแค่นี้ไม่กลัวหรอก! แต่ก็ชอบหายใจนะ"
+  },
+  {
+   "k": "life.card.filter.hint.smart",
+   "en": "A clogged filter catches less carbon dioxide. We would use 1 extra O2 every single day. Fixing it once is cheaper.",
+   "th": "ตัวกรองที่อุดตันดักคาร์บอนไดออกไซด์ได้น้อยลง เราจะเสีย O2 เพิ่มวันละ 1 หน่วยทุกวัน ซ่อมครั้งเดียวคุ้มกว่า"
+  },
+  {
+   "k": "life.card.filter.hint.careful",
+   "en": "Fix small problems on day one. They only grow.",
+   "th": "ปัญหาเล็กๆ ควรแก้ตั้งแต่วันแรก ปล่อยไว้มีแต่จะใหญ่ขึ้น"
+  },
+  {
+   "k": "life.card.visitor_tik.title",
+   "en": "A knock at the airlock",
+   "th": "เสียงเคาะที่ประตู"
+  },
+  {
+   "k": "life.card.visitor_tik.body",
+   "en": "A small Martian stands outside. It taps the hatch three times, then waits. It wants to come in.",
+   "th": "ชาวดาวอังคารตัวเล็กยืนอยู่ข้างนอก มันเคาะประตูสามครั้งแล้วยืนรอ มันอยากเข้ามาข้างใน"
+  },
+  {
+   "k": "life.card.visitor_tik.clue1",
+   "en": "It carries a belt of worn tools.",
+   "th": "มันคาดเข็มขัดเครื่องมือที่ใช้มาจนเก่า"
+  },
+  {
+   "k": "life.card.visitor_tik.clue2",
+   "en": "It points at your dusty solar panel, then at itself.",
+   "th": "มันชี้ไปที่แผงโซลาร์ที่เปื้อนฝุ่นของคุณ แล้วชี้ที่ตัวเอง"
+  },
+  {
+   "k": "life.card.visitor_tik.clue3",
+   "en": "Its water flask is empty.",
+   "th": "กระติกน้ำของมันว่างเปล่า"
+  },
+  {
+   "k": "life.card.visitor_tik.admit",
+   "en": "Let it in",
+   "th": "รับเข้ามา"
+  },
+  {
+   "k": "life.card.visitor_tik.admit.result",
+   "en": "It bows and says its name: Tik. From tonight Tik needs air, water and food every day, just like you.",
+   "th": "มันโค้งคำนับและบอกชื่อว่า ติ๊ก ตั้งแต่คืนนี้ติ๊กต้องใช้อากาศ น้ำ และอาหารทุกวัน เหมือนกับคุณ"
+  },
+  {
+   "k": "life.card.visitor_tik.trade",
+   "en": "Trade through the hatch: water for work",
+   "th": "แลกผ่านช่องประตู: น้ำแลกแรงงาน"
+  },
+  {
+   "k": "life.card.visitor_tik.trade.result",
+   "en": "Tik drinks, then wipes the solar panel until it shines. Then it walks on.",
+   "th": "ติ๊กดื่มน้ำ แล้วเช็ดแผงโซลาร์จนเงาวับ จากนั้นก็เดินทางต่อ"
+  },
+  {
+   "k": "life.card.visitor_tik.refuse",
+   "en": "Keep the hatch closed",
+   "th": "ไม่เปิดประตู"
+  },
+  {
+   "k": "life.card.visitor_tik.refuse.result",
+   "en": "The Martian waits a while, then walks away across the dust.",
+   "th": "ชาวดาวอังคารยืนรออยู่ครู่หนึ่ง แล้วเดินจากไปบนผืนฝุ่น"
+  },
+  {
+   "k": "life.card.visitor_tik.hint.brave",
+   "en": "It is small. If it makes trouble, I can handle it.",
+   "th": "ตัวเล็กแค่นี้ ถ้ามันก่อเรื่อง ฉันจัดการเอง"
+  },
+  {
+   "k": "life.card.visitor_tik.hint.smart",
+   "en": "Tools, and it pointed at the panel: it is offering to work. A worker who lives here costs air, water and food every day. A trade costs water once.",
+   "th": "มีเครื่องมือ แล้วยังชี้ที่แผง: มันเสนอตัวทำงาน ถ้าให้อยู่ด้วยจะเสียอากาศ น้ำ และอาหารทุกวัน แต่ถ้าแลกกัน เสียน้ำแค่ครั้งเดียว"
+  },
+  {
+   "k": "life.card.visitor_tik.hint.careful",
+   "en": "Empty flask, honest tools, and it waited after knocking. I see no trick. But count our food first.",
+   "th": "กระติกว่าง เครื่องมือของจริง และเคาะแล้วยังยืนรอ ไม่เห็นมีเล่ห์กลอะไร แต่นับอาหารของเราก่อนนะ"
+  },
+  {
+   "k": "life.card.crate.title",
+   "en": "A crate in the dust",
+   "th": "ลังเสบียงกลางฝุ่น"
+  },
+  {
+   "k": "life.card.crate.body",
+   "en": "A supply crate from the Kestrel lies about 200 metres from the lifeboat. You can see it through the window. Reaching it means a suit and a walk.",
+   "th": "ลังเสบียงจากยาน Kestrel ตกอยู่ห่างจากยานสำรองราว 200 เมตร มองเห็นได้จากหน้าต่าง ถ้าจะไปเอาต้องใส่ชุดอวกาศแล้วเดินออกไป"
+  },
+  {
+   "k": "life.card.crate.walk",
+   "en": "Suit up and fetch it",
+   "th": "ใส่ชุดแล้วออกไปเอา"
+  },
+  {
+   "k": "life.card.crate.walk.result",
+   "en": "The walk uses one unit of suit air. The crate holds 2 food and 1 water.",
+   "th": "การเดินใช้อากาศในชุดไปหนึ่งหน่วย ในลังมีอาหาร 2 และน้ำ 1"
+  },
+  {
+   "k": "life.card.crate.send_pet",
+   "en": "Send your brave pet with the tow line",
+   "th": "ให้สัตว์เลี้ยงผู้กล้าลากสายจูงไปเอา"
+  },
+  {
+   "k": "life.card.crate.send_pet.result",
+   "en": "Your pet drags the crate home in its little suit, tail up. 2 food and 1 water, and none of your suit air used.",
+   "th": "สัตว์เลี้ยงในชุดตัวจิ๋วลากลังกลับมาอย่างภูมิใจ ได้อาหาร 2 น้ำ 1 โดยไม่เสียอากาศในชุดของคุณเลย"
+  },
+  {
+   "k": "life.card.crate.leave",
+   "en": "Leave it there",
+   "th": "ปล่อยมันไว้"
+  },
+  {
+   "k": "life.card.crate.leave.result",
+   "en": "The crate stays where it is. The dust slowly covers it.",
+   "th": "ลังยังอยู่ที่เดิม ฝุ่นค่อยๆ กลบมันไป"
+  },
+  {
+   "k": "life.card.crate.hint.brave",
+   "en": "Let me go! I will be back before you finish counting.",
+   "th": "ให้ฉันไปเอง! กลับมาก่อนเธอนับเสร็จแน่"
+  },
+  {
+   "k": "life.card.crate.hint.smart",
+   "en": "The walk costs 1 O2. The crate gives 2 food and 1 water. Food is what we run out of first.",
+   "th": "เดินไปเสีย O2 1 หน่วย ในลังมีอาหาร 2 น้ำ 1 และอาหารคือสิ่งที่เราจะหมดก่อน"
+  },
+  {
+   "k": "life.card.crate.hint.careful",
+   "en": "It is close and the sky is clear. The risk is small, and we need the food.",
+   "th": "มันอยู่ใกล้และฟ้าก็เปิด ความเสี่ยงน้อย แล้วเราก็ต้องการอาหาร"
+  },
+  {
+   "k": "life.card.visitor_mu.title",
+   "en": "Another visitor",
+   "th": "ผู้มาเยือนอีกราย"
+  },
+  {
+   "k": "life.card.visitor_mu.body",
+   "en": "A tall Martian is already leaning on the hatch when you look out. It did not knock. It smiles and waves you over.",
+   "th": "ชาวดาวอังคารตัวสูงยืนพิงประตูอยู่แล้วตอนที่คุณมองออกไป มันไม่ได้เคาะ มันยิ้มและกวักมือเรียกคุณ"
+  },
+  {
+   "k": "life.card.visitor_mu.clue1",
+   "en": "Its bag is full and clinks like metal.",
+   "th": "กระเป๋าของมันตุงและมีเสียงโลหะกระทบกัน"
+  },
+  {
+   "k": "life.card.visitor_mu.clue2",
+   "en": "It keeps looking past you, at the storage locker.",
+   "th": "มันคอยมองข้ามไหล่คุณไปที่ตู้เก็บของ"
+  },
+  {
+   "k": "life.card.visitor_mu.clue3",
+   "en": "It does not ask for water or food.",
+   "th": "มันไม่ได้ขอน้ำหรืออาหารเลย"
+  },
+  {
+   "k": "life.card.visitor_mu.admit",
+   "en": "Let it in",
+   "th": "รับเข้ามา"
+  },
+  {
+   "k": "life.card.visitor_mu.admit.result",
+   "en": "It says its name is Mu and sits down right next to the locker. Mu needs air, water and food too.",
+   "th": "มันบอกว่าชื่อ มู แล้วนั่งลงข้างตู้เก็บของทันที มูก็ต้องใช้อากาศ น้ำ และอาหารเช่นกัน"
+  },
+  {
+   "k": "life.card.visitor_mu.gift",
+   "en": "Hand out some food and say goodbye",
+   "th": "ยื่นอาหารให้แล้วบอกลา"
+  },
+  {
+   "k": "life.card.visitor_mu.gift.result",
+   "en": "Mu takes the food, looks surprised, and leaves. It keeps looking back at the ship.",
+   "th": "มูรับอาหารไปด้วยท่าทางแปลกใจ แล้วเดินจากไป มันหันกลับมามองยานอยู่หลายครั้ง"
+  },
+  {
+   "k": "life.card.visitor_mu.refuse",
+   "en": "Keep the hatch closed",
+   "th": "ไม่เปิดประตู"
+  },
+  {
+   "k": "life.card.visitor_mu.refuse.result",
+   "en": "Mu shrugs, taps the window once, and wanders off.",
+   "th": "มูยักไหล่ เคาะหน้าต่างหนึ่งที แล้วเดินจากไป"
+  },
+  {
+   "k": "life.card.visitor_mu.hint.brave",
+   "en": "If it touches our things, it will have me to deal with. I will stay awake by the locker.",
+   "th": "ถ้ามันแตะของของเรา ต้องเจอฉันก่อน คืนนี้ฉันจะเฝ้าตู้ไม่นอน"
+  },
+  {
+   "k": "life.card.visitor_mu.hint.smart",
+   "en": "A full bag that clinks, and there are no shops on Mars. Where did those things come from?",
+   "th": "กระเป๋าตุงมีเสียงโลหะ แต่บนดาวอังคารไม่มีร้านค้า ของพวกนั้นมาจากไหนกัน?"
+  },
+  {
+   "k": "life.card.visitor_mu.hint.careful",
+   "en": "It did not knock, and it is watching the locker, not us. I do not trust it.",
+   "th": "มันไม่ได้เคาะ แล้วยังมองตู้เก็บของ ไม่ได้มองเรา ฉันไม่ไว้ใจมัน"
+  },
+  {
+   "k": "life.card.locker.title",
+   "en": "Before you sleep",
+   "th": "ก่อนเข้านอน"
+  },
+  {
+   "k": "life.card.locker.body",
+   "en": "The storage locker holds your food and tools. Its lock runs on a small motor.",
+   "th": "ตู้เก็บของมีอาหารและเครื่องมือของคุณอยู่ กลอนของตู้ทำงานด้วยมอเตอร์ตัวเล็ก"
+  },
+  {
+   "k": "life.card.locker.lock",
+   "en": "Lock the locker tonight",
+   "th": "ล็อกตู้คืนนี้"
+  },
+  {
+   "k": "life.card.locker.lock.result",
+   "en": "The bolt slides shut. Nothing leaves the locker tonight.",
+   "th": "กลอนเลื่อนปิดสนิท คืนนี้ไม่มีอะไรออกจากตู้ได้"
+  },
+  {
+   "k": "life.card.locker.open",
+   "en": "Leave it open",
+   "th": "ไม่ล็อก"
+  },
+  {
+   "k": "life.card.locker.open.result",
+   "en": "You leave the locker as it is and save the power.",
+   "th": "คุณปล่อยตู้ไว้อย่างเดิมและประหยัดไฟ"
+  },
+  {
+   "k": "life.card.locker.hint.brave",
+   "en": "Lock or no lock, I am guarding it.",
+   "th": "จะล็อกหรือไม่ล็อก ฉันก็เฝ้าให้อยู่แล้ว"
+  },
+  {
+   "k": "life.card.locker.hint.smart",
+   "en": "The lock costs 1 power. An empty battery stops the air scrubber, and then we use more O2. Check the battery first.",
+   "th": "การล็อกใช้ไฟ 1 หน่วย ถ้าแบตหมด เครื่องฟอกอากาศจะหยุด แล้วเราจะใช้ O2 มากขึ้น ดูแบตก่อนตัดสินใจ"
+  },
+  {
+   "k": "life.card.locker.hint.careful",
+   "en": "If a stranger sleeps here tonight, lock it. If we are alone, save the power.",
+   "th": "ถ้าคืนนี้มีคนแปลกหน้านอนที่นี่ ให้ล็อก ถ้าอยู่กันเอง ก็ประหยัดไฟไว้"
+  },
+  {
+   "k": "life.card.recycler.title",
+   "en": "The water recycler drips",
+   "th": "เครื่องรีไซเคิลน้ำรั่ว"
+  },
+  {
+   "k": "life.card.recycler.body",
+   "en": "A seal in the water recycler has cracked. The recycler turns used water back into clean water, so a working one is worth more than a full bottle.",
+   "th": "ซีลในเครื่องรีไซเคิลน้ำร้าว เครื่องนี้เปลี่ยนน้ำใช้แล้วให้กลับเป็นน้ำสะอาด เครื่องที่ใช้งานได้จึงมีค่ากว่าน้ำเต็มขวด"
+  },
+  {
+   "k": "life.card.recycler.repair",
+   "en": "Repair it yourself with the heat tool",
+   "th": "ซ่อมเองด้วยเครื่องมือความร้อน"
+  },
+  {
+   "k": "life.card.recycler.repair.result",
+   "en": "The heat tool uses one unit of power and seals the crack. The recycler gives back 2 water.",
+   "th": "เครื่องมือความร้อนใช้ไฟหนึ่งหน่วยและปิดรอยร้าวได้ เครื่องรีไซเคิลคืนน้ำให้ 2 หน่วย"
+  },
+  {
+   "k": "life.card.recycler.tik_repair",
+   "en": "Ask Tik to repair it",
+   "th": "ขอให้ติ๊กซ่อม"
+  },
+  {
+   "k": "life.card.recycler.tik_repair.result",
+   "en": "Tik hums, tightens three bolts you had not even noticed, and the recycler runs better than before: 3 water.",
+   "th": "ติ๊กฮัมเพลง ขันน็อตสามตัวที่คุณไม่เคยสังเกต แล้วเครื่องก็ทำงานดีกว่าเดิม: ได้น้ำ 3 หน่วย"
+  },
+  {
+   "k": "life.card.recycler.skip",
+   "en": "Leave it dripping",
+   "th": "ปล่อยให้หยดต่อไป"
+  },
+  {
+   "k": "life.card.recycler.skip.result",
+   "en": "The drip goes on. You put a cup under it.",
+   "th": "น้ำยังหยดต่อไป คุณเอาถ้วยไปรองไว้"
+  },
+  {
+   "k": "life.card.recycler.hint.brave",
+   "en": "Pass me the tool! ...Fine, you hold it. I will watch.",
+   "th": "ส่งเครื่องมือมาสิ! ...ก็ได้ เธอถือ ฉันดูให้"
+  },
+  {
+   "k": "life.card.recycler.hint.smart",
+   "en": "One power in, two water out. Water we recycle is water we do not have to find.",
+   "th": "ใช้ไฟหนึ่ง ได้น้ำสอง น้ำที่รีไซเคิลได้คือน้ำที่เราไม่ต้องออกไปหา"
+  },
+  {
+   "k": "life.card.recycler.hint.careful",
+   "en": "A small leak wastes a little every day. Seven days is a long time.",
+   "th": "รอยรั่วเล็กๆ เสียน้ำทีละนิดทุกวัน เจ็ดวันนานนะ"
+  },
+  {
+   "k": "life.card.storm_warning.title",
+   "en": "A message from Earth",
+   "th": "ข้อความจากโลก"
+  },
+  {
+   "k": "life.card.storm_warning.body",
+   "en": "Mission Control writes: a solar storm will reach Mars tomorrow night. The message left Earth 14 minutes ago, because radio needs time to cross space. A solar storm is a burst of fast particles from the Sun. Thick walls of water or soil stop many of them.",
+   "th": "ศูนย์ควบคุมภารกิจแจ้งว่า พายุสุริยะจะมาถึงดาวอังคารคืนพรุ่งนี้ ข้อความนี้ออกจากโลกเมื่อ 14 นาทีก่อน เพราะคลื่นวิทยุต้องใช้เวลาเดินทางข้ามอวกาศ พายุสุริยะคืออนุภาคความเร็วสูงที่พุ่งออกมาจากดวงอาทิตย์ ผนังหนาที่ทำจากน้ำหรือดินกันอนุภาคพวกนี้ได้มาก"
+  },
+  {
+   "k": "life.card.storm_warning.water_wall",
+   "en": "Stack water bags around the bunk",
+   "th": "เรียงถุงน้ำรอบเตียงนอน"
+  },
+  {
+   "k": "life.card.storm_warning.water_wall.result",
+   "en": "You wall the bunk in with water bags. That water is now a shield, not a drink.",
+   "th": "คุณเรียงถุงน้ำเป็นผนังรอบเตียง น้ำส่วนนี้กลายเป็นเกราะ ไม่ใช่น้ำดื่มแล้ว"
+  },
+  {
+   "k": "life.card.storm_warning.shield_kit",
+   "en": "Unfold the shield kit",
+   "th": "กางชุดเกราะกันรังสี"
+  },
+  {
+   "k": "life.card.storm_warning.shield_kit.result",
+   "en": "The shield kit snaps into place around the bunk in minutes. No water needed.",
+   "th": "ชุดเกราะล็อกเข้าที่รอบเตียงในไม่กี่นาที ไม่ต้องใช้น้ำเลย"
+  },
+  {
+   "k": "life.card.storm_warning.later",
+   "en": "Deal with it tomorrow",
+   "th": "ไว้ค่อยทำพรุ่งนี้"
+  },
+  {
+   "k": "life.card.storm_warning.later.result",
+   "en": "You leave it for tomorrow. Tomorrow there will be less time.",
+   "th": "คุณเก็บไว้ทำพรุ่งนี้ แต่พรุ่งนี้จะมีเวลาน้อยกว่านี้"
+  },
+  {
+   "k": "life.card.storm_warning.hint.brave",
+   "en": "A storm? I am not hiding. ...Okay, maybe behind something thick.",
+   "th": "พายุเหรอ? ฉันไม่หลบหรอก ...ก็ได้ หลบหลังอะไรหนาๆ ก็ดี"
+  },
+  {
+   "k": "life.card.storm_warning.hint.smart",
+   "en": "Water is full of hydrogen, and hydrogen is good at stopping fast particles. Two water now protects your whole body tomorrow.",
+   "th": "น้ำมีไฮโดรเจนอยู่มาก และไฮโดรเจนหยุดอนุภาคเร็วได้ดี ใช้น้ำสองหน่วยตอนนี้ ปกป้องทั้งตัวเธอได้พรุ่งนี้"
+  },
+  {
+   "k": "life.card.storm_warning.hint.careful",
+   "en": "We were warned a whole day early. Use the day.",
+   "th": "เราได้คำเตือนล่วงหน้าทั้งวัน ใช้วันนี้ให้คุ้มนะ"
+  },
+  {
+   "k": "life.card.visitor_zee.title",
+   "en": "A trader with a cart",
+   "th": "พ่อค้ากับรถเข็น"
+  },
+  {
+   "k": "life.card.visitor_zee.body",
+   "en": "A round Martian parks a cart of tanks and boxes by the airlock. It holds up a sign with pictures: a battery, an arrow, and a choice of two things.",
+   "th": "ชาวดาวอังคารตัวกลมจอดรถเข็นที่เต็มไปด้วยถังและกล่องไว้ข้างประตู มันชูป้ายที่มีรูปภาพ: แบตเตอรี่ ลูกศร และของสองอย่างให้เลือก"
+  },
+  {
+   "k": "life.card.visitor_zee.clue1",
+   "en": "The cart carries sealed air tanks and food boxes.",
+   "th": "บนรถเข็นมีถังอากาศปิดผนึกและกล่องอาหาร"
+  },
+  {
+   "k": "life.card.visitor_zee.clue2",
+   "en": "It shows you the price before you ask.",
+   "th": "มันบอกราคาให้ดูก่อนที่คุณจะถาม"
+  },
+  {
+   "k": "life.card.visitor_zee.clue3",
+   "en": "It stays outside and does not try the door.",
+   "th": "มันรออยู่ข้างนอก ไม่พยายามเปิดประตู"
+  },
+  {
+   "k": "life.card.visitor_zee.buy_o2",
+   "en": "Trade power for air",
+   "th": "แลกไฟฟ้ากับอากาศ"
+  },
+  {
+   "k": "life.card.visitor_zee.buy_o2.result",
+   "en": "Zee plugs your battery into its cart, then rolls two air tanks through the hatch.",
+   "th": "ซีเสียบแบตเตอรี่ของคุณเข้ากับรถเข็น แล้วกลิ้งถังอากาศสองถังเข้ามาทางประตู"
+  },
+  {
+   "k": "life.card.visitor_zee.buy_food",
+   "en": "Trade power for food",
+   "th": "แลกไฟฟ้ากับอาหาร"
+  },
+  {
+   "k": "life.card.visitor_zee.buy_food.result",
+   "en": "Zee charges its cart from your battery and hands over two food boxes.",
+   "th": "ซีชาร์จรถเข็นจากแบตเตอรี่ของคุณ แล้วยื่นกล่องอาหารสองกล่องให้"
+  },
+  {
+   "k": "life.card.visitor_zee.refuse",
+   "en": "No trade today",
+   "th": "วันนี้ไม่แลก"
+  },
+  {
+   "k": "life.card.visitor_zee.refuse.result",
+   "en": "Zee nods, turns its sign around, and pushes the cart on.",
+   "th": "ซีพยักหน้า พลิกป้ายกลับ แล้วเข็นรถต่อไป"
+  },
+  {
+   "k": "life.card.visitor_zee.hint.brave",
+   "en": "It wants our battery? ...Its tanks do look heavy. I will carry them.",
+   "th": "มันอยากได้แบตของเราเหรอ? ...แต่ถังนั่นดูหนักนะ เดี๋ยวฉันช่วยลาก"
+  },
+  {
+   "k": "life.card.visitor_zee.hint.smart",
+   "en": "Look for our lowest number. Trade for the thing we will run out of first, and only if the battery can spare 2.",
+   "th": "ดูว่าตัวเลขไหนของเราต่ำสุด แลกเอาของที่จะหมดก่อน และแลกก็ต่อเมื่อแบตเหลือพอให้เสีย 2 หน่วย"
+  },
+  {
+   "k": "life.card.visitor_zee.hint.careful",
+   "en": "It showed the price first and stayed outside. This one is honest. Still, keep enough power for the beacon later.",
+   "th": "มันบอกราคาก่อนและรออยู่ข้างนอก รายนี้ซื่อตรง แต่เก็บไฟไว้ให้พอสำหรับบีคอนทีหลังด้วยนะ"
+  },
+  {
+   "k": "life.card.storm_last.title",
+   "en": "The storm is hours away",
+   "th": "พายุจะมาถึงในไม่กี่ชั่วโมง"
+  },
+  {
+   "k": "life.card.storm_last.body",
+   "en": "The bunk still has no shield, and the solar storm arrives tonight. There is time for one quick job.",
+   "th": "เตียงนอนยังไม่มีเกราะ และพายุสุริยะจะมาถึงคืนนี้ เหลือเวลาพอสำหรับงานด่วนหนึ่งอย่าง"
+  },
+  {
+   "k": "life.card.storm_last.sandbags",
+   "en": "Go out and pile soil bags against the wall",
+   "th": "ออกไปเรียงถุงดินพิงผนัง"
+  },
+  {
+   "k": "life.card.storm_last.sandbags.result",
+   "en": "You fill bags with Mars soil and stack them against the bunk wall. It costs one unit of suit air, and it will hold.",
+   "th": "คุณกรอกดินดาวอังคารใส่ถุงแล้วเรียงพิงผนังห้องนอน เสียอากาศในชุดไปหนึ่งหน่วย แต่เกราะนี้กันได้"
+  },
+  {
+   "k": "life.card.storm_last.send_pet",
+   "en": "Let your brave pet drag the soil bags",
+   "th": "ให้สัตว์เลี้ยงผู้กล้าลากถุงดิน"
+  },
+  {
+   "k": "life.card.storm_last.send_pet.result",
+   "en": "Your pet hauls bag after bag to the wall and comes back red with dust and very proud.",
+   "th": "สัตว์เลี้ยงลากถุงดินทีละถุงไปพิงผนัง แล้วกลับมาตัวแดงเพราะฝุ่นอย่างภูมิใจ"
+  },
+  {
+   "k": "life.card.storm_last.hide",
+   "en": "Stay inside and hope",
+   "th": "อยู่ข้างในแล้วภาวนา"
+  },
+  {
+   "k": "life.card.storm_last.hide.result",
+   "en": "You pull the blanket over your head. A blanket does not stop fast particles.",
+   "th": "คุณดึงผ้าห่มคลุมหัว แต่ผ้าห่มกันอนุภาคเร็วไม่ได้"
+  },
+  {
+   "k": "life.card.storm_last.hint.brave",
+   "en": "Bags of dirt? I can pull those. Open the hatch!",
+   "th": "ถุงดินเหรอ? ฉันลากไหว เปิดประตูเลย!"
+  },
+  {
+   "k": "life.card.storm_last.hint.smart",
+   "en": "Soil works like the water wall: thick stuff between you and the Sun's particles. One O2 for the walk is cheap next to your health.",
+   "th": "ดินใช้ได้เหมือนผนังน้ำ: ของหนาๆ กั้นระหว่างเธอกับอนุภาคจากดวงอาทิตย์ เสีย O2 หนึ่งหน่วยถูกกว่าเสียสุขภาพ"
+  },
+  {
+   "k": "life.card.storm_last.hint.careful",
+   "en": "This is the last chance before tonight. Please do not skip it.",
+   "th": "นี่คือโอกาสสุดท้ายก่อนคืนนี้ อย่าข้ามเลยนะ"
+  },
+  {
+   "k": "life.card.storm_power.title",
+   "en": "Electronics before the storm",
+   "th": "อุปกรณ์ไฟฟ้าก่อนพายุมา"
+  },
+  {
+   "k": "life.card.storm_power.body",
+   "en": "Fast particles from the Sun can upset electronics. Before a storm, operators sometimes switch off the parts of a spacecraft that are not needed. Shutting down and starting again uses some power.",
+   "th": "อนุภาคเร็วจากดวงอาทิตย์รบกวนอุปกรณ์ไฟฟ้าได้ ก่อนพายุมา ผู้ควบคุมบางครั้งจะปิดส่วนของยานที่ไม่จำเป็น การปิดแล้วเปิดใหม่ต้องใช้ไฟอยู่บ้าง"
+  },
+  {
+   "k": "life.card.storm_power.safe_mode",
+   "en": "Switch to safe mode tonight",
+   "th": "เข้าโหมดปลอดภัยคืนนี้"
+  },
+  {
+   "k": "life.card.storm_power.safe_mode.result",
+   "en": "Screens go dark one by one. Only life support keeps running. Starting everything again costs one unit of power.",
+   "th": "หน้าจอดับลงทีละจอ เหลือแค่ระบบยังชีพที่ทำงานอยู่ การเปิดทุกอย่างใหม่ใช้ไฟหนึ่งหน่วย"
+  },
+  {
+   "k": "life.card.storm_power.leave_on",
+   "en": "Leave everything on",
+   "th": "เปิดทุกอย่างไว้"
+  },
+  {
+   "k": "life.card.storm_power.leave_on.result",
+   "en": "Everything stays on. The lights look brave.",
+   "th": "ทุกอย่างยังเปิดอยู่ แสงไฟดูกล้าหาญดี"
+  },
+  {
+   "k": "life.card.storm_power.hint.brave",
+   "en": "A dark ship? I am not afraid of the dark. Much.",
+   "th": "ยานมืดๆ เหรอ? ฉันไม่กลัวความมืดหรอก ไม่ค่อยกลัว"
+  },
+  {
+   "k": "life.card.storm_power.hint.smart",
+   "en": "Safe mode costs 1 power for sure. A storm hit could cost more. I would pay the 1.",
+   "th": "โหมดปลอดภัยเสียไฟ 1 แน่ๆ แต่ถ้าโดนพายุอาจเสียมากกว่า ฉันยอมจ่าย 1"
+  },
+  {
+   "k": "life.card.storm_power.hint.careful",
+   "en": "We cannot repair burnt electronics out here. Switch them off.",
+   "th": "อยู่ตรงนี้เราซ่อมวงจรที่ไหม้ไม่ได้ ปิดไว้ดีกว่า"
+  },
+  {
+   "k": "life.card.visitor_nok.title",
+   "en": "Someone small at the hatch",
+   "th": "ร่างเล็กๆ ที่ประตู"
+  },
+  {
+   "k": "life.card.visitor_nok.body",
+   "en": "A young Martian sits against the airlock, holding one arm. The storm caught it in the open. It looks up at the window and says nothing.",
+   "th": "ชาวดาวอังคารตัวน้อยนั่งพิงประตู มือกุมแขนข้างหนึ่งไว้ มันโดนพายุตอนอยู่กลางแจ้ง มันเงยหน้ามองหน้าต่างโดยไม่พูดอะไร"
+  },
+  {
+   "k": "life.card.visitor_nok.clue1",
+   "en": "Its arm is burned and it is shaking.",
+   "th": "แขนของมันมีแผลไหม้ และตัวมันสั่น"
+  },
+  {
+   "k": "life.card.visitor_nok.clue2",
+   "en": "It carries nothing at all.",
+   "th": "มันไม่ได้ถืออะไรมาเลย"
+  },
+  {
+   "k": "life.card.visitor_nok.clue3",
+   "en": "It keeps looking back toward the hills it came from.",
+   "th": "มันคอยหันมองไปทางเนินเขาที่มันจากมา"
+  },
+  {
+   "k": "life.card.visitor_nok.admit",
+   "en": "Bring it inside to rest",
+   "th": "พาเข้ามาพักข้างใน"
+  },
+  {
+   "k": "life.card.visitor_nok.admit.result",
+   "en": "You carry it in. It whispers its name: Nok. Nok needs air, water and food while it heals.",
+   "th": "คุณอุ้มมันเข้ามา มันกระซิบชื่อตัวเองว่า น็อก ระหว่างพักฟื้นน็อกต้องใช้อากาศ น้ำ และอาหาร"
+  },
+  {
+   "k": "life.card.visitor_nok.treat",
+   "en": "Treat the burn with the first aid kit",
+   "th": "ทำแผลไหม้ด้วยกล่องปฐมพยาบาล"
+  },
+  {
+   "k": "life.card.visitor_nok.treat.result",
+   "en": "You clean and wrap the burn at the hatch. Nok touches your hand, then walks slowly home toward the hills.",
+   "th": "คุณล้างและพันแผลให้ที่ประตู น็อกแตะมือคุณ แล้วค่อยๆ เดินกลับบ้านไปทางเนินเขา"
+  },
+  {
+   "k": "life.card.visitor_nok.water",
+   "en": "Give it water and point the way home",
+   "th": "ให้น้ำแล้วชี้ทางกลับบ้าน"
+  },
+  {
+   "k": "life.card.visitor_nok.water.result",
+   "en": "Nok drinks all of it, bows, and limps off toward the hills. It looks back twice.",
+   "th": "น็อกดื่มจนหมด โค้งคำนับ แล้วเดินกะเผลกไปทางเนินเขา มันหันกลับมามองสองครั้ง"
+  },
+  {
+   "k": "life.card.visitor_nok.refuse",
+   "en": "Keep the hatch closed",
+   "th": "ไม่เปิดประตู"
+  },
+  {
+   "k": "life.card.visitor_nok.refuse.result",
+   "en": "You stay inside. After a long while the small shape gets up and limps away.",
+   "th": "คุณอยู่ข้างใน ผ่านไปนาน ร่างเล็กๆ นั้นก็ลุกขึ้นแล้วเดินกะเผลกจากไป"
+  },
+  {
+   "k": "life.card.visitor_nok.hint.brave",
+   "en": "It is hurt! Open the hatch, I will keep it warm.",
+   "th": "มันเจ็บนะ! เปิดประตูสิ ฉันจะช่วยให้มันอุ่น"
+  },
+  {
+   "k": "life.card.visitor_nok.hint.smart",
+   "en": "It carries nothing, so it is not here to trade or to take. Helping at the hatch costs little. Letting it move in costs air, water and food every day.",
+   "th": "มันไม่ได้ถืออะไรมา แปลว่าไม่ได้มาค้าขายหรือมาเอาของ ช่วยที่ประตูเสียนิดเดียว แต่ถ้าให้อยู่ด้วยจะเสียอากาศ น้ำ และอาหารทุกวัน"
+  },
+  {
+   "k": "life.card.visitor_nok.hint.careful",
+   "en": "No bag, no tools, a real burn. This is not a trick. Help it, but count what we can spare.",
+   "th": "ไม่มีกระเป๋า ไม่มีเครื่องมือ แผลไหม้ของจริง นี่ไม่ใช่กลลวง ช่วยมันเถอะ แต่นับดูว่าเราแบ่งได้แค่ไหน"
+  },
+  {
+   "k": "life.card.mu_returns.title",
+   "en": "Mu is back",
+   "th": "มูกลับมา"
+  },
+  {
+   "k": "life.card.mu_returns.body",
+   "en": "The tall Martian you fed at the hatch is back. This time it knocks. It puts a bundle on the ground and steps away from it.",
+   "th": "ชาวดาวอังคารตัวสูงที่คุณเคยให้อาหารกลับมาแล้ว คราวนี้มันเคาะประตู มันวางห่อของไว้บนพื้นแล้วถอยออกห่าง"
+  },
+  {
+   "k": "life.card.mu_returns.accept",
+   "en": "Take the bundle",
+   "th": "รับห่อของ"
+  },
+  {
+   "k": "life.card.mu_returns.accept.result",
+   "en": "Inside are two food boxes. Mu found them in the wreck field and remembered who shared.",
+   "th": "ข้างในมีกล่องอาหารสองกล่อง มูเจอมันในทุ่งซากยาน และจำได้ว่าใครเคยแบ่งให้"
+  },
+  {
+   "k": "life.card.mu_returns.decline",
+   "en": "Wave it away",
+   "th": "โบกมือปฏิเสธ"
+  },
+  {
+   "k": "life.card.mu_returns.decline.result",
+   "en": "Mu shrugs, picks the bundle up again, and leaves.",
+   "th": "มูยักไหล่ หยิบห่อของขึ้นมา แล้วจากไป"
+  },
+  {
+   "k": "life.card.mu_returns.hint.brave",
+   "en": "It knocked this time. I think it likes us. I am still watching the locker.",
+   "th": "คราวนี้มันเคาะนะ ฉันว่ามันชอบเรา แต่ฉันยังเฝ้าตู้อยู่ดี"
+  },
+  {
+   "k": "life.card.mu_returns.hint.smart",
+   "en": "You gave 1 food and it brings 2. Sharing with it paid off.",
+   "th": "เธอให้อาหารไป 1 มันเอามาคืน 2 การแบ่งปันครั้งนั้นคุ้มค่า"
+  },
+  {
+   "k": "life.card.mu_returns.hint.careful",
+   "en": "It stepped back from the bundle so we can see its hands. That is honest behaviour. Take it.",
+   "th": "มันถอยออกจากห่อของให้เราเห็นมือทั้งสองข้าง แบบนี้คือจริงใจ รับไว้เถอะ"
+  },
+  {
+   "k": "life.card.far_crate.title",
+   "en": "A second crate, farther out",
+   "th": "ลังที่สอง ไกลกว่าเดิม"
+  },
+  {
+   "k": "life.card.far_crate.body",
+   "en": "The storm uncovered another Kestrel crate, about one kilometre away. It is a long walk in a suit.",
+   "th": "พายุพัดฝุ่นออกจนเห็นลังของยาน Kestrel อีกใบ ห่างออกไปราวหนึ่งกิโลเมตร ถ้าใส่ชุดเดินไปก็ไกลพอดู"
+  },
+  {
+   "k": "life.card.far_crate.walk",
+   "en": "Walk there and back",
+   "th": "เดินไปแล้วกลับ"
+  },
+  {
+   "k": "life.card.far_crate.walk.result",
+   "en": "A long, slow walk. Two units of suit air gone, three food and one water gained.",
+   "th": "เดินช้าๆ เป็นระยะทางไกล เสียอากาศในชุดสองหน่วย ได้อาหารสามและน้ำหนึ่ง"
+  },
+  {
+   "k": "life.card.far_crate.send_pet",
+   "en": "Send your brave pet with the sled",
+   "th": "ให้สัตว์เลี้ยงผู้กล้าลากเลื่อนไปเอา"
+  },
+  {
+   "k": "life.card.far_crate.send_pet.result",
+   "en": "Your pet is gone for an hour and comes back pulling the sled, crate on top, tail high.",
+   "th": "สัตว์เลี้ยงหายไปหนึ่งชั่วโมง แล้วกลับมาพร้อมเลื่อนที่มีลังวางอยู่ หางชี้ฟ้า"
+  },
+  {
+   "k": "life.card.far_crate.leave",
+   "en": "Leave it",
+   "th": "ปล่อยมันไว้"
+  },
+  {
+   "k": "life.card.far_crate.leave.result",
+   "en": "Too far. The crate stays a dot on the horizon.",
+   "th": "ไกลเกินไป ลังยังเป็นแค่จุดเล็กๆ ที่ขอบฟ้า"
+  },
+  {
+   "k": "life.card.far_crate.hint.brave",
+   "en": "One kilometre? That is a warm-up. Sled, please!",
+   "th": "กิโลเดียวเอง? แค่อุ่นเครื่อง ขอเลื่อนด้วย!"
+  },
+  {
+   "k": "life.card.far_crate.hint.smart",
+   "en": "Two O2 for three food and one water. Only worth it if air is not our lowest number.",
+   "th": "เสีย O2 สอง ได้อาหารสามกับน้ำหนึ่ง คุ้มก็ต่อเมื่ออากาศไม่ใช่ตัวเลขที่ต่ำสุดของเรา"
+  },
+  {
+   "k": "life.card.far_crate.hint.careful",
+   "en": "It is far. Go only if the air gauge still looks good after tonight's share.",
+   "th": "มันไกลนะ ไปก็ต่อเมื่อหักอากาศของคืนนี้แล้วยังเหลือพอ"
+  },
+  {
+   "k": "life.card.beacon.title",
+   "en": "The rescue beacon",
+   "th": "บีคอนกู้ภัย"
+  },
+  {
+   "k": "life.card.beacon.body",
+   "en": "The rescue ship is close now, but it needs a signal to find you. The beacon's antenna snapped off in the landing. Without it, your signal goes nowhere.",
+   "th": "ยานกู้ภัยเข้ามาใกล้แล้ว แต่ต้องมีสัญญาณถึงจะหาคุณเจอ เสาอากาศของบีคอนหักตอนลงจอด ถ้าไม่มีเสา สัญญาณของคุณก็ไปไม่ถึงไหน"
+  },
+  {
+   "k": "life.card.beacon.nok_part",
+   "en": "Use the antenna piece Nok's family brings",
+   "th": "ใช้ชิ้นส่วนเสาอากาศที่ครอบครัวของน็อกนำมาให้"
+  },
+  {
+   "k": "life.card.beacon.nok_part.result",
+   "en": "Three Martians come over the hill with Nok. They carry the missing antenna piece and a bag of dried food, and they fit the piece themselves.",
+   "th": "ชาวดาวอังคารสามคนเดินข้ามเนินมาพร้อมน็อก พวกเขาถือชิ้นส่วนเสาอากาศที่หายไปกับถุงอาหารแห้ง และช่วยประกอบให้ด้วยตัวเอง"
+  },
+  {
+   "k": "life.card.beacon.tik_fix",
+   "en": "Ask Tik to rebuild the antenna",
+   "th": "ขอให้ติ๊กสร้างเสาอากาศใหม่"
+  },
+  {
+   "k": "life.card.beacon.tik_fix.result",
+   "en": "Tik builds a new antenna arm from spare tubing and tests it with a little power. It stands straight.",
+   "th": "ติ๊กสร้างแขนเสาอากาศใหม่จากท่อสำรอง แล้วทดสอบด้วยไฟเล็กน้อย เสาตั้งตรงดี"
+  },
+  {
+   "k": "life.card.beacon.chip",
+   "en": "Load the backup antenna settings from the data chip",
+   "th": "โหลดค่าตั้งเสาอากาศสำรองจากชิปข้อมูล"
+  },
+  {
+   "k": "life.card.beacon.chip.result",
+   "en": "The data chip tells the beacon how to use the ship's own hull as an antenna. No climbing needed.",
+   "th": "ชิปข้อมูลสอนบีคอนให้ใช้ตัวยานเป็นเสาอากาศแทน ไม่ต้องปีนออกไปเลย"
+  },
+  {
+   "k": "life.card.beacon.climb",
+   "en": "Climb out and splint the antenna yourself",
+   "th": "ปีนออกไปดามเสาอากาศเอง"
+  },
+  {
+   "k": "life.card.beacon.climb.result",
+   "en": "You climb onto the hull, splint the antenna with a tent pole and weld it with the heat tool. It costs air and power, and it works.",
+   "th": "คุณปีนขึ้นไปบนตัวยาน ดามเสาอากาศด้วยเสาเต็นท์แล้วเชื่อมด้วยเครื่องมือความร้อน เสียทั้งอากาศและไฟ แต่ใช้งานได้"
+  },
+  {
+   "k": "life.card.beacon.wait",
+   "en": "Leave it for tomorrow",
+   "th": "ไว้พรุ่งนี้"
+  },
+  {
+   "k": "life.card.beacon.wait.result",
+   "en": "You leave the antenna lying in the dust. One day left.",
+   "th": "คุณปล่อยเสาอากาศนอนอยู่ในฝุ่น เหลืออีกหนึ่งวัน"
+  },
+  {
+   "k": "life.card.beacon.hint.brave",
+   "en": "I will hold the ladder. Up you go!",
+   "th": "ฉันจับบันไดให้ ขึ้นไปเลย!"
+  },
+  {
+   "k": "life.card.beacon.hint.smart",
+   "en": "No beacon, no rescue, however well we ate. Pick the cheapest way we have and do it today.",
+   "th": "ไม่มีบีคอนก็ไม่มีการช่วยเหลือ ต่อให้เรากินดีแค่ไหน เลือกวิธีที่เสียน้อยที่สุดแล้วทำวันนี้เลย"
+  },
+  {
+   "k": "life.card.beacon.hint.careful",
+   "en": "Do not leave this for the last day. If something goes wrong tomorrow, there is no day after.",
+   "th": "อย่าทิ้งเรื่องนี้ไว้วันสุดท้าย ถ้าพรุ่งนี้มีอะไรผิดพลาด จะไม่มีวันถัดไปให้แก้"
+  },
+  {
+   "k": "life.card.coords.title",
+   "en": "Send your coordinates",
+   "th": "ส่งพิกัด"
+  },
+  {
+   "k": "life.card.coords.body",
+   "en": "The beacon works. Now it must tell the rescue ship where you are. The ship flies around Mars and only hears you when it passes overhead, so the beacon has to keep sending for hours.",
+   "th": "บีคอนใช้งานได้แล้ว ตอนนี้ต้องบอกยานกู้ภัยว่าคุณอยู่ที่ไหน ยานโคจรรอบดาวอังคารและได้ยินคุณเฉพาะตอนผ่านเหนือหัว บีคอนจึงต้องส่งสัญญาณต่อเนื่องหลายชั่วโมง"
+  },
+  {
+   "k": "life.card.coords.send",
+   "en": "Send on battery power",
+   "th": "ส่งด้วยไฟจากแบตเตอรี่"
+  },
+  {
+   "k": "life.card.coords.send.result",
+   "en": "The beacon blinks through the night. Near dawn a short reply arrives: POSITION RECEIVED.",
+   "th": "บีคอนกะพริบตลอดคืน ใกล้รุ่งมีข้อความสั้นๆ ตอบกลับมา: ได้รับตำแหน่งแล้ว"
+  },
+  {
+   "k": "life.card.coords.crank",
+   "en": "Send by turning the hand crank all night",
+   "th": "ส่งด้วยการหมุนมือหมุนทั้งคืน"
+  },
+  {
+   "k": "life.card.coords.crank.result",
+   "en": "You turn the crank for hours with aching arms. Near dawn a short reply arrives: POSITION RECEIVED. You are worn out.",
+   "th": "คุณหมุนมือหมุนอยู่หลายชั่วโมงจนแขนล้า ใกล้รุ่งมีข้อความสั้นๆ ตอบกลับมา: ได้รับตำแหน่งแล้ว คุณหมดแรง"
+  },
+  {
+   "k": "life.card.coords.wait",
+   "en": "Send tomorrow",
+   "th": "ไว้ส่งพรุ่งนี้"
+  },
+  {
+   "k": "life.card.coords.wait.result",
+   "en": "You decide to wait. The ship passes overhead and hears nothing.",
+   "th": "คุณตัดสินใจรอ ยานผ่านเหนือหัวไปโดยไม่ได้ยินอะไร"
+  },
+  {
+   "k": "life.card.coords.hint.brave",
+   "en": "I will bark at the sky until they hear us! ...The beacon is probably better.",
+   "th": "ฉันจะเห่าใส่ฟ้าจนกว่าเขาจะได้ยิน! ...ใช้บีคอนน่าจะดีกว่า"
+  },
+  {
+   "k": "life.card.coords.hint.smart",
+   "en": "It costs 1 power. If the battery is empty the crank works too, but then it costs you health.",
+   "th": "ใช้ไฟ 1 หน่วย ถ้าแบตหมดก็ใช้มือหมุนได้ แต่จะเสียสุขภาพแทน"
+  },
+  {
+   "k": "life.card.coords.hint.careful",
+   "en": "Send it today. Tomorrow is the last chance, and last chances go wrong.",
+   "th": "ส่งวันนี้เลย พรุ่งนี้คือโอกาสสุดท้าย และโอกาสสุดท้ายมักพลาด"
+  },
+  {
+   "k": "life.card.beacon_last.title",
+   "en": "Last day: the beacon is still broken",
+   "th": "วันสุดท้าย: บีคอนยังเสียอยู่"
+  },
+  {
+   "k": "life.card.beacon_last.body",
+   "en": "The rescue ship arrives at dawn tomorrow. If the beacon stays silent tonight, the ship will not know where to land.",
+   "th": "ยานกู้ภัยจะมาถึงรุ่งเช้าพรุ่งนี้ ถ้าคืนนี้บีคอนยังเงียบ ยานจะไม่รู้ว่าต้องลงจอดที่ไหน"
+  },
+  {
+   "k": "life.card.beacon_last.nok_part",
+   "en": "Use the antenna piece Nok's family brings",
+   "th": "ใช้ชิ้นส่วนเสาอากาศที่ครอบครัวของน็อกนำมาให้"
+  },
+  {
+   "k": "life.card.beacon_last.nok_part.result",
+   "en": "Three Martians come over the hill with Nok. They carry the missing antenna piece and a bag of dried food, and they fit the piece themselves.",
+   "th": "ชาวดาวอังคารสามคนเดินข้ามเนินมาพร้อมน็อก พวกเขาถือชิ้นส่วนเสาอากาศที่หายไปกับถุงอาหารแห้ง และช่วยประกอบให้ด้วยตัวเอง"
+  },
+  {
+   "k": "life.card.beacon_last.tik_fix",
+   "en": "Ask Tik to rebuild the antenna",
+   "th": "ขอให้ติ๊กสร้างเสาอากาศใหม่"
+  },
+  {
+   "k": "life.card.beacon_last.tik_fix.result",
+   "en": "Tik builds a new antenna arm from spare tubing and tests it with a little power. It stands straight.",
+   "th": "ติ๊กสร้างแขนเสาอากาศใหม่จากท่อสำรอง แล้วทดสอบด้วยไฟเล็กน้อย เสาตั้งตรงดี"
+  },
+  {
+   "k": "life.card.beacon_last.chip",
+   "en": "Load the backup antenna settings from the data chip",
+   "th": "โหลดค่าตั้งเสาอากาศสำรองจากชิปข้อมูล"
+  },
+  {
+   "k": "life.card.beacon_last.chip.result",
+   "en": "The data chip tells the beacon how to use the ship's own hull as an antenna. No climbing needed.",
+   "th": "ชิปข้อมูลสอนบีคอนให้ใช้ตัวยานเป็นเสาอากาศแทน ไม่ต้องปีนออกไปเลย"
+  },
+  {
+   "k": "life.card.beacon_last.climb",
+   "en": "Climb out and splint the antenna yourself",
+   "th": "ปีนออกไปดามเสาอากาศเอง"
+  },
+  {
+   "k": "life.card.beacon_last.climb.result",
+   "en": "You climb onto the hull, splint the antenna with a tent pole and weld it with the heat tool. It costs air and power, and it works.",
+   "th": "คุณปีนขึ้นไปบนตัวยาน ดามเสาอากาศด้วยเสาเต็นท์แล้วเชื่อมด้วยเครื่องมือความร้อน เสียทั้งอากาศและไฟ แต่ใช้งานได้"
+  },
+  {
+   "k": "life.card.beacon_last.give_up",
+   "en": "There is nothing left to try",
+   "th": "ไม่มีอะไรให้ลองแล้ว"
+  },
+  {
+   "k": "life.card.beacon_last.give_up.result",
+   "en": "You sit by the window and watch the sky.",
+   "th": "คุณนั่งข้างหน้าต่างแล้วมองท้องฟ้า"
+  },
+  {
+   "k": "life.card.beacon_last.hint.brave",
+   "en": "Now or never. I am right behind you!",
+   "th": "ตอนนี้หรือไม่มีอีกแล้ว ฉันอยู่ข้างหลังเธอนี่แหละ!"
+  },
+  {
+   "k": "life.card.beacon_last.hint.smart",
+   "en": "Everything we saved is worth nothing if they cannot find us. Spend it now.",
+   "th": "ของที่เราเก็บออมมาทั้งหมดไม่มีค่าเลยถ้าเขาหาเราไม่เจอ ใช้มันตอนนี้"
+  },
+  {
+   "k": "life.card.beacon_last.hint.careful",
+   "en": "After today there is no other day. Fix it.",
+   "th": "หลังจากวันนี้ไม่มีวันอื่นแล้ว ซ่อมเถอะ"
+  },
+  {
+   "k": "life.card.coords_last.title",
+   "en": "Last day: send your coordinates",
+   "th": "วันสุดท้าย: ส่งพิกัด"
+  },
+  {
+   "k": "life.card.coords_last.body",
+   "en": "The beacon works, but the rescue ship still does not know where you are. Tonight is its last pass before it lands.",
+   "th": "บีคอนใช้งานได้ แต่ยานกู้ภัยยังไม่รู้ว่าคุณอยู่ที่ไหน คืนนี้คือรอบสุดท้ายที่ยานจะผ่านก่อนลงจอด"
+  },
+  {
+   "k": "life.card.coords_last.send",
+   "en": "Send on battery power",
+   "th": "ส่งด้วยไฟจากแบตเตอรี่"
+  },
+  {
+   "k": "life.card.coords_last.send.result",
+   "en": "The beacon blinks through the night. Near dawn a short reply arrives: POSITION RECEIVED.",
+   "th": "บีคอนกะพริบตลอดคืน ใกล้รุ่งมีข้อความสั้นๆ ตอบกลับมา: ได้รับตำแหน่งแล้ว"
+  },
+  {
+   "k": "life.card.coords_last.crank",
+   "en": "Send by turning the hand crank all night",
+   "th": "ส่งด้วยการหมุนมือหมุนทั้งคืน"
+  },
+  {
+   "k": "life.card.coords_last.crank.result",
+   "en": "You turn the crank for hours with aching arms. Near dawn a short reply arrives: POSITION RECEIVED. You are worn out.",
+   "th": "คุณหมุนมือหมุนอยู่หลายชั่วโมงจนแขนล้า ใกล้รุ่งมีข้อความสั้นๆ ตอบกลับมา: ได้รับตำแหน่งแล้ว คุณหมดแรง"
+  },
+  {
+   "k": "life.card.coords_last.skip",
+   "en": "Do not send",
+   "th": "ไม่ส่ง"
+  },
+  {
+   "k": "life.card.coords_last.skip.result",
+   "en": "The beacon stays quiet.",
+   "th": "บีคอนยังคงเงียบ"
+  },
+  {
+   "k": "life.card.coords_last.hint.brave",
+   "en": "Send it! Send it! Send it!",
+   "th": "ส่งเลย! ส่งเลย! ส่งเลย!"
+  },
+  {
+   "k": "life.card.coords_last.hint.smart",
+   "en": "1 power, or 1 health with the crank. Either is cheaper than being left behind.",
+   "th": "ไฟ 1 หน่วย หรือสุขภาพ 1 ถ้าใช้มือหมุน ทางไหนก็ถูกกว่าการถูกทิ้งไว้ที่นี่"
+  },
+  {
+   "k": "life.card.coords_last.hint.careful",
+   "en": "This is the last pass. Please send it.",
+   "th": "นี่คือรอบสุดท้ายแล้ว ส่งเถอะนะ"
+  },
+  {
+   "k": "life.card.log.title",
+   "en": "The last log entry",
+   "th": "บันทึกหน้าสุดท้าย"
+  },
+  {
+   "k": "life.card.log.body",
+   "en": "Rescue is due at dawn. You open the ship's log one last time. What mattered most this week?",
+   "th": "ยานกู้ภัยจะมาถึงตอนรุ่งสาง คุณเปิดสมุดบันทึกของยานเป็นครั้งสุดท้าย สัปดาห์นี้อะไรสำคัญที่สุด?"
+  },
+  {
+   "k": "life.card.log.air",
+   "en": "Counting the air first",
+   "th": "นับอากาศก่อนเสมอ"
+  },
+  {
+   "k": "life.card.log.air.result",
+   "en": "On the International Space Station, life support cleans and recycles the air all the time, because nobody can carry enough air for a long mission.",
+   "th": "บนสถานีอวกาศนานาชาติ ระบบยังชีพฟอกและหมุนเวียนอากาศตลอดเวลา เพราะไม่มีใครขนอากาศไปได้พอสำหรับภารกิจยาวๆ"
+  },
+  {
+   "k": "life.card.log.water",
+   "en": "Never wasting water",
+   "th": "ไม่ทิ้งน้ำเปล่าๆ"
+  },
+  {
+   "k": "life.card.log.water.result",
+   "en": "On the International Space Station most of the water is recycled and used again, even sweat.",
+   "th": "บนสถานีอวกาศนานาชาติ น้ำส่วนใหญ่ถูกรีไซเคิลกลับมาใช้ใหม่ แม้แต่เหงื่อ"
+  },
+  {
+   "k": "life.card.log.friends",
+   "en": "Knowing who to trust",
+   "th": "รู้ว่าควรไว้ใจใคร"
+  },
+  {
+   "k": "life.card.log.friends.result",
+   "en": "Astronauts train for years to work as a crew. Deciding who to rely on, and sharing fairly, is part of the job.",
+   "th": "นักบินอวกาศฝึกกันหลายปีเพื่อทำงานเป็นทีม การตัดสินใจว่าจะพึ่งใคร และการแบ่งปันอย่างยุติธรรม เป็นส่วนหนึ่งของงาน"
+  },
+  {
+   "k": "life.card.log.hint.brave",
+   "en": "Write that I was very brave.",
+   "th": "เขียนด้วยว่าฉันกล้าหาญมาก"
+  },
+  {
+   "k": "life.card.log.hint.smart",
+   "en": "Write down the numbers. Numbers kept us alive.",
+   "th": "จดตัวเลขไว้ด้วย ตัวเลขนี่แหละที่ทำให้เรารอด"
+  },
+  {
+   "k": "life.card.log.hint.careful",
+   "en": "Write what you would do differently. That is what logs are for.",
+   "th": "เขียนว่าครั้งหน้าจะทำอะไรต่างไป บันทึกมีไว้เพื่อสิ่งนี้"
+  },
+  {
+   "k": "life.card.visitor_shade.title",
+   "en": "Shelter from the storm",
+   "th": "ขอหลบพายุ"
+  },
+  {
+   "k": "life.card.visitor_shade.body",
+   "en": "A tall figure in a hooded cloak stands at the hatch. It asks, in a flat voice, to wait out tonight's storm inside your ship.",
+   "th": "ร่างสูงในผ้าคลุมมีฮู้ดยืนอยู่ที่ประตู มันพูดด้วยเสียงเรียบๆ ว่าขอเข้ามาหลบพายุคืนนี้ในยานของคุณ"
+  },
+  {
+   "k": "life.card.visitor_shade.clue1",
+   "en": "It stands perfectly still. Red dust has settled on its shoulders.",
+   "th": "มันยืนนิ่งสนิท ฝุ่นแดงเกาะอยู่บนไหล่"
+  },
+  {
+   "k": "life.card.visitor_shade.clue2",
+   "en": "The glass of its visor never fogs.",
+   "th": "กระจกหน้ากากของมันไม่เคยเป็นฝ้าเลย"
+  },
+  {
+   "k": "life.card.visitor_shade.clue3",
+   "en": "It knocks again, in exactly the same rhythm as before.",
+   "th": "มันเคาะอีกครั้ง จังหวะเดิมเป๊ะ"
+  },
+  {
+   "k": "life.card.visitor_shade.admit",
+   "en": "Let it in",
+   "th": "ให้เข้ามา"
+  },
+  {
+   "k": "life.card.visitor_shade.admit.result",
+   "en": "The hatch opens. The cloak falls to the floor, and there is nobody inside it.",
+   "th": "ประตูเปิดออก ผ้าคลุมร่วงลงพื้น และข้างในไม่มีใครอยู่เลย"
+  },
+  {
+   "k": "life.card.visitor_shade.refuse",
+   "en": "Keep the hatch closed",
+   "th": "ไม่เปิดประตู"
+  },
+  {
+   "k": "life.card.visitor_shade.refuse.result",
+   "en": "The figure stays by the hatch until the dust covers its feet. In the morning it is gone, and there are no footprints.",
+   "th": "ร่างนั้นยืนอยู่ที่ประตูจนฝุ่นกลบเท้า พอเช้าก็หายไป และไม่มีรอยเท้าเลย"
+  },
+  {
+   "k": "life.card.visitor_shade.hint.brave",
+   "en": "Something about it makes my fur stand up. I am not opening that door.",
+   "th": "มีอะไรบางอย่างทำให้ขนฉันลุก ฉันไม่เปิดประตูนั่นหรอก"
+  },
+  {
+   "k": "life.card.visitor_shade.hint.smart",
+   "en": "Dust settles on rocks, not on things that move and breathe. Use a scanner before you decide.",
+   "th": "ฝุ่นเกาะบนก้อนหิน ไม่เกาะบนสิ่งที่ขยับและหายใจ ใช้สแกนเนอร์ก่อนตัดสินใจ"
+  },
+  {
+   "k": "life.card.visitor_shade.hint.careful",
+   "en": "A visor fogs when warm breath touches cold glass. This one never does. I would check its breath.",
+   "th": "หน้ากากจะเป็นฝ้าเมื่อลมหายใจอุ่นๆ โดนกระจกเย็น แต่อันนี้ไม่เป็นเลย ฉันจะตรวจลมหายใจของมัน"
+  },
+  {
+   "k": "life.card.visitor_ree.title",
+   "en": "A gardener at the hatch",
+   "th": "คนสวนที่ประตู"
+  },
+  {
+   "k": "life.card.visitor_ree.body",
+   "en": "A Martian with a clear box of small green plants waves at the window. It asks to come in for a while, and points at your water bottle.",
+   "th": "ชาวดาวอังคารถือกล่องใสที่มีต้นไม้เล็กๆ สีเขียวโบกมือที่หน้าต่าง มันขอเข้ามาพักสักครู่ และชี้ไปที่ขวดน้ำของคุณ"
+  },
+  {
+   "k": "life.card.visitor_ree.clue1",
+   "en": "The plants in the box are green and growing.",
+   "th": "ต้นไม้ในกล่องเขียวและกำลังโต"
+  },
+  {
+   "k": "life.card.visitor_ree.clue2",
+   "en": "Its breath fogs the window when it leans close.",
+   "th": "ลมหายใจของมันทำให้หน้าต่างเป็นฝ้าเวลามันเข้ามาใกล้"
+  },
+  {
+   "k": "life.card.visitor_ree.clue3",
+   "en": "It holds the plants up to your cabin light, not to itself.",
+   "th": "มันยกต้นไม้ขึ้นรับแสงไฟในห้องของคุณ ไม่ได้ยกเข้าหาตัวเอง"
+  },
+  {
+   "k": "life.card.visitor_ree.admit",
+   "en": "Let Ree and the plants in",
+   "th": "ให้รีและต้นไม้เข้ามา"
+  },
+  {
+   "k": "life.card.visitor_ree.admit.result",
+   "en": "Ree sets the plants under your cabin lamp. Plants take in carbon dioxide and, with light, give out oxygen. Ree needs air, water and food too.",
+   "th": "รีวางต้นไม้ไว้ใต้โคมไฟในห้อง ต้นไม้ดูดคาร์บอนไดออกไซด์เข้าไป และเมื่อได้แสงก็ปล่อยออกซิเจนออกมา รีเองก็ต้องใช้อากาศ น้ำ และอาหารด้วย"
+  },
+  {
+   "k": "life.card.visitor_ree.trade",
+   "en": "Trade water for a food parcel",
+   "th": "แลกน้ำกับห่ออาหาร"
+  },
+  {
+   "k": "life.card.visitor_ree.trade.result",
+   "en": "Ree waters its plants with your water and hands over a parcel of dried roots.",
+   "th": "รีรดน้ำต้นไม้ด้วยน้ำของคุณ แล้วยื่นห่อรากไม้แห้งให้"
+  },
+  {
+   "k": "life.card.visitor_ree.refuse",
+   "en": "Keep the hatch closed",
+   "th": "ไม่เปิดประตู"
+  },
+  {
+   "k": "life.card.visitor_ree.refuse.result",
+   "en": "Ree nods and walks off with its plants.",
+   "th": "รีพยักหน้าแล้วเดินจากไปพร้อมต้นไม้"
+  },
+  {
+   "k": "life.card.visitor_ree.hint.brave",
+   "en": "Plants! Can I sniff them? I promise not to eat them.",
+   "th": "ต้นไม้! ขอดมได้ไหม? สัญญาว่าจะไม่กิน"
+  },
+  {
+   "k": "life.card.visitor_ree.hint.smart",
+   "en": "Plants make oxygen from carbon dioxide and light. Two nights of plants could pay back the air Ree breathes, and more.",
+   "th": "ต้นไม้สร้างออกซิเจนจากคาร์บอนไดออกไซด์และแสง สองคืนที่มีต้นไม้อาจคืนอากาศที่รีใช้ได้ แถมเหลือด้วย"
+  },
+  {
+   "k": "life.card.visitor_ree.hint.careful",
+   "en": "Its breath fogs the glass and its plants are alive. Still, one scan is cheap.",
+   "th": "ลมหายใจของมันทำให้กระจกเป็นฝ้า และต้นไม้ก็มีชีวิต แต่สแกนสักครั้งก็ไม่เสียอะไร"
+  },
+  {
+   "k": "life.card.visitor_mimic.title",
+   "en": "A familiar face",
+   "th": "หน้าที่คุ้นเคย"
+  },
+  {
+   "k": "life.card.visitor_mimic.body",
+   "en": "It is the last evening. Someone is waving at the window. It looks exactly like Tik, tool belt and all, and asks to spend the last night inside.",
+   "th": "เย็นวันสุดท้ายแล้ว มีใครบางคนโบกมืออยู่ที่หน้าต่าง หน้าตาเหมือนติ๊กทุกอย่าง แม้แต่เข็มขัดเครื่องมือ และขอเข้ามาค้างคืนสุดท้ายด้วย"
+  },
+  {
+   "k": "life.card.visitor_mimic.clue1",
+   "en": "It never blinks.",
+   "th": "มันไม่กะพริบตาเลย"
+  },
+  {
+   "k": "life.card.visitor_mimic.clue2",
+   "en": "It says your name, but in your own voice.",
+   "th": "มันเรียกชื่อคุณ แต่ด้วยเสียงของคุณเอง"
+  },
+  {
+   "k": "life.card.visitor_mimic.clue3",
+   "en": "Its tool belt has no scratches at all.",
+   "th": "เข็มขัดเครื่องมือของมันไม่มีรอยขีดข่วนเลย"
+  },
+  {
+   "k": "life.card.visitor_mimic.admit",
+   "en": "Let it in",
+   "th": "ให้เข้ามา"
+  },
+  {
+   "k": "life.card.visitor_mimic.admit.result",
+   "en": "The hatch opens. The shape that looked like Tik melts into a grey cloud and fills the cabin.",
+   "th": "ประตูเปิดออก ร่างที่ดูเหมือนติ๊กละลายเป็นหมอกสีเทาแล้วลอยเต็มห้อง"
+  },
+  {
+   "k": "life.card.visitor_mimic.refuse",
+   "en": "Keep the hatch closed",
+   "th": "ไม่เปิดประตู"
+  },
+  {
+   "k": "life.card.visitor_mimic.refuse.result",
+   "en": "It keeps waving, smiling the same smile, until the sun goes down. Then it is simply not there.",
+   "th": "มันโบกมือ ยิ้มแบบเดิมไม่เปลี่ยน จนพระอาทิตย์ตก แล้วมันก็หายไปเฉยๆ"
+  },
+  {
+   "k": "life.card.visitor_mimic.hint.brave",
+   "en": "That is not Tik. Tik smells like oil. This smells like nothing.",
+   "th": "นั่นไม่ใช่ติ๊ก ติ๊กมีกลิ่นน้ำมัน แต่อันนี้ไม่มีกลิ่นอะไรเลย"
+  },
+  {
+   "k": "life.card.visitor_mimic.hint.smart",
+   "en": "Looking the same is not proof. A heartbeat and breath are. Scan before you trust a face.",
+   "th": "หน้าตาเหมือนกันไม่ใช่หลักฐาน เสียงหัวใจกับลมหายใจต่างหาก สแกนก่อนจะเชื่อใบหน้า"
+  },
+  {
+   "k": "life.card.visitor_mimic.hint.careful",
+   "en": "Real tools get scratched. Real eyes blink. Something is wrong.",
+   "th": "เครื่องมือที่ใช้จริงต้องมีรอยขีดข่วน ตาจริงต้องกะพริบ มีบางอย่างผิดปกติ"
   }
  ]
 }

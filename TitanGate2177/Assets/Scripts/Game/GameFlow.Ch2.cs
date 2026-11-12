@@ -398,7 +398,7 @@ namespace TitanGate.Game
                         break;
                     case LogKind.WakeAlarm:
                         _sfx.Play("alarm");
-                        yield return Say("orbi", "out_wake_alarm");
+                        yield return Say("orbi", e.id == "critical_air" ? "out_wake_critical" : "out_wake_alarm");
                         break;
                 }
             }
@@ -512,6 +512,13 @@ namespace TitanGate.Game
                 float need = _sim.PowerNeededUntilSunrise;
                 p.Add(_ui.L(_loc.T("base.night_line", Mathf.RoundToInt(need)), 22, need > s.power, need > s.power ? GameUI.CRed : GameUI.CDim));
                 if (_incident != null) p.Add(_ui.L(_loc.T("bed.incident"), 24, true, GameUI.CRed));
+                string airWarn = _sim.SleepAirWarning;
+                if (airWarn != null)
+                {
+                    var aw = _ui.L(_loc.T(airWarn, Mathf.RoundToInt(s.air), Mathf.RoundToInt(OC.critAir)), 24, true, airWarn == "bed.air_critical" ? GameUI.CRed : GameUI.CAmber);
+                    aw.style.whiteSpace = WhiteSpace.Normal;
+                    p.Add(aw);
+                }
                 var row = new VisualElement(); row.style.flexDirection = FlexDirection.Row; row.style.marginTop = 8; row.style.flexWrap = Wrap.Wrap;
                 // a full night's sleep from 20:00; earlier in the day only a nap
                 if (_sim.IsNight || _sim.Clock >= 20)
@@ -740,7 +747,7 @@ namespace TitanGate.Game
                     GameUI.Border(box, won ? GameUI.CCyan : alive ? GameUI.CAmber : GameUI.CRed, 3, 14);
                     box.style.paddingLeft = box.style.paddingRight = 44; box.style.paddingTop = box.style.paddingBottom = 24;
                     box.Add(_ui.L(_loc.T($"end.{kind}.title"), 52, true, won ? GameUI.CCyan : alive ? GameUI.CAmber : GameUI.CRed));
-                    var b = _ui.L(_loc.T(won ? "end.rescued.body" : alive ? "end.stranded.body" : "end." + o), 26); b.style.unityTextAlign = TextAnchor.MiddleCenter; b.style.marginTop = 6;
+                    var b = _ui.L(_loc.T(won ? "end.rescued.body" : alive ? "end.stranded." + (_sim?.StrandedReason ?? "body") : "end." + o, OC.rescuePassEveryHours), 26); b.style.unityTextAlign = TextAnchor.MiddleCenter; b.style.marginTop = 6;
                     b.style.whiteSpace = WhiteSpace.Normal;
                     box.Add(b);
                     if (_sim != null) box.Add(BuildDebrief(won, stars, newBest));
@@ -823,7 +830,7 @@ namespace TitanGate.Game
             {
                 if (e.ok || shown >= 5 || (e.kind != LogKind.Night && e.kind != LogKind.Incident)) continue;
                 shown++;
-                string head = e.kind == LogKind.Incident ? _loc.T("debrief.day", _sim.DayAt(e.hour)) : _loc.T("debrief.night", _sim.DayAt(e.hour) - 1) + " · " + _loc.T($"event.{e.id}.name");
+                string head = e.kind == LogKind.Incident ? _loc.T("debrief.day", _sim.DayAt(e.hour)) : _loc.T("debrief.night", _sim.NightAt(e.hour)) + " · " + _loc.T($"event.{e.id}.name");
                 Lesson(head + ": " + _loc.T($"debrief.lesson.{e.id}"), GameUI.CText);
             }
             if (shown == 0 && won) Lesson(_loc.T("debrief.perfect"), GameUI.CGreen);

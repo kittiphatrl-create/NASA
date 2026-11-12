@@ -278,6 +278,7 @@
     "collapseSleepHours": 6,
     "suppliesZeroFailHours": 24,
     "warnAir": 25,
+    "critAir": 10,
     "warnSupplies": 20,
     "warnPower": 15,
     "radPerHour": 0.029,
@@ -776,5 +777,1073 @@
         ]
       }
     ]
+  },
+  "lifeboat": {
+    "daysTotal": 7,
+    "sliceDays": 0,
+    "health": 3,
+    "start": {
+      "o2": 10,
+      "water": 8,
+      "food": 8,
+      "power": 4
+    },
+    "crewPerDay": {
+      "o2": 1,
+      "water": 1,
+      "food": 1,
+      "power": 0
+    },
+    "lifeSupportPower": 1,
+    "solarPerDay": 1,
+    "o2PenaltyNoPower": 1,
+    "o2PenaltyClogged": 1,
+    "pets": [
+      {
+        "id": "comet",
+        "trait": "brave",
+        "foodPerDay": 1
+      },
+      {
+        "id": "pixel",
+        "trait": "smart",
+        "foodPerDay": 1
+      },
+      {
+        "id": "luna",
+        "trait": "careful",
+        "foodPerDay": 1
+      }
+    ],
+    "visitors": [
+      {
+        "id": "tik",
+        "perDay": {
+          "o2": 1,
+          "water": 1,
+          "food": 1,
+          "power": 0
+        },
+        "giftPerDay": {
+          "o2": 0,
+          "water": 1,
+          "food": 0,
+          "power": 1
+        },
+        "steals": false,
+        "stealFood": 0,
+        "monster": false,
+        "failsScans": []
+      },
+      {
+        "id": "mu",
+        "perDay": {
+          "o2": 1,
+          "water": 1,
+          "food": 1,
+          "power": 0
+        },
+        "giftPerDay": {
+          "o2": 0,
+          "water": 0,
+          "food": 0,
+          "power": 0
+        },
+        "steals": true,
+        "stealFood": 2,
+        "monster": false,
+        "failsScans": []
+      },
+      {
+        "id": "zee",
+        "perDay": {
+          "o2": 0,
+          "water": 0,
+          "food": 0,
+          "power": 0
+        },
+        "giftPerDay": {
+          "o2": 0,
+          "water": 0,
+          "food": 0,
+          "power": 0
+        },
+        "steals": false,
+        "stealFood": 0,
+        "monster": false,
+        "failsScans": []
+      },
+      {
+        "id": "nok",
+        "perDay": {
+          "o2": 1,
+          "water": 1,
+          "food": 1,
+          "power": 0
+        },
+        "giftPerDay": {
+          "o2": 0,
+          "water": 0,
+          "food": 0,
+          "power": 0
+        },
+        "steals": false,
+        "stealFood": 0,
+        "monster": false,
+        "failsScans": []
+      },
+      {
+        "id": "shade",
+        "perDay": {
+          "o2": 1,
+          "water": 1,
+          "food": 1,
+          "power": 0
+        },
+        "giftPerDay": {
+          "o2": 0,
+          "water": 0,
+          "food": 0,
+          "power": 0
+        },
+        "steals": false,
+        "stealFood": 0,
+        "monster": true,
+        "failsScans": [
+          "thermal",
+          "breath"
+        ]
+      },
+      {
+        "id": "ree",
+        "perDay": {
+          "o2": 1,
+          "water": 1,
+          "food": 1,
+          "power": 0
+        },
+        "giftPerDay": {
+          "o2": 2,
+          "water": 0,
+          "food": 0,
+          "power": 0
+        },
+        "steals": false,
+        "stealFood": 0,
+        "monster": false,
+        "failsScans": []
+      },
+      {
+        "id": "mimic",
+        "perDay": {
+          "o2": 1,
+          "water": 1,
+          "food": 1,
+          "power": 0
+        },
+        "giftPerDay": {
+          "o2": 0,
+          "water": 0,
+          "food": 0,
+          "power": 0
+        },
+        "steals": false,
+        "stealFood": 0,
+        "monster": true,
+        "failsScans": [
+          "breath",
+          "heartbeat"
+        ]
+      }
+    ],
+    "cards": [
+      {
+        "id": "filter",
+        "day": 1,
+        "visitor": "",
+        "clues": 0,
+        "options": [
+          {
+            "id": "swap",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            },
+            "needItem": "spare_filter",
+            "consumesItem": true
+          },
+          {
+            "id": "wash",
+            "delta": {
+              "o2": 0,
+              "water": -1,
+              "food": 0,
+              "power": 0
+            }
+          },
+          {
+            "id": "ignore",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            },
+            "setsFlag": "filter_clogged"
+          }
+        ]
+      },
+      {
+        "id": "visitor_tik",
+        "day": 1,
+        "visitor": "tik",
+        "clues": 3,
+        "options": [
+          {
+            "id": "admit",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            },
+            "admits": "tik"
+          },
+          {
+            "id": "trade",
+            "delta": {
+              "o2": 0,
+              "water": -1,
+              "food": 0,
+              "power": 2
+            }
+          },
+          {
+            "id": "refuse",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            }
+          }
+        ]
+      },
+      {
+        "id": "crate",
+        "day": 2,
+        "visitor": "",
+        "clues": 0,
+        "options": [
+          {
+            "id": "walk",
+            "delta": {
+              "o2": -1,
+              "water": 1,
+              "food": 2,
+              "power": 0
+            }
+          },
+          {
+            "id": "send_pet",
+            "delta": {
+              "o2": 0,
+              "water": 1,
+              "food": 2,
+              "power": 0
+            },
+            "needTrait": "brave"
+          },
+          {
+            "id": "leave",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            }
+          }
+        ]
+      },
+      {
+        "id": "visitor_mu",
+        "day": 2,
+        "visitor": "mu",
+        "clues": 3,
+        "options": [
+          {
+            "id": "admit",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            },
+            "admits": "mu"
+          },
+          {
+            "id": "gift",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": -1,
+              "power": 0
+            },
+            "setsFlag": "mu_fed"
+          },
+          {
+            "id": "refuse",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            }
+          }
+        ]
+      },
+      {
+        "id": "locker",
+        "day": 2,
+        "visitor": "",
+        "clues": 0,
+        "options": [
+          {
+            "id": "lock",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": -1
+            },
+            "setsFlag": "locker_locked"
+          },
+          {
+            "id": "open",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            }
+          }
+        ]
+      },
+      {
+        "id": "recycler",
+        "day": 3,
+        "visitor": "",
+        "clues": 0,
+        "options": [
+          {
+            "id": "repair",
+            "delta": {
+              "o2": 0,
+              "water": 2,
+              "food": 0,
+              "power": -1
+            }
+          },
+          {
+            "id": "tik_repair",
+            "delta": {
+              "o2": 0,
+              "water": 3,
+              "food": 0,
+              "power": 0
+            },
+            "needGuest": "tik"
+          },
+          {
+            "id": "skip",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            }
+          }
+        ]
+      },
+      {
+        "id": "storm_warning",
+        "day": 3,
+        "visitor": "",
+        "clues": 0,
+        "options": [
+          {
+            "id": "water_wall",
+            "delta": {
+              "o2": 0,
+              "water": -2,
+              "food": 0,
+              "power": 0
+            },
+            "setsFlag": "shelter_ready"
+          },
+          {
+            "id": "shield_kit",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            },
+            "needItem": "shield_kit",
+            "consumesItem": true,
+            "setsFlag": "shelter_ready"
+          },
+          {
+            "id": "later",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            }
+          }
+        ]
+      },
+      {
+        "id": "visitor_zee",
+        "day": 3,
+        "visitor": "zee",
+        "clues": 3,
+        "options": [
+          {
+            "id": "buy_o2",
+            "delta": {
+              "o2": 2,
+              "water": 0,
+              "food": 0,
+              "power": -2
+            }
+          },
+          {
+            "id": "buy_food",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 2,
+              "power": -2
+            }
+          },
+          {
+            "id": "refuse",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            }
+          }
+        ]
+      },
+      {
+        "id": "storm_last",
+        "day": 4,
+        "visitor": "",
+        "clues": 0,
+        "unlessFlag": "shelter_ready",
+        "options": [
+          {
+            "id": "sandbags",
+            "delta": {
+              "o2": -1,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            },
+            "setsFlag": "shelter_ready"
+          },
+          {
+            "id": "send_pet",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            },
+            "needTrait": "brave",
+            "setsFlag": "shelter_ready"
+          },
+          {
+            "id": "hide",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            }
+          }
+        ]
+      },
+      {
+        "id": "storm_power",
+        "day": 4,
+        "visitor": "",
+        "clues": 0,
+        "options": [
+          {
+            "id": "safe_mode",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": -1
+            },
+            "setsFlag": "electronics_safe"
+          },
+          {
+            "id": "leave_on",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            }
+          }
+        ]
+      },
+      {
+        "id": "visitor_shade",
+        "day": 4,
+        "visitor": "shade",
+        "clues": 3,
+        "ifFlag": "",
+        "unlessFlag": "",
+        "ifGuest": "",
+        "options": [
+          {
+            "id": "admit",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            },
+            "admits": "shade"
+          },
+          {
+            "id": "refuse",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            }
+          }
+        ]
+      },
+      {
+        "id": "visitor_nok",
+        "day": 5,
+        "visitor": "nok",
+        "clues": 3,
+        "options": [
+          {
+            "id": "admit",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            },
+            "admits": "nok",
+            "setsFlag": "nok_helped"
+          },
+          {
+            "id": "treat",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            },
+            "needItem": "med_kit",
+            "consumesItem": true,
+            "setsFlag": "nok_helped"
+          },
+          {
+            "id": "water",
+            "delta": {
+              "o2": 0,
+              "water": -1,
+              "food": 0,
+              "power": 0
+            },
+            "setsFlag": "nok_helped"
+          },
+          {
+            "id": "refuse",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            }
+          }
+        ]
+      },
+      {
+        "id": "mu_returns",
+        "day": 5,
+        "visitor": "mu",
+        "clues": 0,
+        "ifFlag": "mu_fed",
+        "options": [
+          {
+            "id": "accept",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 2,
+              "power": 0
+            }
+          },
+          {
+            "id": "decline",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            }
+          }
+        ]
+      },
+      {
+        "id": "far_crate",
+        "day": 6,
+        "visitor": "",
+        "clues": 0,
+        "options": [
+          {
+            "id": "walk",
+            "delta": {
+              "o2": -2,
+              "water": 1,
+              "food": 3,
+              "power": 0
+            }
+          },
+          {
+            "id": "send_pet",
+            "delta": {
+              "o2": 0,
+              "water": 1,
+              "food": 3,
+              "power": 0
+            },
+            "needTrait": "brave"
+          },
+          {
+            "id": "leave",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            }
+          }
+        ]
+      },
+      {
+        "id": "beacon",
+        "day": 6,
+        "visitor": "",
+        "clues": 0,
+        "options": [
+          {
+            "id": "nok_part",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 2,
+              "power": 0
+            },
+            "needFlag": "nok_helped",
+            "setsFlag": "beacon_fixed"
+          },
+          {
+            "id": "tik_fix",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": -1
+            },
+            "needGuest": "tik",
+            "setsFlag": "beacon_fixed"
+          },
+          {
+            "id": "chip",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            },
+            "needItem": "data_chip",
+            "consumesItem": true,
+            "setsFlag": "beacon_fixed"
+          },
+          {
+            "id": "climb",
+            "delta": {
+              "o2": -1,
+              "water": 0,
+              "food": 0,
+              "power": -2
+            },
+            "setsFlag": "beacon_fixed"
+          },
+          {
+            "id": "wait",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            }
+          }
+        ]
+      },
+      {
+        "id": "coords",
+        "day": 6,
+        "visitor": "",
+        "clues": 0,
+        "ifFlag": "beacon_fixed",
+        "options": [
+          {
+            "id": "send",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": -1
+            },
+            "setsFlag": "coords_sent"
+          },
+          {
+            "id": "crank",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            },
+            "health": -1,
+            "setsFlag": "coords_sent"
+          },
+          {
+            "id": "wait",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            }
+          }
+        ]
+      },
+      {
+        "id": "visitor_ree",
+        "day": 6,
+        "visitor": "ree",
+        "clues": 3,
+        "ifFlag": "",
+        "unlessFlag": "",
+        "ifGuest": "",
+        "options": [
+          {
+            "id": "admit",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            },
+            "admits": "ree"
+          },
+          {
+            "id": "trade",
+            "delta": {
+              "o2": 0,
+              "water": -1,
+              "food": 1,
+              "power": 0
+            }
+          },
+          {
+            "id": "refuse",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            }
+          }
+        ]
+      },
+      {
+        "id": "beacon_last",
+        "day": 7,
+        "visitor": "",
+        "clues": 0,
+        "unlessFlag": "beacon_fixed",
+        "options": [
+          {
+            "id": "nok_part",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 2,
+              "power": 0
+            },
+            "needFlag": "nok_helped",
+            "setsFlag": "beacon_fixed"
+          },
+          {
+            "id": "tik_fix",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": -1
+            },
+            "needGuest": "tik",
+            "setsFlag": "beacon_fixed"
+          },
+          {
+            "id": "chip",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            },
+            "needItem": "data_chip",
+            "consumesItem": true,
+            "setsFlag": "beacon_fixed"
+          },
+          {
+            "id": "climb",
+            "delta": {
+              "o2": -1,
+              "water": 0,
+              "food": 0,
+              "power": -2
+            },
+            "setsFlag": "beacon_fixed"
+          },
+          {
+            "id": "give_up",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            }
+          }
+        ]
+      },
+      {
+        "id": "coords_last",
+        "day": 7,
+        "visitor": "",
+        "clues": 0,
+        "ifFlag": "beacon_fixed",
+        "unlessFlag": "coords_sent",
+        "options": [
+          {
+            "id": "send",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": -1
+            },
+            "setsFlag": "coords_sent"
+          },
+          {
+            "id": "crank",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            },
+            "health": -1,
+            "setsFlag": "coords_sent"
+          },
+          {
+            "id": "skip",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            }
+          }
+        ]
+      },
+      {
+        "id": "visitor_mimic",
+        "day": 7,
+        "visitor": "mimic",
+        "clues": 3,
+        "ifFlag": "",
+        "unlessFlag": "",
+        "ifGuest": "",
+        "options": [
+          {
+            "id": "admit",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            },
+            "admits": "mimic"
+          },
+          {
+            "id": "refuse",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            }
+          }
+        ]
+      },
+      {
+        "id": "log",
+        "day": 7,
+        "visitor": "",
+        "clues": 0,
+        "options": [
+          {
+            "id": "air",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            }
+          },
+          {
+            "id": "water",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            }
+          },
+          {
+            "id": "friends",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            }
+          }
+        ]
+      }
+    ],
+    "supplies": [
+      {
+        "id": "sup_o2",
+        "stock": {
+          "o2": 3,
+          "water": 0,
+          "food": 0,
+          "power": 0
+        }
+      },
+      {
+        "id": "sup_water",
+        "stock": {
+          "o2": 0,
+          "water": 3,
+          "food": 0,
+          "power": 0
+        }
+      },
+      {
+        "id": "sup_food",
+        "stock": {
+          "o2": 0,
+          "water": 0,
+          "food": 3,
+          "power": 0
+        }
+      },
+      {
+        "id": "sup_battery",
+        "stock": {
+          "o2": 0,
+          "water": 0,
+          "food": 0,
+          "power": 3
+        }
+      }
+    ],
+    "demoStowed": [
+      "sup_water",
+      "sup_food",
+      "sup_battery",
+      "sup_filter",
+      "sup_medkit"
+    ],
+    "nights": [
+      {
+        "id": "storm_crew",
+        "day": 4,
+        "safeFlag": "shelter_ready",
+        "healthLoss": 1,
+        "delta": {
+          "o2": 0,
+          "water": 0,
+          "food": 0,
+          "power": 0
+        }
+      },
+      {
+        "id": "storm_power",
+        "day": 4,
+        "safeFlag": "electronics_safe",
+        "healthLoss": 0,
+        "delta": {
+          "o2": 0,
+          "water": 0,
+          "food": 0,
+          "power": -2
+        }
+      }
+    ],
+    "beaconFlag": "beacon_fixed",
+    "rescueFlag": "coords_sent",
+    "kindFlag": "nok_helped",
+    "o2Maker": {
+      "o2": 2,
+      "water": 0,
+      "food": 0,
+      "power": 2
+    },
+    "scans": [
+      "thermal",
+      "breath",
+      "heartbeat"
+    ],
+    "scansPerVisitor": 1,
+    "extraScanTrait": "careful",
+    "replacesOutpost": true
   }
 }

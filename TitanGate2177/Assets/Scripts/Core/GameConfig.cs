@@ -129,6 +129,8 @@ namespace TitanGate.Core
         public float lowEnergy = 20; public int lowEnergyExtraHours = 1, collapseSleepHours = 6;
         public int suppliesZeroFailHours = 24;
         public float warnAir = 25, warnSupplies = 20, warnPower = 15;
+        /// <summary>Second air alarm: a sleeping astronaut is woken again when the air falls to this level.</summary>
+        public float critAir = 10;
         public float radPerHour = 0.029f, radPerOutsideHour = 0.05f, radSafe = 50, radLimit = 150;
         public SpeDef spe = new SpeDef();
         /// <summary>Local times when a relay orbiter links the outpost with Earth.</summary>
@@ -250,6 +252,8 @@ namespace TitanGate.Core
         public List<RouteDef> routes = new List<RouteDef>();
         public Chapter1Config chapter1 = new Chapter1Config();
         public OutpostConfig outpost = new OutpostConfig();
+        /// <summary>The card-based Chapter 2 prototype (survival diary in the lifeboat).</summary>
+        public LifeboatConfig lifeboat = new LifeboatConfig();
 
         public RouteDef GetRoute(string id) => routes.Find(r => r.id == id);
 

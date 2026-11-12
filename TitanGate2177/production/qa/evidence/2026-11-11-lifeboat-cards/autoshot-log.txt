@@ -1,0 +1,61 @@
+shot 00_menu_th
+PASS main menu opens the survival diary
+shot 01_pick_th
+shot 01_pick_en
+PASS picked the careful pet
+shot a_d1_filter_th
+PASS run a day 1: filter -> swap
+shot a_d1_filter_result_th
+shot a_d1_visitor_tik_th
+shot a_d1_visitor_tik_en
+PASS run a day 1: visitor_tik -> admit
+shot a_d1_visitor_tik_result_th
+shot a_d1_ration_th
+shot a_d1_ration_skip_th
+PASS run a day 1: went to sleep
+shot a_d1_night_th
+shot a_d2_crate_th
+PASS run a day 2: crate -> walk
+shot a_d2_crate_result_th
+shot a_d2_visitor_mu_th
+shot a_d2_visitor_mu_en
+PASS run a day 2: visitor_mu -> admit
+shot a_d2_visitor_mu_result_th
+shot a_d2_locker_th
+PASS run a day 2: locker -> open
+shot a_d2_locker_result_th
+shot a_d2_ration_th
+PASS run a day 2: went to sleep
+shot a_d2_night_th
+shot a_d2_night_en
+PASS run a reached the end screen
+PASS run A reached the end of the last written day
+PASS run A: the fed guest Tik gave something back
+PASS run A: Mu stole food and an item from the open locker
+PASS run A: Tik is still aboard, Mu is gone
+shot a_end_th
+shot a_end_en
+PASS play again restarts the diary
+PASS picked the brave pet
+shot b_d1_filter_th
+PASS run b day 1: filter -> wash
+shot b_d1_visitor_tik_th
+PASS run b day 1: visitor_tik -> trade
+shot b_d1_ration_th
+PASS run b day 1: went to sleep
+shot b_d1_night_th
+shot b_d2_crate_th
+PASS run b day 2: crate -> send_pet
+shot b_d2_visitor_mu_th
+PASS run b day 2: visitor_mu -> admit
+shot b_d2_locker_th
+PASS run b day 2: locker -> open
+shot b_d2_ration_th
+PASS run b day 2: went to sleep
+shot b_d2_night_th
+PASS run b reached the end screen
+PASS run B reached the end of the last written day
+PASS run B: the brave pet stopped the theft
+PASS run B: only the brave pet could be sent for the crate
+shot b_end_th
+done errors=0 checksFailed=0
