@@ -954,6 +954,56 @@
           "breath",
           "heartbeat"
         ]
+      },
+      {
+        "id": "aya",
+        "perDay": {
+          "o2": 1,
+          "water": 1,
+          "food": 1,
+          "power": 0
+        },
+        "giftPerDay": {
+          "o2": 0,
+          "water": 0,
+          "food": 0,
+          "power": 0
+        },
+        "steals": false,
+        "stealFood": 0,
+        "monster": false,
+        "failsScans": []
+      },
+      {
+        "id": "jules",
+        "perDay": {
+          "o2": 1,
+          "water": 1,
+          "food": 1,
+          "power": 0
+        },
+        "giftPerDay": {
+          "o2": 0,
+          "water": 0,
+          "food": 0,
+          "power": 0
+        },
+        "steals": false,
+        "stealFood": 0,
+        "monster": false,
+        "failsScans": []
+      },
+      {
+        "id": "pip",
+        "perDay": {
+          "o2": 0,
+          "water": 0,
+          "food": 0,
+          "power": 0
+        },
+        "giftPerDay": {},
+        "monster": false,
+        "failsScans": []
       }
     ],
     "cards": [
@@ -1753,6 +1803,104 @@
               "food": 0,
               "power": 0
             }
+          }
+        ]
+      },
+      {
+        "id": "visitor_aya",
+        "day": 2,
+        "visitor": "aya",
+        "clues": 3,
+        "options": [
+          {
+            "id": "admit",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            },
+            "admits": "aya"
+          },
+          {
+            "id": "refuse",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            }
+          }
+        ]
+      },
+      {
+        "id": "visitor_jules",
+        "day": 3,
+        "visitor": "jules",
+        "clues": 3,
+        "options": [
+          {
+            "id": "admit",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            },
+            "admits": "jules"
+          },
+          {
+            "id": "refuse",
+            "delta": {
+              "o2": 0,
+              "water": 0,
+              "food": 0,
+              "power": 0
+            }
+          }
+        ]
+      },
+      {
+        "id": "visitor_pip",
+        "day": 1,
+        "visitor": "pip",
+        "clues": 3,
+        "options": [
+          {
+            "id": "wave",
+            "delta": {},
+            "setsFlag": "pip_friend"
+          },
+          {
+            "id": "trade",
+            "delta": {
+              "water": -0.5,
+              "power": 1
+            }
+          },
+          {
+            "id": "refuse",
+            "delta": {}
+          }
+        ]
+      },
+      {
+        "id": "pip_return",
+        "day": 4,
+        "visitor": "pip",
+        "ifFlag": "pip_friend",
+        "clues": 2,
+        "options": [
+          {
+            "id": "accept",
+            "delta": {
+              "food": 1,
+              "water": 1
+            }
+          },
+          {
+            "id": "refuse",
+            "delta": {}
           }
         ]
       }

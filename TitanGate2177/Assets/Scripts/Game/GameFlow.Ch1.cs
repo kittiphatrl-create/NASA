@@ -22,6 +22,7 @@ namespace TitanGate.Game
 
         IEnumerator StartChapter1()
         {
+            if (TopDownCh1) { yield return StartShipTop(); yield break; }
             _chapter = 1;
             _route = null;
             _cabinO2 = _cfg.chapter1.cabinO2Start;

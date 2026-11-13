@@ -1,7 +1,14 @@
 {
   "name": "TitanGate.Editor",
   "rootNamespace": "TitanGate.EditorTools",
-  "references": ["TitanGate.Core", "TitanGate.Game"],
-  "includePlatforms": ["Editor"],
+  "references": [
+    "TitanGate.Core",
+    "TitanGate.Game",
+    "UnityEngine.TestRunner",
+    "UnityEditor.TestRunner"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
   "autoReferenced": false
 }

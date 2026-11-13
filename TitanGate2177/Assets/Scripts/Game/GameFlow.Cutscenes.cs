@@ -543,29 +543,27 @@ namespace TitanGate.Game
         /// <summary>The animated key art behind the main menu.</summary>
         void BuildTitleStage()
         {
-            Clear();
-            _rig.SnapPose(new Vector3(StageX, 0, StageCamZ));
-            Background(Art.Nebula());
-            var saturn = S(Art.Saturn(), 3.6f, 1.0f, 14, 1.15f, -100);
-            var titan = S(Art.TitanDisc(), 5.4f, -1.6f, 12, 0.55f, -99);
-            var vortex = S(Art.Vortex(), 5.4f, -1.6f, 11.9f, 0.16f, -98);
-            var stars = Stars(30);
-            ShipWithFlame(1.5f, -2.1f, 0.5f, flame: true);
-            _ship.transform.rotation = Quaternion.Euler(0, 0, 10);
-            var ship = _ship;
-            var flame = _flame;
-            var orbiDrone = S(Art.Orbi(0), 0.0f, -0.8f, -0.5f, 0.9f, 12);
+            Clear(); _rig.SnapPose(new Vector3(StageX, 0, StageCamZ));
+            Background(Art.QuietSpace());
+            var mars = S(Art.TitleMars(), 5.2f, 1.8f, 14, .62f, -100);
+            var stars = Stars(12);
+            foreach (var star in stars) if (star.transform.position.x < StageX + .5f) star.enabled = false;
+            ShipWithFlame(3.1f, -1.05f, .68f, flame: true);
+            _ship.transform.rotation = Quaternion.Euler(0, 0, 12);
+            var ship = _ship; var flame = _flame;
+            var drone = S(Art.Orbi(0), 1.4f, .2f, -.5f, .75f, 12);
+            _titleDrone = drone;
             _animators.Clear();
             _animators.Add(t =>
             {
-                Pos(ship, 1.5f + Mathf.Sin(t * 0.4f) * 0.3f, -2.1f + Mathf.Sin(t * 0.9f) * 0.12f);
-                if (flame != null) flame.sprite = Art.Flame((int)(t * 14) % 2, false);
-                Pos(orbiDrone, 0.0f + Mathf.Sin(t * 0.4f) * 0.3f + Mathf.Sin(t * 1.3f) * 0.15f, -0.8f + Mathf.Sin(t * 2.1f) * 0.12f);
-                orbiDrone.sprite = Art.Orbi((t % 3.2f) < 0.12f ? 2 : ((int)(t * 8) % 2));
-                vortex.transform.rotation = Quaternion.Euler(0, 0, -t * 90);
-                vortex.color = new Color(1, 1, 1, 0.6f + 0.4f * Mathf.Sin(t * 3));
-                saturn.transform.localScale = Vector3.one * (1.15f + Mathf.Sin(t * 0.2f) * 0.01f);
-                for (int i = 0; i < stars.Count; i++) stars[i].color = new Color(1, 1, 1, 0.3f + 0.7f * Mathf.PerlinNoise(i * 3.1f, t * 1.5f));
+                float motion = Settings.ReducedMotion ? 0 : 1;
+                float boost = Mathf.Clamp01(_titleBoostUntil - Time.unscaledTime);
+                Pos(ship, 3.1f + (Mathf.Sin(t * .3f) * .15f + boost * .5f) * motion, -1.05f + Mathf.Sin(t * .8f) * .08f * motion);
+                Pos(drone, 1.4f + Mathf.Sin(t * .7f) * .12f * motion, .2f + Mathf.Sin(t * 1.7f) * .09f * motion);
+                drone.transform.rotation = Quaternion.Euler(0, 0, Time.unscaledTime < _titleWaveUntil && !Settings.ReducedMotion ? Mathf.Sin(t * 12) * 12 : 0);
+                drone.sprite = Art.Orbi(t % 3.2f < .12f ? 2 : 0);
+                if (flame != null) flame.sprite = Art.Flame((int)(t * 8) % 2, false);
+                mars.transform.localScale = Vector3.one * .62f;
             });
         }
 

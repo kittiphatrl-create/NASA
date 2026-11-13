@@ -1,0 +1,42 @@
+{
+  "source": "https://kenney.nl/assets/interface-sounds",
+  "license": "CC0 1.0",
+  "license_file": "docs/Kenney-Interface-Sounds-LICENSE.txt",
+  "clips": [
+    {
+      "file": "click.ogg",
+      "bytes": 4371,
+      "sha256": "2fa929138bc3a0f432696588f66eac94b8f6d463905ec8808c6461ce4b054292"
+    },
+    {
+      "file": "close.ogg",
+      "bytes": 9915,
+      "sha256": "44af8249b933e0fd35ec957a638bb1a0b01f85b53fbe9674bf77bd3ca3168ef4"
+    },
+    {
+      "file": "drone.ogg",
+      "bytes": 14169,
+      "sha256": "33b17a9a9a2397c62b285c52c33a907fdffb476909c99e42dde603f6a7a8b12c"
+    },
+    {
+      "file": "good.ogg",
+      "bytes": 8968,
+      "sha256": "063564703b6094d70718a3e787a55cc9141611e4ecd6b6637f8828f79b4a8c3a"
+    },
+    {
+      "file": "hover.ogg",
+      "bytes": 5468,
+      "sha256": "aec0c31ea934a35936ae0d2ab8fac8123c93aa5647f935853a58dbaf90278b7a"
+    },
+    {
+      "file": "open.ogg",
+      "bytes": 14975,
+      "sha256": "24ff224fe2c09c6aed1b41249825382dc74cf324b887ff279d8494912ce2beee"
+    },
+    {
+      "file": "ship.ogg",
+      "bytes": 9653,
+      "sha256": "ca12dd32103f401481d5aff56d5e9831174e99bb577139c09b07d046eb8b837e"
+    }
+  ]
+}

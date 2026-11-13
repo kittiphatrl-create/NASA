@@ -140,6 +140,16 @@ namespace TitanGate.Core
         public string extraScanTrait = "careful";
         /// <summary>The landing leads into this diary instead of the walk-and-click outpost.</summary>
         public bool replacesOutpost = true;
+        /// <summary>Play the week by walking around a top-down base: each card waits at a place in the base.</summary>
+        public bool walkBase = true;
+        /// <summary>Real seconds a knocking visitor waits, and a storm alarm lasts, before the last option is taken.</summary>
+        public float visitorWaitSeconds = 45f, alarmSeconds = 30f;
+        /// <summary>Hands-on jobs in the base. Each can be done once a day.</summary>
+        public Stock taskSolar = new Stock { o2 = -0.5f, power = 1 };
+        public Stock taskDrill = new Stock { power = -1, water = 1 };
+        public Stock taskPlant = new Stock { water = -1 };
+        public Stock taskHarvest = new Stock { food = 2 };
+        public int growNights = 2, seedsBase = 2, seedsWithPack = 3;
 
         public PetDef GetPet(string id) => pets.Find(p => p.id == id);
         public VisitorDef GetVisitor(string id) => visitors.Find(v => v.id == id);
@@ -168,6 +178,8 @@ namespace TitanGate.Core
         public readonly Stock stock = new Stock();
         public int day = 1;
         public int health;
+        public int morale = 75;
+        public readonly DailySchedule schedule = new DailySchedule();
         public string pet;
         /// <summary>A pet that was not fed last night gives no hints and will not do brave things today.</summary>
         public bool petFed = true;
@@ -312,12 +324,27 @@ namespace TitanGate.Core
 
         public bool IsOdd(string visitor, string scan) => _c.GetVisitor(visitor)?.failsScans.Contains(scan) ?? false;
 
+        /// <summary>
+        /// A small hands-on job done while walking around the base (clean panels, drill ice, plant, harvest).
+        /// Every job trades one stock for another. Returns false if a cost cannot be paid. Stocks never go below zero.
+        /// </summary>
+        public bool ApplyTask(Stock delta, float hours = 0, float reservedHours = 0)
+        {
+            if (delta == null || State.outcome != LifeOutcome.Ongoing) return false;
+            var s = State.stock;
+            if (s.o2 + delta.o2 < 0 || s.water + delta.water < 0 || s.food + delta.food < 0 || s.power + delta.power < 0) return false;
+            if (!State.schedule.TrySpend(hours, reservedHours)) return false;
+            s.Add(delta);
+            return true;
+        }
+
         public LifeOption Choose(string cardId, string optionId)
         {
             var card = _c.GetCard(cardId);
             var o = card?.options.Find(x => x.id == optionId);
             if (o == null || State.outcome != LifeOutcome.Ongoing || card.day != State.day || State.answered.Contains(cardId)) return null;
             if (!CanChoose(o, out _)) return null;
+            State.schedule.TrySpend(Math.Min(1, State.schedule.Remaining));
             State.answered.Add(cardId);
             State.stock.Add(o.delta);
             State.health = Math.Min(_c.health, State.health + o.health);
@@ -498,11 +525,12 @@ namespace TitanGate.Core
                 Note(LifeLogKind.NightHit, n.id);
             }
 
+            s.morale = Math.Max(0, Math.Min(100, s.morale + (night.Exists(e => e.kind == LifeLogKind.Hungry || e.kind == LifeLogKind.PetHungry) ? -15 : 3)));
             if (airShort) s.outcome = LifeOutcome.FailedAir;
             else if (s.health <= 0) s.outcome = LifeOutcome.FailedHealth;
             if (s.outcome == LifeOutcome.Ongoing)
             {
-                if (s.day < _c.LastDay) s.day++;
+                if (s.day < _c.LastDay) { s.day++; s.schedule.Reset(); }
                 else if (_c.LastDay < _c.daysTotal) s.outcome = LifeOutcome.Survived;
                 else s.outcome = s.flags.Contains(_c.rescueFlag) ? LifeOutcome.Rescued : LifeOutcome.Stranded;
             }

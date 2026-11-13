@@ -100,6 +100,7 @@ namespace TitanGate.Game
 
         void ClearWorld()
         {
+            EndBase();
             if (_worldRoot != null) Destroy(_worldRoot.gameObject);
             _worldRoot = new GameObject("World").transform;
             _world = new WorldBuilder(_worldRoot, _cfg.presentation.roomSpacing);
@@ -119,6 +120,8 @@ namespace TitanGate.Game
             var mouse = Mouse.current;
             if (kb != null)
             {
+                if (kb.escapeKey.wasPressedThisFrame && _ui.ModalOpen) { _ui.CloseModal(); return; }
+                if (kb.escapeKey.wasPressedThisFrame && _ui.ScreenOpen && _bRoot != null && !InCutscene && (_lbView == LbView.Card || _lbView == LbView.Ration)) { _bOpen = false; _ui.HideScreen(); return; }
                 if (kb.f12Key.wasPressedThisFrame) Capture("manual");
                 if (kb.enterKey.wasPressedThisFrame && _ui.DialogOpen) _ui.Advance();
                 if (_chapter > 0 && _chapter < 3 && !_ui.ScreenOpen)
@@ -131,12 +134,14 @@ namespace TitanGate.Game
                         if (_ui.ModalOpen) _ui.CloseModal();
                         else if (_selected != null) Select(null);
                         else if (!_ui.DialogOpen) OpenPause();
+                        return;
                     }
                 }
             }
             UpdateDust();
             TickPressure();
             TickAnimators();
+            if (_bRoot != null && !InCutscene) { BUpdate(); return; }
             if (InCutscene)
             {
                 if (kb != null && (kb.spaceKey.wasPressedThisFrame || kb.escapeKey.wasPressedThisFrame || kb.enterKey.wasPressedThisFrame)) SkipCutscene();

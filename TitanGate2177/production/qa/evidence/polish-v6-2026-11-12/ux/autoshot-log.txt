@@ -1,0 +1,23 @@
+shot 01_title_th
+PASS ORBI's rendered centre hits its interactive button
+PASS title ship and ORBI reactions are active
+PASS live side-view sprite uses authored 64px art
+PASS licensed UI click clip is included in the player
+PASS title settings opens through real menu action
+PASS settings modal visible
+shot 02_settings_th
+shot 03_title_en
+PASS day begins at 06:00
+shot 04_morning_hud
+shot 05_dusk_hud
+PASS optional work cannot consume reserved story time
+PASS rejected work is atomic for time and resources
+shot 06_night_hud
+PASS nearby crewmate opens conversation through the E interaction handler
+shot 07_crew_conversation
+PASS admitted crewmate walks toward a work station
+shot 08_crew_routine
+PASS pause freezes simulation
+shot 08b_pause_th
+PASS resume restores simulation time
+done errors=0 checksFailed=0

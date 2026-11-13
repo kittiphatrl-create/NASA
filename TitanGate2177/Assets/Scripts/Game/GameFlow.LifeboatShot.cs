@@ -18,6 +18,7 @@ namespace TitanGate.Game
     {
         IEnumerator AutoLifeboat()
         {
+            ForceDiary = true;   // the screenshot pass checks the diary screens
             _loc.Current = Lang.TH;
             yield return new WaitForSeconds(2.2f);
             BuildMainMenu();
@@ -121,6 +122,7 @@ namespace TitanGate.Game
         /// <summary>After the real landing: the diary starts with what the scramble packed and the pet picked before it.</summary>
         IEnumerator AutoCh1LifeboatTail()
         {
+            ForceDiary = true;   // the screenshot pass checks the diary screens
             float t = 0;
             while ((_life == null || _lbView != LbView.Card) && t < 30) { t += Time.deltaTime; yield return null; }
             _autoAdvance = false;

@@ -37,7 +37,7 @@ namespace TitanGate.EditorTools
             var opts = new BuildPlayerOptions
             {
                 scenes = new[] { ScenePath },
-                locationPathName = "Builds/Win/TitanGate2177.exe",
+                locationPathName = System.Array.IndexOf(System.Environment.GetCommandLineArgs(), "-uxbuild") >= 0 ? "Builds/UX/TitanGate2177.exe" : "Builds/Win/TitanGate2177.exe",
                 target = BuildTarget.StandaloneWindows64,
                 options = BuildOptions.None
             };

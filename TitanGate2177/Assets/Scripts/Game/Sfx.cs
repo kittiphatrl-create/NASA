@@ -44,6 +44,8 @@ namespace TitanGate.Game
             Make("siren", 1.6f, t => Sine(t, 520 + 160 * Mathf.Sin(t / 1.6f * Mathf.PI * 2)) * 0.22f);
             Make("hum", 4.0f, t => (Sine(t, 55) * 0.35f + Sine(t, 110) * 0.15f + Sine(t, 165.5f) * 0.05f) * (0.85f + 0.15f * Mathf.Sin(t / 4f * Mathf.PI * 2)) + LowNoise(0.995f) * 0.08f);
 
+            foreach (var id in new[] { "click", "hover", "open", "close", "good", "ship", "drone" }) { var clip = Resources.Load<AudioClip>("Audio/KenneyUI/" + id); if (clip != null) _clips[id] = clip; }
+
             Loopable("heart", 0.45f, false);
             Loopable("siren", 0.25f, false);
             Loopable("rumble", 0.5f, false);
@@ -106,6 +108,7 @@ namespace TitanGate.Game
             float cool = id == "hover" ? 0.08f : id == "step" ? 0.12f : id == "blip" ? 0.06f : 0.05f;
             if (_lastPlayed.TryGetValue(id, out var last) && Time.unscaledTime - last < cool) return;
             _lastPlayed[id] = Time.unscaledTime;
+            if (id == "hover") vol *= .16f; else if (id == "click") vol *= .38f; else if (id == "open" || id == "close" || id == "good" || id == "ship" || id == "drone") vol *= .55f;
             _src.PlayOneShot(c, vol);
         }
 

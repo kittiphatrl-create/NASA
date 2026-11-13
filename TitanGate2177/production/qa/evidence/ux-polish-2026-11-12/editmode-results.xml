@@ -1,0 +1,436 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="62" result="Passed" total="62" passed="62" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.4589623">
+  <test-suite type="TestSuite" id="1000" name="Titan Gate 2177" fullname="Titan Gate 2177" runstate="Runnable" testcasecount="62" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.458962" total="62" passed="62" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1077" name="TitanGate.Tests.EditMode.dll" fullname="F:/NASA/TitanGate2177/Library/ScriptAssemblies/TitanGate.Tests.EditMode.dll" runstate="Runnable" testcasecount="62" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.454085" total="62" passed="62" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="28652" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1078" name="TitanGate" fullname="TitanGate" runstate="Runnable" testcasecount="62" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.453922" total="62" passed="62" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1079" name="Tests" fullname="TitanGate.Tests" runstate="Runnable" testcasecount="62" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.453806" total="62" passed="62" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestFixture" id="1002" name="DailyScheduleTests" fullname="TitanGate.Tests.DailyScheduleTests" classname="TitanGate.Tests.DailyScheduleTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.013967" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1003" name="FailedWorkPreservesTimeReservedForStory" fullname="TitanGate.Tests.DailyScheduleTests.FailedWorkPreservesTimeReservedForStory" methodname="FailedWorkPreservesTimeReservedForStory" classname="TitanGate.Tests.DailyScheduleTests" runstate="Runnable" seed="893036181" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.006998" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1005" name="InvalidDurationsCannotCreateTime" fullname="TitanGate.Tests.DailyScheduleTests.InvalidDurationsCannotCreateTime" methodname="InvalidDurationsCannotCreateTime" classname="TitanGate.Tests.DailyScheduleTests" runstate="Runnable" seed="1209892584" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.000164" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1004" name="NightBoundaryAndResetAreExact" fullname="TitanGate.Tests.DailyScheduleTests.NightBoundaryAndResetAreExact" methodname="NightBoundaryAndResetAreExact" classname="TitanGate.Tests.DailyScheduleTests" runstate="Runnable" seed="798658688" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.000105" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1019" name="LifeboatAirTests" fullname="TitanGate.Tests.LifeboatAirTests" classname="TitanGate.Tests.LifeboatAirTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.006522" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1020" name="CloggedFilter_AndEmptyBattery_EachCostExtraO2" fullname="TitanGate.Tests.LifeboatAirTests.CloggedFilter_AndEmptyBattery_EachCostExtraO2" methodname="CloggedFilter_AndEmptyBattery_EachCostExtraO2" classname="TitanGate.Tests.LifeboatAirTests" runstate="Runnable" seed="1683588883" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.004345" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1023" name="DaysOfSupplies_CountsTheWholeCrew" fullname="TitanGate.Tests.LifeboatAirTests.DaysOfSupplies_CountsTheWholeCrew" methodname="DaysOfSupplies_CountsTheWholeCrew" classname="TitanGate.Tests.LifeboatAirTests" runstate="Runnable" seed="880388131" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.000488" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1022" name="LettingSomeoneIn_OrSpendingAir_IsRefused_WhenTonightsAirWouldNotCoverIt" fullname="TitanGate.Tests.LifeboatAirTests.LettingSomeoneIn_OrSpendingAir_IsRefused_WhenTonightsAirWouldNotCoverIt" methodname="LettingSomeoneIn_OrSpendingAir_IsRefused_WhenTonightsAirWouldNotCoverIt" classname="TitanGate.Tests.LifeboatAirTests" runstate="Runnable" seed="2121009125" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.000752" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1021" name="NotEnoughO2ForEveryoneInside_FailsTheRun" fullname="TitanGate.Tests.LifeboatAirTests.NotEnoughO2ForEveryoneInside_FailsTheRun" methodname="NotEnoughO2ForEveryoneInside_FailsTheRun" classname="TitanGate.Tests.LifeboatAirTests" runstate="Runnable" seed="350897958" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.000198" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1024" name="LifeboatChoiceTests" fullname="TitanGate.Tests.LifeboatChoiceTests" classname="TitanGate.Tests.LifeboatChoiceTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.003725" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1025" name="Options_NeedTheirItem_TheirPetTrait_AndEnoughStock" fullname="TitanGate.Tests.LifeboatChoiceTests.Options_NeedTheirItem_TheirPetTrait_AndEnoughStock" methodname="Options_NeedTheirItem_TheirPetTrait_AndEnoughStock" classname="TitanGate.Tests.LifeboatChoiceTests" runstate="Runnable" seed="1014791057" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.001762" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1028" name="ScrambleSupplies_BecomeStartingStock" fullname="TitanGate.Tests.LifeboatChoiceTests.ScrambleSupplies_BecomeStartingStock" methodname="ScrambleSupplies_BecomeStartingStock" classname="TitanGate.Tests.LifeboatChoiceTests" runstate="Runnable" seed="1204650883" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.000316" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1027" name="Thief_IsStoppedByAFedBravePet_OrByTheLock" fullname="TitanGate.Tests.LifeboatChoiceTests.Thief_IsStoppedByAFedBravePet_OrByTheLock" methodname="Thief_IsStoppedByAFedBravePet_OrByTheLock" classname="TitanGate.Tests.LifeboatChoiceTests" runstate="Runnable" seed="671096509" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.000698" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1026" name="Thief_TakesFoodAndAnItem_ThenLeaves" fullname="TitanGate.Tests.LifeboatChoiceTests.Thief_TakesFoodAndAnItem_ThenLeaves" methodname="Thief_TakesFoodAndAnItem_ThenLeaves" classname="TitanGate.Tests.LifeboatChoiceTests" runstate="Runnable" seed="1582852443" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.000226" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1006" name="LifeboatDayTests" fullname="TitanGate.Tests.LifeboatDayTests" classname="TitanGate.Tests.LifeboatDayTests" runstate="Runnable" testcasecount="7" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.005091" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1009" name="FedGuest_GivesItsGift_AndStays" fullname="TitanGate.Tests.LifeboatDayTests.FedGuest_GivesItsGift_AndStays" methodname="FedGuest_GivesItsGift_AndStays" classname="TitanGate.Tests.LifeboatDayTests" runstate="Runnable" seed="1953710674" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.000384" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1008" name="Guest_BreathesEvenWhenNotFed_AndLeavesHungry" fullname="TitanGate.Tests.LifeboatDayTests.Guest_BreathesEvenWhenNotFed_AndLeavesHungry" methodname="Guest_BreathesEvenWhenNotFed_AndLeavesHungry" classname="TitanGate.Tests.LifeboatDayTests" runstate="Runnable" seed="1621463401" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.000284" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1011" name="HungryPet_GivesNoHint_UntilItIsFedAgain" fullname="TitanGate.Tests.LifeboatDayTests.HungryPet_GivesNoHint_UntilItIsFedAgain" methodname="HungryPet_GivesNoHint_UntilItIsFedAgain" classname="TitanGate.Tests.LifeboatDayTests" runstate="Runnable" seed="1910886416" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.000424" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1013" name="LastDay_IsRescuedOnlyWithCoordinatesSent_AndAShortRunCanStopEarlier" fullname="TitanGate.Tests.LifeboatDayTests.LastDay_IsRescuedOnlyWithCoordinatesSent_AndAShortRunCanStopEarlier" methodname="LastDay_IsRescuedOnlyWithCoordinatesSent_AndAShortRunCanStopEarlier" classname="TitanGate.Tests.LifeboatDayTests" runstate="Runnable" seed="2112699846" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.001074" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1007" name="Night_CadetUsesOneOfEach_PetEatsFood_SunPaysForLifeSupport" fullname="TitanGate.Tests.LifeboatDayTests.Night_CadetUsesOneOfEach_PetEatsFood_SunPaysForLifeSupport" methodname="Night_CadetUsesOneOfEach_PetEatsFood_SunPaysForLifeSupport" classname="TitanGate.Tests.LifeboatDayTests" runstate="Runnable" seed="1198019074" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.000196" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1012" name="PlanThatCostsMoreThanTheStock_IsRefused" fullname="TitanGate.Tests.LifeboatDayTests.PlanThatCostsMoreThanTheStock_IsRefused" methodname="PlanThatCostsMoreThanTheStock_IsRefused" classname="TitanGate.Tests.LifeboatDayTests" runstate="Runnable" seed="712256336" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.000142" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1010" name="SkippingYourOwnRation_CostsHealth_AndThreeTimesFails" fullname="TitanGate.Tests.LifeboatDayTests.SkippingYourOwnRation_CostsHealth_AndThreeTimesFails" methodname="SkippingYourOwnRation_CostsHealth_AndThreeTimesFails" classname="TitanGate.Tests.LifeboatDayTests" runstate="Runnable" seed="2013614701" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.000135" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1033" name="LifeboatShippedDataTests" fullname="TitanGate.Tests.LifeboatShippedDataTests" classname="TitanGate.Tests.LifeboatShippedDataTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.297552" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1034" name="Data_IsConsistent" fullname="TitanGate.Tests.LifeboatShippedDataTests.Data_IsConsistent" methodname="Data_IsConsistent" classname="TitanGate.Tests.LifeboatShippedDataTests" runstate="Runnable" seed="750198525" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.005693" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1036" name="MinimalLoot_CarefulPlayer_IsRescued_WithEveryPet" fullname="TitanGate.Tests.LifeboatShippedDataTests.MinimalLoot_CarefulPlayer_IsRescued_WithEveryPet" methodname="MinimalLoot_CarefulPlayer_IsRescued_WithEveryPet" classname="TitanGate.Tests.LifeboatShippedDataTests" runstate="Runnable" seed="1142022198" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.001823" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1037" name="RandomWeeks_NeverDeadlock_ReachEveryEnding_AndLootHelps" fullname="TitanGate.Tests.LifeboatShippedDataTests.RandomWeeks_NeverDeadlock_ReachEveryEnding_AndLootHelps" methodname="RandomWeeks_NeverDeadlock_ReachEveryEnding_AndLootHelps" classname="TitanGate.Tests.LifeboatShippedDataTests" runstate="Runnable" seed="1081559414" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.281720" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1035" name="Strings_CoverEveryCardPetAndVisitor" fullname="TitanGate.Tests.LifeboatShippedDataTests.Strings_CoverEveryCardPetAndVisitor" methodname="Strings_CoverEveryCardPetAndVisitor" classname="TitanGate.Tests.LifeboatShippedDataTests" runstate="Runnable" seed="463818791" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.007687" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1029" name="LifeboatVisitorTests" fullname="TitanGate.Tests.LifeboatVisitorTests" classname="TitanGate.Tests.LifeboatVisitorTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.002746" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1032" name="FedCarefulPet_GivesOneExtraScan" fullname="TitanGate.Tests.LifeboatVisitorTests.FedCarefulPet_GivesOneExtraScan" methodname="FedCarefulPet_GivesOneExtraScan" classname="TitanGate.Tests.LifeboatVisitorTests" runstate="Runnable" seed="412885914" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.001282" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1030" name="LettingAMonsterIn_EndsTheRunAtOnce" fullname="TitanGate.Tests.LifeboatVisitorTests.LettingAMonsterIn_EndsTheRunAtOnce" methodname="LettingAMonsterIn_EndsTheRunAtOnce" classname="TitanGate.Tests.LifeboatVisitorTests" runstate="Runnable" seed="392013815" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.000183" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1031" name="Scans_ReadWrongOnAMonster_NormalOnALivingVisitor_AndAreLimited" fullname="TitanGate.Tests.LifeboatVisitorTests.Scans_ReadWrongOnAMonster_NormalOnALivingVisitor_AndAreLimited" methodname="Scans_ReadWrongOnAMonster_NormalOnALivingVisitor_AndAreLimited" classname="TitanGate.Tests.LifeboatVisitorTests" runstate="Runnable" seed="1781880671" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.000279" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1014" name="LifeboatWeekTests" fullname="TitanGate.Tests.LifeboatWeekTests" classname="TitanGate.Tests.LifeboatWeekTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.002088" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1015" name="Cards_AppearOnlyWhenTheirConditionHolds" fullname="TitanGate.Tests.LifeboatWeekTests.Cards_AppearOnlyWhenTheirConditionHolds" methodname="Cards_AppearOnlyWhenTheirConditionHolds" classname="TitanGate.Tests.LifeboatWeekTests" runstate="Runnable" seed="243777293" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.000626" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1016" name="Options_CanNeedAFlagOrAGuest_AndCanCostHealthButNeverTheLastOfIt" fullname="TitanGate.Tests.LifeboatWeekTests.Options_CanNeedAFlagOrAGuest_AndCanCostHealthButNeverTheLastOfIt" methodname="Options_CanNeedAFlagOrAGuest_AndCanCostHealthButNeverTheLastOfIt" classname="TitanGate.Tests.LifeboatWeekTests" runstate="Runnable" seed="1633981281" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.000220" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1018" name="OxygenMaker_TurnsPowerIntoAir_WhenThereIsPowerForIt" fullname="TitanGate.Tests.LifeboatWeekTests.OxygenMaker_TurnsPowerIntoAir_WhenThereIsPowerForIt" methodname="OxygenMaker_TurnsPowerIntoAir_WhenThereIsPowerForIt" classname="TitanGate.Tests.LifeboatWeekTests" runstate="Runnable" seed="255132451" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.000313" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1017" name="StormNight_HurtsOnlyWhatWasNotPrepared_AndOnlyOnItsNight" fullname="TitanGate.Tests.LifeboatWeekTests.StormNight_HurtsOnlyWhatWasNotPrepared_AndOnlyOnItsNight" methodname="StormNight_HurtsOnlyWhatWasNotPrepared_AndOnlyOnItsNight" classname="TitanGate.Tests.LifeboatWeekTests" runstate="Runnable" seed="1985555858" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.000500" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1047" name="OutpostActionTests" fullname="TitanGate.Tests.OutpostActionTests" classname="TitanGate.Tests.OutpostActionTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.004793" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1048" name="Action_AppliesCosts_ThenItsHoursPass" fullname="TitanGate.Tests.OutpostActionTests.Action_AppliesCosts_ThenItsHoursPass" methodname="Action_AppliesCosts_ThenItsHoursPass" classname="TitanGate.Tests.OutpostActionTests" runstate="Runnable" seed="371904599" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.003545" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1051" name="ItemAction_UsesUpItsFlag" fullname="TitanGate.Tests.OutpostActionTests.ItemAction_UsesUpItsFlag" methodname="ItemAction_UsesUpItsFlag" classname="TitanGate.Tests.OutpostActionTests" runstate="Runnable" seed="1234571504" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.000121" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1049" name="LowEnergy_CostsAnExtraHour_AndZeroEnergyCollapses" fullname="TitanGate.Tests.OutpostActionTests.LowEnergy_CostsAnExtraHour_AndZeroEnergyCollapses" methodname="LowEnergy_CostsAnExtraHour_AndZeroEnergyCollapses" classname="TitanGate.Tests.OutpostActionTests" runstate="Runnable" seed="224565162" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.000445" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1050" name="Outside_AddsDose_AndMinDayGatesScience" fullname="TitanGate.Tests.OutpostActionTests.Outside_AddsDose_AndMinDayGatesScience" methodname="Outside_AddsDose_AndMinDayGatesScience" classname="TitanGate.Tests.OutpostActionTests" runstate="Runnable" seed="1211439222" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.000103" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1052" name="SendCoords_NeedsTheBeaconOn_AndIsAcknowledgedOnARescuePass" fullname="TitanGate.Tests.OutpostActionTests.SendCoords_NeedsTheBeaconOn_AndIsAcknowledgedOnARescuePass" methodname="SendCoords_NeedsTheBeaconOn_AndIsAcknowledgedOnARescuePass" classname="TitanGate.Tests.OutpostActionTests" runstate="Runnable" seed="631678895" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.000150" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1038" name="OutpostClockTests" fullname="TitanGate.Tests.OutpostClockTests" classname="TitanGate.Tests.OutpostClockTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.001842" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1039" name="Clock_StartsAtDawnOfDay1_AndDayChangesAt0600" fullname="TitanGate.Tests.OutpostClockTests.Clock_StartsAtDawnOfDay1_AndDayChangesAt0600" methodname="Clock_StartsAtDawnOfDay1_AndDayChangesAt0600" classname="TitanGate.Tests.OutpostClockTests" runstate="Runnable" seed="310557615" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.000640" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1040" name="Rescue_IsCheckedAtHour168_PreparedWins_UnpreparedIsStranded" fullname="TitanGate.Tests.OutpostClockTests.Rescue_IsCheckedAtHour168_PreparedWins_UnpreparedIsStranded" methodname="Rescue_IsCheckedAtHour168_PreparedWins_UnpreparedIsStranded" classname="TitanGate.Tests.OutpostClockTests" runstate="Runnable" seed="1903690115" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.000360" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1041" name="Stranded_NamesTheFirstMissingRescueStep" fullname="TitanGate.Tests.OutpostClockTests.Stranded_NamesTheFirstMissingRescueStep" methodname="Stranded_NamesTheFirstMissingRescueStep" classname="TitanGate.Tests.OutpostClockTests" runstate="Runnable" seed="1741137096" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.000473" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1053" name="OutpostEventTests" fullname="TitanGate.Tests.OutpostEventTests" classname="TitanGate.Tests.OutpostEventTests" runstate="Runnable" testcasecount="11" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.004735" total="11" passed="11" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1064" name="CarryOver_CabinAirAndSupplies" fullname="TitanGate.Tests.OutpostEventTests.CarryOver_CabinAirAndSupplies" methodname="CarryOver_CabinAirAndSupplies" classname="TitanGate.Tests.OutpostEventTests" runstate="Runnable" seed="346642701" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.000379" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1060" name="EarthMessages_RideTheRelayPasses" fullname="TitanGate.Tests.OutpostEventTests.EarthMessages_RideTheRelayPasses" methodname="EarthMessages_RideTheRelayPasses" classname="TitanGate.Tests.OutpostEventTests" runstate="Runnable" seed="372719509" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.000311" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1063" name="Encounters_DrawnOnFreeMornings_OptionNeedsItsSupply" fullname="TitanGate.Tests.OutpostEventTests.Encounters_DrawnOnFreeMornings_OptionNeedsItsSupply" methodname="Encounters_DrawnOnFreeMornings_OptionNeedsItsSupply" classname="TitanGate.Tests.OutpostEventTests" runstate="Runnable" seed="229661681" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.001109" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1058" name="NightEvent_IsNumberedByTheDayItEnds_FirstNightIsNight1" fullname="TitanGate.Tests.OutpostEventTests.NightEvent_IsNumberedByTheDayItEnds_FirstNightIsNight1" methodname="NightEvent_IsNumberedByTheDayItEnds_FirstNightIsNight1" classname="TitanGate.Tests.OutpostEventTests" runstate="Runnable" seed="985168463" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.000451" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1057" name="NightEvent_PreventedBySolFlag_ElseHurts" fullname="TitanGate.Tests.OutpostEventTests.NightEvent_PreventedBySolFlag_ElseHurts" methodname="NightEvent_PreventedBySolFlag_ElseHurts" classname="TitanGate.Tests.OutpostEventTests" runstate="Runnable" seed="7835165" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.000276" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1062" name="NoSupplies_For24Hours_FailsTheMission" fullname="TitanGate.Tests.OutpostEventTests.NoSupplies_For24Hours_FailsTheMission" methodname="NoSupplies_For24Hours_FailsTheMission" classname="TitanGate.Tests.OutpostEventTests" runstate="Runnable" seed="520426521" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.000116" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1056" name="Sleep_FromHealthyAir_RingsBothAlarmsInTurn" fullname="TitanGate.Tests.OutpostEventTests.Sleep_FromHealthyAir_RingsBothAlarmsInTurn" methodname="Sleep_FromHealthyAir_RingsBothAlarmsInTurn" classname="TitanGate.Tests.OutpostEventTests" runstate="Runnable" seed="1079584228" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.000411" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1054" name="Sleep_RestoresEnergy_ButALowAirAlarmWakesYou" fullname="TitanGate.Tests.OutpostEventTests.Sleep_RestoresEnergy_ButALowAirAlarmWakesYou" methodname="Sleep_RestoresEnergy_ButALowAirAlarmWakesYou" classname="TitanGate.Tests.OutpostEventTests" runstate="Runnable" seed="194495001" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.000143" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1055" name="Sleep_StartedWithLowAir_IsWokenAgainAtTheCriticalLevel" fullname="TitanGate.Tests.OutpostEventTests.Sleep_StartedWithLowAir_IsWokenAgainAtTheCriticalLevel" methodname="Sleep_StartedWithLowAir_IsWokenAgainAtTheCriticalLevel" classname="TitanGate.Tests.OutpostEventTests" runstate="Runnable" seed="1735668050" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.000330" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1059" name="SolarParticleEvent_HitsOnce_ShelterAndPowerDecideHowHard" fullname="TitanGate.Tests.OutpostEventTests.SolarParticleEvent_HitsOnce_ShelterAndPowerDecideHowHard" methodname="SolarParticleEvent_HitsOnce_ShelterAndPowerDecideHowHard" classname="TitanGate.Tests.OutpostEventTests" runstate="Runnable" seed="1360439324" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.000323" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1061" name="SpeWarning_ArrivesAtItsHour" fullname="TitanGate.Tests.OutpostEventTests.SpeWarning_ArrivesAtItsHour" methodname="SpeWarning_ArrivesAtItsHour" classname="TitanGate.Tests.OutpostEventTests" runstate="Runnable" seed="357196098" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.000113" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1042" name="OutpostSystemTests" fullname="TitanGate.Tests.OutpostSystemTests" classname="TitanGate.Tests.OutpostSystemTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.000975" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1043" name="LifeSupport_SlowsAirLoss_AndCostsPower" fullname="TitanGate.Tests.OutpostSystemTests.LifeSupport_SlowsAirLoss_AndCostsPower" methodname="LifeSupport_SlowsAirLoss_AndCostsPower" classname="TitanGate.Tests.OutpostSystemTests" runstate="Runnable" seed="1944725623" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.000121" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1045" name="NotEnoughPower_SwitchesASystemOff_AndLogsIt" fullname="TitanGate.Tests.OutpostSystemTests.NotEnoughPower_SwitchesASystemOff_AndLogsIt" methodname="NotEnoughPower_SwitchesASystemOff_AndLogsIt" classname="TitanGate.Tests.OutpostSystemTests" runstate="Runnable" seed="634547550" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.000161" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1046" name="PowerNeededUntilSunrise_CountsSwitchedOnSystems" fullname="TitanGate.Tests.OutpostSystemTests.PowerNeededUntilSunrise_CountsSwitchedOnSystems" methodname="PowerNeededUntilSunrise_CountsSwitchedOnSystems" classname="TitanGate.Tests.OutpostSystemTests" runstate="Runnable" seed="1600653608" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.000196" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1044" name="Solar_OnlyInDaylight_ScaledByDust" fullname="TitanGate.Tests.OutpostSystemTests.Solar_OnlyInDaylight_ScaledByDust" methodname="Solar_OnlyInDaylight_ScaledByDust" classname="TitanGate.Tests.OutpostSystemTests" runstate="Runnable" seed="889552407" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.000114" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1065" name="PuzzleTests" fullname="TitanGate.Tests.PuzzleTests" classname="TitanGate.Tests.PuzzleTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.003563" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1066" name="Code_TrimmedExactMatch" fullname="TitanGate.Tests.PuzzleTests.Code_TrimmedExactMatch" methodname="Code_TrimmedExactMatch" classname="TitanGate.Tests.PuzzleTests" runstate="Runnable" seed="1250965417" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.000105" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1070" name="Codex_UnlocksOnce" fullname="TitanGate.Tests.PuzzleTests.Codex_UnlocksOnce" methodname="Codex_UnlocksOnce" classname="TitanGate.Tests.PuzzleTests" runstate="Runnable" seed="575221189" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.000227" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1068" name="Edl_FindsFirstWrongStep" fullname="TitanGate.Tests.PuzzleTests.Edl_FindsFirstWrongStep" methodname="Edl_FindsFirstWrongStep" classname="TitanGate.Tests.PuzzleTests" runstate="Runnable" seed="1188285006" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.000615" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1069" name="Inventory_CombinesByRecipeEitherOrder" fullname="TitanGate.Tests.PuzzleTests.Inventory_CombinesByRecipeEitherOrder" methodname="Inventory_CombinesByRecipeEitherOrder" classname="TitanGate.Tests.PuzzleTests" runstate="Runnable" seed="458640608" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.000353" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1067" name="Nav_OnlyMarsIsReachable" fullname="TitanGate.Tests.PuzzleTests.Nav_OnlyMarsIsReachable" methodname="Nav_OnlyMarsIsReachable" classname="TitanGate.Tests.PuzzleTests" runstate="Runnable" seed="944168660" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.000207" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1071" name="ShippedDataTests" fullname="TitanGate.Tests.ShippedDataTests" classname="TitanGate.Tests.ShippedDataTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.105160" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1074" name="Outpost_DataIsConsistent" fullname="TitanGate.Tests.ShippedDataTests.Outpost_DataIsConsistent" methodname="Outpost_DataIsConsistent" classname="TitanGate.Tests.ShippedDataTests" runstate="Runnable" seed="1893864930" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.001175" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1073" name="Outpost_IgnoringForecasts_HurtsHealthAndSometimesFails" fullname="TitanGate.Tests.ShippedDataTests.Outpost_IgnoringForecasts_HurtsHealthAndSometimesFails" methodname="Outpost_IgnoringForecasts_HurtsHealthAndSometimesFails" classname="TitanGate.Tests.ShippedDataTests" runstate="Runnable" seed="2137370893" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.014583" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1072" name="Outpost_PreparedPlayerIsRescued_MinimalAndStrongLoot" fullname="TitanGate.Tests.ShippedDataTests.Outpost_PreparedPlayerIsRescued_MinimalAndStrongLoot" methodname="Outpost_PreparedPlayerIsRescued_MinimalAndStrongLoot" classname="TitanGate.Tests.ShippedDataTests" runstate="Runnable" seed="551552809" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.063171" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1076" name="Strings_BothLanguages_AndMatchingArguments" fullname="TitanGate.Tests.ShippedDataTests.Strings_BothLanguages_AndMatchingArguments" methodname="Strings_BothLanguages_AndMatchingArguments" classname="TitanGate.Tests.ShippedDataTests" runstate="Runnable" seed="417771724" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.017991" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1075" name="Strings_CoverEverything" fullname="TitanGate.Tests.ShippedDataTests.Strings_CoverEverything" methodname="Strings_CoverEverything" classname="TitanGate.Tests.ShippedDataTests" runstate="Runnable" seed="233852380" result="Passed" start-time="2026-11-12 15:36:13Z" end-time="2026-11-12 15:36:13Z" duration="0.007491" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[<b><color=#2EA3FF>MCP-FOR-UNITY</color></b>: [TestRunnerNoThrottle] Restored Interaction Mode after test run.
+Saving results to: Logs/ux-editmode-final.xml
+]]></output>
+            </test-case>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

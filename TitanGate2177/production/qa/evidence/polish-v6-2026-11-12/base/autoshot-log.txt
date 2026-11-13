@@ -1,0 +1,67 @@
+PASS base built with its own camera
+PASS first card waits in the base (no diary screen)
+shot b01_start_th
+PASS walked to plot0
+PASS planted plot 0
+PASS walked to drill
+PASS drilled ice
+shot b02_outside_drill
+PASS walked to pet
+shot b02b_walk_away_back
+shot b02c_walk_toward_front
+PASS walked to air
+PASS day 1: walked to air and opened filter
+shot b03_knock
+PASS walked to hatch
+PASS day 1: walked to hatch and opened visitor_tik
+shot b04_peephole
+shot b04b_infrared_sweep
+shot b04c_evidence
+PASS walked to guest0
+PASS admitted visitor can be approached and talked to
+shot b05b_crew_conversation
+PASS walked to hatch
+PASS day 1: walked to hatch and opened visitor_pip
+shot b06_evening
+PASS walked to seats
+shot b06a_crew_seated
+shot b06b_gather_pod
+PASS day 1: ration opened at the bed
+shot b07_ration
+shot b08_night
+PASS walked to crate
+PASS day 2: walked to crate and opened crate
+PASS walked to hatch
+PASS day 2: walked to hatch and opened visitor_mu
+PASS walked to locker
+PASS day 2: walked to locker and opened locker
+PASS walked to hatch
+PASS day 2: walked to hatch and opened visitor_aya
+PASS walked to seats
+PASS day 2: ration opened at the bed
+PASS walked to plot0
+PASS harvested plot 0 on day 3
+PASS walked to solar
+shot b09_day3_jobs
+PASS walked to shelf_food
+shot b10_storage
+PASS walked to recycler
+PASS day 3: walked to recycler and opened recycler
+PASS walked to shelter
+PASS day 3: walked to shelter and opened storm_warning
+PASS walked to hatch
+PASS day 3: walked to hatch and opened visitor_zee
+PASS walked to hatch
+PASS day 3: walked to hatch and opened visitor_jules
+PASS walked to seats
+PASS day 3: ration opened at the bed
+shot b05_alarm
+PASS walked to panel
+PASS day 4: walked to panel and opened storm_power
+PASS walked to hatch
+PASS day 4: walked to hatch and opened visitor_shade
+PASS walked to seats
+PASS day 4: ration opened at the bed
+PASS reached the end screen: FailedAir
+shot b11_end
+done errors=0 checksFailed=0

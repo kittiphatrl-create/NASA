@@ -660,6 +660,8 @@ namespace TitanGate.Tests
                 ["recycler"] = "repair", ["storm_warning"] = "water_wall", ["visitor_zee"] = "buy_food", ["storm_power"] = "safe_mode",
                 ["visitor_nok"] = "water", ["far_crate"] = "walk", ["beacon"] = "nok_part", ["coords"] = "send", ["log"] = "air",
                 ["visitor_shade"] = "refuse", ["visitor_ree"] = "refuse", ["visitor_mimic"] = "refuse",
+                ["visitor_aya"] = "refuse", ["visitor_jules"] = "refuse",
+                ["visitor_pip"] = "refuse", ["pip_return"] = "refuse",
             };
             foreach (var pet in c.pets)
             {

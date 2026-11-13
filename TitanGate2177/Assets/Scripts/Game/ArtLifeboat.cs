@@ -20,7 +20,9 @@ namespace TitanGate.Game
         static readonly Color32 PetGrey = PixelCanvas.Hex("#8c93a6"), PetPink = PixelCanvas.Hex("#f2a6b4");
 
         /// <summary>The pet picked before the scramble: comet (dog), pixel (cat) or luna (rabbit).</summary>
-        public static Sprite Pet(string id) => Prop("pet_" + id, PetW(id), PetH(id), c => DrawPet(c, id));
+        public static Sprite Pet(string id) => PetFrame(id, -1, 0);
+
+        static Sprite LegacyPet(string id) => Prop("pet_" + id, PetW(id), PetH(id), c => DrawPet(c, id));
 
         public static int PetW(string id) => id == "comet" ? 18 : id == "pixel" ? 16 : 14;
         public static int PetH(string id) => id == "luna" ? 14 : 12;
@@ -56,7 +58,9 @@ namespace TitanGate.Game
         }
 
         /// <summary>A visitor at the hatch or a guest aboard.</summary>
-        public static Sprite Visitor(string id) => Prop("visitor_" + id, VisitorW(id), VisitorH(id), c => DrawVisitor(c, id));
+        public static Sprite Visitor(string id) => Crew(id, 0, -1);
+
+        static Sprite LegacyVisitor(string id) => Prop("visitor_" + id, VisitorW(id), VisitorH(id), c => DrawVisitor(c, id));
 
         static int VisitorW(string id) => id == "zee" ? 20 : id == "nok" ? 12 : id == "tik" || id == "mimic" ? 14 : 16;
         static int VisitorH(string id) => id == "mu" || id == "shade" ? 30 : id == "ree" ? 24 : id == "nok" ? 16 : id == "zee" ? 18 : 20;

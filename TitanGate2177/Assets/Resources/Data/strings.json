@@ -5992,8 +5992,8 @@
   },
   {
    "k": "menu.sources",
-   "en": "Science & Data Sources",
-   "th": "วิทยาศาสตร์และแหล่งข้อมูล"
+   "en": "Science archive",
+   "th": "แหล่งข้อมูลวิทยาศาสตร์"
   },
   {
    "k": "sources.title",
@@ -6107,8 +6107,8 @@
   },
   {
    "k": "menu.lifeboat",
-   "en": "New Chapter 2: survival diary (prototype)",
-   "th": "บทที่ 2 แบบใหม่: บันทึกเอาชีวิตรอด (ต้นแบบ)"
+   "en": "Explore the Mars shelter",
+   "th": "สำรวจฐานดาวอังคาร"
   },
   {
    "k": "life.title_day",
@@ -8209,6 +8209,1071 @@
    "k": "life.card.visitor_mimic.hint.careful",
    "en": "Real tools get scratched. Real eyes blink. Something is wrong.",
    "th": "เครื่องมือที่ใช้จริงต้องมีรอยขีดข่วน ตาจริงต้องกะพริบ มีบางอย่างผิดปกติ"
+  },
+  {
+   "k": "base.hud.day",
+   "en": "Day {0} of {1} · Mars base",
+   "th": "วันที่ {0} จาก {1} · ฐานบนดาวอังคาร"
+  },
+  {
+   "k": "base.hud.controls",
+   "en": "WASD or click to walk · Shift run · E use · Tab numbers · follow the yellow arrow",
+   "th": "WASD หรือคลิกเพื่อเดิน · Shift วิ่ง · E ใช้ · Tab ดูตัวเลข · เดินตามลูกศรสีเหลือง"
+  },
+  {
+   "k": "base.hud.next",
+   "en": "NEXT ▸ {0} — at the {1}",
+   "th": "ต่อไป ▸ {0} — ที่{1}"
+  },
+  {
+   "k": "base.hud.wait",
+   "en": "The visitor will leave in {0} s",
+   "th": "ผู้มาเยือนจะไปใน {0} วินาที"
+  },
+  {
+   "k": "base.hud.alarm",
+   "en": "ALARM! Decide in {0} s or the base picks for you",
+   "th": "เตือนภัย! ตัดสินใจใน {0} วินาที ไม่งั้นฐานจะเลือกให้"
+  },
+  {
+   "k": "base.hud.seeds",
+   "en": "Seeds",
+   "th": "เมล็ด"
+  },
+  {
+   "k": "base.event.ration",
+   "en": "Dinner and sleep",
+   "th": "กินข้าวเย็นแล้วเข้านอน"
+  },
+  {
+   "k": "base.place.air",
+   "en": "air maker",
+   "th": "เครื่องผลิตอากาศ"
+  },
+  {
+   "k": "base.place.crate",
+   "en": "supply crate outside",
+   "th": "ลังเสบียงข้างนอก"
+  },
+  {
+   "k": "base.place.locker",
+   "en": "storage locker",
+   "th": "ตู้เก็บของ"
+  },
+  {
+   "k": "base.place.recycler",
+   "en": "water recycler",
+   "th": "เครื่องรีไซเคิลน้ำ"
+  },
+  {
+   "k": "base.place.shelter",
+   "en": "storm shelter",
+   "th": "มุมหลบพายุ"
+  },
+  {
+   "k": "base.place.panel",
+   "en": "power panel",
+   "th": "แผงควบคุมไฟฟ้า"
+  },
+  {
+   "k": "base.place.beacon",
+   "en": "rescue beacon outside",
+   "th": "บีคอนขอความช่วยเหลือข้างนอก"
+  },
+  {
+   "k": "base.place.radio",
+   "en": "radio",
+   "th": "วิทยุสื่อสาร"
+  },
+  {
+   "k": "base.place.hatch",
+   "en": "airlock door",
+   "th": "ประตูปรับแรงดัน"
+  },
+  {
+   "k": "base.place.bed",
+   "en": "bed",
+   "th": "เตียงนอน"
+  },
+  {
+   "k": "base.place.board",
+   "en": "mission board",
+   "th": "กระดานภารกิจ"
+  },
+  {
+   "k": "base.spot.bed",
+   "en": "Bed",
+   "th": "เตียงนอน"
+  },
+  {
+   "k": "base.spot.plot",
+   "en": "Greenhouse plot",
+   "th": "แปลงปลูกผัก"
+  },
+  {
+   "k": "base.spot.shelf_o2",
+   "en": "O₂ tanks",
+   "th": "ถังออกซิเจน"
+  },
+  {
+   "k": "base.spot.shelf_water",
+   "en": "Water shelf",
+   "th": "ชั้นวางน้ำ"
+  },
+  {
+   "k": "base.spot.shelf_food",
+   "en": "Food shelf",
+   "th": "ชั้นวางอาหาร"
+  },
+  {
+   "k": "base.spot.battery",
+   "en": "Battery bank",
+   "th": "แบตเตอรี่"
+  },
+  {
+   "k": "base.spot.solar",
+   "en": "Solar panels",
+   "th": "แผงโซลาร์"
+  },
+  {
+   "k": "base.spot.drill",
+   "en": "Ice drill",
+   "th": "เครื่องเจาะน้ำแข็ง"
+  },
+  {
+   "k": "base.toast.knock",
+   "en": "KNOCK KNOCK KNOCK! Someone is at the airlock door. Go and look through the peephole.",
+   "th": "ก๊อก ก๊อก ก๊อก! มีคนอยู่ที่ประตูปรับแรงดัน ไปส่องตาแมวดูสิ"
+  },
+  {
+   "k": "base.toast.alarm",
+   "en": "ALARM: {0}! Run to it, you have {1} seconds!",
+   "th": "เตือนภัย: {0}! รีบไป มีเวลา {1} วินาที!"
+  },
+  {
+   "k": "base.toast.new",
+   "en": "New: {0} — at the {1}",
+   "th": "เรื่องใหม่: {0} — ที่{1}"
+  },
+  {
+   "k": "base.toast.evening",
+   "en": "Evening. Everyone gathers in the lifeboat pod: go to the seats to check on the crew and share dinner.",
+   "th": "ตกเย็นแล้ว ทุกคนมารวมกันในยานชูชีพ ไปที่เก้าอี้เพื่อดูอาการลูกเรือและแบ่งอาหารเย็น"
+  },
+  {
+   "k": "base.toast.late",
+   "en": "Too late: {0}. The base had to choose for you.",
+   "th": "ช้าไป: {0} ฐานเลยต้องเลือกแทนคุณ"
+  },
+  {
+   "k": "base.toast.flare",
+   "en": "Real NASA data (DONKI, archived): on {0} the Sun fired a class {1} solar flare. A big flare can send a radiation storm to Mars. Build a shelter before one hits!",
+   "th": "ข้อมูลจริงจาก NASA (DONKI, ข้อมูลย้อนหลัง): วันที่ {0} ดวงอาทิตย์ปล่อยเปลวสุริยะระดับ {1} เปลวสุริยะขนาดใหญ่ส่งพายุรังสีมาถึงดาวอังคารได้ สร้างที่หลบภัยไว้ก่อนมันมาถึง!"
+  },
+  {
+   "k": "base.solar.ok",
+   "en": "You brushed the dust off the solar panels: more power, but your suit used some air. Dust cuts solar power on Mars: NASA's InSight lander ended its mission in 2022 when dust covered its panels.",
+   "th": "คุณปัดฝุ่นออกจากแผงโซลาร์: ไฟฟ้าเพิ่มขึ้น แต่ชุดอวกาศใช้อากาศไปบ้าง ฝุ่นทำให้ไฟจากแผงโซลาร์บนดาวอังคารลดลง ยาน InSight ของ NASA ต้องจบภารกิจในปี 2022 เพราะฝุ่นปกคลุมแผง"
+  },
+  {
+   "k": "base.solar.clean",
+   "en": "The panels are clean today. Dust settles again overnight.",
+   "th": "วันนี้แผงสะอาดแล้ว ฝุ่นจะมาเกาะใหม่ตอนกลางคืน"
+  },
+  {
+   "k": "base.solar.cant",
+   "en": "Not enough O₂ to go outside and clean them.",
+   "th": "O₂ ไม่พอให้ออกไปทำความสะอาด"
+  },
+  {
+   "k": "base.drill.ok",
+   "en": "The drill heated ground ice into water: more water, but it used power. NASA orbiters have found ice under the Mars surface in many places.",
+   "th": "เครื่องเจาะละลายน้ำแข็งใต้ดินเป็นน้ำ: ได้น้ำเพิ่ม แต่ใช้ไฟฟ้าไป ยานโคจรของ NASA พบน้ำแข็งอยู่ใต้ผิวดาวอังคารในหลายพื้นที่"
+  },
+  {
+   "k": "base.drill.cant",
+   "en": "Not enough power to run the drill.",
+   "th": "ไฟฟ้าไม่พอให้เครื่องเจาะทำงาน"
+  },
+  {
+   "k": "base.task.done_today",
+   "en": "Already done today. Try again tomorrow.",
+   "th": "วันนี้ทำไปแล้ว พรุ่งนี้ค่อยทำใหม่"
+  },
+  {
+   "k": "base.plot.plant",
+   "en": "Seed planted and watered. It will be ripe in {0} days if the grow lamps have power each night. Seeds left: {1}",
+   "th": "ปลูกเมล็ดแล้วรดน้ำ จะโตเต็มที่ใน {0} วัน ถ้าไฟปลูกพืชมีไฟฟ้าทุกคืน เมล็ดเหลือ: {1}"
+  },
+  {
+   "k": "base.plot.growing",
+   "en": "Growing… ready on day {0}.",
+   "th": "กำลังโต… พร้อมเก็บวันที่ {0}"
+  },
+  {
+   "k": "base.plot.harvest",
+   "en": "Harvest! Fresh food for the crew{0}. On the ISS, NASA's Veggie garden grows lettuce under red and blue LED lamps, and astronauts eat it.",
+   "th": "เก็บเกี่ยว! ได้อาหารสดให้ลูกเรือ{0} บนสถานีอวกาศนานาชาติ สวน Veggie ของ NASA ปลูกผักกาดใต้ไฟ LED สีแดงกับน้ำเงิน และนักบินอวกาศก็กินได้จริง"
+  },
+  {
+   "k": "base.plot.noseed",
+   "en": "No seeds left.",
+   "th": "ไม่มีเมล็ดเหลือแล้ว"
+  },
+  {
+   "k": "base.plot.nowater",
+   "en": "Not enough water to plant.",
+   "th": "น้ำไม่พอสำหรับปลูก"
+  },
+  {
+   "k": "base.plot.nolamp",
+   "en": "The battery was empty, so the grow lamps were off last night and the plants did not grow.",
+   "th": "แบตเตอรี่หมด ไฟปลูกพืชเลยดับเมื่อคืน ต้นไม้จึงไม่โต"
+  },
+  {
+   "k": "base.pet",
+   "en": "{0} loves that!",
+   "th": "{0} ชอบมาก!"
+  },
+  {
+   "k": "base.board",
+   "en": "Mission board: stay alive {0} days until the rescue ship comes. Fix the rescue beacon outside, then send our position from the radio.",
+   "th": "กระดานภารกิจ: อยู่รอดให้ได้ {0} วันจนยานกู้ภัยมาถึง ซ่อมบีคอนข้างนอก แล้วส่งพิกัดของเราจากวิทยุ"
+  },
+  {
+   "k": "base.shelf",
+   "en": "{0} in stock: {1}",
+   "th": "{0} มีอยู่: {1}"
+  },
+  {
+   "k": "base.battery",
+   "en": "Battery: {0} units of power.",
+   "th": "แบตเตอรี่: ไฟฟ้า {0} หน่วย"
+  },
+  {
+   "k": "base.guest",
+   "en": "{0} is staying with you.",
+   "th": "{0} พักอยู่กับคุณ"
+  },
+  {
+   "k": "base.nothing",
+   "en": "{0}: nothing to do here right now.",
+   "th": "{0}: ตอนนี้ยังไม่มีอะไรให้ทำ"
+  },
+  {
+   "k": "ship.intro.1",
+   "en": "Good morning, Cadet! We are on the ship Kestrel, on our way to Titan. I'm ORBI, your mission AI. Walk with WASD or click the floor.",
+   "th": "อรุณสวัสดิ์ นักบินฝึกหัด! เราอยู่บนยาน Kestrel กำลังเดินทางไปไททัน ฉันชื่อ ORBI เป็น AI ประจำภารกิจ เดินด้วย WASD หรือคลิกที่พื้นได้เลย"
+  },
+  {
+   "k": "ship.intro.2",
+   "en": "A ship only works if the crew keeps it running. Morning jobs first! {0} is hungry. Follow the yellow arrow.",
+   "th": "ยานจะอยู่ได้ถ้าลูกเรือดูแลมันทุกวัน เริ่มงานเช้ากันก่อน! {0} หิวแล้ว เดินตามลูกศรสีเหลืองไปเลย"
+  },
+  {
+   "k": "ship.q.food",
+   "en": "Take pet food from the galley locker",
+   "th": "หยิบอาหารสัตว์จากตู้ในห้องครัว"
+  },
+  {
+   "k": "ship.q.bowl",
+   "en": "Put it in {0}'s bowl in the quarters",
+   "th": "เอาไปใส่ชามของ{0}ในห้องพัก"
+  },
+  {
+   "k": "ship.q.cabinet",
+   "en": "Take a new water filter from the parts cabinet in the galley",
+   "th": "หยิบไส้กรองน้ำอันใหม่จากตู้อะไหล่ในห้องครัว"
+  },
+  {
+   "k": "ship.q.recycler",
+   "en": "Fit the filter in the water recycler in life support",
+   "th": "เอาไส้กรองไปใส่เครื่องรีไซเคิลน้ำในห้องระบบช่วยชีวิต"
+  },
+  {
+   "k": "ship.q.can",
+   "en": "Take the watering can in the lab",
+   "th": "หยิบบัวรดน้ำในห้องทดลอง"
+  },
+  {
+   "k": "ship.q.plants",
+   "en": "Water the lettuce in the lab",
+   "th": "รดน้ำผักกาดในห้องทดลอง"
+  },
+  {
+   "k": "ship.q.radio",
+   "en": "Send the morning report from the cockpit radio",
+   "th": "ส่งรายงานตอนเช้าจากวิทยุในห้องบังคับ"
+  },
+  {
+   "k": "ship.q.sofa",
+   "en": "All done! Take a break on the sofa in the galley",
+   "th": "เสร็จหมดแล้ว! ไปนั่งพักที่โซฟาในห้องครัว"
+  },
+  {
+   "k": "ship.fact.food",
+   "en": "Fed! Space food comes in sealed pouches, so crumbs can't float into the machines.",
+   "th": "ให้อาหารแล้ว! อาหารอวกาศบรรจุในถุงปิดสนิท เศษอาหารจะได้ไม่ลอยไปติดเครื่องจักร"
+  },
+  {
+   "k": "ship.fact.water",
+   "en": "Filter fitted! The ISS water recycler turns about 98% of the crew's water, even sweat, back into drinking water.",
+   "th": "ใส่ไส้กรองแล้ว! เครื่องรีไซเคิลน้ำบนสถานีอวกาศนานาชาติเปลี่ยนน้ำของลูกเรือราว 98% แม้แต่เหงื่อ กลับมาเป็นน้ำดื่มได้"
+  },
+  {
+   "k": "ship.fact.plants",
+   "en": "Watered! On the ISS, NASA's Veggie garden grows lettuce under red and blue LED lamps.",
+   "th": "รดน้ำแล้ว! บนสถานีอวกาศนานาชาติ สวน Veggie ของ NASA ปลูกผักกาดใต้ไฟ LED สีแดงกับน้ำเงิน"
+  },
+  {
+   "k": "ship.fact.radio",
+   "en": "Report sent! Radio travels at the speed of light, but from Mars a message takes about 4 to 24 minutes to reach Earth.",
+   "th": "ส่งรายงานแล้ว! คลื่นวิทยุเดินทางเร็วเท่าแสง แต่จากดาวอังคารข้อความต้องใช้เวลาราว 4 ถึง 24 นาทีกว่าจะถึงโลก"
+  },
+  {
+   "k": "ship.rest",
+   "en": "Nice work, Cadet. Sit back for a minute… the ship is quiet today.",
+   "th": "เก่งมาก นักบินฝึกหัด นั่งพักสักครู่… วันนี้ยานเงียบดีนะ"
+  },
+  {
+   "k": "ship.scramble.sys",
+   "en": "HULL BREACH · CABIN AIR LEAKING · ABANDON SHIP",
+   "th": "ตัวยานรั่ว · อากาศในห้องกำลังรั่วออก · สละยาน"
+  },
+  {
+   "k": "ship.scramble.1",
+   "en": "Space debris hit us! The Kestrel can't hold. Carry supplies to the lifeboat in the bay — you have {0} seconds!",
+   "th": "ขยะอวกาศชนเรา! ยาน Kestrel ทนไม่ไหวแล้ว ขนเสบียงไปที่ยานชูชีพในห้องจอด มีเวลา {0} วินาที!"
+  },
+  {
+   "k": "ship.scramble.2",
+   "en": "You can carry {0} things at a time. The lifeboat holds {1}. Air, water, food, tools… choose what keeps us alive on Mars!",
+   "th": "คุณถือของได้ครั้งละ {0} ชิ้น ยานชูชีพจุได้ {1} ชิ้น อากาศ น้ำ อาหาร เครื่องมือ… เลือกสิ่งที่จะทำให้เรารอดบนดาวอังคาร!"
+  },
+  {
+   "k": "ship.scramble.notime",
+   "en": "No time for that! Grab supplies and get to the lifeboat!",
+   "th": "ไม่มีเวลาแล้ว! หยิบเสบียงแล้วรีบไปที่ยานชูชีพ!"
+  },
+  {
+   "k": "ship.scramble.hands_full",
+   "en": "Hands full ({0})! Take them to the lifeboat first.",
+   "th": "มือเต็มแล้ว ({0} ชิ้น)! เอาไปเก็บที่ยานชูชีพก่อน"
+  },
+  {
+   "k": "ship.scramble.grab",
+   "en": "Grabbed {0}  ({1}/{2} in hands)",
+   "th": "หยิบ{0}แล้ว  (ในมือ {1}/{2})"
+  },
+  {
+   "k": "ship.scramble.empty",
+   "en": "Your hands are empty. Bring supplies here!",
+   "th": "มือว่างอยู่ ไปหยิบเสบียงมาเก็บที่นี่!"
+  },
+  {
+   "k": "ship.scramble.stowed",
+   "en": "Stowed {0} in the lifeboat ({1}/{2})",
+   "th": "เก็บเข้ายานชูชีพ {0} ชิ้น ({1}/{2})"
+  },
+  {
+   "k": "ship.scramble.fire",
+   "en": "FIRE! A doorway is blocked. Find another way around!",
+   "th": "ไฟไหม้! ประตูถูกปิดทาง หาทางอ้อม!"
+  },
+  {
+   "k": "ship.scramble.full",
+   "en": "The lifeboat is full: {0}/{1}. Get in, we're launching!",
+   "th": "ยานชูชีพเต็มแล้ว: {0}/{1} ขึ้นยานเลย เราจะออกตัวแล้ว!"
+  },
+  {
+   "k": "ship.scramble.time",
+   "en": "Time's up! I'm pulling you into the lifeboat. We saved {0} of {1} supplies.",
+   "th": "หมดเวลา! ฉันดึงคุณเข้ายานชูชีพแล้ว เราช่วยเสบียงไว้ได้ {0} จาก {1} ชิ้น"
+  },
+  {
+   "k": "ship.scramble.lost",
+   "en": "{0} thing(s) in your hands did not make it into the lifeboat. They stay on the Kestrel.",
+   "th": "ของในมือ {0} ชิ้นเก็บเข้ายานชูชีพไม่ทัน ต้องทิ้งไว้บนยาน Kestrel"
+  },
+  {
+   "k": "ship.look.other",
+   "en": "{0}: not now. Follow the yellow arrow.",
+   "th": "{0}: ยังไม่ใช่ตอนนี้ เดินตามลูกศรสีเหลือง"
+  },
+  {
+   "k": "ship.spot.plants",
+   "en": "Lettuce",
+   "th": "ผักกาด"
+  },
+  {
+   "k": "ship.spot.can",
+   "en": "Watering can",
+   "th": "บัวรดน้ำ"
+  },
+  {
+   "k": "ship.spot.radio",
+   "en": "Radio",
+   "th": "วิทยุ"
+  },
+  {
+   "k": "ship.spot.lifeboat",
+   "en": "Lifeboat hatch",
+   "th": "ประตูยานชูชีพ"
+  },
+  {
+   "k": "ship.spot.bowl",
+   "en": "Pet bowl",
+   "th": "ชามอาหารสัตว์"
+  },
+  {
+   "k": "ship.spot.sofa",
+   "en": "Sofa",
+   "th": "โซฟา"
+  },
+  {
+   "k": "ship.spot.food",
+   "en": "Galley locker",
+   "th": "ตู้ห้องครัว"
+  },
+  {
+   "k": "ship.spot.cabinet",
+   "en": "Spare parts cabinet",
+   "th": "ตู้อะไหล่"
+  },
+  {
+   "k": "ship.spot.recycler",
+   "en": "Water recycler",
+   "th": "เครื่องรีไซเคิลน้ำ"
+  },
+  {
+   "k": "ship.hud.morning",
+   "en": "SHIP KESTREL · MORNING SHIFT",
+   "th": "ยาน KESTREL · งานช่วงเช้า"
+  },
+  {
+   "k": "ship.hud.quest",
+   "en": "Job {0} of {1}",
+   "th": "งานที่ {0} จาก {1}"
+  },
+  {
+   "k": "ship.hud.emergency",
+   "en": "ABANDON SHIP!",
+   "th": "สละยาน!"
+  },
+  {
+   "k": "ship.hud.hands",
+   "en": "Hands: {0}  ({1}/{2})",
+   "th": "ในมือ: {0}  ({1}/{2})"
+  },
+  {
+   "k": "ship.hud.lifeboat",
+   "en": "Lifeboat: {0}/{1} — follow the floor arrows to the bay and click the orange pod",
+   "th": "ยานชูชีพ: {0}/{1} — เดินตามลูกศรบนพื้นไปห้องจอด แล้วคลิกยานสีส้ม"
+  },
+  {
+   "k": "ship.hud.timer",
+   "en": "LAUNCH IN {0} s",
+   "th": "ยานชูชีพออกใน {0} วินาที"
+  },
+  {
+   "k": "sources.observed.5",
+   "en": "Solar flares (NASA DONKI space weather database, archived values, not live): the base shows one real X-class flare each run, e.g. X9.0 on 2024-10-03 and X8.7 on 2024-05-14.",
+   "th": "เปลวสุริยะ (ฐานข้อมูลสภาพอากาศอวกาศ DONKI ของ NASA, ข้อมูลย้อนหลัง ไม่ใช่ข้อมูลสด): ฐานแสดงเปลวสุริยะระดับ X ที่เกิดขึ้นจริง 1 ครั้งต่อรอบ เช่น X9.0 วันที่ 2024-10-03 และ X8.7 วันที่ 2024-05-14"
+  },
+  {
+   "k": "sources.principle.6",
+   "en": "Base jobs: dust on solar panels (NASA InSight, mission ended 2022), water recycling on the ISS (about 98% recovered), lettuce under red and blue LEDs (NASA Veggie), radio delay Mars to Earth (about 4 to 24 minutes).",
+   "th": "งานในฐาน: ฝุ่นบนแผงโซลาร์ (ยาน InSight ของ NASA จบภารกิจปี 2022), การรีไซเคิลน้ำบน ISS (นำกลับมาใช้ได้ราว 98%), ปลูกผักกาดใต้ไฟ LED แดงกับน้ำเงิน (NASA Veggie), เวลาหน่วงของวิทยุจากดาวอังคารถึงโลก (ราว 4 ถึง 24 นาที)"
+  },
+  {
+   "k": "base.place.seats",
+   "en": "seats in the lifeboat pod",
+   "th": "เก้าอี้ในยานชูชีพ"
+  },
+  {
+   "k": "base.room.pod",
+   "en": "Lifeboat pod",
+   "th": "ยานชูชีพ"
+  },
+  {
+   "k": "base.room.tube",
+   "en": "Connecting tube",
+   "th": "ทางเชื่อม"
+  },
+  {
+   "k": "base.room.hub",
+   "en": "Base hub",
+   "th": "โถงกลางของฐาน"
+  },
+  {
+   "k": "base.room.greenhouse",
+   "en": "Greenhouse",
+   "th": "เรือนกระจก"
+  },
+  {
+   "k": "base.room.airlock",
+   "en": "Airlock",
+   "th": "ห้องปรับแรงดัน"
+  },
+  {
+   "k": "base.room.quarters",
+   "en": "Crew quarters",
+   "th": "ห้องพักลูกเรือ"
+  },
+  {
+   "k": "base.room.storage",
+   "en": "Storage and storm shelter",
+   "th": "คลังเสบียงและที่หลบพายุ"
+  },
+  {
+   "k": "base.room.power",
+   "en": "Power room",
+   "th": "ห้องไฟฟ้า"
+  },
+  {
+   "k": "base.room.comms",
+   "en": "Comms room",
+   "th": "ห้องสื่อสาร"
+  },
+  {
+   "k": "ship.room.engine",
+   "en": "Engine room",
+   "th": "ห้องเครื่องยนต์"
+  },
+  {
+   "k": "ship.room.corridor",
+   "en": "Main corridor",
+   "th": "ทางเดินหลัก"
+  },
+  {
+   "k": "ship.room.lab",
+   "en": "Plant lab",
+   "th": "ห้องทดลองปลูกพืช"
+  },
+  {
+   "k": "ship.room.quarters",
+   "en": "Crew quarters",
+   "th": "ห้องพักลูกเรือ"
+  },
+  {
+   "k": "ship.room.galley",
+   "en": "Galley and lounge",
+   "th": "ห้องครัวและห้องนั่งเล่น"
+  },
+  {
+   "k": "ship.room.storage",
+   "en": "Storage",
+   "th": "ห้องเก็บของ"
+  },
+  {
+   "k": "ship.room.life",
+   "en": "Life support",
+   "th": "ห้องระบบช่วยชีวิต"
+  },
+  {
+   "k": "ship.room.bay",
+   "en": "Lifeboat bay",
+   "th": "ห้องจอดยานชูชีพ"
+  },
+  {
+   "k": "ship.room.cockpit",
+   "en": "Cockpit",
+   "th": "ห้องบังคับยาน"
+  },
+  {
+   "k": "base.toast.gather",
+   "en": "The crew gathers in the lifeboat pod for the evening check.",
+   "th": "ลูกเรือมารวมตัวกันในยานชูชีพเพื่อเช็กสถานะตอนเย็น"
+  },
+  {
+   "k": "base.mood.0",
+   "en": "Feeling good",
+   "th": "สบายดี"
+  },
+  {
+   "k": "base.mood.1",
+   "en": "Tired and hungry",
+   "th": "เหนื่อยและหิว"
+  },
+  {
+   "k": "base.mood.2",
+   "en": "Not well",
+   "th": "ไม่ค่อยสบาย"
+  },
+  {
+   "k": "base.mood.3",
+   "en": "Very sick!",
+   "th": "อาการหนัก!"
+  },
+  {
+   "k": "base.mood.pet_hungry",
+   "en": "hungry",
+   "th": "หิว"
+  },
+  {
+   "k": "base.card.every_day",
+   "en": "every day",
+   "th": "ทุกวัน"
+  },
+  {
+   "k": "base.card.free",
+   "en": "costs nothing",
+   "th": "ไม่เสียอะไร"
+  },
+  {
+   "k": "base.hud.numbers",
+   "en": "Tab: show numbers",
+   "th": "Tab: แสดงตัวเลข"
+  },
+  {
+   "k": "base.peep.header",
+   "en": "PEEPHOLE · AIRLOCK DOOR",
+   "th": "ตาแมว · ประตูปรับแรงดัน"
+  },
+  {
+   "k": "base.peep.evidence",
+   "en": "What you found out",
+   "th": "สิ่งที่คุณรู้แล้ว"
+  },
+  {
+   "k": "base.peep.nothing_yet",
+   "en": "Nothing yet. Talk to them, or use a scanner below the lens.",
+   "th": "ยังไม่รู้อะไร ลองคุยกับเขา หรือใช้เครื่องสแกนใต้เลนส์"
+  },
+  {
+   "k": "base.peep.q1",
+   "en": "Who are you, and where did you come from?",
+   "th": "คุณเป็นใคร มาจากไหน?"
+  },
+  {
+   "k": "base.peep.q2",
+   "en": "What do you need from us?",
+   "th": "ต้องการอะไรจากเรา?"
+  },
+  {
+   "k": "base.peep.q3",
+   "en": "Is anyone else out there with you?",
+   "th": "มีใครมาด้วยอีกไหม?"
+  },
+  {
+   "k": "base.peep.unusual",
+   "en": "UNUSUAL for a living body",
+   "th": "ผิดปกติสำหรับสิ่งมีชีวิต"
+  },
+  {
+   "k": "base.peep.expected",
+   "en": "what a living body would show",
+   "th": "ตรงกับสิ่งมีชีวิตทั่วไป"
+  },
+  {
+   "k": "base.peep.limit.thermal",
+   "en": "Infrared shows heat, not who someone is or what they want.",
+   "th": "อินฟราเรดเห็นแค่ความร้อน ไม่ได้บอกว่าเป็นใครหรือคิดอะไร"
+  },
+  {
+   "k": "base.peep.limit.breath",
+   "en": "A breath sensor shows breathing, not honesty.",
+   "th": "เซ็นเซอร์ลมหายใจบอกได้ว่าหายใจ ไม่ได้บอกว่าซื่อสัตย์"
+  },
+  {
+   "k": "base.peep.limit.heartbeat",
+   "en": "A heartbeat means alive, not friendly.",
+   "th": "เสียงหัวใจบอกว่ามีชีวิต ไม่ได้บอกว่าเป็นมิตร"
+  },
+  {
+   "k": "base.peep.talk",
+   "en": "Talk",
+   "th": "พูดคุย"
+  },
+  {
+   "k": "base.peep.talk_hint",
+   "en": "Ask a question. Watch how they answer.",
+   "th": "ถามคำถาม แล้วดูท่าทีตอนตอบ"
+  },
+  {
+   "k": "base.peep.talk_done",
+   "en": "They have nothing more to say.",
+   "th": "เขาไม่มีอะไรจะพูดเพิ่มแล้ว"
+  },
+  {
+   "k": "base.peep.scans_left",
+   "en": "Scanner charge left: {0}",
+   "th": "สแกนได้อีก {0} ครั้ง"
+  },
+  {
+   "k": "base.peep.no_scans",
+   "en": "No scanner charge left",
+   "th": "สแกนครบแล้ว"
+  },
+  {
+   "k": "base.peep.decide",
+   "en": "What do you do?",
+   "th": "คุณจะทำยังไง?"
+  },
+  {
+   "k": "base.peep.scan.thermal",
+   "en": "Infrared",
+   "th": "อินฟราเรด"
+  },
+  {
+   "k": "base.peep.scan.breath",
+   "en": "Breathing",
+   "th": "ลมหายใจ"
+  },
+  {
+   "k": "base.peep.scan.heartbeat",
+   "en": "Heartbeat",
+   "th": "เสียงหัวใจ"
+  },
+  {
+   "k": "base.peep.back",
+   "en": "Step back from the door (decide later)",
+   "th": "ถอยออกจากประตู (ค่อยตัดสินใจ)"
+  },
+  {
+   "k": "visitor.aya.name",
+   "en": "Aya",
+   "th": "อายะ"
+  },
+  {
+   "k": "life.card.visitor_aya.title",
+   "en": "Aya at the airlock",
+   "th": "อายะ ที่หน้าประตู"
+  },
+  {
+   "k": "life.card.visitor_aya.body",
+   "en": "A woman in a mint expedition jacket waves through the glass. She introduces herself as Aya, a human botanist.",
+   "th": "หญิงสาวในเสื้อสำรวจสีมิ้นต์โบกมือผ่านกระจก เธอชื่ออายะ เป็นนักพฤกษศาสตร์มนุษย์"
+  },
+  {
+   "k": "life.card.visitor_aya.clue1",
+   "en": "I followed your beacon. My suit is nearly empty.",
+   "th": "ฉันตามสัญญาณของคุณมา อากาศในชุดใกล้หมดแล้ว"
+  },
+  {
+   "k": "life.card.visitor_aya.clue2",
+   "en": "You can inspect my suit and mission badge before opening the door.",
+   "th": "ตรวจชุดและบัตรภารกิจของฉันก่อนเปิดประตูได้เลย"
+  },
+  {
+   "k": "life.card.visitor_aya.clue3",
+   "en": "I can help around the base, but I will also need food, water and air.",
+   "th": "ฉันช่วยงานในฐานได้ แต่ก็ต้องใช้อาหาร น้ำ และอากาศด้วย"
+  },
+  {
+   "k": "life.card.visitor_aya.admit",
+   "en": "Welcome them inside",
+   "th": "รับเข้ามาในฐาน"
+  },
+  {
+   "k": "life.card.visitor_aya.admit.result",
+   "en": "A new crewmate joins the shelter. Their daily ration needs are now included.",
+   "th": "เพื่อนร่วมฐานคนใหม่เข้ามาแล้ว ต้องแบ่งเสบียงรายวันให้ด้วย"
+  },
+  {
+   "k": "life.card.visitor_aya.refuse",
+   "en": "Wish them safe travels",
+   "th": "ขอให้เดินทางปลอดภัย"
+  },
+  {
+   "k": "life.card.visitor_aya.refuse.result",
+   "en": "They nod and continue searching. No supplies were spent.",
+   "th": "เขาพยักหน้าแล้วออกตามหาฐานต่อ ไม่เสียทรัพยากร"
+  },
+  {
+   "k": "life.scan.aya.thermal",
+   "en": "Suit exterior is cool; the insulated torso retains body heat. This alone cannot establish identity.",
+   "th": "ผิวชุดเย็น แต่ลำตัวเก็บความร้อนไว้ ข้อมูลนี้ยืนยันตัวตนไม่ได้"
+  },
+  {
+   "k": "life.scan.aya.breath",
+   "en": "Regular breathing through the suit regulator.",
+   "th": "หายใจสม่ำเสมอผ่านเครื่องควบคุมอากาศ"
+  },
+  {
+   "k": "life.scan.aya.heartbeat",
+   "en": "A regular pulse, slightly elevated after the walk.",
+   "th": "ชีพจรสม่ำเสมอ เร็วขึ้นเล็กน้อยหลังเดินทาง"
+  },
+  {
+   "k": "life.card.visitor_aya.hint.brave",
+   "en": "The badge and suit are consistent with the story; that is evidence, not a guarantee.",
+   "th": "บัตรกับชุดสอดคล้องกับเรื่องที่เล่า เป็นหลักฐานแต่ไม่ใช่คำรับประกัน"
+  },
+  {
+   "k": "life.card.visitor_aya.hint.smart",
+   "en": "The badge and suit are consistent with the story; that is evidence, not a guarantee.",
+   "th": "บัตรกับชุดสอดคล้องกับเรื่องที่เล่า เป็นหลักฐานแต่ไม่ใช่คำรับประกัน"
+  },
+  {
+   "k": "life.card.visitor_aya.hint.careful",
+   "en": "The badge and suit are consistent with the story; that is evidence, not a guarantee.",
+   "th": "บัตรกับชุดสอดคล้องกับเรื่องที่เล่า เป็นหลักฐานแต่ไม่ใช่คำรับประกัน"
+  },
+  {
+   "k": "visitor.jules.name",
+   "en": "Jules",
+   "th": "จูลส์"
+  },
+  {
+   "k": "life.card.visitor_jules.title",
+   "en": "Jules at the airlock",
+   "th": "จูลส์ ที่หน้าประตู"
+  },
+  {
+   "k": "life.card.visitor_jules.body",
+   "en": "Jules, a nonbinary human engineer in a lavender work suit, signals from outside. Their shelter lost power.",
+   "th": "จูลส์ วิศวกรมนุษย์นอนไบนารีในชุดสีลาเวนเดอร์ ส่งสัญญาณจากด้านนอก ฐานของเขาไฟดับ"
+  },
+  {
+   "k": "life.card.visitor_jules.clue1",
+   "en": "I followed your beacon. My suit is nearly empty.",
+   "th": "ฉันตามสัญญาณของคุณมา อากาศในชุดใกล้หมดแล้ว"
+  },
+  {
+   "k": "life.card.visitor_jules.clue2",
+   "en": "You can inspect my suit and mission badge before opening the door.",
+   "th": "ตรวจชุดและบัตรภารกิจของฉันก่อนเปิดประตูได้เลย"
+  },
+  {
+   "k": "life.card.visitor_jules.clue3",
+   "en": "I can help around the base, but I will also need food, water and air.",
+   "th": "ฉันช่วยงานในฐานได้ แต่ก็ต้องใช้อาหาร น้ำ และอากาศด้วย"
+  },
+  {
+   "k": "life.card.visitor_jules.admit",
+   "en": "Welcome them inside",
+   "th": "รับเข้ามาในฐาน"
+  },
+  {
+   "k": "life.card.visitor_jules.admit.result",
+   "en": "A new crewmate joins the shelter. Their daily ration needs are now included.",
+   "th": "เพื่อนร่วมฐานคนใหม่เข้ามาแล้ว ต้องแบ่งเสบียงรายวันให้ด้วย"
+  },
+  {
+   "k": "life.card.visitor_jules.refuse",
+   "en": "Wish them safe travels",
+   "th": "ขอให้เดินทางปลอดภัย"
+  },
+  {
+   "k": "life.card.visitor_jules.refuse.result",
+   "en": "They nod and continue searching. No supplies were spent.",
+   "th": "เขาพยักหน้าแล้วออกตามหาฐานต่อ ไม่เสียทรัพยากร"
+  },
+  {
+   "k": "life.scan.jules.thermal",
+   "en": "Suit exterior is cool; the insulated torso retains body heat. This alone cannot establish identity.",
+   "th": "ผิวชุดเย็น แต่ลำตัวเก็บความร้อนไว้ ข้อมูลนี้ยืนยันตัวตนไม่ได้"
+  },
+  {
+   "k": "life.scan.jules.breath",
+   "en": "Regular breathing through the suit regulator.",
+   "th": "หายใจสม่ำเสมอผ่านเครื่องควบคุมอากาศ"
+  },
+  {
+   "k": "life.scan.jules.heartbeat",
+   "en": "A regular pulse, slightly elevated after the walk.",
+   "th": "ชีพจรสม่ำเสมอ เร็วขึ้นเล็กน้อยหลังเดินทาง"
+  },
+  {
+   "k": "life.card.visitor_jules.hint.brave",
+   "en": "The badge and suit are consistent with the story; that is evidence, not a guarantee.",
+   "th": "บัตรกับชุดสอดคล้องกับเรื่องที่เล่า เป็นหลักฐานแต่ไม่ใช่คำรับประกัน"
+  },
+  {
+   "k": "life.card.visitor_jules.hint.smart",
+   "en": "The badge and suit are consistent with the story; that is evidence, not a guarantee.",
+   "th": "บัตรกับชุดสอดคล้องกับเรื่องที่เล่า เป็นหลักฐานแต่ไม่ใช่คำรับประกัน"
+  },
+  {
+   "k": "life.card.visitor_jules.hint.careful",
+   "en": "The badge and suit are consistent with the story; that is evidence, not a guarantee.",
+   "th": "บัตรกับชุดสอดคล้องกับเรื่องที่เล่า เป็นหลักฐานแต่ไม่ใช่คำรับประกัน"
+  },
+  {
+   "k": "set.motion",
+   "en": "Reduce motion",
+   "th": "ลดการเคลื่อนไหว"
+  },
+  {
+   "k": "visitor.pip.name",
+   "en": "Pip",
+   "th": "พิพ"
+  },
+  {
+   "k": "life.card.visitor_pip.title",
+   "en": "A very small explorer",
+   "th": "นักสำรวจตัวจิ๋ว"
+  },
+  {
+   "k": "life.card.visitor_pip.body",
+   "en": "A tiny visitor taps the glass with a pebble, then copies your wave. A hand-painted star hangs from its pack.",
+   "th": "แขกตัวจิ๋วใช้ก้อนหินเคาะกระจก แล้วโบกมือตามคุณ บนเป้มีดาวที่วาดด้วยมือติดอยู่"
+  },
+  {
+   "k": "life.card.pip_return.title",
+   "en": "A familiar little wave",
+   "th": "มือเล็ก ๆ ที่คุ้นเคย"
+  },
+  {
+   "k": "life.card.pip_return.body",
+   "en": "Pip is back! It places two sealed supply packets at the hatch and points at the star on its pack.",
+   "th": "พิพกลับมาแล้ว! มันวางเสบียงปิดผนึกสองห่อไว้หน้าประตู แล้วชี้ดาวบนเป้"
+  },
+  {
+   "k": "life.card.visitor_pip.clue1",
+   "en": "It waits for you to copy the gesture before moving closer.",
+   "th": "มันรอให้คุณทำท่าตามก่อนค่อยขยับเข้ามา"
+  },
+  {
+   "k": "life.card.visitor_pip.clue2",
+   "en": "It shows a drawing of a path beyond the ridge. The outside world is bigger than this shelter.",
+   "th": "มันโชว์รูปเส้นทางหลังแนวเขา โลกข้างนอกคงกว้างกว่าฐานนี้มาก"
+  },
+  {
+   "k": "life.card.visitor_pip.clue3",
+   "en": "It puts the pebble down and takes a polite step back.",
+   "th": "มันวางก้อนหินแล้วถอยหลังอย่างสุภาพ"
+  },
+  {
+   "k": "life.card.visitor_pip.wave",
+   "en": "Wave back",
+   "th": "โบกมือทักทาย"
+  },
+  {
+   "k": "life.card.visitor_pip.wave.result",
+   "en": "Pip does a delighted little hop. Maybe you will meet again.",
+   "th": "พิพกระโดดอย่างดีใจ บางทีเราอาจได้เจอกันอีก"
+  },
+  {
+   "k": "life.card.visitor_pip.trade",
+   "en": "Share a little water",
+   "th": "แบ่งน้ำให้เล็กน้อย"
+  },
+  {
+   "k": "life.card.visitor_pip.trade.result",
+   "en": "Pip leaves a charged cell in exchange for water.",
+   "th": "พิพวางเซลล์พลังงานไว้แลกน้ำ"
+  },
+  {
+   "k": "life.card.visitor_pip.accept",
+   "en": "Check the seals and accept",
+   "th": "ตรวจผนึกแล้วรับเสบียง"
+  },
+  {
+   "k": "life.card.visitor_pip.accept.result",
+   "en": "The packages contain a little food and clean water. Kindness made a small difference.",
+   "th": "ในห่อมีอาหารกับน้ำสะอาดเล็กน้อย ความใจดีทำให้วันนี้ต่างออกไป"
+  },
+  {
+   "k": "life.card.visitor_pip.refuse",
+   "en": "Wave goodbye",
+   "th": "โบกมือลา"
+  },
+  {
+   "k": "life.card.visitor_pip.refuse.result",
+   "en": "Pip waves and heads back toward the ridge.",
+   "th": "พิพโบกมือแล้วเดินกลับไปทางแนวเขา"
+  },
+  {
+   "k": "life.card.visitor_pip.hint.brave",
+   "en": "Watch its gestures and check the evidence; a cute face alone is not proof.",
+   "th": "ดูท่าทางและตรวจหลักฐาน หน้าตาน่ารักอย่างเดียวบอกทุกอย่างไม่ได้"
+  },
+  {
+   "k": "life.card.visitor_pip.hint.smart",
+   "en": "Watch its gestures and check the evidence; a cute face alone is not proof.",
+   "th": "ดูท่าทางและตรวจหลักฐาน หน้าตาน่ารักอย่างเดียวบอกทุกอย่างไม่ได้"
+  },
+  {
+   "k": "life.card.visitor_pip.hint.careful",
+   "en": "Watch its gestures and check the evidence; a cute face alone is not proof.",
+   "th": "ดูท่าทางและตรวจหลักฐาน หน้าตาน่ารักอย่างเดียวบอกทุกอย่างไม่ได้"
+  },
+  {
+   "k": "life.card.pip_return.clue1",
+   "en": "It waits for you to copy the gesture before moving closer.",
+   "th": "มันรอให้คุณทำท่าตามก่อนค่อยขยับเข้ามา"
+  },
+  {
+   "k": "life.card.pip_return.clue2",
+   "en": "It shows a drawing of a path beyond the ridge. The outside world is bigger than this shelter.",
+   "th": "มันโชว์รูปเส้นทางหลังแนวเขา โลกข้างนอกคงกว้างกว่าฐานนี้มาก"
+  },
+  {
+   "k": "life.card.pip_return.clue3",
+   "en": "It puts the pebble down and takes a polite step back.",
+   "th": "มันวางก้อนหินแล้วถอยหลังอย่างสุภาพ"
+  },
+  {
+   "k": "life.card.pip_return.wave",
+   "en": "Wave back",
+   "th": "โบกมือทักทาย"
+  },
+  {
+   "k": "life.card.pip_return.wave.result",
+   "en": "Pip does a delighted little hop. Maybe you will meet again.",
+   "th": "พิพกระโดดอย่างดีใจ บางทีเราอาจได้เจอกันอีก"
+  },
+  {
+   "k": "life.card.pip_return.trade",
+   "en": "Share a little water",
+   "th": "แบ่งน้ำให้เล็กน้อย"
+  },
+  {
+   "k": "life.card.pip_return.trade.result",
+   "en": "Pip leaves a charged cell in exchange for water.",
+   "th": "พิพวางเซลล์พลังงานไว้แลกน้ำ"
+  },
+  {
+   "k": "life.card.pip_return.accept",
+   "en": "Check the seals and accept",
+   "th": "ตรวจผนึกแล้วรับเสบียง"
+  },
+  {
+   "k": "life.card.pip_return.accept.result",
+   "en": "The packages contain a little food and clean water. Kindness made a small difference.",
+   "th": "ในห่อมีอาหารกับน้ำสะอาดเล็กน้อย ความใจดีทำให้วันนี้ต่างออกไป"
+  },
+  {
+   "k": "life.card.pip_return.refuse",
+   "en": "Wave goodbye",
+   "th": "โบกมือลา"
+  },
+  {
+   "k": "life.card.pip_return.refuse.result",
+   "en": "Pip waves and heads back toward the ridge.",
+   "th": "พิพโบกมือแล้วเดินกลับไปทางแนวเขา"
+  },
+  {
+   "k": "life.card.pip_return.hint.brave",
+   "en": "Watch its gestures and check the evidence; a cute face alone is not proof.",
+   "th": "ดูท่าทางและตรวจหลักฐาน หน้าตาน่ารักอย่างเดียวบอกทุกอย่างไม่ได้"
+  },
+  {
+   "k": "life.card.pip_return.hint.smart",
+   "en": "Watch its gestures and check the evidence; a cute face alone is not proof.",
+   "th": "ดูท่าทางและตรวจหลักฐาน หน้าตาน่ารักอย่างเดียวบอกทุกอย่างไม่ได้"
+  },
+  {
+   "k": "life.card.pip_return.hint.careful",
+   "en": "Watch its gestures and check the evidence; a cute face alone is not proof.",
+   "th": "ดูท่าทางและตรวจหลักฐาน หน้าตาน่ารักอย่างเดียวบอกทุกอย่างไม่ได้"
+  },
+  {
+   "k": "life.scan.pip.thermal",
+   "en": "A warm core under a cool outer suit. The suit hides details.",
+   "th": "แกนกลางอุ่นใต้ชุดเย็น ชุดปิดบังรายละเอียดบางส่วน"
+  },
+  {
+   "k": "life.scan.pip.breath",
+   "en": "Slow, regular respiration through a tiny regulator.",
+   "th": "หายใจช้า สม่ำเสมอ ผ่านเครื่องควบคุมอากาศตัวจิ๋ว"
+  },
+  {
+   "k": "life.scan.pip.heartbeat",
+   "en": "A quick, steady pulse. Different physiology does not establish intent.",
+   "th": "ชีพจรเร็วแต่สม่ำเสมอ ร่างกายที่ต่างกันไม่ได้บอกเจตนา"
   }
  ]
 }

@@ -1,0 +1,21 @@
+{
+  "build": "Succeeded",
+  "buildErrors": 0,
+  "executable": "Builds/Polish/TitanGate2177.exe",
+  "executableSha256": "3070E580E019576B9AFCDEB4FEC18D03CEBC119F6AE84D597412905C749AD653",
+  "gameplayAssemblySha256": "933193564F992A97044802C1BA5AB00B75483D99CC5BBF3940D0F063CEB73762",
+  "editModePassed": 65,
+  "editModeFailed": 0,
+  "basePassed": 48,
+  "baseChecksFailed": 0,
+  "baseRuntimeErrors": 0,
+  "baseOutcome": "FailedAir, day 4",
+  "shipPassed": 29,
+  "shipChecksFailed": 0,
+  "shipRuntimeErrors": 0,
+  "uxPassed": 13,
+  "uxChecksFailed": 0,
+  "uxRuntimeErrors": 0,
+  "captureType": "automated Unity player frames and actual AudioListener mix",
+  "committed": false
+}

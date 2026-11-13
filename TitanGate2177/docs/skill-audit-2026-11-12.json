@@ -1,0 +1,68 @@
+[
+  {
+    "skill": "pixel-art-professional",
+    "provided_source": "C:\\Users\\kitti\\Downloads\\skill\\pixel-plugin-main\\pixel-plugin-main\\skills\\pixel-art-professional\\SKILL.md",
+    "installed": true,
+    "action": "skipped_existing"
+  },
+  {
+    "skill": "pixel-art-animator",
+    "provided_source": "C:\\Users\\kitti\\Downloads\\skill\\pixel-plugin-main\\pixel-plugin-main\\skills\\pixel-art-animator\\SKILL.md",
+    "installed": true,
+    "action": "skipped_existing"
+  },
+  {
+    "skill": "pixel-art-creator",
+    "provided_source": "C:\\Users\\kitti\\Downloads\\skill\\pixel-plugin-main\\pixel-plugin-main\\skills\\pixel-art-creator\\SKILL.md",
+    "installed": true,
+    "action": "skipped_existing"
+  },
+  {
+    "skill": "pixel-art-exporter",
+    "provided_source": "C:\\Users\\kitti\\Downloads\\skill\\pixel-plugin-main\\pixel-plugin-main\\skills\\pixel-art-exporter\\SKILL.md",
+    "installed": true,
+    "action": "skipped_existing"
+  },
+  {
+    "skill": "game-ui-ux",
+    "provided_source": "C:\\Users\\kitti\\Downloads\\skill\\awesome-gamedev-agent-skills-main\\awesome-gamedev-agent-skills-main\\skills\\disciplines\\game-ui-ux\\SKILL.md",
+    "installed": true,
+    "action": "skipped_existing"
+  },
+  {
+    "skill": "unity-animation",
+    "provided_source": "C:\\Users\\kitti\\Downloads\\skill\\awesome-gamedev-agent-skills-main\\awesome-gamedev-agent-skills-main\\skills\\unity\\unity-animation\\SKILL.md",
+    "installed": true,
+    "action": "skipped_existing"
+  },
+  {
+    "skill": "unity-tilemap-2d",
+    "provided_source": "C:\\Users\\kitti\\Downloads\\skill\\awesome-gamedev-agent-skills-main\\awesome-gamedev-agent-skills-main\\skills\\unity\\unity-tilemap-2d\\SKILL.md",
+    "installed": true,
+    "action": "skipped_existing"
+  },
+  {
+    "skill": "dialogue-systems",
+    "provided_source": "C:\\Users\\kitti\\Downloads\\skill\\awesome-gamedev-agent-skills-main\\awesome-gamedev-agent-skills-main\\skills\\disciplines\\dialogue-systems\\SKILL.md",
+    "installed": true,
+    "action": "skipped_existing"
+  },
+  {
+    "skill": "game-feel",
+    "provided_source": "C:\\Users\\kitti\\Downloads\\skill\\awesome-gamedev-agent-skills-main\\awesome-gamedev-agent-skills-main\\skills\\disciplines\\game-feel\\SKILL.md",
+    "installed": true,
+    "action": "skipped_existing"
+  },
+  {
+    "skill": "map-systems",
+    "provided_source": "C:\\Users\\kitti\\Downloads\\skill\\Claude-Code-Game-Studios-main\\Claude-Code-Game-Studios-main\\.claude\\skills\\map-systems\\SKILL.md",
+    "installed": true,
+    "action": "skipped_existing"
+  },
+  {
+    "skill": "ui-ux-pro-max",
+    "provided_source": "C:\\Users\\kitti\\Downloads\\skill\\agentic-awesome-skills-main\\agentic-awesome-skills-main\\plugins\\agentic-awesome-skills\\skills\\ui-ux-pro-max\\SKILL.md",
+    "installed": true,
+    "action": "skipped_existing"
+  }
+]

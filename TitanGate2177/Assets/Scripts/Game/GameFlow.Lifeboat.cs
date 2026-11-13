@@ -55,6 +55,15 @@ namespace TitanGate.Game
             _chapter = 3;   // no world input: the whole mode is read-and-choose
             _busy = true;
             Time.timeScale = 1f;
+            if (WalkBase)
+            {
+                // walk the week around a top-down base; the cards wait at places in it
+                StartBase();
+                _lbView = LbView.Pick;
+                if (pet != null && LC.GetPet(pet) != null) LbPickPet(pet);
+                else LbShow();
+                return;
+            }
             ClearWorld();
             BuildShip(true);
             BuildMarsOutside();
@@ -100,6 +109,7 @@ namespace TitanGate.Game
 
         void LbNextCard()
         {
+            _bOpen = false;
             _lbCard = _life.NextCard();
             _lbPicked = null;
             if (_life.State.outcome != LifeOutcome.Ongoing) _lbView = LbView.End;
@@ -191,6 +201,8 @@ namespace TitanGate.Game
 
         void LbShow()
         {
+            if (BInterceptShow()) return;
+            if (_bRoot != null && _lbView == LbView.Card && _lbCard != null && !string.IsNullOrEmpty(_lbCard.visitor)) { BShowPeep(); return; }
             _ui.ShowScreen(root =>
             {
                 var box = new VisualElement();
@@ -254,7 +266,7 @@ namespace TitanGate.Game
         /// <summary>Draw who is in the room now: the pet, guests aboard, and whoever is knocking at the hatch.</summary>
         void LbStage()
         {
-            if (_world == null || _world.rooms.Count <= RQuarters || _lbPickForScramble || _life == null) return;
+            if (_bRoot != null || _world == null || _world.rooms.Count <= RQuarters || _lbPickForScramble || _life == null) return;
             var st = _life.State;
             if (st.pet != null) { _lbPetSr = LbSprite(_lbPetSr, Art.Pet(st.pet), LbPetX, -0.3f, WorldBuilder.OrderPlayer + 1); _lbPetSr.flipX = false; }
             else LbHide(_lbPetSr);
@@ -298,11 +310,12 @@ namespace TitanGate.Game
         {
             var st = _life.State;
             var top = new VisualElement(); top.style.flexDirection = FlexDirection.Row; top.style.alignItems = Align.Center; top.style.justifyContent = Justify.SpaceBetween;
-            top.Add(_ui.L(_loc.T("life.title_day", st.day, LC.daysTotal), 26, true, GameUI.CAmber));
+            top.style.flexShrink = 0;
+            top.Add(_ui.L(_loc.T(_bRoot != null ? "base.hud.day" : "life.title_day", st.day, LC.daysTotal), 26, true, GameUI.CAmber));
             top.Add(LbLangButton());
             box.Add(top);
 
-            var row = new VisualElement(); row.style.flexDirection = FlexDirection.Row; row.style.alignItems = Align.Center; row.style.flexWrap = Wrap.Wrap;
+            var row = new VisualElement(); row.style.flexDirection = FlexDirection.Row; row.style.alignItems = Align.Center; row.style.flexWrap = Wrap.Wrap; row.style.flexShrink = 0;
             void Chip(string label, string value, Color c)
             {
                 var chip = new VisualElement(); chip.style.flexDirection = FlexDirection.Row; chip.style.alignItems = Align.Center;
@@ -315,10 +328,14 @@ namespace TitanGate.Game
                 row.Add(chip);
             }
             Color Level(float v) => v <= 1 ? GameUI.CRed : v <= 3 ? GameUI.CAmber : GameUI.CText;
-            Chip(_loc.T("life.res.o2"), LbNum(st.stock.o2), Level(st.stock.o2));
-            Chip(_loc.T("life.res.water"), LbNum(st.stock.water), Level(st.stock.water));
-            Chip(_loc.T("life.res.food"), LbNum(st.stock.food), Level(st.stock.food));
-            Chip(_loc.T("life.res.power"), LbNum(st.stock.power), st.stock.power <= 0 ? GameUI.CRed : GameUI.CText);
+            if (_bRoot != null) row.Add(BGaugeRow(0.6f));
+            else
+            {
+                Chip(_loc.T("life.res.o2"), LbNum(st.stock.o2), Level(st.stock.o2));
+                Chip(_loc.T("life.res.water"), LbNum(st.stock.water), Level(st.stock.water));
+                Chip(_loc.T("life.res.food"), LbNum(st.stock.food), Level(st.stock.food));
+                Chip(_loc.T("life.res.power"), LbNum(st.stock.power), st.stock.power <= 0 ? GameUI.CRed : GameUI.CText);
+            }
             row.Add(_ui.L(_loc.T("life.res.health", st.health, LC.health), 24, true, st.health < LC.health ? GameUI.CRed : GameUI.CGreen));
             box.Add(row);
 
@@ -382,8 +399,18 @@ namespace TitanGate.Game
             _life.CardProgress(out int done, out int total);
             bool visitor = !string.IsNullOrEmpty(card.visitor);
             LbText(box, (visitor ? _loc.T("life.visitor_header") + "   ·   " : "") + _loc.T("life.card_count", done + 1, total), 21, true, visitor ? GameUI.CAmber : GameUI.CDim);
-            _ui.Title(box, _loc.T($"life.card.{card.id}.title"));
-            LbText(box, _loc.T($"life.card.{card.id}.body"), visitor ? 23 : 25);
+            var cardHead = box;
+            if (visitor)
+            {
+                // look through the peephole: the visitor stands outside the airlock
+                var peepRow = new VisualElement(); peepRow.style.flexDirection = FlexDirection.Row; peepRow.style.alignItems = Align.Center; peepRow.style.flexShrink = 0;
+                peepRow.Add(BPeephole(card.visitor));
+                cardHead = new VisualElement(); cardHead.style.flexGrow = 1; cardHead.style.flexShrink = 1; cardHead.style.marginLeft = 22;
+                peepRow.Add(cardHead);
+                box.Add(peepRow);
+            }
+            _ui.Title(cardHead, _loc.T($"life.card.{card.id}.title"));
+            LbText(cardHead, _loc.T($"life.card.{card.id}.body"), visitor ? 23 : 25);
             if (card.clues > 0)
             {
                 var head = LbText(box, _loc.T("life.clues"), 21, true, GameUI.CAmber);
@@ -411,6 +438,7 @@ namespace TitanGate.Game
                 box.Add(hint);
             }
 
+            if (_bRoot != null) { BBuildOptionCards(box, card); return; }
             foreach (var o in card.options)
             {
                 var opt = o;
@@ -476,7 +504,8 @@ namespace TitanGate.Game
             LbText(box, _loc.T("life.you_chose", _loc.T($"life.card.{card.id}.{_lbPicked.id}")), 23, true, GameUI.CAmber);
             var body = LbText(box, _loc.T($"life.card.{card.id}.{_lbPicked.id}.result"), 26);
             body.style.marginTop = 8; body.style.marginBottom = 8;
-            if (!_lbPicked.delta.IsZero || _lbPicked.health != 0) LbText(box, LbCost(_lbPicked), 26, true, GameUI.CCyan);
+            if (_bRoot != null) { var hint = BOptionHint(_lbPicked, out bool perDay); box.Add(BDeltaIcons(hint, perDay, _lbPicked.health)); }
+            else if (!_lbPicked.delta.IsZero || _lbPicked.health != 0) LbText(box, LbCost(_lbPicked), 26, true, GameUI.CCyan);
             var b = _ui.B(_loc.T("life.continue"), LbNextCard, 28, true);
             b.style.alignSelf = Align.FlexStart; b.style.marginLeft = 0; b.style.marginTop = 14;
             box.Add(b);

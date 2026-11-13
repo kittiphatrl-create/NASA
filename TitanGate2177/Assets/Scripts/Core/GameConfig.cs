@@ -191,6 +191,8 @@ namespace TitanGate.Core
         public float carryO2Factor = 0.3f;
         /// <summary>Seconds to grab loose supplies before landing, and how many the lockers hold.</summary>
         public float scrambleSeconds = 60f;
+        /// <summary>Chapter 1 in the top-down ship (morning quests, impact, scramble) instead of the side-view puzzles.</summary>
+        public bool topDown = true;
         public int stowSlots = 5;
         public List<SupplyDef> supplies = new List<SupplyDef>();
     }

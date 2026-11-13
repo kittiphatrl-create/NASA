@@ -15,13 +15,13 @@ namespace TitanGate.Game
     /// </summary>
     public class GameUI : MonoBehaviour
     {
-        public static readonly Color CPanel = new Color(0.04f, 0.06f, 0.13f, 0.92f);
-        public static readonly Color CPanel2 = new Color(0.09f, 0.13f, 0.25f, 0.96f);
-        public static readonly Color CCyan = new Color(0.26f, 0.89f, 1f);
+        public static readonly Color CPanel = new Color(0.055f, 0.10f, 0.15f, 0.96f);
+        public static readonly Color CPanel2 = new Color(0.10f, 0.18f, 0.23f, 0.98f);
+        public static readonly Color CCyan = new Color(0.54f, 0.88f, 0.81f);
         public static readonly Color CCyanD = new Color(0.10f, 0.55f, 0.69f);
-        public static readonly Color CText = new Color(0.92f, 0.95f, 1f);
+        public static readonly Color CText = new Color(0.98f, 0.95f, 0.87f);
         public static readonly Color CDim = new Color(0.62f, 0.68f, 0.82f);
-        public static readonly Color CAmber = new Color(1f, 0.75f, 0.25f);
+        public static readonly Color CAmber = new Color(1f, 0.75f, 0.48f);
         public static readonly Color CRed = new Color(1f, 0.33f, 0.38f);
         public static readonly Color CGreen = new Color(0.36f, 0.89f, 0.54f);
 
@@ -142,13 +142,28 @@ namespace TitanGate.Game
             b.style.whiteSpace = WhiteSpace.Normal;
             b.style.backgroundColor = primary ? new Color(0.10f, 0.45f, 0.58f) : CPanel2;
             b.style.color = CText;
-            Border(b, primary ? CCyan : CCyanD, 2, 6);
+            Border(b, primary ? CCyan : CCyanD, 2, 10);
+            b.RegisterCallback<FocusInEvent>(_ => Border(b, CAmber, 2, 10));
+            b.RegisterCallback<FocusOutEvent>(_ => Border(b, primary ? CCyan : CCyanD, 2, 10));
             b.style.paddingLeft = b.style.paddingRight = 18;
             b.style.paddingTop = b.style.paddingBottom = 8;
             b.style.marginTop = b.style.marginBottom = 5;
             b.style.marginLeft = b.style.marginRight = 5;
             b.RegisterCallback<MouseEnterEvent>(_ => { if (b.enabledSelf) b.style.backgroundColor = new Color(0.14f, 0.32f, 0.5f); });
             b.RegisterCallback<MouseLeaveEvent>(_ => b.style.backgroundColor = primary ? new Color(0.10f, 0.45f, 0.58f) : CPanel2);
+            b.style.transitionProperty = new List<StylePropertyName> { "scale", "translate", "background-color" };
+            b.style.transitionDuration = new List<TimeValue> { new TimeValue(130, TimeUnit.Millisecond) };
+            b.style.transitionTimingFunction = new List<EasingFunction> { new EasingFunction(EasingMode.EaseOut) };
+            void Lift(bool on)
+            {
+                if (!b.enabledSelf || Settings.ReducedMotion) return;
+                b.style.scale = new Scale(on ? new Vector3(1.025f, 1.025f, 1) : Vector3.one);
+                b.style.translate = new Translate(on ? 5 : 0, on ? -2 : 0);
+            }
+            b.RegisterCallback<MouseEnterEvent>(_ => Lift(true)); b.RegisterCallback<MouseLeaveEvent>(_ => Lift(false));
+            b.RegisterCallback<FocusInEvent>(_ => Lift(true)); b.RegisterCallback<FocusOutEvent>(_ => Lift(false));
+            b.RegisterCallback<PointerDownEvent>(_ => { if (!Settings.ReducedMotion && b.enabledSelf) b.style.scale = new Scale(new Vector3(.98f, .98f, 1)); });
+            b.RegisterCallback<PointerUpEvent>(_ => Lift(true));
             _pressable.Add((text, b, () => { sfx?.Play("click"); onClick?.Invoke(); }));
             return b;
         }
@@ -308,7 +323,7 @@ namespace TitanGate.Game
 
             // toast
             _toastBox = Abs(new VisualElement());
-            _toastBox.style.top = 280; _toastBox.style.left = 0; _toastBox.style.right = 0;
+            _toastBox.style.bottom = 145; _toastBox.style.left = 0; _toastBox.style.right = 0;
             _toastBox.style.alignItems = Align.Center;
             _toastBox.pickingMode = PickingMode.Ignore;
             _root.Add(_toastBox);
@@ -672,8 +687,9 @@ namespace TitanGate.Game
             var t = new VisualElement { pickingMode = PickingMode.Ignore };
             t.style.backgroundColor = CPanel2; Border(t, border ?? CAmber, 3, 10);
             t.style.paddingLeft = t.style.paddingRight = 22; t.style.paddingTop = t.style.paddingBottom = 10;
-            t.style.marginBottom = 8;
-            t.Add(L(text, 26, true, border ?? CAmber));
+            t.style.marginBottom = 8; t.style.maxWidth = 1020;
+            while (_toastBox.childCount >= 2) _toastBox.RemoveAt(0);
+            t.Add(L(text, 24, true, border ?? CAmber));
             _toastBox.Add(t);
             t.schedule.Execute(() => t.RemoveFromHierarchy()).StartingIn(2800);
         }

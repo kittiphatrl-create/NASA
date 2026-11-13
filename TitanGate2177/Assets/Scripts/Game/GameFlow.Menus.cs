@@ -20,7 +20,7 @@ namespace TitanGate.Game
 
         void ShowMainMenu()
         {
-            _chapter = 0;
+            _chapter = 0; _menuLaunching = false;
             Time.timeScale = 1f;
             ClearWorld();
             _player.gameObject.SetActive(false);
@@ -37,54 +37,42 @@ namespace TitanGate.Game
         {
             _ui.ShowScreen(root =>
             {
-                root.style.alignItems = Align.FlexStart;
-                root.style.justifyContent = Justify.Center;
-                var col = new VisualElement();
-                col.style.marginLeft = 110;
-                col.style.width = 700;
-                col.style.backgroundColor = new Color(0.02f, 0.03f, 0.09f, 0.72f);
-                GameUI.Border(col, new Color(0.26f, 0.89f, 1f, 0.6f), 2, 16);
-                col.style.paddingLeft = col.style.paddingRight = 44; col.style.paddingTop = 34; col.style.paddingBottom = 30;
-
-                var logo = _ui.L("TITAN GATE", 92, true, GameUI.CCyan);
-                logo.style.marginBottom = -18;
-                col.Add(logo);
-                var year = _ui.L("2177", 64, true, GameUI.CAmber);
-                col.Add(year);
-                var sub = _ui.L(_loc.T("title.subtitle"), 30, true);
-                sub.style.marginBottom = 18;
-                col.Add(sub);
-
-                Button Big(string key, Action a, bool primary = false, bool enabled = true, string extra = null)
+                root.style.alignItems = Align.FlexStart; root.style.justifyContent = Justify.Center;
+                var shade = new VisualElement { pickingMode = PickingMode.Ignore }; shade.style.position = Position.Absolute; shade.style.left = 0; shade.style.top = 0; shade.style.bottom = 0; shade.style.width = Length.Percent(55); shade.style.backgroundImage = new StyleBackground(Art.TitleReadabilityFade()); root.Add(shade);
+                var col = new VisualElement(); col.style.marginLeft = 95; col.style.width = 690;
+                col.style.paddingLeft = col.style.paddingRight = 34; col.style.paddingTop = col.style.paddingBottom = 26;
+                col.style.backgroundColor = Color.clear;
+                GameUI.Border(col, Color.clear, 0, 0);
+                col.Add(_ui.L(CrewText("KESTREL / EXPEDITION PROGRAM", "KESTREL / โครงการสำรวจอวกาศ"), 19, true, GameUI.CAmber));
+                var logo = _ui.L("TITAN GATE", 76, true, GameUI.CText); logo.style.marginTop = 8; col.Add(logo);
+                var year = _ui.L("2 1 7 7", 36, true, GameUI.CCyan); year.style.marginBottom = 8; col.Add(year);
+                col.Add(_ui.L(_loc.T("title.subtitle"), 25));
+                var brief = _ui.L(CrewText("One damaged ship. Seven Martian days. A crew worth bringing home.", "ยานที่เสียหาย เจ็ดวันบนดาวอังคาร และเพื่อนร่วมทางที่ต้องพากลับบ้าน"), 22, false, GameUI.CDim);
+                brief.style.display = DisplayStyle.None;
+                var rule = new VisualElement(); rule.style.height = 3; rule.style.width = 90; rule.style.backgroundColor = GameUI.CAmber; rule.style.marginTop = 12; rule.style.marginBottom = 25; col.Add(rule);
+                Button Main(string key, Action action, bool primary = false, bool enabled = true)
                 {
-                    var b = _ui.B(_loc.T(key) + (extra != null ? "  " + extra : ""), a, 30, primary);
-                    b.style.unityTextAlign = TextAnchor.MiddleLeft;
-                    b.style.height = 62; b.style.marginLeft = 0; b.style.marginRight = 0;
-                    b.SetEnabled(enabled);
-                    col.Add(b);
-                    return b;
+                    var button = _ui.B(_loc.T(key), () => { if (!_menuLaunching) action(); }, 28, primary); button.style.height = 66;
+                    button.style.marginLeft = button.style.marginRight = 0; button.style.unityTextAlign = TextAnchor.MiddleLeft;
+                    StyleFlightButton(button, primary); button.SetEnabled(enabled); col.Add(button); return button;
                 }
-
-                var start = Big("menu.new", () => { Settings.ClearCheckpoint(); _ui.HideScreen(); StartCoroutine(StartChapter1()); }, true);
-                start.name = "btn-start";
-                Big("menu.continue", () => { _ui.HideScreen(); ContinueGame(); }, false, Settings.HasSave,
-                    Settings.HasSave ? "(" + _loc.T("route." + Settings.SaveRoute + ".name") + ")" : null);
-                Big("menu.lifeboat", () => { _ui.HideScreen(); StartLifeboat(); });
-                Big("menu.cards", ShowCardBook, false, true, $"{CardsEverCount()}/{_cfg.cards.Count}");
-                Big("menu.howto", ShowHowTo);
-                Big("menu.settings", ShowSettings);
-                Big("menu.sources", ShowSources);
-                Big("menu.credits", ShowCredits);
-                Big("menu.quit", () => { Application.Quit(); });
-                var best = _ui.L(_loc.T("menu.stars", Settings.BestStars("mars")), 20, false, GameUI.CAmber);
-                best.style.marginTop = 8;
-                col.Add(best);
-
-                var row = new VisualElement(); row.style.flexDirection = FlexDirection.Row; row.style.marginTop = 14; row.style.alignItems = Align.Center;
-                row.Add(_ui.B(_loc.Current == Lang.TH ? "English" : "ภาษาไทย", ToggleLang, 22));
-                row.Add(_ui.L(_loc.T("menu.version"), 18, false, GameUI.CDim));
-                col.Add(row);
+                var start = Main("menu.new", () => MenuDepart(() => { Settings.ClearCheckpoint(); _ui.HideScreen(); StartCoroutine(StartChapter1()); }), true); start.name = "btn-start";
+                Main("menu.continue", () => { _ui.HideScreen(); ContinueGame(); }, false, Settings.HasSave);
+                Main("menu.lifeboat", () => { _ui.HideScreen(); StartLifeboat(); });
+                var tools = new VisualElement(); tools.style.flexDirection = FlexDirection.Row; tools.style.flexWrap = Wrap.Wrap; tools.style.marginTop = 16;
+                void Small(string key, Action action)
+                {
+                    var button = _ui.B(_loc.T(key), () => { if (!_menuLaunching) action(); }, 22); button.style.width = 295; button.style.minHeight = 48; StyleFlightButton(button); tools.Add(button);
+                }
+                Small("menu.howto", ShowHowTo); Small("menu.settings", ShowSettings);
+                Small("menu.cards", ShowCardBook); Small("menu.sources", ShowSources);
+                Small("menu.credits", ShowCredits); Small("menu.quit", () => Application.Quit());
+                col.Add(tools);
+                var footer = new VisualElement(); footer.style.flexDirection = FlexDirection.Row; footer.style.alignItems = Align.Center; footer.style.marginTop = 14;
+                footer.Add(_ui.B(_loc.Current == Lang.TH ? "English" : "ภาษาไทย", ToggleLang, 20));
+                footer.Add(_ui.L(CrewText("EXPLORE · PREPARE · SURVIVE", "สำรวจ · เตรียมพร้อม · เอาชีวิตรอด"), 17, false, GameUI.CDim)); col.Add(footer);
                 root.Add(col);
+                AddTitleInteractions(root); start.Focus();
             });
         }
 
@@ -111,31 +99,42 @@ namespace TitanGate.Game
 
         void OpenPause()
         {
-            if (_busy || InCutscene || _chapter < 1 || _chapter > 2) return;
-            Time.timeScale = 0f;
+            if (InCutscene || (_bRoot == null && (_busy || _chapter < 1 || _chapter > 2))) return;
+            Time.timeScale = 0;
             _ui.ShowModal(p =>
             {
-                p.style.width = 640;
-                p.style.alignItems = Align.Stretch;
+                p.style.width = 940; ThemePanel(p, "KESTREL / FLIGHT CONTROL");
                 _ui.Title(p, _loc.T("pause.title"));
-                p.Add(_ui.B(_loc.T("pause.resume"), () => _ui.CloseModal(), 28, true));
-                p.Add(_ui.B(_loc.T("menu.cards"), () => { _ui.CloseModal(); ShowCardBook(); }, 26));
-                p.Add(_ui.B(_loc.T("menu.howto"), () => { _ui.CloseModal(); ShowHowTo(); }, 26));
-                p.Add(_ui.B(_loc.T("menu.settings"), () => { _ui.CloseModal(); ShowSettings(); }, 26));
-                p.Add(_ui.B(_loc.T("pause.restart"), () => { Time.timeScale = 1f; Restart(); }, 26));
-                p.Add(_ui.B(_loc.T("pause.menu"), () => { Time.timeScale = 1f; RestartToTitle(); }, 26));
-            }, true, () => Time.timeScale = 1f);
+                var body = new VisualElement(); body.style.flexDirection = FlexDirection.Row; body.style.marginTop = 15;
+                var main = new VisualElement(); main.style.width = 490;
+                void ButtonIn(VisualElement box, string key, Action action, bool primary = false)
+                {
+                    var button = _ui.B(_loc.T(key), action, 25, primary); StyleFlightButton(button, primary);
+                    button.style.minHeight = primary ? 84 : 58; box.Add(button);
+                }
+                ButtonIn(main, "pause.resume", () => _ui.CloseModal(), true);
+                ButtonIn(main, "menu.settings", () => { _ui.CloseModal(); ShowSettings(); });
+                var aux = new VisualElement(); aux.style.flexGrow = 1; aux.style.marginLeft = 20;
+                var badge = new Image { sprite = Art.ConditionFace(_life == null ? 0 : BMood()), scaleMode = ScaleMode.ScaleToFit }; badge.style.height = 80; aux.Add(badge);
+                if (_life != null) aux.Add(_ui.L(BClockText(), 20, true, GameUI.CAmber));
+                ButtonIn(aux, "menu.howto", () => { _ui.CloseModal(); ShowHowTo(); });
+                ButtonIn(aux, "menu.cards", () => { _ui.CloseModal(); ShowCardBook(); });
+                body.Add(main); body.Add(aux); p.Add(body);
+                var footer = new VisualElement(); footer.style.flexDirection = FlexDirection.Row; footer.style.marginTop = 24;
+                ButtonIn(footer, "pause.restart", () => { Time.timeScale = 1; Restart(); });
+                ButtonIn(footer, "pause.menu", () => { Time.timeScale = 1; RestartToTitle(); }); p.Add(footer);
+            }, true, () => Time.timeScale = 1);
         }
 
         // ------------------------------------------------------------------ settings
 
         void ShowSettings()
         {
-            bool paused = _chapter >= 1 && _chapter <= 2;
+            bool paused = _chapter >= 1 && _chapter <= 3;
             if (paused) Time.timeScale = 0f;
             _ui.ShowModal(p =>
             {
-                p.style.width = 900;
+                p.style.width = 900; ThemePanel(p, "KESTREL / PERSONAL PREFERENCES");
                 _ui.Title(p, _loc.T("menu.settings"));
                 void Row(string key, string value, Action minus, Action plus)
                 {
@@ -158,6 +157,7 @@ namespace TitanGate.Game
                 string[] speedKeys = { "set.speed.slow", "set.speed.normal", "set.speed.fast", "set.speed.instant" };
                 int sp = Mathf.Max(0, Array.IndexOf(speeds, Settings.TextSpeed));
                 Row("set.textspeed", _loc.T(speedKeys[sp]), () => Settings.TextSpeed = speeds[Mathf.Max(0, sp - 1)], () => Settings.TextSpeed = speeds[Mathf.Min(speeds.Length - 1, sp + 1)]);
+                Row("set.motion", _loc.T(Settings.ReducedMotion ? "set.on" : "set.off"), () => Settings.ReducedMotion = false, () => Settings.ReducedMotion = true);
                 Row("set.fullscreen", _loc.T(Screen.fullScreen ? "set.on" : "set.off"), () => Screen.fullScreen = false, () => Screen.fullScreen = true);
                 var lang = _ui.B(_loc.T("set.language") + ":  " + (_loc.Current == Lang.TH ? "ภาษาไทย" : "English"), () => { ToggleLang(); }, 26);
                 lang.style.marginTop = 10;
@@ -208,9 +208,9 @@ namespace TitanGate.Game
                 void Head(string key, Color c) { var l = _ui.L(_loc.T(key), 26, true, c); l.style.marginTop = 10; scroll.Add(l); }
                 void Item(string key) { var l = _ui.L("· " + _loc.T(key), 21, false, GameUI.CText); l.style.whiteSpace = WhiteSpace.Normal; l.style.marginTop = 3; scroll.Add(l); }
                 Head("sources.observed", GameUI.CGreen);
-                for (int i = 1; i <= 4; i++) Item($"sources.observed.{i}");
+                for (int i = 1; i <= 5; i++) Item($"sources.observed.{i}");
                 Head("sources.principle", GameUI.CCyan);
-                for (int i = 1; i <= 5; i++) Item($"sources.principle.{i}");
+                for (int i = 1; i <= 6; i++) Item($"sources.principle.{i}");
                 Head("sources.simulated", GameUI.CAmber);
                 for (int i = 1; i <= 3; i++) Item($"sources.simulated.{i}");
                 p.Add(scroll);

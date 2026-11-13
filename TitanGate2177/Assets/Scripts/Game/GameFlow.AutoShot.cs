@@ -31,9 +31,16 @@ namespace TitanGate.Game
             if (!AutoShotRequested()) return;
             var args = System.Environment.GetCommandLineArgs();
             for (int i = 0; i < args.Length - 1; i++) if (args[i] == "-route") _autoRoute = args[i + 1];
+            bool ux = System.Array.IndexOf(args, "-uxshowcase") >= 0;
             bool lifeboat = System.Array.IndexOf(args, "-lifeboat") >= 0;   // the card-based Chapter 2 on its own
+            bool walkBase = System.Array.IndexOf(args, "-base") >= 0;       // the walkable Mars base week
+            bool shipTop = System.Array.IndexOf(args, "-ship") >= 0;        // the top-down Chapter 1
             _ch1Lifeboat = System.Array.IndexOf(args, "-ch1lifeboat") >= 0; // Chapter 1, then the landing into the diary
-            if (lifeboat) _autoRoute = "lifeboat";
+            if (_ch1Lifeboat) ForceDiary = true;
+            if (ux) _autoRoute = "ux";
+            else if (shipTop) _autoRoute = "ship";
+            else if (walkBase) _autoRoute = "base";
+            else if (lifeboat) _autoRoute = "lifeboat";
             else if (_ch1Lifeboat) _autoRoute = "ch1lifeboat";
             else ForceOutpost = true;   // the default pass checks the old walk-and-click outpost
             _shotDir = Path.Combine(Directory.GetParent(Application.dataPath).FullName, "Captures", _autoRoute);
@@ -48,9 +55,10 @@ namespace TitanGate.Game
                     _autoLog?.Flush();
                 }
             };
+            if (System.Array.IndexOf(args, "-recordwalkthrough") >= 0) StartCoroutine(RecordWalkthrough());
             SeedOverride = 7;
             Application.runInBackground = true;
-            StartCoroutine(lifeboat ? AutoLifeboat() : AutoShot());
+            StartCoroutine(ux ? AutoUX() : shipTop ? AutoShip() : walkBase ? AutoBase() : lifeboat ? AutoLifeboat() : AutoShot());
             StartCoroutine(AutoHelper());
         }
 

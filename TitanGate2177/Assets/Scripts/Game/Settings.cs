@@ -16,6 +16,8 @@ namespace TitanGate.Game
         /// <summary>Characters per second for dialogue; 0 = show at once.</summary>
         public static int TextSpeed { get => PlayerPrefs.GetInt("text_speed", 70); set { PlayerPrefs.SetInt("text_speed", value); Changed?.Invoke(); } }
 
+        public static bool ReducedMotion { get => PlayerPrefs.GetInt("reduced_motion", 0) == 1; set { PlayerPrefs.SetInt("reduced_motion", value ? 1 : 0); Changed?.Invoke(); } }
+
         public static event System.Action Changed;
 
         // ---- progress kept between runs
