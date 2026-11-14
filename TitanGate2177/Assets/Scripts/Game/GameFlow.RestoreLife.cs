@@ -2,6 +2,7 @@
 // Question: Do drinking, snacks, naps, a solar storm that cuts the power, daily weather and a pretty night make
 //           the restored base feel like a place you live in, not a checklist?
 // Date: 2026-11-14
+using System.Collections;
 using TitanGate.Core;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -44,6 +45,9 @@ namespace TitanGate.Game
                     if (s.id == BActiveSpot) return false;   // dinner when it is time
                     RestoreNapShow(1f);
                     return true;
+                case "sleep_cot":
+                    if (_rNight) { _rNight = false; LbSleep(); return true; }
+                    RestoreNapShow(1f); return true;
                 case "bunks":
                     if (_restore.StateOf("quarters") != RoomState.Restored) return false;
                     if (_rNight) { _rNight = false; LbSleep(); return true; }
@@ -68,6 +72,68 @@ namespace TitanGate.Game
                     return true;
             }
             return false;
+        }
+
+        bool _sleepTransition, _bSleeping;
+        Vector2 _sleepBed, _wakeStand;
+
+        // Clear both movement queues and pet trails whenever leaving a seated/sleeping pose.
+        void BPlaceAfterRest(Vector2 wanted)
+        {
+            _bPath = null; _bGoal = null; _bMoving = _bRun = false;
+            _bTrail.Clear();
+            Vector2 safe = wanted;
+            if (!BFree(safe))
+            {
+                bool found = false;
+                for (float radius = .25f; radius <= 2f && !found; radius += .25f)
+                    for (int i = 0; i < 16; i++)
+                    {
+                        var point = wanted + new Vector2(Mathf.Cos(i * Mathf.PI / 8), Mathf.Sin(i * Mathf.PI / 8)) * radius;
+                        if (BFree(point)) { safe = point; found = true; break; }
+                    }
+            }
+            _bPos = safe; _bLastMove = Vector2.down;
+            var pet = safe + Vector2.left * .75f;
+            _bPetPos = BFree(pet) ? pet : safe;
+            _petStay = false;
+        }
+
+        IEnumerator BSleepNight()
+        {
+            _sleepTransition = true; _busy = true;
+            var owner = _bRoot;
+            _ui.HideScreen(); _ui.CloseModal(); _ui.ClearNotices();
+            BEndGather();
+            _bPath = null; _bGoal = null; _bTrail.Clear();
+            yield return Fade(1f, .3f);
+            if (_bRoot != owner || owner == null) { _sleepTransition = false; yield break; }
+            var bed = BSpotById("sleep_cot");
+            var quarters = BSpotById("bunks");
+            if (quarters != null && (!RestoreMode || _restore.StateOf("quarters") == RoomState.Restored) &&
+                BFree(quarters.stand) && BFindPath(_bPos, quarters.stand) != null) bed = quarters;
+            _sleepBed = bed != null ? bed.pos : new Vector2(5.5f, 9.15f);
+            _wakeStand = bed != null ? bed.stand : new Vector2(5.5f, 10.5f);
+            BPlaceAfterRest(_wakeStand); _bSleeping = true;
+            _bCam.orthographicSize = BCamSize; BSnapCamera();
+            yield return Fade(0f, .35f);
+            yield return new WaitForSeconds(.65f);
+            yield return Fade(1f, .35f);
+            if (_bRoot != owner || owner == null) { _sleepTransition = _bSleeping = false; yield break; }
+            _rNight = false;
+            LbResolveSleep(); // resource costs, weather, save and EndDay still run exactly once
+            _sleepTransition = false; _busy = false;
+            if (_lbView != LbView.Night) { BFinishWake(); LbShow(); } // A rejected EndDay must never leave input locked.
+            yield return Fade(0f, .4f);
+        }
+
+        void BFinishWake()
+        {
+            _bSleeping = _sleepTransition = false;
+            if (_bPlayer != null) _bPlayer.transform.rotation = Quaternion.identity;
+            BPlaceAfterRest(_wakeStand);
+            _bCam.orthographicSize = BCamSize; BSnapCamera();
+            _bHudT = 0;
         }
 
         void RestoreNapShow(float hours)

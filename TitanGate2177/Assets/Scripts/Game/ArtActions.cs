@@ -5,6 +5,9 @@ namespace TitanGate.Game
     public static partial class Art
     {
         public static Sprite CrewAction(string id, string action, int phase = 0, bool suit = false)
+            => id == "cadet" && !suit && UseBlenderCadet && BlenderAction(action, phase) is Sprite blender ? blender : CrewActionDrawn(id, action, phase, suit);
+
+        static Sprite CrewActionDrawn(string id, string action, int phase, bool suit)
             => Cached($"action-v1-{id}-{action}-{phase % 4}-{suit}", () =>
         {
             var c = new PixelCanvas(64, 80);

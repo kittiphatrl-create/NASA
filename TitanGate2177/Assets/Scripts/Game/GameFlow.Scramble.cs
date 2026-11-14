@@ -29,7 +29,7 @@ namespace TitanGate.Game
             ("sup_medkit", RCargo, -1.3f), ("sup_cell", RCargo, 0.9f),
         };
 
-        int StowSlots => Mathf.Max(1, _cfg.chapter1.stowSlots);
+        int StowSlots => LastDockMode && TopDownCh1 ? LdPodMax : Mathf.Max(1, _cfg.chapter1.stowSlots);
 
         IEnumerator BeginScramble()
         {

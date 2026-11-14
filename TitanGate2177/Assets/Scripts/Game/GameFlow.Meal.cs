@@ -209,7 +209,7 @@ namespace TitanGate.Game
                 bool can = _life.CanFeed(_lbFed);
                 bool run = _lbMaker && makerCan;
                 if (_life.O2TonightWith(run) > _life.State.stock.o2 + (run ? LC.o2Maker.o2 : 0)) book.Add(_ui.L(_loc.T("life.ration.o2_short"), 19, true, InkRed));
-                var sleep = RestoreMode ? _ui.B(TT("Finish dinner (free night, then sleep)", "กินเสร็จแล้ว (เวลาว่างกลางคืน แล้วไปนอน)"), RestoreEvening, 26, true)
+                var sleep = RestoreMode ? _ui.B(TT("Finish dinner and go to bed", "กินเสร็จแล้ว เข้านอน"), LbSleep, 26, true)
                                         : _ui.B(_loc.T("base.meal.sleep"), LbSleep, 26, true);
                 sleep.style.alignSelf = Align.FlexStart; sleep.style.marginLeft = 0; sleep.style.marginTop = 10; sleep.SetEnabled(can);
                 book.Add(sleep);

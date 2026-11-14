@@ -38,7 +38,7 @@ namespace TitanGate.Game
         /// <summary>Every frame in the base: walking outside adds dose (about 1 unit per 15 seconds).</summary>
         void RadUpdate(float dt)
         {
-            if (_bMode != 0 || _life == null || _ui.Blocking || _bGather) return;
+            if (MarsWalkOnly || _bMode != 0 || _life == null || _ui.Blocking || _bGather) return;
             if (!BIsOutside(_bPos)) { _radOutT = 0; return; }
             _radOutT += dt;
             if (_radOutT >= 15f) { _radOutT = 0; RadAdd(1f, null); }

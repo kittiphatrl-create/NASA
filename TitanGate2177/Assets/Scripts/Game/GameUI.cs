@@ -495,8 +495,8 @@ namespace TitanGate.Game
             _root.Add(_incident);
 
             // toast
-            _toastBox = Abs(new VisualElement());
-            _toastBox.style.bottom = 88; _toastBox.style.right = 24; _toastBox.style.maxWidth = 560;
+            _toastBox = Abs(new VisualElement { name = "notice-dock" });
+            _toastBox.style.bottom = 98; _toastBox.style.right = 24; _toastBox.style.width = 560; _toastBox.style.maxWidth = Length.Percent(42);
             _toastBox.style.alignItems = Align.FlexEnd;
             _toastBox.pickingMode = PickingMode.Ignore;
             _root.Add(_toastBox);
@@ -844,10 +844,20 @@ namespace TitanGate.Game
             t.Add(Plate(CPanel2, border ?? CAmber));
             t.style.paddingLeft = t.style.paddingRight = 22; t.style.paddingTop = t.style.paddingBottom = 10;
             t.style.marginBottom = 8; t.style.maxWidth = 560;
-            while (_toastBox.childCount >= 2) _toastBox.RemoveAt(0);
             t.Add(L(text, 24, true, border ?? CAmber));
-            _toastBox.Add(t);
-            t.schedule.Execute(() => t.RemoveFromHierarchy()).StartingIn(2800);
+            PushNotice(t, 2800);
+        }
+
+        /// <summary>All transient notifications share one flow layout above the pause controls.</summary>
+        public void ClearNotices() => _toastBox?.Clear();
+
+        public void PushNotice(VisualElement notice, int lifetimeMs)
+        {
+            notice.style.flexShrink = 0;
+            notice.style.marginBottom = 10;
+            while (_toastBox.childCount >= 3) _toastBox.RemoveAt(0);
+            _toastBox.Add(notice);
+            notice.schedule.Execute(() => notice.RemoveFromHierarchy()).StartingIn(lifetimeMs);
         }
 
         float _fadeTarget, _fadeVal, _fadeSpeed = 2f, _flashVal;

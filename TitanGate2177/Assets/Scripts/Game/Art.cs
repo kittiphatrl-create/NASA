@@ -909,6 +909,22 @@ namespace TitanGate.Game
                 case "sup_shield": // folded radiation shield
                     c.Rect(2, 2, 12, 10, Pal.Steel0); c.Rect(3, 3, 10, 8, Pal.Amber); c.HLine(3, 12, 6, Pal.OrangeD); c.HLine(3, 12, 9, Pal.OrangeD);
                     c.Rect(6, 12, 4, 2, Pal.Steel); break;
+                case "sup_parts": // LAST DOCK: a red parts box with a wrench on top
+                    c.Rect(2, 1, 12, 8, Pal.RedD); c.Rect(3, 2, 10, 6, Pal.Red); c.Rect(2, 8, 12, 1, Pal.Steel0); c.Rect(7, 4, 2, 2, Pal.Gold);
+                    c.Rect(5, 9, 6, 1, Pal.Steel0); c.Rect(5, 10, 1, 2, Pal.Steel0); c.Rect(10, 10, 1, 2, Pal.Steel0);
+                    c.Line(3, 13, 12, 13, Pal.SteelL); c.Rect(2, 12, 2, 3, Pal.Steel); c.Rect(12, 12, 2, 3, Pal.Steel); break;
+                case "sup_solar": // LAST DOCK: folded portable solar panel
+                    c.Rect(1, 2, 14, 9, Pal.Steel0); c.Rect(2, 3, 12, 7, Pal.BlueD); for (int x = 5; x < 14; x += 3) c.VLine(x, 3, 9, Pal.Blue); c.HLine(2, 13, 6, Pal.Blue); c.Rect(6, 11, 4, 2, Pal.Steel); break;
+                case "sup_radiokit": // LAST DOCK: radio repair kit (case with an antenna)
+                    c.Rect(2, 1, 12, 9, Pal.CyanD); c.Rect(3, 2, 10, 7, Pal.Cyan); c.Rect(5, 4, 6, 3, Pal.Steel0); c.Set(6, 5, Pal.White); c.Set(9, 5, Pal.Red); c.VLine(12, 10, 15, Pal.SteelL); c.Set(12, 15, Pal.Red); break;
+                case "sup_radmeter": // LAST DOCK: radiation meter
+                    c.Rect(4, 1, 8, 12, Pal.Amber); c.Rect(5, 7, 6, 4, Pal.Steel0); c.Line(6, 8, 9, 10, Pal.Green); c.Rect(6, 2, 4, 3, Pal.Ink); c.Set(7, 3, Pal.Gold); c.Set(8, 3, Pal.Gold); c.Rect(7, 13, 2, 3, Pal.Steel); break;
+                case "sup_frozen": // LAST DOCK: frozen food box
+                    c.Rect(2, 1, 12, 10, Pal.Ice); c.Rect(2, 9, 12, 2, Pal.White); c.Rect(6, 4, 4, 3, Pal.BlueD); c.Set(4, 3, Pal.White); c.Set(11, 6, Pal.White); break;
+                case "sup_flashlight": // LAST DOCK: flashlight
+                    c.Rect(3, 5, 8, 5, Pal.Steel0); c.Rect(4, 6, 6, 3, Pal.Steel); c.Rect(11, 4, 3, 7, Pal.Gold); c.Rect(14, 5, 2, 5, Pal.White); break;
+                case "keycard": // LAST DOCK: the one key card
+                    c.Rect(2, 3, 12, 9, Pal.White); c.Rect(2, 3, 12, 3, Pal.Amber); c.Rect(4, 8, 4, 2, Pal.Gold); c.HLine(9, 12, 9, Pal.Grey); c.HLine(9, 12, 7, Pal.Grey); break;
                 case "sup_seeds": // seed packets
                     c.Rect(2, 1, 7, 10, Pal.Green); c.Rect(7, 2, 7, 10, Pal.Amber); c.Set(4, 6, Pal.White); c.Set(10, 7, Pal.White); c.Set(11, 5, Pal.GreenD); break;
                 default:

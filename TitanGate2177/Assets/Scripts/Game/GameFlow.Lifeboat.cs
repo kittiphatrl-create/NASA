@@ -103,7 +103,7 @@ namespace TitanGate.Game
 
         void LbPickPet(string pet)
         {
-            _life = new LifeboatSim(RestoreMode ? RestoreLifeboatConfig() : LC, pet, LifeboatSim.Bonus(LC, _lbStowed), OutpostSim.SupplyFlags(_cfg.chapter1, _lbStowed));
+            _life = new LifeboatSim(WalkBase && WalkOnlyBase && !ForceClassicBase ? WalkOnlyLifeboatConfig() : RestoreMode ? RestoreLifeboatConfig() : LC, pet, LifeboatSim.Bonus(LC, _lbStowed), OutpostSim.SupplyFlags(_cfg.chapter1, _lbStowed));
             // walkable base: a different set of visitors every run, never two knock days in a row
             _lbSeed = SeedOverride >= 0 ? SeedOverride : System.Environment.TickCount;
             if (RestoreMode) RestoreInit(_lbSeed);
@@ -114,6 +114,7 @@ namespace TitanGate.Game
 
         void LbNextCard()
         {
+            if (_bSleeping && !_sleepTransition) BFinishWake();
             _bOpen = false;
             if (_bTimerCard != null && _life.State.answered.Contains(_bTimerCard.id)) _bTimerCard = null;
             _lbCard = WalkBase && _bRoot != null ? LbFocus() : _life.NextCard();
@@ -145,6 +146,13 @@ namespace TitanGate.Game
         }
 
         void LbSleep()
+        {
+            if (_sleepTransition || _bSleeping || _lbView == LbView.Night || _life == null) return;
+            if (_bRoot != null && _bMode == 0) { StartCoroutine(BSleepNight()); return; }
+            LbResolveSleep();
+        }
+
+        void LbResolveSleep()
         {
             if (_playtest) Log("LbSleep fed=" + _lbFed.Count + " mouths=" + _life.Mouths().Count + " from: " + System.Environment.StackTrace);
             var s = _life.State.stock;

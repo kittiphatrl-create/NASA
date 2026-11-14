@@ -11,7 +11,7 @@ namespace TitanGate.Game
         // one tile = 16 art pixels = 1 world unit
 
         /// <summary>Floor tile. kind: 0 = base metal, 1 = greenhouse, 2 = Mars ground outside.</summary>
-        public static Sprite BaseFloor(int kind, int variant) => HabitatFloor(kind, variant);
+        public static Sprite BaseFloor(int kind, int variant) => UseStationTiles && StationFloor(kind, variant) is Sprite st ? st : HabitatFloor(kind, variant);
         static Sprite LegacyBaseFloor(int kind, int variant) => Cached($"bfloor{kind}_{variant}", () =>
         {
             var c = new PixelCanvas(16, 16);
@@ -81,7 +81,7 @@ namespace TitanGate.Game
         /// Wall tile. face = the tile below is open, so the wall shows its front: 16 px of face under an 8 px cap
         /// (sprite 16x24, pivot bottom-left). Otherwise only the cap shows (16x16).
         /// </summary>
-        public static Sprite BaseWall(bool face, bool outerHull, int variant = 0) => HabitatWall(face, outerHull, variant);
+        public static Sprite BaseWall(bool face, bool outerHull, int variant = 0) => UseStationTiles && StationWall(face, outerHull, variant) is Sprite st ? st : HabitatWall(face, outerHull, variant);
         static Sprite LegacyBaseWall(bool face, bool outerHull) => Cached($"bwall{face}{outerHull}", () =>
         {
             var cap = outerHull ? PixelCanvas.Hex("#e0d5bf") : Pal.Navy3;
@@ -255,7 +255,9 @@ namespace TitanGate.Game
             return c.ToSprite(new Vector2(0.5f, 0.5f));
         });
         /// <summary>Detail on a wall face (16x16, pivot bottom-left): 0 vent, 1 pipes, 2 warning stripe, 3 light panel.</summary>
-        public static Sprite WallDetail(int kind, bool hull) => Cached($"wdet{kind}{hull}", () =>
+        public static Sprite WallDetail(int kind, bool hull) => UseStationTiles && StationWall(true, hull, 0) != null ? null : WallDetailDrawn(kind, hull);
+
+        static Sprite WallDetailDrawn(int kind, bool hull) => Cached($"wdet{kind}{hull}", () =>
         {
             var c = new PixelCanvas(16, 16);
             var dark = hull ? PixelCanvas.Hex("#6f7891") : Pal.Navy0;
@@ -423,7 +425,7 @@ namespace TitanGate.Game
         /// The cadet seen from the top-down camera. dir: 0 facing the camera, 1 back (walking away, backpack visible),
         /// 2 side (facing right; flip for left). frame: -1/-2 idle breaths, 0-5 walk or run cycle. Pivot at the feet.
         /// </summary>
-        public static Sprite Cadet(int dir, int frame, bool suit, bool run) => Crew("cadet", dir, frame, suit, run);
+        public static Sprite Cadet(int dir, int frame, bool suit, bool run) => !suit && UseBlenderCadet && BlenderCadet(dir, frame) is Sprite b ? b : Crew("cadet", dir, frame, suit, run);
 
         static Sprite LegacyCadet(int dir, int frame, bool suit, bool run) => Cached($"cadet{dir}_{frame}_{suit}_{run}", () =>
         {

@@ -42,6 +42,9 @@ namespace TitanGate.Game
             Make("rumble", 2.0f, t => LowNoise(0.97f) * 0.6f);
             Make("heart", 0.9f, t => Sine(t, 55) * (Pulse(t, 0f) + 0.7f * Pulse(t, 0.22f)) * 1.3f);
             Make("siren", 1.6f, t => Sine(t, 520 + 160 * Mathf.Sin(t / 1.6f * Mathf.PI * 2)) * 0.22f);
+            // sliding door: a pneumatic hiss with a motor whine, and a soft thunk when it shuts
+            Make("door_open", 0.5f, t => LowNoise(0.55f) * Soft(t, 0.5f, 0.02f) * 0.22f + Sine(t, Mathf.Lerp(150, 240, t / 0.5f)) * Soft(t, 0.5f, 0.06f) * 0.12f);
+            Make("door_close", 0.55f, t => LowNoise(0.55f) * Soft(t, 0.45f, 0.02f) * 0.2f + Sine(t, Mathf.Lerp(240, 150, t / 0.55f)) * Soft(t, 0.45f, 0.06f) * 0.1f + Sine(t, 70) * Bell(t, 0.42f) * 0.5f);
             Make("hum", 4.0f, t => (Sine(t, 55) * 0.35f + Sine(t, 110) * 0.15f + Sine(t, 165.5f) * 0.05f) * (0.85f + 0.15f * Mathf.Sin(t / 4f * Mathf.PI * 2)) + LowNoise(0.995f) * 0.08f);
 
             foreach (var id in new[] { "click", "hover", "open", "close", "good", "ship", "drone" }) { var clip = Resources.Load<AudioClip>("Audio/KenneyUI/" + id); if (clip != null) _clips[id] = clip; }

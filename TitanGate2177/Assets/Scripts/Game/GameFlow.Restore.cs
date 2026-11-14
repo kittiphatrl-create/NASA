@@ -23,7 +23,7 @@ namespace TitanGate.Game
         /// <summary>Set by the classic screenshot/bot routes that still test the 7-day base.</summary>
         public static bool ForceClassicBase;
 
-        bool RestoreMode => WalkBase && !ForceClassicBase && _cfg.restore != null && _cfg.restore.rooms.Count > 0;
+        bool RestoreMode => WalkBase && !ForceClassicBase && !WalkOnlyBase && _cfg.restore != null && _cfg.restore.rooms.Count > 0;
 
         // restore room id → layout room key, and the door tiles that open with the room
         static readonly Dictionary<string, string> RoomKey = new Dictionary<string, string>

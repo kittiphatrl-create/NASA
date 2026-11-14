@@ -75,5 +75,55 @@ namespace TitanGate.Game
             Log($"done errors={_errors} checksFailed={_checksFailed}"); _autoLog?.Close(); _autoLog = null;
             yield return new WaitForSeconds(.5f); Application.Quit();
         }
+        IEnumerator AutoRestFlow()
+        {
+            ForceOutpost = false; ForceDiary = false; _loc.Current = Lang.EN;
+            yield return new WaitForSeconds(1);
+            StartLifeboat(null, "comet"); yield return new WaitForSeconds(1);
+            var dock = _ui.Root.Q<VisualElement>("notice-dock"); dock.Clear();
+            _ui.Toast("A sealed seed packet! One more seed for the greenhouse.", GameUI.CGreen);
+            _ui.Toast("It is getting dark. Dinner is ready in the pod.", GameUI.CAmber);
+            OrbiSay("You are thirsty! Drink at the water shelf in the lounge.", GameUI.CAmber);
+            yield return new WaitForSeconds(.5f);
+            Check(dock.childCount == 3, "ordinary and ORBI notices share one dock");
+            bool separated = true;
+            for (int i = 0; i < dock.childCount; i++) for (int j = i + 1; j < dock.childCount; j++)
+                separated &= !dock[i].worldBound.Overlaps(dock[j].worldBound);
+            Check(separated, "all three notification bounds are non-overlapping");
+            Check(dock.worldBound.yMax < _bHudSpeed.worldBound.yMin, "notifications remain above pause controls");
+            yield return Shot("01_notices_stacked");
+            for (int test = 0; test < 2; test++)
+            {
+                if (test == 1)
+                {
+                    var snap = _restore.Snapshot(); snap.done = _cfg.restore.tasks.Select(t => t.id).ToArray();
+                    snap.unpowered = new string[0]; _restore.Load(snap); yield return new WaitForSeconds(.5f);
+                }
+                _restore.Spend(Mathf.Max(0, 20 - _restore.Hour)); RestoreSync();
+                // Stage an evening only after its visitor cards have been resolved.
+                foreach (var card in _life.OpenCards().ToArray()) _life.State.answered.Add(card.id);
+                _lbView = LbView.Ration;
+                yield return BGather();
+                foreach (var who in _life.Mouths()) MealFeed(who, true);
+                int day = _life.State.day;
+                Check(_ui.Press("Finish dinner and go to bed"), "finish-dinner button starts sleep: " + test);
+                // A second click must not charge or advance a second night.
+                LbSleep();
+                float timeout = 0; while ((_sleepTransition || _lbView != LbView.Night) && timeout < 8) { timeout += Time.deltaTime; yield return null; }
+                Check(_lbView == LbView.Night && _life.State.day == day + 1, "exactly one overnight transition: " + test);
+                Check(_bSleeping, "cadet is visibly sleeping on a bed: " + test);
+                yield return Shot("02_sleep_" + test);
+                Check(Vector2.Distance(_sleepBed, test == 0 ? BSpotById("sleep_cot").pos : BSpotById("bunks").pos) < .01f, "correct accessible bed selected: " + test);
+                LbNextCard(); yield return new WaitForSeconds(.7f);
+                Check(BFree(_bPos) && Vector2.Distance(_bPos, _wakeStand) < .1f, "wake beside bed on free floor: " + test);
+                Check(_bPath == null && _bGoal == null && !_bGather && !_bSleeping && !ActionLocked, "wake clears seating, walking and action locks: " + test);
+                var at = _bPos; yield return new WaitForSeconds(.7f);
+                Check(Vector2.Distance(at, _bPos) < .01f, "no uncommanded walking after wake: " + test);
+                yield return Shot("03_morning_" + test);
+            }
+            Log($"done errors={_errors} checksFailed={_checksFailed}"); _autoLog?.Close(); _autoLog = null;
+            Application.Quit();
+        }
+
     }
 }

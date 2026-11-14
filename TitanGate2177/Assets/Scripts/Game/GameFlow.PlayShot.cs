@@ -42,19 +42,28 @@ namespace TitanGate.Game
             _autoAdvance = true;
             StartCoroutine(PlayTimer());
             yield return new WaitForSeconds(2f);
+            if (System.Array.IndexOf(args, "-lastdock") >= 0)
+            {
+                yield return PlayLastDockDirect();
+                Log(_playNotes.ToString());
+                Log($"done errors={_errors} checksFailed={_checksFailed}");
+                _autoLog?.Close(); _autoLog = null;
+                yield return new WaitForSeconds(0.5f);
+                Application.Quit();
+                yield break;
+            }
             PNote("start mission from the menu");
             StartCoroutine(StartChapter1());
             // watch the intro once, photograph a few moments, skip nothing
             float t = 0; int n = 0;
-            while (!_lbPickForScramble && t < 120)
+            while (!_lbPickForScramble && !(NoPets && _bRoot != null && _bMode == 1) && t < 120)
             {
                 t += Time.deltaTime;
                 if (InCutscene && t > 4 + n * 9 && n < 5) { n++; yield return Shot($"p0{n}_intro"); }
                 yield return null;
             }
             PNote($"intro took {t:0}s");
-            yield return Shot("p06_pet_pick");
-            _lbScramblePet = "comet"; _lbPickForScramble = false; _ui.HideScreen();
+            if (_lbPickForScramble) { yield return Shot("p06_pet_pick"); _lbScramblePet = "comet"; _lbPickForScramble = false; _ui.HideScreen(); }
             t = 0; while ((_bRoot == null || _bMode != 1 || _busy) && t < 30) { t += Time.deltaTime; yield return null; }
             float shipStart = _playClock;
             int guard = 0;
@@ -67,19 +76,28 @@ namespace TitanGate.Game
             PNote($"morning jobs took {_playClock - shipStart:0}s");
             yield return Shot("p07_ship_done");
             t = 0; while (!_sScramble && t < 60) { t += Time.deltaTime; yield return null; }
-            t = 0; while (_busy && t < 30) { t += Time.deltaTime; yield return null; }
+            t = 0; bool rulesShot = false;
+            while (_busy && t < 30)
+            {
+                // LAST DOCK: read the rules card, then press Start like a player
+                if (LastDockMode && _ui.ModalOpen) { if (!rulesShot) { rulesShot = true; yield return Shot("p07b_rules"); } _ui.CloseModal(); }
+                t += Time.deltaTime; yield return null;
+            }
             float scr = _playClock;
+            if (LastDockMode) yield return LdBotKeycard(System.Array.IndexOf(args, "-battery") >= 0 ? "power" : "comms");
             // grab whatever is closest, three at a time, then run to the pod
             while (!_sDone && _playClock - scr < 70)
             {
                 BSpot best = null; float bd = float.MaxValue;
                 foreach (var s in _bSpots)
-                    if (s.id.StartsWith("sup_") && s.sr.enabled) { float d = Vector2.Distance(s.stand, _bPos); if (d < bd) { bd = d; best = s; } }
+                    if (s.id.StartsWith("sup_") && s.sr.enabled && !(LastDockMode && LdShipItemLocked(s))) { float d = Vector2.Distance(s.stand, _bPos); if (d < bd) { bd = d; best = s; } }
                 if (best == null || _sHands.Count >= HandSlots) yield return AutoWalkUse("lifeboat");
                 else yield return AutoWalkUse(best.id);
                 if (_sTiltT > 3f) yield return Shot("p08_tilt");
             }
             PNote($"scramble: stowed {_stowed.Count}/{StowSlots} in {_playClock - scr:0}s, fire phases {_sPhaseFire}, tilted {_sTilted}");
+            if (LastDockMode) yield return PlayLastDockAfterScramble();
+            else {
             t = 0; int ln = 0;
             while ((_life == null || _bMode != 0) && t < 120)
             {
@@ -90,6 +108,7 @@ namespace TitanGate.Game
             PNote($"landing + docking cutscenes took {t:0}s");
             yield return new WaitForSeconds(1f);
             yield return PlayWeek();
+            }
             Log(_playNotes.ToString());
             Log($"done errors={_errors} checksFailed={_checksFailed}");
             _autoLog?.Close(); _autoLog = null;

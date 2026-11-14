@@ -16,7 +16,6 @@ namespace TitanGate.Game
     /// </summary>
     public partial class GameFlow
     {
-        VisualElement _orbiChat;
         readonly HashSet<string> _orbiWarned = new HashSet<string>();
         int _orbiWarnDay = -1;
         float _orbiWarnT;
@@ -30,28 +29,20 @@ namespace TitanGate.Game
         void OrbiSay(string text, Color tone)
         {
             if (_ui?.Root == null) return;
-            if (_orbiChat == null || _orbiChat.parent == null)
-            {
-                _orbiChat = new VisualElement { pickingMode = PickingMode.Ignore };
-                // below the top-left HUD panel; hidden while a panel is open (see OrbiUpdate)
-                _orbiChat.style.position = Position.Absolute; _orbiChat.style.right = 24; _orbiChat.style.bottom = 77; _orbiChat.style.width = 520;
-                _orbiChat.style.alignItems = Align.FlexEnd;
-                _ui.Root.Add(_orbiChat);
-            }
             var row = new VisualElement { pickingMode = PickingMode.Ignore };
-            row.style.flexDirection = FlexDirection.Row; row.style.alignItems = Align.Center; row.style.marginBottom = 6;
+            row.style.flexDirection = FlexDirection.Row; row.style.alignItems = Align.Center; row.style.minHeight = 64; row.style.width = Length.Percent(100); row.style.maxWidth = Length.Percent(100);
             var face = new Image { sprite = ArtRestore.OrbiFace(), scaleMode = ScaleMode.ScaleToFit, pickingMode = PickingMode.Ignore };
             face.style.width = 56; face.style.height = 56; face.style.marginRight = 10; face.style.flexShrink = 0;
             var bubble = new VisualElement { pickingMode = PickingMode.Ignore };
             bubble.Add(GameUI.Plate(tone == GameUI.CRed ? GameUI.Paper : GameUI.CAmber, GameUI.Ink, 18, true, 5));
             bubble.style.paddingLeft = 38; bubble.style.paddingRight = 24; bubble.style.paddingTop = 8; bubble.style.paddingBottom = 8;
-            bubble.style.flexShrink = 1;
-            bubble.Add(_ui.L(text, 20, true, GameUI.Ink));
+            bubble.style.flexShrink = 1; bubble.style.flexGrow = 1;
+            bubble.Add(_ui.L(text, 24, true, GameUI.Ink));
             row.Add(bubble);
             face.style.position = Position.Absolute; face.style.left = -24;
             row.Add(face);
-            _orbiChat.Add(row);
-            while (_orbiChat.childCount > 2) _orbiChat.RemoveAt(0);
+            _ui.PushNotice(row, 9600);
+            row.schedule.Execute(() => row.style.display = _ui.Blocking ? DisplayStyle.None : DisplayStyle.Flex).Every(100);
             _sfx.Play("blip", 0.7f);
             row.schedule.Execute(() => row.style.opacity = 0.0f).StartingIn(9000);
             row.schedule.Execute(() => row.RemoveFromHierarchy()).StartingIn(9600);
@@ -69,7 +60,6 @@ namespace TitanGate.Game
 
         void OrbiUpdate(float dt)
         {
-            if (_orbiChat != null) _orbiChat.style.display = _ui.ScreenOpen || _ui.Blocking ? DisplayStyle.None : DisplayStyle.Flex;
             if (!RestoreMode || _restore == null || _life == null || _bMode != 0 || _life.State.outcome != LifeOutcome.Ongoing) return;
             _orbiWarnT -= dt;
             if (_orbiWarnT > 0) return;

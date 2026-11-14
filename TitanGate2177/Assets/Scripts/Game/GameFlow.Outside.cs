@@ -21,7 +21,7 @@ namespace TitanGate.Game
         /// <summary>Time passes while you are free to walk. At 20:00 whatever is still open is decided for you.</summary>
         void BClock(float dt)
         {
-            if (_life == null || _life.State.outcome != LifeOutcome.Ongoing || _ui.Blocking || _bGather || _bOpen) return;
+            if (MarsWalkOnly || _life == null || _life.State.outcome != LifeOutcome.Ongoing || _ui.Blocking || _bGather || _bOpen) return;
             if (_autoLog != null && !_autoClock) return;   // the screenshot pass drives the day itself
             if (_lbView != LbView.Card && _lbView != LbView.Ration) return;
             var sc = _life.State.schedule;

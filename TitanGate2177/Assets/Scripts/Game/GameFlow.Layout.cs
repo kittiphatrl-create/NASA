@@ -26,7 +26,7 @@ namespace TitanGate.Game
             if (key != null) _bRooms.Add((new RectInt(x0, y0, x1 - x0 + 1, y1 - y0 + 1), key));
         }
 
-        void LDoor(int x, int y, int kind = 3) => _bKind[x, y] = kind;
+        void LDoor(int x, int y, int kind = 3) { _bKind[x, y] = kind; _bDoorTiles.Add(new Vector2Int(x, y)); }
 
         /// <summary>Name key of the room the point is in (null in a doorway or outside).</summary>
         string BRoomAt(Vector2 p)
@@ -45,9 +45,11 @@ namespace TitanGate.Game
         void BLayout()
         {
             _bRooms.Clear();
+            _bDoorTiles.Clear();
+            if (_bMode == 2) { LdLayout(); return; }   // LAST DOCK station (GameFlow.LastDock.cs)
             if (_bMode == 1)
             {
-                _bW = 44; _bH = 22;
+                _bW = 44; _bH = LastDockMode ? 28 : 22;   // LAST DOCK: 5 more rooms (GameFlow.ShipRooms.cs)
                 _bKind = new int[_bW, _bH];
                 for (int x = 0; x < _bW; x++) for (int y = 0; y < _bH; y++) _bKind[x, y] = KVoid;
                 LRoom(2, 4, 7, 17, 5, "ship.room.engine");
@@ -63,6 +65,7 @@ namespace TitanGate.Game
                 foreach (int x in new[] { 12, 13, 21, 22, 30, 31 }) { LDoor(x, 13); LDoor(x, 9); }
                 foreach (int y in new[] { 16, 17 }) { LDoor(17, y, 4); LDoor(26, y, 4); LDoor(8, y, 5); }
                 foreach (int y in new[] { 5, 6 }) { LDoor(17, y, 0); LDoor(26, y, 0); LDoor(8, y, 5); }
+                if (LastDockMode) LdShipRoomsLayout();
             }
             else
             {
@@ -197,6 +200,7 @@ namespace TitanGate.Game
             _sArrows.Clear();   // no floor guide arrows: the "!" over the bay door is enough
             BLamp(new Vector2(16f, 11.5f), new Color(0.7f, 0.8f, 1f), 4f, 0.35f);
             BLamp(new Vector2(26f, 11.5f), new Color(0.7f, 0.8f, 1f), 4f, 0.35f);
+            if (LastDockMode) LdShipRoomsProps();
         }
 
         readonly List<SpriteRenderer> _sArrows = new List<SpriteRenderer>();
@@ -218,6 +222,8 @@ namespace TitanGate.Game
             foreach (var p in PodSeats) BDeco(Art.PilotSeat(), p.x, p.y, 1);
             BProp("seats", "base.place.seats", Art.Console("pod", 22, 20, Pal.Amber), 5.5f, 11.4f, new Vector2(5.5f, 10.6f), 1, 1);
             BLamp(new Vector2(5.5f, 12f), new Color(1f, 0.8f, 0.5f), 6f, 0.55f);
+
+            BProp("sleep_cot", TT("Folding bed", "เตียงสนาม"), Art.Bed(), 5.5f, 9.15f, new Vector2(5.5f, 10.5f), 2, 1);
 
             // ---- Tube (x 10-14, y 11-12)
             BLamp(new Vector2(12.5f, 12f), new Color(0.7f, 0.85f, 1f), 3f, 0.35f);

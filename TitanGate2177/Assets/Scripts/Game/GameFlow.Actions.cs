@@ -14,10 +14,11 @@ namespace TitanGate.Game
         SpriteRenderer _mentor;
         int _actionCaptureIndex;
         string PetId => _bMode == 1 ? _sPet ?? "comet" : _life?.State.pet ?? "comet";
-        bool ActionLocked => _actionPose != null;
+        bool ActionLocked => _actionPose != null || _sleepTransition || _bSleeping;
 
         void ResetActions()
         {
+            _sleepTransition = _bSleeping = false;
             _actionPose = null; _petStay = false; _petCommand = null; _mentor = null;
             _petPrompt?.RemoveFromHierarchy(); _petPrompt = null;
         }
@@ -66,12 +67,22 @@ namespace TitanGate.Game
         void ActionPresentation()
         {
             if (_bPlayer == null) return;
+            if (_bSleeping)
+            {
+                _bPlayer.sprite = Art.Cadet(0, -2, false, false);
+                _bPlayer.transform.rotation = Quaternion.Euler(0, 0, 90);
+                _bPlayer.transform.position = _sleepBed + new Vector2(.85f, .48f);
+                _bPlayer.sortingOrder = SortY(_sleepBed.y) + 10;
+                return;
+            }
+            _bPlayer.transform.rotation = Quaternion.identity;
             bool sit = _bGather || _bMode == 1 && _sSitting;
             string pose = sit ? "sit" : ActionLocked ? _actionPose : _bMode == 1 && (_sCarry != null || _sHands.Count > 0) ? "carry" : null;
             if (pose != null)
             {
                 _bPlayer.sprite = Art.CrewAction("cadet", pose, pose == "carry" ? (_bMoving ? (int)_bGaitPhase % 4 : 0) : (int)(_bAnim * 6) % 4, BIsOutside(_bPos));
                 _bPlayer.flipX = pose == "sit" ? !_bRight : false;
+                if (pose != "sit") BCadetActionSprite(pose);   // carry/use in 8 directions (GameFlow.Feel.cs)
                 if (pose == "sit") _bPlayer.sortingOrder = SortY(_bPos.y) + 8;
             }
             if (_petCommand == null) _petCommand = BSprite("pet-command", Art.PetCommandIcon(PetId), Vector2.zero, 31002);

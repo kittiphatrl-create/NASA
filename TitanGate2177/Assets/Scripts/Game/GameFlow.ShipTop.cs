@@ -69,17 +69,24 @@ namespace TitanGate.Game
             _ui.SetHudVisible(false);
 
             // pick the crew pet first: it lives on the ship and comes along
-            _ui.FadeTo(0.6f, 0.3f);
-            yield return LbPickBeforeScramble();
-            _sPet = _lbScramblePet ?? LC.pets[0].id;
+            _sPet = null;
+            if (!NoPets)
+            {
+                _ui.FadeTo(0.6f, 0.3f);
+                yield return LbPickBeforeScramble();
+                _sPet = _lbScramblePet ?? LC.pets[0].id;
+            }
 
-            _sStep = 0; _sTarget = ShipSteps[0].target; _sCarry = null;
+            _sStep = 0; _sTarget = SSteps[0].target; _sCarry = null;
             _sScramble = false; _sDone = false; _sSitting = false; _sPhaseFire = 0; _sShake = 0; _sTilted = false; _sTiltT = 0;
             _sHands.Clear(); _sHandSr.Clear();
             BBegin(1, new Vector2(22.5f, 15.5f));
-            _bPet.sprite = Art.Pet(_sPet);
-            _bPet.gameObject.SetActive(true);
-            _bSpots.Add(new BSpot { id = "pet", sr = _bPet, nameKey = _loc.T($"pet.{_sPet}.name") });
+            if (_sPet != null)
+            {
+                _bPet.sprite = Art.Pet(_sPet);
+                _bPet.gameObject.SetActive(true);
+                _bSpots.Add(new BSpot { id = "pet", sr = _bPet, nameKey = _loc.T($"pet.{_sPet}.name") });
+            }
             _sCarrySr = BSprite("carry", null, Vector2.zero, 31003);
             _sfxLoopShip(true);
             yield return Fade(0f, 0.8f);
@@ -88,9 +95,9 @@ namespace TitanGate.Game
             _bSpots.Add(new BSpot { id = "mentor", sr = _mentor, stand = new Vector2(39.5f, 11.5f), nameKey = "speaker.mentor" });
             yield return Say("mentor", "story.mentor.welcome");
             yield return Say("orbi", "ship.intro.1");
-            yield return Say("orbi", "ship.intro.2", _loc.T($"pet.{_sPet}.name"));
+            if (_sPet != null) yield return Say("orbi", "ship.intro.2", _loc.T($"pet.{_sPet}.name"));
             _busy = false;
-            _ui.Toast(_loc.T(ShipSteps[0].textKey, _loc.T($"pet.{_sPet}.name")), GameUI.CCyan);
+            _ui.Toast(_loc.T(SSteps[0].textKey, _loc.T($"pet.{_sPet}.name")), GameUI.CCyan);
         }
 
         void _sfxLoopShip(bool on) => _sfx.Loop("hum", on);
@@ -100,6 +107,7 @@ namespace TitanGate.Game
         void SUse(BSpot s)
         {
             if (_sDone || _sSitting || ActionLocked) return;
+            if (LdShipUse(s)) return;   // LAST DOCK: key card and locked vaults (GameFlow.ShipRooms.cs)
             if (s.id == "mentor") { StartCoroutine(SMentorAdvice()); return; }
             if (s.id == "pet") { _bHeartT = 1.2f; _sfx.Play("good", 0.6f); _ui.Toast(_loc.T("base.pet", s.nameKey), GameUI.CGreen); return; }
             if (_sScramble)
@@ -121,7 +129,7 @@ namespace TitanGate.Game
         void SCompleteStep(BSpot s)
         {
             if (_sDone || _sScramble) return;
-            var step = ShipSteps[_sStep];
+            var step = SSteps[_sStep];
             _sfx.Play(step.carry != null ? "card" : "good");
             _sCarry = step.carry;
             if (step.target == "bowl") BSpotById("bowl").sr.sprite = Art.PetBowl(true);
@@ -129,26 +137,27 @@ namespace TitanGate.Game
             if (step.factKey != null) _ui.Toast(_loc.T("speaker.mentor") + ": " + _loc.T(step.factKey), GameUI.CGreen);
             if (step.target == "sofa") { StartCoroutine(SImpact()); return; }
             _sStep++;
-            _sTarget = ShipSteps[_sStep].target;
-            _ui.Toast(_loc.T(ShipSteps[_sStep].textKey, _loc.T($"pet.{_sPet}.name")), GameUI.CCyan);
+            _sTarget = SSteps[_sStep].target;
+            _ui.Toast(_loc.T(SSteps[_sStep].textKey, _loc.T($"pet.{_sPet}.name")), GameUI.CCyan);
         }
 
         void SGrab(BSpot s)
         {
-            if (_sHands.Count >= HandSlots) { _sfx.Play("bad"); _ui.Toast(_loc.T("ship.scramble.hands_full", HandSlots), GameUI.CRed); return; }
+            if (_sHands.Count >= HandSlots || LastDockMode && !LdPick(s.id)) { _sfx.Play("bad"); _ui.Toast(_loc.T("ship.scramble.hands_full", HandSlots), GameUI.CRed); return; }
             _sHands.Add(s.id);
             StartCoroutine(Act("lift", .35f, null));
             s.sr.enabled = false;
             s.on = false;
             _sfx.Play("card");
-            _ui.Toast(_loc.T("ship.scramble.grab", _loc.T($"sup.{s.id}.name"), _sHands.Count, HandSlots), GameUI.CAmber);
+            _ui.Toast(_loc.T("ship.scramble.grab", LastDockMode ? LdSupName(s.id) : _loc.T($"sup.{s.id}.name"), _sHands.Count, HandSlots), GameUI.CAmber);
         }
 
         void SStow()
         {
             if (_sHands.Count == 0) { _ui.Toast(_loc.T("ship.scramble.empty"), GameUI.CDim); return; }
             int put = 0;
-            while (_sHands.Count > 0 && _stowed.Count < StowSlots) { _stowed.Add(_sHands[0]); _sHands.RemoveAt(0); put++; }
+            if (LastDockMode) { put = LdDeposit(); for (int i = 0; i < put; i++) { _stowed.Add(_sHands[0]); _sHands.RemoveAt(0); } }
+            else while (_sHands.Count > 0 && _stowed.Count < StowSlots) { _stowed.Add(_sHands[0]); _sHands.RemoveAt(0); put++; }
             _sfx.Play("thud");
             StartCoroutine(Act("lift", .35f, null));
             _sfx.Play("good");
@@ -185,17 +194,22 @@ namespace TitanGate.Game
             _sShake = 1.2f;
             _ui.Flash(new Color(1f, 0.15f, 0.2f, 0.5f));
             _sHatchSr.sprite = Art.LifeboatPod(true, 0, StowSlots);
-            foreach (var (id, x, y) in ShipSupplies)
+            if (LastDockMode) LdNewInventory();
+            foreach (var (id, x, y) in LastDockMode ? (IEnumerable<(string id, float x, float y)>)LdScrambleItems() : ShipSupplies)
             {
-                var sp = BProp(id, $"sup.{id}.name", Art.LooseSupply(id), x, y, new Vector2(x, y - 0.5f));
+                var sp = BProp(id, LastDockMode ? LdSupName(id) : $"sup.{id}.name", Art.LooseSupply(id), x, y, new Vector2(x, y - 0.5f));
                 sp.sr.sortingOrder = SortY(y) + 1;
                 BLamp(new Vector2(x, y + 0.4f), new Color(1f, 0.85f, 0.4f), 1.6f, 0.5f);
             }
             _busy = true;
             yield return Say("mentor", "story.mentor.emergency");
             yield return Say("sys", "ship.scramble.sys");
-            yield return Say("orbi", "ship.scramble.1", Mathf.RoundToInt(_sLeft));
-            yield return Say("orbi", "ship.scramble.2", HandSlots, StowSlots);
+            if (LastDockMode) { LdScrambleRules(); while (_ui.ModalOpen) yield return null; }   // LAST DOCK: the rules before the clock
+            else
+            {
+                yield return Say("orbi", "ship.scramble.1", Mathf.RoundToInt(_sLeft));
+                yield return Say("orbi", "ship.scramble.2", HandSlots, StowSlots);
+            }
             _busy = false;
         }
 
@@ -284,6 +298,7 @@ namespace TitanGate.Game
             Settings.SaveCheckpoint("lifeboat", _cfg.chapter1.cabinO2Start, _stowed, _sPet);
             yield return Fade(1f, 0.8f);
             yield return BCutscene("evacuate");
+            if (LastDockMode) { _busy = false; StartCoroutine(LdAfterScramble()); yield break; }   // LAST DOCK: dock at the station
             yield return BCutscene("land_mars");
             yield return BCutscene("dock");
             _busy = false;
@@ -369,11 +384,11 @@ namespace TitanGate.Game
             if (_sScramble || _sDone)
             {
                 box.Add(_ui.L(_loc.T("ship.hud.lifeboat", _stowed.Count, StowSlots), 23, true));
-                var names = new List<string>(); foreach (var h in _sHands) names.Add(_loc.T($"sup.{h}.name"));
+                var names = new List<string>(); foreach (var h in _sHands) names.Add(LastDockMode ? LdSupName(h) : _loc.T($"sup.{h}.name"));
                 box.Add(_ui.L(_loc.T("ship.hud.hands", names.Count == 0 ? "—" : string.Join(", ", names), _sHands.Count, HandSlots), 19));
                 return box;
             }
-            for (int i = 0; i < ShipSteps.Length; i++)
+            for (int i = 0; i < SSteps.Length; i++)
             {
                 bool done = i < _sStep, current = i == _sStep;
                 var line = new VisualElement { pickingMode = PickingMode.Ignore };
@@ -381,7 +396,7 @@ namespace TitanGate.Game
                 var dot = new VisualElement { pickingMode = PickingMode.Ignore };
                 dot.style.width = dot.style.height = 12; dot.style.flexShrink = 0; dot.style.marginRight = 10; dot.style.marginTop = 7;
                 dot.style.backgroundColor = done ? GameUI.CGreen : current ? GameUI.CAmber : GameUI.CCyanD;
-                var label = _ui.L(_loc.T(ShipSteps[i].textKey, _loc.T($"pet.{_sPet}.name")), current ? 21 : 18, current, done ? GameUI.CGreen : current ? GameUI.CText : GameUI.CDim);
+                var label = _ui.L(_loc.T(SSteps[i].textKey, _loc.T($"pet.{_sPet}.name")), current ? 21 : 18, current, done ? GameUI.CGreen : current ? GameUI.CText : GameUI.CDim);
                 label.style.flexShrink = 1; line.Add(dot); line.Add(label); box.Add(line);
             }
             return box;

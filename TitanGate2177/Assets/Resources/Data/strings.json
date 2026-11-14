@@ -10409,6 +10409,31 @@
    "k": "base.place.toolbox",
    "en": "toolbox in storage",
    "th": "ตู้เครื่องมือในคลัง"
+  },
+  {
+   "k": "ship.room.medbay",
+   "en": "Medbay",
+   "th": "ห้องพยาบาล"
+  },
+  {
+   "k": "ship.room.eva",
+   "en": "EVA prep room",
+   "th": "ห้องเตรียมออกนอกยาน"
+  },
+  {
+   "k": "ship.room.pantry",
+   "en": "Cold pantry",
+   "th": "ห้องเสบียงแช่เย็น"
+  },
+  {
+   "k": "ship.room.vault_power",
+   "en": "Power vault (locked)",
+   "th": "ห้องเก็บอุปกรณ์ไฟฟ้า (ล็อก)"
+  },
+  {
+   "k": "ship.room.vault_comms",
+   "en": "Comms vault (locked)",
+   "th": "ห้องอะไหล่สื่อสาร (ล็อก)"
   }
  ]
 }

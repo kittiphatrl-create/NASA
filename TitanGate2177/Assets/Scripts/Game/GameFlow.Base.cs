@@ -123,7 +123,7 @@ namespace TitanGate.Game
             _bCam.orthographic = true;
             _bCam.orthographicSize = BCamSize;
             _bCam.clearFlags = CameraClearFlags.SolidColor;
-            _bCam.backgroundColor = mode == 0 ? new Color(0.05f, 0.04f, 0.06f) : new Color(0.01f, 0.01f, 0.03f);
+            _bCam.backgroundColor = mode == 0 || mode == 2 ? new Color(0.05f, 0.04f, 0.06f) : new Color(0.01f, 0.01f, 0.03f);
             _bCam.nearClipPlane = 0.1f; _bCam.farClipPlane = 50f;
             _bCam.depth = 5;
             _rig.cam.enabled = false;
@@ -164,6 +164,7 @@ namespace TitanGate.Game
             if (_bHud != null) { _bHud.RemoveFromHierarchy(); _bHud = null; }
             if (_bHudPortrait != null) { _bHudPortrait.RemoveFromHierarchy(); _bHudPortrait = null; }
             PaceEndBase();
+            LdEndBase();
             if (_rig != null && _rig.cam != null) _rig.cam.enabled = true;
         }
 
@@ -224,9 +225,9 @@ namespace TitanGate.Game
                     }
                 }
 
-            if (_bMode == 0)
+            if (_bMode == 0 || _bMode == 2)
             {
-                // Mars ground everywhere around the base
+                // Mars ground everywhere around the base (LAST DOCK's base sits on Mars too)
                 var g = BSprite("ground", Art.BaseFloor(2, 0), new Vector2(-14, -12), -30001);
                 g.drawMode = SpriteDrawMode.Tiled; g.size = new Vector2(_bW + 28, _bH + 24);
                 for (int i = 0; i < 60; i++)
@@ -238,7 +239,7 @@ namespace TitanGate.Game
                     if (inMap && _bKind[cx, cy] == KOutside && rng.NextDouble() < 0.7) continue;
                     BSprite("rock", Art.Rock(rng.Next(3)), rp, SortY(rp.y));
                 }
-                BBuildProps();
+                if (_bMode == 2) LdBuildProps(); else BBuildProps();
             }
             else
             {
@@ -248,6 +249,7 @@ namespace TitanGate.Game
             }
 
             BuildHabitatLook();
+            BBuildDoors();   // sliding doors on every doorway (GameFlow.Feel.cs)
             _bShadows.Clear();
             _bPlayer = BSprite("cadet", Art.Astronaut(false, Pose.Idle0), _bPos, 0);
             _bPet = BSprite("pet", Art.Pet("comet"), _bPos, 0);
@@ -434,6 +436,7 @@ namespace TitanGate.Game
 
         void BOnEvent()
         {
+            if (MarsWalkOnly) return;   // walk-only Mars base: no events, toasts or dinner call
             // a new day (or a new card) gets everyone up from the pod seats, even on a day with no events at all
             if (_lbView == LbView.Card || _life.State.day != _bDay) BEndGather();
             bool newDay = _life.State.day != _bDay;
@@ -516,7 +519,7 @@ namespace TitanGate.Game
         void BDoorAndSuit(float dt)
         {
             if (_bDoorOpen && !BInDoorway()) { _bDoorT -= dt; if (_bDoorT <= 0) { BSetDoor(false); _sfx.Play("close"); } }
-            bool outside = BIsOutside(_bPos);
+            bool outside = BIsOutside(_bPos) && !MarsWalkOnly;   // walk-only: no suit timer outside
             if (outside)
             {
                 if (_bSuitT < 0) { _bSuitT = SuitSeconds; _bSuitWarned = false; }
@@ -615,8 +618,7 @@ namespace TitanGate.Game
         {
             if (!_bGather) return;
             _bGather = false;
-            _bPos = new Vector2(5.5f, 9.6f);
-            _bPetPos = new Vector2(4.4f, 9.6f);
+            BPlaceAfterRest(new Vector2(5.5f, 10.5f));
             _bTrail.Clear();
             for (int i = 0; i < _bGuests.Count; i++) _bGuests[i].transform.position = new Vector3(31.4f + i * 1.3f, 11.2f + (i % 2) * 0.9f, 0);
             _bCam.orthographicSize = BCamSize;
@@ -644,6 +646,7 @@ namespace TitanGate.Game
         void BUse(BSpot s)
         {
             if (ActionLocked || _busy || _bMode == 1 && _sSitting) return;
+            if (WalkOnlyUse(s)) return;   // walk-only Mars base: doors and the pet only
             if (s.id == "pet") { PetMenu(); return; }
             if (_bMode == 0 && (s.id == "solar" || s.id == "drill" || s.id.StartsWith("plot")))
             { StartCoroutine(Act(TaskPose(s.id), .9f, () => BUseResolved(s))); return; }
@@ -653,6 +656,7 @@ namespace TitanGate.Game
         void BUseResolved(BSpot s)
         {
             if (_bMode == 1) { SUse(s); return; }
+            if (_bMode == 2) { LdUse(s); return; }   // LAST DOCK station consoles
             if (RestoreGoodbye(s) || RestoreUse(s)) return;   // abandoned-base chapter (GameFlow.Restore.cs)
             if (_bMode == 0 && _lbView == LbView.Card && !_bOpen && _life != null && s.id != BActiveSpot)
             {
@@ -779,8 +783,9 @@ namespace TitanGate.Game
         {
             if (_bRoot == null) return;
             float dt = Time.deltaTime;
-            var kb = Keyboard.current;
-            var mouse = Mouse.current;
+            bool restFlowQA = _autoLog != null && _autoRoute.StartsWith("restflow-");
+            var kb = restFlowQA ? null : Keyboard.current;
+            var mouse = restFlowQA ? null : Mouse.current;
 
             if (_bTimer > 0 && !_ui.Blocking)
             {
@@ -863,6 +868,8 @@ namespace TitanGate.Game
             UpdateHabitatLook(dt);
             BFadeWalls(dt);
             if (_bMode == 1) { SUpdate(dt); SLight(dt); } else BLight(dt);
+            if (_bMode == 2) LdUpdate(dt);
+            BDoorsUpdate(dt);
             BCamera(dt);
             BHud(dt);
         }
@@ -934,6 +941,7 @@ namespace TitanGate.Game
         {
             var p = s.sr != null ? (Vector2)s.sr.transform.position : s.pos;
             if (Mathf.Abs(p.x - _bPos.x) > 0.2f) _bRight = p.x > _bPos.x;
+            if ((p - _bPos).sqrMagnitude > 0.04f) _bLastMove = (p - _bPos).normalized;   // face what you use
         }
 
         void BGoTo(Vector2 target, BSpot use)
@@ -1014,8 +1022,7 @@ namespace TitanGate.Game
             if (_bMoving && _bLastMove != Vector2.zero)
                 _bFacing = Mathf.Abs(_bLastMove.y) > Mathf.Abs(_bLastMove.x) * 0.9f ? (_bLastMove.y > 0 ? 1 : 0) : 2;
             int frame = _bMoving ? (int)_bGaitPhase % 8 : ((_bAnim % 3.2f) > 3.05f ? -2 : -1);
-            _bPlayer.sprite = Art.Cadet(_bGather ? 0 : _bFacing, frame, outside, _bRun && _bMoving);
-            _bPlayer.flipX = _bFacing == 2 && !_bRight;
+            BCadetSprite(frame, outside);   // 8 directions, run frames (GameFlow.Feel.cs)
             _bPlayer.transform.position = new Vector3(_bPos.x, _bPos.y - 0.15f, 0);
             _bPlayer.sortingOrder = SortY(_bPos.y);
 
@@ -1098,7 +1105,8 @@ namespace TitanGate.Game
                 if (sp.sr != null && (!sp.sr.enabled || !sp.sr.gameObject.activeInHierarchy) && id != "hatch") return;
                 marks.Add((BMarkTop(sp, showKnocker), urg));
             }
-            if (_bMode == 1) { if (active != null) Mark(active, false); }
+            if (_bMode == 2) { foreach (var m in LdMarks()) Mark(m.id, m.urgent); }
+            else if (_bMode == 1) { if (active != null) Mark(active, false); }
             else if (_life != null && !_bOpen && !_bGather && _life.State.outcome == LifeOutcome.Ongoing)
             {
                 if (_lbView == LbView.Card)
@@ -1289,6 +1297,8 @@ namespace TitanGate.Game
             _bHudRoom.text = room == null ? "" : GameUI.Thai("▸ " + _loc.T(room));
             _bHudRoom.style.display = room == null ? DisplayStyle.None : DisplayStyle.Flex;
             if (_bMode == 1) { SHud(); return; }
+            if (_bMode == 2) { LdHud(); return; }
+            if (MarsWalkOnly) { _bHud.style.display = DisplayStyle.None; _bHudPortrait?.Clear(); return; }   // just the map
             bool show = _life != null && !_ui.ScreenOpen;
             _bHud.style.display = show ? DisplayStyle.Flex : DisplayStyle.None;
             if (!show) return;
@@ -1389,9 +1399,10 @@ namespace TitanGate.Game
                 else if (key.Contains("pod") || key.Contains("galley")) { code = "POD"; room = "lounge"; }
                 else if (key.Contains("power") || key.Contains("engine")) code = "PWR";
                 else if (key.Contains("airlock") || key.Contains("life")) { code = "O2"; color = Art.HabitatCyan; }
+                if (_bMode == 2) LdSign(key, ref code, ref color);   // LAST DOCK room signs
                 if (key.Contains("tube") || key.Contains("corridor")) continue;
                 float x = rect.xMin + rect.width * .5f, y = rect.yMax;
-                BSprite("room-identification-" + code, Art.HabitatLabel(code, color), new Vector2(x, y + .32f), SortY(y) + 3);
+                if (_bMode == 0) BSprite("room-identification-" + code, Art.HabitatLabel(code, color), new Vector2(x, y + .32f), SortY(y) + 3);
                 var light = BSprite("task-light-" + code, Art.SoftLight(), new Vector2(x, y - 1.3f), 30002);
                 if (_bGlowMaterial == null) { var shader = Resources.Load<Shader>("UI/HabitatGlow"); if (shader != null) _bGlowMaterial = new Material(shader); }
                 if (_bGlowMaterial != null) light.sharedMaterial = _bGlowMaterial;

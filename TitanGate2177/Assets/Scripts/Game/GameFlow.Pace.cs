@@ -43,7 +43,7 @@ namespace TitanGate.Game
                 _bHudSpeed.Add(pause); _ui.Root.Add(_bHudSpeed);
                 return;
             }
-            if (_bMode != 0) return;
+            if (_bMode != 0 || MarsWalkOnly) return;
             _bHudSpeed = new VisualElement();
             _bHudSpeed.style.position = Position.Absolute; _bHudSpeed.style.right = 24; _bHudSpeed.style.bottom = 24;
             _bHudSpeed.style.flexDirection = FlexDirection.Row;

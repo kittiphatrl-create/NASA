@@ -47,7 +47,7 @@ namespace TitanGate.Game
         /// <summary>Called every frame in the base. Plans one possible emergency per day and runs the active one.</summary>
         void EmUpdate(float dt)
         {
-            if (_bMode != 0 || _life == null || _life.State.outcome != LifeOutcome.Ongoing) return;
+            if (MarsWalkOnly || _bMode != 0 || _life == null || _life.State.outcome != LifeOutcome.Ongoing) return;
             if (_emDay != _life.State.day)
             {
                 _emDay = _life.State.day;
