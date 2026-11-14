@@ -103,6 +103,7 @@ namespace TitanGate.Game
             if (!_rFlareCalled && _restore.Hour >= FlareCallHour)
             {
                 _rFlareCalled = true; _sfx.Play("alarm"); _sShake = 0.3f;
+                EmAlert(TT("Solar flare incoming", "เปลวสุริยะกำลังมา"), TT("Head to the lounge shelter.", "ไปยังที่หลบภัยในห้องนั่งเล่น"), radiation: true);
                 OrbiSay(TT("X-rays from the flare just arrived at light speed. The fast particles follow soon: get to the lounge shelter NOW!", "รังสีเอกซ์จากเปลวสุริยะมาถึงแล้วด้วยความเร็วแสง อนุภาคพลังงานสูงจะตามมาเร็ว ๆ นี้ ไปหลบห้องนั่งเล่นเดี๋ยวนี้!"), GameUI.CRed);
             }
             if (_restore.Hour < FlareHitHour || _ui.Blocking) return;

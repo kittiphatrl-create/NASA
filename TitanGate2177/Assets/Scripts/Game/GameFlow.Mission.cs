@@ -18,8 +18,8 @@ namespace TitanGate.Game
         {
             var box = new VisualElement { pickingMode = PickingMode.Ignore };
             if (!RestoreMode || _restore == null) return box;
-            box.style.position = Position.Absolute; box.style.right = 24; box.style.top = 350; box.style.width = 400;
-            box.style.backgroundColor = new Color(0.03f, 0.06f, 0.1f, 0.9f); GameUI.Border(box, GameUI.CAmber, 2, 12);
+            box.style.position = Position.Absolute; box.style.right = 24; box.style.top = 24; box.style.width = 400;
+            box.Add(GameUI.Plate(GameUI.CPanel, GameUI.CAmber));
             box.style.paddingLeft = box.style.paddingRight = 16; box.style.paddingTop = 10; box.style.paddingBottom = 12;
             box.Add(_ui.L(TT("MISSION", "ภารกิจ"), 22, true, GameUI.CAmber));
             var r = _restore;

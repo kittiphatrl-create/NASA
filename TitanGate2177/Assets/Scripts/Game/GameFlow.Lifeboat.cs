@@ -220,11 +220,10 @@ namespace TitanGate.Game
                 bool wide = _lbView == LbView.Pick;
                 if (!wide) { root.style.alignItems = Align.FlexEnd; box.style.marginRight = 70; }
                 box.style.width = wide ? 1560 : 1220;
-                box.style.backgroundColor = new Color(0.03f, 0.05f, 0.12f, 0.95f);
                 var edge = _lbView == LbView.End && LbFailed ? GameUI.CRed
                     : _lbView == LbView.End && _life.State.outcome == LifeOutcome.Stranded ? GameUI.CAmber
                     : _lbView == LbView.Card && !string.IsNullOrEmpty(_lbCard.visitor) ? GameUI.CAmber : GameUI.CCyan;
-                GameUI.Border(box, edge, 3, 14);
+                GameUI.PanelFrame(box, edge);
                 box.style.paddingLeft = box.style.paddingRight = 40; box.style.paddingTop = 22; box.style.paddingBottom = 22;
                 if (_life != null) LbHeader(box);
                 switch (_lbView)

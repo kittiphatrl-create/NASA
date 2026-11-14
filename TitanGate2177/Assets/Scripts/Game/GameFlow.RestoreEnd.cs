@@ -94,7 +94,7 @@ namespace TitanGate.Game
             _ui.ShowScreen(root =>
             {
                 var box = new VisualElement(); box.style.width = 1300; box.style.alignItems = Align.Center;
-                box.style.backgroundColor = new Color(0.03f, 0.05f, 0.12f, 0.97f); GameUI.Border(box, won ? GameUI.CAmber : GameUI.CRed, 4, 20);
+                GameUI.PanelFrame(box, won ? GameUI.CAmber : GameUI.CRed);
                 box.style.paddingLeft = box.style.paddingRight = 40; box.style.paddingTop = 26; box.style.paddingBottom = 28;
                 if (won)
                 {

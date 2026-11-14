@@ -134,25 +134,68 @@ namespace TitanGate.Game
         }
 
         /// <summary>Big red alert across the screen for a few seconds (ORBI's warning).</summary>
-        void EmAlert(string title, string body)
+        void EmAlert(string title, string body, bool radiation = false)
         {
             _emAlert?.RemoveFromHierarchy();
             var a = new VisualElement { pickingMode = PickingMode.Ignore };
             a.style.position = Position.Absolute; a.style.left = 0; a.style.right = 0; a.style.top = 0; a.style.bottom = 0;
-            a.style.borderTopWidth = a.style.borderBottomWidth = a.style.borderLeftWidth = a.style.borderRightWidth = 18;
-            a.style.borderTopColor = a.style.borderBottomColor = a.style.borderLeftColor = a.style.borderRightColor = new Color(0.9f, 0.05f, 0.08f, 0.8f);
-            a.style.backgroundColor = new Color(0.5f, 0f, 0.02f, 0.25f);
+            a.style.backgroundColor = new Color(.018f, .008f, .012f, .68f);
             a.style.alignItems = Align.Center; a.style.justifyContent = Justify.Center;
             var panel = new VisualElement { pickingMode = PickingMode.Ignore };
-            panel.style.backgroundColor = new Color(0.12f, 0.01f, 0.03f, 0.94f); GameUI.Border(panel, GameUI.CRed, 4, 14);
-            panel.style.paddingLeft = panel.style.paddingRight = 40; panel.style.paddingTop = 18; panel.style.paddingBottom = 18; panel.style.maxWidth = 1200;
-            panel.Add(_ui.L("!! " + title + " !!", 46, true, GameUI.CRed));
-            panel.Add(_ui.L(_loc.T("speaker.orbi") + ": " + body, 26));
+            panel.style.width = Length.Percent(69); panel.style.maxWidth = 1200;
+            panel.style.marginTop = radiation ? -160 : -30;
+            panel.Add(GameUI.Plate(new Color(.86f, .11f, .15f), GameUI.Paper, 51, true, 8));
+            var inset = GameUI.Plate(new Color(.45f, .035f, .06f), GameUI.Ink, 45, true, 5);
+            inset.style.left = inset.style.right = 12; inset.style.top = inset.style.bottom = 12;
+            panel.Add(inset);
+            panel.style.paddingLeft = panel.style.paddingRight = 56;
+            panel.style.paddingTop = panel.style.paddingBottom = 30;
+            var header = _ui.L(TT("///   EMERGENCY   ///", "///   เหตุฉุกเฉิน   ///"), 62, true, GameUI.Paper);
+            header.style.unityTextAlign = TextAnchor.MiddleCenter;
+            _ui.DisplayFont(header);
+            panel.Add(header);
+            var headline = _ui.PrintedLabel(TT(title.ToUpperInvariant(), title), 48, GameUI.Paper, GameUI.Ink);
+            headline.style.marginTop = 7; headline.style.marginBottom = 10;
+            var summary = headline.Q<Label>();
+            summary.style.unityTextAlign = TextAnchor.MiddleCenter;
+            summary.style.paddingTop = summary.style.paddingBottom = 15;
+            panel.Add(headline);
+            var lower = new VisualElement { pickingMode = PickingMode.Ignore };
+            lower.Add(GameUI.Plate(GameUI.Ink, new Color(.9f, .19f, .19f), 22, true, 4));
+            lower.style.flexDirection = FlexDirection.Row;
+            lower.style.justifyContent = Justify.Center; lower.style.alignItems = Align.Center;
+            lower.style.paddingLeft = lower.style.paddingRight = 30;
+            lower.style.paddingTop = lower.style.paddingBottom = 7;
+            if (radiation)
+            {
+                var icon = new Image { sprite = Art.RadIcon(), scaleMode = ScaleMode.ScaleToFit, pickingMode = PickingMode.Ignore };
+                icon.style.width = icon.style.height = 42;
+                icon.style.marginRight = 12; icon.style.flexShrink = 0;
+                lower.Add(icon);
+            }
+            var action = _ui.L(body, 28, true, GameUI.Paper);
+            action.style.unityTextAlign = TextAnchor.MiddleCenter;
+            action.style.flexShrink = 1;
+            lower.Add(action);
+            panel.Add(lower);
             a.Add(panel);
+            if (radiation)
+            {
+                var portrait = ConversationPortrait(ArtRestore.OrbiFace(), false);
+                portrait.style.width = Length.Percent(21); portrait.style.height = Length.Percent(34);
+                a.Add(portrait);
+                var status = new VisualElement { pickingMode = PickingMode.Ignore };
+                status.style.position = Position.Absolute; status.style.left = Length.Percent(18); status.style.right = Length.Percent(7); status.style.bottom = 35;
+                status.style.paddingLeft = status.style.paddingRight = 28; status.style.paddingBottom = 16;
+                status.Add(GameUI.Plate(GameUI.Paper, GameUI.Ink, 26, true, 6));
+                var nameplate = _ui.PrintedLabel("ORBI", 24, GameUI.CAmber, GameUI.Ink);
+                nameplate.style.marginTop = -28; nameplate.style.alignSelf = Align.FlexStart;
+                status.Add(nameplate);
+                status.Add(_ui.L(body, 30, true, GameUI.Ink));
+                a.Add(status);
+            }
             _ui.Root.Add(a);
             _emAlert = a;
-            float t0 = Time.realtimeSinceStartup;
-            a.schedule.Execute(() => a.style.opacity = 0.75f + Mathf.Sin((Time.realtimeSinceStartup - t0) * 9f) * 0.25f).Every(30).Until(() => Time.realtimeSinceStartup - t0 > 3.2f);
             a.schedule.Execute(() => { a.RemoveFromHierarchy(); if (_emAlert == a) _emAlert = null; }).StartingIn(3400);
         }
 
@@ -227,7 +270,7 @@ namespace TitanGate.Game
             _ui.ShowScreen(root =>
             {
                 var box = new VisualElement(); box.style.width = 1200;
-                box.style.backgroundColor = new Color(0.05f, 0.06f, 0.12f, 0.97f); GameUI.Border(box, GameUI.CAmber, 3, 14);
+                GameUI.PanelFrame(box, GameUI.CAmber);
                 box.style.paddingLeft = box.style.paddingRight = 30; box.style.paddingTop = 18; box.style.paddingBottom = 18;
                 var head = new VisualElement(); head.style.flexDirection = FlexDirection.Row; head.style.alignItems = Align.Center;
                 var sp = Art.Crew(v, 0, -1, false, false, true);

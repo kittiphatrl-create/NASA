@@ -332,7 +332,7 @@ namespace TitanGate.Game
             _ui.ShowScreen(root =>
             {
                 var box = new VisualElement(); box.style.width = 1280;
-                box.style.backgroundColor = new Color(0.04f, 0.05f, 0.1f, 0.97f); GameUI.Border(box, d.id.StartsWith("em_") ? GameUI.CRed : GameUI.CAmber, 3, 16);
+                GameUI.PanelFrame(box, d.id.StartsWith("em_") ? GameUI.CRed : GameUI.CAmber);
                 box.style.paddingLeft = box.style.paddingRight = 34; box.style.paddingTop = 20; box.style.paddingBottom = 20;
                 var head = new VisualElement(); head.style.flexDirection = FlexDirection.Row; head.style.alignItems = Align.Center;
                 var face = d.id.StartsWith("em_") ? Art.JobItem(d.ways[0].item) : spot?.sr != null ? spot.sr.sprite : null;
@@ -579,7 +579,7 @@ namespace TitanGate.Game
             _ui.ShowScreen(root =>
             {
                 var box = new VisualElement(); box.style.width = 1300;
-                box.style.backgroundColor = new Color(0.05f, 0.06f, 0.1f, 0.97f); GameUI.Border(box, GameUI.CAmber, 3, 16);
+                GameUI.PanelFrame(box, GameUI.CAmber);
                 box.style.paddingLeft = box.style.paddingRight = 30; box.style.paddingTop = 18; box.style.paddingBottom = 18;
                 box.Add(_ui.L(TT("Toolbox", "ตู้เครื่องมือ"), 36, true, GameUI.CAmber));
                 box.Add(_ui.L(TT("Take what today's jobs need. You can carry 3 things.", "หยิบของที่งานวันนี้ต้องใช้ ถือได้ 3 ชิ้น"), 21, false, GameUI.CDim));
@@ -661,7 +661,7 @@ namespace TitanGate.Game
             _ui.ShowScreen(root =>
             {
                 var box = new VisualElement(); box.style.width = 1400;
-                box.style.backgroundColor = new Color(0.04f, 0.05f, 0.1f, 0.97f); GameUI.Border(box, GameUI.CCyan, 3, 16);
+                GameUI.PanelFrame(box, GameUI.CAmber);
                 box.style.paddingLeft = box.style.paddingRight = 30; box.style.paddingTop = 18; box.style.paddingBottom = 18;
                 var top = new VisualElement(); top.style.flexDirection = FlexDirection.Row; top.style.justifyContent = Justify.SpaceBetween;
                 top.Add(_ui.L(TT("Bag and status", "กระเป๋าและสถานะ"), 34, true, GameUI.CCyan));
@@ -737,13 +737,14 @@ namespace TitanGate.Game
         VisualElement JobBagStrip()
         {
             var s = new VisualElement { pickingMode = PickingMode.Ignore };
-            s.style.position = Position.Absolute; s.style.left = 24; s.style.bottom = 24; s.style.flexDirection = FlexDirection.Row; s.style.alignItems = Align.Center;
-            s.style.backgroundColor = GameUI.CPanel; GameUI.Border(s, GameUI.CCyanD, 1, 8);
-            s.style.paddingLeft = s.style.paddingRight = 10; s.style.paddingTop = s.style.paddingBottom = 6;
-            s.Add(_ui.L(TT("Bag [Tab]", "กระเป๋า [Tab]"), 17, true, GameUI.CDim));
+            s.style.position = Position.Absolute; s.style.left = 453; s.style.bottom = 24; s.style.flexDirection = FlexDirection.Row; s.style.alignItems = Align.Center;
+            s.Add(GameUI.Plate(GameUI.Paper, GameUI.Ink, 15, true, 5));
+            s.style.paddingLeft = 16; s.style.paddingRight = 22; s.style.paddingTop = s.style.paddingBottom = 6;
+            s.Add(_ui.Hotkey("Tab"));
+            s.Add(_ui.L(TT("Bag", "กระเป๋า"), 17, true, GameUI.Ink));
             for (int i = 0; i < BagSlots; i++)
             {
-                var slot = new VisualElement { pickingMode = PickingMode.Ignore }; slot.style.width = 46; slot.style.height = 46; slot.style.marginLeft = 8;
+                var slot = new VisualElement { pickingMode = PickingMode.Ignore }; slot.style.width = 28; slot.style.height = 28; slot.style.marginLeft = 5;
                 slot.style.backgroundColor = new Color(0.04f, 0.05f, 0.09f); GameUI.Border(slot, new Color(0.25f, 0.3f, 0.4f), 1, 6);
                 if (i < _bag.Count) { slot.style.backgroundImage = new StyleBackground(Art.JobItem(_bag[i])); }
                 s.Add(slot);

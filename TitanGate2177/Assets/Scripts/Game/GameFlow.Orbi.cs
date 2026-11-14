@@ -34,20 +34,22 @@ namespace TitanGate.Game
             {
                 _orbiChat = new VisualElement { pickingMode = PickingMode.Ignore };
                 // below the top-left HUD panel; hidden while a panel is open (see OrbiUpdate)
-                _orbiChat.style.position = Position.Absolute; _orbiChat.style.left = 24; _orbiChat.style.top = 420; _orbiChat.style.width = 560;
+                _orbiChat.style.position = Position.Absolute; _orbiChat.style.right = 24; _orbiChat.style.bottom = 77; _orbiChat.style.width = 520;
+                _orbiChat.style.alignItems = Align.FlexEnd;
                 _ui.Root.Add(_orbiChat);
             }
             var row = new VisualElement { pickingMode = PickingMode.Ignore };
-            row.style.flexDirection = FlexDirection.Row; row.style.alignItems = Align.FlexStart; row.style.marginBottom = 10;
+            row.style.flexDirection = FlexDirection.Row; row.style.alignItems = Align.Center; row.style.marginBottom = 6;
             var face = new Image { sprite = ArtRestore.OrbiFace(), scaleMode = ScaleMode.ScaleToFit, pickingMode = PickingMode.Ignore };
             face.style.width = 56; face.style.height = 56; face.style.marginRight = 10; face.style.flexShrink = 0;
-            row.Add(face);
             var bubble = new VisualElement { pickingMode = PickingMode.Ignore };
-            bubble.style.backgroundColor = new Color(0.07f, 0.09f, 0.15f, 0.95f); GameUI.Border(bubble, tone, 2, 14);
-            bubble.style.paddingLeft = bubble.style.paddingRight = 14; bubble.style.paddingTop = 8; bubble.style.paddingBottom = 8; bubble.style.flexShrink = 1;
-            bubble.Add(_ui.L("ORBI", 16, true, tone));
-            bubble.Add(_ui.L(text, 20, false, GameUI.CText));
+            bubble.Add(GameUI.Plate(tone == GameUI.CRed ? GameUI.Paper : GameUI.CAmber, GameUI.Ink, 18, true, 5));
+            bubble.style.paddingLeft = 38; bubble.style.paddingRight = 24; bubble.style.paddingTop = 8; bubble.style.paddingBottom = 8;
+            bubble.style.flexShrink = 1;
+            bubble.Add(_ui.L(text, 20, true, GameUI.Ink));
             row.Add(bubble);
+            face.style.position = Position.Absolute; face.style.left = -24;
+            row.Add(face);
             _orbiChat.Add(row);
             while (_orbiChat.childCount > 2) _orbiChat.RemoveAt(0);
             _sfx.Play("blip", 0.7f);
@@ -127,7 +129,7 @@ namespace TitanGate.Game
             _ui.ShowScreen(root =>
             {
                 var box = new VisualElement(); box.style.width = 1200;
-                box.style.backgroundColor = new Color(0.04f, 0.07f, 0.11f, 0.97f); GameUI.Border(box, GameUI.CCyan, 3, 16);
+                GameUI.PanelFrame(box, GameUI.CAmber);
                 box.style.paddingLeft = box.style.paddingRight = 30; box.style.paddingTop = 18; box.style.paddingBottom = 18;
                 var head = new VisualElement(); head.style.flexDirection = FlexDirection.Row; head.style.alignItems = Align.Center;
                 var face = new Image { sprite = ArtRestore.OrbiFace(), scaleMode = ScaleMode.ScaleToFit }; face.style.width = 72; face.style.height = 72; face.style.marginRight = 14;
@@ -166,24 +168,6 @@ namespace TitanGate.Game
 
         // ------------------------------------------------------------------ needs on the HUD
 
-        VisualElement NeedsBar()
-        {
-            var row = new VisualElement { pickingMode = PickingMode.Ignore }; row.style.flexDirection = FlexDirection.Row;
-            if (_restore == null) return row;
-            void Bar(string label, float v, Color col)
-            {
-                var cell = new VisualElement { pickingMode = PickingMode.Ignore }; cell.style.marginRight = 16; cell.style.width = 150;
-                cell.Add(_ui.L(label, 18, true, v < 25 ? GameUI.CRed : GameUI.CText));
-                var bar = new VisualElement { pickingMode = PickingMode.Ignore }; bar.style.height = 12; bar.style.backgroundColor = GameUI.CPanel2;
-                var fill = new VisualElement { pickingMode = PickingMode.Ignore }; fill.style.height = 12; fill.style.width = Length.Percent(Mathf.Clamp(v, 0, 100)); fill.style.backgroundColor = v < 25 ? GameUI.CRed : col;
-                bar.Add(fill); cell.Add(bar); row.Add(cell);
-            }
-            Bar(TT("Full", "อิ่ม"), _restore.Food, GameUI.CAmber);
-            Bar(TT("Water", "น้ำ"), _restore.Water, GameUI.CCyan);
-            Bar(TT("Energy", "แรง"), _restore.Rest, GameUI.CGreen);
-            return row;
-        }
-
         /// <summary>Walking slows down when exhausted or short of air.</summary>
         float RestoreSpeedMult => !RestoreMode || _restore == null ? 1f : (_restore.Rest < 25 ? 0.75f : 1f) * (_orbiWarned.Contains("restore.warn.o2") ? 0.85f : 1f);
 
@@ -194,7 +178,7 @@ namespace TitanGate.Game
             _ui.ShowScreen(root =>
             {
                 var box = new VisualElement(); box.style.width = 1000;
-                box.style.backgroundColor = new Color(0.05f, 0.06f, 0.1f, 0.97f); GameUI.Border(box, GameUI.CCyan, 3, 16);
+                GameUI.PanelFrame(box, GameUI.CAmber);
                 box.style.paddingLeft = box.style.paddingRight = 30; box.style.paddingTop = 18; box.style.paddingBottom = 18;
                 box.Add(_ui.L(TT("Distress call", "ส่งคำขอความช่วยเหลือ"), 36, true, GameUI.CCyan));
                 box.Add(_ui.L(TT("The radio cannot reach Earth directly. A relay orbiter passes overhead twice a day for a short time; the message rides on it to Earth.",
@@ -256,7 +240,7 @@ namespace TitanGate.Game
             _ui.ShowScreen(root =>
             {
                 var box = new VisualElement(); box.style.width = 900;
-                box.style.backgroundColor = new Color(0.05f, 0.06f, 0.1f, 0.97f); GameUI.Border(box, GameUI.CGreen, 3, 16);
+                GameUI.PanelFrame(box, GameUI.CGreen);
                 box.style.paddingLeft = box.style.paddingRight = 30; box.style.paddingTop = 18; box.style.paddingBottom = 18;
                 box.Add(_ui.L(TT("The rescue ship has landed", "ยานกู้ภัยลงจอดแล้ว"), 36, true, GameUI.CGreen));
                 box.Add(_ui.L(TT("Take one last look at the base you brought back to life.", "มองฐานที่เราฟื้นขึ้นมาอีกครั้ง ก่อนบอกลา"), 22));

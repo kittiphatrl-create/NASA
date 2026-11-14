@@ -51,6 +51,7 @@ namespace TitanGate.Game
         string BClockText()
         {
             float hour = _life.State.schedule.Hour;
+            hour = Mathf.Repeat(hour, 24f);
             string phase = hour < 12 ? CrewText("MORNING", "เช้า") : hour < 17 ? CrewText("AFTERNOON", "บ่าย") : hour < 20 ? CrewText("DUSK", "เย็น") : CrewText("NIGHT", "กลางคืน");
             return $"{(int)hour:00}:{(int)((hour % 1) * 60):00}  ·  {phase}  ·  " + (RestoreMode && _restore != null ? _restore.HoursLeft : _life.State.schedule.Remaining).ToString("0.#") + CrewText(" h left", " ชม. เหลือ");
         }

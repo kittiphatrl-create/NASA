@@ -68,7 +68,7 @@ namespace TitanGate.Game
         VisualElement _bHud;
         VisualElement _bHudGauges, _bHudPortrait;
         Label _bHudRoom, _bHudDay, _bHudStock, _bHudNext, _bHudTimer;
-        VisualElement _bHudBar;
+        VisualElement _bHudBar, _bClockMarker;
         float _bHudT;
 
         /// <summary>Real solar flares from NASA's DONKI space weather database (archived values, not live).</summary>
@@ -1193,8 +1193,7 @@ namespace TitanGate.Game
             _bHud.style.position = Position.Absolute;
             _bHud.style.left = 24; _bHud.style.top = 20;
             _bHud.style.width = 566;
-            _bHud.style.backgroundColor = GameUI.CPanel;
-            GameUI.Border(_bHud, GameUI.CCyanD, 2, 12);
+            if (_bMode == 1) _bHud.Add(GameUI.Plate(GameUI.CPanel, GameUI.CAmber));
             _bHud.style.paddingLeft = _bHud.style.paddingRight = 18; _bHud.style.paddingTop = 10; _bHud.style.paddingBottom = 12;
             _bHudDay = _ui.L("", 24, true, GameUI.CAmber);
             _bHudStock = _ui.L("", 26, true);
@@ -1205,7 +1204,64 @@ namespace TitanGate.Game
             var help = _ui.L(_loc.T("base.hud.controls"), 16, false, GameUI.CDim);
             help.style.marginTop = 6;
             _bHudRoom = _ui.L("", 22, true, GameUI.CCyan);
-            _bHud.Add(_bHudDay); _bHud.Add(_bHudRoom); _bHud.Add(_bHudStock); _bHud.Add(_bHudNext); _bHud.Add(_bHudTimer); _bHud.Add(_bHudBar); _bHud.Add(help);
+            if (_bMode == 1) _bHud.Add(_bHudDay);
+            _bHud.Add(_bHudRoom);
+            if (_bMode == 1) _bHud.Add(_bHudStock);
+            _bHud.Add(_bHudNext); _bHud.Add(_bHudTimer); _bHud.Add(_bHudBar);
+            if (_bMode == 1) _bHud.Add(help);
+            var clock = new VisualElement { pickingMode = PickingMode.Ignore };
+            clock.style.flexDirection = FlexDirection.Row;
+            clock.style.alignItems = Align.Stretch;
+            var date = new VisualElement { pickingMode = PickingMode.Ignore };
+            date.style.paddingLeft = date.style.paddingRight = 23;
+            date.style.justifyContent = Justify.Center;
+            date.Add(GameUI.Plate(GameUI.CAmber, GameUI.Ink, 18, true, 5));
+            date.Add(_bMode == 0 ? _bHudDay : _ui.L("", 24));
+            _ui.DisplayFont(_bHudDay);
+            if (_bMode == 0) _bHudDay.style.color = GameUI.Ink;
+            clock.Add(date);
+            var cycle = new VisualElement { pickingMode = PickingMode.Ignore };
+            cycle.style.flexGrow = 1;
+            cycle.style.minHeight = 54;
+            cycle.style.paddingLeft = 16; cycle.style.paddingRight = 25;
+            cycle.style.flexDirection = FlexDirection.Row;
+            cycle.style.alignItems = Align.Center;
+            cycle.Add(GameUI.Plate(GameUI.Paper, GameUI.Ink, 18, true, 5));
+            if (_bMode == 0)
+            {
+                _bHudStock.style.color = GameUI.Ink;
+                _bHudStock.style.minWidth = 85;
+                _ui.DisplayFont(_bHudStock);
+                cycle.Add(_bHudStock);
+            }
+            cycle.Add(_ui.L("☀", 27, true, GameUI.Ink));
+            var rail = new VisualElement { pickingMode = PickingMode.Ignore };
+            rail.style.marginLeft = rail.style.marginRight = 12;
+            rail.style.flexGrow = 1;
+            rail.style.flexDirection = FlexDirection.Row;
+            rail.style.height = 8;
+            rail.style.backgroundColor = GameUI.Ink;
+            var day = new VisualElement { pickingMode = PickingMode.Ignore };
+            day.style.marginLeft = Length.Percent(25);
+            day.style.width = Length.Percent(58.33f);
+            day.style.backgroundColor = GameUI.CAmber;
+            rail.Add(day);
+            for (int i = 1; i < 8; i++)
+            {
+                var notch = Abs(0, -2, 2, 12);
+                notch.style.left = Length.Percent(i * 12.5f);
+                notch.style.backgroundColor = GameUI.Ink;
+                rail.Add(notch);
+            }
+            _bClockMarker = Abs(0, -4, 16, 16);
+            _bClockMarker.style.marginLeft = -8;
+            _bClockMarker.style.backgroundColor = GameUI.CAmber;
+            GameUI.Border(_bClockMarker, GameUI.Ink, 3, 8);
+            rail.Add(_bClockMarker);
+            cycle.Add(rail);
+            cycle.Add(_ui.L("☾", 27, true, GameUI.Ink));
+            clock.Add(cycle);
+            if (_bMode == 0) _bHud.Insert(0, clock);
             _bHudGauges = new VisualElement { pickingMode = PickingMode.Ignore };
             _bHudGauges.style.marginTop = 4; _bHudGauges.style.marginBottom = 4;
             _bHud.Insert(2, _bHudGauges);
@@ -1232,7 +1288,7 @@ namespace TitanGate.Game
             if (_bagOpen && !_ui.ScreenOpen) _bagOpen = false;
             bool baseHud = _bMode == 0 && _life != null && !_ui.ScreenOpen;
             _bHudPortrait.style.display = baseHud ? DisplayStyle.Flex : DisplayStyle.None;
-            _bHudGauges.style.display = _bMode == 0 ? DisplayStyle.Flex : DisplayStyle.None;
+            _bHudGauges.style.display = _bMode == 0 && !RestoreMode ? DisplayStyle.Flex : DisplayStyle.None;
             _bHudStock.style.display = DisplayStyle.Flex;
             string room = BRoomAt(_bPos);
             _bHudRoom.text = room == null ? "" : GameUI.Thai("▸ " + _loc.T(room));
@@ -1260,12 +1316,14 @@ namespace TitanGate.Game
             _bHudT = 0.25f;
             BRefreshProps();
             var st = _life.State;
-            _bHudDay.text = GameUI.Thai(RestoreMode ? TT($"Day {st.day} · old Mars base · restored {Mathf.RoundToInt(_restore?.Percent ?? 0)}%", $"วันที่ {st.day} · ฐานเก่าบนดาวอังคาร · ฟื้นแล้ว {Mathf.RoundToInt(_restore?.Percent ?? 0)}%") : _loc.T("base.hud.day", st.day, LC.daysTotal));
+            _bHudDay.text = GameUI.Thai(TT($"DAY {st.day:00}", $"วันที่ {st.day:00}"));
             _bHudStock.style.display = DisplayStyle.Flex;
-            _bHudStock.text = GameUI.Thai(BClockText());
-            _bHudStock.style.fontSize = 23;
+            float hour = Mathf.Repeat(st.schedule.Hour, 24f);
+            _bHudStock.text = HourText(hour);
+            _bHudStock.tooltip = BClockText();
+            _bClockMarker.style.left = Length.Percent(hour / 24f * 100f);
             _bHudGauges.Clear();
-            _bHudGauges.Add(RestoreMode ? NeedsBar() : BGaugeRow(1f));   // restore mode: only your own needs; ask ORBI for the base
+            if (!RestoreMode) _bHudGauges.Add(BGaugeRow(1f));
             _bHudPortrait.Clear();
             _bHudPortrait.Add(BPortraitPanel());
             if (!_bGather) _bHudPortrait.Add(JobBagStrip());

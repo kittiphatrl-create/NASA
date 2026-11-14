@@ -43,12 +43,9 @@ namespace TitanGate.Game
                 col.style.paddingLeft = col.style.paddingRight = 34; col.style.paddingTop = col.style.paddingBottom = 26;
                 col.style.backgroundColor = Color.clear;
                 GameUI.Border(col, Color.clear, 0, 0);
-                col.Add(_ui.L(CrewText("KESTREL / EXPEDITION PROGRAM", "KESTREL / โครงการสำรวจอวกาศ"), 19, true, GameUI.CAmber));
-                var logo = _ui.L("TITAN GATE", 76, true, GameUI.CText); logo.style.marginTop = 8; col.Add(logo);
-                var year = _ui.L("2 1 7 7", 36, true, GameUI.CCyan); year.style.marginBottom = 8; col.Add(year);
+                var logo = _ui.L("TITAN GATE", 76, true, GameUI.CText); logo.style.marginTop = 8; _ui.DisplayFont(logo); col.Add(logo);
+                var year = _ui.L("2 1 7 7", 36, true, GameUI.CAmber); year.style.marginBottom = 8; _ui.DisplayFont(year); col.Add(year);
                 col.Add(_ui.L(_loc.T("title.subtitle"), 25));
-                var brief = _ui.L(CrewText("One damaged ship. Seven Martian days. A crew worth bringing home.", "ยานที่เสียหาย เจ็ดวันบนดาวอังคาร และเพื่อนร่วมทางที่ต้องพากลับบ้าน"), 22, false, GameUI.CDim);
-                brief.style.display = DisplayStyle.None;
                 var rule = new VisualElement(); rule.style.height = 3; rule.style.width = 90; rule.style.backgroundColor = GameUI.CAmber; rule.style.marginTop = 12; rule.style.marginBottom = 25; col.Add(rule);
                 Button Main(string key, Action action, bool primary = false, bool enabled = true)
                 {
@@ -70,7 +67,7 @@ namespace TitanGate.Game
                 col.Add(tools);
                 var footer = new VisualElement(); footer.style.flexDirection = FlexDirection.Row; footer.style.alignItems = Align.Center; footer.style.marginTop = 14;
                 footer.Add(_ui.B(_loc.Current == Lang.TH ? "English" : "ภาษาไทย", ToggleLang, 20));
-                footer.Add(_ui.L(CrewText("EXPLORE · PREPARE · SURVIVE", "สำรวจ · เตรียมพร้อม · เอาชีวิตรอด"), 17, false, GameUI.CDim)); col.Add(footer);
+                col.Add(footer);
                 root.Add(col);
                 AddTitleInteractions(root); start.Focus();
             });
@@ -103,7 +100,7 @@ namespace TitanGate.Game
             Time.timeScale = 0;
             _ui.ShowModal(p =>
             {
-                p.style.width = 940; ThemePanel(p, "KESTREL / FLIGHT CONTROL");
+                p.style.width = 940; ThemePanel(p);
                 _ui.Title(p, _loc.T("pause.title"));
                 var body = new VisualElement(); body.style.flexDirection = FlexDirection.Row; body.style.marginTop = 15;
                 var main = new VisualElement(); main.style.width = 490;
@@ -134,7 +131,7 @@ namespace TitanGate.Game
             if (paused) Time.timeScale = 0f;
             _ui.ShowModal(p =>
             {
-                p.style.width = 900; ThemePanel(p, "KESTREL / PERSONAL PREFERENCES");
+                p.style.width = 900; ThemePanel(p);
                 _ui.Title(p, _loc.T("menu.settings"));
                 void Row(string key, string value, Action minus, Action plus)
                 {

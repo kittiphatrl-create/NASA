@@ -330,7 +330,7 @@ namespace TitanGate.Game
             _ui.ShowScreen(root =>
             {
                 var box = new VisualElement(); box.style.width = 1100;
-                box.style.backgroundColor = new Color(0.05f, 0.06f, 0.1f, 0.97f); GameUI.Border(box, GameUI.CAmber, 3, 16);
+                GameUI.PanelFrame(box, GameUI.CAmber);
                 box.style.paddingLeft = box.style.paddingRight = 30; box.style.paddingTop = 18; box.style.paddingBottom = 18;
                 box.Add(_ui.L(TaskTitle(id), 34, true, GameUI.CAmber));
                 box.Add(_ui.L(TT("Takes about ", "ใช้เวลาราว ") + Hrs(hours) + TT(" h", " ชม.") + TT($" · now {(int)_restore.Hour:00}:{(int)(_restore.Hour % 1 * 60):00}, {Hrs(_restore.HoursLeft)} h left today", $" · ตอนนี้ {(int)_restore.Hour:00}:{(int)(_restore.Hour % 1 * 60):00} วันนี้เหลือ {Hrs(_restore.HoursLeft)} ชม."), 24, true, GameUI.CCyan));

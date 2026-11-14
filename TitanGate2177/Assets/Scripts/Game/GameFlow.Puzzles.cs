@@ -36,19 +36,24 @@ namespace TitanGate.Game
             {
                 _pzRoot = root;
                 root.style.alignItems = Align.Center; root.style.justifyContent = Justify.Center;
-                var dim = Abs(0, 0, 1920, 1080); dim.style.backgroundColor = new Color(0.01f, 0.02f, 0.04f, 0.8f); root.Add(dim);
+                root.Add(GameUI.Backdrop(GameUI.DialogueShade));
                 var frame = new VisualElement(); frame.style.width = PzW + 60;
-                frame.style.backgroundColor = new Color(0.06f, 0.07f, 0.1f, 0.99f); GameUI.Border(frame, GameUI.CAmber, 4, 18);
+                frame.Add(GameUI.Plate(GameUI.Paper, GameUI.Ink, 28, printed: true));
                 frame.style.paddingLeft = frame.style.paddingRight = 30; frame.style.paddingTop = 14; frame.style.paddingBottom = 14;
                 var top = new VisualElement(); top.style.flexDirection = FlexDirection.Row; top.style.justifyContent = Justify.SpaceBetween; top.style.alignItems = Align.Center;
-                top.Add(_ui.L(TT(d.en, d.th), 30, true, GameUI.CAmber));
+                top.style.backgroundColor = GameUI.CAmber;
+                top.style.paddingLeft = top.style.paddingRight = 14;
+                var heading = _ui.L(TT(d.en, d.th), 34, true, GameUI.Ink);
+                heading.style.flexShrink = 1;
+                _ui.DisplayFont(heading);
+                top.Add(heading);
                 _pzLamp = new VisualElement { pickingMode = PickingMode.Ignore };
                 _pzLamp.style.width = 16; _pzLamp.style.height = 16; _pzLamp.style.alignSelf = Align.Center;
                 _pzLamp.style.marginLeft = 16; _pzLamp.style.backgroundColor = GameUI.CAmber;
                 GameUI.Border(_pzLamp, new Color(.03f, .06f, .08f), 3, 8); top.Add(_pzLamp);
-                if (help > 0) top.Add(_ui.L(TT("A friend is helping", "มีเพื่อนช่วยอยู่"), 20, true, GameUI.CGreen));
+                if (help > 0) top.Add(_ui.L(TT("A friend is helping", "มีเพื่อนช่วยอยู่"), 20, true, GameUI.Ink));
                 frame.Add(top);
-                _pzStatus = _ui.L(PzHelpText(type), 22, false, GameUI.CText); _pzStatus.style.marginBottom = 8; frame.Add(_pzStatus);
+                _pzStatus = _ui.L(PzHelpText(type), 23, false, GameUI.Ink); _pzStatus.style.marginBottom = 8; frame.Add(_pzStatus);
                 var board = new VisualElement(); board.style.width = PzW; board.style.height = PzH; board.style.position = Position.Relative; board.style.overflow = Overflow.Hidden;
                 board.style.backgroundColor = new Color(0.12f, 0.13f, 0.17f); GameUI.Border(board, new Color(0.3f, 0.32f, 0.38f), 3, 12);
                 board.style.backgroundImage = new StyleBackground(Art.RepairBackplate(type));
@@ -60,7 +65,7 @@ namespace TitanGate.Game
                 board.Add(_pzProgress);
                 frame.Add(board);
                 var foot = new VisualElement(); foot.style.flexDirection = FlexDirection.Row; foot.style.justifyContent = Justify.SpaceBetween; foot.style.alignItems = Align.Center; foot.style.marginTop = 8;
-                var fact = _ui.L(TT(d.factEn, d.factTh), 20, false, GameUI.CDim);
+                var fact = _ui.L(TT(d.factEn, d.factTh), 20, false, GameUI.Ink);
                 fact.style.maxWidth = PzW - 210; fact.style.flexShrink = 1; fact.style.marginRight = 16;
                 foot.Add(fact);
                 var back = _ui.B(TT("Step back", "ถอยออกมา"), () => { if (_pzFinished) return; _pzRoot = null; _pzSolve = null; cancel?.Invoke(); }, 19);
@@ -104,7 +109,7 @@ namespace TitanGate.Game
         {
             _pzMistakes++;
             _sfx.Play("bad"); _sShake = 0.25f;
-            if (_pzStatus != null) { _pzStatus.text = GameUI.Thai(TT(whyEn, whyTh)); _pzStatus.style.color = GameUI.CRed; }
+            if (_pzStatus != null) { _pzStatus.text = GameUI.Thai(TT(whyEn, whyTh)); _pzStatus.style.color = new Color(.53f, .06f, .09f); }
             if (_pzBoard != null)
             {
                 var f = Abs(0, 0, PzW, PzH); f.style.backgroundColor = new Color(1f, 0.2f, 0.1f, 0.3f); _pzBoard.Add(f);
@@ -115,7 +120,10 @@ namespace TitanGate.Game
         void PzSay(string en, string th, Color? c = null)
         {
             if (_pzStatus == null) return;
-            _pzStatus.text = GameUI.Thai(TT(en, th)); _pzStatus.style.color = c ?? GameUI.CText;
+            _pzStatus.text = GameUI.Thai(TT(en, th));
+            _pzStatus.style.color = c == GameUI.CRed ? new Color(.53f, .06f, .09f)
+                : c == GameUI.CGreen ? new Color(.10f, .35f, .22f)
+                : c == GameUI.CAmber ? new Color(.48f, .23f, .04f) : GameUI.Ink;
         }
 
         void PzComplete()

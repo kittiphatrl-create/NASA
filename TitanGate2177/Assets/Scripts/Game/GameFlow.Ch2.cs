@@ -743,8 +743,7 @@ namespace TitanGate.Game
                 {
                     var box = new VisualElement();
                     box.style.alignItems = Align.Center; box.style.maxWidth = 1640;
-                    box.style.backgroundColor = new Color(0.03f, 0.05f, 0.12f, 0.95f);
-                    GameUI.Border(box, won ? GameUI.CCyan : alive ? GameUI.CAmber : GameUI.CRed, 3, 14);
+                    GameUI.PanelFrame(box, won || alive ? GameUI.CAmber : GameUI.CRed);
                     box.style.paddingLeft = box.style.paddingRight = 44; box.style.paddingTop = box.style.paddingBottom = 24;
                     box.Add(_ui.L(_loc.T($"end.{kind}.title"), 52, true, won ? GameUI.CCyan : alive ? GameUI.CAmber : GameUI.CRed));
                     var b = _ui.L(_loc.T(won ? "end.rescued.body" : alive ? "end.stranded." + (_sim?.StrandedReason ?? "body") : "end." + o, OC.rescuePassEveryHours), 26); b.style.unityTextAlign = TextAnchor.MiddleCenter; b.style.marginTop = 6;

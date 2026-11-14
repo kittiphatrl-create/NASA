@@ -27,6 +27,7 @@ namespace TitanGate.Game
         float _bSpeed = 1f;
         VisualElement _bHudSpeed;
         Label _bPauseLabel;
+        Label _bPauseCaption, _bSpeedCaption;
         Button _bPauseBtn, _bSpeedBtn;
 
         void PaceBuildHud()
@@ -35,10 +36,12 @@ namespace TitanGate.Game
             _bPaused = false; _bSpeed = 1f;
             if (_bMode != 0) return;
             _bHudSpeed = new VisualElement();
-            _bHudSpeed.style.position = Position.Absolute; _bHudSpeed.style.right = 24; _bHudSpeed.style.top = 292;
+            _bHudSpeed.style.position = Position.Absolute; _bHudSpeed.style.right = 24; _bHudSpeed.style.bottom = 24;
             _bHudSpeed.style.flexDirection = FlexDirection.Row;
-            _bPauseBtn = _ui.B(TT("Pause (P)", "หยุดเวลา (P)"), () => { _bPaused = !_bPaused; _sfx.Play("blip"); PaceRefresh(); }, 18);
-            _bSpeedBtn = _ui.B("1x (F)", () => { _bSpeed = _bSpeed > 1.5f ? 1f : 2f; _sfx.Play("blip"); PaceRefresh(); }, 18);
+            _bPauseBtn = _ui.B(TT("Pause", "หยุดเวลา"), () => { _bPaused = !_bPaused; _sfx.Play("blip"); PaceRefresh(); }, 18);
+            _bSpeedBtn = _ui.B(TT("Speed ×1", "ความเร็ว ×1"), () => { _bSpeed = _bSpeed > 1.5f ? 1f : 2f; _sfx.Play("blip"); PaceRefresh(); }, 18);
+            _bPauseCaption = _ui.CutButton(_bPauseBtn, true, "P", 18);
+            _bSpeedCaption = _ui.CutButton(_bSpeedBtn, true, "F", 18);
             _bSpeedBtn.style.marginLeft = 8;
             if (RestoreMode) _bSpeedBtn.style.display = DisplayStyle.None;   // the clock only moves by actions here
             _bHudSpeed.Add(_bPauseBtn); _bHudSpeed.Add(_bSpeedBtn);
@@ -77,8 +80,8 @@ namespace TitanGate.Game
         void PaceRefresh()
         {
             if (_bPauseBtn == null) return;
-            _bPauseBtn.text = GameUI.Thai(_bPaused ? TT("Play (P)", "เล่นต่อ (P)") : TT("Pause (P)", "หยุดเวลา (P)"));
-            _bSpeedBtn.text = (_bSpeed > 1.5f ? "2x" : "1x") + " (F)";
+            _bPauseCaption.text = GameUI.Thai(_bPaused ? TT("Play", "เล่นต่อ") : TT("Pause", "หยุดเวลา"));
+            _bSpeedCaption.text = TT("Speed ×", "ความเร็ว ×") + (_bSpeed > 1.5f ? "2" : "1");
         }
 
         // ------------------------------------------------------------------ the oxygen maker (MOXIE), any time of day
@@ -92,7 +95,7 @@ namespace TitanGate.Game
             _ui.ShowScreen(root =>
             {
                 var box = new VisualElement(); box.style.width = 1000;
-                box.style.backgroundColor = new Color(0.05f, 0.06f, 0.1f, 0.97f); GameUI.Border(box, GameUI.CCyan, 3, 16);
+                GameUI.PanelFrame(box, GameUI.CAmber);
                 box.style.paddingLeft = box.style.paddingRight = 30; box.style.paddingTop = 18; box.style.paddingBottom = 18;
                 box.Add(_ui.L(TT("Oxygen maker", "เครื่องผลิตออกซิเจน"), 36, true, GameUI.CCyan));
                 box.Add(_ui.L(TT($"It pulls in the thin Martian air (mostly carbon dioxide) and splits off oxygen. Uses {LbNum(pw)} power, makes {LbNum(o2)} O2. Once a day, takes about 1 hour.",
@@ -205,7 +208,7 @@ namespace TitanGate.Game
             _ui.ShowScreen(root =>
             {
                 var box = new VisualElement(); box.style.width = 1500;
-                box.style.backgroundColor = new Color(0.05f, 0.06f, 0.1f, 0.97f); GameUI.Border(box, GameUI.CAmber, 3, 16);
+                GameUI.PanelFrame(box, GameUI.CAmber);
                 box.style.paddingLeft = box.style.paddingRight = 30; box.style.paddingTop = 18; box.style.paddingBottom = 18;
                 box.Add(_ui.L(TT("Project board", "บอร์ดโครงการ"), 36, true, GameUI.CAmber));
                 box.Add(_ui.L(TT($"Make the base yours. Pick up to {ProjectsPerDay} projects a day, in any order. Each one costs something now and helps for the rest of the week.",

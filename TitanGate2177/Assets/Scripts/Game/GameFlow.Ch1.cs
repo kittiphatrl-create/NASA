@@ -424,25 +424,47 @@ namespace TitanGate.Game
             _ui.ShowModal(p =>
             {
                 p.style.width = 1160;
-                _ui.Title(p, _loc.T("edl.title." + _route));
-                p.Add(_ui.L(_loc.T("edl.body"), 24, false, GameUI.CDim));
-                var slots = new VisualElement(); slots.style.flexDirection = FlexDirection.Row; slots.style.marginTop = 12; slots.style.marginBottom = 12;
+                p.style.backgroundColor = Color.clear;
+                GameUI.Border(p, Color.clear, 0, 0);
+                p.Insert(0, GameUI.Plate(GameUI.Paper, GameUI.Ink, 38, true, 8));
+                var heading = _ui.PrintedLabel(_loc.T("edl.title." + _route), 39, GameUI.CAmber, GameUI.Ink);
+                heading.style.marginTop = -62; heading.style.minWidth = 480;
+                heading.style.alignSelf = Align.FlexStart; heading.style.marginLeft = 24;
+                p.Add(heading);
+                var prompt = _ui.L(_loc.T("edl.body"), 25, true, GameUI.Ink);
+                prompt.style.marginTop = 8; prompt.style.marginLeft = 28;
+                p.Add(prompt);
+                Sprite StepIcon(string step) => step.EndsWith("_chute", System.StringComparison.Ordinal)
+                    ? Art.Parachute()
+                    : Art.ShipExterior(step.EndsWith("_shield", System.StringComparison.Ordinal), false, false);
+                var slots = new VisualElement(); slots.style.marginTop = 14; slots.style.marginBottom = 14;
                 for (int i = 0; i < edl.order.Count; i++)
                 {
                     var s = new VisualElement();
-                    s.style.flexGrow = 1; s.style.flexBasis = 0; s.style.height = 96; s.style.marginRight = 8;
-                    s.style.backgroundColor = new Color(0.02f, 0.03f, 0.07f);
-                    GameUI.Border(s, i < order.Count ? GameUI.CGreen : GameUI.CCyanD, 2, 8);
-                    s.style.justifyContent = Justify.Center; s.style.alignItems = Align.Center;
-                    var lb = _ui.L((i + 1) + ". " + (i < order.Count ? _loc.T("edl." + order[i]) : "..."), 21, true, i < order.Count ? GameUI.CGreen : GameUI.CDim);
-                    lb.style.unityTextAlign = TextAnchor.MiddleCenter;
+                    s.style.minHeight = 64; s.style.marginBottom = 7; s.style.paddingLeft = 23; s.style.paddingRight = 30;
+                    s.style.flexDirection = FlexDirection.Row; s.style.alignItems = Align.Center;
+                    bool filled = i < order.Count;
+                    bool next = i == order.Count;
+                    s.Add(GameUI.Plate(next ? GameUI.CAmber : GameUI.Paper, GameUI.Ink, 22, true, 5));
+                    var number = _ui.L((i + 1).ToString(), 32, true, GameUI.Ink);
+                    _ui.DisplayFont(number);
+                    number.style.width = 57; number.style.marginRight = 10;
+                    number.style.borderRightWidth = 2; number.style.borderRightColor = GameUI.Ink;
+                    s.Add(number);
+                    if (filled)
+                    {
+                        var pic = new Image { sprite = StepIcon(order[i]), scaleMode = ScaleMode.ScaleToFit, pickingMode = PickingMode.Ignore };
+                        pic.style.width = 46; pic.style.height = 40; pic.style.marginRight = 12;
+                        s.Add(pic);
+                    }
+                    var lb = _ui.L(filled ? _loc.T("edl." + order[i]) : "—", 25, true, GameUI.Ink);
                     s.Add(lb);
                     slots.Add(s);
                 }
                 p.Add(slots);
                 if (wrong != null)
                 {
-                    var wl = _ui.L(_loc.T($"edl.wrong.{_route}.{wrong}"), 24, false, GameUI.CRed);
+                    var wl = _ui.L(_loc.T($"edl.wrong.{_route}.{wrong}"), 24, false, new Color(.53f, .06f, .09f));
                     wl.style.marginBottom = 8;
                     p.Add(wl);
                 }
@@ -459,7 +481,9 @@ namespace TitanGate.Game
                         _ui.RebuildModal();
                     }, 24);
                     b.SetEnabled(!order.Contains(step));
-                    b.style.width = 520;
+                    b.style.width = Length.Percent(47);
+                    b.style.minHeight = 58;
+                    _ui.CutButton(b, size: 23, icon: StepIcon(step));
                     row.Add(b);
                 }
                 p.Add(row);

@@ -97,29 +97,68 @@ namespace TitanGate.Game
 
         VisualElement BPortraitPanel()
         {
-            var p = new VisualElement(); p.style.position = Position.Absolute; p.style.right = 24; p.style.top = 20; p.style.width = 206;
-            p.style.backgroundColor = GameUI.CPanel; GameUI.Border(p, GameUI.CCyanD, 1, 4);
-            p.style.paddingLeft = p.style.paddingRight = 12; p.style.paddingTop = p.style.paddingBottom = 10;
-            var row = new VisualElement(); row.style.flexDirection = FlexDirection.Row; row.style.alignItems = Align.Center;
-            var portrait = new Image { sprite = Art.CrewPortrait(BMood()), scaleMode = ScaleMode.ScaleToFit }; portrait.style.width = 94; portrait.style.height = 94; row.Add(portrait);
-            var face = new Image { sprite = Art.ConditionFace(BMood()), scaleMode = ScaleMode.ScaleToFit }; face.style.width = 55; face.style.height = 55;
-            face.tooltip = CrewText("Physical condition", "สภาพร่างกาย"); row.Add(face); p.Add(row);
-            void Need(string icon, float fraction, Color color, string tooltip)
+            var p = new VisualElement { pickingMode = PickingMode.Ignore };
+            p.style.position = Position.Absolute; p.style.left = 24; p.style.bottom = 24; p.style.width = 425;
+            p.Add(GameUI.Plate(GameUI.Paper, GameUI.Ink, 21, true, 5));
+            p.style.paddingLeft = p.style.paddingRight = 16; p.style.paddingTop = p.style.paddingBottom = 8;
+            var row = new VisualElement { pickingMode = PickingMode.Ignore };
+            row.style.flexDirection = FlexDirection.Row; row.style.alignItems = Align.Center;
+            var identity = new VisualElement { pickingMode = PickingMode.Ignore };
+            identity.style.width = 65; identity.style.marginRight = 7; identity.style.alignItems = Align.Center;
+            var portrait = new Image { sprite = Art.CrewPortrait(BMood()), scaleMode = ScaleMode.ScaleToFit, pickingMode = PickingMode.Ignore };
+            portrait.style.width = 58; portrait.style.height = 58;
+            portrait.style.backgroundColor = GameUI.CPanel2;
+            identity.Add(portrait);
+            identity.Add(_ui.L(TT("Luke", "ลุค"), 17, true, GameUI.Ink));
+            row.Add(identity); p.Add(row);
+            var meters = new VisualElement { pickingMode = PickingMode.Ignore };
+            meters.style.flexGrow = 1;
+            row.Add(meters);
+            void Need(Sprite icon, string label, float fraction, Color color, string value)
             {
-                var line = new VisualElement(); line.style.flexDirection = FlexDirection.Row; line.style.alignItems = Align.Center; line.style.marginTop = 8; line.tooltip = tooltip;
-                var glyph = new Image { sprite = icon == "☺" ? Art.ConditionFace(_life.State.morale >= 65 ? 0 : _life.State.morale >= 30 ? 1 : 2) : Art.SprintIcon() }; glyph.style.width = 24; glyph.style.height = 24; glyph.style.marginRight = 6; line.Add(glyph);
-                var bar = new VisualElement(); bar.style.width = 112; bar.style.height = 9; bar.style.backgroundColor = GameUI.CPanel2; Round(bar, 3);
-                var fill = new VisualElement(); fill.style.width = Length.Percent(Mathf.Clamp01(fraction) * 100); fill.style.height = 9; fill.style.backgroundColor = color; Round(fill, 3); bar.Add(fill); line.Add(bar);
-                if (_bShowNumbers) line.Add(_ui.L(Mathf.RoundToInt(fraction * 100).ToString(), 16)); p.Add(line);
+                var line = new VisualElement { pickingMode = PickingMode.Ignore };
+                line.style.flexDirection = FlexDirection.Row; line.style.alignItems = Align.Center;
+                var glyph = new Image { sprite = icon, pickingMode = PickingMode.Ignore };
+                glyph.style.width = glyph.style.height = 22; glyph.style.marginRight = 4;
+                line.Add(glyph);
+                var caption = _ui.L(label, 16, true, GameUI.Ink); caption.style.width = 82; line.Add(caption);
+                var bar = new VisualElement { pickingMode = PickingMode.Ignore };
+                bar.style.flexGrow = 1; bar.style.height = 10; bar.style.backgroundColor = GameUI.CPanel2;
+                var fill = new VisualElement { pickingMode = PickingMode.Ignore };
+                fill.style.width = Length.Percent(Mathf.Clamp01(fraction) * 100); fill.style.height = 10; fill.style.backgroundColor = color;
+                bar.Add(fill); line.Add(bar);
+                var amount = _ui.L(value, 16, true, GameUI.Ink);
+                amount.style.width = 62; amount.style.unityTextAlign = TextAnchor.MiddleRight;
+                line.Add(amount);
+                for (int i = 1; i < 5; i++)
+                {
+                    var tick = Abs(0, 0, 2, 10);
+                    tick.style.left = Length.Percent(i * 20);
+                    tick.style.backgroundColor = GameUI.Ink;
+                    bar.Add(tick);
+                }
+                meters.Add(line);
             }
-            Need("☺", _life.State.morale / 100f, GameUI.CAmber, CrewText("Morale", "กำลังใจ"));
-            Need(">>", _sprint.Value / 100f, _sprint.Exhausted ? GameUI.CAmber : GameUI.CCyan, CrewText("Stamina · hold Shift to run; walk to recover", "แรงกาย · กด Shift วิ่ง เดินเพื่อฟื้นแรง"));
-            if (_bMode == 0) p.Add(RadBar(112));
+            if (RestoreMode && _restore != null)
+            {
+                Need(Art.Sticker("food"), TT("Fullness", "ความอิ่ม"), _restore.Food / 100f, GameUI.CAmber, $"{_restore.Food:0}%");
+                Need(Art.Sticker("water"), TT("Water", "น้ำ"), _restore.Water / 100f, GameUI.CCyan, $"{_restore.Water:0}%");
+                Need(Art.Sticker("power"), TT("Energy", "พลังงาน"), _restore.Rest / 100f, GameUI.CGreen, $"{_restore.Rest:0}%");
+            }
+            else
+                Need(Art.ConditionFace(BMood()), TT("Morale", "กำลังใจ"), _life.State.morale / 100f, GameUI.CAmber, $"{_life.State.morale:0}%");
+            Need(Art.SprintIcon(), TT("Stamina", "แรงวิ่ง"), _sprint.Value / 100f, GameUI.CCyan, $"{_sprint.Value:0}%");
+            Need(Art.RadIcon(), TT("Rad", "รังสี"), RadFrac, _dose < DosePerSick ? new Color(.74f, .58f, .98f) : RadColor(), $"{_dose:0.#}");
             if (_life.State.pet != null)
             {
-                var pet = new VisualElement(); pet.style.flexDirection = FlexDirection.Row; pet.style.alignItems = Align.Center; pet.style.marginTop = 9;
-                var sprite = new Image { sprite = Art.Pet(_life.State.pet), scaleMode = ScaleMode.ScaleToFit }; sprite.style.width = 42; sprite.style.height = 42; pet.Add(sprite);
-                pet.Add(_ui.L(LbName(LifeboatSim.Pet), 18, false, _life.State.petFed ? GameUI.CDim : GameUI.CAmber)); p.Add(pet);
+                var pet = new VisualElement { pickingMode = PickingMode.Ignore };
+                pet.style.alignItems = Align.Center;
+                pet.style.marginLeft = 8; pet.style.paddingLeft = 7; pet.style.paddingRight = 3;
+                pet.style.borderLeftWidth = 2; pet.style.borderLeftColor = GameUI.Ink;
+                var sprite = new Image { sprite = Art.Pet(_life.State.pet), scaleMode = ScaleMode.ScaleToFit, pickingMode = PickingMode.Ignore };
+                sprite.style.width = sprite.style.height = 26; pet.Add(sprite);
+                pet.Add(_ui.L(LbName(LifeboatSim.Pet), 15, true, GameUI.Ink));
+                row.Add(pet);
             }
             return p;
         }
@@ -127,7 +166,7 @@ namespace TitanGate.Game
         // ------------------------------------------------------------------ hints instead of numbers
 
         /// <summary>Sticker icons with an up or down arrow for each stock a choice changes. No amounts.</summary>
-        VisualElement BDeltaIcons(Stock d, bool perDay = false, int health = 0)
+        VisualElement BDeltaIcons(Stock d, bool perDay = false, int health = 0, bool choice = false)
         {
             var row = new VisualElement { pickingMode = PickingMode.Ignore };
             row.style.flexDirection = FlexDirection.Row; row.style.alignItems = Align.Center; row.style.flexWrap = Wrap.Wrap;
@@ -148,8 +187,14 @@ namespace TitanGate.Game
                 h.style.backgroundImage = new StyleBackground(Art.Heart()); row.Add(h);
                 row.Add(_ui.L(health > 0 ? "▲" : "▼", 18, true, health > 0 ? GameUI.CGreen : GameUI.CRed));
             }
-            if (perDay) row.Add(_ui.L(_loc.T("base.card.every_day"), 16, true, GameUI.CAmber));
+            if (perDay) row.Add(_ui.L(_loc.T("base.card.every_day"), 16, true, choice ? GameUI.Paper : GameUI.CAmber));
             if (row.childCount == 0) row.Add(_ui.L(_loc.T("base.card.free"), 17, false, GameUI.CDim));
+            if (choice)
+            {
+                row.style.alignSelf = Align.FlexStart;
+                row.style.backgroundColor = GameUI.CPanel;
+                row.style.paddingLeft = row.style.paddingRight = 8;
+            }
             return row;
         }
 
@@ -157,50 +202,92 @@ namespace TitanGate.Game
         /// A choice card: lifts and grows slightly on hover or keyboard focus (about 150 ms), glows, and plays one
         /// hover sound; a click locks all cards in its group so the choice is sent once.
         /// </summary>
-        VisualElement BCard(string title, VisualElement hints, Action pick, bool enabled, string whyKey, List<VisualElement> group, float width = 300, Color? accent = null, int titleSize = 23)
+        VisualElement BCard(string title, VisualElement hints, Action pick, bool enabled, string whyKey, List<VisualElement> group, float width = 300, Color? accent = null, int titleSize = 23, Sprite icon = null, bool cut = false, bool paper = false)
         {
             var c = new VisualElement();
             var edge = accent ?? GameUI.CCyanD;
             c.style.width = width; c.style.minHeight = 150; c.style.flexShrink = 0;
             c.style.marginLeft = c.style.marginRight = 8;
             c.style.paddingLeft = c.style.paddingRight = 14; c.style.paddingTop = 12; c.style.paddingBottom = 12;
-            c.style.backgroundColor = enabled ? new Color(0.08f, 0.12f, 0.24f, 0.97f) : new Color(0.08f, 0.08f, 0.1f, 0.9f);
-            GameUI.Border(c, enabled ? edge : new Color(0.3f, 0.3f, 0.35f), 3, 12);
+            c.style.backgroundColor = enabled ? GameUI.CPanel2 : GameUI.CPanel;
+            VisualElement idle = null, selected = null;
+            if (cut)
+            {
+                c.style.backgroundColor = Color.clear;
+                c.style.paddingLeft = c.style.paddingRight = 24;
+                idle = GameUI.Plate(paper ? GameUI.Paper : GameUI.CPanel2, enabled ? edge : GameUI.CDim, 22, true, 5);
+                selected = GameUI.Plate(GameUI.CAmber, GameUI.Ink, 22, true, 5);
+                selected.style.display = DisplayStyle.None;
+                c.Add(idle); c.Add(selected);
+                if (!enabled) c.style.opacity = .75f;
+                if (paper && hints is Label hint) hint.style.color = GameUI.Ink;
+            }
+            else
+            {
+                GameUI.Border(c, enabled ? edge : GameUI.CCyanD, 3, 3);
+                c.style.borderLeftWidth = 7;
+            }
             c.style.transitionProperty = new List<StylePropertyName> { "scale", "translate", "border-top-color", "background-color" };
             c.style.transitionDuration = new List<TimeValue> { new TimeValue(150, TimeUnit.Millisecond) };
             c.style.transitionTimingFunction = new List<EasingFunction> { new EasingFunction(EasingMode.EaseOut) };
-            var t = _ui.L(title, titleSize, true, enabled ? GameUI.CText : GameUI.CDim);
+            var t = _ui.L(title, titleSize, true, paper ? GameUI.Ink : enabled ? GameUI.CText : GameUI.CDim);
             t.style.marginBottom = 8; t.style.whiteSpace = WhiteSpace.Normal;
-            c.Add(t);
-            if (hints != null) c.Add(hints);
+            var heading = new VisualElement { pickingMode = PickingMode.Ignore };
+            heading.style.flexDirection = paper ? FlexDirection.Column : FlexDirection.Row;
+            if (paper) c.style.justifyContent = Justify.Center;
+            heading.style.alignItems = Align.Center;
+            if (icon != null)
+            {
+                var picture = new Image { sprite = icon, scaleMode = ScaleMode.ScaleToFit, pickingMode = PickingMode.Ignore };
+                picture.style.width = picture.style.height = paper ? 56 : 36;
+                picture.style.marginRight = 8; picture.style.flexShrink = 0;
+                heading.Add(picture);
+            }
+            t.style.flexShrink = 1;
+            heading.Add(t);
+            c.Add(heading);
+            if (hints != null)
+            {
+                if (paper) hints.style.alignSelf = Align.Center;
+                c.Add(hints);
+            }
             if (!enabled && whyKey != null) { var w = _ui.L(_loc.T(whyKey), 17, false, GameUI.CRed); w.style.marginTop = 6; c.Add(w); }
             group?.Add(c);
             if (!enabled) return c;
             c.focusable = true;
             bool locked = false;
-            void Lift(bool on)
+            bool hovering = false, focused = false;
+            void Paint()
             {
-                if (Settings.ReducedMotion) { GameUI.Border(c, on ? GameUI.CAmber : edge, 2, 12); return; }
                 if (locked) return;
-                c.style.scale = new Scale(on ? new Vector3(1.06f, 1.06f, 1) : Vector3.one);
-                c.style.translate = new Translate(0, on ? -12 : 0);
-                c.style.backgroundColor = on ? new Color(0.12f, 0.2f, 0.36f, 0.98f) : new Color(0.08f, 0.12f, 0.24f, 0.97f);
-                GameUI.Border(c, on ? GameUI.CCyan : edge, 3, 12);
-                if (on) _sfx.Play("hover", 0.7f);
+                bool on = hovering || focused;
+                if (cut)
+                {
+                    idle.style.display = on ? DisplayStyle.None : DisplayStyle.Flex;
+                    selected.style.display = on ? DisplayStyle.Flex : DisplayStyle.None;
+                    t.text = GameUI.Thai(on && !paper ? "▸ " + title : title);
+                    t.style.color = on || paper ? GameUI.Ink : GameUI.CText;
+                    return;
+                }
+                c.style.backgroundColor = on ? new Color(.24f, .16f, .08f) : GameUI.CPanel2;
+                GameUI.Border(c, on ? GameUI.CAmber : edge, 3, 3);
+                c.style.borderLeftWidth = 7;
+                t.text = GameUI.Thai(on ? "▸ " + title : title);
+                t.style.color = on ? GameUI.CAmber : GameUI.CText;
             }
             void Pick()
             {
                 if (locked) return;
                 if (group != null) foreach (var g in group) g.SetEnabled(false);
                 locked = true;
-                c.style.scale = new Scale(new Vector3(0.97f, 0.97f, 1));
+                if (!Settings.ReducedMotion) c.style.scale = new Scale(new Vector3(0.97f, 0.97f, 1));
                 _sfx.Play("click");
                 c.schedule.Execute(() => pick?.Invoke()).StartingIn(120);
             }
-            c.RegisterCallback<PointerEnterEvent>(_ => Lift(true));
-            c.RegisterCallback<PointerLeaveEvent>(_ => Lift(false));
-            c.RegisterCallback<FocusInEvent>(_ => Lift(true));
-            c.RegisterCallback<FocusOutEvent>(_ => Lift(false));
+            c.RegisterCallback<PointerEnterEvent>(_ => { hovering = true; Paint(); if (!locked) _sfx.Play("hover", .7f); });
+            c.RegisterCallback<PointerLeaveEvent>(_ => { hovering = false; Paint(); });
+            c.RegisterCallback<FocusInEvent>(_ => { focused = true; Paint(); });
+            c.RegisterCallback<FocusOutEvent>(_ => { focused = false; Paint(); });
             c.RegisterCallback<ClickEvent>(_ => Pick());
             c.RegisterCallback<KeyDownEvent>(e => { if (e.keyCode == KeyCode.Return || e.keyCode == KeyCode.Space) Pick(); });
             return c;
@@ -241,6 +328,37 @@ namespace TitanGate.Game
         int _peepTalk;           // how many questions were asked of this visitor
         string _peepCard;
 
+        Sprite _peepScenery;
+
+        Sprite PeepholeScenery()
+        {
+            if (_peepScenery != null) return _peepScenery;
+            var ridge = Art.MarsRidge(1).texture;
+            var ground = Art.MarsGround().texture;
+            const int size = 256;
+            var canvas = new PixelCanvas(size, size);
+            var sky = PixelCanvas.Hex("#d28b61");
+            var haze = PixelCanvas.Hex("#efb48a");
+            for (int y = 0; y < size; y++)
+            for (int x = 0; x < size; x++)
+            {
+                var point = new Vector2((x + .5f) / size * 2 - 1, (y + .5f) / size * 2 - 1);
+                var uv = (point * (1 + .22f * point.sqrMagnitude) + Vector2.one) * .5f;
+                float horizon = .42f;
+                Color32 color = Color32.Lerp(haze, sky, Mathf.InverseLerp(horizon, .9f, uv.y));
+                if (uv.y < horizon)
+                    color = ground.GetPixel(Mathf.Clamp((int)(uv.x * ground.width), 0, ground.width - 1), Mathf.Clamp((int)(uv.y / horizon * ground.height), 0, ground.height - 1));
+                else if (uv.y < horizon + .17f)
+                {
+                    var rock = ridge.GetPixel(Mathf.Clamp((int)(uv.x * ridge.width), 0, ridge.width - 1), (int)((uv.y - horizon) / .17f * (ridge.height - 1)));
+                    color = Color32.Lerp(color, rock, rock.a);
+                }
+                canvas.Set(x, y, color);
+            }
+            _peepScenery = canvas.ToSprite();
+            return _peepScenery;
+        }
+
         /// <summary>
         /// Full-screen view through the airlock peephole: the visitor right outside at eye level, Mars behind, a dark
         /// lens ring. Left: what you found. Below the lens: ways to check (talk, infrared, breath, microphone).
@@ -251,20 +369,29 @@ namespace TitanGate.Game
             var card = _lbCard;
             if (_peepCard != card.id) { _peepCard = card.id; _peepTalk = 0; }
             string visitor = card.visitor;
-            _ui.ShowScreen(root =>
+            _ui.ShowScreen(screen =>
             {
-                root.style.alignItems = Align.FlexStart; root.style.justifyContent = Justify.FlexStart;
-                var bg = Abs(0, 0, 1920, 1080); bg.style.backgroundColor = new Color(0.01f, 0.01f, 0.03f, 1f);
-                root.Add(bg);
+                var bg = GameUI.Backdrop(Color.black);
+                screen.Add(bg);
+                var root = new VisualElement { pickingMode = PickingMode.Ignore };
+                root.style.width = 1920;
+                root.style.height = 1080;
+                root.style.flexShrink = 0;
+                screen.Add(root);
+                void Fit(float width, float height)
+                {
+                    float k = Mathf.Min(width / 1920f, height / 1080f);
+                    root.style.scale = new Scale(new Vector3(k, k, 1));
+                }
+                if (screen.layout.width > 0 && screen.layout.height > 0) Fit(screen.layout.width, screen.layout.height);
+                EventCallback<GeometryChangedEvent> resize = e => Fit(e.newRect.width, e.newRect.height);
+                screen.RegisterCallback(resize);
+                root.RegisterCallback<DetachFromPanelEvent>(_ => screen.UnregisterCallback(resize));
 
                 // ---- the lens
                 const float L = 660, LX = 630, LY = 40;
                 var lens = Abs(LX, LY, L, L); lens.style.overflow = Overflow.Hidden; Round(lens, L / 2);
-                var sky = Abs(0, 0, L, L * 0.62f); sky.style.backgroundColor = new Color(0.82f, 0.56f, 0.4f); lens.Add(sky);
-                var haze = Abs(0, L * 0.42f, L, L * 0.2f); haze.style.backgroundColor = new Color(0.9f, 0.66f, 0.5f); lens.Add(haze);
-                var ridge = Abs(-40, L * 0.44f, L + 80, L * 0.22f);
-                ridge.style.backgroundImage = new StyleBackground(Art.MarsRidge(1)); ridge.style.opacity = 0.9f; lens.Add(ridge);
-                var ground = Abs(0, L * 0.6f, L, L * 0.4f); ground.style.backgroundColor = new Color(0.6f, 0.3f, 0.17f); lens.Add(ground);
+                lens.style.backgroundImage = new StyleBackground(PeepholeScenery());
                 var sprite = Art.Visitor(visitor);
                 float scale = L * 0.92f / sprite.rect.height;
                 float pw = sprite.rect.width * scale, ph = sprite.rect.height * scale;
@@ -279,15 +406,27 @@ namespace TitanGate.Game
                 heat.style.opacity = thermalDone ? 0.55f : 0f;
                 lens.Add(heat);
                 var mood = VisitorMood(visitor);
-                var bubble = Abs(L * 0.62f, L * 0.1f, 110, 110);   // above the visitor's shoulder, well inside the round lens bubble.style.backgroundImage = new StyleBackground(Art.RMood(mood.kind)); lens.Add(bubble);
                 var glass = Abs(0, 0, L, L); glass.style.backgroundColor = new Color(0.6f, 0.8f, 1f, 0.05f); lens.Add(glass);
                 var sweep = Abs(0, -20, L, 16); sweep.style.backgroundColor = new Color(1f, 0.15f, 0.12f, 0.85f); sweep.style.display = DisplayStyle.None; lens.Add(sweep);
                 var sweepGlow = Abs(0, -40, L, 50); sweepGlow.style.backgroundColor = new Color(1f, 0.2f, 0.1f, 0.18f); sweepGlow.style.display = DisplayStyle.None; lens.Add(sweepGlow);
                 root.Add(lens);
-                var mask = Abs(LX - 6, LY - 6, L + 12, L + 12); mask.style.backgroundImage = new StyleBackground(Art.LensMask()); root.Add(mask);
-                var rim = Abs(LX - 14, LY - 14, L + 28, L + 28); rim.style.borderTopWidth = rim.style.borderBottomWidth = rim.style.borderLeftWidth = rim.style.borderRightWidth = 16;
-                rim.style.borderTopColor = rim.style.borderBottomColor = rim.style.borderLeftColor = rim.style.borderRightColor = new Color(0.08f, 0.09f, 0.13f);
-                Round(rim, (L + 28) / 2); root.Add(rim);
+                var mask = Abs(0, 0, L, L); mask.style.backgroundImage = new StyleBackground(Art.LensMask()); lens.Add(mask);
+                var rim = Abs(LX - 29, LY - 29, L + 58, L + 58);
+                GameUI.Border(rim, new Color(.28f, .22f, .17f), 21, (L + 58) / 2);
+                root.Add(rim);
+                var gasket = Abs(LX - 9, LY - 9, L + 18, L + 18);
+                GameUI.Border(gasket, GameUI.Ink, 13, (L + 18) / 2);
+                root.Add(gasket);
+                const float centerX = LX + L / 2, centerY = LY + L / 2;
+                for (int i = 0; i < 4; i++)
+                {
+                    float angle = (45 + i * 90) * Mathf.Deg2Rad;
+                    var lamp = Abs(centerX + Mathf.Cos(angle) * 347 - 37, centerY + Mathf.Sin(angle) * 347 - 6, 74, 12);
+                    lamp.style.rotate = new Rotate(new Angle(135 + i * 90));
+                    lamp.style.backgroundColor = GameUI.CAmber;
+                    GameUI.Border(lamp, GameUI.Ink, 2, 4);
+                    root.Add(lamp);
+                }
 
                 // breathing and a little sway
                 float t0 = Time.realtimeSinceStartup;
@@ -297,20 +436,22 @@ namespace TitanGate.Game
                     var animated = Art.Crew(visitor, 0, t % 4 > 3.8f ? -2 : -1);
                     who.style.backgroundImage = new StyleBackground(animated);
                     heat.style.backgroundImage = new StyleBackground(animated);
+                    if (Settings.ReducedMotion) return;
                     float b = 1 + Mathf.Sin(t * 2.2f) * 0.012f;
                     float shiver = mood.kind == "cold" || mood.kind == "nervous" ? Mathf.Sin(t * 40f) * 2.5f : 0f;
                     var tr = new Translate(Mathf.Sin(t * 0.7f) * 6f + shiver, (1 - b) * ph * 0.5f);
-                    bubble.style.translate = new Translate(0, Mathf.Sin(t * 3f) * 6f);
                     who.style.scale = new Scale(new Vector3(1, b, 1)); who.style.translate = tr;
                     heat.style.scale = new Scale(new Vector3(1, b, 1)); heat.style.translate = tr;
                 }).Every(40);
 
                 // ---- left: a short ID card (icons and words, not paragraphs)
-                var log = new VisualElement(); log.style.position = Position.Absolute; log.style.left = 34; log.style.top = 34; log.style.width = 500; log.style.bottom = 34;
-                log.style.backgroundColor = new Color(0.03f, 0.06f, 0.1f, 0.92f); GameUI.Border(log, GameUI.CCyanD, 2, 12);
-                log.style.paddingLeft = log.style.paddingRight = 20; log.style.paddingTop = 14;
-                log.Add(_ui.L(_loc.T("base.peep.header"), 22, true, GameUI.CAmber));
-                var title = _ui.L(_loc.T($"life.card.{card.id}.title"), 36, true, GameUI.CCyan); title.style.marginTop = 2; log.Add(title);
+                var logFrame = Abs(34, 100, 500, 880);
+                logFrame.Add(GameUI.Plate(GameUI.Paper, GameUI.Ink, 29, true, 7));
+                var log = new ScrollView();
+                log.style.flexGrow = 1;
+                log.style.paddingLeft = log.style.paddingRight = 25; log.style.paddingTop = 18;
+                log.Add(_ui.PrintedLabel(_loc.T("base.peep.header"), 21, GameUI.CAmber, GameUI.Ink));
+                var title = _ui.L(_loc.T($"life.card.{card.id}.title"), 36, true, GameUI.Ink); title.style.marginTop = 6; log.Add(title);
                 // what you can see through the glass: their mood, in big words
                 var moodChip = new VisualElement(); moodChip.style.marginTop = 10; moodChip.style.paddingLeft = moodChip.style.paddingRight = 14; moodChip.style.paddingTop = moodChip.style.paddingBottom = 8;
                 moodChip.style.backgroundColor = new Color(mood.color.r * 0.22f, mood.color.g * 0.22f, mood.color.b * 0.22f, 0.95f); GameUI.Border(moodChip, mood.color, 2, 10);
@@ -324,11 +465,11 @@ namespace TitanGate.Game
                 {
                     bool done = System.Linq.Enumerable.Contains(_life.ScansDone(card), sc);
                     bool odd = done && _life.IsOdd(visitor, sc);
-                    var t = new VisualElement(); t.style.width = 222; t.style.marginRight = 12; t.style.paddingLeft = t.style.paddingRight = 10; t.style.paddingTop = t.style.paddingBottom = 8;
+                    var t = new VisualElement(); t.style.flexGrow = 1; t.style.flexBasis = 0; t.style.marginRight = 10; t.style.paddingLeft = t.style.paddingRight = 10; t.style.paddingTop = t.style.paddingBottom = 8;
                     t.style.backgroundColor = !done ? new Color(0.1f, 0.11f, 0.16f) : odd ? new Color(0.3f, 0.04f, 0.06f) : new Color(0.04f, 0.22f, 0.12f);
                     GameUI.Border(t, !done ? new Color(0.3f, 0.32f, 0.4f) : odd ? GameUI.CRed : GameUI.CGreen, 2, 10);
                     t.Add(_ui.L(_loc.T($"base.peep.scan.{sc}"), 22, true, GameUI.CText));
-                    t.Add(_ui.L(!done ? TT("not scanned", "ยังไม่สแกน") : odd ? TT("WRONG!", "ผิดปกติ!") : TT("normal", "ปกติ"), 32, true, !done ? GameUI.CDim : odd ? GameUI.CRed : GameUI.CGreen));
+                    t.Add(_ui.L(!done ? TT("Not scanned", "ยังไม่สแกน") : odd ? TT("Anomaly", "ผิดปกติ") : TT("Normal", "ปกติ"), 25, true, !done ? GameUI.CDim : odd ? GameUI.CRed : GameUI.CGreen));
                     tiles.Add(t);
                 }
                 log.Add(tiles);
@@ -336,26 +477,28 @@ namespace TitanGate.Game
                 int said = Mathf.Min(_peepTalk, card.clues);
                 if (_peepTalk > 0)
                 {
-                    var hd = _ui.L(TT("What you heard", "สิ่งที่ได้ยิน"), 22, true, GameUI.CAmber); hd.style.marginTop = 12; log.Add(hd);
-                    for (int i = 1; i <= said; i++) { var q = _ui.L("• " + _loc.T($"life.card.{card.id}.clue{i}"), 20); q.style.marginTop = 3; log.Add(q); }
+                    var hd = _ui.L(TT("What you heard", "สิ่งที่ได้ยิน"), 22, true, GameUI.Ink); hd.style.marginTop = 12; log.Add(hd);
+                    for (int i = 1; i <= said; i++) { var q = _ui.L("• " + _loc.T($"life.card.{card.id}.clue{i}"), 20, false, GameUI.Ink); q.style.marginTop = 3; log.Add(q); }
                     var chat = PeepChat.TryGetValue(visitor, out var cl) ? cl : null;
                     int extra = chat == null ? 0 : Mathf.Min(_peepTalk - said, chat.Length / 2);
-                    for (int i = 0; i < extra; i++) { var q = _ui.L("• " + TL(chat[i * 2 + 1]), 20, false, GameUI.CDim); q.style.marginTop = 3; log.Add(q); }
+                    for (int i = 0; i < extra; i++) { var q = _ui.L("• " + TL(chat[i * 2 + 1]), 20, false, GameUI.Ink); q.style.marginTop = 3; log.Add(q); }
                 }
                 if (_life.State.pet != null)
                 {
                     string key = _life.HintKey(card);
-                    var pet = _ui.L(key == null ? _loc.T("life.hint_hungry", LbName(LifeboatSim.Pet)) : LbName(LifeboatSim.Pet) + ": " + _loc.T(key), 20, false, GameUI.CCyan);
+                    var pet = _ui.L(key == null ? _loc.T("life.hint_hungry", LbName(LifeboatSim.Pet)) : LbName(LifeboatSim.Pet) + ": " + _loc.T(key), 20, true, GameUI.Ink);
                     pet.style.marginTop = 12; log.Add(pet);
                 }
-                var fic = _ui.L(_loc.T("life.fiction"), 14, false, GameUI.CDim); fic.style.position = Position.Absolute; fic.style.bottom = 10; fic.style.left = 20; fic.style.right = 20; log.Add(fic);
-                root.Add(log);
+                var fic = _ui.L(_loc.T("life.fiction"), 16, false, GameUI.Ink);
+                fic.style.marginTop = 14; fic.style.marginBottom = 12; log.Add(fic);
+                logFrame.Add(log);
+                root.Add(logFrame);
 
                 // ---- below the lens: talk as much as you like, scan as often as you like
-                var checks = new VisualElement(); checks.style.position = Position.Absolute; checks.style.left = 548; checks.style.width = 840; checks.style.top = LY + L + 26;
+                var checks = new VisualElement(); checks.style.position = Position.Absolute; checks.style.left = 548; checks.style.width = 840; checks.style.top = LY + L + 46;
                 checks.style.flexDirection = FlexDirection.Row; checks.style.justifyContent = Justify.Center;
                 checks.Add(BCard(_loc.T("base.peep.talk"), _ui.L(TT("Ask a question", "ถามคำถาม"), 16, false, GameUI.CDim),
-                    () => { _peepTalk++; _sfx.Play("blip"); BPeepTalkVN(card); }, true, null, null, 240, GameUI.CGreen, 20));
+                    () => { _peepTalk++; _sfx.Play("blip"); BPeepTalkVN(card); }, true, null, null, 240, GameUI.CGreen, 22, Art.TalkBubble(), cut: true, paper: true));
                 foreach (var sc in LC.scans)
                 {
                     string id = sc;
@@ -365,17 +508,18 @@ namespace TitanGate.Game
                     {
                         if (done) { _peepFx = id; _sfx.Play(id == "thermal" ? "whoosh" : "blip"); BShowPeep(); }
                         else BRunScan(id, who, heat, sweep, sweepGlow, ph);
-                    }, done || _life.CanScan(card, id), null, null, 240, GameUI.CAmber, 20));
+                    }, done || _life.CanScan(card, id), null, null, 240, GameUI.CAmber, 22,
+                        id == "thermal" ? Art.JobItem("data_chip") : Art.Sticker("o2"), cut: true, paper: true));
                 }
                 root.Add(checks);
 
                 // ---- right: what to do
-                var acts = new VisualElement(); acts.style.position = Position.Absolute; acts.style.right = 30; acts.style.top = 40; acts.style.width = 480;
-                acts.Add(_ui.L(_loc.T("base.peep.decide"), 22, true, GameUI.CAmber));
+                var acts = new ScrollView(); acts.style.position = Position.Absolute; acts.style.right = 30; acts.style.top = 100; acts.style.bottom = 40; acts.style.width = 480;
+                acts.Add(_ui.PrintedLabel(_loc.T("base.peep.decide"), 26, GameUI.Paper, GameUI.Ink));
                 if (IsTrader(visitor))
                 {
                     var tg = new List<VisualElement>();
-                    var tc = BCard(_loc.T("base.trade.open"), _ui.L(_loc.T("base.trade.open_hint"), 16, false, GameUI.CAmber), BShowTrade, true, null, tg, 460, GameUI.CAmber);
+                    var tc = BCard(_loc.T("base.trade.open"), _ui.L(_loc.T("base.trade.open_hint"), 16, false, GameUI.Ink), BShowTrade, true, null, tg, 460, GameUI.CAmber, icon: Art.Sticker("power"), cut: true, paper: true);
                     tc.style.minHeight = 80; tc.style.marginTop = 10; tc.style.marginLeft = 0; tc.style.width = 460;
                     acts.Add(tc);
                 }
@@ -385,13 +529,16 @@ namespace TitanGate.Game
                     var opt = o;
                     bool can = _life.CanChoose(opt, out var why);
                     var d = BOptionHint(opt, out bool perDay);
-                    var cc = BCard(_loc.T($"life.card.{card.id}.{opt.id}"), BDeltaIcons(d, perDay, opt.health), () => { _peepCard = null; LbChoose(opt); }, can, can ? null : why, dgroup, 500,
-                        opt.id == "refuse" ? GameUI.CRed : !string.IsNullOrEmpty(opt.admits) ? GameUI.CGreen : GameUI.CCyanD);
+                    bool admits = !string.IsNullOrEmpty(opt.admits);
+                    var choiceIcon = admits || opt.id == "refuse" ? Art.Door(admits, true) : Art.TalkBubble();
+                    var cc = BCard(_loc.T($"life.card.{card.id}.{opt.id}"), BDeltaIcons(d, perDay, opt.health, choice: true), () => { _peepCard = null; LbChoose(opt); }, can, can ? null : why, dgroup, 460,
+                        opt.id == "refuse" ? GameUI.CRed : GameUI.Paper, 25, choiceIcon, cut: true);
                     cc.style.width = 460; cc.style.minHeight = 110; cc.style.marginTop = 10; cc.style.marginLeft = 0;
                     acts.Add(cc);
                 }
                 var back = _ui.B(_loc.T("base.peep.back"), () => { _bOpen = false; _ui.HideScreen(); }, 22);
                 back.style.marginTop = 18; back.style.alignSelf = Align.FlexStart; back.style.marginLeft = 0;
+                _ui.CutButton(back, size: 22);
                 acts.Add(back);
                 root.Add(acts);
 
@@ -455,7 +602,7 @@ namespace TitanGate.Game
             {
                 Chip(TT("WHO", "เป็นใคร"), "?", GameUI.CDim); Chip(TT("SEX", "เพศ"), "?", GameUI.CDim); Chip(TT("TEMPER", "นิสัย"), "?", GameUI.CDim);
                 log.Add(row);
-                log.Add(_ui.L(TT("Scan to look them up in ORBI's database.", "สแกนเพื่อค้นข้อมูลจากฐานข้อมูลของ ORBI"), 16, false, GameUI.CDim));
+                log.Add(_ui.L(TT("Scan to look them up in ORBI's database.", "สแกนเพื่อค้นข้อมูลจากฐานข้อมูลของ ORBI"), 16, false, GameUI.Ink));
                 return;
             }
             if (!known) { Chip(TT("WHO", "เป็นใคร"), TT("not in database!", "ไม่มีในฐานข้อมูล!"), GameUI.CRed); log.Add(row); return; }
@@ -463,7 +610,7 @@ namespace TitanGate.Game
             Chip(TT("SEX", "เพศ"), _loc.T($"base.dossier.{v}.sex"), GameUI.CCyan);
             Chip(TT("TEMPER", "นิสัย"), _loc.T($"base.dossier.{v}.temper"), GameUI.CAmber);
             log.Add(row);
-            log.Add(_ui.L(_loc.T($"base.dossier.{v}.conf"), 14, false, GameUI.CDim));
+            log.Add(_ui.L(_loc.T($"base.dossier.{v}.conf"), 16, false, GameUI.Ink));
         }
 
         /// <summary>The question and the answer, as a visual-novel exchange through the door; then back to the peephole.</summary>

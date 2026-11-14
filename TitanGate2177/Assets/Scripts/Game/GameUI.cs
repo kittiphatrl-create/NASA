@@ -15,19 +15,22 @@ namespace TitanGate.Game
     /// </summary>
     public class GameUI : MonoBehaviour
     {
-        public static readonly Color CPanel = new Color(0.055f, 0.10f, 0.15f, 0.96f);
-        public static readonly Color CPanel2 = new Color(0.10f, 0.18f, 0.23f, 0.98f);
+        public static readonly Color CPanel = new Color(0.055f, 0.066f, 0.086f, 0.98f);
+        public static readonly Color CPanel2 = new Color(0.11f, 0.13f, 0.17f, 1f);
         public static readonly Color CCyan = new Color(0.54f, 0.88f, 0.81f);
-        public static readonly Color CCyanD = new Color(0.10f, 0.55f, 0.69f);
-        public static readonly Color CText = new Color(0.98f, 0.95f, 0.87f);
-        public static readonly Color CDim = new Color(0.62f, 0.68f, 0.82f);
-        public static readonly Color CAmber = new Color(1f, 0.75f, 0.48f);
+        public static readonly Color CCyanD = new Color(0.42f, 0.40f, 0.36f);
+        public static readonly Color CText = new Color(1f, 0.95f, 0.84f);
+        public static readonly Color CDim = new Color(0.77f, 0.77f, 0.75f);
+        public static readonly Color CAmber = new Color(1f, 0.67f, 0.22f);
         public static readonly Color CRed = new Color(1f, 0.33f, 0.38f);
         public static readonly Color CGreen = new Color(0.36f, 0.89f, 0.54f);
+        public static readonly Color Ink = new Color(0.09f, 0.075f, 0.065f);
+        public static readonly Color Paper = new Color(1f, .92f, .76f);
+        public static readonly Color DialogueShade = new Color(.012f, .016f, .027f, .74f);
 
         UIDocument _doc;
         Localization _loc;
-        Font _font, _fontBold;
+        Font _font, _fontBold, _displayFont;
         public Sfx sfx;
 
         VisualElement _incident, _incidentFill, _cine;
@@ -82,6 +85,7 @@ namespace TitanGate.Game
             _loc = loc;
             _font = Resources.Load<Font>("Fonts/Sarabun-Regular");
             _fontBold = Resources.Load<Font>("Fonts/Sarabun-SemiBold");
+            _displayFont = Resources.Load<Font>("Fonts/ChakraPetch-Bold");
 
             var ps = ScriptableObject.CreateInstance<PanelSettings>();
             ps.scaleMode = PanelScaleMode.ScaleWithScreenSize;
@@ -104,6 +108,64 @@ namespace TitanGate.Game
             e.style.color = CText;
         }
 
+        public void DisplayFont(Label label)
+        {
+            if (_loc.Current == Lang.EN && _displayFont != null)
+                label.style.unityFontDefinition = FontDefinition.FromFont(_displayFont);
+        }
+
+        public static VisualElement Backdrop(Color color)
+        {
+            var shade = Full(new VisualElement { pickingMode = PickingMode.Ignore });
+            shade.style.backgroundColor = color;
+            return shade;
+        }
+
+        public static VisualElement Plate(Color fill, Color edge, float cut = 14, bool printed = false, float weight = 3)
+        {
+            var plate = Full(new VisualElement { pickingMode = PickingMode.Ignore });
+            plate.generateVisualContent += ctx =>
+            {
+                float w = plate.contentRect.width, h = plate.contentRect.height;
+                if (w < 8 || h < 8) return;
+                float c = Mathf.Min(cut, h * .35f, w * .15f);
+                var p = ctx.painter2D;
+                p.fillColor = fill;
+                p.strokeColor = edge;
+                p.lineWidth = weight;
+                p.BeginPath();
+                float inset = weight / 2 + 1;
+                p.MoveTo(new Vector2(c + inset, inset));
+                p.LineTo(new Vector2(w - c - inset, inset));
+                p.LineTo(new Vector2(w - inset, h * .43f));
+                p.LineTo(new Vector2(w - c - inset, h - inset));
+                p.LineTo(new Vector2(inset, h - inset));
+                p.LineTo(new Vector2(c * .45f + inset, h * .32f));
+                p.ClosePath();
+                p.Fill();
+                p.Stroke();
+                if (!printed || w < 52 || h < 26) return;
+                p.fillColor = new Color(edge.r, edge.g, edge.b, .40f);
+                for (int row = 0; row < 5; row++)
+                for (int col = row; col < 10; col++)
+                {
+                    var center = new Vector2(w - c - 12 - col * 5, h - 10 - row * 5);
+                    p.BeginPath();
+                    p.Arc(center, 1.35f, Angle.Degrees(0), Angle.Degrees(360));
+                    p.ClosePath();
+                    p.Fill();
+                }
+            };
+            return plate;
+        }
+
+        public static void PanelFrame(VisualElement panel, Color accent)
+        {
+            panel.style.backgroundColor = Color.clear;
+            Border(panel, Color.clear, 0, 0);
+            panel.Insert(0, Plate(CPanel, accent, 20));
+        }
+
         public Label L(string text, int size = 26, bool bold = false, Color? color = null)
         {
             var l = new Label(Thai(text));
@@ -115,6 +177,71 @@ namespace TitanGate.Game
             if (color.HasValue) l.style.color = color.Value;
             l.pickingMode = PickingMode.Ignore;
             return l;
+        }
+
+        public VisualElement PrintedLabel(string text, int size, Color fill, Color ink)
+        {
+            var tag = new VisualElement { pickingMode = PickingMode.Ignore };
+            tag.Add(Plate(fill, Ink, 15, true, 5));
+            var label = L(text, size, true, ink);
+            DisplayFont(label);
+            label.style.paddingLeft = label.style.paddingRight = 23;
+            label.style.paddingTop = label.style.paddingBottom = 7;
+            tag.Add(label);
+            return tag;
+        }
+
+        public Label Hotkey(string key)
+        {
+            var cap = L(key, 18, true, Ink);
+            cap.style.backgroundColor = CAmber;
+            cap.style.unityTextAlign = TextAnchor.MiddleCenter;
+            cap.style.paddingLeft = cap.style.paddingRight = 8;
+            cap.style.marginRight = 8;
+            Border(cap, Ink, 2, 4);
+            return cap;
+        }
+
+        public Label CutButton(Button button, bool pale = false, string key = null, int size = 25, Sprite icon = null)
+        {
+            var idle = Plate(pale ? Paper : CPanel2, pale ? Ink : Paper, 18, true, 5);
+            var active = Plate(CAmber, Ink, 18, true, 5);
+            button.Insert(0, idle); button.Insert(1, active);
+            var caption = L(button.text, size, true);
+            caption.style.flexShrink = 1;
+            button.tooltip = button.text;
+            button.text = "";
+            if (key != null || icon != null)
+            {
+                button.style.flexDirection = FlexDirection.Row;
+                button.style.alignItems = Align.Center;
+                if (key != null) button.Add(Hotkey(key));
+                if (icon != null)
+                {
+                    var glyph = new Image { sprite = icon, scaleMode = ScaleMode.ScaleToFit, pickingMode = PickingMode.Ignore };
+                    glyph.style.width = 32; glyph.style.height = 32;
+                    glyph.style.marginRight = 10; glyph.style.flexShrink = 0;
+                    button.Add(glyph);
+                }
+            }
+            button.Add(caption);
+            bool focus = false, hover = false;
+            void Paint()
+            {
+                bool on = (focus || hover) && button.enabledInHierarchy;
+                active.style.display = on ? DisplayStyle.Flex : DisplayStyle.None;
+                idle.style.display = on ? DisplayStyle.None : DisplayStyle.Flex;
+                button.style.backgroundColor = Color.clear;
+                Border(button, Color.clear, 0, 0);
+                caption.style.color = on || pale ? Ink : CText;
+                button.style.opacity = button.enabledInHierarchy ? 1f : .6f;
+            }
+            button.RegisterCallback<MouseEnterEvent>(_ => { hover = true; Paint(); });
+            button.RegisterCallback<MouseLeaveEvent>(_ => { hover = false; Paint(); });
+            button.RegisterCallback<FocusInEvent>(_ => { focus = true; Paint(); });
+            button.RegisterCallback<FocusOutEvent>(_ => { focus = false; Paint(); });
+            Paint();
+            return caption;
         }
 
         readonly List<(string text, Button b, Action act)> _pressable = new List<(string, Button, Action)>();
@@ -140,17 +267,25 @@ namespace TitanGate.Game
             Txt(b, true);
             b.style.fontSize = Mathf.Round(size * Settings.TextScale);
             b.style.whiteSpace = WhiteSpace.Normal;
-            b.style.backgroundColor = primary ? new Color(0.10f, 0.45f, 0.58f) : CPanel2;
-            b.style.color = CText;
-            Border(b, primary ? CCyan : CCyanD, 2, 10);
-            b.RegisterCallback<FocusInEvent>(_ => Border(b, CAmber, 2, 10));
-            b.RegisterCallback<FocusOutEvent>(_ => Border(b, primary ? CCyan : CCyanD, 2, 10));
+            bool hover = false, focus = false;
+            void Paint()
+            {
+                bool active = hover || focus;
+                b.style.backgroundColor = active ? CAmber : primary ? Paper : CPanel2;
+                b.style.color = active || primary ? Ink : CText;
+                Border(b, active ? CAmber : primary ? Ink : CCyanD, 2, 3);
+                b.style.borderLeftWidth = active || primary ? 7 : 3;
+                b.style.borderBottomWidth = 4;
+            }
+            Paint();
+            b.RegisterCallback<FocusInEvent>(_ => { focus = true; Paint(); });
+            b.RegisterCallback<FocusOutEvent>(_ => { focus = false; Paint(); });
             b.style.paddingLeft = b.style.paddingRight = 18;
             b.style.paddingTop = b.style.paddingBottom = 8;
             b.style.marginTop = b.style.marginBottom = 5;
             b.style.marginLeft = b.style.marginRight = 5;
-            b.RegisterCallback<MouseEnterEvent>(_ => { if (b.enabledSelf) b.style.backgroundColor = new Color(0.14f, 0.32f, 0.5f); });
-            b.RegisterCallback<MouseLeaveEvent>(_ => b.style.backgroundColor = primary ? new Color(0.10f, 0.45f, 0.58f) : CPanel2);
+            b.RegisterCallback<MouseEnterEvent>(_ => { if (b.enabledInHierarchy) { hover = true; Paint(); } });
+            b.RegisterCallback<MouseLeaveEvent>(_ => { hover = false; Paint(); });
             b.style.transitionProperty = new List<StylePropertyName> { "scale", "translate", "background-color" };
             b.style.transitionDuration = new List<TimeValue> { new TimeValue(130, TimeUnit.Millisecond) };
             b.style.transitionTimingFunction = new List<EasingFunction> { new EasingFunction(EasingMode.EaseOut) };
@@ -209,9 +344,10 @@ namespace TitanGate.Game
             // top-left: chapter + objective
             _topLeft = Abs(new VisualElement());
             _topLeft.style.left = 20; _topLeft.style.top = 16; _topLeft.style.width = 560;
-            _topLeft.style.backgroundColor = CPanel; Border(_topLeft, CCyanD, 2, 8); Pad(_topLeft, 14);
+            _topLeft.Add(Plate(CPanel, CAmber)); Pad(_topLeft, 16);
             _topLeft.pickingMode = PickingMode.Ignore;
-            _chapterLabel = L("", 22, true, CCyan);
+            _chapterLabel = L("", 22, true, CAmber);
+            DisplayFont(_chapterLabel);
             _objective = L("", 24);
             _topLeft.Add(_chapterLabel);
             _topLeft.Add(_objective);
@@ -268,25 +404,38 @@ namespace TitanGate.Game
 
             // dialogue
             _dialogBlocker = Full(new VisualElement());
+            _dialogBlocker.style.backgroundColor = DialogueShade;
             _dialogBlocker.style.display = DisplayStyle.None;
             _dialogBlocker.RegisterCallback<PointerDownEvent>(_ => Advance());
             _root.Add(_dialogBlocker);
             _dialog = Abs(new VisualElement());
-            _dialog.style.left = 260; _dialog.style.right = 260; _dialog.style.bottom = 130;
-            _dialog.style.backgroundColor = CPanel; Border(_dialog, CCyan, 3, 10); Pad(_dialog, 18);
+            _dialog.style.left = Length.Percent(21); _dialog.style.right = Length.Percent(8); _dialog.style.bottom = 34;
+            _dialog.style.maxHeight = Length.Percent(70);
+            _dialog.Add(Plate(Paper, Ink, 30, printed: true, weight: 7)); Pad(_dialog, 26);
+            _dialog.style.alignItems = Align.Center;
             _dialog.style.flexDirection = FlexDirection.Row;
             _dialog.pickingMode = PickingMode.Ignore;
             _dialogPortrait = new Image { scaleMode = ScaleMode.ScaleToFit };
-            _dialogPortrait.style.width = 96; _dialogPortrait.style.height = 96; _dialogPortrait.style.marginRight = 18;
+            _dialogPortrait.style.position = Position.Absolute;
+            _dialogPortrait.style.bottom = 0;
+            _dialogPortrait.style.width = Length.Percent(26);
+            _dialogPortrait.style.height = Length.Percent(40);
             _dialogPortrait.pickingMode = PickingMode.Ignore;
-            _dialog.Add(_dialogPortrait);
+            _dialogBlocker.Add(_dialogPortrait);
             var col = new VisualElement { pickingMode = PickingMode.Ignore };
             col.style.flexGrow = 1; col.style.flexShrink = 1;
-            _dialogSpeaker = L("", 24, true, CCyan);
-            _dialogText = L("", 28);
-            _dialogMore = L("", 18, false, CDim);
+            _dialogSpeaker = L("", 25, true, Ink);
+            _dialogSpeaker.style.backgroundColor = CAmber;
+            _dialogSpeaker.style.paddingLeft = _dialogSpeaker.style.paddingRight = 12;
+            DisplayFont(_dialogSpeaker);
+            _dialogText = L("", 31, false, Ink);
+            _dialogMore = L("", 19, true, Ink);
             _dialogMore.style.unityTextAlign = TextAnchor.LowerRight;
-            col.Add(_dialogSpeaker); col.Add(_dialogText); col.Add(_dialogMore);
+            var speech = new ScrollView();
+            speech.style.flexShrink = 1;
+            speech.style.maxHeight = 360;
+            speech.Add(_dialogText);
+            col.Add(_dialogSpeaker); col.Add(speech); col.Add(_dialogMore);
             _dialog.Add(col);
             _dialog.style.display = DisplayStyle.None;
             _dialogBlocker.Add(_dialog);
@@ -307,7 +456,7 @@ namespace TitanGate.Game
             // real-time emergency banner
             _incident = Abs(new VisualElement());
             _incident.style.left = 380; _incident.style.right = 380; _incident.style.top = 150;
-            _incident.style.backgroundColor = new Color(0.35f, 0.04f, 0.08f, 0.95f); Border(_incident, CRed, 3, 10); Pad(_incident, 12);
+            _incident.Add(Plate(new Color(0.27f, 0.04f, 0.055f), CRed)); Pad(_incident, 16);
             _incident.pickingMode = PickingMode.Ignore;
             _incidentLabel = L("", 26, true, CText);
             _incidentLabel.style.unityTextAlign = TextAnchor.MiddleCenter;
@@ -323,8 +472,8 @@ namespace TitanGate.Game
 
             // toast
             _toastBox = Abs(new VisualElement());
-            _toastBox.style.bottom = 145; _toastBox.style.left = 0; _toastBox.style.right = 0;
-            _toastBox.style.alignItems = Align.Center;
+            _toastBox.style.bottom = 88; _toastBox.style.right = 24; _toastBox.style.maxWidth = 560;
+            _toastBox.style.alignItems = Align.FlexEnd;
             _toastBox.pickingMode = PickingMode.Ignore;
             _root.Add(_toastBox);
 
@@ -469,7 +618,6 @@ namespace TitanGate.Game
             _incident.style.display = DisplayStyle.Flex;
             _incidentLabel.text = Thai(text);
             _incidentFill.style.width = Length.Percent(Mathf.Clamp01(frac) * 100f);
-            _incident.style.opacity = (Time.unscaledTime * 3f % 1f) < 0.5f ? 1f : 0.82f;
         }
 
         public void SetForecast(string text, bool danger)
@@ -555,7 +703,12 @@ namespace TitanGate.Game
             _dialogMore.text = Thai(_loc.T("ui.continue"));
             _dialogPortrait.image = sp == "orbi" ? Art.Orbi(0).texture : (sp == "mentor" ? Art.Crew("mentor", 0, -1).texture : sp == "you" ? Art.Crew("cadet", 0, -1).texture : null);
             _dialogPortrait.style.display = _dialogPortrait.image != null ? DisplayStyle.Flex : DisplayStyle.None;
-            Border(_dialog, sp == "sys" ? CAmber : CCyan, 3, 10);
+            bool player = sp == "you";
+            _dialog.style.left = Length.Percent(player ? 8 : 21);
+            _dialog.style.right = Length.Percent(player ? 21 : 8);
+            _dialogPortrait.style.left = player ? StyleKeyword.Auto : new StyleLength(Length.Percent(0));
+            _dialogPortrait.style.right = player ? new StyleLength(Length.Percent(0)) : StyleKeyword.Auto;
+            _dialogSpeaker.style.alignSelf = player ? Align.FlexEnd : Align.FlexStart;
         }
 
         string _fullLine = "";
@@ -605,7 +758,8 @@ namespace TitanGate.Game
             if (_modalBuild == null) return;
             _modalLayer.Clear();
             var panel = new VisualElement();
-            panel.style.backgroundColor = CPanel; Border(panel, CCyan, 3, 12); Pad(panel, 26);
+            panel.style.backgroundColor = CPanel; Border(panel, CAmber, 3, 3); Pad(panel, 26);
+            panel.style.borderTopWidth = 7;
             panel.style.minWidth = 640; panel.style.maxWidth = 1180;
             _modalLayer.Add(panel);
             _modalBuild(panel);
@@ -632,7 +786,8 @@ namespace TitanGate.Game
 
         public Label Title(VisualElement parent, string text)
         {
-            var t = L(text, 34, true, CCyan);
+            var t = L(text, 36, true, CAmber);
+            DisplayFont(t);
             t.style.marginBottom = 10;
             parent.Add(t);
             return t;
@@ -662,9 +817,9 @@ namespace TitanGate.Game
         public void Toast(string text, Color? border = null)
         {
             var t = new VisualElement { pickingMode = PickingMode.Ignore };
-            t.style.backgroundColor = CPanel2; Border(t, border ?? CAmber, 3, 10);
+            t.Add(Plate(CPanel2, border ?? CAmber));
             t.style.paddingLeft = t.style.paddingRight = 22; t.style.paddingTop = t.style.paddingBottom = 10;
-            t.style.marginBottom = 8; t.style.maxWidth = 1020;
+            t.style.marginBottom = 8; t.style.maxWidth = 560;
             while (_toastBox.childCount >= 2) _toastBox.RemoveAt(0);
             t.Add(L(text, 24, true, border ?? CAmber));
             _toastBox.Add(t);

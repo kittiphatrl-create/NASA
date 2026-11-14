@@ -14,7 +14,8 @@ namespace TitanGate.Game
         VisualElement BSprintPanel()
         {
             var p = new VisualElement(); p.style.position = Position.Absolute; p.style.right = 24; p.style.top = 20; p.style.width = 220;
-            p.style.backgroundColor = GameUI.CPanel; GameUI.Border(p, GameUI.CCyanD, 1, 3); p.style.paddingLeft = p.style.paddingRight = 14; p.style.paddingTop = p.style.paddingBottom = 10;
+            GameUI.PanelFrame(p, GameUI.CAmber);
+            p.style.paddingLeft = p.style.paddingRight = 14; p.style.paddingTop = p.style.paddingBottom = 10;
             var row = new VisualElement(); row.style.flexDirection = FlexDirection.Row; row.style.alignItems = Align.Center;
             var icon = new Image { sprite = Art.SprintIcon() }; icon.style.width = 28; icon.style.height = 28; row.Add(icon);
             row.Add(_ui.L("SHIFT", 18, true, GameUI.CCyan)); p.Add(row);
@@ -49,12 +50,9 @@ namespace TitanGate.Game
             Hotspot("orbi-interactive", 57, 37, 10, 17, TitleDronePoke);
         }
 
-        void ThemePanel(VisualElement panel, string eyebrow)
+        void ThemePanel(VisualElement panel)
         {
-            panel.style.backgroundColor = new Color(.045f, .085f, .12f, .98f);
-            GameUI.Border(panel, new Color(.42f, .63f, .63f), 2, 3);
-            panel.style.borderTopColor = GameUI.CAmber; panel.style.borderTopWidth = 5;
-            var label = _ui.L(eyebrow, 17, true, GameUI.CAmber); label.style.marginBottom = 8; panel.Add(label);
+            GameUI.PanelFrame(panel, GameUI.CAmber);
         }
 
         void StyleFlightButton(Button button, bool primary = false)
@@ -63,7 +61,7 @@ namespace TitanGate.Game
             button.style.borderLeftWidth = primary ? 7 : 3;
             button.style.borderBottomWidth = 4;
             button.style.borderBottomColor = new Color(.025f, .045f, .08f);
-            if (primary) { button.style.backgroundColor = new Color(.78f, .45f, .23f); button.style.color = GameUI.CText; }
+            if (primary) { button.style.backgroundColor = GameUI.CAmber; button.style.color = GameUI.Ink; }
         }
     }
 }

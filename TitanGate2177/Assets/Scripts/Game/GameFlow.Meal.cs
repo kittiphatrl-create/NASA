@@ -294,7 +294,7 @@ namespace TitanGate.Game
         {
             var menu = new VisualElement();
             menu.style.position = Position.Absolute; menu.style.left = Mathf.Min(at.x, 1500); menu.style.top = Mathf.Min(at.y, 800); menu.style.width = 400;
-            menu.style.backgroundColor = new Color(0.05f, 0.07f, 0.14f, 0.98f); GameUI.Border(menu, GameUI.CAmber, 2, 10);
+            GameUI.PanelFrame(menu, GameUI.CAmber);
             menu.style.paddingLeft = menu.style.paddingRight = 10; menu.style.paddingTop = menu.style.paddingBottom = 8;
             menu.Add(_ui.L(LbName(who), 22, true, GameUI.CAmber));
             var group = new List<VisualElement>();
@@ -349,46 +349,83 @@ namespace TitanGate.Game
             _ui.ShowScreen(root =>
             {
                 root.style.alignItems = Align.FlexStart; root.style.justifyContent = Justify.FlexEnd;
-                var dim = Abs(0, 0, 1920, 1080); dim.style.backgroundColor = new Color(0.01f, 0.02f, 0.05f, 0.72f); root.Add(dim);
+                root.Add(GameUI.Backdrop(GameUI.DialogueShade));
                 var (who, text) = lines[Mathf.Clamp(index, 0, lines.Count - 1)];
                 var sp = who == null ? Art.Crew("cadet", 0, -1) : Art.Crew(who, 0, -1, false, false, index == 0);
-                float k = 640f / sp.rect.height;
-                var pic = Abs(who == null ? 1180 : 160, 1080 - 640 - 250, sp.rect.width * k, 640); pic.style.backgroundImage = new StyleBackground(sp); root.Add(pic);
-                var boxv = new VisualElement(); boxv.style.position = Position.Absolute; boxv.style.left = 80; boxv.style.right = 80; boxv.style.bottom = 40; boxv.style.minHeight = 230;
-                boxv.style.backgroundColor = new Color(0.05f, 0.07f, 0.14f, 0.97f); GameUI.Border(boxv, GameUI.CCyan, 3, 16);
+                bool player = who == null;
+                bool last = index >= lines.Count - 1;
+                root.Add(ConversationPortrait(sp, player));
+                if (last && !player && replies.Count > 1)
+                    root.Add(ConversationPortrait(Art.Crew("cadet", 0, -1), true));
+                var boxv = new VisualElement(); boxv.style.position = Position.Absolute;
+                bool choice = last && replies.Count > 1;
+                boxv.style.left = Length.Percent(player ? 7 : 20);
+                boxv.style.right = Length.Percent(choice ? 53 : player ? 20 : 12);
+                boxv.style.bottom = 40; boxv.style.maxHeight = Length.Percent(34);
+                boxv.Add(GameUI.Plate(GameUI.Paper, GameUI.Ink, 26, printed: true, weight: 7));
                 boxv.style.paddingLeft = boxv.style.paddingRight = 34; boxv.style.paddingTop = 18; boxv.style.paddingBottom = 18;
-                var plate = _ui.L(who == null ? _loc.T("life.crew.me") : LbName(who), 26, true, GameUI.CAmber);
-                plate.style.position = Position.Absolute; plate.style.top = -24; plate.style.left = 30; plate.style.backgroundColor = new Color(0.05f, 0.07f, 0.14f, 1f);
-                plate.style.paddingLeft = plate.style.paddingRight = 14; GameUI.Border(plate, GameUI.CAmber, 2, 8);
+                var plate = _ui.PrintedLabel(player ? _loc.T("life.crew.me") : LbName(who), 24, GameUI.CAmber, GameUI.Ink);
+                plate.style.alignSelf = player ? Align.FlexEnd : Align.FlexStart;
+                plate.style.marginTop = -45;
                 boxv.Add(plate);
                 if (who != null && _life != null && _life.State.guests.Contains(who))
                 {
                     var hearts = BondHearts(who, 22); hearts.style.position = Position.Absolute; hearts.style.top = -18; hearts.style.right = 30; boxv.Add(hearts);
                 }
-                var body = _ui.L(text, 27); body.style.marginTop = 10; boxv.Add(body);
-                bool last = index >= lines.Count - 1;
+                var body = _ui.L(text, 28, false, GameUI.Ink); body.style.marginTop = 6;
+                var dialogue = new ScrollView(); dialogue.style.flexShrink = 1;
+                dialogue.Add(body); boxv.Add(dialogue);
                 root.Add(boxv);
                 if (!last)
                 {
                     // "next" sits in the box's corner where the eye ends the line
                     var next = _ui.B(_loc.T("life.continue"), () => BShowVN(id, lines, replies, index + 1), 24, true);
-                    next.style.position = Position.Absolute; next.style.right = 30; next.style.bottom = 18; boxv.Add(next);
+                    next.style.alignSelf = Align.FlexEnd;
+                    _ui.CutButton(next, true, size: 20);
+                    boxv.Add(next);
                 }
                 else
                 {
                     // choices: one big button each, stacked in the middle of the screen above the text box
-                    var opts = new VisualElement(); opts.style.position = Position.Absolute; opts.style.left = 560; opts.style.width = 800; opts.style.bottom = 300;
+                    var opts = new ScrollView(); opts.style.position = Position.Absolute;
+                    opts.style.right = Length.Percent(18); opts.style.width = Length.Percent(34);
+                    opts.style.bottom = Length.Percent(choice ? 9 : 35); opts.style.maxHeight = Length.Percent(60);
                     opts.style.flexDirection = FlexDirection.Column; opts.style.alignItems = Align.Stretch;
+                    Button initial = null;
                     foreach (var (label, act) in replies)
                     {
                         var a = act;
                         var bt = _ui.B(label, () => { _ui.HideScreen(); a?.Invoke(); }, 26, replies.Count == 1);
-                        bt.style.height = 70; bt.style.marginTop = 10; bt.style.marginLeft = bt.style.marginRight = 0;
+                        bt.style.minHeight = 62; bt.style.marginTop = 8; bt.style.marginLeft = bt.style.marginRight = 0;
+                        bt.style.unityTextAlign = TextAnchor.MiddleLeft;
+                        var glyph = replies.Count == 1 ? null : Art.TalkBubble();
+                        _ui.CutButton(bt, replies.Count == 1, icon: glyph);
+                        initial ??= bt;
                         opts.Add(bt);
                     }
                     root.Add(opts);
+                    initial?.Focus();
                 }
             });
+        }
+
+        static VisualElement ConversationPortrait(Sprite sprite, bool right)
+        {
+            var group = new VisualElement { pickingMode = PickingMode.Ignore };
+            group.style.position = Position.Absolute;
+            group.style.width = Length.Percent(24); group.style.height = Length.Percent(49);
+            group.style.bottom = 0;
+            if (right) group.style.right = 0;
+            else group.style.left = 0;
+            var print = GameUI.Plate(right ? GameUI.Paper : GameUI.CAmber, GameUI.Ink, 55, true, 7);
+            print.style.top = Length.Percent(28);
+            group.Add(print);
+            var portrait = new Image { sprite = sprite, scaleMode = ScaleMode.ScaleToFit, pickingMode = PickingMode.Ignore };
+            portrait.style.position = Position.Absolute;
+            portrait.style.width = Length.Percent(100); portrait.style.height = Length.Percent(94);
+            portrait.style.bottom = 0;
+            group.Add(portrait);
+            return group;
         }
     }
 }
