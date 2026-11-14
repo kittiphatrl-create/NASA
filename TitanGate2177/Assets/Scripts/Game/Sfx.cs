@@ -48,6 +48,11 @@ namespace TitanGate.Game
             Make("hum", 4.0f, t => (Sine(t, 55) * 0.35f + Sine(t, 110) * 0.15f + Sine(t, 165.5f) * 0.05f) * (0.85f + 0.15f * Mathf.Sin(t / 4f * Mathf.PI * 2)) + LowNoise(0.995f) * 0.08f);
 
             foreach (var id in new[] { "click", "hover", "open", "close", "good", "ship", "drone" }) { var clip = Resources.Load<AudioClip>("Audio/KenneyUI/" + id); if (clip != null) _clips[id] = clip; }
+            // real CC0 recordings (Kenney Sci-Fi Sounds, docs/AUDIO_CREDITS.md) replace the generated ones where we have them
+            foreach (var (id, file) in new[] { ("door_open", "doorOpen_000"), ("door_close", "doorClose_000"), ("blip", "computerNoise_001"), ("work", "impactMetal_000"),
+                ("thud", "lowFrequency_explosion_000"), ("whoosh", "thrusterFire_000"), ("rumble", "spaceEngineLow_000"), ("shield", "forceField_000"),
+                ("rover", "engineCircular_000"), ("console", "computerNoise_000"), ("clank", "impactMetal_002") })
+            { var clip = Resources.Load<AudioClip>("Audio/KenneySciFi/" + file); if (clip != null) _clips[id] = clip; }
 
             Loopable("heart", 0.45f, false);
             Loopable("siren", 0.25f, false);

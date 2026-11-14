@@ -134,12 +134,12 @@ namespace TitanGate.Game
         {
             foreach (var g in _bDoorGroups)
             {
-                bool locked = BDoorLocked(g);
+                bool locked = BDoorLocked(g), shut = locked || LdDoorAlwaysShut(g.rect);
                 for (int x = g.rect.xMin; x < g.rect.xMax; x++)
-                    for (int y = g.rect.yMin; y < g.rect.yMax; y++) _bSolid[x, y] = locked;   // a locked door blocks the way
+                    for (int y = g.rect.yMin; y < g.rect.yMax; y++) _bSolid[x, y] = shut;   // a locked door blocks the way
                 float reach = g.horizontal ? Mathf.Max(Mathf.Abs(_bPos.x - g.center.x) - g.rect.width * .5f, 0) + Mathf.Abs(_bPos.y - g.center.y) * .8f
                                            : Mathf.Max(Mathf.Abs(_bPos.y - g.center.y) - g.rect.height * .5f, 0) + Mathf.Abs(_bPos.x - g.center.x) * .8f;
-                bool want = !locked && reach < 1.7f;
+                bool want = !shut && reach < 1.7f;
                 if (want != g.wantOpen)
                 {
                     g.wantOpen = want;

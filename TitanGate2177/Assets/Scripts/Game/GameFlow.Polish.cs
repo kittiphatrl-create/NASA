@@ -58,9 +58,29 @@ namespace TitanGate.Game
         static float Sn(float t, float f) => Mathf.Sin(t * 2 * Mathf.PI * f);
         static float Hz(int semitonesFromA2) => 110f * Mathf.Pow(2f, semitonesFromA2 / 12f);
 
+        AudioSource MusicFrom(AudioClip clip)
+        {
+            var src = _sfx.gameObject.AddComponent<AudioSource>();
+            src.clip = clip; src.loop = true; src.volume = 0; src.playOnAwake = false; src.Play();
+            return src;
+        }
+
+        /// <summary>A one-shot music cue (rescued / the end), at the music volume.</summary>
+        void LdStinger(string file)
+        {
+            var clip = Resources.Load<AudioClip>("Audio/Music/" + file);
+            if (clip == null || _sfx == null) return;
+            var src = _sfx.gameObject.AddComponent<AudioSource>();
+            src.clip = clip; src.volume = Settings.Master * Settings.Ambience; src.Play();
+            Destroy(src, clip.length + 0.5f);
+        }
+
         void LdMusicEnsure()
         {
             if (_musCalm != null) return;
+            // licensed CC0 tracks (Dark Sci-Fi Audio Pack by SRG774, docs/AUDIO_CREDITS.md); the generated layers below are only a fallback
+            var calm = Resources.Load<AudioClip>("Audio/Music/sector"); var tense = Resources.Load<AudioClip>("Audio/Music/urgent"); var storm = Resources.Load<AudioClip>("Audio/Music/airy");
+            if (calm != null && tense != null && storm != null) { _musCalm = MusicFrom(calm); _musTension = MusicFrom(tense); _musStorm = MusicFrom(storm); return; }
             // calm: a slow pad over Am – F – C – G, 4 s per chord, with a soft high bell every 2 s
             int[][] chords = { new[] { 0, 3, 7, 12 }, new[] { -4, 0, 3, 8 }, new[] { 3, 7, 10, 15 }, new[] { -2, 2, 5, 10 } };
             _musCalm = MakeMusic("mus_calm", t =>
@@ -94,7 +114,7 @@ namespace TitanGate.Game
             bool station = _bMode == 2 && _ld != null && _ld.Outcome == Outcome.Ongoing;
             bool tense = station && (_ld.ActiveFault != Fault.None || _ld.Health <= 1 || _ld.DarkNights > 0) || _bMode == 1 && _sScramble;
             bool storm = station && (_ld.StormToday || _ld.StormTomorrow);
-            float vol = Settings.Master * Settings.Ambience * 0.9f;
+            float vol = _ldEnded ? 0f : Settings.Master * Settings.Ambience * 0.9f;
             float k = dt * 0.8f;
             _musCalm.volume = Mathf.MoveTowards(_musCalm.volume, !tense && !storm ? vol * 0.7f : vol * 0.15f, k);
             _musTension.volume = Mathf.MoveTowards(_musTension.volume, tense ? vol * 0.8f : 0f, k);

@@ -94,7 +94,7 @@ namespace TitanGate.Game
                 case "explore_0": case "explore_1": case "explore_2":
                 {
                     int i = a[8] - '0';
-                    return (TT("Search: ", "ค้น: ") + LdSiteName(i), TT($"One trip outside a day. You may find {LdSiteFinds(i)}. A radiation hot spot hurts the crew.", $"ออกไปข้างนอกได้วันละครั้ง อาจเจอ{LdSiteFinds(i)} ถ้าเป็นจุดรังสีสูงลูกเรือจะบาดเจ็บ"));
+                    return (TT("Search: ", "ค้น: ") + LdSiteName(i), TT($"May find: {LdSiteFinds(i)}", $"อาจเจอ: {LdSiteFinds(i)}"));
                 }
                 case "prepare_shelter": return (TT("Prepare the storm shelter", "เตรียมห้องหลบรังสี"), TT("Tonight the shelter uses 1 battery and keeps the radiation out.", "คืนนี้ห้องหลบรังสีใช้แบต 1 และกันรังสีไว้"));
                 case "open_mystery": return (TT("Open an unlabelled food box", "เปิดกล่องอาหารไม่มีฉลาก"), TT($"Usually 1–2 meals, but it can be spoiled (upset stomach: −1 work unit tomorrow). Boxes: {_ld.MysteryFood}.", $"ส่วนใหญ่ได้ 1–2 มื้อ แต่อาจเสีย (ท้องเสีย: พรุ่งนี้เวลาทำงาน −1) เหลือ {_ld.MysteryFood} กล่อง"));
@@ -106,7 +106,7 @@ namespace TitanGate.Game
                 case "raid_battery": return (TT("Give them 2 battery", "ให้แบต 2"), TT("They leave in peace.", "พวกเขาจากไปอย่างสงบ"));
                 case "raid_refuse": return (TT("Say no", "ปฏิเสธ"), _ld.HasFlashlight ? TT("They will come back tonight — your flashlight will scare them off.", "คืนนี้พวกเขาจะกลับมา แต่ไฟฉายจะไล่ไปได้") : TT("They will come back tonight and take 2 food.", "คืนนี้พวกเขาจะกลับมาเอาอาหาร 2"));
                 case "dip_flashlight": return (TT("Work by flashlight", "ใช้ไฟฉายทำงานต่อ"), TT("Turn the cabin lights off and send by flashlight: no extra cost.", "ปิดไฟห้องแล้วใช้ไฟฉายส่งต่อ: ไม่เสียอะไรเพิ่ม"));
-                case "end_day": return (TT("Sleep until morning", "นอนจนถึงเช้า"), TT("Pass the rest of today. Broken things keep getting worse.", "ข้ามเวลาที่เหลือของวัน ของที่เสียจะแย่ลงต่อ"));
+                case "end_day": return (TT("Dinner and sleep", "กินข้าวแล้วนอน"), TT("Pass the rest of today. Broken things keep getting worse.", "ข้ามเวลาที่เหลือของวัน ของที่เสียจะแย่ลงต่อ"));
             }
             return (a, "");
         }
@@ -298,12 +298,12 @@ namespace TitanGate.Game
             BLamp(new Vector2(12.5f, 12f), new Color(0.7f, 0.85f, 1f), 3f, 0.35f);
 
             // ---- Core (x 16-28, y 7-16): station board, bunks for the night, seats
-            BProp("ld_board", TT("Station board", "แผงสถานะสถานี"), Art.Station("board", false) ?? Art.MissionBoard(false), 22.0f, 17.05f, new Vector2(22.0f, 16.3f), order: SortY(17) + 1);
-            BProp("ld_bunk", TT("Bunk (sleep)", "เตียง (นอน)"), Art.Bed(), 26.4f, 15.0f, new Vector2(24.4f, 15.0f), 3, 1);
-            BDeco(Art.Table(), 22.0f, 11.2f, 3);
-            BDeco(Art.PilotSeat(), 19.6f, 11.0f, 1);
-            BDeco(Art.PilotSeat(), 24.4f, 11.0f, 1);
-            BDeco(Art.Crates(), 27.4f, 7.6f, 2);
+            // the board sits on the wall between the Life Support and airlock doors (it used to cover a door frame)
+            BProp("ld_board", TT("Station board", "แผงสถานะสถานี"), Art.Station("board", false) ?? Art.MissionBoard(false), 24.5f, 17.05f, new Vector2(24.5f, 16.3f), order: SortY(17) + 1);
+            // the crew table: dinner ends the day; the two chairs face each other across it
+            BProp("ld_table", TT("Dinner table (end the day)", "โต๊ะกินข้าว (จบวัน)"), Art.Table(), 22.0f, 11.2f, new Vector2(22.0f, 10.2f), 3);
+            BProp("deco", null, Art.PilotSeat(), 19.6f, 11.0f, Vector2.zero, 1);
+            BProp("deco", null, Art.PilotSeat(), 24.4f, 11.0f, Vector2.zero, 1).sr.flipX = true;
             BLamp(new Vector2(22f, 12f), new Color(1f, 0.85f, 0.6f), 8f, 0.5f);
 
             // ---- Life Support (x 16-25, y 18-23): scrubber, O₂ generator, fan
@@ -500,10 +500,12 @@ namespace TitanGate.Game
         void LdUse(BSpot s)
         {
             if (_ld == null || _ldEnded) return;
+            _sfx.Play("console", 0.6f);
             if (_ld.PowerDipPending) { LdShowDip(); return; }
             if (_ld.RaiderPending) { LdShowRaid(); return; }
             if (s.id.StartsWith("site_") || s.id == "rover_pad") { LdShowOutsidePanel(s.id); return; }
-            if (s.id == "ld_bunk") { LdShowPanel(DockRoom.Core, "ld_bunk"); return; }
+            if (s.id == "ld_airlock") { LdShowAirlock(); return; }
+            if (s.id == "ld_table") { LdShowPanel(DockRoom.Core, "ld_table"); return; }
             var room = LdRoomOfSpot(s.id);
             if (!_ld.Usable(room)) { _ui.Toast(TT("This module is closed off. Patch it from the station board.", "โมดูลนี้ถูกปิดอยู่ อุดรอยรั่วได้จากแผงสถานะสถานี"), GameUI.CDim); return; }
             LdShowPanel(room, s.id);
@@ -512,6 +514,7 @@ namespace TitanGate.Game
         /// <summary>Which actions a console offers. Only actions that can apply now are shown (with the reason if blocked).</summary>
         IEnumerable<string> LdConsoleActions(DockRoom room, string spot)
         {
+            if (spot == "ld_table") return new[] { "open_mystery", "end_day" }.Where(a => _ld.Can(a, out var w) || w != "not_needed");
             var f = _ld.ActiveFault;
             var list = new List<string>();
             if (f != Fault.None)
@@ -613,7 +616,7 @@ namespace TitanGate.Game
         {
             _ui.ShowModal(p =>
             {
-                string title = spot == "ld_dock" ? TT("Docking port", "ช่องเทียบท่า") : spot == "ld_bunk" ? TT("Bunk", "เตียงนอน") : spot == "ld_board" ? TT("Station board", "แผงสถานะสถานี") : LdRoomName(room);
+                string title = spot == "ld_dock" ? TT("Docking port", "ช่องเทียบท่า") : spot == "ld_table" ? TT("Dinner table", "โต๊ะกินข้าว") : spot == "ld_board" ? TT("Station board", "แผงสถานะสถานี") : LdRoomName(room);
                 LdHeader(p, title);
                 p.Add(LdPara(TT($"Day {_ld.Day} of {_ld.C.days} · work units left: {_ld.WorkUnits}", $"วันที่ {_ld.Day} จาก {_ld.C.days} · เวลาทำงานเหลือ: {_ld.WorkUnits}"), GameUI.CCyan, 22));
                 var f = _ld.ActiveFault;
@@ -660,20 +663,20 @@ namespace TitanGate.Game
             int day = _ld.Day;
             var before = _ld.ActiveFault;
             int logMark = _ld.Log.Count;
+            if ((a.StartsWith("explore_") || a == "send_rover") && _ld.Can(a, out _)) { StartCoroutine(LdExpedition(a)); return; }   // off-screen trip (GameFlow.DayFlow.cs)
             _ui.CloseModal();
             var r = _ld.Do(a);
             if (!r.ok) { _sfx.Play("bad"); _ui.Toast(LdBlockedText(r.reason), GameUI.CRed); return; }
             _sfx.Play(a.StartsWith("repair") ? "good" : "card");
+            if (a.StartsWith("repair") || a == "assemble_rover") _sfx.Play("clank");
+            if (a == "prepare_shelter") _sfx.Play("shield");
             if (a.StartsWith("repair") || a == "assemble_rover") LdSparks();
             StartCoroutine(Act(a.StartsWith("repair") || a == "search" ? "lift" : "lift", .45f, null));
             foreach (var n in r.notes) { var t = LdNote(n); if (t != null) _ui.Toast(t, n == "power_dip" ? GameUI.CRed : GameUI.CGreen); }
             // the solved incident teaches its fact
             if (before != Fault.None && before != Fault.PowerDip && _ld.ActiveFault != before)
                 _ui.Toast("NASA: " + LdIncidentOf(before).fact, GameUI.CCyan);
-            if (_ld.PowerDipPending) { LdShowDip(); return; }
-            if (_ld.RaiderPending) { LdShowRaid(); return; }
-            if (_ld.Outcome != Outcome.Ongoing) { StartCoroutine(LdEnd()); return; }
-            if (_ld.Day != day) LdNightReport(day, logMark);
+            LdAfterAction(day, logMark);
         }
 
         string LdNote(string n)
@@ -815,6 +818,7 @@ namespace TitanGate.Game
             _sfx.Loop("siren", false);
             bool won = _ld.Outcome == Outcome.Rescued;
             _sfx.Play(won ? "good" : "bad");
+            LdStinger(won ? "victory" : "transmission");
             yield return new WaitForSeconds(0.8f);
             _ui.ShowScreen(root =>
             {
@@ -946,18 +950,20 @@ namespace TitanGate.Game
                 string a = LastDockBot.Choose(_ld, plan);
                 if (!a.StartsWith("dip_") && !a.StartsWith("raid_"))
                 {
-                    string spot = a == "end_day" ? "ld_bunk" : a.StartsWith("explore_") ? "site_" + a.Substring(8) : a.Contains("rover") ? "rover_pad"
+                    string spot = a == "end_day" || a == "open_mystery" ? "ld_table" : a.StartsWith("explore_") || a.Contains("rover") ? "ld_airlock"
                         : a == "use_medkit" || a == "prepare_shelter" || a == "open_mystery" ? "ld_board" : a == "send" || a == "cannibalize" || a == "repair_radio" ? "ld_radio" : a == "search" ? "ld_lockers" : a == "shed_load" || a == "repair_thermal" ? "ld_thermal"
                         : a == "shelter" || a == "repair_leak" || a == "seal_room" || a == "detach_storage" ? "ld_board"
                         : a == "repair_fan" || a == "backup_fan" ? "ld_fan" : a == "repair_o2gen" || a == "low_activity" ? "ld_o2gen" : "ld_scrubber";
                     if (spot != "ld_board" && !_ld.Usable(LdRoomOfSpot(spot))) spot = "ld_board";
                     yield return AutoWalkUse(spot);
+                    if (spot == "ld_airlock" && !_ldShotAirlock) { _ldShotAirlock = true; yield return new WaitForSeconds(0.5f); yield return Shot("ld07_airlock"); }
                     yield return new WaitForSeconds(0.3f);
                     if (_ld.ActiveFault != Fault.None && shots < 12) { shots++; yield return Shot($"ld{10 + shots:00}_panel"); }
                 }
                 PNote($"day {_ld.Day} wu {_ld.WorkUnits}: {a}  [F{_ld.Food} O{_ld.Oxygen} B{_ld.Battery} P{_ld.Parts} CO2 {_ld.Co2} H{_ld.Heat} S{_ld.Signal} HP{_ld.Health} fault {_ld.ActiveFault}]");
                 LdDo(a);
                 yield return new WaitForSeconds(0.4f);
+                { float ws = 0; while ((_ldSeq || _ui.ScreenOpen && !_ldEnded) && ws < 20f) { ws += Time.deltaTime; yield return null; } }
                 if (!faultShot && _ld.ActiveFault != Fault.None && _ld.ActiveFault != Fault.PowerDip) { faultShot = true; _ui.CloseModal(); var fs = BSpotById(LdSpotOfRoom(LdIncidentOf(_ld.ActiveFault).room)); if (fs != null) { yield return AutoWalkUse(fs.id); _ui.CloseModal(); yield return new WaitForSeconds(0.5f); } yield return Shot("ld03_fault"); }
             }
             PNote($"LAST DOCK {_ld.Outcome} on day {_ld.Day} in {_playClock - start:0}s; log: {string.Join(",", _ld.Log)}");

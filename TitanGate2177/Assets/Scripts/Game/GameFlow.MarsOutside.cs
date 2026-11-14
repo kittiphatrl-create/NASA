@@ -58,16 +58,18 @@ namespace TitanGate.Game
             // outside: solar panels that feed the base, the three sites and the rover pad
             BDeco(Art.SolarArray(false, false), 41.5f, 17.6f, 4);
             BDeco(Art.SolarArray(false, true), 41.5f, 13.6f, 4);
-            BProp("site_0", LdSiteName(0), Art.CargoPod(true), LdSitePos[0].x, LdSitePos[0].y, LdSitePos[0] + new Vector2(0, -1f), 2, 1);
-            BProp("site_1", LdSiteName(1), Art.Station("rover_wreck", false) ?? Art.CargoPod(false), LdSitePos[1].x, LdSitePos[1].y, LdSitePos[1] + new Vector2(0, -1f), 2, 1);
-            BProp("site_2", LdSiteName(2), Art.Crates(), LdSitePos[2].x, LdSitePos[2].y, LdSitePos[2] + new Vector2(0, -0.9f), 2, 1);
+            // the sites are scenery now: trips outside start at the airlock door and happen off screen (60 Seconds style)
+            BDeco(Art.CargoPod(true), LdSitePos[0].x, LdSitePos[0].y, 2);
+            BDeco(Art.Station("rover_wreck", false) ?? Art.CargoPod(false), LdSitePos[1].x, LdSitePos[1].y, 2);
+            BDeco(Art.Crates(), LdSitePos[2].x, LdSitePos[2].y, 2);
+            BProp("ld_airlock", TT("Airlock: go outside", "ประตูออกข้างนอก"), null, 31.6f, 21.0f, new Vector2(30.8f, 20.6f));
             for (int i = 0; i < StationSimulation.Sites; i++)
             {
                 _ldHot[i] = BSprite("hot", Art.SoftLight(), LdSitePos[i] + new Vector2(0, 0.4f), 30001);
                 _ldHot[i].transform.localScale = Vector3.one * 3.2f;
                 _ldHot[i].color = Color.clear;
             }
-            _ldRover = BProp("rover_pad", TT("Rover pad", "ลานจอดรถสำรวจ"), null, 35.5f, 23.0f, new Vector2(35.5f, 21.8f)).sr;
+            _ldRover = BSprite("rover_pad", null, new Vector2(35.5f, 23.0f), SortY(23f));
             BLamp(new Vector2(35.5f, 23.5f), new Color(1f, 0.8f, 0.5f), 3.5f, 0.35f);
 
             // full-map tints: a dark base when the battery is empty, an orange sky over the outside in a storm
@@ -93,6 +95,9 @@ namespace TitanGate.Game
             _ldStormTint.color = Color.Lerp(_ldStormTint.color, _ld.StormToday ? new Color(1f, 0.35f, 0.1f, 0.12f + 0.06f * pulse) : Color.clear, dt * 2);
             _sfx.Loop("heart", _ld.Health == 1 && _ld.Outcome == Outcome.Ongoing);
         }
+
+        /// <summary>The airlock's outer door never opens on its own: going outside is an off-screen trip.</summary>
+        bool LdDoorAlwaysShut(RectInt r) => _bMode == 2 && r.Contains(new Vector2Int(32, 20));
 
         /// <summary>The top warning line: a fault first, then the storm, then the dark.</summary>
         (string text, Color color)? LdAlert()

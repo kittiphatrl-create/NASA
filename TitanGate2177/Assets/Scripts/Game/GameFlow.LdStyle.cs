@@ -80,7 +80,7 @@ namespace TitanGate.Game
                 chip.style.paddingLeft = 8; chip.style.paddingRight = 10; chip.style.paddingTop = 3; chip.style.paddingBottom = 3;
                 chip.style.marginLeft = 3; chip.style.marginRight = 3; chip.style.marginBottom = 4;
                 var icon = LdIconImage(id, 22, GameUI.CText);
-                var val = _ui.L("", 21, true, GameUI.CText); val.pickingMode = PickingMode.Ignore; val.style.marginLeft = 6;
+                var val = _ui.L("", 21, true, GameUI.CText); val.pickingMode = PickingMode.Ignore; val.style.marginLeft = 6; LdFont(val);
                 chip.Add(icon); chip.Add(val); row.Add(chip);
                 _ldChips[id] = (chip, val, icon);
             }
@@ -101,7 +101,7 @@ namespace TitanGate.Game
         {
             _ldCardIndex = 0;
             var head = new VisualElement(); head.style.marginBottom = 10;
-            var t = _ui.L(title, 36, true, LdGold); _ui.DisplayFont(t);
+            var t = _ui.L(title, 36, true, LdGold); LdFont(t);
             head.Add(t);
             var rule = new VisualElement(); rule.style.height = 2; rule.style.marginTop = 4; rule.style.backgroundColor = LdGoldDim;
             var gem = new VisualElement(); gem.style.width = 10; gem.style.height = 10; gem.style.backgroundColor = LdGold; gem.style.rotate = new Rotate(new Angle(45f));
@@ -129,10 +129,12 @@ namespace TitanGate.Game
             iconBox.Add(LdIconImage(LdActionIcon(a), 30, can ? LdGold : GameUI.CDim));
             card.Add(iconBox);
             var mid = new VisualElement(); mid.style.marginLeft = 14; mid.style.flexGrow = 1; mid.style.flexShrink = 1;
-            var title = _ui.L(name, 24, true, can ? GameUI.CText : GameUI.CDim); title.style.whiteSpace = WhiteSpace.Normal;
+            var title = _ui.L(name, 24, true, can ? GameUI.CText : GameUI.CDim); title.style.whiteSpace = WhiteSpace.Normal; LdFont(title);
             mid.Add(title);
             mid.Add(LdPara(effect, can ? GameUI.CDim : new Color(0.6f, 0.6f, 0.62f), 19));
-            mid.Add(LdPara(can ? "→ " + LdPreviewText(a) : TT("Can't: ", "ทำไม่ได้: ") + LdBlockedText(why), can ? GameUI.CGreen : GameUI.CRed, 18));
+            bool random = a.StartsWith("explore") || a == "send_rover" || a == "open_mystery";
+            if (can && !random) mid.Add(LdDeltaRow(_ld.Preview(a), 20));   // what changes, as icons
+            else mid.Add(LdPara(can ? "? " + LdPreviewText(a) : TT("Can't: ", "ทำไม่ได้: ") + LdBlockedText(why), can ? GameUI.CAmber : GameUI.CRed, 18));
             card.Add(mid);
             // the cost on the right: one turn, the rest of the day, or nothing (answers to an event)
             bool free = a.StartsWith("dip_") || a.StartsWith("raid_");
