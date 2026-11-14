@@ -75,6 +75,55 @@ namespace TitanGate.Game
             _bPlayer.sprite = s; _bPlayer.flipX = _bFlip8;
         }
 
+        /// <summary>If the cadet ends up inside something solid (a door shutting, fire, a prop), move them to the nearest free spot.</summary>
+        void BUnstick()
+        {
+            if (BFree(_bPos)) return;
+            for (int r = 1; r <= 4; r++)
+                for (int dx = -r; dx <= r; dx++)
+                    for (int dy = -r; dy <= r; dy++)
+                    {
+                        if (Mathf.Abs(dx) != r && Mathf.Abs(dy) != r) continue;
+                        var p = new Vector2(Mathf.Floor(_bPos.x) + dx + 0.5f, Mathf.Floor(_bPos.y) + dy + 0.5f);
+                        if (BFree(p)) { _bPos = p; _bPath = null; return; }
+                    }
+        }
+
+        // ------------------------------------------------------------------ reachability check (playtest)
+
+        /// <summary>Walk the map from the cadet's tile and log every use spot and room floor that cannot be reached.</summary>
+        void BReachReport(string label)
+        {
+            var start = new Vector2Int(Mathf.FloorToInt(_bPos.x), Mathf.FloorToInt(_bPos.y));
+            var seen = new bool[_bW, _bH]; var q = new Queue<Vector2Int>(); q.Enqueue(start); seen[start.x, start.y] = true;
+            while (q.Count > 0)
+            {
+                var c = q.Dequeue();
+                foreach (var d in new[] { Vector2Int.left, Vector2Int.right, Vector2Int.up, Vector2Int.down })
+                {
+                    var n = c + d;
+                    if (n.x < 0 || n.y < 0 || n.x >= _bW || n.y >= _bH || seen[n.x, n.y]) continue;
+                    // locked doors count as passable here: they open in play
+                    if (_bSolid[n.x, n.y] && !_bDoorTiles.Contains(n)) continue;
+                    seen[n.x, n.y] = true; q.Enqueue(n);
+                }
+            }
+            int bad = 0;
+            foreach (var s in _bSpots)
+            {
+                if (s.id == "deco" || s.stand == Vector2.zero) continue;
+                var t = new Vector2Int(Mathf.FloorToInt(s.stand.x), Mathf.FloorToInt(s.stand.y));
+                if (t.x < 0 || t.y < 0 || t.x >= _bW || t.y >= _bH || !seen[t.x, t.y]) { bad++; Log($"UNREACHABLE spot {s.id} stand {s.stand}"); }
+            }
+            foreach (var (r, key) in _bRooms)
+            {
+                int floor = 0, reach = 0;
+                for (int x = r.xMin; x < r.xMax; x++) for (int y = r.yMin; y < r.yMax; y++) if (!_bSolid[x, y]) { floor++; if (seen[x, y]) reach++; }
+                if (floor > 0 && reach < floor) Log($"room {key}: {floor - reach} of {floor} free tiles unreachable");
+            }
+            Check(bad == 0, $"{label}: every use spot reachable");
+        }
+
         // ------------------------------------------------------------------ automatic doors
 
         class BDoorGroup
@@ -151,6 +200,7 @@ namespace TitanGate.Game
                 if (s != null && g.sr.sprite != s) g.sr.sprite = s;
             }
             LdPolishUpdate(dt);   // grade, music, particles (GameFlow.Polish.cs)
+            BUnstick();
         }
     }
 }

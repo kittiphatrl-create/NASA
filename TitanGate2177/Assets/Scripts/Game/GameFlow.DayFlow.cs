@@ -103,7 +103,7 @@ namespace TitanGate.Game
                 var l = _ui.L((d > 0 ? "+" : "−") + Mathf.Abs(d), size - 2, true, c); l.style.marginLeft = 3; LdFont(l); chip.Add(l);
                 row.Add(chip);
             }
-            Add("food", r.food); Add("o2", r.oxygen); Add("battery", r.battery); Add("parts", r.parts); Add("co2", r.absorbers);
+            Add("food", r.food); Add("o2", r.oxygen); Add("battery", r.battery); Add("parts", r.parts); Add("can", r.absorbers);
             Add("co2", r.co2, false); Add("heat", r.heat, false); Add("signal", r.signal); Add("heart", r.health);
             if (row.childCount == 0) row.Add(_ui.L(TT("no change", "ไม่เปลี่ยน"), size - 4, false, GameUI.CDim));
             return row;

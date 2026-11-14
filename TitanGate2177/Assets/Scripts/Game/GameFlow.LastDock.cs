@@ -535,58 +535,88 @@ namespace TitanGate.Game
             return list.Distinct().Where(a => _ld.Can(a, out var why) || why != "not_needed" && why != "unknown" && why != "no_medkit" && !(a == "repair_radio" && why == "done"));
         }
 
+        /// <summary>Room status as icon chips: a machine with a tick or a cross, and the numbers that matter in this room.</summary>
         VisualElement LdStatusBlock(DockRoom room)
         {
-            var box = new VisualElement(); box.style.marginBottom = 10;
-            void Line(string label, bool ok, string okText = null, string badText = null)
-                => box.Add(LdPara("• " + label + ": " + (ok ? okText ?? TT("working", "ทำงานปกติ") : badText ?? TT("BROKEN", "เสีย")), ok ? GameUI.CGreen : GameUI.CRed, 22));
+            var box = new VisualElement(); box.style.flexDirection = FlexDirection.Row; box.style.flexWrap = Wrap.Wrap; box.style.marginBottom = 8; box.style.flexShrink = 0;
+            void Chip(string icon, string label, bool ok, string value = null)
+            {
+                var c = new VisualElement(); c.style.flexDirection = FlexDirection.Row; c.style.alignItems = Align.Center; c.style.marginRight = 8; c.style.marginBottom = 6;
+                c.style.paddingLeft = 8; c.style.paddingRight = 10; c.style.paddingTop = 4; c.style.paddingBottom = 4;
+                c.style.backgroundColor = ok ? new Color(0.05f, 0.14f, 0.09f, 0.9f) : new Color(0.25f, 0.04f, 0.06f, 0.9f); GameUI.Border(c, ok ? new Color(0.36f, 0.89f, 0.54f, 0.5f) : GameUI.CRed, 1, 8);
+                c.Add(LdIconImage(icon, 22, ok ? GameUI.CGreen : GameUI.CRed));
+                var l = _ui.L(" " + label + " " + (value ?? (ok ? "✓" : "✕")), 19, true, ok ? GameUI.CText : GameUI.CRed); c.Add(l);
+                box.Add(c);
+            }
             var s = _ld;
             switch (room)
             {
                 case DockRoom.LifeSupport:
-                    Line(TT("CO₂ scrubber", "เครื่องกรอง CO₂"), s.ScrubberOk);
-                    Line(TT("Air fan", "พัดลมหมุนเวียน"), s.FanOk || s.BackupCircuit, s.BackupCircuit ? TT("backup circuit on (+1 battery a night)", "ใช้วงจรสำรอง (+แบต 1 ต่อคืน)") : null);
-                    Line(TT("O₂ generator (splits station water)", "เครื่องผลิต O₂ (แยกน้ำของสถานี)"), s.O2GenOk);
-                    box.Add(LdPara($"CO₂: {LdLevel(s.Co2Level)}   ·   O₂ {TT("tanks", "ถัง")}: {s.Oxygen}   ·   {TT("absorber canisters", "กระป๋องดูดซับ")}: {s.Absorbers}", GameUI.CText, 22));
+                    Chip("co2", TT("Scrubber", "กรอง CO₂"), s.ScrubberOk);
+                    Chip("co2", TT("Fan", "พัดลม"), s.FanOk || s.BackupCircuit, s.BackupCircuit ? TT("backup", "สำรอง") : null);
+                    Chip("o2", TT("O₂ maker", "ผลิต O₂"), s.O2GenOk);
+                    Chip("co2", "CO₂", s.Co2Level == "normal", LdLevel(s.Co2Level));
+                    Chip("o2", TT("O₂ tanks", "ถัง O₂"), s.Oxygen > 0, s.Oxygen.ToString());
+                    Chip("can", TT("Canisters", "กระป๋อง"), s.Absorbers > 0, s.Absorbers.ToString());
                     break;
                 case DockRoom.Thermal:
-                    Line(TT("Coolant loop to radiators", "ท่อน้ำยาไปแผงระบายความร้อน"), s.ThermalOk);
-                    box.Add(LdPara($"{TT("Heat", "ความร้อน")}: {LdLevel(s.HeatLevel)}" + (s.TransmitterTripped ? TT("  · transmitter switched off (too hot)", "  · เครื่องส่งตัดเอง (ร้อนเกิน)") : "") + (s.LoadShedToday ? TT("  · spare machines off today", "  · ปิดเครื่องที่ไม่จำเป็นแล้ววันนี้") : ""), LdLevelColor(s.HeatLevel), 22));
+                    Chip("heat", TT("Coolant", "ระบายความร้อน"), s.ThermalOk);
+                    Chip("heat", TT("Heat", "ความร้อน"), s.HeatLevel == "normal", LdLevel(s.HeatLevel));
+                    if (s.TransmitterTripped) Chip("signal", TT("Radio", "วิทยุ"), false, TT("too hot", "ร้อนเกิน"));
                     break;
                 case DockRoom.Storage:
-                    box.Add(LdPara(TT($"Lockers left to search: {s.FindsLeft}", $"ตู้ที่ยังค้นได้: {s.FindsLeft}"), GameUI.CText, 22));
+                    Chip("parts", TT("Lockers left", "ตู้ที่เหลือ"), s.FindsLeft > 0, s.FindsLeft.ToString());
                     break;
                 case DockRoom.Comms:
-                    box.Add(LdPara(s.RadioFixed ? TT("Radio: working", "วิทยุ: ใช้งานได้") : TT($"Radio: broken — repair {s.RadioRepair}/{s.C.radioRepairDays}" + (s.HasRadioKit ? " (repair kit: 1 session)" : ""), $"วิทยุ: เสีย — ซ่อมแล้ว {s.RadioRepair}/{s.C.radioRepairDays}" + (s.HasRadioKit ? " (มีชุดซ่อม: ครั้งเดียวเสร็จ)" : "")), s.RadioFixed ? GameUI.CGreen : GameUI.CAmber, 22));
-                    box.Add(LdPara(TT($"Location sent: {s.Signal} of {s.C.signalNeeded}", $"ส่งพิกัดแล้ว: {s.Signal} จาก {s.C.signalNeeded}"), s.Signal >= s.C.signalNeeded ? GameUI.CGreen : GameUI.CCyan, 22));
-                    if (s.TransmitterTripped) box.Add(LdPara(TT("Too hot: the transmitter switched itself off. Cool the station first.", "ร้อนเกิน: เครื่องส่งตัดเอง ต้องลดความร้อนก่อน"), GameUI.CRed, 22));
+                    Chip("signal", TT("Radio", "วิทยุ"), s.RadioFixed, s.RadioFixed ? "✓" : $"{s.RadioRepair}/{s.C.radioRepairDays}" + (s.HasRadioKit ? TT(" kit", " มีชุดซ่อม") : ""));
+                    Chip("rescue", TT("Location sent", "ส่งพิกัด"), s.Signal >= s.C.signalNeeded, $"{s.Signal}/{s.C.signalNeeded}");
+                    if (s.TransmitterTripped) Chip("heat", TT("Too hot", "ร้อนเกิน"), false, "!");
                     break;
                 default:
-                    Line(TT("CO₂ scrubber", "เครื่องกรอง CO₂"), s.ScrubberOk);
-                    Line(TT("Air fan", "พัดลม"), s.FanOk || s.BackupCircuit);
-                    Line(TT("O₂ generator", "เครื่องผลิต O₂"), s.O2GenOk);
-                    Line(TT("Coolant loop", "ท่อระบายความร้อน"), s.ThermalOk);
+                    Chip("co2", TT("Scrubber", "กรอง CO₂"), s.ScrubberOk);
+                    Chip("co2", TT("Fan", "พัดลม"), s.FanOk || s.BackupCircuit);
+                    Chip("o2", TT("O₂ maker", "ผลิต O₂"), s.O2GenOk);
+                    Chip("heat", TT("Coolant", "ระบายความร้อน"), s.ThermalOk);
                     foreach (DockRoom r in new[] { DockRoom.LifeSupport, DockRoom.Thermal, DockRoom.Storage, DockRoom.Comms })
-                        if (!s.Usable(r) || s.LeakRoom == r)
-                            box.Add(LdPara("• " + LdRoomName(r) + ": " + (s.Detached.Contains(r) ? TT("detached", "ปลดออกแล้ว") : s.Sealed.Contains(r) ? TT("hatch closed", "ปิดประตูกั้นแล้ว") : TT("LEAKING", "รั่ว!")), GameUI.CRed, 22));
-                    box.Add(LdPara(TT($"Docking port needs {s.C.dockPower} battery on day {s.C.days}. Battery now: {s.Battery}.", $"ช่องเทียบท่าต้องใช้แบต {s.C.dockPower} ในวันที่ {s.C.days} ตอนนี้มีแบต {s.Battery}"), s.Battery >= s.C.dockPower ? GameUI.CDim : GameUI.CAmber, 22));
-                    box.Add(LdPara(TT($"Each night: eat 1 food, solar +{s.C.solarPerDay} battery, station uses {s.C.baseLoad}" + (s.BackupCircuit ? " (+1 backup fan)" : "") + ".",
-                        $"ทุกคืน: กินอาหาร 1 โซลาร์เซลล์ให้แบต +{s.C.solarPerDay} สถานีใช้ {s.C.baseLoad}" + (s.BackupCircuit ? " (+1 พัดลมสำรอง)" : "")), GameUI.CDim, 20));
+                        if (!s.Usable(r) || s.LeakRoom == r) Chip("o2", LdRoomName(r), false, s.Detached.Contains(r) ? TT("gone", "ปลดแล้ว") : s.Sealed.Contains(r) ? TT("closed", "ปิด") : TT("LEAK", "รั่ว"));
+                    Chip("battery", TT("Dock power", "ไฟเปิดช่องเทียบท่า"), s.Battery >= s.C.dockPower, $"{s.Battery}/{s.C.dockPower}");
+                    int net = s.SolarToday - s.C.baseLoad - (s.BackupCircuit ? 1 : 0);
+                    Chip("battery", TT("Each night", "ทุกคืน"), net >= 0, (net >= 0 ? "+" : "−") + Mathf.Abs(net));
+                    Chip("food", TT("Each night", "ทุกคืน"), s.Food > 1, "−1");
                     break;
             }
             return box;
         }
 
+        /// <summary>What grows worse each turn while a fault is left alone.</summary>
+        (string icon, string text) LdFaultTick(Fault f) => f switch
+        {
+            Fault.Scrubber => ("co2", "CO₂ +1"), Fault.Fan => ("co2", "CO₂ +1"), Fault.Thermal => ("heat", TT("Heat +1", "ความร้อน +1")),
+            Fault.Leak => ("o2", "O₂ −1"), Fault.O2Gen => ("o2", "O₂ −1"), _ => ("signal", "!"),
+        };
+
+        /// <summary>The incident card: title, one line of what and why, and what each turn of waiting costs (icons).</summary>
         VisualElement LdIncidentBlock(Fault f)
         {
             var inc = LdIncidentOf(f);
             var box = new VisualElement();
-            box.style.backgroundColor = new Color(0.25f, 0.04f, 0.06f, 0.7f); GameUI.Border(box, GameUI.CRed, 2, 10);
+            box.style.backgroundColor = new Color(0.25f, 0.04f, 0.06f, 0.8f); GameUI.Border(box, GameUI.CRed, 2, 10);
             box.style.paddingLeft = box.style.paddingRight = 14; box.style.paddingTop = box.style.paddingBottom = 8; box.style.marginBottom = 10;
-            box.Add(LdPara("! " + inc.title, GameUI.CRed, 28));
-            box.Add(LdPara(TT("What we notice: ", "อาการ: ") + inc.symptom, GameUI.CText, 22));
-            box.Add(LdPara(TT("Why: ", "สาเหตุ: ") + inc.diagnosis, GameUI.CText, 22));
-            box.Add(LdPara(TT("If we wait: ", "ถ้าปล่อยไว้: ") + inc.ignore, GameUI.CAmber, 22));
+            var head = new VisualElement(); head.style.flexDirection = FlexDirection.Row; head.style.alignItems = Align.Center;
+            var (icon, tick) = LdFaultTick(f);
+            head.Add(LdIconImage(icon, 34, GameUI.CRed));
+            var t = _ui.L("  " + inc.title, 28, true, GameUI.CRed); LdFont(t); head.Add(t);
+            box.Add(head);
+            box.Add(LdPara(inc.diagnosis, GameUI.CText, 20));
+            if (f != Fault.PowerDip)
+            {
+                var row = new VisualElement(); row.style.flexDirection = FlexDirection.Row; row.style.alignItems = Align.Center;
+                row.Add(LdIconImage("time", 22, GameUI.CAmber));
+                row.Add(_ui.L(TT("  every turn:  ", "  ทุกช่วง:  "), 20, true, GameUI.CAmber));
+                row.Add(LdIconImage(icon, 22, GameUI.CRed));
+                var tl = _ui.L(" " + tick, 22, true, GameUI.CRed); LdFont(tl); row.Add(tl);
+                box.Add(row);
+            }
             return box;
         }
 
@@ -618,7 +648,7 @@ namespace TitanGate.Game
             {
                 string title = spot == "ld_dock" ? TT("Docking port", "ช่องเทียบท่า") : spot == "ld_table" ? TT("Dinner table", "โต๊ะกินข้าว") : spot == "ld_board" ? TT("Station board", "แผงสถานะสถานี") : LdRoomName(room);
                 LdHeader(p, title);
-                p.Add(LdPara(TT($"Day {_ld.Day} of {_ld.C.days} · work units left: {_ld.WorkUnits}", $"วันที่ {_ld.Day} จาก {_ld.C.days} · เวลาทำงานเหลือ: {_ld.WorkUnits}"), GameUI.CCyan, 22));
+                p.Add(LdDayChips());
                 var f = _ld.ActiveFault;
                 if (f != Fault.None) { var inc = LdIncidentOf(f); if (spot == "ld_board" || spot == "ld_dock" || inc.room == room) p.Add(LdIncidentBlock(f)); }
                 p.Add(LdStatusBlock(room));
@@ -821,8 +851,7 @@ namespace TitanGate.Game
             LdStinger(won ? "victory" : "transmission");
             yield return new WaitForSeconds(0.8f);
             yield return Fade(1f, 0.6f);
-            yield return LdStoryPanel(won ? "cut_rescue" : "cut_dusk", won ? TT("A light crosses the sky. The rescue ship found your signal!", "แสงหนึ่งพาดผ่านฟ้า ยานกู้ภัยเจอสัญญาณของเราแล้ว!")
-                : TT("Night falls over the quiet base...", "ความมืดปกคลุมฐานที่เงียบสงัด..."), _playtest ? 1.2f : 5f);
+            yield return won ? LdCinWin() : LdCinLose();
             _ui.FadeTo(0f, 0.4f);
             _ui.ShowScreen(root =>
             {
@@ -892,7 +921,6 @@ namespace TitanGate.Game
         {
             var kit = _ldInv.Delivered();
             yield return Fade(1f, 0.6f);
-            yield return LdStoryPanel("cut_landing", TT("The lifeboat falls through the thin red sky of Mars... and lands beside an old, empty base.", "ยานชูชีพตกผ่านฟ้าสีแดงบาง ๆ ของดาวอังคาร... แล้วลงจอดข้างฐานเก่าที่ไม่มีใคร"), _playtest ? 1.5f : 5f);
             StartLastDock(kit, SeedOverride >= 0 ? SeedOverride : System.Environment.TickCount);
         }
 
@@ -942,6 +970,7 @@ namespace TitanGate.Game
         {
             PNote($"LAST DOCK start, plan {plan}, kit F{_ld.Food} O{_ld.Oxygen} B{_ld.Battery} P{_ld.Parts}");
             yield return Shot("ld01_intro");
+            BReachReport("base");
             _ui.CloseModal();
             var walkTo = BSpotById("ld_lockers"); if (walkTo != null) { BGoTo(walkTo.stand, null); yield return new WaitForSeconds(0.6f); yield return Shot("ld02_walk"); }
             var outSite = BSpotById("site_0"); if (outSite != null) { BGoTo(outSite.stand, null); float tw = 0; while (_bPath != null && tw < 12f) { tw += Time.deltaTime; yield return null; } yield return Shot("ld04_outside"); }

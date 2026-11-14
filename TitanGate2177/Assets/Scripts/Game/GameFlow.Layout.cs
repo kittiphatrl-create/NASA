@@ -151,8 +151,8 @@ namespace TitanGate.Game
 
             // ---- Crew quarters (x 18-25, y 14-19): bunks, the pet's bowl
             // beds sit clear of the lab door at x 17 (they used to block it); no pet bowl without pets
-            BDeco(Art.Bed(), NoPets ? 22.4f : 19.8f, 18.6f, 3);
-            BDeco(Art.Bed(), NoPets ? 22.4f : 19.8f, 16.4f, 3);
+            if (!LastDockMode) { BDeco(Art.Bed(), NoPets ? 22.4f : 19.8f, 18.6f, 3); BDeco(Art.Bed(), NoPets ? 22.4f : 19.8f, 16.4f, 3); }   // the user asked for the beds to go
+            else { BDeco(Art.Locker(false), 18.6f, 19.12f, 1); BDeco(Art.Locker(true), 25.1f, 15.12f, 1); }   // crew lockers against the walls, clear of every door
             if (!NoPets) BProp("bowl", "ship.spot.bowl", Art.PetBowl(false), 24.4f, 14.6f, new Vector2(23.6f, 15.0f));
             BDeco(Art.Locker(false), 25.1f, 19.12f, 1);
             BSprite("porthole", Art.Porthole(false), new Vector2(22.2f, 20f), SortY(20) + 1);

@@ -147,7 +147,7 @@ namespace TitanGate.Game
             _ui.ShowModal(p =>
             {
                 LdHeader(p, spot == "rover_pad" ? TT("Rover pad", "ลานจอดรถสำรวจ") : LdSiteName(spot[5] - '0'));
-                p.Add(LdPara(TT($"Day {_ld.Day} of {_ld.C.days} · work units left: {_ld.WorkUnits}", $"วันที่ {_ld.Day} จาก {_ld.C.days} · เวลาทำงานเหลือ: {_ld.WorkUnits}"), GameUI.CCyan, 22));
+                p.Add(LdDayChips());
                 p.Add(LdOutsideStatus(spot));
                 foreach (var a in LdOutsideActions(spot)) p.Add(LdActionRow(a));
                 if (spot.StartsWith("site_") && _ld.StormToday) p.Add(LdPara("NASA: " + LdStormFact, GameUI.CCyan, 20));

@@ -52,7 +52,7 @@ namespace TitanGate.Game
                 Application.Quit();
                 yield break;
             }
-            ShowMainMenu(); yield return new WaitForSeconds(1.8f); yield return Shot("p00_menu"); _ui.HideScreen();
+            ShowMainMenu(); yield return new WaitForSeconds(2.6f); yield return Shot("p00_menu"); _ui.HideScreen();
             PNote("start mission from the menu");
             StartCoroutine(StartChapter1());
             // watch the intro once, photograph a few moments, skip nothing
@@ -60,12 +60,13 @@ namespace TitanGate.Game
             while (!_lbPickForScramble && !(NoPets && _bRoot != null && _bMode == 1) && t < 120)
             {
                 t += Time.deltaTime;
-                if (InCutscene && t > 4 + n * 9 && n < 5) { n++; yield return Shot($"p0{n}_intro"); }
+                if (InCutscene && t > 0.5f + n * 1.1f && n < 3) { n++; yield return Shot($"p0{n}_intro"); }
                 yield return null;
             }
             PNote($"intro took {t:0}s");
             if (_lbPickForScramble) { yield return Shot("p06_pet_pick"); _lbScramblePet = "comet"; _lbPickForScramble = false; _ui.HideScreen(); }
             t = 0; while ((_bRoot == null || _bMode != 1 || _busy) && t < 30) { t += Time.deltaTime; yield return null; }
+            BReachReport("ship");
             float shipStart = _playClock;
             int guard = 0;
             while (_sTarget != null && guard++ < 12)

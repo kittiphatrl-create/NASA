@@ -35,6 +35,7 @@ namespace TitanGate.Game
 
         void BuildMainMenu()
         {
+            if (LastDockMode && LdBuildTitle()) return;   // the living LAST DOCK title (GameFlow.LdTitle.cs)
             _ui.ShowScreen(root =>
             {
                 root.style.alignItems = Align.FlexStart; root.style.justifyContent = Justify.Center;

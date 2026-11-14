@@ -41,6 +41,16 @@ namespace TitanGate.Game
                 case "rover": c.Frame(2, 7, 12, 4, w); c.Disc(4, 4, 2, w); c.Disc(8, 4, 2, w); c.Disc(12, 4, 2, w); c.VLine(11, 11, 14, w); c.HLine(10, 13, 14, w); break;
                 case "walk": c.Disc(8, 13, 2, w); c.Line(8, 11, 8, 6, w); c.Line(8, 6, 5, 1, w); c.Line(8, 6, 11, 1, w); c.Line(8, 10, 5, 7, w); c.Line(8, 10, 11, 7, w); break;
                 case "medkit": c.Frame(2, 3, 12, 10, w); c.Rect(7, 5, 2, 6, w); c.Rect(5, 7, 6, 2, w); break;
+                case "can": c.Frame(4, 2, 8, 12, w); c.HLine(5, 10, 11, w); c.HLine(5, 10, 5, w); c.Rect(6, 7, 4, 2, w); break;
+                case "play": for (int i = 0; i < 6; i++) c.VLine(4 + i, 2 + i, 13 - i, w); c.Line(4, 2, 4, 13, w); break;
+                case "continue": c.Line(3, 2, 3, 13, w); for (int i = 0; i < 5; i++) c.VLine(6 + i, 3 + i, 12 - i, w); c.Line(12, 2, 12, 13, w); break;
+                case "help": c.Disc(8, 8, 6, w); c.Disc(8, 8, 5, Pal.Clear); c.HLine(6, 9, 11, w); c.VLine(10, 9, 11, w); c.HLine(8, 10, 8, w); c.VLine(8, 6, 8, w); c.Set(8, 4, w); break;
+                case "gear": c.Disc(8, 8, 5, w); c.Disc(8, 8, 2, Pal.Clear); for (int i = 0; i < 8; i++) { float a = i * Mathf.PI / 4; c.Rect(8 + Mathf.RoundToInt(Mathf.Cos(a) * 6) - 1, 8 + Mathf.RoundToInt(Mathf.Sin(a) * 6) - 1, 2, 2, w); } break;
+                case "book": c.Frame(2, 3, 6, 10, w); c.Frame(8, 3, 6, 10, w); c.HLine(3, 6, 9, w); c.HLine(3, 6, 7, w); c.HLine(9, 12, 9, w); c.HLine(9, 12, 7, w); break;
+                case "source": c.Disc(8, 8, 2, w); for (int i = 0; i < 3; i++) { float a = i * Mathf.PI / 3; for (float k = -6; k <= 6; k += 0.5f) c.Set(8 + Mathf.RoundToInt(Mathf.Cos(a) * k), 8 + Mathf.RoundToInt(Mathf.Sin(a) * k * 0.45f), w); } break;
+                case "star": c.Line(8, 15, 5, 5, w); c.Line(8, 15, 11, 5, w); c.Line(1, 10, 15, 10, w); c.Line(1, 10, 11, 5, w); c.Line(15, 10, 5, 5, w); break;
+                case "exit": c.Frame(2, 2, 7, 12, w); c.HLine(7, 14, 8, w); c.Line(14, 8, 11, 5, w); c.Line(14, 8, 11, 11, w); break;
+                case "lang": c.Disc(8, 8, 6, w); c.Disc(8, 8, 5, Pal.Clear); c.HLine(2, 14, 8, w); c.VLine(8, 2, 14, w); c.Line(5, 3, 5, 13, w); c.Line(11, 3, 11, 13, w); break;
                 default: c.Frame(3, 3, 10, 10, w); break;
             }
             s = c.ToSprite(new Vector2(.5f, .5f), 16);
@@ -52,7 +62,7 @@ namespace TitanGate.Game
         static string LdActionIcon(string a)
             => a.StartsWith("repair") || a == "assemble_rover" || a == "cannibalize" ? "parts" : a.StartsWith("send") && a != "send_rover" || a.StartsWith("dip_") ? "signal"
              : a.StartsWith("explore") ? "walk" : a.Contains("rover") ? "rover" : a == "search" ? "parts" : a == "end_day" ? "time" : a == "use_medkit" ? "medkit"
-             : a == "prepare_shelter" ? "storm" : a == "open_mystery" || a == "raid_food" ? "food" : a == "absorber" || a == "shelter" || a == "backup_fan" ? "co2"
+             : a == "prepare_shelter" ? "storm" : a == "open_mystery" || a == "raid_food" ? "food" : a == "absorber" ? "can" : a == "shelter" || a == "backup_fan" ? "co2"
              : a == "shed_load" ? "heat" : a == "raid_battery" ? "battery" : a == "low_activity" ? "o2" : "time";
 
         Image LdIconImage(string id, float size, Color tint)
@@ -114,6 +124,20 @@ namespace TitanGate.Game
 
         int _ldCardIndex;
 
+        /// <summary>Day and work units as two chips (instead of a sentence).</summary>
+        VisualElement LdDayChips()
+        {
+            var row = new VisualElement(); row.style.flexDirection = FlexDirection.Row; row.style.marginBottom = 8;
+            void C(string icon, string text, Color col)
+            {
+                var c = new VisualElement(); c.style.flexDirection = FlexDirection.Row; c.style.alignItems = Align.Center; c.style.marginRight = 10;
+                c.Add(LdIconImage(icon, 22, col)); var l = _ui.L(" " + text, 22, true, col); LdFont(l); c.Add(l); row.Add(c);
+            }
+            C("day", $"{_ld.Day}/{_ld.C.days}", GameUI.CAmber);
+            C("time", new string('●', Mathf.Max(0, _ld.WorkUnits)) + new string('○', Mathf.Max(0, _ld.C.workUnits - _ld.WorkUnits)), GameUI.CCyan);
+            return row;
+        }
+
         VisualElement LdCard(string a)
         {
             bool can = _ld.Can(a, out var why);
@@ -131,7 +155,10 @@ namespace TitanGate.Game
             var mid = new VisualElement(); mid.style.marginLeft = 14; mid.style.flexGrow = 1; mid.style.flexShrink = 1;
             var title = _ui.L(name, 24, true, can ? GameUI.CText : GameUI.CDim); title.style.whiteSpace = WhiteSpace.Normal; LdFont(title);
             mid.Add(title);
-            mid.Add(LdPara(effect, can ? GameUI.CDim : new Color(0.6f, 0.6f, 0.62f), 19));
+            var eff = LdPara(effect, can ? GameUI.CDim : new Color(0.6f, 0.6f, 0.62f), 18);
+            bool random0 = a.StartsWith("explore") || a == "send_rover" || a == "open_mystery";
+            if (can && !random0) eff.style.display = DisplayStyle.None;   // less text: icons say it; the line shows on hover
+            mid.Add(eff);
             bool random = a.StartsWith("explore") || a == "send_rover" || a == "open_mystery";
             if (can && !random) mid.Add(LdDeltaRow(_ld.Preview(a), 20));   // what changes, as icons
             else mid.Add(LdPara(can ? "? " + LdPreviewText(a) : TT("Can't: ", "ทำไม่ได้: ") + LdBlockedText(why), can ? GameUI.CAmber : GameUI.CRed, 18));
@@ -144,8 +171,8 @@ namespace TitanGate.Game
             card.Add(cost);
             if (can)
             {
-                card.RegisterCallback<MouseEnterEvent>(_ => { card.style.backgroundColor = LdCardHover; _sfx.Play("hover"); });
-                card.RegisterCallback<MouseLeaveEvent>(_ => card.style.backgroundColor = LdCardBg);
+                card.RegisterCallback<MouseEnterEvent>(_ => { card.style.backgroundColor = LdCardHover; eff.style.display = DisplayStyle.Flex; _sfx.Play("hover"); });
+                card.RegisterCallback<MouseLeaveEvent>(_ => { card.style.backgroundColor = LdCardBg; if (!random0) eff.style.display = DisplayStyle.None; });
                 card.RegisterCallback<ClickEvent>(_ => { _sfx.Play("click"); LdDo(a); });
             }
             LdAnimateIn(card, ++_ldCardIndex);

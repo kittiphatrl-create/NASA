@@ -55,6 +55,10 @@ namespace TitanGate.Game
             { var clip = Resources.Load<AudioClip>("Audio/KenneySciFi/" + file); if (clip != null) _clips[id] = clip; }
             // the door sound the user chose (space-ship-door-open, freesound_community): both opening and closing
             { var door = Resources.Load<AudioClip>("Audio/Doors/door"); if (door != null) { _clips["door_open"] = door; _clips["door_close"] = door; } }
+            // the user found the beeping on use/pick-up annoying: real handling sounds instead (Kenney RPG Sounds, CC0)
+            foreach (var (id, file) in new[] { ("card", "handleSmallLeather"), ("console", "metalClick"), ("clank", "metalLatch"), ("pickup", "cloth1"), ("drop", "dropLeather"),
+                ("step0", "footstep00"), ("step1", "footstep01"), ("step2", "footstep02"), ("step3", "footstep03") })
+            { var clip = Resources.Load<AudioClip>("Audio/KenneyRPG/" + file); if (clip != null) _clips[id] = clip; }
 
             Loopable("heart", 0.45f, false);
             Loopable("siren", 0.25f, false);
@@ -115,6 +119,7 @@ namespace TitanGate.Game
         public void Play(string id, float vol = 1f)
         {
             if (id == "blip") return;   // no sound when a dialogue line appears or advances (the user asked to remove it)
+            if (id == "step" && _clips.ContainsKey("step0")) id = "step" + Rng.Next(4);   // real footsteps, varied
             if (_src == null || !_clips.TryGetValue(id, out var c)) return;
             float cool = id == "hover" ? 0.08f : id == "step" ? 0.12f : id == "blip" ? 0.06f : 0.05f;
             if (_lastPlayed.TryGetValue(id, out var last) && Time.unscaledTime - last < cool) return;

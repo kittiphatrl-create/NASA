@@ -63,7 +63,7 @@ namespace TitanGate.Game
             ClearWorld();
             _busy = true;
             yield return Fade(1f, 0f);
-            yield return PlayCutscene("intro");
+            yield return LastDockMode ? LdCinIntro() : PlayCutscene("intro");   // LAST DOCK: Blender cinematic (GameFlow.Cinema.cs)
             _player.gameObject.SetActive(false);
             _orbi.gameObject.SetActive(false);
             _ui.SetHudVisible(false);
@@ -183,7 +183,7 @@ namespace TitanGate.Game
             _ui.Flash(new Color(1f, 0.15f, 0.2f, 0.6f));
             yield return new WaitForSeconds(0.6f);
             yield return Fade(1f, 0.3f);
-            yield return BCutscene("impact");
+            yield return LastDockMode ? LdCinImpact() : BCutscene("impact");
             _bPos = standingPosition;
             yield return Fade(0f, 0.3f);
             _sSitting = false; _petStay = false;
@@ -247,7 +247,7 @@ namespace TitanGate.Game
             if (_sRumbleT <= 0) { _sRumbleT = Random.Range(5f, 8f); _sShake = 0.5f; _sfx.Play("thud", 0.7f); }
             float elapsed = _cfg.chapter1.scrambleSeconds - _sLeft;
             if (_sPhaseFire == 0 && elapsed > 18f) { _sPhaseFire = 1; SFire(22, 10, 23, 12); }
-            if (_sPhaseFire == 1 && elapsed > 34f) { _sPhaseFire = 2; if (_bPos.x < 32f) SFire(33, 10, 33, 12); }
+            if (_sPhaseFire == 1 && elapsed > 34f) { _sPhaseFire = 2; if (_bPos.x < 32f && !LastDockMode) SFire(33, 10, 33, 12); }   // LAST DOCK: never wall off the cockpit and its vaults
             foreach (var f in _sFx)
             {
                 f.sprite = Art.Fire((int)(_bAnim * 8 + f.transform.position.x) % 2);
@@ -298,7 +298,7 @@ namespace TitanGate.Game
             if (lost > 0) yield return Say("orbi", "ship.scramble.lost", lost);
             Settings.SaveCheckpoint("lifeboat", _cfg.chapter1.cabinO2Start, _stowed, _sPet);
             yield return Fade(1f, 0.8f);
-            yield return BCutscene("evacuate");
+            yield return LastDockMode ? LdCinLaunch() : BCutscene("evacuate");
             if (LastDockMode) { _busy = false; StartCoroutine(LdAfterScramble()); yield break; }   // LAST DOCK: dock at the station
             yield return BCutscene("land_mars");
             yield return BCutscene("dock");
