@@ -91,7 +91,9 @@ namespace TitanGate.Game
 
             switch (id)
             {
-                case "intro": yield return CutIntro(); break;
+                case "intro": yield return CutStoryIntro(); break;
+                case "evacuate": yield return CutEvacuate(); break;
+                case "dock": yield return CutDock(); break;
                 case "impact": yield return CutImpact(); break;
                 case "land_mars": yield return CutLandMars(); break;
                 case "land_moon": yield return CutLandMoon(); break;
@@ -251,6 +253,7 @@ namespace TitanGate.Game
             Clear();
             Background(sky, 30f);
             ShipWithFlame(-6f, 3.5f, 0.45f, shield: true, flame: false);
+            if (_bMode == 1) _ship.sprite = Art.LifeboatPod(true, _stowed.Count, StowSlots);
             _ship.transform.rotation = Quaternion.Euler(0, 0, -18);
             var plasma = S(Art.Plasma(0), 0, 0, -0.02f, 1f, 12);
             plasma.transform.SetParent(_ship.transform, false);
@@ -281,6 +284,7 @@ namespace TitanGate.Game
             Background(sky, 30f);
             var r = S(ridge, 0, -8f, 10, 1.4f, -50);
             ShipWithFlame(0, -0.4f, 0.4f, shield: !dropShield, flame: false);
+            if (_bMode == 1) _ship.sprite = Art.LifeboatPod(true, _stowed.Count, StowSlots);
             var chute = S(Art.Parachute(), 0, 2.1f, 0.05f, 0.7f, 11);
             SpriteRenderer plate = dropShield ? S(Art.ShipExterior(true, false, false), 0, 0, 0.1f, 0.45f, 9) : null;
             if (plate != null) plate.sprite = ShieldOnly();
@@ -340,14 +344,42 @@ namespace TitanGate.Game
             });
         }
 
+        /// <summary>The small escape pod's last metres: braking thrusters fire, airbags open, it bounces and settles.</summary>
+        IEnumerator PodDownShot(string caption, Sprite sky, Sprite ground, Color dust, float seconds, bool touchdown)
+        {
+            Clear();
+            Background(sky, 30f);
+            var g = S(ground, 0, -5.2f, 0.5f, 1.2f, -40);
+            var pod = S(Art.PodSide(false), 0, 2.0f, 0, 2.2f, 10);
+            var jetL = S(Art.Flame(0, false), -0.55f, 0, 0.01f, 0.55f, 9, -90);
+            var jetR = S(Art.Flame(1, false), 0.55f, 0, 0.01f, 0.55f, 9, -90);
+            var puffs = Puffs(16, 0, -2.6f);
+            _sfx.Loop("rumble", true);
+            bool landed = false;
+            yield return Shot(seconds, caption, t =>
+            {
+                float y = touchdown ? Mathf.Lerp(0.6f, -1.55f, Mathf.Clamp01(Ease(t) * 1.12f)) : Mathf.Lerp(2.2f, 0.6f, t);
+                if (touchdown && t > 0.86f) y += Mathf.Abs(Mathf.Sin((t - 0.86f) * 26f)) * (1 - t) * 1.6f;   // airbag bounce
+                Pos(pod, Mathf.Sin(Time.time * 2.4f) * 0.04f, y);
+                bool firing = !landed && (!touchdown || t < 0.8f);
+                jetL.enabled = jetR.enabled = firing;
+                jetL.sprite = Art.Flame((int)(Time.time * 14) % 2, false); jetR.sprite = Art.Flame((int)(Time.time * 14 + 1) % 2, false);
+                Pos(jetL, -0.55f, y - 1.1f); Pos(jetR, 0.55f, y - 1.1f);
+                if (touchdown && t > 0.7f) pod.sprite = Art.PodSide(true);
+                Pos(g, 0, touchdown ? -4.4f : Mathf.Lerp(-5.2f, -4.4f, t));
+                if (touchdown || t > 0.4f) SpreadPuffs(puffs, 0, -2.5f, Mathf.Repeat(Time.time * 0.8f, 1f), dust);
+                if (touchdown && t > 0.86f && !landed) { landed = true; _sfx.Play("thud"); _sfx.Loop("rumble", false); _rig.Shake(0.4f, 0.12f); }
+            });
+        }
+
         IEnumerator CutLandMars()
         {
             var sky = Art.SkyGradient("marsentry", "#2a120c", "#c46a3c");
             yield return EntryShot("cut.mars.1", sky, 3.2f);
             yield return ChuteShot("cut.mars.2", Art.MarsSky(), Art.MarsRidge(0), 3.0f, false);
             yield return ChuteShot("cut.mars.3", Art.MarsSky(), Art.MarsRidge(1), 2.6f, true);
-            yield return RocketDownShot("cut.mars.4", Art.MarsSky(), Art.MarsRidge(1), new Color(0.85f, 0.55f, 0.35f), 2.6f, false);
-            yield return RocketDownShot("cut.mars.5", Art.MarsSky(), Art.MarsRidge(1), new Color(0.85f, 0.55f, 0.35f), 2.6f, true);
+            yield return PodDownShot("cut.mars.4", Art.MarsSky(), Art.MarsRidge(1), new Color(0.85f, 0.55f, 0.35f), 2.6f, false);
+            yield return PodDownShot("cut.mars.5", Art.MarsSky(), Art.MarsRidge(1), new Color(0.85f, 0.55f, 0.35f), 2.8f, true);
         }
 
         IEnumerator CutLandMoon()

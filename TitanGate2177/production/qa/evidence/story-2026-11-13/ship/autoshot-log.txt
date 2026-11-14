@@ -1,0 +1,42 @@
+PASS pet pick shown before the ship
+shot s00_pet_pick
+PASS top-down ship built
+shot s01_ship_start
+PASS walked to food
+PASS quest step done: food
+PASS walked to bowl
+PASS quest step done: bowl
+PASS walked to cabinet
+PASS quest step done: cabinet
+shot s02_carry_filter
+PASS walked to recycler
+PASS quest step done: recycler
+PASS walked to can
+PASS quest step done: can
+PASS walked to plants
+PASS quest step done: plants
+shot s03_lab
+PASS walked to radio
+PASS quest step done: radio
+PASS walked to sofa
+PASS quest step done: sofa
+shot s03b_seated_on_sofa
+PASS impact started the scramble
+PASS impact returns cadet to walkable floor outside sofa collider
+PASS cadet can move immediately after impact without pathfinding recovery
+shot s04_scramble
+PASS walked to sup_food
+PASS walked to sup_filter
+PASS walked to sup_o2
+shot s05_hands_full
+PASS walked to lifeboat
+PASS walked to sup_battery
+PASS walked to sup_water
+PASS walked to sup_medkit
+PASS walked to lifeboat
+shot s06_fire
+PASS scramble ended, stowed 5
+PASS landed in the Mars base with 5 supplies
+PASS landing releases controls in the playable Mars base
+shot s07_base_after_landing
+done errors=0 checksFailed=0

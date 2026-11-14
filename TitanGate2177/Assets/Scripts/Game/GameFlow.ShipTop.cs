@@ -49,6 +49,8 @@ namespace TitanGate.Game
         bool _sScramble, _sDone, _sSitting;
         float _sLeft, _sRumbleT, _sShake;
         int _sPhaseFire;
+        bool _sTilted;
+        float _sTiltT;
         readonly List<string> _sHands = new List<string>();
         readonly List<SpriteRenderer> _sFx = new List<SpriteRenderer>();
         SpriteRenderer _sCarrySr, _sHatchSr;
@@ -75,7 +77,7 @@ namespace TitanGate.Game
             _sPet = _lbScramblePet ?? LC.pets[0].id;
 
             _sStep = 0; _sTarget = ShipSteps[0].target; _sCarry = null;
-            _sScramble = false; _sDone = false; _sSitting = false; _sPhaseFire = 0; _sShake = 0;
+            _sScramble = false; _sDone = false; _sSitting = false; _sPhaseFire = 0; _sShake = 0; _sTilted = false; _sTiltT = 0;
             _sHands.Clear(); _sHandSr.Clear();
             BBegin(1, new Vector2(22.5f, 15.5f));
             _bPet.sprite = Art.Pet(_sPet);
@@ -84,9 +86,13 @@ namespace TitanGate.Game
             _sCarrySr = BSprite("carry", null, Vector2.zero, 31003);
             _sfxLoopShip(true);
             yield return Fade(0f, 0.8f);
-            _busy = false;
+            _mentor = BSprite("senior-pilot", Art.Crew("mentor", 0, -1), new Vector2(39.5f, 12.5f), SortY(12.5f));
+            BShadowFor(_mentor, 1f);
+            _bSpots.Add(new BSpot { id = "mentor", sr = _mentor, stand = new Vector2(39.5f, 11.5f), nameKey = "speaker.mentor" });
+            yield return Say("mentor", "story.mentor.welcome");
             yield return Say("orbi", "ship.intro.1");
             yield return Say("orbi", "ship.intro.2", _loc.T($"pet.{_sPet}.name"));
+            _busy = false;
             _ui.Toast(_loc.T(ShipSteps[0].textKey, _loc.T($"pet.{_sPet}.name")), GameUI.CCyan);
         }
 
@@ -96,7 +102,8 @@ namespace TitanGate.Game
 
         void SUse(BSpot s)
         {
-            if (_sDone || _sSitting) return;
+            if (_sDone || _sSitting || ActionLocked) return;
+            if (s.id == "mentor") { StartCoroutine(SMentorAdvice()); return; }
             if (s.id == "pet") { _bHeartT = 1.2f; _sfx.Play("good", 0.6f); _ui.Toast(_loc.T("base.pet", s.nameKey), GameUI.CGreen); return; }
             if (_sScramble)
             {
@@ -110,12 +117,19 @@ namespace TitanGate.Game
                 _ui.Toast(_loc.T("ship.look." + (_loc.Has("ship.look." + s.id) ? s.id : "other"), s.nameKey != null ? _loc.T(s.nameKey) : ""), GameUI.CDim);
                 return;
             }
+            if (s.id != "sofa") { StartCoroutine(Act(TaskPose(s.id), .85f, () => SCompleteStep(s))); return; }
+            SCompleteStep(s);
+        }
+
+        void SCompleteStep(BSpot s)
+        {
+            if (_sDone || _sScramble) return;
             var step = ShipSteps[_sStep];
             _sfx.Play(step.carry != null ? "card" : "good");
             _sCarry = step.carry;
             if (step.target == "bowl") BSpotById("bowl").sr.sprite = Art.PetBowl(true);
             if (step.target == "can") BSpotById("can").sr.enabled = false;
-            if (step.factKey != null) _ui.Toast(_loc.T(step.factKey), GameUI.CGreen);
+            if (step.factKey != null) _ui.Toast(_loc.T("speaker.mentor") + ": " + _loc.T(step.factKey), GameUI.CGreen);
             if (step.target == "sofa") { StartCoroutine(SImpact()); return; }
             _sStep++;
             _sTarget = ShipSteps[_sStep].target;
@@ -126,6 +140,7 @@ namespace TitanGate.Game
         {
             if (_sHands.Count >= HandSlots) { _sfx.Play("bad"); _ui.Toast(_loc.T("ship.scramble.hands_full", HandSlots), GameUI.CRed); return; }
             _sHands.Add(s.id);
+            StartCoroutine(Act("lift", .35f, null));
             s.sr.enabled = false;
             s.on = false;
             _sfx.Play("card");
@@ -138,6 +153,7 @@ namespace TitanGate.Game
             int put = 0;
             while (_sHands.Count > 0 && _stowed.Count < StowSlots) { _stowed.Add(_sHands[0]); _sHands.RemoveAt(0); put++; }
             _sfx.Play("thud");
+            StartCoroutine(Act("lift", .35f, null));
             _sfx.Play("good");
             _ui.Toast(_loc.T("ship.scramble.stowed", put, _stowed.Count, StowSlots), GameUI.CGreen);
             if (_stowed.Count >= StowSlots) StartCoroutine(SEndScramble(true));
@@ -147,10 +163,12 @@ namespace TitanGate.Game
 
         IEnumerator SImpact()
         {
+            // Preserve the reachable floor position; the seated pose is inside the sofa collider.
+            Vector2 standingPosition = _bPos;
             _sSitting = true;
             _sTarget = null;
             _bPath = null; _bGoal = null;
-            _bPos = new Vector2(31.2f, 16.45f);
+            _bPos = new Vector2(31.2f, 16.45f); _bRight = true;
             yield return Say("orbi", "ship.rest");
             yield return new WaitForSeconds(1.4f);
             _sfx.Play("thud");
@@ -159,8 +177,9 @@ namespace TitanGate.Game
             yield return new WaitForSeconds(0.6f);
             yield return Fade(1f, 0.3f);
             yield return BCutscene("impact");
+            _bPos = standingPosition;
             yield return Fade(0f, 0.3f);
-            _sSitting = false;
+            _sSitting = false; _petStay = false;
             _sScramble = true;
             _sLeft = _cfg.chapter1.scrambleSeconds;
             _sRumbleT = 2f;
@@ -176,6 +195,7 @@ namespace TitanGate.Game
                 BLamp(new Vector2(x, y + 0.4f), new Color(1f, 0.85f, 0.4f), 1.6f, 0.5f);
             }
             _busy = true;
+            yield return Say("mentor", "story.mentor.emergency");
             yield return Say("sys", "ship.scramble.sys");
             yield return Say("orbi", "ship.scramble.1", Mathf.RoundToInt(_sLeft));
             yield return Say("orbi", "ship.scramble.2", HandSlots, StowSlots);
@@ -186,21 +206,23 @@ namespace TitanGate.Game
         {
             // what the cadet carries floats over their head
             string carry = _sScramble ? null : _sCarry;
-            _sCarrySr.gameObject.SetActive(carry != null);
+            _sCarrySr.gameObject.SetActive(carry != null && !ActionLocked);
             if (carry != null)
             {
                 _sCarrySr.sprite = Art.LooseSupply(carry);
-                _sCarrySr.transform.position = new Vector3(_bPos.x, _bPos.y + 2.1f + Mathf.Sin(_bAnim * 4) * 0.05f, 0);
+                _sCarrySr.transform.localScale = Vector3.one * .45f;
+                _sCarrySr.transform.position = new Vector3(_bPos.x, _bPos.y + .7f + Mathf.Sin(_bAnim * 4) * 0.05f, 0);
             }
             for (int i = 0; i < Mathf.Max(_sHands.Count, _sHandSr.Count); i++)
             {
                 if (i >= _sHandSr.Count) _sHandSr.Add(BSprite("hand" + i, null, Vector2.zero, 31004 + i));
                 bool on = i < _sHands.Count;
-                _sHandSr[i].gameObject.SetActive(on);
+                _sHandSr[i].gameObject.SetActive(on && !ActionLocked);
                 if (on)
                 {
                     _sHandSr[i].sprite = Art.LooseSupply(_sHands[i]);
-                    _sHandSr[i].transform.position = new Vector3(_bPos.x + (i - (_sHands.Count - 1) / 2f) * 0.75f, _bPos.y + 2.1f, 0);
+                    _sHandSr[i].transform.localScale = Vector3.one * .35f;
+                    _sHandSr[i].transform.position = new Vector3(_bPos.x + (i - (_sHands.Count - 1) / 2f) * 0.35f, _bPos.y + .72f, 0);
                 }
             }
             if (_sSitting) _bMoving = false;
@@ -217,6 +239,17 @@ namespace TitanGate.Game
             foreach (var f in _sFx)
             {
                 f.sprite = Art.Fire((int)(_bAnim * 8 + f.transform.position.x) % 2);
+            }
+            // halfway through, the hull lurches: the whole ship tilts and everything slides
+            if (!_sTilted && elapsed > 12f) { _sTilted = true; _sTiltT = 4.5f; _sfx.Play("thud"); _sfx.Play("alarm"); _sShake = 1.2f; _ui.Flash(new Color(1f, 0.2f, 0.1f, 0.5f)); _ui.Toast(_loc.T("ship.scramble.tilt"), GameUI.CRed); }
+            if (_sTiltT > 0)
+            {
+                _sTiltT -= dt;
+                float k = _sTiltT > 3.5f ? (4.5f - _sTiltT) : Mathf.Clamp01(_sTiltT / 3.5f);
+                float ang = 11f * k * (1 + Mathf.Sin(_bAnim * 9) * 0.08f);
+                _bCam.transform.rotation = Quaternion.Euler(0, 0, ang);
+                BStep(new Vector2(-1.6f * k * dt, 0));   // the floor tilts: you slide toward the low side
+                if (_sTiltT <= 0) _bCam.transform.rotation = Quaternion.identity;
             }
             if (_sLeft <= 0) StartCoroutine(SEndScramble(false));
         }
@@ -253,7 +286,9 @@ namespace TitanGate.Game
             if (lost > 0) yield return Say("orbi", "ship.scramble.lost", lost);
             Settings.SaveCheckpoint("lifeboat", _cfg.chapter1.cabinO2Start, _stowed, _sPet);
             yield return Fade(1f, 0.8f);
+            yield return BCutscene("evacuate");
             yield return BCutscene("land_mars");
+            yield return BCutscene("dock");
             _busy = false;
             StartLifeboat(new List<string>(_stowed), _sPet);
         }

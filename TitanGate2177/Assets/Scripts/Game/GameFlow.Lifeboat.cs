@@ -104,7 +104,10 @@ namespace TitanGate.Game
         void LbPickPet(string pet)
         {
             _life = new LifeboatSim(LC, pet, LifeboatSim.Bonus(LC, _lbStowed), OutpostSim.SupplyFlags(_cfg.chapter1, _lbStowed));
+            // walkable base: a different set of visitors every run, never two knock days in a row
+            if (WalkBase) _life.RandomizeVisitors(SeedOverride >= 0 ? SeedOverride : System.Environment.TickCount);
             LbNextCard();
+            if (WalkBase) _busy = false;
         }
 
         void LbNextCard()
@@ -131,6 +134,7 @@ namespace TitanGate.Game
         {
             var done = _life.Choose(_lbCard.id, o.id);
             if (done == null) return;
+            if (_bRoot != null && _loc.Has($"life.card.{_lbCard.id}.{o.id}")) DayNote(_loc.T($"life.card.{_lbCard.id}.title") + " → " + _loc.T($"life.card.{_lbCard.id}.{o.id}"));
             _lbPicked = done;
             _sfx.Play(string.IsNullOrEmpty(done.admits) ? "good" : "open");
             _lbView = LbView.Result;
@@ -139,6 +143,7 @@ namespace TitanGate.Game
 
         void LbSleep()
         {
+            if (_playtest) Log("LbSleep fed=" + _lbFed.Count + " mouths=" + _life.Mouths().Count + " from: " + System.Environment.StackTrace);
             var s = _life.State.stock;
             var before = new Stock { o2 = s.o2, water = s.water, food = s.food };
             var need = _life.RationNeed(_lbFed);
@@ -147,6 +152,7 @@ namespace TitanGate.Game
             float o2Have = before.o2 + (run ? LC.o2Maker.o2 : 0);
             int day = _life.State.day;
             var night = _life.EndDay(_lbFed, run);
+            if (_bRoot != null && night != null) { BFriendsAfterNight(_lbFed); BAfterNight(night); RadNight(day); }
             if (night == null) return;
             _lbNight = night;
             _lbNightDay = day;
@@ -203,6 +209,7 @@ namespace TitanGate.Game
         {
             if (BInterceptShow()) return;
             if (_bRoot != null && _lbView == LbView.Card && _lbCard != null && !string.IsNullOrEmpty(_lbCard.visitor)) { BShowPeep(); return; }
+            if (_bRoot != null && _lbView == LbView.Ration) { BShowMeal(); return; }
             _ui.ShowScreen(root =>
             {
                 var box = new VisualElement();
@@ -328,7 +335,7 @@ namespace TitanGate.Game
                 row.Add(chip);
             }
             Color Level(float v) => v <= 1 ? GameUI.CRed : v <= 3 ? GameUI.CAmber : GameUI.CText;
-            if (_bRoot != null) row.Add(BGaugeRow(0.6f));
+            if (_bRoot != null) { }   // gauges get their own row below (they were squeezed beside the health text)
             else
             {
                 Chip(_loc.T("life.res.o2"), LbNum(st.stock.o2), Level(st.stock.o2));
@@ -338,6 +345,7 @@ namespace TitanGate.Game
             }
             row.Add(_ui.L(_loc.T("life.res.health", st.health, LC.health), 24, true, st.health < LC.health ? GameUI.CRed : GameUI.CGreen));
             box.Add(row);
+            if (_bRoot != null) { var gauges = BGaugeRow(0.8f); gauges.style.marginTop = 4; box.Add(gauges); }
 
             var crew = new List<string>();
             foreach (var who in _life.Mouths())
@@ -588,6 +596,7 @@ namespace TitanGate.Game
                     return _loc.T("life.night.Theft", LbName(e.id), LbNum(e.value))
                         + (e.detail != null ? " " + _loc.T("life.night.Theft.item", _loc.T("life.item." + e.detail)) : "");
                 case LifeLogKind.TheftStopped: return _loc.T("life.night.TheftStopped." + e.detail, LbName(e.id), pet);
+                case LifeLogKind.GuestDeparted: return _loc.T("life.night.GuestDeparted", LbName(e.id));
                 case LifeLogKind.GuestLeftHungry: return _loc.T("life.night.GuestLeftHungry", LbName(e.id));
                 case LifeLogKind.MakerRan: return _loc.T("life.night.MakerRan", LbNum(e.value));
                 case LifeLogKind.NightSafe: return _loc.T($"life.night.event.{e.id}.safe");

@@ -17,37 +17,48 @@ namespace TitanGate.Game
         });
 
         /// <summary>The Kestrel seen from the side, nose to the right. shield = heat shield under the belly.</summary>
-        public static Sprite ShipExterior(bool shield, bool legs, bool damaged) => Centered($"shipx{shield}{legs}{damaged}", 120, 52, c =>
+        public static Sprite ShipExterior(bool shield, bool legs, bool damaged) => Centered($"shipx2{shield}{legs}{damaged}", 120, 52, c =>
         {
-            // main hull
-            c.RoundRect(18, 16, 84, 22, Pal.White);
-            c.Rect(18, 16, 84, 4, Pal.Grey);
-            c.Rect(18, 34, 84, 2, Pal.White);
-            // nose
-            for (int i = 0; i < 16; i++) c.VLine(102 + i, 18 + i / 2, 37 - i / 2, i < 12 ? Pal.White : Pal.Grey);
-            c.Rect(104, 28, 8, 5, Pal.Blue); c.Rect(105, 31, 6, 1, Pal.CyanL);
-            // stripe and windows
-            c.Rect(20, 24, 80, 3, Pal.Orange);
-            for (int x = 30; x < 96; x += 10) { c.Rect(x, 29, 4, 3, Pal.Navy2); c.Set(x + 1, 31, Pal.CyanL); }
-            // cargo module, fins, engine
-            c.Rect(40, 38, 30, 6, Pal.Steel); c.Rect(42, 39, 26, 1, Pal.SteelL);
-            c.Line(20, 37, 8, 47, Pal.Steel); c.Line(21, 37, 9, 47, Pal.Steel); c.Line(22, 37, 10, 47, Pal.SteelL);
-            c.Line(20, 17, 8, 7, Pal.Steel); c.Line(21, 17, 9, 7, Pal.Steel); c.Line(22, 17, 10, 7, Pal.SteelL);
-            c.Rect(8, 20, 12, 14, Pal.Steel0); c.Rect(4, 22, 6, 10, Pal.Steel); c.Rect(3, 24, 2, 6, Pal.Ink);
-            // solar wings folded on top
-            c.Rect(46, 38, 0, 0, Pal.Blue);
-            c.Rect(50, 39 + 5, 24, 2, Pal.BlueD); c.Rect(52, 44, 20, 1, Pal.Blue);
-            if (shield) { c.Rect(16, 10, 92, 6, PixelCanvas.Hex("#5b4636")); c.Rect(16, 10, 92, 2, PixelCanvas.Hex("#3d2e24")); c.Rect(18, 15, 88, 1, PixelCanvas.Hex("#7d6450")); }
+            var hull = PixelCanvas.Hex("#e9edf4"); var hullD = PixelCanvas.Hex("#b9c1d2"); var hullDD = PixelCanvas.Hex("#8a93a8");
+            // engine nacelles above and below the tail
+            c.RoundRect(6, 36, 34, 9, hullD); c.RoundRect(6, 7, 34, 9, hullD);
+            c.Rect(6, 38, 30, 2, hullDD); c.Rect(6, 9, 30, 2, hullDD);
+            c.Rect(2, 37, 6, 7, Pal.Steel0); c.Rect(2, 8, 6, 7, Pal.Steel0);
+            c.Rect(36, 39, 6, 3, Pal.Orange); c.Rect(36, 10, 6, 3, Pal.Orange);
+            // main fuselage: tapered toward the nose
+            for (int x = 10; x < 104; x++)
+            {
+                int half = x < 90 ? 12 : 12 - (x - 90) * 12 / 14;
+                c.VLine(x, 26 - half, 26 + half, hull);
+                c.Set(x, 26 - half, hullDD); c.Set(x, 26 + half, hullDD);
+                c.VLine(x, 26 - half + 1, 26 - half + 3, hullD);
+            }
+            // nose cone and cockpit canopy
+            for (int x = 104; x < 117; x++) c.VLine(x, 26 - (117 - x) / 3, 26 + (117 - x) / 3, x > 112 ? Pal.Grey : hull);
+            c.RoundRect(88, 27, 16, 7, Pal.Ink); c.RoundRect(89, 28, 14, 5, Pal.BlueD); c.Rect(92, 31, 7, 1, Pal.CyanL); c.Set(100, 30, Pal.CyanL);
+            // engine block at the tail
+            c.Rect(4, 18, 10, 16, Pal.Steel); c.Rect(2, 20, 4, 12, Pal.Steel0); c.Rect(1, 22, 2, 8, Pal.Ink);
+            // stripes, windows, panel lines, emblem
+            c.Rect(14, 21, 78, 2, Pal.Orange); c.Rect(14, 23, 78, 1, Pal.OrangeD);
+            for (int x = 22; x < 86; x += 7) { c.Rect(x, 26, 3, 3, Pal.Navy2); c.Set(x + 1, 28, Pal.CyanL); }
+            for (int x = 30; x < 90; x += 18) c.VLine(x, 16, 36, hullD);
+            c.Disc(60, 33, 3, Pal.BlueD); c.Disc(60, 33, 2, Pal.White); c.Set(60, 33, Pal.Red);
+            // radiator fins and antenna on the back
+            for (int i = 0; i < 4; i++) c.Rect(44 + i * 6, 39, 4, 5, Pal.Steel);
+            c.VLine(70, 38, 46, Pal.Steel); c.Disc(70, 47, 2, Pal.Red);
+            // cargo bay doors underneath
+            c.Rect(40, 14, 30, 3, Pal.Steel0); c.HLine(40, 69, 15, Pal.SteelL);
+            if (shield) { c.Rect(16, 2, 92, 5, PixelCanvas.Hex("#5b4636")); c.Rect(16, 2, 92, 2, PixelCanvas.Hex("#3d2e24")); }
             if (legs)
             {
-                // landing legs at the tail: after turning tail-down they splay out under the ship
-                c.Line(26, 18, 4, 3, Pal.SteelL); c.Line(27, 18, 5, 3, Pal.Steel); c.Rect(0, 1, 6, 3, Pal.Steel0);
-                c.Line(26, 36, 4, 49, Pal.SteelL); c.Line(27, 36, 5, 49, Pal.Steel); c.Rect(0, 48, 6, 3, Pal.Steel0);
+                c.Line(20, 14, 4, 2, Pal.SteelL); c.Line(21, 14, 5, 2, Pal.Steel); c.Rect(0, 0, 6, 3, Pal.Steel0);
+                c.Line(20, 38, 4, 50, Pal.SteelL); c.Line(21, 38, 5, 50, Pal.Steel); c.Rect(0, 49, 6, 3, Pal.Steel0);
             }
             if (damaged)
             {
-                c.Disc(62, 30, 4, Pal.Ink); c.Disc(62, 30, 2, Pal.RedD);
-                c.Line(56, 34, 68, 26, Pal.Ink); c.Line(58, 24, 66, 35, Pal.Ink);
+                c.Disc(62, 26, 5, Pal.Ink); c.Disc(62, 26, 3, Pal.RedD); c.Disc(61, 27, 1, Pal.Orange);
+                c.Line(54, 31, 70, 20, Pal.Ink); c.Line(56, 19, 68, 33, Pal.Ink);
+                c.Rect(64, 30, 3, 2, Pal.Amber);
             }
         });
 

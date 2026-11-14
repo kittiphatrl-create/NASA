@@ -114,6 +114,7 @@ namespace TitanGate.Game
             }
             Need("☺", _life.State.morale / 100f, GameUI.CAmber, CrewText("Morale", "กำลังใจ"));
             Need(">>", _sprint.Value / 100f, _sprint.Exhausted ? GameUI.CAmber : GameUI.CCyan, CrewText("Stamina · hold Shift to run; walk to recover", "แรงกาย · กด Shift วิ่ง เดินเพื่อฟื้นแรง"));
+            if (_bMode == 0) p.Add(RadBar(112));
             if (_life.State.pet != null)
             {
                 var pet = new VisualElement(); pet.style.flexDirection = FlexDirection.Row; pet.style.alignItems = Align.Center; pet.style.marginTop = 9;
@@ -300,57 +301,74 @@ namespace TitanGate.Game
                     heat.style.scale = new Scale(new Vector3(1, b, 1)); heat.style.translate = tr;
                 }).Every(40);
 
-                // ---- left: what you found
+                // ---- left: a short ID card (icons and words, not paragraphs)
                 var log = new VisualElement(); log.style.position = Position.Absolute; log.style.left = 34; log.style.top = 34; log.style.width = 500; log.style.bottom = 34;
                 log.style.backgroundColor = new Color(0.03f, 0.06f, 0.1f, 0.92f); GameUI.Border(log, GameUI.CCyanD, 2, 12);
                 log.style.paddingLeft = log.style.paddingRight = 20; log.style.paddingTop = 14;
-                log.Add(_ui.L(_loc.T("base.peep.header"), 20, true, GameUI.CAmber));
-                var title = _ui.L(_loc.T($"life.card.{card.id}.title"), 32, true, GameUI.CCyan); title.style.marginTop = 4; log.Add(title);
-                var body = _ui.L(_loc.T($"life.card.{card.id}.body"), 21); body.style.marginTop = 6; log.Add(body);
-                var ev = _ui.L(_loc.T("base.peep.evidence"), 21, true, GameUI.CAmber); ev.style.marginTop = 14; log.Add(ev);
-                for (int i = 1; i <= Mathf.Min(_peepTalk, card.clues); i++)
+                log.Add(_ui.L(_loc.T("base.peep.header"), 18, true, GameUI.CAmber));
+                var title = _ui.L(_loc.T($"life.card.{card.id}.title"), 30, true, GameUI.CCyan); title.style.marginTop = 2; log.Add(title);
+                BPeepIdCard(log, card);
+                // scanner results as two big tiles
+                var tiles = new VisualElement(); tiles.style.flexDirection = FlexDirection.Row; tiles.style.marginTop = 12;
+                foreach (var sc in LC.scans)
                 {
-                    var q = _ui.L("“" + _loc.T("base.peep.q" + i) + "”", 18, false, GameUI.CDim); q.style.marginTop = 6; log.Add(q);
-                    log.Add(_ui.L("→ " + _loc.T($"life.card.{card.id}.clue{i}"), 20));
+                    bool done = System.Linq.Enumerable.Contains(_life.ScansDone(card), sc);
+                    bool odd = done && _life.IsOdd(visitor, sc);
+                    var t = new VisualElement(); t.style.width = 222; t.style.marginRight = 12; t.style.paddingLeft = t.style.paddingRight = 10; t.style.paddingTop = t.style.paddingBottom = 8;
+                    t.style.backgroundColor = !done ? new Color(0.1f, 0.11f, 0.16f) : odd ? new Color(0.3f, 0.04f, 0.06f) : new Color(0.04f, 0.22f, 0.12f);
+                    GameUI.Border(t, !done ? new Color(0.3f, 0.32f, 0.4f) : odd ? GameUI.CRed : GameUI.CGreen, 2, 10);
+                    t.Add(_ui.L(_loc.T($"base.peep.scan.{sc}"), 18, true, GameUI.CText));
+                    t.Add(_ui.L(!done ? TT("not scanned", "ยังไม่สแกน") : odd ? TT("WRONG", "ผิดปกติ!") : TT("normal", "ปกติ"), 26, true, !done ? GameUI.CDim : odd ? GameUI.CRed : GameUI.CGreen));
+                    tiles.Add(t);
                 }
-                foreach (var sc in _life.ScansDone(card))
+                log.Add(tiles);
+                // what they said, one short line each
+                int said = Mathf.Min(_peepTalk, card.clues);
+                if (_peepTalk > 0)
                 {
-                    bool odd = _life.IsOdd(visitor, sc);
-                    var head = _ui.L(_loc.T($"life.scan.{sc}.name") + " · " + _loc.T(odd ? "base.peep.unusual" : "base.peep.expected"), 20, true, odd ? GameUI.CRed : GameUI.CGreen);
-                    head.style.marginTop = 8; log.Add(head);
-                    log.Add(_ui.L(_loc.T($"life.scan.{visitor}.{sc}"), 19));
-                    log.Add(_ui.L(_loc.T("base.peep.limit." + sc), 16, false, GameUI.CDim));
+                    var hd = _ui.L(TT("What you heard", "สิ่งที่ได้ยิน"), 19, true, GameUI.CAmber); hd.style.marginTop = 12; log.Add(hd);
+                    for (int i = 1; i <= said; i++) { var q = _ui.L("• " + _loc.T($"life.card.{card.id}.clue{i}"), 17); q.style.marginTop = 3; log.Add(q); }
+                    var chat = PeepChat.TryGetValue(visitor, out var cl) ? cl : null;
+                    int extra = chat == null ? 0 : Mathf.Min(_peepTalk - said, chat.Length / 2);
+                    for (int i = 0; i < extra; i++) { var q = _ui.L("• " + TL(chat[i * 2 + 1]), 17, false, GameUI.CDim); q.style.marginTop = 3; log.Add(q); }
                 }
-                if (_peepTalk == 0 && _life.ScansDone(card).Count == 0) { var none = _ui.L(_loc.T("base.peep.nothing_yet"), 19, false, GameUI.CDim); none.style.marginTop = 4; log.Add(none); }
                 if (_life.State.pet != null)
                 {
                     string key = _life.HintKey(card);
-                    var pet = _ui.L(key == null ? _loc.T("life.hint_hungry", LbName(LifeboatSim.Pet)) : LbName(LifeboatSim.Pet) + ": " + _loc.T(key), 18, false, GameUI.CCyan);
+                    var pet = _ui.L(key == null ? _loc.T("life.hint_hungry", LbName(LifeboatSim.Pet)) : LbName(LifeboatSim.Pet) + ": " + _loc.T(key), 17, false, GameUI.CCyan);
                     pet.style.marginTop = 12; log.Add(pet);
                 }
-                var fic = _ui.L(_loc.T("life.fiction"), 15, false, GameUI.CDim); fic.style.position = Position.Absolute; fic.style.bottom = 10; fic.style.left = 20; fic.style.right = 20; log.Add(fic);
+                var fic = _ui.L(_loc.T("life.fiction"), 14, false, GameUI.CDim); fic.style.position = Position.Absolute; fic.style.bottom = 10; fic.style.left = 20; fic.style.right = 20; log.Add(fic);
                 root.Add(log);
 
-                // ---- below the lens: ways to check
+                // ---- below the lens: talk as much as you like, scan as often as you like
                 var checks = new VisualElement(); checks.style.position = Position.Absolute; checks.style.left = 548; checks.style.width = 840; checks.style.top = LY + L + 26;
                 checks.style.flexDirection = FlexDirection.Row; checks.style.justifyContent = Justify.Center;
-                var group = new List<VisualElement>();
-                int left = _life.ScansLeft(card);
-                bool canTalk = _peepTalk < card.clues;
-                checks.Add(BCard(_loc.T("base.peep.talk"), _ui.L(_loc.T(canTalk ? "base.peep.talk_hint" : "base.peep.talk_done"), 16, false, GameUI.CDim),
-                    () => { _peepTalk++; _sfx.Play("blip"); BShowPeep(); }, canTalk, null, group, 190, GameUI.CGreen, 20));
+                checks.Add(BCard(_loc.T("base.peep.talk"), _ui.L(TT("Ask a question", "ถามคำถาม"), 16, false, GameUI.CDim),
+                    () => { _peepTalk++; _sfx.Play("blip"); BPeepTalkVN(card); }, true, null, null, 240, GameUI.CGreen, 20));
                 foreach (var sc in LC.scans)
                 {
                     string id = sc;
-                    bool can = _life.CanScan(card, id);
-                    var hint = _ui.L(_loc.T(left > 0 ? "base.peep.scans_left" : "base.peep.no_scans", left), 16, false, GameUI.CDim);
-                    checks.Add(BCard(_loc.T($"base.peep.scan.{id}"), hint, () => BRunScan(id, who, heat, sweep, sweepGlow, ph), can, null, group, 190, GameUI.CAmber, 20));
+                    bool done = System.Linq.Enumerable.Contains(_life.ScansDone(card), id);
+                    var hint = _ui.L(done ? TT("Scan again", "สแกนซ้ำได้") : TT("Free, no limit", "สแกนได้ไม่จำกัด"), 16, false, GameUI.CDim);
+                    checks.Add(BCard(_loc.T($"base.peep.scan.{id}"), hint, () =>
+                    {
+                        if (done) { _peepFx = id; _sfx.Play(id == "thermal" ? "whoosh" : "blip"); BShowPeep(); }
+                        else BRunScan(id, who, heat, sweep, sweepGlow, ph);
+                    }, done || _life.CanScan(card, id), null, null, 240, GameUI.CAmber, 20));
                 }
                 root.Add(checks);
 
                 // ---- right: what to do
                 var acts = new VisualElement(); acts.style.position = Position.Absolute; acts.style.right = 30; acts.style.top = 40; acts.style.width = 480;
                 acts.Add(_ui.L(_loc.T("base.peep.decide"), 22, true, GameUI.CAmber));
+                if (IsTrader(visitor))
+                {
+                    var tg = new List<VisualElement>();
+                    var tc = BCard(_loc.T("base.trade.open"), _ui.L(_loc.T("base.trade.open_hint"), 16, false, GameUI.CAmber), BShowTrade, true, null, tg, 460, GameUI.CAmber);
+                    tc.style.minHeight = 80; tc.style.marginTop = 10; tc.style.marginLeft = 0; tc.style.width = 460;
+                    acts.Add(tc);
+                }
                 var dgroup = new List<VisualElement>();
                 foreach (var o in card.options)
                 {
@@ -370,6 +388,76 @@ namespace TitanGate.Game
                 // play the scan that was just chosen
                 if (_peepFx != null) { string fx = _peepFx; _peepFx = null; BScanFx(fx, root, who, heat, sweep, sweepGlow, ph, thermalOdd); }
             });
+        }
+
+        /// <summary>
+        /// ORBI's best guess from its (fictional) visitor database once a scanner has a reading: species, sex and
+        /// temperament, each marked as an estimate. Unknown shapes come back as "not in the database".
+        /// </summary>
+        void BDossier(VisualElement log, string visitor)
+        {
+            var box = new VisualElement();
+            box.style.marginTop = 10; box.style.paddingLeft = box.style.paddingRight = 10; box.style.paddingTop = 6; box.style.paddingBottom = 8;
+            bool known = _loc.Has($"base.dossier.{visitor}.species");
+            box.style.backgroundColor = known ? new Color(0.04f, 0.14f, 0.16f, 0.95f) : new Color(0.2f, 0.04f, 0.06f, 0.95f);
+            GameUI.Border(box, known ? GameUI.CCyan : GameUI.CRed, 2, 8);
+            box.Add(_ui.L(_loc.T("base.dossier.header"), 18, true, known ? GameUI.CCyan : GameUI.CRed));
+            if (!known) box.Add(_ui.L(_loc.T("base.dossier.unknown"), 19, true, GameUI.CRed));
+            else
+            {
+                box.Add(_ui.L(_loc.T("base.dossier.species") + "  " + _loc.T($"base.dossier.{visitor}.species"), 19));
+                box.Add(_ui.L(_loc.T("base.dossier.sex") + "  " + _loc.T($"base.dossier.{visitor}.sex"), 19));
+                box.Add(_ui.L(_loc.T("base.dossier.temper") + "  " + _loc.T($"base.dossier.{visitor}.temper"), 19));
+                box.Add(_ui.L(_loc.T($"base.dossier.{visitor}.conf"), 16, false, GameUI.CDim));
+            }
+            log.Add(box);
+        }
+
+        /// <summary>Species, sex and temper as three short chips (from ORBI's database once a scan has a reading).</summary>
+        void BPeepIdCard(VisualElement log, LifeCard card)
+        {
+            string v = card.visitor;
+            bool scanned = _life.ScansDone(card).Count > 0;
+            bool known = _loc.Has($"base.dossier.{v}.species");
+            var row = new VisualElement(); row.style.flexDirection = FlexDirection.Row; row.style.flexWrap = Wrap.Wrap; row.style.marginTop = 8;
+            void Chip(string label, string value, Color c)
+            {
+                var e = new VisualElement(); e.style.marginRight = 8; e.style.marginTop = 6; e.style.paddingLeft = e.style.paddingRight = 10; e.style.paddingTop = e.style.paddingBottom = 4;
+                e.style.maxWidth = 450;
+                e.style.backgroundColor = new Color(c.r * 0.25f, c.g * 0.25f, c.b * 0.25f, 0.95f); GameUI.Border(e, c, 2, 8);
+                e.Add(_ui.L(label, 14, true, GameUI.CDim));
+                e.Add(_ui.L(value, 19, true, c));
+                row.Add(e);
+            }
+            if (!scanned)
+            {
+                Chip(TT("WHO", "เป็นใคร"), "?", GameUI.CDim); Chip(TT("SEX", "เพศ"), "?", GameUI.CDim); Chip(TT("TEMPER", "นิสัย"), "?", GameUI.CDim);
+                log.Add(row);
+                log.Add(_ui.L(TT("Scan to look them up in ORBI's database.", "สแกนเพื่อค้นข้อมูลจากฐานข้อมูลของ ORBI"), 16, false, GameUI.CDim));
+                return;
+            }
+            if (!known) { Chip(TT("WHO", "เป็นใคร"), TT("not in database!", "ไม่มีในฐานข้อมูล!"), GameUI.CRed); log.Add(row); return; }
+            Chip(TT("WHO", "เป็นใคร"), _loc.T($"base.dossier.{v}.species"), GameUI.CCyan);
+            Chip(TT("SEX", "เพศ"), _loc.T($"base.dossier.{v}.sex"), GameUI.CCyan);
+            Chip(TT("TEMPER", "นิสัย"), _loc.T($"base.dossier.{v}.temper"), GameUI.CAmber);
+            log.Add(row);
+            log.Add(_ui.L(_loc.T($"base.dossier.{v}.conf"), 14, false, GameUI.CDim));
+        }
+
+        /// <summary>The question and the answer, as a visual-novel exchange through the door; then back to the peephole.</summary>
+        void BPeepTalkVN(LifeCard card)
+        {
+            int i = Mathf.Clamp(_peepTalk, 1, Mathf.Max(1, card.clues));
+            var lines = new List<(string, string)> { (null, _loc.T("base.peep.q" + i)), (card.visitor, card.clues > 0 ? _loc.T($"life.card.{card.id}.clue{i}") : "...") };
+            var chat = PeepChat.TryGetValue(card.visitor, out var cl) ? cl : null;
+            int extra = _peepTalk - card.clues;
+            if (extra > 0 && chat != null)
+            {
+                int k = (extra - 1) % (chat.Length / 2);
+                lines = new List<(string, string)> { (null, TL(chat[k * 2])), (card.visitor, TL(chat[k * 2 + 1])) };
+            }
+            var replies = new List<(string, System.Action)> { (_loc.T("base.peep.back_to_lens"), () => BShowPeep()) };
+            BShowVN(card.visitor, lines, replies);
         }
 
         void BRunScan(string id, VisualElement who, VisualElement heat, VisualElement sweep, VisualElement glow, float ph)

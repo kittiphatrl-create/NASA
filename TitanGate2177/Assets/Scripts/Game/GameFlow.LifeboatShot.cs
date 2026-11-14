@@ -40,8 +40,8 @@ namespace TitanGate.Game
             };
             var scansA = new Dictionary<string, string[]>
             {
-                ["visitor_tik"] = new[] { "thermal", "breath" }, ["visitor_mu"] = new[] { "heartbeat" },
-                ["visitor_shade"] = new[] { "heartbeat", "breath" }, ["visitor_ree"] = new[] { "breath" }, ["visitor_mimic"] = new[] { "breath", "heartbeat" },
+                ["visitor_tik"] = new[] { "thermal", "breath" }, ["visitor_mu"] = new[] { "thermal" },
+                ["visitor_shade"] = new[] { "thermal", "breath" }, ["visitor_ree"] = new[] { "breath" }, ["visitor_mimic"] = new[] { "thermal", "breath" },
             };
             planA["visitor_shade"] = "refuse"; planA["visitor_ree"] = "trade"; planA["visitor_mimic"] = "refuse";
             yield return AutoLifeboatRun("a", planA, true, scansA);
@@ -105,7 +105,7 @@ namespace TitanGate.Game
                 ["filter"] = "wash", ["visitor_tik"] = "refuse", ["crate"] = "walk", ["visitor_mu"] = "refuse", ["locker"] = "open",
                 ["recycler"] = "repair", ["storm_warning"] = "water_wall", ["visitor_zee"] = "refuse", ["storm_power"] = "safe_mode", ["visitor_shade"] = "admit",
             };
-            yield return AutoLifeboatRun("d", planD, false, new Dictionary<string, string[]> { ["visitor_shade"] = new[] { "heartbeat" } });
+            yield return AutoLifeboatRun("d", planD, false, new Dictionary<string, string[]> { ["visitor_shade"] = new[] { "thermal" } });
             var d = _life.State;
             Check(d.outcome == LifeOutcome.FailedMonster && d.monsterLetIn == "shade" && d.day == 4, "run D: letting the monster in ends the run at once");
             yield return Shot("d_end_th");

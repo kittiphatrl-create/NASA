@@ -55,29 +55,6 @@ namespace TitanGate.Game
             _crewPrompt?.RemoveFromHierarchy(); _crewPrompt = null;
         }
 
-        void CrewTalk(BSpot spot)
-        {
-            if (!int.TryParse(spot.id.Substring(5), out int index) || index >= _life.State.guests.Count) return;
-            string id = _life.State.guests[index];
-            _crewWaveUntil = Time.time + 1.8f;
-            if (_bDone.Add("talk_" + id)) _life.State.morale = Mathf.Min(100, _life.State.morale + 4);
-            _ui.ShowModal(panel =>
-            {
-                panel.style.maxWidth = 760; panel.style.minWidth = 320;
-                var face = new Image { sprite = Art.Crew(id, 0, -1, false, false, true), scaleMode = ScaleMode.ScaleToFit };
-                face.style.height = 170; panel.Add(face);
-                panel.Add(_ui.L(LbName(id), 30, true, GameUI.CAmber));
-                string role = id == "ree" || id == "aya" ? CrewText("I am checking the greenhouse. Those little leaves make this place feel like home.", "ฉันกำลังดูแลเรือนกระจก ใบไม้เล็ก ๆ พวกนี้ทำให้ที่นี่เหมือนบ้านขึ้นนะ")
-                    : id == "tik" || id == "jules" ? CrewText("I am checking our equipment. We will get through this together.", "ฉันกำลังตรวจอุปกรณ์ของเรา เราจะผ่านเรื่องนี้ไปด้วยกันนะ")
-                    : CrewText("I am sorting our supplies. It feels good to have company out here.", "ฉันกำลังจัดเสบียง มีเพื่อนอยู่ด้วยบนดาวนี้แล้วอุ่นใจขึ้นเยอะเลย");
-                panel.Add(_ui.L(role, 25));
-                panel.Add(_ui.L(CrewText("Daily help and ration needs follow the existing crew rules. Talking does not spend supplies.", "การช่วยงานและเสบียงรายวันใช้กติกาเดิม การพูดคุยไม่เสียทรัพยากร"), 19, false, GameUI.CDim));
-                panel.Add(_ui.B(CrewText("How are you feeling?", "เป็นอย่างไรบ้าง?"), () =>
-                    _ui.Toast(_life.State.stock.food < 2 ? CrewText("A little hungry. Shall we check our rations?", "หิวนิดหน่อย เราลองดูเสบียงกันไหม?") : CrewText("Better now that we have each other.", "ดีขึ้นมากเลย ตอนนี้เราไม่ได้อยู่คนเดียวแล้ว"), GameUI.CAmber)));
-                panel.Add(_ui.B(CrewText("See you around", "ไว้คุยกันใหม่นะ"), () => _ui.CloseModal(), 24, true));
-            });
-        }
-
         // Routines are presentation only. Actual daily help remains authoritative in LifeboatSim.
         void CrewUpdate(float dt)
         {
@@ -93,7 +70,21 @@ namespace TitanGate.Game
                 if (!_bGather && !_ui.Blocking)
                 {
                     r.wait -= dt;
-                    if (r.path.Count == 0 && r.wait <= 0)
+                    if (_crewCall.TryGetValue(id, out var callTo))
+                    {
+                        // called over to a job: walk there and stay to help
+                        if (r.path.Count == 0)
+                        {
+                            if (Vector2.Distance(p, callTo) > 0.35f)
+                            {
+                                var route = BFindPath(p, callTo);
+                                if (route != null && route.Count > 0) r.path.AddRange(route); else { p = callTo; _crewHere.Add(id); }
+                            }
+                            else { _crewHere.Add(id); r.facing = Vector2.up; }
+                        }
+                        r.wait = 2;
+                    }
+                    else if (r.path.Count == 0 && r.wait <= 0)
                     {
                         // Walk to reachable work stations through the same collision grid as the player.
                         string job = id == "aya" || id == "ree" ? "plot0" : id == "tik" || id == "jules" ? "air" : "shelf_food";
@@ -108,7 +99,7 @@ namespace TitanGate.Game
                     if (r.path.Count > 0)
                     {
                         delta = r.path[0] - p;
-                        p = Vector2.MoveTowards(p, r.path[0], dt * 1.4f);
+                        p = Vector2.MoveTowards(p, r.path[0], dt * (_crewCall.ContainsKey(id) ? 2.6f : 1.4f));
                         if (Vector2.Distance(p, r.path[0]) < .03f) r.path.RemoveAt(0);
                         if (delta.sqrMagnitude > .001f) r.facing = delta.normalized;
                         moving = delta.sqrMagnitude > .001f;
@@ -116,7 +107,7 @@ namespace TitanGate.Game
                 }
                 int dir = Mathf.Abs(r.facing.y) > Mathf.Abs(r.facing.x) ? (r.facing.y > 0 ? 1 : 0) : 2;
                 int frame = moving ? (int)(_bAnim * 8) % 8 : (_bAnim % 4 > 3.8f ? -2 : -1);
-                sr.sprite = Art.Crew(id, _bGather ? 0 : dir, frame, false, false, Time.time < _crewWaveUntil);
+                sr.sprite = _bGather ? Art.CrewAction(id, "sit") : !moving && _crewHere.Contains(id) ? Art.CrewAction(id, "repair", (int)(_bAnim * 5) % 4) : !moving && r.wait < 5 && (id == "aya" || id == "jules") ? Art.CrewAction(id, id == "aya" ? "water" : "repair", (int)(_bAnim * 5) % 4) : Art.Crew(id, dir, frame, false, false, Time.time < _crewWaveUntil);
                 sr.flipX = dir == 2 && r.facing.x < 0; sr.transform.localScale = Vector3.one;
                 sr.transform.position = p; sr.sortingOrder = SortY(p.y);
                 var spot = BSpotById("guest" + i); if (spot == null) continue;

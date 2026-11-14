@@ -553,7 +553,7 @@ namespace TitanGate.Game
             _typed = Settings.TextSpeed <= 0 ? _fullLine.Length : 0;
             _dialogText.text = Thai(SafeCut(_fullLine, (int)_typed));
             _dialogMore.text = Thai(_loc.T("ui.continue"));
-            _dialogPortrait.image = sp == "orbi" ? Art.Orbi(0).texture : (sp == "you" ? Art.Astronaut(false, Pose.Idle0).texture : null);
+            _dialogPortrait.image = sp == "orbi" ? Art.Orbi(0).texture : (sp == "mentor" ? Art.Crew("mentor", 0, -1).texture : sp == "you" ? Art.Crew("cadet", 0, -1).texture : null);
             _dialogPortrait.style.display = _dialogPortrait.image != null ? DisplayStyle.Flex : DisplayStyle.None;
             Border(_dialog, sp == "sys" ? CAmber : CCyan, 3, 10);
         }

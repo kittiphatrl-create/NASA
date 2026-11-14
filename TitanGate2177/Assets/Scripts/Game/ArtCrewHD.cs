@@ -17,13 +17,13 @@ namespace TitanGate.Game
         {
             var c = new PixelCanvas(64, 80);
             Color32 ink = PixelCanvas.Hex("#293347"), cream = PixelCanvas.Hex("#fff1d2");
-            bool human = id == "cadet" || id == "aya" || id == "jules";
+            bool human = id == "cadet" || id == "aya" || id == "jules" || id == "mentor" || id == "zee" || id == "official" || id == "kira" || id == "rex" || id == "vela";
             bool side = dir == 2, back = dir == 1, blink = frame == -2 && id != "mimic";
-            var skin = human ? (id == "aya" ? PixelCanvas.Hex("#bc836e") : id == "jules" ? PixelCanvas.Hex("#e4b795") : PixelCanvas.Hex("#edbb93"))
-                : id == "mu" ? MuC : id == "ree" ? ReeC : id == "zee" ? ZeeC : id == "nok" ? NokC : TikC;
-            var cloth = suit ? cream : id == "cadet" ? PixelCanvas.Hex("#e5a365") : id == "aya" ? PixelCanvas.Hex("#90c9b7") : id == "jules" ? PixelCanvas.Hex("#b7a9d9") : (Color32)Color.Lerp(skin, cream, .18f);
+            var skin = human ? (id == "aya" ? PixelCanvas.Hex("#bc836e") : id == "jules" ? PixelCanvas.Hex("#e4b795") : id == "rex" ? PixelCanvas.Hex("#c98e6a") : id == "vela" ? PixelCanvas.Hex("#e8b896") : id == "kira" ? PixelCanvas.Hex("#f6d2b8") : PixelCanvas.Hex("#edbb93"))
+                : id == "bizz" ? PixelCanvas.Hex("#ffd23f") : id == "mu" ? MuC : id == "ree" ? ReeC : id == "zee" ? ZeeC : id == "nok" ? NokC : TikC;
+            var cloth = suit ? cream : id == "official" ? PixelCanvas.Hex("#2d3550") : id == "kira" ? PixelCanvas.Hex("#f4a6c8") : id == "rex" ? PixelCanvas.Hex("#36404f") : id == "vela" ? PixelCanvas.Hex("#7a3e6a") : id == "mentor" ? PixelCanvas.Hex("#537da1") : id == "zee" ? PixelCanvas.Hex("#d284b9") : id == "cadet" ? PixelCanvas.Hex("#e5a365") : id == "aya" ? PixelCanvas.Hex("#90c9b7") : id == "jules" ? PixelCanvas.Hex("#b7a9d9") : (Color32)Color.Lerp(skin, cream, .18f);
             Color32 dark = Color.Lerp(cloth, ink, .34f), light = Color.Lerp(cloth, cream, .35f);
-            var hair = id == "aya" ? PixelCanvas.Hex("#514052") : id == "jules" ? PixelCanvas.Hex("#90664f") : PixelCanvas.Hex("#594334");
+            var hair = id == "official" ? PixelCanvas.Hex("#d7d6d0") : id == "kira" ? PixelCanvas.Hex("#ff8fc0") : id == "rex" ? PixelCanvas.Hex("#1f2230") : id == "vela" ? PixelCanvas.Hex("#c8873a") : id == "mentor" ? PixelCanvas.Hex("#b7b8b1") : id == "zee" ? PixelCanvas.Hex("#66466e") : id == "aya" ? PixelCanvas.Hex("#514052") : id == "jules" ? PixelCanvas.Hex("#90664f") : PixelCanvas.Hex("#594334");
             int f = Mathf.Max(0, frame) % 8;
             float phase = f * Mathf.PI / 4;
             int stride = frame < 0 ? 0 : Mathf.RoundToInt(Mathf.Sin(phase) * (run ? 9 : 6));
@@ -68,7 +68,32 @@ namespace TitanGate.Game
                 c.RoundRect(hx, hy + 22, hw, 8, hair);
                 c.Rect(hx, hy + 10, side ? 9 : 4, 15, hair);
                 c.Rect(hx + 4, hy + 21, side ? 17 : 19, 3, hair);
-                if (id == "aya") { c.RoundRect(hx - 4, hy + 3, 7, 22, hair); c.Rect(hx - 2, hy + 15, 4, 2, Pal.Gold); }
+                if (id == "aya" || id == "zee") { c.RoundRect(hx - 4, hy + 3, 7, 22, hair); c.Rect(hx - 2, hy + 15, 4, 2, Pal.Gold); }
+                if (id == "mentor" && !back) { c.Rect(hx + 5, hy + 3, hw - 10, 4, hair); c.Rect(hx + 5, hy + 1, 4, 3, hair); }
+                if (id == "kira")
+                {
+                    // twin tails with star clips, a fringe, and a bow on the jacket
+                    c.RoundRect(hx - 7, hy + 4, 8, 20, hair); c.RoundRect(hx + hw - 1, hy + 4, 8, 20, hair);
+                    c.Disc(hx - 2, hy + 23, 2, Pal.Gold); c.Disc(hx + hw + 2, hy + 23, 2, Pal.Gold);
+                    if (!back) c.Rect(hx + 3, hy + 17, hw - 6, 5, hair);
+                    if (!back) { c.Rect(tx + tw / 2 - 4, 44 + bob + flight, 8, 3, Pal.Red); }
+                }
+                if (id == "rex")
+                {
+                    // swept spiky hair and a jacket collar
+                    for (int i = 0; i < 5; i++) c.Rect(hx + 2 + i * 6, hy + 26 + (i % 2), 4, 4, hair);
+                    if (!back) c.Rect(hx + 3, hy + 18, hw - 6, 4, hair);
+                    c.Rect(tx - 1, 44 + bob + flight, tw + 2, 4, PixelCanvas.Hex("#22293a"));
+                    if (!back && !side) { c.Rect(hx + 5, hy + 12, 9, 4, ink); c.Rect(hx + 18, hy + 12, 9, 4, ink); c.HLine(hx + 14, hx + 18, hy + 14, ink); }
+                }
+                if (id == "vela")
+                {
+                    // long wavy hair over the shoulders and a gold scarf
+                    c.RoundRect(hx - 5, hy - 6, 8, 30, hair); c.RoundRect(hx + hw - 3, hy - 6, 8, 30, hair);
+                    if (!back) c.Rect(hx + 3, hy + 19, hw - 10, 4, hair);
+                    c.Rect(tx + 2, 45 + bob + flight, tw - 4, 3, Pal.Gold);
+                }
+                if (id == "official" && !back) { c.Rect(tx + tw / 2 - 1, 30 + bob + flight, 3, 16, Pal.RedD); c.Rect(tx + 3, 40 + bob + flight, 3, 3, Pal.Gold); }
                 if (back) c.RoundRect(hx + 1, hy + 1, hw - 2, 26, hair);
             }
             if (suit && !back) c.RoundRect(hx + 4, hy + 6, hw - 7, 15, Pal.BlueD);
@@ -89,6 +114,14 @@ namespace TitanGate.Game
                 if (id == "zee" && !back) c.RoundRect(hx + 14, hy + 20, 3, 4, ink);
                 if (id == "nok") c.Rect(side ? 36 : 46, 36, 5, 7, cream);
                 if (id == "ree") { c.RoundRect(42, 28, 15, 12, Pal.Ice); c.VLine(48, 30, 39, Pal.GreenD); c.HLine(45, 52, 36, Pal.Green); }
+                if (id == "bizz")
+                {
+                    // a round bee-like courier: black stripes, see-through wings, two antennae with pollen balls
+                    for (int y = 30; y < 48; y += 6) c.Rect(tx, y + bob + flight, tw, 3, ink);
+                    c.Ellipse(hx - 6, hy + 14, 7, 10, new Color32(220, 240, 255, 200)); c.Ellipse(hx + hw + 6, hy + 14, 7, 10, new Color32(220, 240, 255, 200));
+                    c.Line(hx + 8, hy + 27, hx + 4, hy + 34, ink); c.Line(hx + hw - 8, hy + 27, hx + hw - 4, hy + 34, ink);
+                    c.Disc(hx + 4, hy + 35, 2, Pal.Gold); c.Disc(hx + hw - 4, hy + 35, 2, Pal.Gold);
+                }
                 if (id == "shade") { c.RoundRect(hx - 1, hy + 19, hw + 2, 11, PixelCanvas.Hex("#8075a9")); c.Rect(hx, hy + 5, 4, 18, PixelCanvas.Hex("#8075a9")); }
             }
             c.Outline(ink);

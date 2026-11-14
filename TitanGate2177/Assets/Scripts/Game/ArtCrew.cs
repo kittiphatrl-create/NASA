@@ -40,7 +40,7 @@ namespace TitanGate.Game
             return c.ToSprite(new Vector2(.5f, .5f));
         });
         public static Sprite Crew(string id, int dir, int frame, bool suit = false, bool run = false, bool wave = false)
-            => CrewHD(id, dir, frame, suit, run, wave);
+            => id == "tik" || id == "pip" || id == "mu" || id == "nok" ? VisitorForm(id, dir, frame, wave) : CrewHD(id, dir, frame, suit, run, wave);
 
         static Sprite LegacyCrew(string id, int dir, int frame, bool suit, bool run, bool wave) => Cached($"crew-v3-{id}-{dir}-{frame}-{suit}-{run}-{wave}", () =>
         {

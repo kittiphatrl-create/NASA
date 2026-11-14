@@ -563,12 +563,12 @@ namespace TitanGate.Tests
             for (int day = 1; day <= c.LastDay; day++) Assert.IsTrue(c.cards.Exists(x => x.day == day), "no card on day " + day);
             foreach (var id in c.demoStowed) Assert.IsTrue(g.chapter1.supplies.Exists(s => s.id == id), id);
             Assert.AreEqual(7, c.LastDay, "the shipped game plays the whole week");
-            Assert.AreEqual(3, c.scans.Count);
+            Assert.AreEqual(2, c.scans.Count, "infrared and breath; the heartbeat scanner was removed");
             Assert.IsTrue(c.visitors.Exists(v => v.monster), "the week has monsters to find");
             foreach (var v in c.visitors)
             {
                 foreach (var sc in v.failsScans) CollectionAssert.Contains(c.scans, sc, v.id);
-                if (v.monster) Assert.GreaterOrEqual(v.failsScans.Count, 2, v.id + ": a monster must fail at least two scanners, so two scans always catch it");
+                if (v.monster) Assert.GreaterOrEqual(v.failsScans.Count, 1, v.id + ": a monster must fail at least one scanner, so using both always catches it");
                 else Assert.AreEqual(0, v.failsScans.Count, v.id + ": a living visitor must read normal");
             }
             foreach (var x in c.cards)
@@ -662,6 +662,7 @@ namespace TitanGate.Tests
                 ["visitor_shade"] = "refuse", ["visitor_ree"] = "refuse", ["visitor_mimic"] = "refuse",
                 ["visitor_aya"] = "refuse", ["visitor_jules"] = "refuse",
                 ["visitor_pip"] = "refuse", ["pip_return"] = "refuse",
+                ["visitor_kira"] = "refuse", ["visitor_rex"] = "refuse", ["visitor_vela"] = "refuse", ["visitor_bizz"] = "refuse",
             };
             foreach (var pet in c.pets)
             {

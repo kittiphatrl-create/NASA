@@ -37,6 +37,7 @@ namespace TitanGate.Core
     public class VisitorDef
     {
         public string id;
+        public bool leavesAfterNight;
         /// <summary>What the visitor uses each day inside. Oxygen is used whether it is fed or not.</summary>
         public Stock perDay = new Stock();
         /// <summary>What a fed visitor gives back each day.</summary>
@@ -117,7 +118,7 @@ namespace TitanGate.Core
         public Stock start = new Stock();
         /// <summary>What the cadet uses each day.</summary>
         public Stock crewPerDay = new Stock();
-        public float lifeSupportPower = 1, solarPerDay = 1;
+        public float lifeSupportPower = 1, solarPerDay = 2;
         /// <summary>Extra oxygen used per day when the scrubber has no power, and when its filter is clogged.</summary>
         public float o2PenaltyNoPower = 1, o2PenaltyClogged = 1;
         public List<PetDef> pets = new List<PetDef>();
@@ -148,7 +149,7 @@ namespace TitanGate.Core
         public Stock taskSolar = new Stock { o2 = -0.5f, power = 1 };
         public Stock taskDrill = new Stock { power = -1, water = 1 };
         public Stock taskPlant = new Stock { water = -1 };
-        public Stock taskHarvest = new Stock { food = 2 };
+        public Stock taskHarvest = new Stock { food = 1 };
         public int growNights = 2, seedsBase = 2, seedsWithPack = 3;
 
         public PetDef GetPet(string id) => pets.Find(p => p.id == id);
@@ -160,7 +161,7 @@ namespace TitanGate.Core
     /// <summary>Survived = a shortened prototype run ended alive. Rescued / Stranded are the endings of the full week.</summary>
     public enum LifeOutcome { Ongoing, Survived, Rescued, Stranded, FailedAir, FailedHealth, FailedMonster }
 
-    public enum LifeLogKind { Choice, GuestJoined, GuestLeftHungry, Gift, Theft, TheftStopped, Hungry, PetHungry, NoPower, NightSafe, NightHit, MakerRan, Scan }
+    public enum LifeLogKind { Choice, GuestJoined, GuestLeftHungry, Gift, Theft, TheftStopped, Hungry, PetHungry, NoPower, NightSafe, NightHit, MakerRan, Scan, GuestDeparted }
 
     public class LifeLog
     {
@@ -234,9 +235,78 @@ namespace TitanGate.Core
         public LifeCard NextCard()
         {
             if (State.outcome != LifeOutcome.Ongoing) return null;
-            foreach (var c in _c.cards)
-                if (c.day == State.day && !State.answered.Contains(c.id) && Applies(c)) return c;
+            // with a random visitor schedule, the day's own jobs come first and the knock comes after them
+            for (int pass = _visitorsLast ? 0 : 1; pass < 2; pass++)
+                foreach (var c in _c.cards)
+                {
+                    if (DayOf(c) != State.day || State.answered.Contains(c.id) || !Applies(c)) continue;
+                    if (_visitorsLast && pass == 0 && !string.IsNullOrEmpty(c.visitor)) continue;
+                    return c;
+                }
             return null;
+        }
+
+        readonly Dictionary<string, int> _dayOf = new Dictionary<string, int>();
+        bool _visitorsLast;
+
+        /// <summary>The day a card belongs to in this run (a random visitor schedule can move or drop visitor cards).</summary>
+        public int DayOf(LifeCard c) => c != null && _dayOf.TryGetValue(c.id, out var d) ? d : c?.day ?? -1;
+
+        /// <summary>Cards of visitors that appear in this run, in day order.</summary>
+        public List<string> VisitorPlan()
+        {
+            var l = new List<(int, string)>();
+            foreach (var c in _c.cards) if (!string.IsNullOrEmpty(c.visitor) && DayOf(c) > 0 && string.IsNullOrEmpty(c.ifFlag)) l.Add((DayOf(c), c.visitor));
+            l.Sort((a, b) => a.Item1.CompareTo(b.Item1));
+            var r = new List<string>(); foreach (var (_, v) in l) r.Add(v); return r;
+        }
+
+        /// <summary>
+        /// Gacha-style visitors: each run draws a few friendly visitors and maybe one dangerous one, on days that are
+        /// never back to back. A visitor's follow-up card (needs a flag from the first visit) comes two days later.
+        /// Cards without a visitor keep their days. Call once, before the first card.
+        /// </summary>
+        public void RandomizeVisitors(int seed, int friendly = 3)
+        {
+            var rng = new Random(seed);
+            _dayOf.Clear();
+            _visitorsLast = true;
+            var first = new List<LifeCard>(); var follow = new List<LifeCard>(); LifeCard shade = null, mimic = null;
+            foreach (var c in _c.cards)
+            {
+                if (string.IsNullOrEmpty(c.visitor)) continue;
+                var v = _c.GetVisitor(c.visitor);
+                if (!string.IsNullOrEmpty(c.ifFlag)) follow.Add(c);
+                else if (v != null && v.monster) { if (c.visitor == "mimic") mimic = c; else shade = c; }
+                else first.Add(c);
+                _dayOf[c.id] = -1;
+            }
+            // shuffle the friendly visitors and keep the first few
+            for (int i = first.Count - 1; i > 0; i--) { int j = rng.Next(i + 1); var t = first[i]; first[i] = first[j]; first[j] = t; }
+            var chosen = first.GetRange(0, Math.Min(friendly, first.Count));
+            bool tik = chosen.Exists(c => c.visitor == "tik");
+            if (shade != null && rng.NextDouble() < 0.5) chosen.Add(shade);
+            // the copy of Tik only makes sense after the real Tik came
+            bool useMimic = mimic != null && tik && rng.NextDouble() < 0.6;
+            int last = Math.Min(_c.daysTotal, 7);
+            // days 1..last, no two visitor days in a row; the mimic keeps the last evening
+            var days = new List<int>();
+            for (int d = 1; d <= (useMimic ? last - 1 : last); d++) days.Add(d);
+            var used = new HashSet<int>();
+            if (useMimic) { _dayOf[mimic.id] = mimic.day; used.Add(mimic.day); }
+            foreach (var c in chosen)
+            {
+                var free = days.FindAll(d => !used.Contains(d) && !used.Contains(d - 1) && !used.Contains(d + 1));
+                if (free.Count == 0) { _dayOf[c.id] = -1; continue; }
+                int day = c == shade && free.Contains(shade.day) ? shade.day : free[rng.Next(free.Count)];
+                _dayOf[c.id] = day; used.Add(day);
+            }
+            foreach (var f in follow)
+            {
+                var src = _c.cards.Find(c => c.visitor == f.visitor && string.IsNullOrEmpty(c.ifFlag));
+                int d0 = src != null ? DayOf(src) : -1;
+                _dayOf[f.id] = d0 > 0 && d0 + 2 <= last ? d0 + 2 : -1;
+            }
         }
 
         /// <summary>Does the card's condition hold right now? A card later in the day can be opened by an earlier answer.</summary>
@@ -251,7 +321,7 @@ namespace TitanGate.Core
             done = total = 0;
             foreach (var c in _c.cards)
             {
-                if (c.day != State.day) continue;
+                if (DayOf(c) != State.day) continue;
                 if (State.answered.Contains(c.id)) { done++; total++; }
                 else if (Applies(c)) total++;
             }
@@ -328,6 +398,13 @@ namespace TitanGate.Core
         /// A small hands-on job done while walking around the base (clean panels, drill ice, plant, harvest).
         /// Every job trades one stock for another. Returns false if a cost cannot be paid. Stocks never go below zero.
         /// </summary>
+        /// <summary>Health change from an event in the base (a storm caught you outside the shelter). Never below 1 here.</summary>
+        public void ApplyHealth(int delta)
+        {
+            if (State.outcome != LifeOutcome.Ongoing) return;
+            State.health = Math.Max(1, Math.Min(_c.health, State.health + delta));
+        }
+
         public bool ApplyTask(Stock delta, float hours = 0, float reservedHours = 0)
         {
             if (delta == null || State.outcome != LifeOutcome.Ongoing) return false;
@@ -342,7 +419,7 @@ namespace TitanGate.Core
         {
             var card = _c.GetCard(cardId);
             var o = card?.options.Find(x => x.id == optionId);
-            if (o == null || State.outcome != LifeOutcome.Ongoing || card.day != State.day || State.answered.Contains(cardId)) return null;
+            if (o == null || State.outcome != LifeOutcome.Ongoing || DayOf(card) != State.day || State.answered.Contains(cardId)) return null;
             if (!CanChoose(o, out _)) return null;
             State.schedule.TrySpend(Math.Min(1, State.schedule.Remaining));
             State.answered.Add(cardId);
@@ -512,6 +589,12 @@ namespace TitanGate.Core
                 if (fed.Contains(g)) continue;
                 s.guests.Remove(g);
                 Note(LifeLogKind.GuestLeftHungry, g);
+            }
+
+            foreach (var g in new List<string>(s.guests))
+            {
+                if (!_c.GetVisitor(g).leavesAfterNight) continue;
+                s.guests.Remove(g); Note(LifeLogKind.GuestDeparted, g);
             }
 
             foreach (var n in _c.nights)

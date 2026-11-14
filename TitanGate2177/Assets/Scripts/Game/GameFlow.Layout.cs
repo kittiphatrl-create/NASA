@@ -223,9 +223,6 @@ namespace TitanGate.Game
             // Low-contrast living areas anchor furniture without adding invisible collision.
             BSprite("pod-rug", Art.HabitatMat(false), new Vector2(5.3f, 11.8f), -29995);
             BSprite("hub-rug", Art.HabitatMat(true), new Vector2(22f, 11.5f), -29995);
-            BDeco(Art.HabitatPlant(), 2.7f, 9.3f, 1);
-            BDeco(Art.HabitatPlant(), 30.8f, 15.1f, 1);
-            BDeco(Art.HabitatPlant(), 27.6f, 15.8f, 1);
             // ---- Lifeboat pod (x 2-8, y 9-15): four seats round the console, supplies on the shelves, porthole
             BProp("shelf_water", "base.spot.shelf_water", Art.SupplyShelf("water", 0), 3.2f, 15.12f, new Vector2(3.4f, 14.4f), 2, 1);
             BProp("shelf_food", "base.spot.shelf_food", Art.SupplyShelf("food", 0), 7.3f, 15.12f, new Vector2(7.2f, 14.4f), 2, 1);
@@ -256,6 +253,8 @@ namespace TitanGate.Game
             // ---- Airlock (x 27-31, y 18-21): the outer door with a peephole
             _bDoor = BSprite("door", Art.PeepDoor(false), _bHatch, SortY(_bHatch.y) + 2);
             BProp("hatch", "base.place.hatch", null, _bHatch.x + 1, _bHatch.y + 0.2f, new Vector2(_bHatch.x + 1, _bHatch.y - 0.6f));
+            BProp("hatch_out", "base.place.hatch", null, _bHatch.x + 1, _bHatch.y + 1.2f, new Vector2(_bHatch.x + 1, _bHatch.y + 1.6f));
+            BSetDoor(false);
             BDeco(Art.Locker(false), 27.5f, 21.12f, 1);
             BDeco(Art.Locker(true), 31.5f, 21.12f, 1);
             BLamp(new Vector2(29.5f, 20f), new Color(1f, 0.7f, 0.3f), 4.5f, 0.45f);
@@ -269,6 +268,7 @@ namespace TitanGate.Game
             // ---- Storage (x 16-21, y 1-5): O2 tanks, locker, water recycler, storm shelter
             BProp("shelf_o2", "base.spot.shelf_o2", Art.SupplyShelf("o2", 0), 17.2f, 5.12f, new Vector2(17.4f, 4.4f), 2, 1);
             BProp("locker", "base.place.locker", Art.Locker(false), 21.1f, 5.12f, new Vector2(20.4f, 4.4f), 1, 1);
+            BProp("toolbox", "base.place.toolbox", Art.Cabinet(true), 19.3f, 5.12f, new Vector2(19.3f, 4.4f), 1, 1);
             BProp("recycler", "base.place.recycler", Art.Recycler(), 17.2f, 1.6f, new Vector2(18.4f, 1.8f), 2, 1);
             BProp("shelter", "base.place.shelter", Art.WaterWall(false), 20.6f, 1.15f, new Vector2(19.6f, 2.6f), 2, 1);
             BLamp(new Vector2(19f, 3f), new Color(0.75f, 0.85f, 1f), 5f, 0.4f);
@@ -292,6 +292,7 @@ namespace TitanGate.Game
             BProp("beacon", "base.place.beacon", Art.Dish(false), 43.0f, 6.6f, new Vector2(43.0f, 5.8f), 2, 1);
             BProp("crate", "base.place.crate", Art.CargoPod(false), 35.0f, 25.6f, new Vector2(35.0f, 24.8f), 2, 1);
             BLamp(_bHatch + new Vector2(1, 1.2f), new Color(1f, 0.75f, 0.35f), 4f, 0.5f);
+            BBuildSalvage();
         }
     }
 }

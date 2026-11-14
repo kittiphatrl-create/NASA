@@ -572,5 +572,134 @@ namespace TitanGate.Game
             for (int x = 0; x < 16; x++) if ((x / 2) % 2 == 0) c.Set(x, 26, Pal.Amber);
             return c.ToSprite(new Vector2(0, 0));
         });
+        /// <summary>Side view of the small escape pod: blunt cone, heat shield, window, orange stripe; airbags when landing.</summary>
+        public static Sprite PodSide(bool airbags) => Cached("podside" + airbags, () =>
+        {
+            var c = new PixelCanvas(40, 40);
+            c.Rect(8, 8, 24, 4, PixelCanvas.Hex("#5b4636"));
+            for (int y = 12; y < 34; y++) { int half = 12 - (y - 12) / 3; c.HLine(20 - half, 19 + half, y, y < 22 ? Pal.White : Pal.Grey); }
+            c.HLine(9, 30, 18, Pal.Orange); c.HLine(10, 29, 19, Pal.OrangeD);
+            c.Disc(20, 25, 3, Pal.Ink); c.Disc(20, 25, 2, Pal.CyanD); c.Set(19, 26, Pal.CyanL);
+            c.Rect(18, 34, 4, 2, Pal.Steel); c.Rect(19, 36, 2, 2, Pal.Red);
+            c.Rect(10, 6, 3, 2, Pal.Steel0); c.Rect(27, 6, 3, 2, Pal.Steel0);
+            if (airbags)
+            {
+                c.Disc(9, 6, 5, PixelCanvas.Hex("#e8d9b0")); c.Disc(20, 4, 5, PixelCanvas.Hex("#f2e6c6")); c.Disc(31, 6, 5, PixelCanvas.Hex("#e8d9b0"));
+                c.Set(8, 8, Pal.White); c.Set(19, 7, Pal.White); c.Set(30, 8, Pal.White);
+            }
+            c.Outline(Pal.Ink);
+            return c.ToSprite(new Vector2(0.5f, 0.5f));
+        });
+        // ------------------------------------------------------------------ cutscene sets
+
+        /// <summary>Press hall at mission control: back wall, mission banner, screens, stage edge. 160x90.</summary>
+        public static Sprite PressHall() => Cached("presshall", () =>
+        {
+            var c = new PixelCanvas(160, 90);
+            for (int y = 0; y < 90; y++) c.HLine(0, 159, y, Color32.Lerp(PixelCanvas.Hex("#0e1630"), PixelCanvas.Hex("#22305c"), y / 90f));
+            c.Rect(0, 0, 160, 22, PixelCanvas.Hex("#1a2140"));
+            c.Rect(0, 20, 160, 3, Pal.Steel);
+            // screens with Mars and the Kestrel
+            c.Rect(14, 44, 34, 24, Pal.Ink); c.Rect(16, 46, 30, 20, PixelCanvas.Hex("#0a1024")); c.Disc(31, 56, 7, Pal.Rust); c.Disc(29, 58, 3, Pal.RustL);
+            c.Rect(112, 44, 34, 24, Pal.Ink); c.Rect(114, 46, 30, 20, PixelCanvas.Hex("#0a1024"));
+            c.Rect(118, 54, 22, 4, Pal.Grey); c.Rect(140, 55, 3, 2, Pal.Grey); c.Rect(115, 55, 3, 2, Pal.Orange);
+            // banner
+            c.Rect(52, 56, 56, 22, PixelCanvas.Hex("#16408a")); c.Frame(52, 56, 56, 22, Pal.Gold);
+            c.Disc(80, 70, 6, Pal.White); c.Disc(80, 70, 4, PixelCanvas.Hex("#16408a")); c.Line(70, 64, 90, 76, Pal.Red);
+            c.Rect(58, 59, 44, 2, Pal.White);
+            // ceiling lights
+            for (int i = 0; i < 8; i++) c.Rect(8 + i * 20, 86, 8, 2, Pal.CyanL);
+            return c.ToSprite(new Vector2(0.5f, 0.5f));
+        });
+
+        /// <summary>Speaker's podium with a microphone and badge. 30x34.</summary>
+        public static Sprite Podium() => Prop("podium", 30, 34, c =>
+        {
+            c.Rect(3, 0, 24, 26, PixelCanvas.Hex("#3a2f4a"));
+            c.Rect(0, 24, 30, 5, PixelCanvas.Hex("#4c3f61"));
+            c.Disc(15, 13, 6, Pal.Gold); c.Disc(15, 13, 4, PixelCanvas.Hex("#16408a"));
+            c.VLine(21, 29, 33, Pal.Steel); c.Rect(20, 32, 3, 2, Pal.Ink);
+        });
+
+        /// <summary>Row of audience heads (silhouettes) in front of the stage. 160x16.</summary>
+        public static Sprite Audience() => Cached("audience", () =>
+        {
+            var c = new PixelCanvas(160, 18);
+            var rng = new System.Random(3);
+            for (int x = 2; x < 160; x += 9)
+            {
+                int h = 8 + rng.Next(4);
+                c.Disc(x + 3, h, 4, PixelCanvas.Hex("#070a16")); c.Rect(x - 1, 0, 9, h - 2, PixelCanvas.Hex("#070a16"));
+                if (rng.NextDouble() < 0.25) c.Rect(x + 5, h + 1, 3, 2, Pal.Steel);   // a camera
+            }
+            return c.ToSprite(new Vector2(0.5f, 0f));
+        });
+
+        /// <summary>Inside the Kestrel cockpit: big window with stars, consoles, warning lights. 160x90.</summary>
+        public static Sprite CockpitInterior(bool alarm) => Cached("cockpitint" + alarm, () =>
+        {
+            var c = new PixelCanvas(160, 90);
+            c.Fill(alarm ? PixelCanvas.Hex("#2a1220") : Pal.Navy1);
+            c.Rect(20, 34, 120, 46, Pal.Ink);
+            c.Rect(23, 37, 114, 40, PixelCanvas.Hex("#04060f"));
+            var rng = new System.Random(9);
+            for (int i = 0; i < 40; i++) c.Set(24 + rng.Next(112), 38 + rng.Next(38), i % 5 == 0 ? Pal.CyanL : Pal.Grey);
+            c.Disc(118, 44, 9, Pal.Rust); c.Disc(115, 46, 5, Pal.RustL);
+            c.VLine(60, 37, 76, Pal.Navy2); c.VLine(100, 37, 76, Pal.Navy2);
+            c.Rect(0, 0, 160, 22, alarm ? PixelCanvas.Hex("#3a1a26") : Pal.Navy2);
+            for (int i = 0; i < 6; i++)
+            {
+                int x = 10 + i * 25;
+                c.Rect(x, 8, 18, 10, Pal.Ink); c.Rect(x + 1, 9, 16, 8, i % 2 == 0 ? Pal.CyanD : PixelCanvas.Hex("#1d3d2c"));
+                c.Rect(x + 3, 11, 6, 2, alarm && i % 2 == 1 ? Pal.Red : Pal.Green);
+            }
+            for (int i = 0; i < 4; i++) c.Disc(14 + i * 44, 84, 2, alarm ? Pal.Red : Pal.Amber);
+            return c.ToSprite(new Vector2(0.5f, 0.5f));
+        });
+
+        /// <summary>One frame of an explosion fireball (0..5 grows then fades).</summary>
+        public static Sprite Blast(int frame) => Cached("blast" + frame, () =>
+        {
+            var c = new PixelCanvas(48, 48);
+            int r = 6 + frame * 4;
+            var outer = frame < 4 ? Pal.Orange : Pal.Steel;
+            c.Disc(24, 24, Mathf.Min(r, 23), outer);
+            if (frame < 5) c.Disc(24, 24, Mathf.Max(2, r - 5), frame < 3 ? Pal.Amber : Pal.OrangeD);
+            if (frame < 3) c.Disc(24, 24, Mathf.Max(1, r - 10), Pal.White);
+            var rng = new System.Random(frame + 4);
+            for (int i = 0; i < 10; i++) c.Set(rng.Next(48), rng.Next(48), Pal.Amber);
+            return c.ToSprite(new Vector2(0.5f, 0.5f));
+        });
+
+        /// <summary>A Mars surface base seen from outside: domes, ribbed modules, greenhouse glow, solar panels, dish. 150x60.</summary>
+        public static Sprite MarsBaseExterior() => Cached("marsbaseext", () =>
+        {
+            var c = new PixelCanvas(150, 60);
+            // greenhouse dome (glows)
+            c.Ellipse(30, 14, 22, 18, PixelCanvas.Hex("#9ad7c2")); c.Ellipse(30, 14, 19, 15, PixelCanvas.Hex("#3d7f66"));
+            for (int x = 12; x < 50; x += 6) c.VLine(x, 2, 26, PixelCanvas.Hex("#7fbfa8"));
+            c.Disc(24, 10, 3, Pal.Green); c.Disc(34, 8, 3, Pal.Green); c.Disc(40, 12, 2, Pal.GreenD);
+            // main hub dome
+            c.Ellipse(80, 16, 26, 20, PixelCanvas.Hex("#d8dbe2")); c.Ellipse(80, 16, 23, 17, PixelCanvas.Hex("#b9bfcc"));
+            c.Rect(70, 6, 20, 4, PixelCanvas.Hex("#ffd479")); c.Rect(72, 7, 16, 2, PixelCanvas.Hex("#fff3c0"));
+            c.HLine(56, 104, 4, Pal.Steel0);
+            // ribbed cylinder module
+            c.RoundRect(104, 2, 34, 18, PixelCanvas.Hex("#c9cdd8"));
+            for (int x = 107; x < 136; x += 5) c.VLine(x, 3, 18, PixelCanvas.Hex("#9aa1b3"));
+            c.Rect(112, 9, 6, 4, Pal.CyanD); c.Rect(124, 9, 6, 4, Pal.CyanD);
+            // connecting tubes
+            c.Rect(50, 4, 8, 6, PixelCanvas.Hex("#a3a9b8")); c.Rect(98, 4, 8, 6, PixelCanvas.Hex("#a3a9b8"));
+            // solar panels and dish
+            c.Ellipse(142, 44, 7, 4, Pal.Grey); c.VLine(142, 0, 40, Pal.Steel); c.Disc(142, 48, 2, Pal.Red);
+            c.Rect(0, 0, 150, 2, Pal.RustD);
+            return c.ToSprite(new Vector2(0.5f, 0f));
+        });
+
+        /// <summary>One segment of the flexible docking tube. 12x8.</summary>
+        public static Sprite TubeSegment() => Prop("tubeseg", 12, 8, c =>
+        {
+            c.Rect(0, 0, 12, 8, PixelCanvas.Hex("#a3a9b8")); c.VLine(2, 0, 7, PixelCanvas.Hex("#7c8396")); c.VLine(8, 0, 7, PixelCanvas.Hex("#7c8396"));
+            c.HLine(0, 11, 6, PixelCanvas.Hex("#c9cdd8"));
+        });
     }
 }

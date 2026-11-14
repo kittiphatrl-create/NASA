@@ -1,0 +1,33 @@
+{
+  "build": "Succeeded",
+  "buildErrors": 0,
+  "executable": "Builds/Story/TitanGate2177.exe",
+  "gameAssemblySha256": "7851C2D4D853FEB4F0713A7391D024DB74D8B60F95C80883C610A4EBADD5C43A",
+  "coreAssemblySha256": "1DDA557124EE53B3DC76887A5DA348448874346371D8025599E6D697E79DB395",
+  "editModePassed": 67,
+  "editModeFailed": 0,
+  "scenarios": {
+    "ship": {
+      "result": "done errors=0 checksFailed=0",
+      "passed": 32,
+      "failed": 0
+    },
+    "ux": {
+      "result": "done errors=0 checksFailed=0",
+      "passed": 13,
+      "failed": 0
+    },
+    "base": {
+      "result": "done errors=0 checksFailed=0",
+      "passed": 50,
+      "failed": 0
+    },
+    "story": {
+      "result": "done errors=0 checksFailed=0",
+      "passed": 23,
+      "failed": 0
+    }
+  },
+  "manualHumanPlaytest": false,
+  "committed": false
+}

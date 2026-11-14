@@ -1,0 +1,39 @@
+PASS pet commands open without changing daily resources
+shot 01_pet_menu
+PASS stay command uses actual menu button
+PASS stay command holds pet position
+PASS follow command restores following and closes menu
+PASS sit has a bounded action state
+shot 02_action_sit
+PASS sit releases control after completion
+PASS water has a bounded action state
+shot 02_action_water
+PASS water releases control after completion
+PASS repair has a bounded action state
+shot 02_action_repair
+PASS repair releases control after completion
+PASS plant has a bounded action state
+shot 02_action_plant
+PASS plant releases control after completion
+PASS carry has a bounded action state
+shot 02_action_carry
+PASS carry releases control after completion
+PASS pet has a bounded action state
+shot 02_action_pet
+PASS pet releases control after completion
+PASS feed has a bounded action state
+shot 02_action_feed
+PASS feed releases control after completion
+PASS lift has a bounded action state
+shot 02_action_lift
+PASS lift releases control after completion
+PASS escape pod and habitat have distinct floor treatments
+shot 03_earth
+shot 04_jump
+shot 05_mentor
+PASS intro restores gameplay camera
+shot 06_manual_release
+shot 07_separation
+shot 08_docking
+PASS docking returns to playable habitat
+done errors=0 checksFailed=0
