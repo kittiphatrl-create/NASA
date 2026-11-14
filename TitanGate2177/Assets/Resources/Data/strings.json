@@ -10434,6 +10434,21 @@
    "k": "ship.room.vault_comms",
    "en": "Comms vault (locked)",
    "th": "ห้องอะไหล่สื่อสาร (ล็อก)"
+  },
+  {
+   "k": "ld.orbi.intro1",
+   "en": "Good morning, Cadet! I'm ORBI, the mission AI. We're on the Kestrel, a few days from Mars. Walk with WASD or click the floor.",
+   "th": "อรุณสวัสดิ์ นักบินฝึกหัด! ฉันคือ ORBI AI ประจำภารกิจ เราอยู่บนยาน Kestrel อีกไม่กี่วันจะถึงดาวอังคาร เดินด้วย WASD หรือคลิกที่พื้นได้เลย"
+  },
+  {
+   "k": "ld.mentor.welcome",
+   "en": "Morning, cadet. One job before breakfast: send the morning report from the cockpit radio. Then rest. We land soon.",
+   "th": "อรุณสวัสดิ์ นักบิน งานเช้ามีอย่างเดียว: ส่งรายงานจากวิทยุในห้องบังคับยาน แล้วพักผ่อนได้ เราใกล้ลงจอดแล้ว"
+  },
+  {
+   "k": "ld.mentor.emergency",
+   "en": "Debris hit us! I'll hold the launch release. Fill the lifeboat with supplies, and look for the key card. Go!",
+   "th": "ขยะอวกาศชนยาน! ฉันจะคุมตัวปล่อยยานไว้ เธอขนเสบียงขึ้นยานชูชีพ แล้วหาคีย์การ์ดด้วย ไปเร็ว!"
   }
  ]
 }

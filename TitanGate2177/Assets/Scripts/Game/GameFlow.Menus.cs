@@ -38,13 +38,14 @@ namespace TitanGate.Game
             _ui.ShowScreen(root =>
             {
                 root.style.alignItems = Align.FlexStart; root.style.justifyContent = Justify.Center;
-                var shade = new VisualElement { pickingMode = PickingMode.Ignore }; shade.style.position = Position.Absolute; shade.style.left = 0; shade.style.top = 0; shade.style.bottom = 0; shade.style.width = Length.Percent(55); shade.style.backgroundImage = new StyleBackground(Art.TitleReadabilityFade()); root.Add(shade);
+                if (LastDockMode && LdKeyArt("title_keyart") != null) root.Add(LdArtBackdrop("title_keyart", 0.95f));   // Blender key art: the clay cadet at the Mars base
+                else { var shade = new VisualElement { pickingMode = PickingMode.Ignore }; shade.style.position = Position.Absolute; shade.style.left = 0; shade.style.top = 0; shade.style.bottom = 0; shade.style.width = Length.Percent(55); shade.style.backgroundImage = new StyleBackground(Art.TitleReadabilityFade()); root.Add(shade); }
                 var col = new VisualElement(); col.style.marginLeft = 95; col.style.width = 690;
                 col.style.paddingLeft = col.style.paddingRight = 34; col.style.paddingTop = col.style.paddingBottom = 26;
                 col.style.backgroundColor = Color.clear;
                 GameUI.Border(col, Color.clear, 0, 0);
-                var logo = _ui.L("TITAN GATE", 76, true, GameUI.CText); logo.style.marginTop = 8; _ui.DisplayFont(logo); col.Add(logo);
-                var year = _ui.L("2 1 7 7", 36, true, GameUI.CAmber); year.style.marginBottom = 8; _ui.DisplayFont(year); col.Add(year);
+                var logo = _ui.L(LastDockMode ? "LAST DOCK" : "TITAN GATE", 84, true, GameUI.CText); logo.style.marginTop = 8; if (LastDockMode) LdFont(logo); else _ui.DisplayFont(logo); col.Add(logo);
+                var year = _ui.L(LastDockMode ? "MARS · 2177" : "2 1 7 7", 32, true, GameUI.CAmber); year.style.marginBottom = 8; if (LastDockMode) LdFont(year); else _ui.DisplayFont(year); col.Add(year);
                 col.Add(_ui.L(_loc.T("title.subtitle"), 25));
                 var rule = new VisualElement(); rule.style.height = 3; rule.style.width = 90; rule.style.backgroundColor = GameUI.CAmber; rule.style.marginTop = 12; rule.style.marginBottom = 25; col.Add(rule);
                 Button Main(string key, Action action, bool primary = false, bool enabled = true)
@@ -55,7 +56,7 @@ namespace TitanGate.Game
                 }
                 var start = Main("menu.new", () => MenuDepart(() => { Settings.ClearCheckpoint(); _ui.HideScreen(); StartCoroutine(StartChapter1()); }), true); start.name = "btn-start";
                 Main("menu.continue", () => { _ui.HideScreen(); ContinueGame(); }, false, Settings.HasSave);
-                Main("menu.lifeboat", () => { _ui.HideScreen(); StartLifeboat(); });
+                if (!LastDockMode) Main("menu.lifeboat", () => { _ui.HideScreen(); StartLifeboat(); });
                 var tools = new VisualElement(); tools.style.flexDirection = FlexDirection.Row; tools.style.flexWrap = Wrap.Wrap; tools.style.marginTop = 16;
                 void Small(string key, Action action)
                 {
@@ -69,7 +70,8 @@ namespace TitanGate.Game
                 footer.Add(_ui.B(_loc.Current == Lang.TH ? "English" : "ภาษาไทย", ToggleLang, 20));
                 col.Add(footer);
                 root.Add(col);
-                AddTitleInteractions(root); start.Focus();
+                if (!LastDockMode) AddTitleInteractions(root);
+                start.Focus();
             });
         }
 

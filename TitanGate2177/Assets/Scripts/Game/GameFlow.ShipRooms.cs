@@ -26,6 +26,7 @@ namespace TitanGate.Game
 
         void LdShipRoomsLayout()
         {
+            Art.UseStationTiles = true;   // the ship gets the same weathered Blender walls and floors as the Mars base
             LRoom(9, 21, 16, 26, 1, "ship.room.medbay");
             LRoom(18, 21, 25, 26, 4, "ship.room.eva");
             LRoom(27, 21, 34, 26, 7, "ship.room.pantry");

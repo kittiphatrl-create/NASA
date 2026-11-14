@@ -93,8 +93,9 @@ namespace TitanGate.Game
             _mentor = BSprite("senior-pilot", Art.Crew("mentor", 0, -1), new Vector2(39.5f, 12.5f), SortY(12.5f));
             BShadowFor(_mentor, 1f);
             _bSpots.Add(new BSpot { id = "mentor", sr = _mentor, stand = new Vector2(39.5f, 11.5f), nameKey = "speaker.mentor" });
-            yield return Say("mentor", "story.mentor.welcome");
-            yield return Say("orbi", "ship.intro.1");
+            // LAST DOCK: no pet, bound for Mars, one morning job (the old lines talked about feeding the pet)
+            yield return Say("mentor", LastDockMode ? "ld.mentor.welcome" : "story.mentor.welcome");
+            yield return Say("orbi", LastDockMode ? "ld.orbi.intro1" : "ship.intro.1");
             if (_sPet != null) yield return Say("orbi", "ship.intro.2", _loc.T($"pet.{_sPet}.name"));
             _busy = false;
             _ui.Toast(_loc.T(SSteps[0].textKey, _loc.T($"pet.{_sPet}.name")), GameUI.CCyan);
@@ -202,7 +203,7 @@ namespace TitanGate.Game
                 BLamp(new Vector2(x, y + 0.4f), new Color(1f, 0.85f, 0.4f), 1.6f, 0.5f);
             }
             _busy = true;
-            yield return Say("mentor", "story.mentor.emergency");
+            yield return Say("mentor", LastDockMode ? "ld.mentor.emergency" : "story.mentor.emergency");
             yield return Say("sys", "ship.scramble.sys");
             if (LastDockMode) { LdScrambleRules(); while (_ui.ModalOpen) yield return null; }   // LAST DOCK: the rules before the clock
             else

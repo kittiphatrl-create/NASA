@@ -32,6 +32,60 @@ namespace TitanGate.Game
             t.style.unityTextGenerator = TextGeneratorType.Advanced;
         }
 
+        // ------------------------------------------------------------------ Blender key art (Art/Blender/mars_keyart.blend)
+
+        static readonly Dictionary<string, Texture2D> LdArt = new Dictionary<string, Texture2D>();
+
+        static Texture2D LdKeyArt(string name)
+        {
+            if (LdArt.TryGetValue(name, out var t) && t != null) return t;
+            var ta = Resources.Load<TextAsset>("Sprites/KeyArt/" + name + ".jpg");
+            if (ta == null) return null;
+            t = new Texture2D(2, 2, TextureFormat.RGB24, false) { filterMode = FilterMode.Bilinear, wrapMode = TextureWrapMode.Clamp };
+            t.LoadImage(ta.bytes);
+            LdArt[name] = t;
+            return t;
+        }
+
+        /// <summary>A full-screen picture behind a screen (cover-fit), with a soft dark edge for text on the left.</summary>
+        VisualElement LdArtBackdrop(string name, float leftShade = 0.75f)
+        {
+            var host = new VisualElement { pickingMode = PickingMode.Ignore };
+            host.style.position = Position.Absolute; host.style.left = 0; host.style.right = 0; host.style.top = 0; host.style.bottom = 0;
+            var tex = LdKeyArt(name);
+            if (tex != null)
+            {
+                host.style.backgroundImage = new StyleBackground(tex);
+                host.style.backgroundSize = new BackgroundSize(BackgroundSizeType.Cover);
+            }
+            var shade = new VisualElement { pickingMode = PickingMode.Ignore };
+            shade.style.position = Position.Absolute; shade.style.left = 0; shade.style.top = 0; shade.style.bottom = 0; shade.style.width = Length.Percent(60);
+            shade.style.backgroundImage = new StyleBackground(Art.TitleReadabilityFade());
+            shade.style.opacity = leftShade;
+            host.Add(shade);
+            return host;
+        }
+
+        /// <summary>A story beat: the picture fades in with one line of text, then fades out.</summary>
+        IEnumerator LdStoryPanel(string art, string text, float seconds)
+        {
+            bool done = false;
+            _ui.ShowScreen(root =>
+            {
+                root.Add(LdArtBackdrop(art, 0f));
+                var bar = new VisualElement(); bar.style.position = Position.Absolute; bar.style.left = 0; bar.style.right = 0; bar.style.bottom = 0; bar.style.height = 170;
+                bar.style.backgroundColor = new Color(0, 0, 0, 0.6f); bar.style.justifyContent = Justify.Center; bar.style.alignItems = Align.Center;
+                var l = _ui.L(text, 34, true, GameUI.CText); l.style.whiteSpace = WhiteSpace.Normal; l.style.maxWidth = 1400; l.style.unityTextAlign = TextAnchor.MiddleCenter; LdFont(l);
+                bar.Add(l); root.Add(bar);
+                LdAnimateIn(l, 1);
+                var skip = _ui.B(TT("Next", "ต่อไป"), () => done = true, 22); skip.style.position = Position.Absolute; skip.style.right = 40; skip.style.bottom = 190; root.Add(skip);
+            });
+            yield return Fade(0f, 0.6f);
+            float t = 0; while (!done && t < seconds) { t += Time.deltaTime; yield return null; }
+            yield return Fade(1f, 0.5f);
+            _ui.HideScreen();
+        }
+
         // ------------------------------------------------------------------ icons for numbers
 
         /// <summary>A row of icon + number chips for a change (green gain, red loss). Empty changes are skipped.</summary>

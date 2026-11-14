@@ -52,6 +52,7 @@ namespace TitanGate.Game
                 Application.Quit();
                 yield break;
             }
+            ShowMainMenu(); yield return new WaitForSeconds(1.8f); yield return Shot("p00_menu"); _ui.HideScreen();
             PNote("start mission from the menu");
             StartCoroutine(StartChapter1());
             // watch the intro once, photograph a few moments, skip nothing

@@ -49,7 +49,7 @@ namespace TitanGate.Game
 
             foreach (var id in new[] { "click", "hover", "open", "close", "good", "ship", "drone" }) { var clip = Resources.Load<AudioClip>("Audio/KenneyUI/" + id); if (clip != null) _clips[id] = clip; }
             // real CC0 recordings (Kenney Sci-Fi Sounds, docs/AUDIO_CREDITS.md) replace the generated ones where we have them
-            foreach (var (id, file) in new[] { ("door_open", "doorOpen_000"), ("door_close", "doorClose_000"), ("blip", "computerNoise_001"), ("work", "impactMetal_000"),
+            foreach (var (id, file) in new[] { ("door_open", "doorOpen_000"), ("door_close", "doorClose_000"), ("work", "impactMetal_000"),
                 ("thud", "lowFrequency_explosion_000"), ("whoosh", "thrusterFire_000"), ("rumble", "spaceEngineLow_000"), ("shield", "forceField_000"),
                 ("rover", "engineCircular_000"), ("console", "computerNoise_000"), ("clank", "impactMetal_002") })
             { var clip = Resources.Load<AudioClip>("Audio/KenneySciFi/" + file); if (clip != null) _clips[id] = clip; }
@@ -114,6 +114,7 @@ namespace TitanGate.Game
         /// <summary>Play a one-shot. The same sound never stacks faster than its cool-down.</summary>
         public void Play(string id, float vol = 1f)
         {
+            if (id == "blip") return;   // no sound when a dialogue line appears or advances (the user asked to remove it)
             if (_src == null || !_clips.TryGetValue(id, out var c)) return;
             float cool = id == "hover" ? 0.08f : id == "step" ? 0.12f : id == "blip" ? 0.06f : 0.05f;
             if (_lastPlayed.TryGetValue(id, out var last) && Time.unscaledTime - last < cool) return;
