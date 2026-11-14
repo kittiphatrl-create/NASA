@@ -25,12 +25,13 @@ namespace TitanGate.Game
         int _pzMistakes;
         Action<int, float> _pzDone;
         VisualElement _pzRoot, _pzBoard;
+        VisualElement _pzLamp, _pzProgress;
         Label _pzStatus;
         public bool PuzzleOpen => _pzRoot != null && _ui.ScreenOpen;
 
         void PzOpen(string type, int help, JobDef d, Action<int, float> done, Action cancel)
         {
-            _pzFinished = false; _pzMistakes = 0; _pzT0 = Time.realtimeSinceStartup; _pzDone = done; _pzSolve = null;
+            _pzFinished = false; _pzMistakes = 0; _pzT0 = Time.realtimeSinceStartup; _pzDone = done; _pzSolve = null; _pzJob = d;
             _ui.ShowScreen(root =>
             {
                 _pzRoot = root;
@@ -41,16 +42,28 @@ namespace TitanGate.Game
                 frame.style.paddingLeft = frame.style.paddingRight = 30; frame.style.paddingTop = 14; frame.style.paddingBottom = 14;
                 var top = new VisualElement(); top.style.flexDirection = FlexDirection.Row; top.style.justifyContent = Justify.SpaceBetween; top.style.alignItems = Align.Center;
                 top.Add(_ui.L(TT(d.en, d.th), 30, true, GameUI.CAmber));
+                _pzLamp = new VisualElement { pickingMode = PickingMode.Ignore };
+                _pzLamp.style.width = 16; _pzLamp.style.height = 16; _pzLamp.style.alignSelf = Align.Center;
+                _pzLamp.style.marginLeft = 16; _pzLamp.style.backgroundColor = GameUI.CAmber;
+                GameUI.Border(_pzLamp, new Color(.03f, .06f, .08f), 3, 8); top.Add(_pzLamp);
                 if (help > 0) top.Add(_ui.L(TT("A friend is helping", "มีเพื่อนช่วยอยู่"), 20, true, GameUI.CGreen));
                 frame.Add(top);
                 _pzStatus = _ui.L(PzHelpText(type), 22, false, GameUI.CText); _pzStatus.style.marginBottom = 8; frame.Add(_pzStatus);
                 var board = new VisualElement(); board.style.width = PzW; board.style.height = PzH; board.style.position = Position.Relative; board.style.overflow = Overflow.Hidden;
                 board.style.backgroundColor = new Color(0.12f, 0.13f, 0.17f); GameUI.Border(board, new Color(0.3f, 0.32f, 0.38f), 3, 12);
+                board.style.backgroundImage = new StyleBackground(Art.RepairBackplate(type));
                 _pzBoard = board;
+                _pzProgress = new VisualElement { pickingMode = PickingMode.Ignore };
+                _pzProgress.style.position = Position.Absolute; _pzProgress.style.left = 0; _pzProgress.style.right = 0;
+                _pzProgress.style.bottom = 0; _pzProgress.style.height = 5;
+                _pzProgress.style.backgroundColor = GameUI.CGreen; _pzProgress.style.opacity = 0;
+                board.Add(_pzProgress);
                 frame.Add(board);
                 var foot = new VisualElement(); foot.style.flexDirection = FlexDirection.Row; foot.style.justifyContent = Justify.SpaceBetween; foot.style.alignItems = Align.Center; foot.style.marginTop = 8;
-                foot.Add(_ui.L(TT(d.factEn, d.factTh), 16, false, GameUI.CCyan));
-                var back = _ui.B(TT("Step back", "ถอยออกมา"), () => { _pzRoot = null; _pzSolve = null; cancel?.Invoke(); }, 19);
+                var fact = _ui.L(TT(d.factEn, d.factTh), 20, false, GameUI.CDim);
+                fact.style.maxWidth = PzW - 210; fact.style.flexShrink = 1; fact.style.marginRight = 16;
+                foot.Add(fact);
+                var back = _ui.B(TT("Step back", "ถอยออกมา"), () => { if (_pzFinished) return; _pzRoot = null; _pzSolve = null; cancel?.Invoke(); }, 19);
                 back.style.flexShrink = 0; foot.Add(back);
                 frame.Add(foot);
                 root.Add(frame);
@@ -111,18 +124,30 @@ namespace TitanGate.Game
             _pzFinished = true;
             float secs = Time.realtimeSinceStartup - _pzT0;
             _sfx.Play("good");
-            PzSay("Done!", "เรียบร้อย!", GameUI.CGreen);
-            var ok = _ui.L(TT("DONE", "เสร็จแล้ว"), 90, true, GameUI.CGreen);
-            ok.style.position = Position.Absolute; ok.style.left = 0; ok.style.right = 0; ok.style.top = PzH / 2 - 70; ok.style.unityTextAlign = TextAnchor.MiddleCenter;
-            ok.pickingMode = PickingMode.Ignore;
-            _pzBoard?.Add(ok);
+            // Keep the completed mechanism visible: signal success without a text overlay.
+            if (_pzStatus != null) _pzStatus.style.opacity = 0;
+            if (_pzLamp != null) _pzLamp.style.backgroundColor = GameUI.CGreen;
+            if (_pzProgress != null) _pzProgress.style.opacity = 1;
+            if (_pzBoard != null) _pzBoard.style.borderTopColor = GameUI.CGreen;
             var root = _pzRoot; var done = _pzDone; int m = _pzMistakes;
             root.schedule.Execute(() => { if (_pzRoot != root) return; _pzRoot = null; _pzSolve = null; done?.Invoke(m, secs); }).StartingIn(750);
         }
 
         static VisualElement Box(float x, float y, float w, float h, Color c, float r = 6)
         {
-            var e = Abs(x, y, w, h); e.style.backgroundColor = c; Round(e, r); return e;
+            var e = Abs(x, y, w, h); e.style.backgroundColor = c;
+            float radius = w == h && r >= w * .4f ? r : Mathf.Min(r, 4);
+            Round(e, radius);
+            var cast = new VisualElement { pickingMode = PickingMode.Ignore };
+            cast.style.position = Position.Absolute; cast.style.left = w - 1; cast.style.top = 5; cast.style.width = 5; cast.style.bottom = -5;
+            cast.style.backgroundColor = new Color(.015f, .025f, .04f, .6f); Round(cast, radius); e.Add(cast);
+            var face = new VisualElement { pickingMode = PickingMode.Ignore };
+            face.style.position = Position.Absolute; face.style.left = face.style.top = face.style.right = face.style.bottom = 0;
+            face.style.backgroundColor = Color.clear;
+            GameUI.Border(face, Color.Lerp(c, Color.black, .45f), 2, radius);
+            face.style.borderTopColor = Color.Lerp(c, Color.white, .36f); face.style.borderLeftColor = Color.Lerp(c, Color.white, .16f);
+            face.style.borderBottomWidth = 4; e.Add(face);
+            return e;
         }
 
         /// <summary>Drag an element with the pointer (captured). onDrop gets the centre in board space; false snaps it back.</summary>
@@ -179,6 +204,8 @@ namespace TitanGate.Game
                 {
                     p.strokeColor = new Color(c.r * 0.45f, c.g * 0.45f, c.b * 0.45f); p.lineWidth = 26;
                     p.BeginPath(); p.MoveTo(a); p.BezierCurveTo(a + new Vector2(180, 40), z + new Vector2(-180, 40), z); p.Stroke();
+                    p.strokeColor = new Color(0, 0, 0, .45f); p.lineWidth = 30;
+                    var shadow = new Vector2(5, 8); p.BeginPath(); p.MoveTo(a + shadow); p.BezierCurveTo(a + new Vector2(180, 40) + shadow, z + new Vector2(-180, 40) + shadow, z + shadow); p.Stroke();
                     p.strokeColor = c; p.lineWidth = 18;
                     p.BeginPath(); p.MoveTo(a); p.BezierCurveTo(a + new Vector2(180, 40), z + new Vector2(-180, 40), z); p.Stroke();
                 }
@@ -222,6 +249,11 @@ namespace TitanGate.Game
                     Check();
                 });
                 b.Add(node);
+            }
+            for (int i = 0; i < n; i++)
+            {
+                var leftId = _ui.L(((char)('A' + i)).ToString(), 19, true, GameUI.CText); leftId.style.position = Position.Absolute; leftId.style.left = L(i).x - 69; leftId.style.top = L(i).y - 14; b.Add(leftId);
+                var rightId = _ui.L(((char)('A' + i)).ToString(), 19, true, GameUI.CText); rightId.style.position = Position.Absolute; rightId.style.left = R(i).x + 44; rightId.style.top = R(i).y - 14; b.Add(rightId);
             }
             for (int i = 0; i < Mathf.Min(help, 2); i++) linked[i] = true;
             Check();
@@ -471,12 +503,16 @@ namespace TitanGate.Game
 
         // ------------------------------------------------------------------ safe mode switches
 
+        JobDef _pzJob;
+
         void PzSwitches(VisualElement b, int help)
         {
+            // what must stay on depends on the job: the grow-lamp job keeps the grow lamps on
+            bool lamps = _pzJob != null && _pzJob.id.Contains("grow");
             var items = new (string en, string th, bool keep)[]
             {
                 ("Life support", "ระบบช่วยชีวิต", true), ("Heating", "เครื่องทำความร้อน", true), ("Room lights", "ไฟส่องสว่าง", false),
-                ("Rover charger", "ที่ชาร์จรถสำรวจ", false), ("Grow lamps", "ไฟปลูกพืช", false), ("Science lab", "ห้องทดลอง", false),
+                ("Rover charger", "ที่ชาร์จรถสำรวจ", false), ("Grow lamps", "ไฟปลูกพืช", lamps), ("Science lab", "ห้องทดลอง", false),
             };
             var on = new bool[items.Length];
             for (int i = 0; i < on.Length; i++) on[i] = true;
@@ -499,17 +535,16 @@ namespace TitanGate.Game
                 float y = 30 + i * 95;
                 var row = Box(180, y, 740, 80, new Color(0.17f, 0.18f, 0.23f), 10); b.Add(row);
                 var name = _ui.L(TT(items[i].en, items[i].th), 26, true, GameUI.CText); name.style.position = Position.Absolute; name.style.left = 24; name.style.top = 20; row.Add(name);
-                if (help > 0 && items[i].keep) { var tag = _ui.L(TT("keep on!", "ห้ามปิด!"), 18, true, GameUI.CGreen); tag.style.position = Position.Absolute; tag.style.left = 330; tag.style.top = 26; row.Add(tag); }
+                // the goal is written on every row: no guessing, no forced flip-back
+                var tag = _ui.L(items[i].keep ? TT("needs ON", "ต้องเปิดไว้") : TT("can go OFF", "ปิดได้ ประหยัดไฟ"), 18, true, items[i].keep ? GameUI.CGreen : GameUI.CDim);
+                tag.style.position = Position.Absolute; tag.style.left = 330; tag.style.top = 26; row.Add(tag);
                 var sw = Box(560, 14, 150, 52, new Color(0.2f, 0.75f, 0.4f), 26); sw.pickingMode = PickingMode.Position;
                 var st = _ui.L("ON", 22, true, GameUI.CText); st.style.position = Position.Absolute; st.style.left = 0; st.style.right = 0; st.style.top = 10; st.style.unityTextAlign = TextAnchor.MiddleCenter; st.pickingMode = PickingMode.Ignore; sw.Add(st);
                 sw.RegisterCallback<ClickEvent>(_ =>
                 {
                     on[id] = !on[id]; _sfx.Play("click");
                     if (!on[id] && items[id].keep)
-                    {
-                        PzMistake("ALARM! That one keeps us alive. Switched back on.", "สัญญาณเตือน! อันนั้นช่วยชีวิตเรา เปิดกลับให้แล้ว");
-                        b.schedule.Execute(() => { on[id] = true; Check(); }).StartingIn(500);
-                    }
+                        PzMistake("Careful: that one is needed. Turn it back on.", "ระวัง: อันนี้ต้องใช้ เปิดกลับด้วยนะ");
                     Check();
                 });
                 row.Add(sw);

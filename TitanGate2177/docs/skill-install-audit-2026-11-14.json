@@ -1,0 +1,14 @@
+{
+  "source": "C:\\Users\\kitti\\Downloads\\skill",
+  "target": "C:\\Users\\kitti\\.codex\\skills",
+  "files_scanned": 25535,
+  "unique_valid_names": 3258,
+  "counts": {
+    "already_available": 232,
+    "installed": 3024,
+    "duplicate_in_pack": 22277,
+    "installed_with_metadata": 2
+  },
+  "full_audit": "C:\\Users\\kitti\\.codex\\skill-install-audits\\2026-11-14-provided-skills.json",
+  "scripts_executed": false
+}

@@ -24,10 +24,7 @@ namespace TitanGate.Game
         {
             new SStep { target = "food", carry = "sup_food", textKey = "ship.q.food" },
             new SStep { target = "bowl", textKey = "ship.q.bowl", factKey = "ship.fact.food" },
-            new SStep { target = "cabinet", carry = "sup_filter", textKey = "ship.q.cabinet" },
-            new SStep { target = "recycler", textKey = "ship.q.recycler", factKey = "ship.fact.water" },
-            new SStep { target = "can", carry = "sup_water", textKey = "ship.q.can" },
-            new SStep { target = "plants", textKey = "ship.q.plants", factKey = "ship.fact.plants" },
+            // trimmed for a ~20-minute run (spec 2026-11-14 §6.1): the filter, water and plant jobs now live in the base restoration
             new SStep { target = "radio", textKey = "ship.q.radio", factKey = "ship.fact.radio" },
             new SStep { target = "sofa", textKey = "ship.q.sofa" },
         };

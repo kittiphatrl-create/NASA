@@ -278,6 +278,8 @@ namespace TitanGate.Game
                 heat.style.unityBackgroundImageTintColor = thermalOdd ? new Color(0.3f, 0.5f, 1f) : new Color(1f, 0.45f, 0.1f);
                 heat.style.opacity = thermalDone ? 0.55f : 0f;
                 lens.Add(heat);
+                var mood = VisitorMood(visitor);
+                var bubble = Abs(L * 0.62f, L * 0.1f, 110, 110);   // above the visitor's shoulder, well inside the round lens bubble.style.backgroundImage = new StyleBackground(Art.RMood(mood.kind)); lens.Add(bubble);
                 var glass = Abs(0, 0, L, L); glass.style.backgroundColor = new Color(0.6f, 0.8f, 1f, 0.05f); lens.Add(glass);
                 var sweep = Abs(0, -20, L, 16); sweep.style.backgroundColor = new Color(1f, 0.15f, 0.12f, 0.85f); sweep.style.display = DisplayStyle.None; lens.Add(sweep);
                 var sweepGlow = Abs(0, -40, L, 50); sweepGlow.style.backgroundColor = new Color(1f, 0.2f, 0.1f, 0.18f); sweepGlow.style.display = DisplayStyle.None; lens.Add(sweepGlow);
@@ -296,7 +298,9 @@ namespace TitanGate.Game
                     who.style.backgroundImage = new StyleBackground(animated);
                     heat.style.backgroundImage = new StyleBackground(animated);
                     float b = 1 + Mathf.Sin(t * 2.2f) * 0.012f;
-                    var tr = new Translate(Mathf.Sin(t * 0.7f) * 6f, (1 - b) * ph * 0.5f);
+                    float shiver = mood.kind == "cold" || mood.kind == "nervous" ? Mathf.Sin(t * 40f) * 2.5f : 0f;
+                    var tr = new Translate(Mathf.Sin(t * 0.7f) * 6f + shiver, (1 - b) * ph * 0.5f);
+                    bubble.style.translate = new Translate(0, Mathf.Sin(t * 3f) * 6f);
                     who.style.scale = new Scale(new Vector3(1, b, 1)); who.style.translate = tr;
                     heat.style.scale = new Scale(new Vector3(1, b, 1)); heat.style.translate = tr;
                 }).Every(40);
@@ -305,8 +309,14 @@ namespace TitanGate.Game
                 var log = new VisualElement(); log.style.position = Position.Absolute; log.style.left = 34; log.style.top = 34; log.style.width = 500; log.style.bottom = 34;
                 log.style.backgroundColor = new Color(0.03f, 0.06f, 0.1f, 0.92f); GameUI.Border(log, GameUI.CCyanD, 2, 12);
                 log.style.paddingLeft = log.style.paddingRight = 20; log.style.paddingTop = 14;
-                log.Add(_ui.L(_loc.T("base.peep.header"), 18, true, GameUI.CAmber));
-                var title = _ui.L(_loc.T($"life.card.{card.id}.title"), 30, true, GameUI.CCyan); title.style.marginTop = 2; log.Add(title);
+                log.Add(_ui.L(_loc.T("base.peep.header"), 22, true, GameUI.CAmber));
+                var title = _ui.L(_loc.T($"life.card.{card.id}.title"), 36, true, GameUI.CCyan); title.style.marginTop = 2; log.Add(title);
+                // what you can see through the glass: their mood, in big words
+                var moodChip = new VisualElement(); moodChip.style.marginTop = 10; moodChip.style.paddingLeft = moodChip.style.paddingRight = 14; moodChip.style.paddingTop = moodChip.style.paddingBottom = 8;
+                moodChip.style.backgroundColor = new Color(mood.color.r * 0.22f, mood.color.g * 0.22f, mood.color.b * 0.22f, 0.95f); GameUI.Border(moodChip, mood.color, 2, 10);
+                moodChip.Add(_ui.L(TT("LOOKS", "ท่าทาง"), 17, true, GameUI.CDim));
+                moodChip.Add(_ui.L(mood.text, 26, true, mood.color));
+                log.Add(moodChip);
                 BPeepIdCard(log, card);
                 // scanner results as two big tiles
                 var tiles = new VisualElement(); tiles.style.flexDirection = FlexDirection.Row; tiles.style.marginTop = 12;
@@ -317,8 +327,8 @@ namespace TitanGate.Game
                     var t = new VisualElement(); t.style.width = 222; t.style.marginRight = 12; t.style.paddingLeft = t.style.paddingRight = 10; t.style.paddingTop = t.style.paddingBottom = 8;
                     t.style.backgroundColor = !done ? new Color(0.1f, 0.11f, 0.16f) : odd ? new Color(0.3f, 0.04f, 0.06f) : new Color(0.04f, 0.22f, 0.12f);
                     GameUI.Border(t, !done ? new Color(0.3f, 0.32f, 0.4f) : odd ? GameUI.CRed : GameUI.CGreen, 2, 10);
-                    t.Add(_ui.L(_loc.T($"base.peep.scan.{sc}"), 18, true, GameUI.CText));
-                    t.Add(_ui.L(!done ? TT("not scanned", "ยังไม่สแกน") : odd ? TT("WRONG", "ผิดปกติ!") : TT("normal", "ปกติ"), 26, true, !done ? GameUI.CDim : odd ? GameUI.CRed : GameUI.CGreen));
+                    t.Add(_ui.L(_loc.T($"base.peep.scan.{sc}"), 22, true, GameUI.CText));
+                    t.Add(_ui.L(!done ? TT("not scanned", "ยังไม่สแกน") : odd ? TT("WRONG!", "ผิดปกติ!") : TT("normal", "ปกติ"), 32, true, !done ? GameUI.CDim : odd ? GameUI.CRed : GameUI.CGreen));
                     tiles.Add(t);
                 }
                 log.Add(tiles);
@@ -326,16 +336,16 @@ namespace TitanGate.Game
                 int said = Mathf.Min(_peepTalk, card.clues);
                 if (_peepTalk > 0)
                 {
-                    var hd = _ui.L(TT("What you heard", "สิ่งที่ได้ยิน"), 19, true, GameUI.CAmber); hd.style.marginTop = 12; log.Add(hd);
-                    for (int i = 1; i <= said; i++) { var q = _ui.L("• " + _loc.T($"life.card.{card.id}.clue{i}"), 17); q.style.marginTop = 3; log.Add(q); }
+                    var hd = _ui.L(TT("What you heard", "สิ่งที่ได้ยิน"), 22, true, GameUI.CAmber); hd.style.marginTop = 12; log.Add(hd);
+                    for (int i = 1; i <= said; i++) { var q = _ui.L("• " + _loc.T($"life.card.{card.id}.clue{i}"), 20); q.style.marginTop = 3; log.Add(q); }
                     var chat = PeepChat.TryGetValue(visitor, out var cl) ? cl : null;
                     int extra = chat == null ? 0 : Mathf.Min(_peepTalk - said, chat.Length / 2);
-                    for (int i = 0; i < extra; i++) { var q = _ui.L("• " + TL(chat[i * 2 + 1]), 17, false, GameUI.CDim); q.style.marginTop = 3; log.Add(q); }
+                    for (int i = 0; i < extra; i++) { var q = _ui.L("• " + TL(chat[i * 2 + 1]), 20, false, GameUI.CDim); q.style.marginTop = 3; log.Add(q); }
                 }
                 if (_life.State.pet != null)
                 {
                     string key = _life.HintKey(card);
-                    var pet = _ui.L(key == null ? _loc.T("life.hint_hungry", LbName(LifeboatSim.Pet)) : LbName(LifeboatSim.Pet) + ": " + _loc.T(key), 17, false, GameUI.CCyan);
+                    var pet = _ui.L(key == null ? _loc.T("life.hint_hungry", LbName(LifeboatSim.Pet)) : LbName(LifeboatSim.Pet) + ": " + _loc.T(key), 20, false, GameUI.CCyan);
                     pet.style.marginTop = 12; log.Add(pet);
                 }
                 var fic = _ui.L(_loc.T("life.fiction"), 14, false, GameUI.CDim); fic.style.position = Position.Absolute; fic.style.bottom = 10; fic.style.left = 20; fic.style.right = 20; log.Add(fic);
@@ -413,6 +423,18 @@ namespace TitanGate.Game
             log.Add(box);
         }
 
+        /// <summary>What a visitor looks like through the glass: a mood word and its bubble (fiction; follows their data).</summary>
+        (string kind, string text, Color color) VisitorMood(string visitor)
+        {
+            var v = LC.GetVisitor(visitor);
+            if (v != null && v.monster) return ("creepy", TT("Smiles too long. Never blinks.", "ยิ้มค้างนานเกินไป ไม่กะพริบตาเลย"), GameUI.CRed);
+            if (IsTrader(visitor)) return ("happy", TT("Cheerful, wants to trade", "ยิ้มแย้ม อยากค้าขาย"), GameUI.CGreen);
+            if (v != null && v.steals) return ("nervous", TT("Nervous, looks away a lot", "ลุกลี้ลุกลน หลบตาบ่อย"), GameUI.CAmber);
+            if (v != null && !v.giftPerDay.IsZero) return ("happy", TT("Friendly smile, waves at you", "ยิ้มเป็นมิตร โบกมือให้"), GameUI.CGreen);
+            if (v != null && v.leavesAfterNight) return ("tired", TT("Exhausted, asks for one night", "เหนื่อยมาก ขอพักแค่คืนเดียว"), GameUI.CCyan);
+            return ("cold", TT("Shivering and scared", "หนาวสั่น ดูกลัว ๆ"), GameUI.CCyan);
+        }
+
         /// <summary>Species, sex and temper as three short chips (from ORBI's database once a scan has a reading).</summary>
         void BPeepIdCard(VisualElement log, LifeCard card)
         {
@@ -425,8 +447,8 @@ namespace TitanGate.Game
                 var e = new VisualElement(); e.style.marginRight = 8; e.style.marginTop = 6; e.style.paddingLeft = e.style.paddingRight = 10; e.style.paddingTop = e.style.paddingBottom = 4;
                 e.style.maxWidth = 450;
                 e.style.backgroundColor = new Color(c.r * 0.25f, c.g * 0.25f, c.b * 0.25f, 0.95f); GameUI.Border(e, c, 2, 8);
-                e.Add(_ui.L(label, 14, true, GameUI.CDim));
-                e.Add(_ui.L(value, 19, true, c));
+                e.Add(_ui.L(label, 17, true, GameUI.CDim));
+                e.Add(_ui.L(value, 23, true, c));
                 row.Add(e);
             }
             if (!scanned)

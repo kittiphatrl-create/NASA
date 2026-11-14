@@ -103,9 +103,10 @@ namespace TitanGate.Game
 
         void LbPickPet(string pet)
         {
-            _life = new LifeboatSim(LC, pet, LifeboatSim.Bonus(LC, _lbStowed), OutpostSim.SupplyFlags(_cfg.chapter1, _lbStowed));
+            _life = new LifeboatSim(RestoreMode ? RestoreLifeboatConfig() : LC, pet, LifeboatSim.Bonus(LC, _lbStowed), OutpostSim.SupplyFlags(_cfg.chapter1, _lbStowed));
             // walkable base: a different set of visitors every run, never two knock days in a row
             _lbSeed = SeedOverride >= 0 ? SeedOverride : System.Environment.TickCount;
+            if (RestoreMode) RestoreInit(_lbSeed);
             if (WalkBase) { _life.RandomizeVisitors(_lbSeed); if (DaySaveRestore()) _life.RandomizeVisitors(_lbSeed); }
             LbNextCard();
             if (WalkBase) _busy = false;
@@ -154,7 +155,7 @@ namespace TitanGate.Game
             float o2Have = before.o2 + (run ? LC.o2Maker.o2 : 0);
             int day = _life.State.day;
             var night = _life.EndDay(_lbFed, run);
-            if (_bRoot != null && night != null) { BFriendsAfterNight(_lbFed); BAfterNight(night); RadNight(day); DaySaveWrite(); }
+            if (_bRoot != null && night != null) { BFriendsAfterNight(_lbFed); BAfterNight(night); RadNight(day); RestoreNight(); DaySaveWrite(); }
             if (night == null) return;
             _lbNight = night;
             _lbNightDay = day;
@@ -210,6 +211,7 @@ namespace TitanGate.Game
         void LbShow()
         {
             if (BInterceptShow()) return;
+            if (_bRoot != null && RestoreMode && _restore != null && _lbView == LbView.End) { RestoreEndShow(); return; }   // star summary (GameFlow.RestoreEnd.cs)
             if (_bRoot != null && _lbView == LbView.Card && _lbCard != null && !string.IsNullOrEmpty(_lbCard.visitor)) { BShowPeep(); return; }
             if (_bRoot != null && _lbView == LbView.Ration) { BShowMeal(); return; }
             _ui.ShowScreen(root =>
@@ -320,7 +322,7 @@ namespace TitanGate.Game
             var st = _life.State;
             var top = new VisualElement(); top.style.flexDirection = FlexDirection.Row; top.style.alignItems = Align.Center; top.style.justifyContent = Justify.SpaceBetween;
             top.style.flexShrink = 0;
-            top.Add(_ui.L(_loc.T(_bRoot != null ? "base.hud.day" : "life.title_day", st.day, LC.daysTotal), 26, true, GameUI.CAmber));
+            top.Add(_ui.L(RestoreMode && _bRoot != null ? TT($"Day {st.day} · old Mars base", $"วันที่ {st.day} · ฐานเก่าบนดาวอังคาร") : _loc.T(_bRoot != null ? "base.hud.day" : "life.title_day", st.day, LC.daysTotal), 26, true, GameUI.CAmber));
             top.Add(LbLangButton());
             box.Add(top);
 
@@ -369,8 +371,9 @@ namespace TitanGate.Game
             top.Add(_ui.L(_loc.T("life.pick.title"), 40, true, GameUI.CCyan));
             top.Add(LbLangButton());
             box.Add(top);
-            LbText(box, _loc.T(_lbPickForScramble ? "life.pick.body_scramble" : "life.pick.body"), 25);
-            if (!_lbPickForScramble) LbText(box, _loc.T("life.pick.kit", LbItems()) + "   ·   " + _loc.T("life.unit_note"), 21, false, GameUI.CDim);
+            LbText(box, _lbPickForScramble ? TT("The ship is breaking up! Grab ONE pet and run for the lifeboat.", "ยานกำลังจะพัง! พาสัตว์เลี้ยงไปด้วย 1 ตัว แล้ววิ่งไปยานชูชีพ")
+                                           : TT("Pick one pet to come with you.", "เลือกสัตว์เลี้ยงไปด้วย 1 ตัว"), 30, true, GameUI.CText);
+            if (!_lbPickForScramble && !RestoreMode) LbText(box, _loc.T("life.pick.kit", LbItems()) + "   ·   " + _loc.T("life.unit_note"), 21, false, GameUI.CDim);
             var row = new VisualElement(); row.style.flexDirection = FlexDirection.Row; row.style.marginTop = 14; row.style.justifyContent = Justify.SpaceBetween;
             foreach (var p in LC.pets)
             {
@@ -381,12 +384,18 @@ namespace TitanGate.Game
                 col.Add(_ui.L(_loc.T($"pet.{id}.name"), 34, true, GameUI.CAmber));
                 col.Add(_ui.L(_loc.T("trait." + p.trait), 24, true, GameUI.CCyan));
                 var pic = new VisualElement();
-                pic.style.width = Art.PetW(id) * 6; pic.style.height = Art.PetH(id) * 6;
+                pic.style.width = Art.PetW(id) * 8; pic.style.height = Art.PetH(id) * 8;
                 pic.style.backgroundImage = new StyleBackground(Art.Pet(id));
                 pic.style.alignSelf = Align.Center; pic.style.marginTop = 4; pic.style.marginBottom = 4;
                 col.Add(pic);
-                var desc = LbText(col, _loc.T($"pet.{id}.desc"), 22);
-                desc.style.minHeight = 100;
+                // one short line instead of a paragraph
+                string shortDesc = id == "comet" ? TT("Guards the base at night. Goes where it is risky.", "เฝ้าฐานตอนกลางคืน กล้าไปที่เสี่ยง")
+                    : id == "pixel" ? TT("Tells you which choice really costs more.", "บอกว่าทางเลือกไหนเสียของมากกว่า")
+                    : id == "luna" ? TT("Notices when a visitor is not what it seems.", "สังเกตเก่ง รู้ว่าใครดูผิดปกติ")
+                    : _loc.T($"pet.{id}.desc");
+                var desc = LbText(col, shortDesc, 24);
+                desc.style.minHeight = 70; desc.style.unityTextAlign = TextAnchor.MiddleCenter;
+                LbText(col, TT("Eats 1 food a day", "กินอาหารวันละ 1"), 18, false, GameUI.CDim).style.unityTextAlign = TextAnchor.MiddleCenter;
                 var b = _ui.B(_loc.T("life.pick.choose", _loc.T($"pet.{id}.name")), () =>
                 {
                     if (!_lbPickForScramble) { LbPickPet(id); return; }
@@ -702,6 +711,12 @@ namespace TitanGate.Game
             var row = new VisualElement(); row.style.flexDirection = FlexDirection.Row; row.style.marginTop = 14;
             var again = _ui.B(_loc.T("life.end.again"), () => StartLifeboat(_lbStowed, _lbFixedPet), 28, true);
             again.style.marginLeft = 0;
+            if (RestoreMode && LbFailed && HasDaySave)
+            {
+                // restore mode: go back to the start of the last day instead of the very beginning
+                var retry = _ui.B(TT($"Retry from the morning of day {DaySaveDay}", $"เล่นใหม่จากเช้าวันที่ {DaySaveDay}"), () => { _lbContinueDay = true; StartLifeboat(_lbStowed, _lbFixedPet); }, 28, true);
+                retry.style.marginLeft = 0; row.Add(retry);
+            }
             row.Add(again);
             row.Add(_ui.B(_loc.T("menu.sources"), ShowSources, 24));
             row.Add(_ui.B(_loc.T("end.title"), RestartToTitle, 26));

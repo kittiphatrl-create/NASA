@@ -87,7 +87,7 @@ namespace TitanGate.Game
         void StartBase()
         {
             EmReset();
-            JobReset(); _dayNotes.Clear();
+            JobReset(); _dayNotes.Clear(); RestoreReset(); _rPickup = false; _rFlareDone = false;
             _bOpen = false; _bEventKey = null; _bTimer = -1; _bDay = -1; _bKnockPending = false; _bSuitT = -1; _bDoorOpen = false;
             _bTimerCard = null; _bAnnounced.Clear(); _bTaskMarks.Clear(); _bTaskSpots.Clear();
             _bFriend.Clear();
@@ -202,7 +202,7 @@ namespace TitanGate.Game
                     {
                         bool face = y > 0 && _bKind[x, y - 1] >= 0;
                         bool hull = LIsHull(x, y);
-                        var ws = BSprite("wall", Art.BaseWall(face, hull), p, SortY(y));
+                        var ws = BSprite("wall", Art.BaseWall(face, hull, (x * 3 + y * 5) % 8), p, SortY(y));
                         if (face) _bFaceWalls.Add((ws, x, y));
                         // little details on wall faces: vents, pipes, warning stripes
                         if (face && rng.NextDouble() < 0.22) _bFaceWalls.Add((BSprite("walldeco", Art.WallDetail(rng.Next(4), hull), p, SortY(y) + 1), x, y));
@@ -210,6 +210,15 @@ namespace TitanGate.Game
                     else if (k >= 0)
                     {
                         BSprite("floor", Art.BaseFloor(k, (x * 7 + y * 13) % 9), p, -30000);
+                        if (k != KOutside)
+                        {
+                            int shade = 0;
+                            if (y + 1 < _bH && _bWall[x, y + 1]) shade |= 1;
+                            if (x > 0 && _bWall[x - 1, y]) shade |= 2;
+                            if (x + 1 < _bW && _bWall[x + 1, y]) shade |= 4;
+                            if (y > 0 && _bWall[x, y - 1]) shade |= 8;
+                            if (shade != 0) BSprite("wall-contact-shadow", Art.HabitatContactShadow(shade), p, -29999);
+                        }
                         // a doorway cut through a horizontal wall gets a lintel at wall height
                         // (no lintel sprite: the stacked bars read as clutter)
                     }
@@ -238,6 +247,7 @@ namespace TitanGate.Game
                 BBuildShipProps();
             }
 
+            BuildHabitatLook();
             _bShadows.Clear();
             _bPlayer = BSprite("cadet", Art.Astronaut(false, Pose.Idle0), _bPos, 0);
             _bPet = BSprite("pet", Art.Pet("comet"), _bPos, 0);
@@ -401,7 +411,7 @@ namespace TitanGate.Game
         /// <summary>The visitor waiting at the door right now, if any.</summary>
         LifeCard BKnockCard() =>
             _bTimerCard != null && !string.IsNullOrEmpty(_bTimerCard.visitor) && (_life == null || !_life.State.answered.Contains(_bTimerCard.id)) ? _bTimerCard
-            : _lbCard != null && !string.IsNullOrEmpty(_lbCard.visitor) ? _lbCard : null;
+            : _lbCard != null && !string.IsNullOrEmpty(_lbCard.visitor) && !VisitorWaiting(_lbCard) ? _lbCard : null;
 
         bool BHasTask(string id) => id == BActiveSpot || _bTaskSpots.Contains(id);
 
@@ -410,7 +420,7 @@ namespace TitanGate.Game
             : spot.sr != null && spot.sr.sprite != null ? new Vector3(spot.sr.bounds.center.x, spot.sr.bounds.max.y + 0.1f, 0) : (Vector3)(spot.pos + Vector2.up);
 
         string BActiveSpot => _bMode == 1 ? (_bRoot == null ? null : _sTarget) : _bRoot == null || _bOpen || _bKnockPending || _life == null || _life.State.outcome != LifeOutcome.Ongoing ? null
-            : _lbView == LbView.Card ? BCardSpot(_lbCard) : _lbView == LbView.Ration ? "seats" : null;
+            : _lbView == LbView.Card ? (VisitorWaiting(_lbCard) ? null : BCardSpot(_lbCard)) : _lbView == LbView.Ration ? "seats" : null;
 
         /// <summary>LbShow calls this instead of opening the diary when the next card should wait in the base.</summary>
         bool BInterceptShow()
@@ -429,6 +439,7 @@ namespace TitanGate.Game
             bool newDay = _life.State.day != _bDay;
             if (newDay) BNewDay();
             string key = _lbView == LbView.Ration ? "ration" + _life.State.day : _lbCard.id;
+            if (_lbView == LbView.Card && VisitorWaiting(_lbCard)) return;   // restore mode: the visitor has not arrived yet
             if (!_bAnnounced.Add(key)) return;
             _bEventKey = key;
             if (newDay && _lbView == LbView.Card)
@@ -509,7 +520,7 @@ namespace TitanGate.Game
             if (outside)
             {
                 if (_bSuitT < 0) { _bSuitT = SuitSeconds; _bSuitWarned = false; }
-                _bSuitT -= dt;
+                _bSuitT -= dt * (_rNight ? 1.5f : 1f);   // −70°C at night: the suit works harder
                 if (!_bSuitWarned && _bSuitT < 20f) { _bSuitWarned = true; _sfx.Play("alarm"); _ui.Toast(_loc.T("base.suit.low"), GameUI.CRed); }
                 if (_bSuitT <= 0)
                 {
@@ -642,6 +653,7 @@ namespace TitanGate.Game
         void BUseResolved(BSpot s)
         {
             if (_bMode == 1) { SUse(s); return; }
+            if (RestoreGoodbye(s) || RestoreUse(s)) return;   // abandoned-base chapter (GameFlow.Restore.cs)
             if (_bMode == 0 && _lbView == LbView.Card && !_bOpen && _life != null && s.id != BActiveSpot)
             {
                 // free order: walk up to any open job and do it now; the visitor's door only once they knocked
@@ -776,7 +788,7 @@ namespace TitanGate.Game
                 if (_bTimer <= 0) BTimeout();
             }
             if (_bMode == 0 && !_ui.Blocking) BDoorAndSuit(dt);
-            if (_bMode == 0) { EmUpdate(dt); BClock(dt); JobUpdate(dt); RadUpdate(dt); BRefocus(); PaceUpdate(kb); }
+            if (_bMode == 0) { EmUpdate(dt); BClock(dt); JobUpdate(dt); RadUpdate(dt); BRefocus(); PaceUpdate(kb); RestoreUpdate(dt); OrbiUpdate(dt); }
 
             if (!_ui.Blocking && kb != null && kb.escapeKey.wasPressedThisFrame) { _ui.SetHover(null, Vector2.zero); OpenPause(); return; }
             Vector2 move = Vector2.zero;
@@ -810,7 +822,7 @@ namespace TitanGate.Game
             {
                 string name = hover.nameKey == null ? "" : _loc.Has(hover.nameKey) ? _loc.T(hover.nameKey) : hover.nameKey;
                 if (BHasTask(hover.id)) name = "! " + name;
-                name += BTimeHint(hover.id);
+                name += RestoreHint(hover.id) ?? BTimeHint(hover.id);
                 var top = hover.sr != null && hover.sr.sprite != null ? new Vector3(hover.sr.bounds.center.x, hover.sr.bounds.max.y + 0.2f, 0) : (Vector3)(hover.pos + Vector2.up);
                 _ui.SetHover(name, _ui.WorldToPanel(top, _bCam));
             }
@@ -821,7 +833,7 @@ namespace TitanGate.Game
             _bMoving = false;
             _bRun = _bMode == 1 && _sScramble || kb != null && (kb.leftShiftKey.isPressed || kb.rightShiftKey.isPressed);
             _bRun &= _sprint.CanSprint;
-            float speed = BSpeed * (_bRun ? 1.5f : 1f);
+            float speed = BSpeed * (_bRun ? 1.5f : 1f) * RestoreSpeedMult;
             if (move != Vector2.zero) { _bPath = null; _bGoal = null; _bLastMove = move.normalized; BStep(move.normalized * speed * dt); _bMoving = true; }
             else if (!_ui.Blocking && !ActionLocked && !_busy && _bPath != null && _bPath.Count > 0)
             {
@@ -848,6 +860,7 @@ namespace TitanGate.Game
             ActionPresentation();
             CrewUpdate(dt);
             BUpdateShadows();
+            UpdateHabitatLook(dt);
             BFadeWalls(dt);
             if (_bMode == 1) { SUpdate(dt); SLight(dt); } else BLight(dt);
             BCamera(dt);
@@ -1097,6 +1110,7 @@ namespace TitanGate.Game
                     }
                 if (_lbView == LbView.Ration && _life.State.schedule.Hour >= DinnerHour - 1) Mark("seats", false);
                 if (_bPanelsDusty) Mark("solar", false);
+                foreach (var sid in RestoreMarkSpots()) Mark(sid, false);
                 for (int i = 0; i < 3; i++) if (_bPlot[i] == 3) Mark("plot" + i, false);
             }
             if (_bTaskMarks.Count > 0 && _bTaskMarks[0] == null) _bTaskMarks.Clear();
@@ -1118,7 +1132,7 @@ namespace TitanGate.Game
             if (_life != null)
             {
                 t = _life.State.schedule.Progress;
-                if (_lbView == LbView.Ration) t = 0.85f;
+                if (_lbView == LbView.Ration) t = _rNight ? 1f : 0.85f;
                 if (_lbView == LbView.Night) t = 1f;
             }
             // dusk comes late and stays readable: the base is never too dark to find things
@@ -1246,15 +1260,16 @@ namespace TitanGate.Game
             _bHudT = 0.25f;
             BRefreshProps();
             var st = _life.State;
-            _bHudDay.text = GameUI.Thai(_loc.T("base.hud.day", st.day, LC.daysTotal));
+            _bHudDay.text = GameUI.Thai(RestoreMode ? TT($"Day {st.day} · old Mars base · restored {Mathf.RoundToInt(_restore?.Percent ?? 0)}%", $"วันที่ {st.day} · ฐานเก่าบนดาวอังคาร · ฟื้นแล้ว {Mathf.RoundToInt(_restore?.Percent ?? 0)}%") : _loc.T("base.hud.day", st.day, LC.daysTotal));
             _bHudStock.style.display = DisplayStyle.Flex;
             _bHudStock.text = GameUI.Thai(BClockText());
             _bHudStock.style.fontSize = 23;
             _bHudGauges.Clear();
-            _bHudGauges.Add(BGaugeRow(1f));
+            _bHudGauges.Add(RestoreMode ? NeedsBar() : BGaugeRow(1f));   // restore mode: only your own needs; ask ORBI for the base
             _bHudPortrait.Clear();
             _bHudPortrait.Add(BPortraitPanel());
             if (!_bGather) _bHudPortrait.Add(JobBagStrip());
+            if (!_bGather) _bHudPortrait.Add(MissionPanel());   // restore mode: what to do next (GameFlow.Mission.cs)
             string a = BActiveSpot;
             if (_lbView == LbView.Card && !_bOpen)
             {
@@ -1270,7 +1285,8 @@ namespace TitanGate.Game
             else
             {
                 string what = a == null ? "" : _lbView == LbView.Ration ? _loc.T("base.event.ration") : _loc.T($"life.card.{_lbCard.id}.title");
-                _bHudNext.text = GameUI.Thai(a == null ? "" : _loc.T("base.hud.next", what, _loc.T("base.place." + a)));
+                // restore mode: the mission panel says what is next; dinner is the player's call
+                _bHudNext.text = GameUI.Thai(a == null || RestoreMode && _lbView == LbView.Ration ? "" : _loc.T("base.hud.next", what, _loc.T("base.place." + a)));
             }
         }
 
@@ -1305,5 +1321,44 @@ namespace TitanGate.Game
             ring.Add(glint);
             return ring;
         }
+        readonly List<(SpriteRenderer glow, string room)> _habitatLights = new List<(SpriteRenderer, string)>();
+        float _habitatLightClock;
+        void BuildHabitatLook()
+        {
+            _habitatLights.Clear(); _habitatLightClock = 0;
+            foreach (var (rect, key) in _bRooms)
+            {
+                string room = "power", code = "HUB"; var color = Art.HabitatAmber;
+                if (key.Contains("greenhouse") || key.Contains("lab")) { code = "LAB"; room = "greenhouse"; color = PixelCanvas.Hex("#9dd18b"); }
+                else if (key.Contains("storage")) { code = "STORE"; room = "storage"; }
+                else if (key.Contains("comms") || key.Contains("cockpit")) { code = "COM"; room = "comms"; color = Art.HabitatCyan; }
+                else if (key.Contains("quarters")) { code = "REST"; room = "quarters"; }
+                else if (key.Contains("pod") || key.Contains("galley")) { code = "POD"; room = "lounge"; }
+                else if (key.Contains("power") || key.Contains("engine")) code = "PWR";
+                else if (key.Contains("airlock") || key.Contains("life")) { code = "O2"; color = Art.HabitatCyan; }
+                if (key.Contains("tube") || key.Contains("corridor")) continue;
+                float x = rect.xMin + rect.width * .5f, y = rect.yMax;
+                BSprite("room-identification-" + code, Art.HabitatLabel(code, color), new Vector2(x, y + .32f), SortY(y) + 3);
+                var light = BSprite("task-light-" + code, Art.SoftLight(), new Vector2(x, y - 1.3f), 30002);
+                if (_bGlowMaterial == null) { var shader = Resources.Load<Shader>("UI/HabitatGlow"); if (shader != null) _bGlowMaterial = new Material(shader); }
+                if (_bGlowMaterial != null) light.sharedMaterial = _bGlowMaterial;
+                light.transform.localScale = Vector3.one * 2.7f;
+                light.color = new Color(color.r / 255f, color.g / 255f, color.b / 255f, .06f);
+                _habitatLights.Add((light, room));
+            }
+        }
+
+        void UpdateHabitatLook(float dt)
+        {
+            _habitatLightClock -= dt; if (_habitatLightClock > 0) return; _habitatLightClock = .2f;
+            foreach (var (light, room) in _habitatLights)
+            {
+                if (light == null) continue;
+                bool powered = _bMode == 1 || !RestoreMode || _restore != null && _restore.StateOf("power") == RoomState.Restored &&
+                    (room == "power" || _restore.StateOf(room) == RoomState.Restored);
+                var color = light.color; color.a = powered ? .21f : room == "lounge" ? .06f : .018f; light.color = color;
+            }
+        }
+
     }
 }

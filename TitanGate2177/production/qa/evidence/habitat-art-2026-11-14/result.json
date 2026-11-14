@@ -1,0 +1,107 @@
+{
+  "build": "Succeeded errors=0",
+  "edit_mode": {
+    "passed": 94,
+    "failed": 0
+  },
+  "palettes": {
+    "art": {
+      "passed": 12,
+      "failed": 0,
+      "errors": 0,
+      "pngs": 6
+    }
+  },
+  "puzzles": {
+    "typography-1280": {
+      "passed": 38,
+      "failed": 0,
+      "errors": 0,
+      "pngs": 21
+    },
+    "typography-1920": {
+      "passed": 38,
+      "failed": 0,
+      "errors": 0,
+      "pngs": 21
+    }
+  },
+  "full_play": {
+    "kind": "automated careful-player; 3x simulation",
+    "outcome": "Rescued",
+    "day": 5,
+    "seconds": 206.2,
+    "health": 2,
+    "stock": {
+      "o2": 6.5,
+      "water": 1.5,
+      "food": 6,
+      "power": 3
+    },
+    "errors": 0,
+    "checksFailed": 0,
+    "screenshots_included": false,
+    "reason": "Hidden-window run validates logic; visual evidence comes from separately rendered showcase and puzzle runs."
+  },
+  "sha256": {
+    "Builds/Story/TitanGate2177_Data/Managed/TitanGate.Game.dll": "94276cc00a6e1246faf3058cfa00f91f4dbfc97a12e3f0661bf65ce24e91f931",
+    "Builds/Story/TitanGate2177.exe": "3070e580e019576b9afcdeb4fec18d03cebc119f6ae84d597412905c749ad653",
+    "Assets/Scripts/Game/Actors.cs": "93ccf54f58040b358a2aa81eac00613f37d49efdd8d03300244f6121f1d11bfd",
+    "Assets/Scripts/Game/Art.cs": "898bdfc94a159628cceacabb8c704359a79252909e88b7a1da71b78de9752678",
+    "Assets/Scripts/Game/ArtActions.cs": "708a4844ac166695222f4b5bd4bc057f904e878e11aacfa4b3bc67621390aebf",
+    "Assets/Scripts/Game/ArtBase.cs": "5936356d0f69f6387df49516a6f1d400114cad4b36ea26cf726220c03d2e0fad",
+    "Assets/Scripts/Game/ArtCrew.cs": "f23bd2de8eec352a58c5ab1d129071eaaa12842969c9b8cb83f4213c50c06e29",
+    "Assets/Scripts/Game/ArtCrewHD.cs": "acdf0b990c89599b55f5b2af13c5af2b7de82423d1cba8de76b637aabadcd5a3",
+    "Assets/Scripts/Game/ArtExterior.cs": "d605314d5aaeaf9ec394a0c17a58bb937b27723ba4da24955b24fb0e968f318f",
+    "Assets/Scripts/Game/ArtHabitat.cs": "50da354cfd780e88b4bdc69b8086f258c886bb31fd6e830dec2c9d6d41175c3a",
+    "Assets/Scripts/Game/ArtJobs.cs": "5079ef3f643a1ca4dec6bc5608fc04a377e0540fc57597ee3dc77b0ca0e3ac7d",
+    "Assets/Scripts/Game/ArtLifeboat.cs": "e5d5848eab7446d6c383464b784c60c2432e95be17d056259ede20f006c228e0",
+    "Assets/Scripts/Game/ArtRepairPanel.cs": "9ae31b7c50bbf8f401de0c593ef5e90c3f6c0f0f7fef3b3c45ea93e3cd65acaa",
+    "Assets/Scripts/Game/ArtRestore.cs": "951b5debd49b3cfe095dc0ea0ba06e306c7ae1c4deb1a3636a7657622d9c4a5a",
+    "Assets/Scripts/Game/ArtVisitorForms.cs": "2414f1535adf39f00b4d4c442c11b2181bc1772d923290ee26aa4a6c3787ed78",
+    "Assets/Scripts/Game/GameFlow.Actions.cs": "3f53a92e0197cb47682d54db527ca08595ae483838d427bdf8e13ccd76615e4c",
+    "Assets/Scripts/Game/GameFlow.ArtShot.cs": "ea98a11b6d9ee433843b6fbc2cd855301750b00984aacd4bc7cb5fdcb97efc79",
+    "Assets/Scripts/Game/GameFlow.AutoShot.cs": "714eb4c088727ae5766ace3c7814aa0673a8f6c27fecc7a8206d1b3f74d7bce0",
+    "Assets/Scripts/Game/GameFlow.Base.cs": "a13786093f9a90f6ae8fbe7dd45e8292f4df1d6a740dda2bba80391bfc3dd425",
+    "Assets/Scripts/Game/GameFlow.BaseShot.cs": "5d68b95346533a1d09bbb538d39f467fb822d938a31f9983d4b3d69deb3ddfe0",
+    "Assets/Scripts/Game/GameFlow.Ch1.cs": "5c540eca0cd22bd513a2e15ed52868f73d9b40a011cc6620ba1743bb06f380db",
+    "Assets/Scripts/Game/GameFlow.Ch2.cs": "19096b349312c590294fbf93137f9f88a1bd73f56b91d2149283352bb1b34ee1",
+    "Assets/Scripts/Game/GameFlow.Crew.cs": "2dba8f923f56a4009b693f2ee1f78da761b40f3e981c84d1f8aee012f4ebeefa",
+    "Assets/Scripts/Game/GameFlow.cs": "140a3583a3fe651730bf1bf95e35a5cdcf0ca56bc493bcd90211600cf5bd4d7f",
+    "Assets/Scripts/Game/GameFlow.Cutscenes.cs": "b43ce2d0e672e321c44e9b1937515ac4cb01198639044a613b3744d39b162fad",
+    "Assets/Scripts/Game/GameFlow.Emergency.cs": "a9da90caec7d654b5423ddfbf3f09ecde2e0eb2efe73664dc120423fd5570b23",
+    "Assets/Scripts/Game/GameFlow.Jobs.cs": "e571503b355ed19aa47125811f2de27377cbe68e072214c0f1a54e2fd0619253",
+    "Assets/Scripts/Game/GameFlow.Layout.cs": "58da0345f3b4b0289cf095841cc3d4816682a78b0bbc55ec9145590278bbaedc",
+    "Assets/Scripts/Game/GameFlow.Lifeboat.cs": "ed8b95acd15612ba6c484792e62a644248fd6a499a67af2a858ea4559ab1fa38",
+    "Assets/Scripts/Game/GameFlow.LifeboatShot.cs": "2a79dbeb0e0d678c7e738cc11f47914dd11999bdefa8455b31e9edd9e4628aa9",
+    "Assets/Scripts/Game/GameFlow.Mars.cs": "114416feb754bf7a28ccb2bae8003aea64411479dd67a8a1ad16f18d838ad0c4",
+    "Assets/Scripts/Game/GameFlow.Meal.cs": "70b8f34041782d6b5a6fc5d3f99e2b35ae0cf77513957c413f00eac41e16bd83",
+    "Assets/Scripts/Game/GameFlow.MenuPolish.cs": "09745058f6053d726dddf1f18f91c8b9b85ac8fc65bc84f61d7e02f9644e28ca",
+    "Assets/Scripts/Game/GameFlow.Menus.cs": "b201cc5fdcd6ee0fe9df8715b722258a3869445be91cf94eb71c57ceb2ae6f84",
+    "Assets/Scripts/Game/GameFlow.Orbi.cs": "2c95be7c0544eb94699f07116da4c0f05ace79ea09f719b2715d2e8d083a4f94",
+    "Assets/Scripts/Game/GameFlow.Outside.cs": "5e711d548f89d32e2e72bdd7251346e6a936c85a039cd1ad24417f668807296f",
+    "Assets/Scripts/Game/GameFlow.Pace.cs": "efa68ecc07ee2af801a4d9b42b604c13a9cafc56ff2ecc3cf4fe0b6cdc06a415",
+    "Assets/Scripts/Game/GameFlow.PlayRestore.cs": "1f28c0c709ae0ce643b786e9ae6318d45b60894aebf8135b1ea5a11492ee0862",
+    "Assets/Scripts/Game/GameFlow.PlayShot.cs": "2792462527572f387aa582608ef35fed7aa13cb54d74091ba2106b98222526a5",
+    "Assets/Scripts/Game/GameFlow.Puzzles.cs": "1b9c488a19dce5660ae011b616decaf04254259df80eb7f8eaaa2f8ed95077e6",
+    "Assets/Scripts/Game/GameFlow.Radiation.cs": "f7036523d82fc97a1eda68c2f96097fd07e5ec6d2f875d03e534440cb4c2e437",
+    "Assets/Scripts/Game/GameFlow.Restore.cs": "5c2263059ed2c983e9b8a490836c1edcc5816d1d08cadff3ee65e6588cba0534",
+    "Assets/Scripts/Game/GameFlow.RestoreLife.cs": "d1258a11aaefe7e7961d3ce9c2867531fa47c8ca9ce80c2dcc0baa01fb9b5fa3",
+    "Assets/Scripts/Game/GameFlow.Scramble.cs": "278b86bb21d222cd22e29d0e02c8556807e6128b558531bcee50e2f813c159b1",
+    "Assets/Scripts/Game/GameFlow.Ship.cs": "4811e7bd1c5dc08ab971166beb5e6595b1c7bb1362739d7bfb5177f8e0aeb5cd",
+    "Assets/Scripts/Game/GameFlow.ShipTop.cs": "80abc8243cd4aa88010e16282e49684b95bfd6a3b73b4be6373c047219cf5d90",
+    "Assets/Scripts/Game/GameFlow.Story.cs": "c247f788c5371d28f90d628bf210a2d18a156662a472eee6929ae4f036560a6d",
+    "Assets/Scripts/Game/GameFlow.StoryShot.cs": "6149b496759e4caad38429ad6c40a4f19ec29ec48ae34f7acff3495572508f25",
+    "Assets/Scripts/Game/GameFlow.Talk.cs": "b8e585713acdd310412a2aed69b607b2be4a2ec9fa9d798e8fd967a1c1f97bea",
+    "Assets/Scripts/Game/GameFlow.TypographyShot.cs": "e5d3ab8960bf344be5c7a3a374f069be3770e07fabba965cfb1b1997936e04f8",
+    "Assets/Scripts/Game/GameFlow.UXShot.cs": "edd3d2750820c66808e40e576085c27fdca78f1401385659da176282a7a05edc",
+    "Assets/Scripts/Game/GameFlow.Visual.cs": "031b2c532fb1d1b4a0b887548996ed51fc8bbf3e91e8416572ba032224f865c1",
+    "Assets/Scripts/Game/GameFlow.Walkthrough.cs": "6f8a7a95b09b417e2db84d2630d3a4e6fe10176518b11bf04e24f3eaf5c6e7d8",
+    "Assets/Scripts/Game/GameUI.cs": "7c86dc21a06b950f27e88a8aebc4ecefc9d7af9db41362ef4eefbb0f18fb8a12",
+    "Assets/Scripts/Game/PixelCanvas.cs": "90cf1ae900ff7a4056a9174da6999cb0c5734dd1cc28092370c4bf384ea6b369",
+    "Assets/Scripts/Game/Settings.cs": "19aa3103d8567ee35acccdd9cd53707f4e2a047982611e22695759885ceb3b1d",
+    "Assets/Scripts/Game/Sfx.cs": "57b128c20ea62b325354593811dc38f6dbe217e2426242491938d7a1cb13660d",
+    "Assets/Scripts/Game/WalkthroughAudioCapture.cs": "d3511c12e38d752a69a8445a4c2ac968e5fa0f49b1ff91664e9b095ccc54b4a5",
+    "Assets/Scripts/Game/World.cs": "f63f75d4e9e931a2176579c1b8c064ceb8ab034210340d0d383f2e765bb38561"
+  }
+}

@@ -1,0 +1,420 @@
+[   0.0s] player brain: careful
+[   2.2s] start mission from the menu
+shot p01_intro
+shot p02_intro
+shot p03_intro
+shot p04_intro
+[  14.6s] intro took 35s
+shot p06_pet_pick
+PASS walked to food
+PASS walked to bowl
+PASS walked to cabinet
+PASS walked to recycler
+PASS walked to can
+PASS walked to plants
+PASS walked to radio
+PASS walked to sofa
+[  26.9s] morning jobs took 11s
+shot p07_ship_done
+PASS walked to sup_food
+PASS walked to sup_medkit
+PASS walked to sup_photo
+PASS walked to lifeboat
+PASS walked to sup_filter
+shot p08_tilt
+PASS walked to sup_o2
+PASS walked to sup_shield
+PASS walked to lifeboat
+[  37.7s] scramble: stowed 5/5 in 7s, fire phases 1, tilted True
+shot p09_land1
+shot p09_land2
+shot p09_land3
+shot p09_land4
+[  51.1s] landing + docking cutscenes took 38s
+[  52.1s] DAY 1 06:00 · O2 14 water 8 food 9 power 4 · health 3 morale 75 · guests [] · seeds 2
+shot q1_01
+[  52.3s] 6.1h fetch spare_filter for filter
+PASS walked to toolbox
+shot q1_toolbox
+PASS walked to air
+shot q1_job_filter
+[  55.8s] 6.4h job filter: way swap, helpers 0
+shot q1_panel_screws
+job filter way swap mistakes 0 secs 2 helpers 0 hidden o2 -0.5
+PASS walked to hatch
+shot q1_peep_aya
+[  61.4s] 08.1h event visitor_aya (hatch) → admit
+[  61.8s] 9.2h project shelter_wall
+PASS walked to board
+shot q1_projects
+job proj_shelter_wall way shield mistakes 0 secs 2 helpers 0 hidden o2 +0.5
+[  66.7s] 10.0h plant plot 0
+PASS walked to plot0
+[  68.0s] 12.1h plant plot 1
+PASS walked to plot1
+[  68.9s] 14.2h drill ice
+PASS walked to drill
+[  72.2s] 17.6h search salvage 0
+PASS walked to salvage0
+[  73.5s] going to dinner at 18.3h
+PASS walked to seats
+BShowMeal day 1 mealDay -1 fed 3
+BShowMeal day 1 mealDay 1 fed 1
+BShowMeal day 1 mealDay 1 fed 2
+BShowMeal day 1 mealDay 1 fed 3
+shot q1_meal
+[  77.5s] dinner at 20.0h · fed 3/3 · air maker False · O2 tonight 2
+LbSleep fed=3 mouths=3 from:   at System.Environment.get_StackTrace () [0x00000] in <d49d4cb128564ee1b54a84338c98d353>:0 
+  at TitanGate.Game.GameFlow.LbSleep () [0x00000] in <764b7c155b9b4484b3da87e161a84a18>:0 
+  at TitanGate.Game.GameFlow+<PlayWeek>d__600.MoveNext () [0x00000] in <764b7c155b9b4484b3da87e161a84a18>:0 
+  at UnityEngine.SetupCoroutine.InvokeMoveNext (System.Collections.IEnumerator enumerator, System.IntPtr returnValueAddress) [0x00000] in <9eb5f512edf84b29b73cbc699a604447>:0 
+[  77.7s] day 1 lasted 26s real time
+[  77.7s] DAY 2 06:00 · O2 12 water 5 food 6 power 4 · health 3 morale 78 · guests [aya] · seeds 0
+shot q2_02
+shot q2_night
+PASS walked to crate
+[  81.3s] 06.0h event crate (crate) → walk
+PASS walked to locker
+[  84.2s] 07.3h event locker (locker) → lock
+[  84.6s] 8.6h project grow_lamps
+PASS walked to board
+shot q2_projects
+job proj_grow_lamps way switches mistakes 0 secs 2 helpers 0 hidden power +0.5
+[  89.9s] 9.4h harvest plot 0
+PASS walked to plot0
+[  91.2s] 10.6h harvest plot 1
+PASS walked to plot1
+[  92.2s] 11.7h clean solar panels
+PASS walked to solar
+[  95.1s] emergency power: going to fix it at 15.0h
+[  95.1s] 15.0h fetch fuse for em_power
+PASS walked to toolbox
+PASS walked to breaker
+shot q2_job_em_power
+[ 102.0s] 15.7h job em_power: way fuse, helpers 0
+shot q2_panel_wires
+job em_power way wires mistakes 0 secs 2 helpers 0 hidden power 0
+shot q2_03
+[ 105.8s] 16.5h search salvage 1
+PASS walked to salvage1
+[ 108.2s] 17.2h plant plot 0
+PASS walked to plot0
+[ 110.7s] going to dinner at 19.5h
+PASS walked to seats
+BShowMeal day 2 mealDay 1 fed 3
+BShowMeal day 2 mealDay 2 fed 1
+BShowMeal day 2 mealDay 2 fed 2
+BShowMeal day 2 mealDay 2 fed 3
+shot q2_meal
+[ 113.7s] dinner at 20.0h · fed 3/3 · air maker False · O2 tonight 2
+LbSleep fed=3 mouths=3 from:   at System.Environment.get_StackTrace () [0x00000] in <d49d4cb128564ee1b54a84338c98d353>:0 
+  at TitanGate.Game.GameFlow.LbSleep () [0x00000] in <764b7c155b9b4484b3da87e161a84a18>:0 
+  at TitanGate.Game.GameFlow+<PlayWeek>d__600.MoveNext () [0x00000] in <764b7c155b9b4484b3da87e161a84a18>:0 
+  at UnityEngine.SetupCoroutine.InvokeMoveNext (System.Collections.IEnumerator enumerator, System.IntPtr returnValueAddress) [0x00000] in <9eb5f512edf84b29b73cbc699a604447>:0 
+[ 113.9s] day 2 lasted 36s real time
+[ 113.9s] DAY 3 06:00 · O2 8.5 water 3 food 8 power 4.5 · health 3 morale 81 · guests [aya] · seeds 0
+shot q3_night
+[ 114.3s] 6.0h fetch wrench for recycler
+PASS walked to toolbox
+PASS walked to recycler
+shot q3_job_recycler
+[ 119.5s] 6.5h job recycler: way repair, helpers 0
+shot q3_panel_pipes
+job recycler way repair mistakes 0 secs 2 helpers 0 hidden water 0
+[ 123.3s] 8.2h fetch water_bag for storm_warning
+PASS walked to shelf_water
+PASS walked to shelter
+shot q3_job_storm_warning
+[ 130.1s] 9.0h job storm_warning: way water_wall, helpers 1
+shot q3_panel_shield
+job storm_warning way water_wall mistakes 0 secs 2 helpers 1 hidden o2 +0.5
+shot q3_04
+[ 134.1s] 10.5h drill ice (water low)
+PASS walked to drill
+[ 138.0s] emergency power: going to fix it at 14.0h
+[ 138.0s] 14.0h fetch fuse for em_power
+PASS walked to toolbox
+shot q3_toolbox
+PASS walked to breaker
+shot q3_job_em_power
+[ 145.6s] 14.7h job em_power: way fuse, helpers 0
+shot q3_panel_wires
+job em_power way wires mistakes 0 secs 2 helpers 0 hidden power -0.5
+[ 149.2s] 15.4h harvest plot 0
+PASS walked to plot0
+[ 151.1s] 16.6h clean solar panels
+PASS walked to solar
+[ 153.7s] going to dinner at 20.0h
+PASS walked to seats
+BShowMeal day 3 mealDay 2 fed 3
+BShowMeal day 3 mealDay 3 fed 1
+BShowMeal day 3 mealDay 3 fed 2
+BShowMeal day 3 mealDay 3 fed 3
+shot q3_meal
+[ 155.4s] dinner at 20.0h · fed 3/3 · air maker False · O2 tonight 2
+LbSleep fed=3 mouths=3 from:   at System.Environment.get_StackTrace () [0x00000] in <d49d4cb128564ee1b54a84338c98d353>:0 
+  at TitanGate.Game.GameFlow.LbSleep () [0x00000] in <764b7c155b9b4484b3da87e161a84a18>:0 
+  at TitanGate.Game.GameFlow+<PlayWeek>d__600.MoveNext () [0x00000] in <764b7c155b9b4484b3da87e161a84a18>:0 
+  at UnityEngine.SetupCoroutine.InvokeMoveNext (System.Collections.IEnumerator enumerator, System.IntPtr returnValueAddress) [0x00000] in <9eb5f512edf84b29b73cbc699a604447>:0 
+[ 155.6s] day 3 lasted 42s real time
+[ 155.6s] DAY 4 06:00 · O2 6.5 water 2 food 7 power 3.5 · health 3 morale 84 · guests [aya] · seeds 0
+shot q4_night
+PASS walked to panel
+shot q4_job_storm_power
+[ 161.2s] 6.5h job storm_power: way safe_mode, helpers 1
+shot q4_panel_switches
+job storm_power way safe_mode mistakes 0 secs 2 helpers 1 hidden power 0
+shot q4_05
+PASS walked to hatch
+shot q4_peep_mu
+[ 167.3s] 08.1h event visitor_mu (hatch) → admit
+[ 167.7s] 9.3h drill ice (water low)
+PASS walked to drill
+[ 169.9s] 12.5h run the oxygen maker (O2 6.5, power 1.5)
+PASS walked to air
+shot q4_moxie
+[ 173.7s] 13.9h clean solar panels
+PASS walked to solar
+[ 176.6s] 17.3h search salvage 2
+PASS walked to salvage2
+[ 177.2s] 17.8h search salvage 3
+PASS walked to salvage3
+[ 177.9s] going to dinner at 18.4h
+PASS walked to seats
+BShowMeal day 4 mealDay 3 fed 3
+BShowMeal day 4 mealDay 4 fed 1
+BShowMeal day 4 mealDay 4 fed 2
+BShowMeal day 4 mealDay 4 fed 3
+BShowMeal day 4 mealDay 4 fed 4
+shot q4_meal
+[ 182.8s] dinner at 20.0h · fed 4/4 · air maker False · O2 tonight 3
+LbSleep fed=4 mouths=4 from:   at System.Environment.get_StackTrace () [0x00000] in <d49d4cb128564ee1b54a84338c98d353>:0 
+  at TitanGate.Game.GameFlow.LbSleep () [0x00000] in <764b7c155b9b4484b3da87e161a84a18>:0 
+  at TitanGate.Game.GameFlow+<PlayWeek>d__600.MoveNext () [0x00000] in <764b7c155b9b4484b3da87e161a84a18>:0 
+  at UnityEngine.SetupCoroutine.InvokeMoveNext (System.Collections.IEnumerator enumerator, System.IntPtr returnValueAddress) [0x00000] in <9eb5f512edf84b29b73cbc699a604447>:0 
+[ 183.0s] day 4 lasted 27s real time
+[ 183.0s] DAY 5 06:00 · O2 5 water 1 food 4 power 2 · health 3 morale 87 · guests [aya] · seeds 0
+shot q5_night
+[ 183.4s] 6.0h drill ice (water low)
+PASS walked to drill
+[ 187.9s] 9.5h clean solar panels
+PASS walked to solar
+[ 189.7s] 12.7h run the oxygen maker (O2 4.5, power 2)
+PASS walked to air
+shot q5_06
+[ 193.0s] 14.1h search salvage 0
+PASS walked to salvage0
+[ 194.9s] emergency leak: going to fix it at 14.8h
+[ 194.9s] 14.8h fetch tape for em_leak
+PASS walked to toolbox
+shot q5_toolbox
+PASS walked to leak
+shot q5_job_em_leak
+[ 200.4s] 15.3h job em_leak: way tape, helpers 1
+shot q5_panel_leak
+job em_leak way leak mistakes 0 secs 2 helpers 1 hidden o2 +0.5
+[ 204.1s] 15.9h search salvage 1
+PASS walked to salvage1
+[ 206.9s] 16.7h search salvage 3
+PASS walked to salvage3
+[ 208.3s] 17.4h search salvage 4
+PASS walked to salvage4
+[ 209.3s] 18.0h search salvage 5
+PASS walked to salvage5
+[ 210.3s] going to dinner at 18.6h
+PASS walked to seats
+BShowMeal day 5 mealDay 4 fed 2
+BShowMeal day 5 mealDay 5 fed 1
+BShowMeal day 5 mealDay 5 fed 2
+BShowMeal day 5 mealDay 5 fed 3
+shot q5_meal
+[ 214.6s] dinner at 20.0h · fed 3/3 · air maker False · O2 tonight 2
+LbSleep fed=3 mouths=3 from:   at System.Environment.get_StackTrace () [0x00000] in <d49d4cb128564ee1b54a84338c98d353>:0 
+  at TitanGate.Game.GameFlow.LbSleep () [0x00000] in <764b7c155b9b4484b3da87e161a84a18>:0 
+  at TitanGate.Game.GameFlow+<PlayWeek>d__600.MoveNext () [0x00000] in <764b7c155b9b4484b3da87e161a84a18>:0 
+  at UnityEngine.SetupCoroutine.InvokeMoveNext (System.Collections.IEnumerator enumerator, System.IntPtr returnValueAddress) [0x00000] in <9eb5f512edf84b29b73cbc699a604447>:0 
+[ 214.8s] day 5 lasted 32s real time
+[ 214.8s] DAY 6 06:00 · O2 5 water 1 food 3 power 1.5 · health 3 morale 90 · guests [aya] · seeds 1
+shot q6_night
+PASS walked to crate
+[ 218.2s] 06.0h event far_crate (crate) → walk
+shot q6_07
+[ 218.8s] job beacon: no way to fix it
+[ 219.0s] 8.3h run the oxygen maker (O2 3, power 1.5)
+PASS walked to air
+[ 221.7s] 9.6h clean solar panels
+PASS walked to solar
+[ 224.6s] 13.0h search salvage 0
+PASS walked to salvage0
+[ 225.7s] 13.6h search salvage 1
+PASS walked to salvage1
+[ 226.6s] 14.2h search salvage 3
+PASS walked to salvage3
+[ 228.0s] emergency leak: going to fix it at 14.9h
+[ 228.0s] 14.9h fetch tape for em_leak
+PASS walked to toolbox
+PASS walked to leak
+shot q6_job_em_leak
+[ 234.3s] 15.5h job em_leak: way tape, helpers 1
+shot q6_panel_leak
+job em_leak way leak mistakes 0 secs 2 helpers 1 hidden o2 0
+[ 237.9s] 16.0h search salvage 5
+PASS walked to salvage5
+[ 240.4s] 16.8h search the rover
+PASS walked to wreck
+[ 242.0s] going to dinner at 18.0h
+PASS walked to seats
+shot q6_08
+BShowMeal day 6 mealDay 5 fed 3
+BShowMeal day 6 mealDay 6 fed 1
+BShowMeal day 6 mealDay 6 fed 2
+BShowMeal day 6 mealDay 6 fed 3
+shot q6_meal
+[ 247.8s] dinner at 20.0h · fed 3/3 · air maker False · O2 tonight 2
+LbSleep fed=3 mouths=3 from:   at System.Environment.get_StackTrace () [0x00000] in <d49d4cb128564ee1b54a84338c98d353>:0 
+  at TitanGate.Game.GameFlow.LbSleep () [0x00000] in <764b7c155b9b4484b3da87e161a84a18>:0 
+  at TitanGate.Game.GameFlow+<PlayWeek>d__600.MoveNext () [0x00000] in <764b7c155b9b4484b3da87e161a84a18>:0 
+  at UnityEngine.SetupCoroutine.InvokeMoveNext (System.Collections.IEnumerator enumerator, System.IntPtr returnValueAddress) [0x00000] in <9eb5f512edf84b29b73cbc699a604447>:0 
+[ 248.0s] day 6 lasted 33s real time
+[ 248.0s] DAY 7 06:00 · O2 4 water 1 food 5 power 2 · health 3 morale 93 · guests [aya] · seeds 3
+shot q7_night
+[ 248.4s] 6.0h fetch cable for beacon_last
+PASS walked to toolbox
+shot q7_toolbox
+PASS walked to beacon
+shot q7_job_beacon_last
+[ 257.4s] 6.9h job beacon_last: way climb, helpers 1
+shot q7_panel_wires
+job beacon_last way climb mistakes 0 secs 3 helpers 1 hidden power 0
+PASS walked to radio
+shot q7_job_coords_last
+[ 270.8s] 9.3h job coords_last: way crank, helpers 0
+shot q7_panel_crank
+job coords_last way crank mistakes 0 secs 2 helpers 0 hidden power 0
+shot q7_09
+PASS walked to hatch
+shot q7_peep_pip
+[ 277.5s] 11.0h event visitor_pip (hatch) → wave
+PASS walked to seats
+[ 280.4s] 12.2h event log (seats) → air
+[ 280.8s] 13.5h search salvage 3
+PASS walked to salvage3
+[ 284.8s] 14.5h search salvage 5
+PASS walked to salvage5
+shot q7_10
+[ 311.3s] going to dinner at 18.0h
+PASS walked to seats
+BShowMeal day 7 mealDay 6 fed 2
+BShowMeal day 7 mealDay 7 fed 1
+BShowMeal day 7 mealDay 7 fed 2
+BShowMeal day 7 mealDay 7 fed 3
+shot q7_meal
+[ 314.8s] dinner at 20.0h · fed 3/3 · air maker False · O2 tonight 2
+LbSleep fed=3 mouths=3 from:   at System.Environment.get_StackTrace () [0x00000] in <d49d4cb128564ee1b54a84338c98d353>:0 
+  at TitanGate.Game.GameFlow.LbSleep () [0x00000] in <764b7c155b9b4484b3da87e161a84a18>:0 
+  at TitanGate.Game.GameFlow+<PlayWeek>d__600.MoveNext () [0x00000] in <764b7c155b9b4484b3da87e161a84a18>:0 
+  at UnityEngine.SetupCoroutine.InvokeMoveNext (System.Collections.IEnumerator enumerator, System.IntPtr returnValueAddress) [0x00000] in <9eb5f512edf84b29b73cbc699a604447>:0 
+[ 314.9s] END outcome Rescued on day 7 · health 1 · O2 0 water 1 food 2 power 1
+shot q_end
+[   0.0s] player brain: careful
+[   2.2s] start mission from the menu
+[  14.6s] intro took 35s
+[  26.9s] morning jobs took 11s
+[  37.7s] scramble: stowed 5/5 in 7s, fire phases 1, tilted True
+[  51.1s] landing + docking cutscenes took 38s
+[  52.1s] DAY 1 06:00 · O2 14 water 8 food 9 power 4 · health 3 morale 75 · guests [] · seeds 2
+[  52.3s] 6.1h fetch spare_filter for filter
+[  55.8s] 6.4h job filter: way swap, helpers 0
+[  61.4s] 08.1h event visitor_aya (hatch) → admit
+[  61.8s] 9.2h project shelter_wall
+[  66.7s] 10.0h plant plot 0
+[  68.0s] 12.1h plant plot 1
+[  68.9s] 14.2h drill ice
+[  72.2s] 17.6h search salvage 0
+[  73.5s] going to dinner at 18.3h
+[  77.5s] dinner at 20.0h · fed 3/3 · air maker False · O2 tonight 2
+[  77.7s] day 1 lasted 26s real time
+[  77.7s] DAY 2 06:00 · O2 12 water 5 food 6 power 4 · health 3 morale 78 · guests [aya] · seeds 0
+[  81.3s] 06.0h event crate (crate) → walk
+[  84.2s] 07.3h event locker (locker) → lock
+[  84.6s] 8.6h project grow_lamps
+[  89.9s] 9.4h harvest plot 0
+[  91.2s] 10.6h harvest plot 1
+[  92.2s] 11.7h clean solar panels
+[  95.1s] emergency power: going to fix it at 15.0h
+[  95.1s] 15.0h fetch fuse for em_power
+[ 102.0s] 15.7h job em_power: way fuse, helpers 0
+[ 105.8s] 16.5h search salvage 1
+[ 108.2s] 17.2h plant plot 0
+[ 110.7s] going to dinner at 19.5h
+[ 113.7s] dinner at 20.0h · fed 3/3 · air maker False · O2 tonight 2
+[ 113.9s] day 2 lasted 36s real time
+[ 113.9s] DAY 3 06:00 · O2 8.5 water 3 food 8 power 4.5 · health 3 morale 81 · guests [aya] · seeds 0
+[ 114.3s] 6.0h fetch wrench for recycler
+[ 119.5s] 6.5h job recycler: way repair, helpers 0
+[ 123.3s] 8.2h fetch water_bag for storm_warning
+[ 130.1s] 9.0h job storm_warning: way water_wall, helpers 1
+[ 134.1s] 10.5h drill ice (water low)
+[ 138.0s] emergency power: going to fix it at 14.0h
+[ 138.0s] 14.0h fetch fuse for em_power
+[ 145.6s] 14.7h job em_power: way fuse, helpers 0
+[ 149.2s] 15.4h harvest plot 0
+[ 151.1s] 16.6h clean solar panels
+[ 153.7s] going to dinner at 20.0h
+[ 155.4s] dinner at 20.0h · fed 3/3 · air maker False · O2 tonight 2
+[ 155.6s] day 3 lasted 42s real time
+[ 155.6s] DAY 4 06:00 · O2 6.5 water 2 food 7 power 3.5 · health 3 morale 84 · guests [aya] · seeds 0
+[ 161.2s] 6.5h job storm_power: way safe_mode, helpers 1
+[ 167.3s] 08.1h event visitor_mu (hatch) → admit
+[ 167.7s] 9.3h drill ice (water low)
+[ 169.9s] 12.5h run the oxygen maker (O2 6.5, power 1.5)
+[ 173.7s] 13.9h clean solar panels
+[ 176.6s] 17.3h search salvage 2
+[ 177.2s] 17.8h search salvage 3
+[ 177.9s] going to dinner at 18.4h
+[ 182.8s] dinner at 20.0h · fed 4/4 · air maker False · O2 tonight 3
+[ 183.0s] day 4 lasted 27s real time
+[ 183.0s] DAY 5 06:00 · O2 5 water 1 food 4 power 2 · health 3 morale 87 · guests [aya] · seeds 0
+[ 183.4s] 6.0h drill ice (water low)
+[ 187.9s] 9.5h clean solar panels
+[ 189.7s] 12.7h run the oxygen maker (O2 4.5, power 2)
+[ 193.0s] 14.1h search salvage 0
+[ 194.9s] emergency leak: going to fix it at 14.8h
+[ 194.9s] 14.8h fetch tape for em_leak
+[ 200.4s] 15.3h job em_leak: way tape, helpers 1
+[ 204.1s] 15.9h search salvage 1
+[ 206.9s] 16.7h search salvage 3
+[ 208.3s] 17.4h search salvage 4
+[ 209.3s] 18.0h search salvage 5
+[ 210.3s] going to dinner at 18.6h
+[ 214.6s] dinner at 20.0h · fed 3/3 · air maker False · O2 tonight 2
+[ 214.8s] day 5 lasted 32s real time
+[ 214.8s] DAY 6 06:00 · O2 5 water 1 food 3 power 1.5 · health 3 morale 90 · guests [aya] · seeds 1
+[ 218.2s] 06.0h event far_crate (crate) → walk
+[ 218.8s] job beacon: no way to fix it
+[ 219.0s] 8.3h run the oxygen maker (O2 3, power 1.5)
+[ 221.7s] 9.6h clean solar panels
+[ 224.6s] 13.0h search salvage 0
+[ 225.7s] 13.6h search salvage 1
+[ 226.6s] 14.2h search salvage 3
+[ 228.0s] emergency leak: going to fix it at 14.9h
+[ 228.0s] 14.9h fetch tape for em_leak
+[ 234.3s] 15.5h job em_leak: way tape, helpers 1
+[ 237.9s] 16.0h search salvage 5
+[ 240.4s] 16.8h search the rover
+[ 242.0s] going to dinner at 18.0h
+[ 247.8s] dinner at 20.0h · fed 3/3 · air maker False · O2 tonight 2
+[ 248.0s] day 6 lasted 33s real time
+[ 248.0s] DAY 7 06:00 · O2 4 water 1 food 5 power 2 · health 3 morale 93 · guests [aya] · seeds 3
+[ 248.4s] 6.0h fetch cable for beacon_last
+[ 257.4s] 6.9h job beacon_last: way climb, helpers 1
+[ 270.8s] 9.3h job coords_last: way crank, helpers 0
+[ 277.5s] 11.0h event visitor_pip (hatch) → wave
+[ 280.4s] 12.2h event log (seats) → air
+[ 280.8s] 13.5h search salvage 3
+[ 284.8s] 14.5h search salvage 5
+[ 311.3s] going to dinner at 18.0h
+[ 314.8s] dinner at 20.0h · fed 3/3 · air maker False · O2 tonight 2
+[ 314.9s] END outcome Rescued on day 7 · health 1 · O2 0 water 1 food 2 power 1
+
+done errors=0 checksFailed=0

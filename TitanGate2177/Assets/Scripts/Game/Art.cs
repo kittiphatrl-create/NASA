@@ -399,7 +399,8 @@ namespace TitanGate.Game
             c.Rect(2, 19, 5, 4, Pal.Navy3);
         });
 
-        public static Sprite Console(string key, int w, int h, Color32 screen, bool alarm = false) => Prop("console" + key + alarm, w, h, c =>
+        public static Sprite Console(string key, int w, int h, Color32 screen, bool alarm = false) => HabitatConsole(key, w, h, screen, alarm);
+        static Sprite LegacyConsole(string key, int w, int h, Color32 screen, bool alarm = false) => Prop("console" + key + alarm, w, h, c =>
         {
             c.Rect(2, 0, w - 4, h / 2, Pal.Steel0);
             c.Rect(0, h / 2 - 2, w, 3, Pal.Steel);

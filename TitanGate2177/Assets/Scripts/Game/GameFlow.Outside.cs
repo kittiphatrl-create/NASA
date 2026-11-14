@@ -25,7 +25,8 @@ namespace TitanGate.Game
             if (_autoLog != null && !_autoClock) return;   // the screenshot pass drives the day itself
             if (_lbView != LbView.Card && _lbView != LbView.Ration) return;
             var sc = _life.State.schedule;
-            if (sc.Hour < LateHour) sc.TrySpend(Mathf.Min(dt / SecondsPerHour, LateHour - sc.Hour));
+            // restore mode: the clock moves only when you act (every action shows its hours first)
+            if (sc.Hour < LateHour && !RestoreMode) sc.TrySpend(Mathf.Min(dt / SecondsPerHour, LateHour - sc.Hour));
             if (_lbView == LbView.Ration && sc.Hour >= DinnerHour && !_bDinnerToast) { _bDinnerToast = true; _ui.Toast(_loc.T("base.clock.dinner"), GameUI.CAmber); }
             if (sc.Hour < LateHour - 0.001f) return;
             if (_lbView == LbView.Card && _lbCard != null && !_bKnockPending)

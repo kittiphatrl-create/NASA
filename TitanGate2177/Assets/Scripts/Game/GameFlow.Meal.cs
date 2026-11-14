@@ -209,7 +209,8 @@ namespace TitanGate.Game
                 bool can = _life.CanFeed(_lbFed);
                 bool run = _lbMaker && makerCan;
                 if (_life.O2TonightWith(run) > _life.State.stock.o2 + (run ? LC.o2Maker.o2 : 0)) book.Add(_ui.L(_loc.T("life.ration.o2_short"), 19, true, InkRed));
-                var sleep = _ui.B(_loc.T("base.meal.sleep"), LbSleep, 26, true);
+                var sleep = RestoreMode ? _ui.B(TT("Finish dinner (free night, then sleep)", "กินเสร็จแล้ว (เวลาว่างกลางคืน แล้วไปนอน)"), RestoreEvening, 26, true)
+                                        : _ui.B(_loc.T("base.meal.sleep"), LbSleep, 26, true);
                 sleep.style.alignSelf = Align.FlexStart; sleep.style.marginLeft = 0; sleep.style.marginTop = 10; sleep.SetEnabled(can);
                 book.Add(sleep);
                 root.Add(book);
@@ -366,11 +367,27 @@ namespace TitanGate.Game
                 }
                 var body = _ui.L(text, 27); body.style.marginTop = 10; boxv.Add(body);
                 bool last = index >= lines.Count - 1;
-                var opts = new VisualElement(); opts.style.flexDirection = FlexDirection.Row; opts.style.flexWrap = Wrap.Wrap; opts.style.marginTop = 12;
-                if (!last) opts.Add(_ui.B(_loc.T("life.continue"), () => BShowVN(id, lines, replies, index + 1), 22, true));
-                else foreach (var (label, act) in replies) { var a = act; opts.Add(_ui.B(label, () => { _ui.HideScreen(); a?.Invoke(); }, 22, false)); }
-                boxv.Add(opts);
                 root.Add(boxv);
+                if (!last)
+                {
+                    // "next" sits in the box's corner where the eye ends the line
+                    var next = _ui.B(_loc.T("life.continue"), () => BShowVN(id, lines, replies, index + 1), 24, true);
+                    next.style.position = Position.Absolute; next.style.right = 30; next.style.bottom = 18; boxv.Add(next);
+                }
+                else
+                {
+                    // choices: one big button each, stacked in the middle of the screen above the text box
+                    var opts = new VisualElement(); opts.style.position = Position.Absolute; opts.style.left = 560; opts.style.width = 800; opts.style.bottom = 300;
+                    opts.style.flexDirection = FlexDirection.Column; opts.style.alignItems = Align.Stretch;
+                    foreach (var (label, act) in replies)
+                    {
+                        var a = act;
+                        var bt = _ui.B(label, () => { _ui.HideScreen(); a?.Invoke(); }, 26, replies.Count == 1);
+                        bt.style.height = 70; bt.style.marginTop = 10; bt.style.marginLeft = bt.style.marginRight = 0;
+                        opts.Add(bt);
+                    }
+                    root.Add(opts);
+                }
             });
         }
     }

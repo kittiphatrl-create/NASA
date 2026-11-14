@@ -34,6 +34,7 @@ namespace TitanGate.Game
             _autoClock = true;
             var args = System.Environment.GetCommandLineArgs();
             _playDumb = System.Array.IndexOf(args, "-dumb") >= 0;
+            if (System.Array.IndexOf(args, "-classic") >= 0) ForceClassicBase = true;   // the old 7-day base
             _playFast = System.Array.IndexOf(args, "-fast") >= 0;
             if (_playFast) Time.timeScale = 3f;
             PNote(_playDumb ? "player brain: careless (ignores repairs, lets everyone in)" : "player brain: careful");
@@ -134,6 +135,27 @@ namespace TitanGate.Game
                     continue;
                 }
                 if (_ui.Blocking) { yield return null; continue; }
+
+                // the abandoned-base chapter: restore tasks, needs, storm, radio (GameFlow.PlayRestore.cs)
+                if (RestoreMode && _restore != null && !_bOpen && !_bGather && (_lbView == LbView.Ration || _lbView == LbView.Card && BActiveSpot == null))
+                {
+                    bool did = false;
+                    yield return PlayRestoreStep(x => did = x);
+                    if (did) continue;
+                    float h0 = _restore.Hour;
+                    if (!_playDumb) { yield return PlayJobs(); RestoreSync(); if (_restore.Hour > h0 + 0.01f) continue; }
+                    if (_lbView == LbView.Ration)
+                    {
+                        PNote($"day {_restore.Day}: nothing more fits at {_restore.Hour:0.0}h, dinner · restored {_restore.Percent:0}% · water {_restore.Water:0} food {_restore.Food:0} rest {_restore.Rest:0}");
+                        yield return AutoWalkUse("seats");
+                        float w = 0; while (!_bGather && w < 4) { w += Time.deltaTime; yield return null; }
+                        continue;
+                    }
+                    PNote($"waiting for the visitor at {_restore.Hour:0.0}h");
+                    if (!_restore.Nap(Mathf.Max(0.25f, VisitorHour - _restore.Hour))) _restore.Spend(Mathf.Max(0.25f, VisitorHour - _restore.Hour));
+                    RestoreSync();
+                    continue;
+                }
 
                 string active = BActiveSpot;
                 if (_lbView == LbView.Card && active != null && _lbCard != null && CardJob != null)

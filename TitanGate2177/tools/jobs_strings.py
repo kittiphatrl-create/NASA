@@ -16,7 +16,7 @@ def extend_jobs(entries):
     ]
     # round 10: no guide arrows any more, a "!" marks every place with something to do
     rows += [
-        ('base.hud.controls', 'WASD or click to walk · Shift run · E use · Tab bag · P pause · F speed · ! = something to do', 'WASD/คลิกเพื่อเดิน · Shift วิ่ง · E ใช้ · Tab กระเป๋า · P หยุดเวลา · F เร่งเวลา · ! = มีงานรอ'),
+        ('base.hud.controls', 'WASD or click to walk · Shift run · E use · Tab bag · P pause · ! = something to do · each job shows its hours', 'WASD/คลิกเพื่อเดิน · Shift วิ่ง · E ใช้ · Tab กระเป๋า · P หยุดเวลา · ! = มีงานรอ · ทุกงานบอกว่าใช้กี่ชั่วโมง'),
         ('ship.intro.2', 'A ship only works if the crew keeps it running. Morning jobs first! {0} is hungry. Look for the ! sign.', 'ยานจะอยู่ได้ถ้าลูกเรือดูแลมันทุกวัน เริ่มงานเช้ากันก่อน! {0} หิวแล้ว มองหาเครื่องหมาย !'),
         ('ship.look.other', '{0}: not now. Look for the ! sign.', '{0}: ยังไม่ใช่ตอนนี้ มองหาเครื่องหมาย !'),
         ('ship.hud.lifeboat', 'Lifeboat: {0}/{1} — carry supplies to the bay (the ! sign) and click the orange pod', 'ยานชูชีพ: {0}/{1} — ขนของไปห้องจอด (ที่มีเครื่องหมาย !) แล้วคลิกยานสีส้ม'),

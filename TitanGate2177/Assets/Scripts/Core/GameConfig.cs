@@ -256,6 +256,8 @@ namespace TitanGate.Core
         public OutpostConfig outpost = new OutpostConfig();
         /// <summary>The card-based Chapter 2 prototype (survival diary in the lifeboat).</summary>
         public LifeboatConfig lifeboat = new LifeboatConfig();
+        /// <summary>The abandoned-base restoration chapter (rooms, tasks, needs, weather, relay passes).</summary>
+        public RestoreConfig restore = new RestoreConfig();
 
         public RouteDef GetRoute(string id) => routes.Find(r => r.id == id);
 

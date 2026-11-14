@@ -1,5 +1,7 @@
 # TITAN GATE 2177 — Junior Astronaut Mission Trainer
 
+> Latest AI onboarding (14 Nov 2026): [docs/AI_HANDOFF.md](docs/AI_HANDOFF.md). Read it before changing gameplay: portions of this README describe the older OutpostSim route. Current playtest findings are recorded separately in [docs/PLAYTEST_2026-11-14.md](docs/PLAYTEST_2026-11-14.md).
+
 2.5D pixel-art point-and-click mission trainer (TH/EN) for NASA Space Apps 2026. Unity **6000.3.25f1**,
 built-in renderer, UI Toolkit.
 

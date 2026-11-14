@@ -11,7 +11,8 @@ namespace TitanGate.Game
         // one tile = 16 art pixels = 1 world unit
 
         /// <summary>Floor tile. kind: 0 = base metal, 1 = greenhouse, 2 = Mars ground outside.</summary>
-        public static Sprite BaseFloor(int kind, int variant) => Cached($"bfloor{kind}_{variant}", () =>
+        public static Sprite BaseFloor(int kind, int variant) => HabitatFloor(kind, variant);
+        static Sprite LegacyBaseFloor(int kind, int variant) => Cached($"bfloor{kind}_{variant}", () =>
         {
             var c = new PixelCanvas(16, 16);
             if (kind == 2)
@@ -80,7 +81,8 @@ namespace TitanGate.Game
         /// Wall tile. face = the tile below is open, so the wall shows its front: 16 px of face under an 8 px cap
         /// (sprite 16x24, pivot bottom-left). Otherwise only the cap shows (16x16).
         /// </summary>
-        public static Sprite BaseWall(bool face, bool outerHull) => Cached($"bwall{face}{outerHull}", () =>
+        public static Sprite BaseWall(bool face, bool outerHull, int variant = 0) => HabitatWall(face, outerHull, variant);
+        static Sprite LegacyBaseWall(bool face, bool outerHull) => Cached($"bwall{face}{outerHull}", () =>
         {
             var cap = outerHull ? PixelCanvas.Hex("#e0d5bf") : Pal.Navy3;
             var capD = outerHull ? PixelCanvas.Hex("#7d969c") : Pal.Navy2;
@@ -381,7 +383,8 @@ namespace TitanGate.Game
             return c.ToSprite(new Vector2(0, 0));
         });
 
-        public static Sprite Table() => Prop("table", 40, 20, c =>
+        public static Sprite Table() => HabitatTable();
+        static Sprite LegacyTable() => Prop("table", 40, 20, c =>
         {
             c.Rect(4, 0, 3, 8, Pal.Steel0); c.Rect(33, 0, 3, 8, Pal.Steel0);
             c.RoundRect(0, 8, 40, 12, Pal.Steel);

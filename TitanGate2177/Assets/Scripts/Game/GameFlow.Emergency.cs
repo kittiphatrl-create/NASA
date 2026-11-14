@@ -56,6 +56,8 @@ namespace TitanGate.Game
                 // an emergency strikes at a random hour between 09:00 and 16:00 (game time, so it fits any pace)
                 _emAt = _emDay >= 2 && (_autoLog == null || _playtest) && rng.NextDouble() < 0.55 ? 9f + (float)rng.NextDouble() * 7f : -1;   // the screenshot pass forces its own
                 _emPlanned = new[] { "power", "flare", "leak" }[rng.Next(3)];
+                // restore mode: the storm comes with the weather of the day and power faults are blackouts; only leaks stay random
+                if (RestoreMode && _emPlanned != "leak") _emAt = -1;
                 // project "seal the hub seams": most leaks never happen
                 if (_emPlanned == "leak" && _life.State.flags.Contains("hub_sealed") && rng.NextDouble() < 0.7) _emAt = -1;
             }

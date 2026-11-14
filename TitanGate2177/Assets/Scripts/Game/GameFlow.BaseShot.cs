@@ -13,6 +13,7 @@ namespace TitanGate.Game
     {
         IEnumerator AutoBase()
         {
+            ForceClassicBase = true;   // this route checks the classic 7-day base; the restore chapter has its own playtest
             _loc.Current = Lang.TH;
             yield return new WaitForSeconds(2f);
             StartLifeboat(null, "comet");

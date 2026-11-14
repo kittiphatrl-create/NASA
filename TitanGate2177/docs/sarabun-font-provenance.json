@@ -1,0 +1,20 @@
+{
+  "source": "https://github.com/google/fonts/tree/main/ofl/sarabun",
+  "files": [
+    {
+      "file": "docs/Sarabun-OFL.txt",
+      "sha256": "b26cae1321380296ba8311b632a397d5eac11b47197f9d0aa0b9310f1531ad60",
+      "bytes": 4387
+    },
+    {
+      "file": "Assets/Resources/Fonts/Sarabun-Regular.ttf",
+      "sha256": "226d4f368fbc0457990ddef2692679badfd2c1a4e89e5ac4d43c10ba7743b2f1",
+      "bytes": 90220
+    },
+    {
+      "file": "Assets/Resources/Fonts/Sarabun-SemiBold.ttf",
+      "sha256": "c0bb057d86e4a12097d701ac0953597e315788d47a446f5b63a6604ab21dceba",
+      "bytes": 90200
+    }
+  ]
+}

@@ -2316,5 +2316,260 @@
   "scansPerVisitor": 2,
   "extraScanTrait": "careful",
   "replacesOutpost": true
+ },
+ "restore": {
+  "rooms": [
+   {
+    "id": "lounge",
+    "start": true
+   },
+   {
+    "id": "power",
+    "first": true
+   },
+   {
+    "id": "greenhouse"
+   },
+   {
+    "id": "storage"
+   },
+   {
+    "id": "air"
+   },
+   {
+    "id": "quarters"
+   },
+   {
+    "id": "comms",
+    "last": true
+   }
+  ],
+  "tasks": [
+   {
+    "id": "chip",
+    "room": "lounge",
+    "spot": "orbi",
+    "hours": 0.5,
+    "kind": "chip"
+   },
+   {
+    "id": "find_lounge",
+    "room": "lounge",
+    "spot": "junk_lounge",
+    "hours": 0.5,
+    "kind": "search",
+    "gives": "broom"
+   },
+   {
+    "id": "find_hub",
+    "room": "lounge",
+    "spot": "junk_hub",
+    "hours": 1.0,
+    "kind": "search",
+    "gives": "crowbar,spare_filter"
+   },
+   {
+    "id": "find_power",
+    "room": "lounge",
+    "spot": "junk_power",
+    "hours": 0.5,
+    "kind": "search",
+    "gives": "fuse"
+   },
+   {
+    "id": "find_airlock",
+    "room": "lounge",
+    "spot": "junk_airlock",
+    "hours": 1.0,
+    "kind": "search",
+    "gives": "cable,cable"
+   },
+   {
+    "id": "p_sweep",
+    "room": "power",
+    "spot": "debris_power",
+    "hours": 1.0,
+    "kind": "sweep",
+    "puzzle": "scrub",
+    "needItem": "broom",
+    "consume": false
+   },
+   {
+    "id": "p_wire",
+    "room": "power",
+    "spot": "generator",
+    "hours": 2.0,
+    "kind": "repair",
+    "puzzle": "wires"
+   },
+   {
+    "id": "p_breaker",
+    "room": "power",
+    "spot": "breaker_box",
+    "hours": 1.5,
+    "kind": "repair",
+    "puzzle": "switches"
+   },
+   {
+    "id": "g_sweep",
+    "room": "greenhouse",
+    "spot": "debris_greenhouse",
+    "hours": 1.0,
+    "kind": "sweep",
+    "puzzle": "scrub",
+    "needItem": "broom",
+    "consume": false
+   },
+   {
+    "id": "g_lamps",
+    "room": "greenhouse",
+    "spot": "grow_lamps",
+    "hours": 2.0,
+    "kind": "repair",
+    "puzzle": "wires",
+    "needItem": "fuse",
+    "consume": true
+   },
+   {
+    "id": "g_beds",
+    "room": "greenhouse",
+    "spot": "plot1",
+    "hours": 1.5,
+    "kind": "repair",
+    "puzzle": "crank"
+   },
+   {
+    "id": "s_pry",
+    "room": "storage",
+    "spot": "storage_door",
+    "hours": 1.0,
+    "kind": "pry",
+    "puzzle": "crank",
+    "needItem": "crowbar",
+    "consume": false
+   },
+   {
+    "id": "s_sweep",
+    "room": "storage",
+    "spot": "debris_storage",
+    "hours": 1.0,
+    "kind": "sweep",
+    "puzzle": "scrub",
+    "needItem": "broom",
+    "consume": false
+   },
+   {
+    "id": "s_pipes",
+    "room": "storage",
+    "spot": "recycler",
+    "hours": 2.5,
+    "kind": "repair",
+    "puzzle": "pipes"
+   },
+   {
+    "id": "a_vent",
+    "room": "air",
+    "spot": "debris_air",
+    "hours": 1.0,
+    "kind": "sweep",
+    "puzzle": "scrub",
+    "needItem": "broom",
+    "consume": false
+   },
+   {
+    "id": "a_filter",
+    "room": "air",
+    "spot": "air",
+    "hours": 1.5,
+    "kind": "repair",
+    "puzzle": "screws",
+    "needItem": "spare_filter",
+    "consume": true
+   },
+   {
+    "id": "a_moxie",
+    "room": "air",
+    "spot": "air_panel",
+    "hours": 2.0,
+    "kind": "repair",
+    "puzzle": "tune"
+   },
+   {
+    "id": "q_sweep",
+    "room": "quarters",
+    "spot": "debris_quarters",
+    "hours": 1.0,
+    "kind": "sweep",
+    "puzzle": "scrub",
+    "needItem": "broom",
+    "consume": false
+   },
+   {
+    "id": "q_heater",
+    "room": "quarters",
+    "spot": "heater",
+    "hours": 2.0,
+    "kind": "repair",
+    "puzzle": "wires",
+    "needItem": "cable",
+    "consume": true
+   },
+   {
+    "id": "q_beds",
+    "room": "quarters",
+    "spot": "bunks",
+    "hours": 1.0,
+    "kind": "tidy"
+   },
+   {
+    "id": "c_sweep",
+    "room": "comms",
+    "spot": "debris_comms",
+    "hours": 1.0,
+    "kind": "sweep",
+    "puzzle": "scrub",
+    "needItem": "broom",
+    "consume": false
+   },
+   {
+    "id": "c_power",
+    "room": "comms",
+    "spot": "radio_power",
+    "hours": 2.0,
+    "kind": "repair",
+    "puzzle": "wires",
+    "needItem": "cable",
+    "consume": true
+   },
+   {
+    "id": "c_dish",
+    "room": "comms",
+    "spot": "radio",
+    "hours": 2.5,
+    "kind": "repair",
+    "puzzle": "tune"
+   }
+  ],
+  "roomsForComms": 3,
+  "startHour": 6,
+  "endHour": 20,
+  "hungerPerHour": 4,
+  "thirstPerHour": 5,
+  "fatiguePerWorkHour": 6,
+  "hotThirstMult": 1.8,
+  "weatherPool": [
+   "normal",
+   "normal",
+   "cold",
+   "dust",
+   "hot_inside",
+   "flare"
+  ],
+  "relayHour1": 9.5,
+  "relayHour2": 16.5,
+  "relayLengthHours": 0.75,
+  "resetHours": 0.5,
+  "coolingHours": 1,
+  "sendHours": 0.25
  }
 }

@@ -1,0 +1,15 @@
+{
+  "revision": "79f76b884b520386e879e71fbfd0761af0a25b5c",
+  "mode": "automated -autoshot -play -fast; time/emergencies enabled; 3x",
+  "outcome": "Rescued",
+  "day": 7,
+  "health": 1,
+  "o2": 0,
+  "water": 1,
+  "food": 2,
+  "power": 1,
+  "seconds": 314.9,
+  "passed": 84,
+  "failed": 0,
+  "result": "done errors=0 checksFailed=0"
+}

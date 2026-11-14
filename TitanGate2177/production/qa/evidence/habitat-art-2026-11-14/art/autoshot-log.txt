@@ -1,0 +1,19 @@
+PASS floor keeps its one-world-unit footprint: theme 0
+PASS wall keeps its original world bounds: theme 0
+PASS collision and interaction coordinates unchanged across themes: 0
+shot theme_0_arrival
+shot theme_0_restored
+PASS art staging leaves player on reachable floor: 0
+PASS floor keeps its one-world-unit footprint: theme 1
+PASS wall keeps its original world bounds: theme 1
+PASS collision and interaction coordinates unchanged across themes: 1
+shot theme_1_arrival
+shot theme_1_restored
+PASS art staging leaves player on reachable floor: 1
+PASS floor keeps its one-world-unit footprint: theme 2
+PASS wall keeps its original world bounds: theme 2
+PASS collision and interaction coordinates unchanged across themes: 2
+shot theme_2_arrival
+shot theme_2_restored
+PASS art staging leaves player on reachable floor: 2
+done errors=0 checksFailed=0

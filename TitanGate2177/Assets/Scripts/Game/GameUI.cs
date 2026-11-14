@@ -80,8 +80,8 @@ namespace TitanGate.Game
         public void Init(Localization loc)
         {
             _loc = loc;
-            _font = Resources.Load<Font>("Fonts/ChakraPetch-Regular");
-            _fontBold = Resources.Load<Font>("Fonts/ChakraPetch-Bold");
+            _font = Resources.Load<Font>("Fonts/Sarabun-Regular");
+            _fontBold = Resources.Load<Font>("Fonts/Sarabun-SemiBold");
 
             var ps = ScriptableObject.CreateInstance<PanelSettings>();
             ps.scaleMode = PanelScaleMode.ScaleWithScreenSize;
@@ -569,31 +569,8 @@ namespace TitanGate.Game
             return s.Substring(0, n);
         }
 
-        /// <summary>
-        /// Unity's text shaper does not stack a Thai tone mark above an upper vowel (mark-to-mark), so
-        /// ที่ / เชื้อ / เสี่ยง / น้ำ draw the tone on top of the vowel. Raise those tone marks with a
-        /// rich-text offset. Every string shown in the UI goes through this.
-        /// </summary>
-        public static string Thai(string s)
-        {
-            if (string.IsNullOrEmpty(s)) return s;
-            bool any = false;
-            foreach (var ch in s) if (ch >= '่' && ch <= '์') { any = true; break; }
-            if (!any) return s;
-            var sb = new System.Text.StringBuilder(s.Length + 32);
-            for (int i = 0; i < s.Length; i++)
-            {
-                char ch = s[i];
-                bool tone = ch >= '่' && ch <= '์';
-                bool afterUpper = i > 0 && IsUpperVowel(s[i - 1]);
-                bool beforeAm = i + 1 < s.Length && s[i + 1] == 'ำ';
-                if (tone && (afterUpper || beforeAm)) sb.Append("<voffset=0.3em>").Append(ch).Append("</voffset>");
-                else sb.Append(ch);
-            }
-            return sb.ToString();
-        }
-
-        static bool IsUpperVowel(char c) => c == 'ั' || (c >= 'ิ' && c <= 'ื') || c == '็' || c == 'ํ';
+        /// <summary>Keep combining sequences intact for Advanced Text Generator and the font's mark positioning.</summary>
+        public static string Thai(string s) => s;
 
         static bool IsThaiMark(char c) => c == 'ั' || (c >= 'ิ' && c <= 'ฺ') || (c >= '็' && c <= '๎');
 

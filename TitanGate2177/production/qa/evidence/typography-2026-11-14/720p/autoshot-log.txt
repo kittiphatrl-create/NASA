@@ -1,0 +1,51 @@
+shot 01_title_th
+PASS both bundled font weights cover Thai, marks, Latin and digits
+PASS Thai combining sequences remain intact for shaping
+shot 02_thai_marks_and_latin
+shot 03_title_en
+shot wires_working
+PASS wires cannot discard a completed result through the back button
+PASS wires has no success text over its mechanism
+PASS wires signals completion with lamp and rail
+PASS wires completes once and returns control
+shot screws_working
+PASS screws cannot discard a completed result through the back button
+PASS screws has no success text over its mechanism
+PASS screws signals completion with lamp and rail
+PASS screws completes once and returns control
+shot scrub_working
+PASS scrub cannot discard a completed result through the back button
+PASS scrub has no success text over its mechanism
+PASS scrub signals completion with lamp and rail
+PASS scrub completes once and returns control
+shot pipes_working
+PASS pipes cannot discard a completed result through the back button
+PASS pipes has no success text over its mechanism
+PASS pipes signals completion with lamp and rail
+PASS pipes completes once and returns control
+shot shield_working
+PASS shield cannot discard a completed result through the back button
+PASS shield has no success text over its mechanism
+PASS shield signals completion with lamp and rail
+PASS shield completes once and returns control
+shot switches_working
+PASS switches cannot discard a completed result through the back button
+PASS switches has no success text over its mechanism
+PASS switches signals completion with lamp and rail
+PASS switches completes once and returns control
+shot tune_working
+PASS tune cannot discard a completed result through the back button
+PASS tune has no success text over its mechanism
+PASS tune signals completion with lamp and rail
+PASS tune completes once and returns control
+shot leak_working
+PASS leak cannot discard a completed result through the back button
+PASS leak has no success text over its mechanism
+PASS leak signals completion with lamp and rail
+PASS leak completes once and returns control
+shot crank_working
+PASS crank cannot discard a completed result through the back button
+PASS crank has no success text over its mechanism
+PASS crank signals completion with lamp and rail
+PASS crank completes once and returns control
+done errors=0 checksFailed=0

@@ -40,6 +40,7 @@ namespace TitanGate.Game
             _bPauseBtn = _ui.B(TT("Pause (P)", "หยุดเวลา (P)"), () => { _bPaused = !_bPaused; _sfx.Play("blip"); PaceRefresh(); }, 18);
             _bSpeedBtn = _ui.B("1x (F)", () => { _bSpeed = _bSpeed > 1.5f ? 1f : 2f; _sfx.Play("blip"); PaceRefresh(); }, 18);
             _bSpeedBtn.style.marginLeft = 8;
+            if (RestoreMode) _bSpeedBtn.style.display = DisplayStyle.None;   // the clock only moves by actions here
             _bHudSpeed.Add(_bPauseBtn); _bHudSpeed.Add(_bSpeedBtn);
             _ui.Root.Add(_bHudSpeed);
             _bPauseLabel = _ui.L(TT("TIME PAUSED · look around and plan · P to carry on", "หยุดเวลาอยู่ · เดินดู วางแผนได้ · กด P เพื่อเล่นต่อ"), 26, true, GameUI.CAmber);
@@ -64,7 +65,7 @@ namespace TitanGate.Game
             if (!_ui.Blocking && kb != null)
             {
                 if (kb.pKey.wasPressedThisFrame) { _bPaused = !_bPaused; _sfx.Play("blip"); PaceRefresh(); }
-                if (kb.fKey.wasPressedThisFrame) { _bSpeed = _bSpeed > 1.5f ? 1f : 2f; _sfx.Play("blip"); PaceRefresh(); }
+                if (kb.fKey.wasPressedThisFrame && !RestoreMode) { _bSpeed = _bSpeed > 1.5f ? 1f : 2f; _sfx.Play("blip"); PaceRefresh(); }
             }
             bool panel = _ui.ScreenOpen || _ui.Blocking || _pzRoot != null || InCutscene;
             if (_autoLog == null) Time.timeScale = panel ? 1f : _bPaused ? 0f : _bSpeed;
@@ -271,6 +272,7 @@ namespace TitanGate.Game
             public string pet; public int seed, day, health, morale, seeds, doseHits; public bool petFed, wreck; public float o2, water, food, power, dose;
             public string[] stowed, guests, items, flags, answered, scanKeys, scanVals, boxIds, bag, friendIds;
             public int[] boxN, friendN, plot, plotReady;
+            public string restore; public string[] beltIds; public int[] beltN;   // restore mode
         }
 
         const string DaySaveKey = "save_day";
@@ -281,7 +283,12 @@ namespace TitanGate.Game
         void DaySaveWrite()
         {
             if (_life == null || _autoLog != null) return;
-            if (_life.State.outcome != LifeOutcome.Ongoing) { PlayerPrefs.DeleteKey(DaySaveKey); PlayerPrefs.Save(); return; }
+            if (_life.State.outcome != LifeOutcome.Ongoing)
+            {
+                // a lost run keeps the last morning so the lose screen can offer "retry from this morning"
+                if (!LbFailed) { PlayerPrefs.DeleteKey(DaySaveKey); PlayerPrefs.Save(); }
+                return;
+            }
             var st = _life.State;
             var s = new DaySave
             {
@@ -301,6 +308,13 @@ namespace TitanGate.Game
             var fi = new List<string>(); var fn = new List<int>();
             foreach (var kv in _bFriend) { fi.Add(kv.Key); fn.Add(kv.Value); }
             s.friendIds = fi.ToArray(); s.friendN = fn.ToArray();
+            if (_restore != null)
+            {
+                s.restore = JsonUtility.ToJson(_restore.Snapshot());
+                var ri = new List<string>(); var rn = new List<int>();
+                foreach (var kv in _belt) { ri.Add(kv.Key); rn.Add(kv.Value); }
+                s.beltIds = ri.ToArray(); s.beltN = rn.ToArray();
+            }
             PlayerPrefs.SetString(DaySaveKey, JsonUtility.ToJson(s));
             Settings.SaveCheckpoint("lifeboat", _cfg.chapter1.cabinO2Start, _lbStowed, st.pet);
             PlayerPrefs.Save();
@@ -333,6 +347,11 @@ namespace TitanGate.Game
             _toolbox.Clear(); if (s.boxIds != null) for (int i = 0; i < s.boxIds.Length; i++) _toolbox[s.boxIds[i]] = s.boxN[i];
             _bFriend.Clear(); if (s.friendIds != null) for (int i = 0; i < s.friendIds.Length; i++) _bFriend[s.friendIds[i]] = s.friendN[i];
             if (s.plot != null) for (int i = 0; i < 3 && i < s.plot.Length; i++) { _bPlot[i] = s.plot[i]; _bPlotReady[i] = s.plotReady[i]; }
+            if (_restore != null && !string.IsNullOrEmpty(s.restore))
+            {
+                _restore.Load(JsonUtility.FromJson<RestoreSnapshot>(s.restore));
+                _belt.Clear(); if (s.beltIds != null) for (int i = 0; i < s.beltIds.Length; i++) _belt[s.beltIds[i]] = s.beltN[i];
+            }
             _ui.Toast(TT($"Welcome back: the morning of day {s.day}.", $"ยินดีต้อนรับกลับมา: เช้าวันที่ {s.day}"), GameUI.CCyan);
             return true;
         }

@@ -1,0 +1,262 @@
+[   0.0s] player brain: careful
+[   1.3s] start mission from the menu
+shot p01_intro
+shot p02_intro
+shot p03_intro
+shot p04_intro
+[  13.6s] intro took 35s
+shot p06_pet_pick
+PASS walked to food
+PASS walked to bowl
+PASS walked to radio
+PASS walked to sofa
+[  20.3s] morning jobs took 6s
+shot p07_ship_done
+PASS walked to sup_food
+PASS walked to sup_medkit
+PASS walked to sup_photo
+PASS walked to lifeboat
+PASS walked to sup_filter
+shot p08_tilt
+PASS walked to sup_o2
+PASS walked to sup_shield
+PASS walked to lifeboat
+[  31.1s] scramble: stowed 5/5 in 7s, fire phases 1, tilted True
+shot p09_land1
+shot p09_land2
+shot p09_land3
+shot p09_land4
+[  44.5s] landing + docking cutscenes took 38s
+[  45.5s] DAY 1 06:00 · O2 14 water 8 food 9 power 4 · health 3 morale 75 · guests [] · seeds 2
+shot q1_01
+[  45.7s] 6.0h task chip (0.5 h) at orbi
+PASS walked to orbi
+shot r1_task_chip
+[  49.9s] 6.5h task find_lounge (0.5 h) at junk_lounge
+PASS walked to junk_lounge
+[  53.8s] 7.0h task p_sweep (1 h) at debris_power
+PASS walked to debris_power
+[  59.0s] 8.0h task p_wire (2 h) at generator
+PASS walked to generator
+[  62.1s] 10.0h task p_breaker (1.5 h) at breaker_box
+PASS walked to breaker_box
+shot r1_task_p_breaker
+PASS walked to hatch
+shot q1_peep_aya
+[  67.6s] 11.5h event visitor_aya (hatch) → admit
+[  68.0s] 12.5h task a_vent (1 h) at debris_air
+PASS walked to debris_air
+shot q1_02
+[  72.3s] 13.5h task find_hub (1 h) at junk_hub
+PASS walked to junk_hub
+[  76.5s] 14.5h task a_filter (1.5 h) at air
+PASS walked to air
+[  80.3s] 16.0h task a_moxie (2 h) at air_panel
+PASS walked to air_panel
+shot r1_task_a_moxie
+[  83.6s] 18.0h task s_pry (1 h) at storage_door
+PASS walked to storage_door
+[  87.2s] 19.0h task s_sweep (1 h) at debris_storage
+PASS walked to debris_storage
+BShowMeal day 1 mealDay -1 fed 3
+BShowMeal day 1 mealDay 1 fed 1
+BShowMeal day 1 mealDay 1 fed 2
+BShowMeal day 1 mealDay 1 fed 3
+shot q1_meal
+[  91.4s] dinner at 20.0h · fed 3/3 · air maker False · O2 tonight 2
+LbSleep fed=3 mouths=3 from:   at System.Environment.get_StackTrace () [0x00000] in <d49d4cb128564ee1b54a84338c98d353>:0 
+  at TitanGate.Game.GameFlow.LbSleep () [0x00000] in <a707112f632f41ceb8578d7cdcf97c01>:0 
+  at TitanGate.Game.GameFlow+<PlayWeek>d__629.MoveNext () [0x00000] in <a707112f632f41ceb8578d7cdcf97c01>:0 
+  at UnityEngine.SetupCoroutine.InvokeMoveNext (System.Collections.IEnumerator enumerator, System.IntPtr returnValueAddress) [0x00000] in <9eb5f512edf84b29b73cbc699a604447>:0 
+[  91.5s] day 1 lasted 46s real time
+[  91.5s] DAY 2 06:00 · O2 12 water 6 food 6 power 5 · health 3 morale 78 · guests [aya] · seeds 2
+shot q2_night
+[  91.9s] 6.0h task s_pipes (2.5 h) at recycler
+PASS walked to recycler
+[  96.6s] 8.5h task g_sweep (1 h) at debris_greenhouse
+PASS walked to debris_greenhouse
+shot r2_task_g_sweep
+shot q2_03
+[ 101.2s] 9.5h task find_power (0.5 h) at junk_power
+PASS walked to junk_power
+[ 106.1s] 10.0h task g_lamps (2 h) at grow_lamps
+PASS walked to grow_lamps
+[ 110.7s] 12.0h task g_beds (1.5 h) at plot1
+PASS walked to plot1
+[ 114.4s] 13.5h plant bed 0
+PASS walked to plot0
+[ 115.4s] 15.5h plant bed 1
+PASS walked to plot1
+[ 116.4s] 17.5h plant bed 2
+PASS walked to plot2
+[ 117.4s] 19.5h drill ice (water low)
+PASS walked to drill
+[ 121.4s] day 2: nothing more fits at 19.5h, dinner · restored 70% · water 33 food 46 rest 19
+PASS walked to seats
+shot q2_04
+BShowMeal day 2 mealDay 1 fed 3
+BShowMeal day 2 mealDay 2 fed 1
+BShowMeal day 2 mealDay 2 fed 2
+BShowMeal day 2 mealDay 2 fed 3
+shot q2_meal
+[ 127.6s] dinner at 20.0h · fed 3/3 · air maker False · O2 tonight 2
+LbSleep fed=3 mouths=3 from:   at System.Environment.get_StackTrace () [0x00000] in <d49d4cb128564ee1b54a84338c98d353>:0 
+  at TitanGate.Game.GameFlow.LbSleep () [0x00000] in <a707112f632f41ceb8578d7cdcf97c01>:0 
+  at TitanGate.Game.GameFlow+<PlayWeek>d__629.MoveNext () [0x00000] in <a707112f632f41ceb8578d7cdcf97c01>:0 
+  at UnityEngine.SetupCoroutine.InvokeMoveNext (System.Collections.IEnumerator enumerator, System.IntPtr returnValueAddress) [0x00000] in <9eb5f512edf84b29b73cbc699a604447>:0 
+[ 127.8s] day 2 lasted 36s real time
+[ 127.8s] DAY 3 06:00 · O2 10 water 2.5 food 7 power 5 · health 3 morale 81 · guests [aya] · seeds 2
+shot q3_night
+[ 128.2s] 6.0h harvest bed 0
+PASS walked to plot0
+[ 130.8s] 7.0h harvest bed 1
+PASS walked to plot1
+[ 131.8s] 8.0h harvest bed 2
+PASS walked to plot2
+[ 132.8s] 9.0h task q_sweep (1 h) at debris_quarters
+PASS walked to debris_quarters
+shot r3_task_q_sweep
+[ 137.3s] 10.0h task find_airlock (1 h) at junk_airlock
+PASS walked to junk_airlock
+[ 141.8s] 11.0h task q_heater (2 h) at heater
+PASS walked to heater
+[ 145.8s] 13.0h task q_beds (1 h) at bunks
+PASS walked to bunks
+[ 149.6s] 14.0h task c_sweep (1 h) at debris_comms
+PASS walked to debris_comms
+shot r3_task_c_sweep
+shot q3_05
+[ 154.6s] 15.0h task c_power (2 h) at radio_power
+PASS walked to radio_power
+[ 157.7s] 17.0h task c_dish (2.5 h) at radio
+PASS walked to radio
+[ 160.8s] 19.5h drill ice (water low)
+PASS walked to drill
+[ 166.0s] day 3: nothing more fits at 19.5h, dinner · restored 100% · water 33 food 46 rest 19
+PASS walked to seats
+BShowMeal day 3 mealDay 2 fed 3
+BShowMeal day 3 mealDay 3 fed 1
+BShowMeal day 3 mealDay 3 fed 2
+BShowMeal day 3 mealDay 3 fed 3
+shot q3_meal
+[ 172.3s] dinner at 20.0h · fed 3/3 · air maker False · O2 tonight 2
+LbSleep fed=3 mouths=3 from:   at System.Environment.get_StackTrace () [0x00000] in <d49d4cb128564ee1b54a84338c98d353>:0 
+  at TitanGate.Game.GameFlow.LbSleep () [0x00000] in <a707112f632f41ceb8578d7cdcf97c01>:0 
+  at TitanGate.Game.GameFlow+<PlayWeek>d__629.MoveNext () [0x00000] in <a707112f632f41ceb8578d7cdcf97c01>:0 
+  at UnityEngine.SetupCoroutine.InvokeMoveNext (System.Collections.IEnumerator enumerator, System.IntPtr returnValueAddress) [0x00000] in <9eb5f512edf84b29b73cbc699a604447>:0 
+[ 172.4s] day 3 lasted 45s real time
+[ 172.4s] DAY 4 06:00 · O2 8 water 2 food 8 power 5.5 · health 3 morale 84 · guests [aya] · seeds 2
+shot q4_night
+[ 172.9s] 6.0h storm day: safe mode at the breaker box
+PASS walked to breaker_box
+[ 177.7s] 6.5h oxygen maker (O2 8)
+PASS walked to air
+[ 179.1s] 7.5h waiting by the radio for the relay pass at 9.5
+[ 179.1s] 9.5h sending the distress call
+PASS walked to radio
+shot r4_radio
+shot q4_06
+[ 181.6s] 9.8h drill ice (water low)
+PASS walked to drill
+[ 185.6s] 12.8h storm coming: sheltering in the lounge
+PASS walked to orbi
+PASS walked to hatch
+shot q4_peep_mu
+[ 192.5s] 13.1h event visitor_mu (hatch) → admit
+[ 192.9s] 14.1h plant bed 0
+PASS walked to plot0
+[ 195.0s] 16.1h clean solar panels
+PASS walked to solar
+[ 197.7s] 19.1h search salvage 0
+PASS walked to salvage0
+[ 198.5s] 19.6h search salvage 1
+PASS walked to salvage1
+[ 199.2s] day 4: nothing more fits at 19.6h, dinner · restored 100% · water 32 food 46 rest 46
+PASS walked to seats
+BShowMeal day 4 mealDay 3 fed 4
+BShowMeal day 4 mealDay 4 fed 1
+BShowMeal day 4 mealDay 4 fed 2
+BShowMeal day 4 mealDay 4 fed 3
+shot q4_meal
+[ 203.6s] dinner at 20.0h · fed 3/4 · air maker False · O2 tonight 3
+LbSleep fed=3 mouths=4 from:   at System.Environment.get_StackTrace () [0x00000] in <d49d4cb128564ee1b54a84338c98d353>:0 
+  at TitanGate.Game.GameFlow.LbSleep () [0x00000] in <a707112f632f41ceb8578d7cdcf97c01>:0 
+  at TitanGate.Game.GameFlow+<PlayWeek>d__629.MoveNext () [0x00000] in <a707112f632f41ceb8578d7cdcf97c01>:0 
+  at UnityEngine.SetupCoroutine.InvokeMoveNext (System.Collections.IEnumerator enumerator, System.IntPtr returnValueAddress) [0x00000] in <9eb5f512edf84b29b73cbc699a604447>:0 
+[ 203.8s] day 4 lasted 31s real time
+[ 203.8s] DAY 5 06:00 · O2 6.5 water 1.5 food 6 power 3 · health 2 morale 87 · guests [aya] · seeds 1
+shot q5_night
+[ 204.2s] day 5: the rescue ship landed, saying goodbye
+PASS walked to hatch_out
+shot r_goodbye
+[ 207.1s] END outcome Rescued on day 5 · health 2 · O2 6.5 water 1.5 food 6 power 3
+shot q_end
+[   0.0s] player brain: careful
+[   1.3s] start mission from the menu
+[  13.6s] intro took 35s
+[  20.3s] morning jobs took 6s
+[  31.1s] scramble: stowed 5/5 in 7s, fire phases 1, tilted True
+[  44.5s] landing + docking cutscenes took 38s
+[  45.5s] DAY 1 06:00 · O2 14 water 8 food 9 power 4 · health 3 morale 75 · guests [] · seeds 2
+[  45.7s] 6.0h task chip (0.5 h) at orbi
+[  49.9s] 6.5h task find_lounge (0.5 h) at junk_lounge
+[  53.8s] 7.0h task p_sweep (1 h) at debris_power
+[  59.0s] 8.0h task p_wire (2 h) at generator
+[  62.1s] 10.0h task p_breaker (1.5 h) at breaker_box
+[  67.6s] 11.5h event visitor_aya (hatch) → admit
+[  68.0s] 12.5h task a_vent (1 h) at debris_air
+[  72.3s] 13.5h task find_hub (1 h) at junk_hub
+[  76.5s] 14.5h task a_filter (1.5 h) at air
+[  80.3s] 16.0h task a_moxie (2 h) at air_panel
+[  83.6s] 18.0h task s_pry (1 h) at storage_door
+[  87.2s] 19.0h task s_sweep (1 h) at debris_storage
+[  91.4s] dinner at 20.0h · fed 3/3 · air maker False · O2 tonight 2
+[  91.5s] day 1 lasted 46s real time
+[  91.5s] DAY 2 06:00 · O2 12 water 6 food 6 power 5 · health 3 morale 78 · guests [aya] · seeds 2
+[  91.9s] 6.0h task s_pipes (2.5 h) at recycler
+[  96.6s] 8.5h task g_sweep (1 h) at debris_greenhouse
+[ 101.2s] 9.5h task find_power (0.5 h) at junk_power
+[ 106.1s] 10.0h task g_lamps (2 h) at grow_lamps
+[ 110.7s] 12.0h task g_beds (1.5 h) at plot1
+[ 114.4s] 13.5h plant bed 0
+[ 115.4s] 15.5h plant bed 1
+[ 116.4s] 17.5h plant bed 2
+[ 117.4s] 19.5h drill ice (water low)
+[ 121.4s] day 2: nothing more fits at 19.5h, dinner · restored 70% · water 33 food 46 rest 19
+[ 127.6s] dinner at 20.0h · fed 3/3 · air maker False · O2 tonight 2
+[ 127.8s] day 2 lasted 36s real time
+[ 127.8s] DAY 3 06:00 · O2 10 water 2.5 food 7 power 5 · health 3 morale 81 · guests [aya] · seeds 2
+[ 128.2s] 6.0h harvest bed 0
+[ 130.8s] 7.0h harvest bed 1
+[ 131.8s] 8.0h harvest bed 2
+[ 132.8s] 9.0h task q_sweep (1 h) at debris_quarters
+[ 137.3s] 10.0h task find_airlock (1 h) at junk_airlock
+[ 141.8s] 11.0h task q_heater (2 h) at heater
+[ 145.8s] 13.0h task q_beds (1 h) at bunks
+[ 149.6s] 14.0h task c_sweep (1 h) at debris_comms
+[ 154.6s] 15.0h task c_power (2 h) at radio_power
+[ 157.7s] 17.0h task c_dish (2.5 h) at radio
+[ 160.8s] 19.5h drill ice (water low)
+[ 166.0s] day 3: nothing more fits at 19.5h, dinner · restored 100% · water 33 food 46 rest 19
+[ 172.3s] dinner at 20.0h · fed 3/3 · air maker False · O2 tonight 2
+[ 172.4s] day 3 lasted 45s real time
+[ 172.4s] DAY 4 06:00 · O2 8 water 2 food 8 power 5.5 · health 3 morale 84 · guests [aya] · seeds 2
+[ 172.9s] 6.0h storm day: safe mode at the breaker box
+[ 177.7s] 6.5h oxygen maker (O2 8)
+[ 179.1s] 7.5h waiting by the radio for the relay pass at 9.5
+[ 179.1s] 9.5h sending the distress call
+[ 181.6s] 9.8h drill ice (water low)
+[ 185.6s] 12.8h storm coming: sheltering in the lounge
+[ 192.5s] 13.1h event visitor_mu (hatch) → admit
+[ 192.9s] 14.1h plant bed 0
+[ 195.0s] 16.1h clean solar panels
+[ 197.7s] 19.1h search salvage 0
+[ 198.5s] 19.6h search salvage 1
+[ 199.2s] day 4: nothing more fits at 19.6h, dinner · restored 100% · water 32 food 46 rest 46
+[ 203.6s] dinner at 20.0h · fed 3/4 · air maker False · O2 tonight 3
+[ 203.8s] day 4 lasted 31s real time
+[ 203.8s] DAY 5 06:00 · O2 6.5 water 1.5 food 6 power 3 · health 2 morale 87 · guests [aya] · seeds 1
+[ 204.2s] day 5: the rescue ship landed, saying goodbye
+[ 207.1s] END outcome Rescued on day 5 · health 2 · O2 6.5 water 1.5 food 6 power 3
+
+done errors=0 checksFailed=0

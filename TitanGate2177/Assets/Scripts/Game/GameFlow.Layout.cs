@@ -281,6 +281,7 @@ namespace TitanGate.Game
             BProp("crate", "base.place.crate", Art.CargoPod(false), 35.0f, 25.6f, new Vector2(35.0f, 24.8f), 2, 1);
             BLamp(_bHatch + new Vector2(1, 1.2f), new Color(1f, 0.75f, 0.35f), 4f, 0.5f);
             BBuildSalvage();
+            RestoreBuildProps();
         }
     }
 }

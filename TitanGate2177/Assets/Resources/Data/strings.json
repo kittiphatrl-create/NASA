@@ -8227,8 +8227,8 @@
   },
   {
    "k": "base.hud.controls",
-   "en": "WASD or click to walk · Shift run · E use · Tab bag · P pause · F speed · ! = something to do",
-   "th": "WASD/คลิกเพื่อเดิน · Shift วิ่ง · E ใช้ · Tab กระเป๋า · P หยุดเวลา · F เร่งเวลา · ! = มีงานรอ"
+   "en": "WASD or click to walk · Shift run · E use · Tab bag · P pause · ! = something to do · each job shows its hours",
+   "th": "WASD/คลิกเพื่อเดิน · Shift วิ่ง · E ใช้ · Tab กระเป๋า · P หยุดเวลา · ! = มีงานรอ · ทุกงานบอกว่าใช้กี่ชั่วโมง"
   },
   {
    "k": "base.hud.next",

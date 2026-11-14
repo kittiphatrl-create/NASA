@@ -1,0 +1,33 @@
+{
+  "build": "Succeeded",
+  "buildErrors": 0,
+  "editModePassed": 94,
+  "editModeFailed": 0,
+  "scenarios": {
+    "before": {
+      "passed": 58,
+      "failed": 0,
+      "result": "done errors=0 checksFailed=0",
+      "ending": "[ 207.7s] END outcome Rescued on day 5 \u00b7 health 2 \u00b7 O2 6.5 water 1.5 food 6 power 3"
+    },
+    "after-play": {
+      "passed": 58,
+      "failed": 0,
+      "result": "done errors=0 checksFailed=0",
+      "ending": "[ 207.1s] END outcome Rescued on day 5 \u00b7 health 2 \u00b7 O2 6.5 water 1.5 food 6 power 3"
+    },
+    "720p": {
+      "passed": 38,
+      "failed": 0,
+      "result": "done errors=0 checksFailed=0",
+      "ending": null
+    },
+    "1080p": {
+      "passed": 38,
+      "failed": 0,
+      "result": "done errors=0 checksFailed=0",
+      "ending": null
+    }
+  },
+  "gameAssemblySha256": "3f2c035171a5f82ff29ba34f47ce912d657b39e76bb1de7dbbc27d2a078372c2"
+}

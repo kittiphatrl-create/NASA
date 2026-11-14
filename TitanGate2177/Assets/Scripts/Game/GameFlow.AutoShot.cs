@@ -31,6 +31,8 @@ namespace TitanGate.Game
             if (!AutoShotRequested()) return;
             var args = System.Environment.GetCommandLineArgs();
             for (int i = 0; i < args.Length - 1; i++) if (args[i] == "-route") _autoRoute = args[i + 1];
+            bool art = System.Array.IndexOf(args, "-artshowcase") >= 0;
+            bool typography = System.Array.IndexOf(args, "-typecheck") >= 0;
             bool story = System.Array.IndexOf(args, "-storyshowcase") >= 0;
             bool ux = System.Array.IndexOf(args, "-uxshowcase") >= 0;
             bool lifeboat = System.Array.IndexOf(args, "-lifeboat") >= 0;   // the card-based Chapter 2 on its own
@@ -39,7 +41,9 @@ namespace TitanGate.Game
             bool shipTop = System.Array.IndexOf(args, "-ship") >= 0;        // the top-down Chapter 1
             _ch1Lifeboat = System.Array.IndexOf(args, "-ch1lifeboat") >= 0; // Chapter 1, then the landing into the diary
             if (_ch1Lifeboat) ForceDiary = true;
-            if (story) _autoRoute = "story";
+            if (art) _autoRoute = "art";
+            else if (typography) _autoRoute = "typography-" + Screen.width;
+            else if (story) _autoRoute = "story";
             else if (ux) _autoRoute = "ux";
             else if (shipTop) _autoRoute = "ship";
             if (play) _autoRoute = "play";
@@ -64,7 +68,7 @@ namespace TitanGate.Game
             int seedArg = System.Array.IndexOf(args, "-seed");
             SeedOverride = seedArg >= 0 && seedArg + 1 < args.Length && int.TryParse(args[seedArg + 1], out var sv) ? sv : 7;
             Application.runInBackground = true;
-            StartCoroutine(play ? AutoPlay() : story ? AutoStory() : ux ? AutoUX() : shipTop ? AutoShip() : walkBase ? AutoBase() : lifeboat ? AutoLifeboat() : AutoShot());
+            StartCoroutine(art ? AutoArt() : typography ? AutoTypography() : play ? AutoPlay() : story ? AutoStory() : ux ? AutoUX() : shipTop ? AutoShip() : walkBase ? AutoBase() : lifeboat ? AutoLifeboat() : AutoShot());
             StartCoroutine(AutoHelper());
         }
 

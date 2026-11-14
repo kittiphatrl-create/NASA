@@ -42,6 +42,7 @@ namespace TitanGate.Game
                 return false;
             }
             bool ok = _life.ApplyTask(delta, hours, reserve);
+            if (ok && RestoreMode && _restore != null) { RestoreSync(); _restore.Tire(hours); }
             if (ok) _ui.Toast(CrewText("Work completed · ", "ทำงานเสร็จ · ") + hours + CrewText(" h elapsed", " ชั่วโมงผ่านไป"), GameUI.CCyan);
             if (!ok) _ui.Toast(CrewText("Not enough supplies for this job.", "ทรัพยากรไม่พอสำหรับงานนี้"), GameUI.CRed);
             return ok;
@@ -51,7 +52,7 @@ namespace TitanGate.Game
         {
             float hour = _life.State.schedule.Hour;
             string phase = hour < 12 ? CrewText("MORNING", "เช้า") : hour < 17 ? CrewText("AFTERNOON", "บ่าย") : hour < 20 ? CrewText("DUSK", "เย็น") : CrewText("NIGHT", "กลางคืน");
-            return $"{(int)hour:00}:{(int)((hour % 1) * 60):00}  ·  {phase}  ·  " + _life.State.schedule.Remaining.ToString("0.#") + CrewText(" h left", " ชม. เหลือ");
+            return $"{(int)hour:00}:{(int)((hour % 1) * 60):00}  ·  {phase}  ·  " + (RestoreMode && _restore != null ? _restore.HoursLeft : _life.State.schedule.Remaining).ToString("0.#") + CrewText(" h left", " ชม. เหลือ");
         }
 
         void CrewReset()
