@@ -203,6 +203,7 @@ namespace TitanGate.Game
         /// <summary>Screenshot pass for the top-down Chapter 1 (-autoshot -ship): quests, impact, scramble, landing.</summary>
         IEnumerator AutoShip()
         {
+            ForceOutpost = false; ForceDiary = false; // Exercise the actual top-down opening.
             _loc.Current = Lang.TH;
             _autoAdvance = true;
             yield return new WaitForSeconds(2f);
@@ -217,6 +218,17 @@ namespace TitanGate.Game
             Check(_bRoot != null && _bMode == 1, "top-down ship built");
             yield return new WaitForSeconds(0.6f);
             yield return Shot("s01_ship_start");
+            Check(_bHudDay.text == "วันที่ 0", "ship opening is Day 0");
+            Check(_bHudPortrait.childCount == 3, "ship uses shared status, carrying and mission HUD panels");
+            Check(_bHudStock.text == "06:00", "ship clock uses the morning briefing time");
+            if (System.Array.IndexOf(System.Environment.GetCommandLineArgs(), "-shiphudonly") >= 0)
+            {
+                OpenPause(); yield return new WaitForSecondsRealtime(.3f);
+                Check(_ui.ModalOpen && Time.timeScale == 0, "ship pause freezes simulation");
+                _ui.CloseModal(); Check(Time.timeScale == 1, "ship resume returns control");
+                Log($"done errors={_errors} checksFailed={_checksFailed}");
+                _autoLog?.Close(); _autoLog = null; Application.Quit(); yield break;
+            }
             int guard = 0;
             while (_sTarget != null && guard++ < 12)
             {

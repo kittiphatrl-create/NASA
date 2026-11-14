@@ -97,16 +97,17 @@ namespace TitanGate.Game
 
         VisualElement BPortraitPanel()
         {
+            bool ship = _bMode == 1;
             var p = new VisualElement { pickingMode = PickingMode.Ignore };
-            p.style.position = Position.Absolute; p.style.left = 24; p.style.bottom = 24; p.style.width = 425;
+            p.style.position = Position.Absolute; p.style.left = 24; p.style.bottom = 24; p.style.width = 480;
             p.Add(GameUI.Plate(GameUI.Paper, GameUI.Ink, 21, true, 5));
             p.style.paddingLeft = p.style.paddingRight = 16; p.style.paddingTop = p.style.paddingBottom = 8;
             var row = new VisualElement { pickingMode = PickingMode.Ignore };
             row.style.flexDirection = FlexDirection.Row; row.style.alignItems = Align.Center;
             var identity = new VisualElement { pickingMode = PickingMode.Ignore };
             identity.style.width = 65; identity.style.marginRight = 7; identity.style.alignItems = Align.Center;
-            var portrait = new Image { sprite = Art.CrewPortrait(BMood()), scaleMode = ScaleMode.ScaleToFit, pickingMode = PickingMode.Ignore };
-            portrait.style.width = 58; portrait.style.height = 58;
+            var portrait = new Image { sprite = Art.CrewPortrait(ship ? 0 : BMood()), scaleMode = ScaleMode.ScaleToFit, pickingMode = PickingMode.Ignore };
+            portrait.style.width = 64; portrait.style.height = 64;
             portrait.style.backgroundColor = GameUI.CPanel2;
             identity.Add(portrait);
             identity.Add(_ui.L(TT("Luke", "ลุค"), 17, true, GameUI.Ink));
@@ -139,7 +140,15 @@ namespace TitanGate.Game
                 }
                 meters.Add(line);
             }
-            if (RestoreMode && _restore != null)
+            if (ship)
+            {
+                // Chapter 1 has no needs simulation. Keep the same layout without inventing values.
+                Need(Art.Sticker("food"), TT("Fullness", "ความอิ่ม"), 0, GameUI.CAmber, "—");
+                Need(Art.Sticker("water"), TT("Water", "น้ำ"), 0, GameUI.CCyan, "—");
+                Need(Art.Sticker("power"), TT("Energy", "พลังงาน"), 0, GameUI.CGreen, "—");
+                meters.tooltip = TT("Needs tracking starts after landing. SHIFT uses the live stamina bar.", "เริ่มติดตามความอิ่ม น้ำ และพลังงานหลังลงจอด · SHIFT ใช้แรงวิ่งจริง");
+            }
+            else if (RestoreMode && _restore != null)
             {
                 Need(Art.Sticker("food"), TT("Fullness", "ความอิ่ม"), _restore.Food / 100f, GameUI.CAmber, $"{_restore.Food:0}%");
                 Need(Art.Sticker("water"), TT("Water", "น้ำ"), _restore.Water / 100f, GameUI.CCyan, $"{_restore.Water:0}%");
@@ -149,15 +158,16 @@ namespace TitanGate.Game
                 Need(Art.ConditionFace(BMood()), TT("Morale", "กำลังใจ"), _life.State.morale / 100f, GameUI.CAmber, $"{_life.State.morale:0}%");
             Need(Art.SprintIcon(), TT("Stamina", "แรงวิ่ง"), _sprint.Value / 100f, GameUI.CCyan, $"{_sprint.Value:0}%");
             Need(Art.RadIcon(), TT("Rad", "รังสี"), RadFrac, _dose < DosePerSick ? new Color(.74f, .58f, .98f) : RadColor(), $"{_dose:0.#}");
-            if (_life.State.pet != null)
+            string hudPet = ship ? _sPet : _life.State.pet;
+            if (hudPet != null)
             {
                 var pet = new VisualElement { pickingMode = PickingMode.Ignore };
                 pet.style.alignItems = Align.Center;
                 pet.style.marginLeft = 8; pet.style.paddingLeft = 7; pet.style.paddingRight = 3;
                 pet.style.borderLeftWidth = 2; pet.style.borderLeftColor = GameUI.Ink;
-                var sprite = new Image { sprite = Art.Pet(_life.State.pet), scaleMode = ScaleMode.ScaleToFit, pickingMode = PickingMode.Ignore };
+                var sprite = new Image { sprite = Art.Pet(hudPet), scaleMode = ScaleMode.ScaleToFit, pickingMode = PickingMode.Ignore };
                 sprite.style.width = sprite.style.height = 26; pet.Add(sprite);
-                pet.Add(_ui.L(LbName(LifeboatSim.Pet), 15, true, GameUI.Ink));
+                pet.Add(_ui.L(ship ? _loc.T($"pet.{hudPet}.name") : LbName(LifeboatSim.Pet), 15, true, GameUI.Ink));
                 row.Add(pet);
             }
             return p;
@@ -447,9 +457,11 @@ namespace TitanGate.Game
                 // ---- left: a short ID card (icons and words, not paragraphs)
                 var logFrame = Abs(34, 100, 500, 880);
                 logFrame.Add(GameUI.Plate(GameUI.Paper, GameUI.Ink, 29, true, 7));
+                logFrame.style.paddingLeft = 40; logFrame.style.paddingRight = 35;
+                logFrame.style.paddingTop = 20; logFrame.style.paddingBottom = 28;
                 var log = new ScrollView();
                 log.style.flexGrow = 1;
-                log.style.paddingLeft = log.style.paddingRight = 25; log.style.paddingTop = 18;
+                log.style.paddingLeft = log.style.paddingRight = 0; log.style.paddingTop = 0;
                 log.Add(_ui.PrintedLabel(_loc.T("base.peep.header"), 21, GameUI.CAmber, GameUI.Ink));
                 var title = _ui.L(_loc.T($"life.card.{card.id}.title"), 36, true, GameUI.Ink); title.style.marginTop = 6; log.Add(title);
                 // what you can see through the glass: their mood, in big words

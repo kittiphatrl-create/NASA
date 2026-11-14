@@ -1193,7 +1193,6 @@ namespace TitanGate.Game
             _bHud.style.position = Position.Absolute;
             _bHud.style.left = 24; _bHud.style.top = 20;
             _bHud.style.width = 566;
-            if (_bMode == 1) _bHud.Add(GameUI.Plate(GameUI.CPanel, GameUI.CAmber));
             _bHud.style.paddingLeft = _bHud.style.paddingRight = 18; _bHud.style.paddingTop = 10; _bHud.style.paddingBottom = 12;
             _bHudDay = _ui.L("", 24, true, GameUI.CAmber);
             _bHudStock = _ui.L("", 26, true);
@@ -1204,11 +1203,9 @@ namespace TitanGate.Game
             var help = _ui.L(_loc.T("base.hud.controls"), 16, false, GameUI.CDim);
             help.style.marginTop = 6;
             _bHudRoom = _ui.L("", 22, true, GameUI.CCyan);
-            if (_bMode == 1) _bHud.Add(_bHudDay);
             _bHud.Add(_bHudRoom);
-            if (_bMode == 1) _bHud.Add(_bHudStock);
-            _bHud.Add(_bHudNext); _bHud.Add(_bHudTimer); _bHud.Add(_bHudBar);
-            if (_bMode == 1) _bHud.Add(help);
+            if (_bMode == 0) _bHud.Add(_bHudNext);
+            _bHud.Add(_bHudTimer); _bHud.Add(_bHudBar);
             var clock = new VisualElement { pickingMode = PickingMode.Ignore };
             clock.style.flexDirection = FlexDirection.Row;
             clock.style.alignItems = Align.Stretch;
@@ -1216,9 +1213,9 @@ namespace TitanGate.Game
             date.style.paddingLeft = date.style.paddingRight = 23;
             date.style.justifyContent = Justify.Center;
             date.Add(GameUI.Plate(GameUI.CAmber, GameUI.Ink, 18, true, 5));
-            date.Add(_bMode == 0 ? _bHudDay : _ui.L("", 24));
+            date.Add(_bHudDay);
             _ui.DisplayFont(_bHudDay);
-            if (_bMode == 0) _bHudDay.style.color = GameUI.Ink;
+            _bHudDay.style.color = GameUI.Ink;
             clock.Add(date);
             var cycle = new VisualElement { pickingMode = PickingMode.Ignore };
             cycle.style.flexGrow = 1;
@@ -1227,7 +1224,6 @@ namespace TitanGate.Game
             cycle.style.flexDirection = FlexDirection.Row;
             cycle.style.alignItems = Align.Center;
             cycle.Add(GameUI.Plate(GameUI.Paper, GameUI.Ink, 18, true, 5));
-            if (_bMode == 0)
             {
                 _bHudStock.style.color = GameUI.Ink;
                 _bHudStock.style.minWidth = 85;
@@ -1261,7 +1257,7 @@ namespace TitanGate.Game
             cycle.Add(rail);
             cycle.Add(_ui.L("☾", 27, true, GameUI.Ink));
             clock.Add(cycle);
-            if (_bMode == 0) _bHud.Insert(0, clock);
+            _bHud.Insert(0, clock);
             _bHudGauges = new VisualElement { pickingMode = PickingMode.Ignore };
             _bHudGauges.style.marginTop = 4; _bHudGauges.style.marginBottom = 4;
             _bHud.Insert(2, _bHudGauges);
@@ -1270,7 +1266,6 @@ namespace TitanGate.Game
             _bHudPortrait = new VisualElement { pickingMode = PickingMode.Ignore };
             _bHudPortrait.style.position = Position.Absolute; _bHudPortrait.style.left = 0; _bHudPortrait.style.right = 0; _bHudPortrait.style.top = 0; _bHudPortrait.style.bottom = 0;
             _ui.Root.Insert(Mathf.Min(2, _ui.Root.childCount), _bHudPortrait);
-            if (_bMode == 1) _bHudPortrait.Add(BSprintPanel());
             PaceBuildHud();
             _bHudT = 0;
         }
@@ -1293,7 +1288,7 @@ namespace TitanGate.Game
             string room = BRoomAt(_bPos);
             _bHudRoom.text = room == null ? "" : GameUI.Thai("▸ " + _loc.T(room));
             _bHudRoom.style.display = room == null ? DisplayStyle.None : DisplayStyle.Flex;
-            if (_bMode == 1) { SHud(); _bHudPortrait.style.display = !_ui.ScreenOpen ? DisplayStyle.Flex : DisplayStyle.None; if (_shipSprintFill != null) { _shipSprintFill.style.width = Length.Percent(_sprint.Value); _shipSprintFill.style.backgroundColor = _sprint.Exhausted ? GameUI.CAmber : GameUI.CCyan; } return; }
+            if (_bMode == 1) { SHud(); return; }
             bool show = _life != null && !_ui.ScreenOpen;
             _bHud.style.display = show ? DisplayStyle.Flex : DisplayStyle.None;
             if (!show) return;

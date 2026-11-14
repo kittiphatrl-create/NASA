@@ -29,11 +29,12 @@ namespace TitanGate.Game
             yield return Shot("02_thai_marks_and_latin"); _ui.CloseModal();
             _loc.Current = Lang.EN; BuildMainMenu(); yield return Shot("03_title_en");
             _loc.Current = Lang.TH;
+            StartLifeboat(null, "comet"); yield return new WaitForSeconds(1);
             string[] types = { "wires", "screws", "scrub", "pipes", "shield", "switches", "tune", "leak", "crank" };
             foreach (var type in types)
             {
                 int callbacks = 0;
-                PzOpen(type, 0, new JobDef { en = "Habitat maintenance", th = "บำรุงรักษาฐาน", factEn = "", factTh = "" },
+                PzOpen(type, 0, new JobDef { id = type, en = "Habitat maintenance", th = "บำรุงรักษาฐาน", factEn = "", factTh = "" },
                     (_, __) => { callbacks++; _ui.HideScreen(); }, () => _ui.HideScreen());
                 yield return Shot(type + "_working");
                 _pzSolve?.Invoke(); PzComplete(); // Repeated completion must not award twice.
@@ -46,6 +47,31 @@ namespace TitanGate.Game
                 while (_pzRoot != null) yield return null;
                 Check(callbacks == 1 && !_ui.ScreenOpen, type + " completes once and returns control");
             }
+            // UI-only staging: no balance, collision, visitor or story rules are changed.
+            ShowMainMenu();
+            Check(_ui.Press(_loc.T("menu.settings")), "settings opens using the menu callback");
+            yield return Shot("ui_01_settings"); _ui.CloseModal();
+            StartLifeboat(null, "comet"); yield return new WaitForSeconds(1.5f);
+            yield return Shot("ui_02_hud");
+            var bounds = _bHud.worldBound; var viewport = _ui.Root.worldBound;
+            Check(bounds.xMin >= 0 && bounds.xMax <= viewport.xMax, "day and mission HUD remains within viewport");
+            OrbiSay(TT("Water is running low. Check the recycler.", "น้ำใกล้หมดแล้ว ลองตรวจเครื่องรีไซเคิลน้ำ"), GameUI.CAmber);
+            yield return Shot("ui_03_orbi_notice");
+            _ui.Say("orbi", "c2_base_intro"); yield return new WaitForSeconds(1);
+            Check(_ui.DialogOpen, "dialogue opens with background shade");
+            yield return Shot("ui_04_dialogue");
+            _autoAdvance = true; yield return new WaitForSeconds(1); _autoAdvance = false;
+            while (_ui.DialogOpen) { _ui.Advance(); yield return new WaitForSeconds(.3f); }
+            var beforeCard = _lbCard;
+            _lbCard = LC.cards.First(c => !string.IsNullOrEmpty(c.visitor));
+            BShowPeep(); yield return Shot("ui_05_peephole");
+            Check(_ui.ScreenOpen, "visitor view opens with existing actions");
+            _ui.HideScreen(); _lbCard = beforeCard;
+            OpenPause(); yield return new WaitForSecondsRealtime(.3f);
+            yield return new WaitForEndOfFrame();
+            ScreenCapture.CaptureScreenshot(Path.Combine(_shotDir, "ui_06_pause.png"));
+            Check(_ui.ModalOpen && Time.timeScale == 0, "pause still freezes simulation");
+            _ui.CloseModal(); Check(Time.timeScale == 1, "resume restores simulation time");
             Log($"done errors={_errors} checksFailed={_checksFailed}"); _autoLog?.Close(); _autoLog = null;
             yield return new WaitForSeconds(.5f); Application.Quit();
         }

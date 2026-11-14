@@ -34,6 +34,15 @@ namespace TitanGate.Game
         {
             PaceEndBase();
             _bPaused = false; _bSpeed = 1f;
+            if (_bMode == 1)
+            {
+                _bHudSpeed = new VisualElement();
+                _bHudSpeed.style.position = Position.Absolute; _bHudSpeed.style.right = 24; _bHudSpeed.style.bottom = 24;
+                var pause = _ui.B(TT("Pause", "หยุดชั่วคราว"), OpenPause, 18);
+                _ui.CutButton(pause, true, "ESC", 18);
+                _bHudSpeed.Add(pause); _ui.Root.Add(_bHudSpeed);
+                return;
+            }
             if (_bMode != 0) return;
             _bHudSpeed = new VisualElement();
             _bHudSpeed.style.position = Position.Absolute; _bHudSpeed.style.right = 24; _bHudSpeed.style.bottom = 24;

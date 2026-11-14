@@ -315,28 +315,76 @@ namespace TitanGate.Game
 
         void SHud()
         {
-            _bHudPortrait.style.display = DisplayStyle.None;
-            bool show = !_ui.ScreenOpen;
-            _bHud.style.display = show ? DisplayStyle.Flex : DisplayStyle.None;
+            bool show = !_ui.ScreenOpen && !InCutscene;
+            _bHud.style.display = _bHudPortrait.style.display = show ? DisplayStyle.Flex : DisplayStyle.None;
+            if (_bHudSpeed != null) _bHudSpeed.style.display = show && !_ui.Blocking ? DisplayStyle.Flex : DisplayStyle.None;
             if (!show) return;
-            if (_sScramble || _sDone)
+            // Chapter 1 is a scripted morning, not the Mars action-time simulation.
+            _bHudDay.text = GameUI.Thai(TT("DAY 0", "วันที่ 0"));
+            _bHudDay.style.color = GameUI.Ink;
+            _bHudStock.text = "06:00";
+            _bHudStock.tooltip = TT("Kestrel · scripted morning briefing", "ยาน KESTREL · ช่วงเช้าของบทเปิดเรื่อง");
+            _bClockMarker.style.left = Length.Percent(25);
+            _bHudTimer.style.display = _bHudBar.style.display = _sScramble ? DisplayStyle.Flex : DisplayStyle.None;
+            if (_sScramble)
             {
-                _bHudDay.text = GameUI.Thai(_loc.T("ship.hud.emergency"));
-                _bHudDay.style.color = GameUI.CRed;
-                var names = new List<string>();
-                foreach (var h in _sHands) names.Add(_loc.T($"sup.{h}.name"));
-                _bHudStock.text = GameUI.Thai(_loc.T("ship.hud.hands", names.Count == 0 ? "—" : string.Join(", ", names), _sHands.Count, HandSlots));
-                _bHudNext.text = GameUI.Thai(_loc.T("ship.hud.lifeboat", _stowed.Count, StowSlots));
-                _bHudTimer.style.display = DisplayStyle.Flex; _bHudBar.style.display = DisplayStyle.Flex;
                 _bHudTimer.text = GameUI.Thai(_loc.T("ship.hud.timer", Mathf.CeilToInt(Mathf.Max(0, _sLeft))));
                 _bHudBar.style.width = Length.Percent(Mathf.Clamp01(_sLeft / _cfg.chapter1.scrambleSeconds) * 100f);
-                return;
             }
-            _bHudDay.text = GameUI.Thai(_loc.T("ship.hud.morning"));
-            _bHudDay.style.color = GameUI.CAmber;
-            _bHudStock.text = GameUI.Thai(_loc.T("ship.hud.quest", Mathf.Min(_sStep + 1, ShipSteps.Length), ShipSteps.Length));
-            _bHudNext.text = _sTarget == null ? "" : GameUI.Thai(_loc.T(ShipSteps[_sStep].textKey, _loc.T($"pet.{_sPet}.name")));
-            _bHudTimer.style.display = DisplayStyle.None; _bHudBar.style.display = DisplayStyle.None;
+            _bHudT -= Time.unscaledDeltaTime;
+            if (_bHudT > 0) return; _bHudT = .2f;
+            _bHudPortrait.Clear();
+            _bHudPortrait.Add(BPortraitPanel());
+            _bHudPortrait.Add(ShipHandsStrip());
+            _bHudPortrait.Add(ShipMissionPanel());
+        }
+
+        VisualElement ShipHandsStrip()
+        {
+            var strip = new VisualElement { pickingMode = PickingMode.Ignore };
+            strip.style.position = Position.Absolute; strip.style.left = 508; strip.style.bottom = 24;
+            strip.style.flexDirection = FlexDirection.Row; strip.style.alignItems = Align.Center;
+            strip.style.paddingLeft = 20; strip.style.paddingRight = 24; strip.style.paddingTop = strip.style.paddingBottom = 6;
+            strip.Add(GameUI.Plate(GameUI.Paper, GameUI.Ink, 15, true, 5));
+            strip.Add(_ui.L(TT("Carrying", "ของที่ถือ"), 17, true, GameUI.Ink));
+            for (int i = 0; i < HandSlots; i++)
+            {
+                var slot = new VisualElement { pickingMode = PickingMode.Ignore };
+                slot.style.width = slot.style.height = 28; slot.style.marginLeft = 5;
+                slot.style.backgroundColor = GameUI.CPanel2;
+                string item = _sScramble ? (i < _sHands.Count ? _sHands[i] : null) : i == 0 ? _sCarry : null;
+                if (item != null) slot.style.backgroundImage = new StyleBackground(Art.LooseSupply(item));
+                strip.Add(slot);
+            }
+            return strip;
+        }
+
+        VisualElement ShipMissionPanel()
+        {
+            var box = new VisualElement { pickingMode = PickingMode.Ignore };
+            box.style.position = Position.Absolute; box.style.right = 24; box.style.top = 24; box.style.width = 400;
+            box.style.paddingLeft = box.style.paddingRight = 18; box.style.paddingTop = 12; box.style.paddingBottom = 16;
+            box.Add(GameUI.Plate(GameUI.CPanel, _sScramble ? GameUI.CRed : GameUI.CAmber));
+            box.Add(_ui.L(_sScramble ? _loc.T("ship.hud.emergency") : TT("MISSION · KESTREL", "ภารกิจ · KESTREL"), 22, true, _sScramble ? GameUI.CRed : GameUI.CAmber));
+            if (_sScramble || _sDone)
+            {
+                box.Add(_ui.L(_loc.T("ship.hud.lifeboat", _stowed.Count, StowSlots), 23, true));
+                var names = new List<string>(); foreach (var h in _sHands) names.Add(_loc.T($"sup.{h}.name"));
+                box.Add(_ui.L(_loc.T("ship.hud.hands", names.Count == 0 ? "—" : string.Join(", ", names), _sHands.Count, HandSlots), 19));
+                return box;
+            }
+            for (int i = 0; i < ShipSteps.Length; i++)
+            {
+                bool done = i < _sStep, current = i == _sStep;
+                var line = new VisualElement { pickingMode = PickingMode.Ignore };
+                line.style.flexDirection = FlexDirection.Row; line.style.marginTop = 7;
+                var dot = new VisualElement { pickingMode = PickingMode.Ignore };
+                dot.style.width = dot.style.height = 12; dot.style.flexShrink = 0; dot.style.marginRight = 10; dot.style.marginTop = 7;
+                dot.style.backgroundColor = done ? GameUI.CGreen : current ? GameUI.CAmber : GameUI.CCyanD;
+                var label = _ui.L(_loc.T(ShipSteps[i].textKey, _loc.T($"pet.{_sPet}.name")), current ? 21 : 18, current, done ? GameUI.CGreen : current ? GameUI.CText : GameUI.CDim);
+                label.style.flexShrink = 1; line.Add(dot); line.Add(label); box.Add(line);
+            }
+            return box;
         }
     }
 }

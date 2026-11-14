@@ -57,11 +57,8 @@ namespace TitanGate.Game
 
         void StyleFlightButton(Button button, bool primary = false)
         {
-            GameUI.Border(button, primary ? GameUI.CAmber : GameUI.CCyanD, primary ? 2 : 1, 3);
-            button.style.borderLeftWidth = primary ? 7 : 3;
-            button.style.borderBottomWidth = 4;
-            button.style.borderBottomColor = new Color(.025f, .045f, .08f);
-            if (primary) { button.style.backgroundColor = GameUI.CAmber; button.style.color = GameUI.Ink; }
+            // The shared GameUI button skin owns idle, hover and keyboard-focus visuals.
+            GameUI.Border(button, Color.clear, 0, 0);
         }
     }
 }

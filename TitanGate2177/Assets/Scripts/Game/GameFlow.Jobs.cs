@@ -737,7 +737,7 @@ namespace TitanGate.Game
         VisualElement JobBagStrip()
         {
             var s = new VisualElement { pickingMode = PickingMode.Ignore };
-            s.style.position = Position.Absolute; s.style.left = 453; s.style.bottom = 24; s.style.flexDirection = FlexDirection.Row; s.style.alignItems = Align.Center;
+            s.style.position = Position.Absolute; s.style.left = 508; s.style.bottom = 24; s.style.flexDirection = FlexDirection.Row; s.style.alignItems = Align.Center;
             s.Add(GameUI.Plate(GameUI.Paper, GameUI.Ink, 15, true, 5));
             s.style.paddingLeft = 16; s.style.paddingRight = 22; s.style.paddingTop = s.style.paddingBottom = 6;
             s.Add(_ui.Hotkey("Tab"));

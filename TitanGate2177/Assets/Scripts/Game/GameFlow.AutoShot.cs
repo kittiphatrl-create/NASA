@@ -45,7 +45,7 @@ namespace TitanGate.Game
             else if (typography) _autoRoute = "typography-" + Screen.width;
             else if (story) _autoRoute = "story";
             else if (ux) _autoRoute = "ux";
-            else if (shipTop) _autoRoute = "ship";
+            else if (shipTop) _autoRoute = "ship-" + Screen.width;
             if (play) _autoRoute = "play";
             else if (walkBase) _autoRoute = "base";
             else if (lifeboat) _autoRoute = "lifeboat";
