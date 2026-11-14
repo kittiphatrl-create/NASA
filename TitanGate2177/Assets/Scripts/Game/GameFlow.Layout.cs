@@ -150,9 +150,10 @@ namespace TitanGate.Game
             for (int i = 0; i < 3; i++) BLamp(new Vector2(10.8f + i * 2.6f, 17.2f), new Color(0.95f, 0.35f, 0.95f), 3.2f, 0.6f);
 
             // ---- Crew quarters (x 18-25, y 14-19): bunks, the pet's bowl
-            BDeco(Art.Bed(), 19.8f, 18.6f, 3);
-            BDeco(Art.Bed(), 19.8f, 16.4f, 3);
-            BProp("bowl", "ship.spot.bowl", Art.PetBowl(false), 24.4f, 14.6f, new Vector2(23.6f, 15.0f));
+            // beds sit clear of the lab door at x 17 (they used to block it); no pet bowl without pets
+            BDeco(Art.Bed(), NoPets ? 22.4f : 19.8f, 18.6f, 3);
+            BDeco(Art.Bed(), NoPets ? 22.4f : 19.8f, 16.4f, 3);
+            if (!NoPets) BProp("bowl", "ship.spot.bowl", Art.PetBowl(false), 24.4f, 14.6f, new Vector2(23.6f, 15.0f));
             BDeco(Art.Locker(false), 25.1f, 19.12f, 1);
             BSprite("porthole", Art.Porthole(false), new Vector2(22.2f, 20f), SortY(20) + 1);
             BLamp(new Vector2(21.5f, 16.5f), new Color(1f, 0.85f, 0.6f), 5.5f, 0.5f);

@@ -82,7 +82,7 @@ namespace TitanGate.Game
             public RectInt rect;
             public bool horizontal;   // a door in a horizontal wall (you walk through it up or down)
             public SpriteRenderer sr;
-            public float open;
+            public float open, lastSound = -10f;
             public bool wantOpen;
             public Vector2 center;
         }
@@ -139,12 +139,12 @@ namespace TitanGate.Game
                     for (int y = g.rect.yMin; y < g.rect.yMax; y++) _bSolid[x, y] = shut;   // a locked door blocks the way
                 float reach = g.horizontal ? Mathf.Max(Mathf.Abs(_bPos.x - g.center.x) - g.rect.width * .5f, 0) + Mathf.Abs(_bPos.y - g.center.y) * .8f
                                            : Mathf.Max(Mathf.Abs(_bPos.y - g.center.y) - g.rect.height * .5f, 0) + Mathf.Abs(_bPos.x - g.center.x) * .8f;
-                bool want = !shut && reach < 1.7f;
+                bool want = !shut && reach < (g.wantOpen ? 2.4f : 1.7f);   // opens at 1.7, closes past 2.4: no flicker at the edge
                 if (want != g.wantOpen)
                 {
                     g.wantOpen = want;
                     float vol = Mathf.Clamp01(1.2f - Vector2.Distance(_bPos, g.center) / 8f);
-                    if (vol > 0.05f) _sfx.Play(want ? "door_open" : "door_close", vol);
+                    if (vol > 0.05f && Time.time - g.lastSound > 0.6f) { g.lastSound = Time.time; _sfx.Play(want ? "door_open" : "door_close", vol * 0.7f); }
                 }
                 g.open = Mathf.MoveTowards(g.open, want ? 1f : 0f, dt * 4.5f);
                 var s = Art.Door(g.horizontal, locked, Mathf.RoundToInt(g.open * 3));

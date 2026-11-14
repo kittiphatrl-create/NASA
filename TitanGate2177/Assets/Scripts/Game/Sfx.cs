@@ -53,6 +53,8 @@ namespace TitanGate.Game
                 ("thud", "lowFrequency_explosion_000"), ("whoosh", "thrusterFire_000"), ("rumble", "spaceEngineLow_000"), ("shield", "forceField_000"),
                 ("rover", "engineCircular_000"), ("console", "computerNoise_000"), ("clank", "impactMetal_002") })
             { var clip = Resources.Load<AudioClip>("Audio/KenneySciFi/" + file); if (clip != null) _clips[id] = clip; }
+            // the door sound the user chose (space-ship-door-open, freesound_community): both opening and closing
+            { var door = Resources.Load<AudioClip>("Audio/Doors/door"); if (door != null) { _clips["door_open"] = door; _clips["door_close"] = door; } }
 
             Loopable("heart", 0.45f, false);
             Loopable("siren", 0.25f, false);

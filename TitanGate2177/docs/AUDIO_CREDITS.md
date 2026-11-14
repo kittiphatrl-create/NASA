@@ -29,6 +29,10 @@ From **Sci-Fi Sounds 1.0** by **Kenney** (www.kenney.nl), CC0. Mirror: https://o
 | `thrusterFire_000.ogg` | trips outside, lifeboat launch |
 | `lowFrequency_explosion_000.ogg` | the debris impact |
 
+## Door sound: `Assets/Resources/Audio/Doors/door.mp3`
+
+"space-ship-door-open" (file `freesound_community-space-ship-door-open-47688.mp3`) by freesound_community. The user supplied it on 2026-11-15. It plays when sliding doors open and when they close. Check the license on the source page (Pixabay content license) before the final submission.
+
 ## UI sounds
 
 The interface sounds are by Kenney (CC0). See `docs/Kenney-Interface-Sounds-LICENSE.txt`.
