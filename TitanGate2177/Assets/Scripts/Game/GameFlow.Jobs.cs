@@ -280,7 +280,9 @@ namespace TitanGate.Game
             if (_bMode != 0 || _life == null) return null;
             if (_emType == "power" && spotId == "breaker") return Jobs["em_power"];
             if (_emType == "leak" && spotId == "leak") return Jobs["em_leak"];
-            if (_lbView == LbView.Card && _lbCard != null && string.IsNullOrEmpty(_lbCard.visitor) && Jobs.TryGetValue(_lbCard.id, out var d) && d.spot == spotId) return d;
+            if (_lbView != LbView.Card) return null;
+            foreach (var c in _life.OpenCards())
+                if (string.IsNullOrEmpty(c.visitor) && Jobs.TryGetValue(c.id, out var d) && d.spot == spotId) return d;
             return null;
         }
 
@@ -293,7 +295,7 @@ namespace TitanGate.Game
             return _life.State.guests.Contains(w.guest) ? w.guest : null;
         }
 
-        LifeOption WayOption(JobDef d, JobWay w) => d.id.StartsWith("em_") || w.option == null ? null : _lbCard.options.Find(o => o.id == w.option);
+        LifeOption WayOption(JobDef d, JobWay w) => d.id.StartsWith("em_") || w.option == null ? null : (_life.Config.GetCard(d.id) ?? _lbCard).options.Find(o => o.id == w.option);
 
         /// <summary>Can this way be used now? reason = what is missing (never what it costs).</summary>
         bool WayReady(JobDef d, JobWay w, out string reason)
@@ -491,7 +493,7 @@ namespace TitanGate.Game
             JobRelease();
             if (em) { EmEnd(); _bOpen = false; return; }
             var opt = WayOption(d, w);
-            if (opt == null || _life.Choose(_lbCard.id, opt.id) == null) { _bOpen = false; return; }
+            if (opt == null || _life.Choose(d.id, opt.id) == null) { _bOpen = false; return; }
             _life.State.flags.Remove("recycler_broken");
             if (d.id.StartsWith("beacon") && w.option == "climb") RadAdd(1.5f, TT("Working outside on the dish", "ปีนซ่อมจานข้างนอก"));
             LbNextCard();
@@ -542,7 +544,8 @@ namespace TitanGate.Game
             if (_bMode != 0 || _life == null) return;
             if (_jobDelegate == null) return;
             bool em = _jobDelegate.id.StartsWith("em_");
-            bool stillThere = em ? _emType != null && Jobs.TryGetValue("em_" + _emType, out var ej) && ej == _jobDelegate : CardJob == _jobDelegate;
+            string delegateId = _jobDelegate.id;
+            bool stillThere = em ? _emType != null && Jobs.TryGetValue("em_" + _emType, out var ej) && ej == _jobDelegate : _lbView == LbView.Card && _life.OpenCards().Exists(c => c.id == delegateId);
             if (!stillThere || !_life.State.guests.Contains(_jobDelegateGuest)) { JobRelease(); return; }
             if (!_crewHere.Contains(_jobDelegateGuest) || _ui.Blocking || _bGather) return;
             _jobDelegateT += dt;
@@ -557,13 +560,15 @@ namespace TitanGate.Game
             }
             var opt = WayOption(d, w) ?? WayOption(d, d.ways[0]);
             if (opt == null || !_life.CanChoose(opt, out _)) { JobRelease(); return; }
-            _bOpen = true;
-            _life.Choose(_lbCard.id, opt.id);
+            _life.Choose(d.id, opt.id);
+            _life.State.flags.Remove("recycler_broken");
             _life.State.schedule.TrySpend(0.5f);
+            DayNote(TT("Fixed by ", "ซ่อมโดย") + LbName(who) + ": " + TT(d.en, d.th));
             _ui.Toast(TT(LbName(who) + " fixed it for you!", LbName(who) + " ซ่อมเสร็จให้แล้ว!"), GameUI.CGreen);
             _sfx.Play("good");
             JobRelease();
-            LbNextCard();
+            // the friend fixed a job you were not looking at: keep what you are doing, unless the day's list is now empty
+            if (_lbCard == null || _lbCard.id == d.id || _life.NextCard() == null) LbNextCard();
         }
 
         // ------------------------------------------------------------------ toolbox and bag

@@ -8227,8 +8227,8 @@
   },
   {
    "k": "base.hud.controls",
-   "en": "WASD or click to walk · Shift run · E use · Tab numbers · follow the yellow arrow",
-   "th": "WASD หรือคลิกเพื่อเดิน · Shift วิ่ง · E ใช้ · Tab ดูตัวเลข · เดินตามลูกศรสีเหลือง"
+   "en": "WASD or click to walk · Shift run · E use · Tab bag · P pause · F speed · ! = something to do",
+   "th": "WASD/คลิกเพื่อเดิน · Shift วิ่ง · E ใช้ · Tab กระเป๋า · P หยุดเวลา · F เร่งเวลา · ! = มีงานรอ"
   },
   {
    "k": "base.hud.next",
@@ -8257,8 +8257,8 @@
   },
   {
    "k": "base.place.air",
-   "en": "air maker",
-   "th": "เครื่องผลิตอากาศ"
+   "en": "oxygen maker (MOXIE)",
+   "th": "เครื่องผลิตออกซิเจน (MOXIE)"
   },
   {
    "k": "base.place.crate",
@@ -8307,8 +8307,8 @@
   },
   {
    "k": "base.place.board",
-   "en": "mission board",
-   "th": "กระดานภารกิจ"
+   "en": "project board",
+   "th": "บอร์ดโครงการ"
   },
   {
    "k": "base.spot.bed",
@@ -8477,8 +8477,8 @@
   },
   {
    "k": "ship.intro.2",
-   "en": "A ship only works if the crew keeps it running. Morning jobs first! {0} is hungry. Follow the yellow arrow.",
-   "th": "ยานจะอยู่ได้ถ้าลูกเรือดูแลมันทุกวัน เริ่มงานเช้ากันก่อน! {0} หิวแล้ว เดินตามลูกศรสีเหลืองไปเลย"
+   "en": "A ship only works if the crew keeps it running. Morning jobs first! {0} is hungry. Look for the ! sign.",
+   "th": "ยานจะอยู่ได้ถ้าลูกเรือดูแลมันทุกวัน เริ่มงานเช้ากันก่อน! {0} หิวแล้ว มองหาเครื่องหมาย !"
   },
   {
    "k": "ship.q.food",
@@ -8607,8 +8607,8 @@
   },
   {
    "k": "ship.look.other",
-   "en": "{0}: not now. Follow the yellow arrow.",
-   "th": "{0}: ยังไม่ใช่ตอนนี้ เดินตามลูกศรสีเหลือง"
+   "en": "{0}: not now. Look for the ! sign.",
+   "th": "{0}: ยังไม่ใช่ตอนนี้ มองหาเครื่องหมาย !"
   },
   {
    "k": "ship.spot.plants",
@@ -8677,8 +8677,8 @@
   },
   {
    "k": "ship.hud.lifeboat",
-   "en": "Lifeboat: {0}/{1} — follow the floor arrows to the bay and click the orange pod",
-   "th": "ยานชูชีพ: {0}/{1} — เดินตามลูกศรบนพื้นไปห้องจอด แล้วคลิกยานสีส้ม"
+   "en": "Lifeboat: {0}/{1} — carry supplies to the bay (the ! sign) and click the orange pod",
+   "th": "ยานชูชีพ: {0}/{1} — ขนของไปห้องจอด (ที่มีเครื่องหมาย !) แล้วคลิกยานสีส้ม"
   },
   {
    "k": "ship.hud.timer",

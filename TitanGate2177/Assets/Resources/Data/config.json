@@ -783,7 +783,7 @@
   "sliceDays": 0,
   "health": 3,
   "start": {
-   "o2": 10,
+   "o2": 11,
    "water": 8,
    "food": 6,
    "power": 4
@@ -2307,7 +2307,7 @@
    "o2": 2,
    "water": 0,
    "food": 0,
-   "power": 2
+   "power": 1.5
   },
   "scans": [
    "thermal",

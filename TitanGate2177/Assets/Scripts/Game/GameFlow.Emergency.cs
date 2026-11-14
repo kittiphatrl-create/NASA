@@ -1,4 +1,4 @@
-// PROTOTYPE - NOT FOR PRODUCTION
+﻿// PROTOTYPE - NOT FOR PRODUCTION
 // Question: Do surprise emergencies (a locked room, a storm, a leak) add pressure that players enjoy solving?
 // Date: 2026-11-13
 using System.Collections;
@@ -54,8 +54,10 @@ namespace TitanGate.Game
                 _emDayClock = 0;
                 var rng = new System.Random((SeedOverride >= 0 ? SeedOverride : 1000) * 31 + _emDay * 7);
                 // an emergency strikes at a random hour between 09:00 and 16:00 (game time, so it fits any pace)
-                _emAt = _emDay >= 2 && (_autoLog == null || _playtest) && rng.NextDouble() < 0.75 ? 9f + (float)rng.NextDouble() * 7f : -1;   // the screenshot pass forces its own
+                _emAt = _emDay >= 2 && (_autoLog == null || _playtest) && rng.NextDouble() < 0.55 ? 9f + (float)rng.NextDouble() * 7f : -1;   // the screenshot pass forces its own
                 _emPlanned = new[] { "power", "flare", "leak" }[rng.Next(3)];
+                // project "seal the hub seams": most leaks never happen
+                if (_emPlanned == "leak" && _life.State.flags.Contains("hub_sealed") && rng.NextDouble() < 0.7) _emAt = -1;
             }
             // daytime = free to walk before dinner (events still open or not): the emergency clock keeps running in free time
             bool daytime = (_lbView == LbView.Card || _lbView == LbView.Ration) && !_bOpen && !_ui.Blocking && !_bGather && _life.State.schedule.Hour < DinnerHour;
@@ -273,6 +275,7 @@ namespace TitanGate.Game
                              : TT("Nobody fixed the leak. Air hissed out all night before the crew patched it.", "ไม่มีใครซ่อมรอยรั่ว อากาศรั่วออกไปทั้งคืนกว่าจะอุดได้"), GameUI.CRed);
                 EmEnd();
             }
+            if (_life.State.flags.Contains("battery_plus")) _life.ApplyTask(new Stock { power = 0.5f });   // project: second battery string
             if (_life.State.flags.Contains("recycler_broken") && _life.State.stock.water > 0)
             {
                 _life.ApplyTask(new Stock { water = -Mathf.Min(1f, _life.State.stock.water) });

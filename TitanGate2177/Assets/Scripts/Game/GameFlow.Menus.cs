@@ -78,7 +78,7 @@ namespace TitanGate.Game
 
         void ContinueGame()
         {
-            if (Settings.SaveRoute == "lifeboat") { StartLifeboat(Settings.SaveItems, Settings.SavePet); return; }
+            if (Settings.SaveRoute == "lifeboat") { _lbContinueDay = HasDaySave; StartLifeboat(Settings.SaveItems, Settings.SavePet); return; }
             _cabinO2 = Settings.SaveCabin;
             _stowed.Clear();
             _stowed.AddRange(Settings.SaveItems);

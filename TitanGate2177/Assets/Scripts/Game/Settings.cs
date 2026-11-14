@@ -59,6 +59,7 @@ namespace TitanGate.Game
         public static void ClearCheckpoint()
         {
             PlayerPrefs.DeleteKey("save_route");
+            PlayerPrefs.DeleteKey("save_day");   // the nightly base save (GameFlow.Pace.cs) belongs to the same run
             PlayerPrefs.Save();
         }
     }

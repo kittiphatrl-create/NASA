@@ -14,7 +14,8 @@ namespace TitanGate.Game
     /// </summary>
     public partial class GameFlow
     {
-        const float SecondsPerHour = 18f, DinnerHour = 18f, LateHour = 20f;
+        // about 6 real minutes from 06:00 to 20:00 (was 4): enough to run the base, not just rush it
+        const float SecondsPerHour = 26f, DinnerHour = 18f, LateHour = 20f;
         bool _bLateDone, _bDinnerToast, _autoClock;
 
         /// <summary>Time passes while you are free to walk. At 20:00 whatever is still open is decided for you.</summary>

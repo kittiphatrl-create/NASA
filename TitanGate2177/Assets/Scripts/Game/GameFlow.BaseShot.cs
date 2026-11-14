@@ -24,7 +24,7 @@ namespace TitanGate.Game
             float h0 = _life.State.schedule.Hour; _autoClock = true;
             yield return new WaitForSeconds(2.2f);
             _autoClock = false;
-            Check(_life.State.schedule.Hour > h0 + 0.1f, "the day clock runs while you walk around");
+            Check(_life.State.schedule.Hour > h0 + 0.06f, "the day clock runs while you walk around");   // 2.2 s at 26 s per hour ≈ 0.085 h
 
             // hands-on jobs on day 1: plant, drill, walk outside
             yield return AutoWalkUse("plot0");

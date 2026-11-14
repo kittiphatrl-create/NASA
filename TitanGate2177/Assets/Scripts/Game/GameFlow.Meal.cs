@@ -198,7 +198,7 @@ namespace TitanGate.Game
                     _mealCards.Add((row, who));
                     book.Add(row);
                 }
-                bool makerCan = _life.CanRunMaker; if (!makerCan) _lbMaker = false;
+                bool makerCan = _life.CanRunMaker && !_bDone.Contains("moxie"); if (!makerCan) _lbMaker = false;   // once a day: by day at the machine, or here
                 if (LC.o2Maker.o2 > 0)
                 {
                     var mk = _ui.B(_loc.T(_lbMaker ? "base.meal.maker_on" : "base.meal.maker_off"), () => { _lbMaker = !_lbMaker; LbShow(); }, 19, _lbMaker);

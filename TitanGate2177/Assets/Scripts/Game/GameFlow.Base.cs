@@ -43,6 +43,7 @@ namespace TitanGate.Game
         bool[,] _bWall, _bSolid;
         readonly List<BSpot> _bSpots = new List<BSpot>();
         SpriteRenderer _bPlayer, _bPet, _bMarker, _bArrow, _bDark, _bDust, _bDoor, _bKnocker, _bHeart;
+        float _bPetWalkT; int _bPetDir;
         readonly List<SpriteRenderer> _bGuests = new List<SpriteRenderer>();
         readonly List<(SpriteRenderer sr, float strength)> _bLamps = new List<(SpriteRenderer, float)>();
         Vector2 _bPos, _bPetPos;
@@ -88,6 +89,7 @@ namespace TitanGate.Game
             EmReset();
             JobReset(); _dayNotes.Clear();
             _bOpen = false; _bEventKey = null; _bTimer = -1; _bDay = -1; _bKnockPending = false; _bSuitT = -1; _bDoorOpen = false;
+            _bTimerCard = null; _bAnnounced.Clear(); _bTaskMarks.Clear(); _bTaskSpots.Clear();
             _bFriend.Clear();
             _bDone.Clear(); _bMax.Clear();
             for (int i = 0; i < 3; i++) { _bPlot[i] = 0; _bPlotReady[i] = 0; }
@@ -161,6 +163,7 @@ namespace TitanGate.Game
             _bSpots.Clear(); _bGuests.Clear(); _bLamps.Clear(); _bShadows.Clear(); _sFx.Clear(); _bFaceWalls.Clear();
             if (_bHud != null) { _bHud.RemoveFromHierarchy(); _bHud = null; }
             if (_bHudPortrait != null) { _bHudPortrait.RemoveFromHierarchy(); _bHudPortrait = null; }
+            PaceEndBase();
             if (_rig != null && _rig.cam != null) _rig.cam.enabled = true;
         }
 
@@ -358,6 +361,54 @@ namespace TitanGate.Game
 
         static bool BUrgent(LifeCard c) => c != null && (c.id == "storm_last" || c.id == "storm_power");
 
+        /// <summary>A visitor knocks from this hour even while jobs are still open (they wait at the door).</summary>
+        const float VisitorHour = 11f;
+
+        LifeCard _bTimerCard;                                         // the card a running knock/alarm timer belongs to
+        readonly HashSet<string> _bAnnounced = new HashSet<string>();  // cards already announced today (toast, knock)
+        readonly List<SpriteRenderer> _bTaskMarks = new List<SpriteRenderer>();
+        readonly HashSet<string> _bTaskSpots = new HashSet<string>();  // spots with a "!" this frame
+
+        /// <summary>
+        /// The card the base treats as "current" (toasts, knock, the bot). The player is free to walk to any other
+        /// open job and do it first. A visitor at the door or a running alarm stays current; a storm alarm comes
+        /// first; the visitor knocks once the morning is over or nothing else is left.
+        /// </summary>
+        LifeCard LbFocus()
+        {
+            var open = _life.OpenCards();
+            if (open.Count == 0) return null;
+            if (_bTimerCard != null && open.Contains(_bTimerCard)) return _bTimerCard;
+            var urgent = open.Find(BUrgent);
+            if (urgent != null) return urgent;
+            var visitor = open.Find(c => !string.IsNullOrEmpty(c.visitor));
+            var job = open.Find(c => string.IsNullOrEmpty(c.visitor));
+            if (visitor != null && (job == null || _life.State.schedule.Hour >= VisitorHour)) return visitor;
+            return job ?? visitor;
+        }
+
+        /// <summary>A knock or an alarm interrupts whatever job is current (the job itself stays open).</summary>
+        void BRefocus()
+        {
+            if (_life == null || _lbView != LbView.Card || _bOpen || _ui.Blocking || _busy || _bKnockPending || ActionLocked) return;
+            var f = LbFocus();
+            if (f == null || f == _lbCard) return;
+            if (string.IsNullOrEmpty(f.visitor) && !BUrgent(f)) return;
+            _lbCard = f;
+            BOnEvent();
+        }
+
+        /// <summary>The visitor waiting at the door right now, if any.</summary>
+        LifeCard BKnockCard() =>
+            _bTimerCard != null && !string.IsNullOrEmpty(_bTimerCard.visitor) && (_life == null || !_life.State.answered.Contains(_bTimerCard.id)) ? _bTimerCard
+            : _lbCard != null && !string.IsNullOrEmpty(_lbCard.visitor) ? _lbCard : null;
+
+        bool BHasTask(string id) => id == BActiveSpot || _bTaskSpots.Contains(id);
+
+        Vector3 BMarkTop(BSpot spot, bool knocker) =>
+            spot.id == "hatch" ? (knocker ? new Vector3(_bHatch.x + 1, _bKnocker.bounds.max.y + 0.15f, 0) : new Vector3(_bHatch.x + 1, _bHatch.y + 1.9f, 0))
+            : spot.sr != null && spot.sr.sprite != null ? new Vector3(spot.sr.bounds.center.x, spot.sr.bounds.max.y + 0.1f, 0) : (Vector3)(spot.pos + Vector2.up);
+
         string BActiveSpot => _bMode == 1 ? (_bRoot == null ? null : _sTarget) : _bRoot == null || _bOpen || _bKnockPending || _life == null || _life.State.outcome != LifeOutcome.Ongoing ? null
             : _lbView == LbView.Card ? BCardSpot(_lbCard) : _lbView == LbView.Ration ? "seats" : null;
 
@@ -375,10 +426,16 @@ namespace TitanGate.Game
         {
             // a new day (or a new card) gets everyone up from the pod seats, even on a day with no events at all
             if (_lbView == LbView.Card || _life.State.day != _bDay) BEndGather();
-            if (_life.State.day != _bDay) BNewDay();
+            bool newDay = _life.State.day != _bDay;
+            if (newDay) BNewDay();
             string key = _lbView == LbView.Ration ? "ration" + _life.State.day : _lbCard.id;
-            if (key == _bEventKey) return;
+            if (!_bAnnounced.Add(key)) return;
             _bEventKey = key;
+            if (newDay && _lbView == LbView.Card)
+            {
+                int jobs = _life.OpenCards().FindAll(c => string.IsNullOrEmpty(c.visitor)).Count;
+                if (jobs > 1) _ui.Toast(TT(jobs + " jobs today, marked with ! . Do them in any order you like.", "วันนี้มีงาน " + jobs + " อย่าง (ดูเครื่องหมาย !) ทำอันไหนก่อนก็ได้"), GameUI.CCyan);
+            }
             _bTimer = -1; _bTimerAlarm = false;
             string place = _loc.T("base.place." + BActiveSpot);
             if (_lbView == LbView.Ration)
@@ -390,14 +447,14 @@ namespace TitanGate.Game
             {
                 if (BIsOutside(_bPos)) { _bKnockPending = true; return; }   // nobody knocks while you are outside
                 if (_bDoorOpen && !BInDoorway()) BSetDoor(false);
-                _bTimer = LC.visitorWaitSeconds;
+                _bTimer = LC.visitorWaitSeconds; _bTimerCard = _lbCard;
                 StartCoroutine(BKnock());
                 _sShake = 0.15f;
                 _ui.Toast(_loc.T("base.toast.knock"), GameUI.CAmber);
             }
             else if (BUrgent(_lbCard))
             {
-                _bTimer = LC.alarmSeconds; _bTimerAlarm = true;
+                _bTimer = LC.alarmSeconds; _bTimerAlarm = true; _bTimerCard = _lbCard;
                 _sfx.Play("alarm");
                 _sShake = 0.6f;
                 _ui.Toast(_loc.T("base.toast.alarm", _loc.T($"life.card.{_lbCard.id}.title"), Mathf.RoundToInt(LC.alarmSeconds)), GameUI.CRed);
@@ -433,7 +490,7 @@ namespace TitanGate.Game
 
         void BUseDoor()
         {
-            if (_lbView == LbView.Card && _lbCard != null && !string.IsNullOrEmpty(_lbCard.visitor) && !_bKnockPending)
+            if (_lbView == LbView.Card && BKnockCard() != null && !_bKnockPending)
             {
                 _sfx.Play("bad");
                 _ui.Toast(_loc.T("base.door.locked"), GameUI.CRed);
@@ -474,6 +531,7 @@ namespace TitanGate.Game
                 {
                     _bKnockPending = false;
                     _bEventKey = null;
+                    if (_lbCard != null) _bAnnounced.Remove(_lbCard.id);
                     BOnEvent();
                 }
             }
@@ -491,14 +549,14 @@ namespace TitanGate.Game
             if (!first) BRespawnSalvage();
             _bDay = _life.State.day;
             _bDone.Clear();
-            if (first) _bSeeds = _life.State.items.Contains("seed_pack") ? LC.seedsWithPack : LC.seedsBase;
+            if (first && !_bSeedsRestored) _bSeeds = _life.State.items.Contains("seed_pack") ? LC.seedsWithPack : LC.seedsBase;
             else
             {
                 // overnight: plants grow if the grow lamps had power
                 bool lamps = _life.State.stock.power >= 1;
                 bool any = false;
                 for (int i = 0; i < 3; i++)
-                    if (_bPlot[i] > 0 && _bPlot[i] < 3) { any = true; if (lamps) _bPlot[i] = Mathf.Min(3, _bPlot[i] + (_life.State.guests.Contains("kira") || _life.State.guests.Contains("aya") || _life.State.guests.Contains("bizz") ? 2 : 1)); }
+                    if (_bPlot[i] > 0 && _bPlot[i] < 3) { any = true; if (lamps) _bPlot[i] = Mathf.Min(3, _bPlot[i] + (_life.State.guests.Contains("kira") || _life.State.guests.Contains("aya") || _life.State.guests.Contains("bizz") ? 2 : 1) + (_life.State.flags.Contains("grow_lamps") ? 1 : 0)); }
                 if (any && !lamps) _ui.Toast(_loc.T("base.plot.nolamp"), GameUI.CAmber);
             }
             _bPanelsDusty = _bDay >= 2;
@@ -511,7 +569,7 @@ namespace TitanGate.Game
             if (_bMode == 0 && _lbView == LbView.Ration && !_bGather) { StartCoroutine(BGather()); return; }
             if (_bMode == 0 && _lbView == LbView.Card && CardJob != null) { JobShow(CardJob); return; }   // a repair job: fetch parts, solve the panel
             _bOpen = true;
-            _bTimer = -1;
+            if (_bTimerCard == null || _bTimerCard == _lbCard) _bTimer = -1;
             _bPath = null; _bGoal = null;
             _sfx.Play("open");
             LbShow();
@@ -558,7 +616,9 @@ namespace TitanGate.Game
         void BTimeout()
         {
             _bTimer = -1;
-            if (_lbView != LbView.Card || _lbCard == null) return;
+            if (_lbView != LbView.Card) return;
+            if (_bTimerCard != null && _life.OpenCards().Contains(_bTimerCard)) _lbCard = _bTimerCard;
+            if (_lbCard == null) return;
             LifeOption pick = null;
             for (int i = _lbCard.options.Count - 1; i >= 0 && pick == null; i--)
                 if (_life.CanChoose(_lbCard.options[i], out _)) pick = _lbCard.options[i];
@@ -582,6 +642,12 @@ namespace TitanGate.Game
         void BUseResolved(BSpot s)
         {
             if (_bMode == 1) { SUse(s); return; }
+            if (_bMode == 0 && _lbView == LbView.Card && !_bOpen && _life != null && s.id != BActiveSpot)
+            {
+                // free order: walk up to any open job and do it now; the visitor's door only once they knocked
+                var other = _life.OpenCards().Find(c => BCardSpot(c) == s.id && (string.IsNullOrEmpty(c.visitor) || c == BKnockCard()));
+                if (other != null) { _lbCard = other; _bAnnounced.Add(other.id); _bEventKey = other.id; BOpenEvent(); return; }
+            }
             if (s.id == BActiveSpot) { BOpenEvent(); return; }
             if (_bMode == 0 && EmTryFix(s)) return;
             if (_bMode == 0 && s.id == "toolbox") { JobShowToolbox(); return; }
@@ -628,10 +694,8 @@ namespace TitanGate.Game
                     if (_bDone.Add("pet_comfort")) st.morale = Mathf.Min(100, st.morale + 5);
                     _ui.Toast(_loc.T("base.pet", LbName(LifeboatSim.Pet)), GameUI.CGreen);
                     break;
-                case "board":
-                    _ui.Toast(_loc.T("base.board", LC.daysTotal), GameUI.CCyan);
-                    _ui.Toast(_loc.T("base.toast.flare", _bFlare.date, _bFlare.cls), GameUI.CAmber);
-                    break;
+                case "board": ProjectsShow(); break;   // pick the base projects you want (GameFlow.Pace.cs)
+                case "air": MoxieShow(); break;        // run the oxygen maker any time of day
                 case "shelf_o2": _ui.Toast(_loc.T("base.shelf", _loc.T("life.res.o2"), LbNum(st.stock.o2)), GameUI.CCyan); break;
                 case "shelf_water":
                     _ui.Toast(_loc.T("base.shelf", _loc.T("life.res.water"), LbNum(st.stock.water)), GameUI.CCyan);
@@ -666,7 +730,7 @@ namespace TitanGate.Game
             BSpotById("beacon").sr.sprite = Art.Dish(st.flags.Contains(LC.beaconFlag));
             BSpotById("locker").sr.sprite = Art.Locker(st.flags.Contains("locker_locked") ? false : st.day >= 3);
             var crate = BSpotById("crate");
-            bool crateOut = _lbView == LbView.Card && _lbCard != null && (_lbCard.id == "crate" || _lbCard.id == "far_crate");
+            bool crateOut = _lbView == LbView.Card && _life.OpenCards().Exists(c => c.id == "crate" || c.id == "far_crate");
             crate.sr.enabled = crateOut;
 
             // the pet and the guests who live here now
@@ -712,7 +776,7 @@ namespace TitanGate.Game
                 if (_bTimer <= 0) BTimeout();
             }
             if (_bMode == 0 && !_ui.Blocking) BDoorAndSuit(dt);
-            if (_bMode == 0) { EmUpdate(dt); BClock(dt); JobUpdate(dt); RadUpdate(dt); }
+            if (_bMode == 0) { EmUpdate(dt); BClock(dt); JobUpdate(dt); RadUpdate(dt); BRefocus(); PaceUpdate(kb); }
 
             if (!_ui.Blocking && kb != null && kb.escapeKey.wasPressedThisFrame) { _ui.SetHover(null, Vector2.zero); OpenPause(); return; }
             Vector2 move = Vector2.zero;
@@ -745,7 +809,7 @@ namespace TitanGate.Game
             if (hover != null)
             {
                 string name = hover.nameKey == null ? "" : _loc.Has(hover.nameKey) ? _loc.T(hover.nameKey) : hover.nameKey;
-                if (hover.id == BActiveSpot) name = "! " + name;
+                if (BHasTask(hover.id)) name = "! " + name;
                 name += BTimeHint(hover.id);
                 var top = hover.sr != null && hover.sr.sprite != null ? new Vector3(hover.sr.bounds.center.x, hover.sr.bounds.max.y + 0.2f, 0) : (Vector3)(hover.pos + Vector2.up);
                 _ui.SetHover(name, _ui.WorldToPanel(top, _bCam));
@@ -847,7 +911,7 @@ namespace TitanGate.Game
                 if (s.nameKey == null || s.sr != null && (!s.sr.enabled || !s.sr.gameObject.activeInHierarchy)) continue;
                 var stand = s.id == "pet" || s.id.StartsWith("guest") ? (Vector2)s.sr.transform.position : s.stand;
                 float d = Vector2.Distance(stand, _bPos);
-                if (s.id == BActiveSpot) d -= 0.5f;
+                if (BHasTask(s.id)) d -= 0.5f;
                 if (d < bd) { bd = d; best = s; }
             }
             return best;
@@ -962,10 +1026,21 @@ namespace TitanGate.Game
             while (_bTrail.Count > 6) _bTrail.RemoveAt(0);
             if (_bPet.gameObject.activeSelf)
             {
+                var petWas = _bPetPos;
                 if (_bTrail.Count >= 5 && !_bGather && !_petStay) _bPetPos = Vector2.MoveTowards(_bPetPos, _bTrail[0], BSpeed * 0.95f * dt);
-                float bob = _petStay ? 0 : Vector2.Distance(_bPetPos, _bTrail.Count > 0 ? _bTrail[0] : _bPetPos) > 0.05f ? Mathf.Abs(Mathf.Sin(_bAnim * 14)) * 0.08f : 0;
-                if (_bTrail.Count > 0 && Mathf.Abs(_bTrail[0].x - _bPetPos.x) > 0.05f) _bPet.flipX = _bTrail[0].x < _bPetPos.x;
-                _bPet.sprite = Art.PetFrame(PetId, !_petStay && bob > 0 ? (int)(_bAnim * 10) % 8 : -1, Mathf.Abs(_bLastMove.x) > Mathf.Abs(_bLastMove.y) ? 2 : _bLastMove.y > 0 ? 1 : 0);
+                // animate and turn only while the pet really walks (it used to step in place and flip with the
+                // cadet's direction, which looked like constant flicker); a short grace keeps the gait smooth
+                var petStep = _bPetPos - petWas;
+                if (!_petStay && petStep.sqrMagnitude > 1e-6f)
+                {
+                    _bPetWalkT = 0.15f;
+                    if (Mathf.Abs(petStep.x) >= Mathf.Abs(petStep.y) * 0.7f) { _bPetDir = 2; _bPet.flipX = petStep.x < 0; }
+                    else _bPetDir = petStep.y > 0 ? 1 : 0;
+                }
+                else _bPetWalkT -= dt;
+                bool petWalk = !_petStay && _bPetWalkT > 0;
+                float bob = petWalk ? Mathf.Abs(Mathf.Sin(_bAnim * 14)) * 0.06f : 0;
+                _bPet.sprite = Art.PetFrame(PetId, petWalk ? (int)(_bAnim * 8) % 8 : -1, _bPetDir);
                 _bPet.transform.position = new Vector3(_bPetPos.x, _bPetPos.y - 0.15f + bob, 0);
                 _bPet.sortingOrder = SortY(_bPetPos.y);
             }
@@ -992,28 +1067,47 @@ namespace TitanGate.Game
             }
 
             // the visitor waits outside the door
-            bool showKnocker = _bMode == 0 && !_bKnockPending && _lbCard != null && !string.IsNullOrEmpty(_lbCard.visitor) && (_lbView == LbView.Card || _lbView == LbView.Result && _bOpen)
-                && _life != null && !_life.State.guests.Contains(_lbCard.visitor) && _life.State.outcome == LifeOutcome.Ongoing;
+            var knock = _bMode == 0 ? BKnockCard() : null;
+            bool showKnocker = knock != null && !_bKnockPending && (_lbView == LbView.Card || _lbView == LbView.Result && _bOpen)
+                && _life != null && !_life.State.guests.Contains(knock.visitor) && _life.State.outcome == LifeOutcome.Ongoing;
             _bKnocker.gameObject.SetActive(showKnocker);
-            if (showKnocker) _bKnocker.sprite = Art.Visitor(_lbCard.visitor);
+            if (showKnocker) _bKnocker.sprite = Art.Visitor(knock.visitor);
 
-            // marker over the waiting event, and the arrow around the cadet pointing at it
-            var spot = active != null ? BSpotById(active) : null;
-            _bMarker.gameObject.SetActive(spot != null);
-            _bArrow.gameObject.SetActive(spot != null);
-            if (spot != null)
+            // a "!" over every place with something to do; no guide arrow: the player chooses where to go first
+            _bMarker.gameObject.SetActive(false);
+            _bArrow.gameObject.SetActive(false);
+            _bTaskSpots.Clear();
+            var marks = new List<(Vector3 top, bool urgent)>();
+            void Mark(string id, bool urg)
             {
-                Vector3 top = spot.id == "hatch" ? (showKnocker ? new Vector3(_bHatch.x + 1, _bKnocker.bounds.max.y + 0.15f, 0) : new Vector3(_bHatch.x + 1, _bHatch.y + 1.9f, 0))
-                    : spot.sr != null && spot.sr.sprite != null ? new Vector3(spot.sr.bounds.center.x, spot.sr.bounds.max.y + 0.1f, 0) : (Vector3)(spot.pos + Vector2.up);
-                bool urgent = _bTimer > 0 && (_bTimerAlarm || _bTimer < 15f);
-                _bMarker.sprite = Art.Marker(urgent);
-                _bMarker.transform.position = top + Vector3.up * Mathf.Abs(Mathf.Sin(_bAnim * 4)) * 0.25f;
-                Vector2 to = (Vector2)top - _bPos;
-                bool near = to.magnitude < 3f;
-                _bArrow.gameObject.SetActive(!near);
-                float ang = Mathf.Atan2(to.y, to.x);
-                _bArrow.transform.position = new Vector3(_bPos.x + Mathf.Cos(ang) * 1.3f, _bPos.y + 0.9f + Mathf.Sin(ang) * 1.0f, 0);
-                _bArrow.transform.rotation = Quaternion.Euler(0, 0, ang * Mathf.Rad2Deg);
+                var sp = BSpotById(id);
+                if (sp == null || !_bTaskSpots.Add(id)) return;
+                if (sp.sr != null && (!sp.sr.enabled || !sp.sr.gameObject.activeInHierarchy) && id != "hatch") return;
+                marks.Add((BMarkTop(sp, showKnocker), urg));
+            }
+            if (_bMode == 1) { if (active != null) Mark(active, false); }
+            else if (_life != null && !_bOpen && !_bGather && _life.State.outcome == LifeOutcome.Ongoing)
+            {
+                if (_lbView == LbView.Card)
+                    foreach (var c in _life.OpenCards())
+                    {
+                        if (!string.IsNullOrEmpty(c.visitor) && (c != knock || _bKnockPending)) continue;
+                        bool urg = BUrgent(c) || c == _bTimerCard && _bTimer > 0 && (_bTimerAlarm || _bTimer < 15f);
+                        Mark(BCardSpot(c), urg);
+                    }
+                if (_lbView == LbView.Ration && _life.State.schedule.Hour >= DinnerHour - 1) Mark("seats", false);
+                if (_bPanelsDusty) Mark("solar", false);
+                for (int i = 0; i < 3; i++) if (_bPlot[i] == 3) Mark("plot" + i, false);
+            }
+            if (_bTaskMarks.Count > 0 && _bTaskMarks[0] == null) _bTaskMarks.Clear();
+            while (_bTaskMarks.Count < marks.Count) _bTaskMarks.Add(BSprite("task-mark", Art.Marker(false), Vector2.zero, 31000));
+            for (int i = 0; i < _bTaskMarks.Count; i++)
+            {
+                bool on = i < marks.Count;
+                _bTaskMarks[i].gameObject.SetActive(on);
+                if (!on) continue;
+                _bTaskMarks[i].sprite = Art.Marker(marks[i].urgent);
+                _bTaskMarks[i].transform.position = marks[i].top + Vector3.up * Mathf.Abs(Mathf.Sin(_bAnim * 4 + i * 0.9f)) * 0.25f;
             }
         }
 
@@ -1027,7 +1121,8 @@ namespace TitanGate.Game
                 if (_lbView == LbView.Ration) t = 0.85f;
                 if (_lbView == LbView.Night) t = 1f;
             }
-            float dark = t < 0.6f ? Mathf.Lerp(0.08f, 0.0f, t / 0.6f) : Mathf.Lerp(0.05f, 0.62f, (t - 0.6f) / 0.4f);
+            // dusk comes late and stays readable: the base is never too dark to find things
+            float dark = t < 0.72f ? Mathf.Lerp(0.08f, 0.0f, t / 0.72f) : Mathf.Lerp(0.02f, 0.46f, (t - 0.72f) / 0.28f);
             var col = new Color(0.03f, 0.04f, 0.14f, dark);
             if (_bTimerAlarm && _bTimer > 0)
             {
@@ -1106,6 +1201,7 @@ namespace TitanGate.Game
             _bHudPortrait.style.position = Position.Absolute; _bHudPortrait.style.left = 0; _bHudPortrait.style.right = 0; _bHudPortrait.style.top = 0; _bHudPortrait.style.bottom = 0;
             _ui.Root.Insert(Mathf.Min(2, _ui.Root.childCount), _bHudPortrait);
             if (_bMode == 1) _bHudPortrait.Add(BSprintPanel());
+            PaceBuildHud();
             _bHudT = 0;
         }
 
@@ -1160,8 +1256,22 @@ namespace TitanGate.Game
             _bHudPortrait.Add(BPortraitPanel());
             if (!_bGather) _bHudPortrait.Add(JobBagStrip());
             string a = BActiveSpot;
-            string what = a == null ? "" : _lbView == LbView.Ration ? _loc.T("base.event.ration") : _loc.T($"life.card.{_lbCard.id}.title");
-            _bHudNext.text = GameUI.Thai(a == null ? "" : _loc.T("base.hud.next", what, _loc.T("base.place." + a)));
+            if (_lbView == LbView.Card && !_bOpen)
+            {
+                var todo = new List<string>();
+                var knockNow = BKnockCard();
+                foreach (var c in _life.OpenCards())
+                {
+                    if (!string.IsNullOrEmpty(c.visitor) && (c != knockNow || _bKnockPending)) continue;
+                    todo.Add("! " + _loc.T($"life.card.{c.id}.title") + " · " + _loc.T("base.place." + BCardSpot(c)));
+                }
+                _bHudNext.text = GameUI.Thai(todo.Count == 0 ? "" : TT("To do (any order): ", "งานที่รอ (ทำอันไหนก่อนก็ได้): ") + string.Join("   ", todo));
+            }
+            else
+            {
+                string what = a == null ? "" : _lbView == LbView.Ration ? _loc.T("base.event.ration") : _loc.T($"life.card.{_lbCard.id}.title");
+                _bHudNext.text = GameUI.Thai(a == null ? "" : _loc.T("base.hud.next", what, _loc.T("base.place." + a)));
+            }
         }
 
         // ------------------------------------------------------------------ peephole

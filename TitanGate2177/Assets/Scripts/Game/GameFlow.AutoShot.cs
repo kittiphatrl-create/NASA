@@ -60,7 +60,9 @@ namespace TitanGate.Game
                 }
             };
             if (System.Array.IndexOf(args, "-recordwalkthrough") >= 0) StartCoroutine(RecordWalkthrough());
-            SeedOverride = 7;
+            // fixed seed for repeatable screenshots; -seed N picks another run (balance checks over several seeds)
+            int seedArg = System.Array.IndexOf(args, "-seed");
+            SeedOverride = seedArg >= 0 && seedArg + 1 < args.Length && int.TryParse(args[seedArg + 1], out var sv) ? sv : 7;
             Application.runInBackground = true;
             StartCoroutine(play ? AutoPlay() : story ? AutoStory() : ux ? AutoUX() : shipTop ? AutoShip() : walkBase ? AutoBase() : lifeboat ? AutoLifeboat() : AutoShot());
             StartCoroutine(AutoHelper());

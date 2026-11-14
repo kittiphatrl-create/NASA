@@ -105,7 +105,8 @@ namespace TitanGate.Game
         {
             _life = new LifeboatSim(LC, pet, LifeboatSim.Bonus(LC, _lbStowed), OutpostSim.SupplyFlags(_cfg.chapter1, _lbStowed));
             // walkable base: a different set of visitors every run, never two knock days in a row
-            if (WalkBase) _life.RandomizeVisitors(SeedOverride >= 0 ? SeedOverride : System.Environment.TickCount);
+            _lbSeed = SeedOverride >= 0 ? SeedOverride : System.Environment.TickCount;
+            if (WalkBase) { _life.RandomizeVisitors(_lbSeed); if (DaySaveRestore()) _life.RandomizeVisitors(_lbSeed); }
             LbNextCard();
             if (WalkBase) _busy = false;
         }
@@ -113,7 +114,8 @@ namespace TitanGate.Game
         void LbNextCard()
         {
             _bOpen = false;
-            _lbCard = _life.NextCard();
+            if (_bTimerCard != null && _life.State.answered.Contains(_bTimerCard.id)) _bTimerCard = null;
+            _lbCard = WalkBase && _bRoot != null ? LbFocus() : _life.NextCard();
             _lbPicked = null;
             if (_life.State.outcome != LifeOutcome.Ongoing) _lbView = LbView.End;
             else if (_lbCard != null) _lbView = LbView.Card;
@@ -152,7 +154,7 @@ namespace TitanGate.Game
             float o2Have = before.o2 + (run ? LC.o2Maker.o2 : 0);
             int day = _life.State.day;
             var night = _life.EndDay(_lbFed, run);
-            if (_bRoot != null && night != null) { BFriendsAfterNight(_lbFed); BAfterNight(night); RadNight(day); }
+            if (_bRoot != null && night != null) { BFriendsAfterNight(_lbFed); BAfterNight(night); RadNight(day); DaySaveWrite(); }
             if (night == null) return;
             _lbNight = night;
             _lbNightDay = day;

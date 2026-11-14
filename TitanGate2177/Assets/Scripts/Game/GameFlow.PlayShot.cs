@@ -17,7 +17,7 @@ namespace TitanGate.Game
     /// </summary>
     public partial class GameFlow
     {
-        bool _playtest, _playDumb;
+        bool _playtest, _playDumb, _playFast;
         float _playClock;
         readonly StringBuilder _playNotes = new StringBuilder();
 
@@ -34,7 +34,8 @@ namespace TitanGate.Game
             _autoClock = true;
             var args = System.Environment.GetCommandLineArgs();
             _playDumb = System.Array.IndexOf(args, "-dumb") >= 0;
-            if (System.Array.IndexOf(args, "-fast") >= 0) Time.timeScale = 3f;
+            _playFast = System.Array.IndexOf(args, "-fast") >= 0;
+            if (_playFast) Time.timeScale = 3f;
             PNote(_playDumb ? "player brain: careless (ignores repairs, lets everyone in)" : "player brain: careful");
             _loc.Current = Lang.TH;
             _autoAdvance = true;
@@ -103,6 +104,7 @@ namespace TitanGate.Game
             int guard = 0;
             while (_life.State.outcome == LifeOutcome.Ongoing && guard++ < 8000 && _playClock < 3000)
             {
+                if (_playFast && Time.timeScale != 3f) Time.timeScale = 3f;   // StartLifeboat resets the time scale
                 var st = _life.State;
                 if (st.day != lastDay)
                 {
@@ -176,7 +178,7 @@ namespace TitanGate.Game
                     if (st.schedule.Hour >= DinnerHour || st.schedule.Remaining < 3)
                     {
                         PNote($"going to dinner at {st.schedule.Hour:0.0}h");
-                        yield return AutoWalkUse("seats");
+                        if (!_bGather) yield return AutoWalkUse("seats");
                         float w = 0; while (!_bGather && w < 4) { w += Time.deltaTime; yield return null; }
                     }
                     else yield return new WaitForSeconds(1f);   // waiting for the evening
@@ -195,13 +197,42 @@ namespace TitanGate.Game
         {
             var st = _life.State;
             string key = st.day + ":";
+            if (st.stock.water < 4 && st.stock.power > 1.5f && _playJobDone.Add(key + "drill")) { PNote($"{st.schedule.Hour:0.0}h drill ice (water low)"); yield return AutoWalkUse("drill"); yield break; }
+            // run the oxygen maker by day when air is getting low and the battery can spare it
+            if (st.stock.o2 < 9 && _life.CanRunMaker && st.stock.power - LC.o2Maker.power + LC.solarPerDay >= LC.lifeSupportPower + 1 && !_bDone.Contains("moxie") && _playJobDone.Add(key + "moxie"))
+            {
+                PNote($"{st.schedule.Hour:0.0}h run the oxygen maker (O2 {st.stock.o2}, power {st.stock.power})");
+                yield return AutoWalkUse("air");
+                yield return new WaitForSeconds(0.4f);
+                if (_shotN++ % 2 == 0) yield return Shot($"q{st.day}_moxie");
+                if (_ui.ScreenOpen) { _ui.HideScreen(); yield return Act("repair", 1.2f, () => { if (_bDone.Add("moxie")) _life.ApplyTask(new Stock { power = -LC.o2Maker.power, o2 = LC.o2Maker.o2 }, 1f); }); }
+                yield break;
+            }
+            // one project a day from the board, cheapest useful first
+            if (st.stock.water >= 5 && st.stock.power >= 3 && !_playJobDone.Contains(key + "proj"))
+            foreach (var p in Projects)
+            {
+                if (ProjectBlock(p) != null) continue;
+                if (p.cost.water > 0 && st.stock.water < p.cost.water + 4) continue;
+                if (p.cost.power > 0 && st.stock.power < p.cost.power + 2.5f) continue;
+                _playJobDone.Add(key + "proj");
+                PNote($"{st.schedule.Hour:0.0}h project {p.id}");
+                yield return AutoWalkUse("board");
+                yield return new WaitForSeconds(0.4f);
+                yield return Shot($"q{st.day}_projects");
+                ProjectStart(p);
+                float t = 0; while (_pzRoot == null && t < 3) { t += Time.deltaTime; yield return null; }
+                t = 0; while (_pzRoot != null && t < 10) { t += Time.unscaledDeltaTime; yield return null; }
+                yield return new WaitForSecondsRealtime(1f);
+                yield break;
+            }
             for (int i = 0; i < 3; i++)
             {
                 if (_bPlot[i] == 3 && _playJobDone.Add(key + "harvest" + i)) { PNote($"{st.schedule.Hour:0.0}h harvest plot {i}"); yield return AutoWalkUse("plot" + i); yield break; }
                 if (_bPlot[i] == 0 && _bSeeds > 0 && st.stock.water > 3 && _playJobDone.Add(key + "plant" + i)) { PNote($"{st.schedule.Hour:0.0}h plant plot {i}"); yield return AutoWalkUse("plot" + i); yield break; }
             }
             if (_bPanelsDusty && st.stock.o2 > 3 && _playJobDone.Add(key + "solar")) { PNote($"{st.schedule.Hour:0.0}h clean solar panels"); yield return AutoWalkUse("solar"); yield break; }
-            if (st.stock.water < 6 && st.stock.power > 2 && _playJobDone.Add(key + "drill")) { PNote($"{st.schedule.Hour:0.0}h drill ice"); yield return AutoWalkUse("drill"); yield break; }
+            if (st.stock.water < 6 && st.stock.power > 1.5f && _playJobDone.Add(key + "drill")) { PNote($"{st.schedule.Hour:0.0}h drill ice"); yield return AutoWalkUse("drill"); yield break; }
             for (int i = 0; i < SalvageSpots.Length; i++)
             {
                 var s = BSpotById("salvage" + i);

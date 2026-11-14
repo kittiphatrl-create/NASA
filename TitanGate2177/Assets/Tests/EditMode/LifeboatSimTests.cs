@@ -505,9 +505,10 @@ namespace TitanGate.Tests
             Assert.AreEqual(false, sim.Scan("knock", "heartbeat"), "a monster can pass one scanner");
             Assert.AreEqual(0, sim.ScansLeft(knock));
             Assert.IsNull(sim.Scan("knock", "breath"), "no scans left");
-            Assert.IsNull(sim.Scan("friend", "breath"), "only the visitor at the hatch now can be scanned");
-            sim.Choose("knock", "refuse");
+            // free order: any card still open today can be checked, not only the first one
             Assert.AreEqual(false, sim.Scan("friend", "breath"), "a living visitor reads normal");
+            sim.Choose("knock", "refuse");
+            Assert.IsNull(sim.Scan("knock", "breath"), "an answered visitor cannot be scanned any more");
             Assert.IsTrue(sim.State.log.Exists(e => e.kind == LifeLogKind.Scan && e.id == "helper" && e.detail == "breath"));
         }
 

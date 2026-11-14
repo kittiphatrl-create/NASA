@@ -31,6 +31,11 @@ namespace TitanGate.Game
         {
             _life.CardProgress(out int done, out int total);
             float reserve = total - done;
+            if (_life.State.schedule.Hour + hours > LateHour + 0.01f)
+            {
+                _ui.Toast(CrewText("Too late for that today. It would run past bedtime.", "วันนี้ดึกเกินไปแล้ว ทำไม่ทันก่อนเข้านอน"), GameUI.CAmber);
+                return false;
+            }
             if (!_life.State.schedule.CanSpend(hours, reserve))
             {
                 _ui.Toast(CrewText("Not enough work time. Keep time for today's events; rest at the pod when ready.", "เวลาทำงานไม่พอ ต้องเผื่อเวลาให้เหตุการณ์วันนี้ พร้อมแล้วกลับไปพักที่ยาน"), GameUI.CAmber);

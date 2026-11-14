@@ -246,6 +246,16 @@ namespace TitanGate.Core
             return null;
         }
 
+        /// <summary>Every card of today that is still open. The walkable base lets the player do them in any order.</summary>
+        public List<LifeCard> OpenCards()
+        {
+            var l = new List<LifeCard>();
+            if (State.outcome != LifeOutcome.Ongoing) return l;
+            foreach (var c in _c.cards)
+                if (DayOf(c) == State.day && !State.answered.Contains(c.id) && Applies(c)) l.Add(c);
+            return l;
+        }
+
         readonly Dictionary<string, int> _dayOf = new Dictionary<string, int>();
         bool _visitorsLast;
 
@@ -377,7 +387,7 @@ namespace TitanGate.Core
         public int ScansLeft(LifeCard card) => ScanBudget(card) - ScansDone(card).Count;
 
         public bool CanScan(LifeCard card, string scan) =>
-            State.outcome == LifeOutcome.Ongoing && card != null && card == NextCard() && _c.scans.Contains(scan)
+            State.outcome == LifeOutcome.Ongoing && card != null && OpenCards().Contains(card) && _c.scans.Contains(scan)
             && ScansLeft(card) > 0 && !(State.scanned.TryGetValue(card.id, out var done) && done.Contains(scan));
 
         /// <summary>Point a scanner at the visitor. Returns true when the reading is wrong for a living being.</summary>

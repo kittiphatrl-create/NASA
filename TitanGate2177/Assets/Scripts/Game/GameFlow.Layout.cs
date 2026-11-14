@@ -194,19 +194,7 @@ namespace TitanGate.Game
             BLamp(new Vector2(39.5f, 11f), new Color(0.5f, 0.8f, 1f), 5.5f, 0.45f);
 
             // ---- Corridor: arrows on the floor that light up during the scramble, pointing to the bay
-            _sArrows.Clear();
-            for (float x = 10.5f; x <= 35f; x += 2.5f)
-            {
-                if (Mathf.Abs(x - 30.5f) < 1.2f) continue;
-                var ar = BSprite("arrow", Art.FloorArrow(), new Vector2(x, 11.5f), -29500);
-                ar.transform.rotation = Quaternion.Euler(0, 0, x < 30.5f ? 0 : 180);
-                ar.color = new Color(1, 1, 1, 0);
-                _sArrows.Add(ar);
-            }
-            var down = BSprite("arrow", Art.FloorArrow(), new Vector2(30.5f, 10.4f), -29500);
-            down.transform.rotation = Quaternion.Euler(0, 0, -90);
-            down.color = new Color(1, 1, 1, 0);
-            _sArrows.Add(down);
+            _sArrows.Clear();   // no floor guide arrows: the "!" over the bay door is enough
             BLamp(new Vector2(16f, 11.5f), new Color(0.7f, 0.8f, 1f), 4f, 0.35f);
             BLamp(new Vector2(26f, 11.5f), new Color(0.7f, 0.8f, 1f), 4f, 0.35f);
         }
@@ -268,7 +256,7 @@ namespace TitanGate.Game
             // ---- Storage (x 16-21, y 1-5): O2 tanks, locker, water recycler, storm shelter
             BProp("shelf_o2", "base.spot.shelf_o2", Art.SupplyShelf("o2", 0), 17.2f, 5.12f, new Vector2(17.4f, 4.4f), 2, 1);
             BProp("locker", "base.place.locker", Art.Locker(false), 21.1f, 5.12f, new Vector2(20.4f, 4.4f), 1, 1);
-            BProp("toolbox", "base.place.toolbox", Art.Cabinet(true), 19.3f, 5.12f, new Vector2(19.3f, 4.4f), 1, 1);
+            BProp("toolbox", "base.place.toolbox", Art.Cabinet(true), 21.5f, 3.12f, new Vector2(20.6f, 3.3f), 1, 1);   // right wall, clear of the door at x 18-19
             BProp("recycler", "base.place.recycler", Art.Recycler(), 17.2f, 1.6f, new Vector2(18.4f, 1.8f), 2, 1);
             BProp("shelter", "base.place.shelter", Art.WaterWall(false), 20.6f, 1.15f, new Vector2(19.6f, 2.6f), 2, 1);
             BLamp(new Vector2(19f, 3f), new Color(0.75f, 0.85f, 1f), 5f, 0.4f);
