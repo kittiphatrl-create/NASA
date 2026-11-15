@@ -960,7 +960,7 @@ namespace TitanGate.Game
             _ui.FadeTo(0f, 0.4f);
             _ui.ShowScreen(root =>
             {
-                root.Add(LdArtBackdrop(won ? "cut_rescue" : "cut_dusk", 0f));
+                root.Add(LdArtBackdrop(won ? "c11_home" : "c13_lone", 0f));
                 root.Add(GameUI.Backdrop(new Color(0.02f, 0.03f, 0.07f, 0.78f)));
                 var box = new VisualElement(); box.style.alignItems = Align.Center; box.style.maxWidth = 1300;
                 var head = _ui.L(won ? TT("RESCUED! The ship docked at LAST DOCK.", "รอดแล้ว! ยานกู้ภัยเทียบท่าที่ LAST DOCK") : TT("The station could not hold on this time.", "ครั้งนี้สถานีไปต่อไม่ไหว"), 50, true, won ? GameUI.CAmber : GameUI.CRed);

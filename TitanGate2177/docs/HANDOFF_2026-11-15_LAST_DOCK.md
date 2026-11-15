@@ -9,10 +9,16 @@ Read this first. Details live in `docs/LAST_DOCK_MARS_PLAN_2026-11-15.md`, `docs
    - Two big cards: Start and Continue.
    - Icon tiles for How to play, Settings, Cards, Sources, Credits, Quit and Language. The label shows on hover.
    - Click the cadet and they hop and say a line.
-2. **Cutscenes** (`GameFlow.Cinema.cs`): Blender stills with a slow push or pan, letterbox bars, one short line, and shake, flash or sound. Space skips.
-   - Scenes: intro (`LdCinIntro`), debris impact (`LdCinImpact`), lifeboat launch and landing (`LdCinLaunch`), win (`LdCinWin`), lose (`LdCinLose`).
-   - Images: `Assets/Resources/Sprites/KeyArt/*.jpg.bytes`.
-   - Sources: `Art/Blender/story_space.blend` (space shots) and `Art/Blender/mars_keyart.blend` (Mars shots).
+2. **Cutscenes** (`GameFlow.Cinema.cs`): 13 Blender stills (`c01`..`c13`), each with a slow push or pan, a cross-fade, letterbox bars and one short line. Space skips.
+   - Live effects on top of each still (`CinFx`): dust in the light, embers, alarm pulse, fire flicker, twinkling stars, plus film grain and a vignette.
+   - Scenes: intro (`LdCinIntro`: cruise, Mars, the cadet at the porthole), impact (`LdCinImpact`: debris, impact, red-alarm corridor), launch (`LdCinLaunch`: lifeboat, entry, arrival at the base), win (`LdCinWin`: rescue ship, sunset ridge), lose (`LdCinLose`: blue dusk, night under the stars).
+   - Images: `Assets/Resources/Sprites/KeyArt/c*.jpg.bytes`.
+   - Source: `Art/Blender/cinematics.blend`, built entirely by `Art/Blender/cinematics_build.py`. Every model is clay (metaballs plus noise and smoothing, no hard primitives); light is Cycles with volumetric haze.
+   - Remake the stills:
+     1. In Blender, run `exec(open(r"...\cinematics_build.py").read()); build_all(); render_all()`, or render from the command line with `blender -b cinematics.blend --python-expr "exec(open(...).read()); render_all(100, 128)"`.
+     2. In Blender, run `cinematics_post.py` with `post_all()`. It adds bloom, light streaks, the colour grade, grain and the vignette.
+     3. Run `python Art/Blender/cinematics_export.py` to copy the results into the game.
+   - The blue sunset in `c12` is on purpose: on Mars the sky near the setting Sun is blue.
 3. **Ship, morning** (`GameFlow.ShipTop.cs`): one job, the radio report, then the sofa. Debris hits, then the 60-second grab.
    - Carry 3 things; the lifeboat holds 8.
    - 5 extra rooms (`GameFlow.ShipRooms.cs`).
@@ -52,6 +58,5 @@ Read this first. Details live in `docs/LAST_DOCK_MARS_PLAN_2026-11-15.md`, `docs
 
 - More text can become icons. Toasts, the ship HUD (`GameUI.cs`, the friend's file) and the night list still use sentences.
 - The cadet in a spacesuit outside still uses the old code-drawn sprite.
-- The impact cutscene reuses one render for 2 shots. A ship-interior shot with the cadet and the red alarm would make it stronger.
 - Balance: a careful bot wins about 70% (intended to feel tense). Check with 2–3 real players and aim for a 15-minute run.
 - Before submission, check the license of the user's door sound (Pixabay).
