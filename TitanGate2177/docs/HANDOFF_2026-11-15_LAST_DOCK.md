@@ -9,16 +9,20 @@ Read this first. Details live in `docs/LAST_DOCK_MARS_PLAN_2026-11-15.md`, `docs
    - Two big cards: Start and Continue.
    - Icon tiles for How to play, Settings, Cards, Sources, Credits, Quit and Language. The label shows on hover.
    - Click the cadet and they hop and say a line.
-2. **Cutscenes** (`GameFlow.Cinema.cs`): 13 Blender stills (`c01`..`c13`), each with a slow push or pan, a cross-fade, letterbox bars and one short line. Space skips.
-   - Live effects on top of each still (`CinFx`): dust in the light, embers, alarm pulse, fire flicker, twinkling stars, plus film grain and a vignette.
-   - Scenes: intro (`LdCinIntro`: cruise, Mars, the cadet at the porthole), impact (`LdCinImpact`: debris, impact, red-alarm corridor), launch (`LdCinLaunch`: lifeboat, entry, arrival at the base), win (`LdCinWin`: rescue ship, sunset ridge), lose (`LdCinLose`: blue dusk, night under the stars).
-   - Images: `Assets/Resources/Sprites/KeyArt/c*.jpg.bytes`.
-   - Source: `Art/Blender/cinematics.blend`, built entirely by `Art/Blender/cinematics_build.py`. Every model is clay (metaballs plus noise and smoothing, no hard primitives); light is Cycles with volumetric haze.
-   - Remake the stills:
-     1. In Blender, run `exec(open(r"...\cinematics_build.py").read()); build_all(); render_all()`, or render from the command line with `blender -b cinematics.blend --python-expr "exec(open(...).read()); render_all(100, 128)"`.
-     2. In Blender, run `cinematics_post.py` with `post_all()`. It adds bloom, light streaks, the colour grade, grain and the vignette.
-     3. Run `python Art/Blender/cinematics_export.py` to copy the results into the game.
-   - The blue sunset in `c12` is on purpose: on Mars the sky near the setting Sun is blue.
+2. **Cutscenes** (`GameFlow.Cinema.cs`): short animated 3D videos made in Blender, with toon light, haze, depth of field and ink outlines. 18 shots, 960x540 at 24 fps, each with one short line. Space skips.
+   - Story, in this order:
+     - **Intro:** the year 2177, towns on the Moon, bases on Mars, ships out to Jupiter. Then you: the youngest trainee pilot, reading orders in your bunk, then carrying a crate on your first day on the Kestrel.
+     - **Impact:** debris rushes in, impact (flash, red alarm, you fall), you run for the lifeboat.
+     - **Launch:** the lifeboat breaks free. Then the real Mars landing steps: entry with the heat shield at 1,300 °C, parachute, braking rockets and touchdown. Last, you walk to the old empty base.
+     - **Win:** the rescue ship comes down on beams of light, then lifts off home.
+     - **Lose:** the base lights go out at dusk, then you sit alone under the stars.
+   - The cadet in every shot is the game's own model (`cadet.blend`), posed and animated by script, with a helmet and backpack added outside.
+   - Videos: `Assets/Resources/Cine/<shot>.mp4`, played by a VideoPlayer into a RenderTexture. End-screen stills: `Sprites/KeyArt/end_win`, `end_lose`.
+   - Source: `Art/Blender/pixel_cine.py` builds every shot into `Art/Blender/pixel_cine.blend`. Despite the name, the output is no longer pixel art. It reuses the asset kit in `cinematics_build.py` (ship, lifeboat, base, Mars ground, rocks).
+   - Remake:
+     1. In Blender, run `exec(open(r"...pixel_cine.py").read()); build()`.
+     2. Render from the command line (about 3 s per frame, about an hour for all shots): `blender -b pixel_cine.blend --python-expr "exec(open(...).read()); render()"`.
+     3. Copy `Art/Blender/renders/cine/*.mp4` into `Assets/Resources/Cine/`.
 3. **Ship, morning** (`GameFlow.ShipTop.cs`): one job, the radio report, then the sofa. Debris hits, then the 60-second grab.
    - Carry 3 things; the lifeboat holds 8.
    - 5 extra rooms (`GameFlow.ShipRooms.cs`).
