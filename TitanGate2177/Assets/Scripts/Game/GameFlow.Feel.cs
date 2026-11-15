@@ -68,12 +68,18 @@ namespace TitanGate.Game
         void BCadetActionSprite(string pose)
         {
             if (_bPlayer == null || BIsOutside(_bPos)) return;
+            // the 8-direction sheet has carrying and a "hands on the machine" pose that faces what is used: right for
+            // consoles and repairs on the walls. Lifting a box, planting, watering, feeding and petting keep their own
+            // drawn pose so the hands match the object.
+            if (!BFacesMachine(pose)) return;
             BUpdateDir8();
             string key = pose == "carry" ? (_bMoving ? "c" + ((int)_bGaitPhase % 8) : "ci") : "u" + ((int)(_bAnim * 6) % 4);
             var s = Art.Cadet8(_bDir5, key);
             if (s == null) return;
             _bPlayer.sprite = s; _bPlayer.flipX = _bFlip8;
         }
+
+        static bool BFacesMachine(string pose) => pose == "carry" || pose == "use" || pose == "repair";
 
         /// <summary>If the cadet ends up inside something solid (a door shutting, fire, a prop), move them to the nearest free spot.</summary>
         void BUnstick()

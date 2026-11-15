@@ -51,6 +51,10 @@ namespace TitanGate.Game
                 case "star": c.Line(8, 15, 5, 5, w); c.Line(8, 15, 11, 5, w); c.Line(1, 10, 15, 10, w); c.Line(1, 10, 11, 5, w); c.Line(15, 10, 5, 5, w); break;
                 case "exit": c.Frame(2, 2, 7, 12, w); c.HLine(7, 14, 8, w); c.Line(14, 8, 11, 5, w); c.Line(14, 8, 11, 11, w); break;
                 case "lang": c.Disc(8, 8, 6, w); c.Disc(8, 8, 5, Pal.Clear); c.HLine(2, 14, 8, w); c.VLine(8, 2, 14, w); c.Line(5, 3, 5, 13, w); c.Line(11, 3, 11, 13, w); break;
+                case "water": c.Disc(8, 5, 4, w); c.Disc(8, 5, 3, Pal.Clear); c.Line(4, 6, 8, 14, w); c.Line(12, 6, 8, 14, w); c.Set(6, 5, w); break;
+                case "sun": c.Disc(8, 8, 3, w); c.Disc(8, 8, 2, Pal.Clear); c.VLine(8, 1, 3, w); c.VLine(8, 13, 15, w); c.HLine(1, 3, 8, w); c.HLine(13, 15, 8, w); c.Set(3, 3, w); c.Set(13, 13, w); c.Set(13, 3, w); c.Set(3, 13, w); break;
+                case "plant": c.VLine(8, 1, 10, w); c.Line(8, 6, 4, 9, w); c.Line(4, 9, 3, 12, w); c.Line(8, 8, 12, 11, w); c.Line(12, 11, 13, 13, w); c.HLine(4, 12, 1, w); c.Line(4, 1, 5, 0, w); break;
+                case "wrench": c.Line(3, 3, 11, 11, w); c.Line(4, 3, 12, 11, w); c.Frame(10, 10, 4, 4, w); c.Set(2, 4, w); c.Set(4, 2, w); break;
                 default: c.Frame(3, 3, 10, 10, w); break;
             }
             s = c.ToSprite(new Vector2(.5f, .5f), 16);
@@ -60,7 +64,8 @@ namespace TitanGate.Game
         }
 
         static string LdActionIcon(string a)
-            => a.StartsWith("repair") || a == "assemble_rover" || a == "cannibalize" ? "parts" : a.StartsWith("send") && a != "send_rover" || a.StartsWith("dip_") ? "signal"
+            => a.StartsWith("service_") ? "wrench" : a == "ice" ? "water" : a == "clean_panels" ? "sun" : a == "radio_antenna" || a == "build_beacon" ? "signal"
+             : a.StartsWith("repair") || a == "assemble_rover" || a == "cannibalize" ? "parts" : a.StartsWith("send") && a != "send_rover" || a.StartsWith("dip_") ? "signal"
              : a.StartsWith("explore") ? "walk" : a.Contains("rover") ? "rover" : a == "search" ? "parts" : a == "end_day" ? "time" : a == "use_medkit" ? "medkit"
              : a == "prepare_shelter" ? "storm" : a == "open_mystery" || a == "raid_food" ? "food" : a == "absorber" ? "can" : a == "shelter" || a == "backup_fan" ? "co2"
              : a == "shed_load" ? "heat" : a == "raid_battery" ? "battery" : a == "low_activity" ? "o2" : "time";
@@ -81,7 +86,7 @@ namespace TitanGate.Game
             _ldChips.Clear();
             var row = new VisualElement { pickingMode = PickingMode.Ignore };
             row.style.flexDirection = FlexDirection.Row; row.style.flexWrap = Wrap.Wrap; row.style.justifyContent = Justify.Center;
-            foreach (var id in new[] { "day", "time", "food", "o2", "battery", "parts", "co2", "heat", "signal", "heart", "rescue" })
+            foreach (var id in new[] { "day", "time", "food", "water", "o2", "battery", "sun", "parts", "co2", "heat", "signal", "heart", "rescue" })
             {
                 var chip = new VisualElement { pickingMode = PickingMode.Ignore };
                 chip.style.flexDirection = FlexDirection.Row; chip.style.alignItems = Align.Center;
@@ -160,7 +165,8 @@ namespace TitanGate.Game
             if (can && !random0) eff.style.display = DisplayStyle.None;   // less text: icons say it; the line shows on hover
             mid.Add(eff);
             bool random = a.StartsWith("explore") || a == "send_rover" || a == "open_mystery";
-            if (can && !random) mid.Add(LdDeltaRow(_ld.Preview(a), 20));   // what changes, as icons
+            if (can && a.StartsWith("service_")) mid.Add(LdPara(effect, GameUI.CGreen, 18));   // it changes condition, not stock: say it in words
+            else if (can && !random) mid.Add(LdDeltaRow(_ld.Preview(a), 20));   // what changes, as icons
             else mid.Add(LdPara(can ? "? " + LdPreviewText(a) : TT("Can't: ", "ทำไม่ได้: ") + LdBlockedText(why), can ? GameUI.CAmber : GameUI.CRed, 18));
             card.Add(mid);
             // the cost on the right: one turn, the rest of the day, or nothing (answers to an event)

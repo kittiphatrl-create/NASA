@@ -81,7 +81,8 @@ namespace TitanGate.Game
             if (pose != null)
             {
                 _bPlayer.sprite = Art.CrewAction("cadet", pose, pose == "carry" ? (_bMoving ? (int)_bGaitPhase % 4 : 0) : (int)(_bAnim * 6) % 4, BIsOutside(_bPos));
-                _bPlayer.flipX = pose == "sit" ? !_bRight : false;
+                // drawn poses face right; turn them toward the machine being used
+                _bPlayer.flipX = pose == "sit" || !BFacesMachine(pose) ? !_bRight : false;
                 if (pose != "sit") BCadetActionSprite(pose);   // carry/use in 8 directions (GameFlow.Feel.cs)
                 if (pose == "sit") _bPlayer.sortingOrder = SortY(_bPos.y) + 8;
             }

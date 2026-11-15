@@ -47,6 +47,7 @@ namespace TitanGate.Game
         {
             _ldHasCard = false; _ldVaultOpen = null;
             _ldShipSeed = SeedOverride >= 0 ? SeedOverride : System.Environment.TickCount;
+            LdClearHighlights();
 
             // ---- Medbay (x 9-16, y 21-26): a bed for check-ups, the medicine cabinet, a body scanner
             BDeco(Art.Bed(), 11.2f, 24.6f, 3);
@@ -90,6 +91,11 @@ namespace TitanGate.Game
             var card = BProp("keycard", TT("Key card", "คีย์การ์ด"), Art.LooseSupply("keycard"), p.x, p.y, p + new Vector2(0, -0.6f));
             card.sr.sortingOrder = SortY(p.y) + 1;
             BLamp(p + new Vector2(0, 0.3f), new Color(1f, 0.9f, 0.5f), 1.4f, 0.55f);
+            LdAddPickRing(card);
+            // the vault doors glow so they read as doors you can open, not wall
+            LdFrameVaults();
+            BLamp(new Vector2(39f, 16.5f), new Color(1f, 0.8f, 0.4f), 2.4f, 0.5f);
+            BLamp(new Vector2(40f, 6.5f), new Color(1f, 0.8f, 0.4f), 2.4f, 0.5f);
         }
 
         /// <summary>LAST DOCK scramble items: the four basics spread over the ship, the vault prizes, and a random set of extras.</summary>

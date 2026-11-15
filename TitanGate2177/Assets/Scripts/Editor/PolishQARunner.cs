@@ -32,6 +32,7 @@ namespace TitanGate.EditorTools
             }
             else if (command == "build") Build();
             else if (command == "build-story") Build("Builds/Story/TitanGate2177.exe");
+            else if (command == "build-win") Build("Builds/Win/TitanGate2177.exe");   // the player the owner plays
         }
         public static void Build(string location = "Builds/Polish/TitanGate2177.exe")
         {

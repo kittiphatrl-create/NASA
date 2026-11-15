@@ -86,8 +86,19 @@ namespace TitanGate.Game
                 case "dip_battery": return (TT("Use the battery", "ใช้แบตเตอรี่"), TT("Battery −1. The signal goes out.", "แบต −1 สัญญาณส่งออกไปได้"));
                 case "dip_shed": return (TT("Pause air and cooling for a moment", "หยุดระบบอากาศกับความเย็นชั่วครู่"), TT("The signal goes out. CO₂ +1 and Heat +1.", "สัญญาณส่งออกได้ CO₂ +1 และความร้อน +1"));
                 case "dip_cancel": return (TT("Cancel the send", "ยกเลิกการส่ง"), TT("Battery comes back. No signal this time.", "ได้แบตคืน แต่ครั้งนี้ไม่มีสัญญาณ"));
-                case "repair_radio": return (TT("Work on the radio (quest 1)", "ซ่อมวิทยุ (เควส 1)"), _ld.HasRadioKit ? TT("With the repair kit it is fixed in one go.", "มีชุดซ่อมวิทยุ ซ่อมเสร็จในครั้งเดียว")
-                    : TT($"One session a day; {_ld.C.radioRepairDays} sessions needed ({_ld.RadioRepair} done). The first one uses 1 part.", $"ซ่อมได้วันละครั้ง ต้องซ่อม {_ld.C.radioRepairDays} ครั้ง (ทำแล้ว {_ld.RadioRepair}) ครั้งแรกใช้อะไหล่ 1"));
+                case "repair_radio": return _ld.RadioRepair == 0
+                    ? (TT("Radio: fit a new board", "วิทยุ: เปลี่ยนแผงวงจร"), TT("Uses 1 part. Step 1 of 3.", "ใช้อะไหล่ 1 ขั้นที่ 1 จาก 3"))
+                    : (TT("Radio: power test", "วิทยุ: ทดสอบไฟ"), TT("Uses 1 battery. The coolant loop must work. Step 2 of 3.", "ใช้แบต 1 ท่อระบายความร้อนต้องใช้ได้ ขั้นที่ 2 จาก 3"));
+                case "radio_antenna": return (TT("Fix the radio antenna outside", "ซ่อมเสาอากาศวิทยุข้างนอก"), TT("Step 3 of 3. Then the radio can send. Not in a solar storm.", "ขั้นที่ 3 จาก 3 แล้ววิทยุจะส่งได้ ห้ามออกตอนพายุสุริยะ"));
+                case "build_beacon": return (TT("Build the rescue beacon", "สร้างเสาสัญญาณขอความช่วยเหลือ"), TT($"Uses {_ld.C.beaconParts} rover parts + 1 part. Sends 1 signal now and every night it has power.", $"ใช้ชิ้นส่วนรถ {_ld.C.beaconParts} + อะไหล่ 1 ส่งสัญญาณทันที 1 ครั้งและทุกคืนที่มีไฟ"));
+                case "ice": return (TT("Dig ice at the ice field", "ขุดน้ำแข็งที่ลานน้ำแข็ง"), TT($"+{_ld.C.iceWater} water. Counts as today's trip outside.", $"น้ำ +{_ld.C.iceWater} นับเป็นการออกไปข้างนอกของวันนี้"));
+                case "clean_panels": return (TT("Brush the dust off the solar panels", "ปัดฝุ่นแผงโซลาร์"), TT($"Dust {_ld.Dust}% → 0%: solar back to {_ld.C.solarBase}{(_ld.HasSolar ? "+1" : "")}.", $"ฝุ่น {_ld.Dust}% → 0%: โซลาร์กลับเป็น {_ld.C.solarBase}{(_ld.HasSolar ? "+1" : "")}"));
+                case "repair_recycler": return (TT("Repair the water recycler", "ซ่อมเครื่องรีไซเคิลน้ำ"), TT("Uses 1 part. Water comes back again.", "ใช้อะไหล่ 1 ได้น้ำคืนอีกครั้ง"));
+                case "service_scrubber": case "service_o2gen": case "service_fan": case "service_thermal": case "service_recycler":
+                {
+                    var m = (Machine)System.Array.FindIndex(new[] { "scrubber", "o2gen", "fan", "thermal", "recycler" }, k => k == a.Substring(8));
+                    return (TT("Service: ", "บำรุง: ") + LdMachineName(m), TT($"{_ld.Cond[(int)m]}% → {Mathf.Min(100, _ld.Cond[(int)m] + _ld.C.serviceGain)}%. No parts. Keeps it from breaking.", $"{_ld.Cond[(int)m]}% → {Mathf.Min(100, _ld.Cond[(int)m] + _ld.C.serviceGain)}% ไม่ใช้อะไหล่ กันเครื่องเสีย"));
+                }
                 case "explore": return (TT("Go outside: search the crash site", "ออกไปข้างนอก: ค้นจุดที่ยานตก"), _ld.HasRadMeter ? TT("Once a day. Find one supply. Your radiation meter shows the hot spots, so no radiation.", "วันละครั้ง เจอของ 1 อย่าง มีเครื่องวัดรังสีจึงเลี่ยงจุดรังสีได้")
                     : TT($"Once a day. Find one supply — or walk into a radiation hot spot ({Mathf.RoundToInt(_ld.C.exploreRadiation * 100)}% chance: crew −1).", $"วันละครั้ง เจอของ 1 อย่าง หรือเดินเข้าจุดรังสีสูง (โอกาส {Mathf.RoundToInt(_ld.C.exploreRadiation * 100)}%: ลูกเรือ −1)"));
                 case "use_medkit": return (TT("Use medicine", "ใช้ยารักษา"), TT($"Crew health +1. Medicine left: {_ld.Medkits}.", $"สุขภาพลูกเรือ +1 ยาเหลือ {_ld.Medkits}"));
@@ -143,15 +154,23 @@ namespace TitanGate.Game
                 case Fault.Fan: return new LdIncident { room = DockRoom.LifeSupport, actions = new[] { "repair_fan", "backup_fan", "shelter" },
                     title = TT("The air is not moving", "อากาศไม่หมุนเวียน"),
                     symptom = TT("The air feels still. CO₂ rises near the crew even though the scrubber runs.", "อากาศนิ่ง CO₂ รอบตัวลูกเรือสูงขึ้น ทั้งที่เครื่องกรองยังทำงาน"),
-                    diagnosis = TT("The air circulation fan stopped. In microgravity air does not move by itself.", "พัดลมหมุนเวียนอากาศหยุด ในสภาพไร้น้ำหนัก อากาศไม่เคลื่อนที่เอง"),
+                    diagnosis = TT("The fan that pushes air through the scrubber stopped. Mars gravity is only about a third of Earth's, so still air mixes slowly, and the CO₂ we breathe out (heavier than air) can collect near the crew.",
+                                   "พัดลมที่ดันอากาศผ่านเครื่องกรองหยุด แรงโน้มถ่วงดาวอังคารมีแค่ราว 1 ใน 3 ของโลก อากาศนิ่ง ๆ จึงผสมกันช้า และ CO₂ ที่เราหายใจออก (หนักกว่าอากาศ) จะค้างอยู่รอบตัวลูกเรือ"),
                     ignore = TT("CO₂ rises every action. At CRITICAL the crew gets hurt.", "CO₂ เพิ่มทุกการกระทำ ถึงขั้นวิกฤตลูกเรือจะบาดเจ็บ"),
-                    fact = TT("Air hardly mixes by itself in microgravity, so pockets of breathed-out CO₂ can form. ISS sleep stations aim a fan at the astronaut's face.", "ในสภาพไร้น้ำหนัก อากาศแทบไม่ผสมกันเอง จึงอาจมี CO₂ ที่หายใจออกค้างเป็นกลุ่ม ห้องนอนบน ISS จึงมีพัดลมเป่าที่หน้านักบินอวกาศ") };
+                    fact = TT("Warm air rises because gravity pulls the cooler, heavier air down. On the ISS there is almost no gravity, so ISS sleep stations aim a fan at the astronaut's face. A Mars base has gravity, but weaker, so it still needs fans.",
+                              "อากาศอุ่นลอยขึ้นเพราะแรงโน้มถ่วงดึงอากาศเย็นที่หนักกว่าลงมา บน ISS แทบไม่มีแรงโน้มถ่วง ห้องนอนบน ISS จึงมีพัดลมเป่าที่หน้านักบินอวกาศ ฐานบนดาวอังคารมีแรงโน้มถ่วงแต่น้อยกว่าโลก จึงยังต้องใช้พัดลม") };
                 case Fault.O2Gen: return new LdIncident { room = DockRoom.LifeSupport, actions = new[] { "repair_o2gen", "low_activity", "cannibalize" },
                     title = TT("The oxygen generator stopped", "เครื่องผลิตออกซิเจนหยุด"),
                     symptom = TT("The O₂ meter drops every action. CO₂ is normal.", "มาตรวัด O₂ ลดทุกการกระทำ แต่ CO₂ ปกติ"),
                     diagnosis = TT("The machine that splits the station's water into oxygen stopped. The scrubber still works.", "เครื่องที่แยกน้ำของสถานีเป็นออกซิเจนหยุด ส่วนเครื่องกรอง CO₂ ยังทำงาน"),
                     ignore = TT("Oxygen tanks drop every action. When empty the crew gets hurt.", "ถังออกซิเจนลดทุกการกระทำ ถ้าหมดลูกเรือจะบาดเจ็บ"),
                     fact = TT("The ISS makes oxygen by electrolysis: electricity splits water (H₂O) into oxygen and hydrogen.", "ISS ผลิตออกซิเจนด้วยการแยกน้ำด้วยไฟฟ้า (อิเล็กโทรลิซิส) แยก H₂O เป็นออกซิเจนกับไฮโดรเจน") };
+                case Fault.Recycler: return new LdIncident { room = DockRoom.LifeSupport, actions = new[] { "repair_recycler" },
+                    title = TT("The water recycler stopped", "เครื่องรีไซเคิลน้ำหยุด"),
+                    symptom = TT("No clean water is coming back from the recycler.", "ไม่มีน้ำสะอาดไหลกลับมาจากเครื่องรีไซเคิล"),
+                    diagnosis = TT("It wore out. Without it, every night only uses water: dig ice outside, or repair it.", "เครื่องสึกจนหยุด ถ้าไม่มีมัน ทุกคืนมีแต่ใช้น้ำ ต้องออกไปขุดน้ำแข็ง หรือซ่อม"),
+                    ignore = TT("No water comes back. Switch it off to save power until it is fixed.", "ไม่ได้น้ำคืน ปิดไว้ประหยัดไฟจนกว่าจะซ่อม"),
+                    fact = TT("The ISS Water Recovery System turns sweat, breath moisture and urine back into drinking water — about 98% of it.", "ระบบนำน้ำกลับมาใช้ของ ISS เปลี่ยนเหงื่อ ไอน้ำจากลมหายใจ และปัสสาวะ กลับเป็นน้ำดื่มได้ราว 98%") };
                 default: return new LdIncident { room = DockRoom.Comms, actions = new[] { "dip_battery", "dip_shed", "dip_cancel" },
                     title = TT("Power dip while sending!", "ไฟตกระหว่างส่งสัญญาณ!"),
                     symptom = TT("The lights flicker as the transmitter pulls power.", "ไฟกะพริบตอนเครื่องส่งดึงไฟ"),
@@ -175,6 +194,7 @@ namespace TitanGate.Game
             _busy = false;
             if (!_playFast) Time.timeScale = 1f;
             _ui.HideScreen();
+            LdClearHighlights();
             BBegin(2, new Vector2(12f, 11.5f));
             LdBuildHud();
             _ui.FadeTo(0f, 0.6f);
@@ -294,7 +314,7 @@ namespace TitanGate.Game
         {
             // ---- Docking port (x 2-8, y 9-15): the lifeboat we came in, and the port console
             BDeco(Art.LifeboatPod(false, 0, ScavengeInventory.PodMax), 5.0f, 12.4f, 4);
-            BProp("ld_dock", TT("Docking port and airlock", "ช่องเทียบท่าและประตูออกข้างนอก"), Art.Station("dock", false) ?? Art.Console("lddock", 22, 20, Pal.Amber), 5.0f, 9.2f, new Vector2(5.0f, 10.2f), 1, 1);
+            BProp("ld_dock", TT("Docking port", "ช่องเทียบท่า"), Art.Station("dock", false) ?? Art.Console("lddock", 22, 20, Pal.Amber), 5.0f, 9.2f, new Vector2(5.0f, 10.2f), 1, 1);
             BLamp(new Vector2(5.5f, 12f), new Color(1f, 0.8f, 0.5f), 6f, 0.5f);
             BLamp(new Vector2(12.5f, 12f), new Color(0.7f, 0.85f, 1f), 3f, 0.35f);
 
@@ -304,7 +324,8 @@ namespace TitanGate.Game
             // the crew table: dinner ends the day; the two chairs face each other across it
             BProp("ld_table", TT("Dinner table (end the day)", "โต๊ะกินข้าว (จบวัน)"), Art.Table(), 22.0f, 11.2f, new Vector2(22.0f, 10.2f), 3);
             BProp("deco", null, Art.PilotSeat(), 19.6f, 11.0f, Vector2.zero, 1);
-            BProp("deco", null, Art.PilotSeat(), 24.4f, 11.0f, Vector2.zero, 1).sr.flipX = true;
+            var rightSeat = BProp("deco", null, Art.PilotSeat(), 24.4f, 11.0f, Vector2.zero, 1);
+            rightSeat.sr.flipX = true; BRefitBlock(rightSeat);   // the hitbox follows the flipped chair
             BLamp(new Vector2(22f, 12f), new Color(1f, 0.85f, 0.6f), 8f, 0.5f);
 
             // ---- Life Support (x 16-25, y 18-23): scrubber, O₂ generator, fan
@@ -340,17 +361,18 @@ namespace TitanGate.Game
                 _ldShade[kv.Key] = sr;
             }
             LdBuildOutside();
+            LdBuildManageProps();   // recycler, beacon (GameFlow.LdManage.cs)
         }
 
         DockRoom LdRoomOfSpot(string id) => id switch
         {
-            "ld_scrubber" => DockRoom.LifeSupport, "ld_o2gen" => DockRoom.LifeSupport, "ld_fan" => DockRoom.LifeSupport,
+            "ld_scrubber" => DockRoom.LifeSupport, "ld_o2gen" => DockRoom.LifeSupport, "ld_fan" => DockRoom.LifeSupport, "ld_recycler" => DockRoom.LifeSupport,
             "ld_thermal" => DockRoom.Thermal, "ld_lockers" => DockRoom.Storage, "ld_radio" => DockRoom.Comms, _ => DockRoom.Core,
         };
 
         string LdSpotOfRoom(DockRoom r) => r switch
         {
-            DockRoom.LifeSupport => _ld != null && !_ld.FanOk ? "ld_fan" : _ld != null && !_ld.O2GenOk ? "ld_o2gen" : "ld_scrubber",
+            DockRoom.LifeSupport => _ld != null && !_ld.FanOk ? "ld_fan" : _ld != null && !_ld.O2GenOk ? "ld_o2gen" : _ld != null && !_ld.RecyclerOk ? "ld_recycler" : "ld_scrubber",
             DockRoom.Thermal => "ld_thermal", DockRoom.Storage => "ld_lockers", DockRoom.Comms => "ld_radio", _ => "ld_board",
         };
 
@@ -362,9 +384,14 @@ namespace TitanGate.Game
             {
                 var inc = LdIncidentOf(f);
                 if (_ld.Usable(inc.room)) yield return (LdSpotOfRoom(inc.room), true);
-                yield return ("ld_board", true);
+                else yield return ("ld_board", true);   // a sealed module is patched from the station board
             }
             else if (_ld.Signal < _ld.C.signalNeeded && _ld.Can("send", out _)) yield return ("ld_radio", false);
+            // a worn machine gets a soft marker: servicing it now is cheaper than repairing it later
+            foreach (Machine m in System.Enum.GetValues(typeof(Machine)))
+                if (_ld.IsOk(m) && _ld.Running(m) && _ld.Cond[(int)m] < 40)
+                    yield return (m == Machine.Thermal ? "ld_thermal" : m == Machine.Fan ? "ld_fan" : m == Machine.O2Gen ? "ld_o2gen" : m == Machine.Recycler ? "ld_recycler" : "ld_scrubber", false);
+            if (_ld.Look().shortTonight) yield return ("ld_board", false);
         }
 
         // ------------------------------------------------------------------ per frame
@@ -376,8 +403,11 @@ namespace TitanGate.Game
             foreach (var kv in LdDoors)
             {
                 bool shut = !_ld.Usable(kv.Key);
+                if (shut) LdStepOutOf(kv.Key);   // never shut the cadet inside (GameFlow.LdHands.cs)
                 foreach (var (door, _) in kv.Value) _bSolid[door.x, door.y] = shut;
             }
+            LdHighlightsUpdate();
+            LdManageUpdate();
             float pulse = 0.5f + 0.5f * Mathf.Sin(_bAnim * (Settings.ReducedMotion ? 0 : 4));
             foreach (var kv in _ldShade)
             {
@@ -393,22 +423,23 @@ namespace TitanGate.Game
             foreach (var (spot, art, bad) in new[] {
                 ("ld_scrubber", "scrubber", !_ld.ScrubberOk), ("ld_o2gen", "o2gen", !_ld.O2GenOk), ("ld_fan", "fan", !_ld.FanOk && !_ld.BackupCircuit),
                 ("ld_thermal", "thermal", !_ld.ThermalOk || _ld.HeatLevel != "normal"), ("ld_radio", "radio", _ld.TransmitterTripped || !_ld.Usable(DockRoom.Comms)),
-                ("ld_board", "board", _ld.ActiveFault != Fault.None), ("ld_dock", "dock", _ld.Battery < _ld.C.dockPower), ("ld_lockers", "lockers", _ld.FindsLeft == 0) })
+                ("ld_board", "board", _ld.ActiveFault != Fault.None), ("ld_dock", "dock", _ld.Battery < _ld.C.dockPower), ("ld_lockers", "lockers", _ld.FindsLeft == 0),
+                ("ld_recycler", "recycler", !_ld.RecyclerOk) })
             {
                 var sp = BSpotById(spot); var sprite = Art.Station(art, bad);
                 if (sp != null && sprite != null && sp.sr.sprite != sprite) sp.sr.sprite = sprite;
             }
-            _sfx.Loop("siren", _ld.ActiveFault != Fault.None && _ld.Outcome == Outcome.Ongoing && !_ui.ModalOpen);
+            _sfx.Loop("siren", _ld.ActiveFault != Fault.None && _ld.Outcome == Outcome.Ongoing && !_ui.ModalOpen && !_ldSeq);
             // a new incident: alarm, flash, and it goes in the incident log
             var f = _ld.ActiveFault;
-            if (f != _ldSeenFault)
+            if (f != _ldSeenFault && !_ldSeq)   // wait until the night card is gone: the alarm belongs to the new day
             {
                 if (f != Fault.None && f != Fault.PowerDip)
                 {
                     var inc = LdIncidentOf(f);
                     _ldIncidents.Add((_ld.Day, f, LdRoomName(inc.room)));
                     _sfx.Play("alarm"); _ui.Flash(new Color(1f, 0.2f, 0.1f, 0.35f));
-                    _ui.Toast("! " + inc.title + " — " + TT($"go to {LdRoomName(inc.room)} or the station board", $"ไปที่{LdRoomName(inc.room)} หรือแผงสถานะสถานี"), GameUI.CRed);
+                    _ui.Toast("! " + inc.title + " — " + TT($"go to {LdRoomName(inc.room)} and fix it by hand", $"ไปที่{LdRoomName(inc.room)} แล้วลงมือซ่อม"), GameUI.CRed);
                 }
                 _ldSeenFault = f;
             }
@@ -480,8 +511,12 @@ namespace TitanGate.Game
             LdChip("day", $"{s.Day}/{s.C.days}", GameUI.CAmber);
             LdChip("time", wu, GameUI.CCyan);
             LdChip("food", s.Food.ToString() + (s.MysteryFood > 0 ? $" +{s.MysteryFood}?" : ""), s.Food <= 1 ? GameUI.CRed : GameUI.CText, s.Food == 0);
+            LdChip("water", s.Water.ToString(), s.Water <= 1 ? GameUI.CRed : s.Water <= 3 ? GameUI.CAmber : GameUI.CText, s.Water == 0);
             LdChip("o2", s.Oxygen.ToString(), s.Oxygen <= 0 ? GameUI.CRed : GameUI.CText, s.Oxygen <= 0 && (s.LeakRoom != null || !s.O2GenOk));
             LdChip("battery", s.Battery.ToString(), s.Battery < s.C.dockPower ? GameUI.CRed : GameUI.CText, s.Battery <= 0);
+            var fc = s.Look();
+            int net = fc.solar - fc.draw;
+            LdChip("sun", (net >= 0 ? "+" : "−") + Mathf.Abs(net) + TT("/night", "/คืน"), fc.shortTonight ? GameUI.CRed : net < 0 ? GameUI.CAmber : GameUI.CGreen, fc.shortTonight);
             LdChip("parts", s.Parts.ToString(), s.Parts == 0 ? GameUI.CAmber : GameUI.CText);
             LdChip("co2", LdLevel(s.Co2Level), LdLevelColor(s.Co2Level), s.Co2Level == "critical");
             LdChip("heat", LdLevel(s.HeatLevel), LdLevelColor(s.HeatLevel), s.HeatLevel == "critical");
@@ -520,20 +555,32 @@ namespace TitanGate.Game
             var list = new List<string>();
             if (f != Fault.None)
             {
+                // repairs happen at the broken machine, not from any panel; the board only says where to go
                 var inc = LdIncidentOf(f);
-                if (spot == "ld_board" || spot == "ld_dock" || inc.room == room) list.AddRange(inc.actions);
+                if (f == Fault.PowerDip || inc.room == room && spot != "ld_board" && spot != "ld_dock") list.AddRange(inc.actions.Where(x => x != "shelter"));   // "rest in the core" is offered in the core
             }
             switch (room)
             {
-                case DockRoom.LifeSupport: list.AddRange(new[] { "repair_scrubber", "absorber", "repair_fan", "backup_fan", "repair_o2gen" }); break;
-                case DockRoom.Thermal: list.AddRange(new[] { "repair_thermal", "shed_load" }); break;
+                case DockRoom.LifeSupport:
+                    list.AddRange(new[] { "repair_scrubber", "repair_fan", "backup_fan", "repair_o2gen", "repair_recycler" });
+                    if (_ld.Co2 > 0 || !_ld.ScrubberOk) list.Add("absorber");
+                    // service the machine you are standing at, plus any other one in this room that is getting worn
+                    var here = spot == "ld_o2gen" ? "service_o2gen" : spot == "ld_fan" ? "service_fan" : spot == "ld_recycler" ? "service_recycler" : "service_scrubber";
+                    list.Add(here);
+                    foreach (var m in LdLifeMachines) if (_ld.Cond[(int)m] < 60) list.Add("service_" + StationSimulation.Key(m));
+                    break;
+                case DockRoom.Thermal: list.AddRange(new[] { "repair_thermal", "service_thermal", "shed_load" }); break;
                 case DockRoom.Storage: list.Add("search"); break;
                 case DockRoom.Comms: list.Add("repair_radio"); list.Add("send"); break;
                 case DockRoom.Core:
+                    if (spot == "ld_board") break;   // the board is for planning (power, forecast, rescue), not for doing
                     if (_ld.Sealed.Count > 0) list.Add("repair_leak");
                     list.AddRange(new[] { "prepare_shelter", "open_mystery", "use_medkit", "shelter", "end_day" }); break;
             }
-            return list.Distinct().Where(a => _ld.Can(a, out var why) || why != "not_needed" && why != "unknown" && why != "no_medkit" && !(a == "repair_radio" && why == "done"));
+            if (spot == "ld_board" && _ld.Sealed.Count > 0) list.Add("repair_leak");   // a sealed module is patched from here
+            if (spot == "ld_board" && _ld.StormToday) list.Add("prepare_shelter");
+            var hidden = new HashSet<string> { "not_needed", "unknown", "no_medkit", "broken", "antenna_next" };
+            return list.Distinct().Where(a => _ld.Can(a, out var why) || !hidden.Contains(why) && !(a == "repair_radio" && why == "done") && !(a == "send" && why == "radio_broken"));
         }
 
         /// <summary>Room status as icon chips: a machine with a tick or a cross, and the numbers that matter in this room.</summary>
@@ -581,7 +628,7 @@ namespace TitanGate.Game
                     foreach (DockRoom r in new[] { DockRoom.LifeSupport, DockRoom.Thermal, DockRoom.Storage, DockRoom.Comms })
                         if (!s.Usable(r) || s.LeakRoom == r) Chip("o2", LdRoomName(r), false, s.Detached.Contains(r) ? TT("gone", "ปลดแล้ว") : s.Sealed.Contains(r) ? TT("closed", "ปิด") : TT("LEAK", "รั่ว"));
                     Chip("battery", TT("Dock power", "ไฟเปิดช่องเทียบท่า"), s.Battery >= s.C.dockPower, $"{s.Battery}/{s.C.dockPower}");
-                    int net = s.SolarToday - s.C.baseLoad - (s.BackupCircuit ? 1 : 0);
+                    int net = s.SolarToday - s.DrawTonight();
                     Chip("battery", TT("Each night", "ทุกคืน"), net >= 0, (net >= 0 ? "+" : "−") + Mathf.Abs(net));
                     Chip("food", TT("Each night", "ทุกคืน"), s.Food > 1, "−1");
                     break;
@@ -640,6 +687,9 @@ namespace TitanGate.Game
             "room_closed" => TT("module closed", "โมดูลถูกปิด"), "empty" => TT("nothing left", "ไม่เหลืออะไรแล้ว"), "done" => TT("already done", "ทำครบแล้ว"),
             "no_time" => TT("no work units left today", "วันนี้หมดเวลาทำงานแล้ว"), "radio_broken" => TT("the radio must be repaired first (quest 1)", "ต้องซ่อมวิทยุก่อน (เควส 1)"),
             "rover_parts" => TT("not all rover parts found yet", "ยังหาชิ้นส่วนรถไม่ครบ"), "rover_broken" => TT("the rover is broken", "รถเสียอยู่"), "no_food" => TT("not enough food", "อาหารไม่พอ"),
+            "needs_cooling" => TT("the coolant loop must work first", "ต้องให้ท่อระบายความร้อนใช้ได้ก่อน"), "radio_steps" => TT("finish the board and the power test first", "ต้องเปลี่ยนแผงวงจรและทดสอบไฟก่อน"),
+            "storm" => TT("too dangerous in the solar storm", "อันตรายเกินไปตอนพายุสุริยะ"), "broken" => TT("broken: repair it instead", "เสียอยู่ ต้องซ่อมแทน"),
+            "no_beacon" => TT("no beacon yet", "ยังไม่มีเสาสัญญาณ"), "antenna_next" => TT("next: the antenna outside", "ขั้นต่อไป: เสาอากาศข้างนอก"),
             "raid_pending" => TT("answer the strangers first", "ต้องตอบคนแปลกหน้าก่อน"), "once_a_day" => TT("already done today", "วันนี้ทำไปแล้ว"), "no_medkit" => TT("no medicine", "ไม่มียา"), "no_flashlight" => TT("no flashlight", "ไม่มีไฟฉาย"), _ => why,
         };
 
@@ -651,8 +701,36 @@ namespace TitanGate.Game
                 LdHeader(p, title);
                 p.Add(LdDayChips());
                 var f = _ld.ActiveFault;
-                if (f != Fault.None) { var inc = LdIncidentOf(f); if (spot == "ld_board" || spot == "ld_dock" || inc.room == room) p.Add(LdIncidentBlock(f)); }
-                p.Add(LdStatusBlock(room));
+                if (f != Fault.None)
+                {
+                    var inc = LdIncidentOf(f);
+                    if (spot == "ld_board" || spot == "ld_dock" || inc.room == room) p.Add(LdIncidentBlock(f));
+                    if ((spot == "ld_board" || spot == "ld_dock" || inc.room != room) && f != Fault.PowerDip && _ld.Usable(inc.room))
+                        p.Add(LdPara("→ " + TT($"Walk to {LdRoomName(inc.room)} and repair it at the machine.", $"เดินไปที่{LdRoomName(inc.room)} แล้วซ่อมที่ตัวเครื่อง"), GameUI.CAmber, 22));
+                }
+                if (spot == "ld_board")
+                {
+                    // the manager's desk: tonight's forecast, the power plan for every system, and the rescue plan
+                    p.Add(LdSectionLabel(TT("Tonight", "คืนนี้")));
+                    p.Add(LdForecastBlock());
+                    var cols = new VisualElement(); cols.style.flexDirection = FlexDirection.Row; cols.style.flexShrink = 0;
+                    var left = new VisualElement(); left.style.width = 560; left.style.marginRight = 20;
+                    var right = new VisualElement(); right.style.width = 520;
+                    left.Add(LdSectionLabel(TT("Power plan (switching is free)", "แผนไฟฟ้า (เปิด/ปิดฟรี ไม่เสียเวลา)")));
+                    left.Add(LdPowerRows(new[] { Sys.Scrubber, Sys.O2Gen, Sys.Heater, Sys.Recycler, Sys.Beacon }));
+                    right.Add(LdSectionLabel(TT("Machines", "สภาพเครื่อง")));
+                    right.Add(LdConditionBlock(new[] { Machine.Scrubber, Machine.O2Gen, Machine.Fan, Machine.Thermal, Machine.Recycler }, true));
+                    right.Add(LdRescueBlock());
+                    cols.Add(left); cols.Add(right);
+                    p.Add(cols);
+                }
+                else
+                {
+                    p.Add(LdStatusBlock(room));
+                    if (room == DockRoom.LifeSupport) { p.Add(LdConditionBlock(LdLifeMachines)); p.Add(LdPowerRows(new[] { Sys.Scrubber, Sys.O2Gen, Sys.Recycler })); }
+                    if (room == DockRoom.Thermal) { p.Add(LdConditionBlock(new[] { Machine.Thermal })); p.Add(LdPowerRows(new[] { Sys.Heater })); }
+                    if (room == DockRoom.Comms) p.Add(LdRescueBlock());
+                }
                 foreach (var a in LdConsoleActions(room, spot)) p.Add(LdActionRow(a));
                 if (spot == "ld_board" && _ldIncidents.Count > 0) p.Add(_ui.B(TT("Incident log", "บันทึกเหตุการณ์"), LdShowIncidentLog, 22));
             });
@@ -694,16 +772,20 @@ namespace TitanGate.Game
             int day = _ld.Day;
             var before = _ld.ActiveFault;
             int logMark = _ld.Log.Count;
-            if ((a.StartsWith("explore_") || a == "send_rover") && _ld.Can(a, out _)) { StartCoroutine(LdExpedition(a)); return; }   // off-screen trip (GameFlow.DayFlow.cs)
+            // the power plan is free: switch, stay in the panel, see the forecast change
+            if (a.StartsWith("power_")) { var pr = LdRun(a); _sfx.Play(pr.ok ? (a.StartsWith("power_on_") ? "good" : "click") : "bad"); _ui.RebuildModal(); return; }
+            bool outside = a.StartsWith("explore_") || a == "send_rover" || a == "ice" || a == "clean_panels" || a == "radio_antenna" || a == "build_beacon";
+            if (outside && _ld.Can(a, out _)) { StartCoroutine(LdExpedition(a)); return; }   // off-screen trip (GameFlow.DayFlow.cs)
+            // repairs and sending are done by hand: a short timing game first (GameFlow.LdHands.cs)
+            if (LdNeedsHands(a) && !_ldHandsDone && !_playtest && !AutoShotRequested() && _ld.Can(a, out _)) { _ui.CloseModal(); StartCoroutine(LdHandsOn(a)); return; }
             _ui.CloseModal();
-            var r = _ld.Do(a);
-            if (r.ok) LdRecord(a);
+            var r = LdRun(a);   // records the action for the save (GameFlow.Dinner.cs)
             if (!r.ok) { _sfx.Play("bad"); _ui.Toast(LdBlockedText(r.reason), GameUI.CRed); return; }
             _sfx.Play(a.StartsWith("repair") ? "good" : "card");
             if (a.StartsWith("repair") || a == "assemble_rover") _sfx.Play("clank");
             if (a == "prepare_shelter") _sfx.Play("shield");
             if (a.StartsWith("repair") || a == "assemble_rover") LdSparks();
-            StartCoroutine(Act(a.StartsWith("repair") || a == "search" ? "lift" : "lift", .45f, null));
+            if (a != "end_day") StartCoroutine(Act(LdPoseOf(a), .45f, null));
             foreach (var n in r.notes) { var t = LdNote(n); if (t != null) _ui.Toast(t, n == "power_dip" ? GameUI.CRed : GameUI.CGreen); }
             // the solved incident teaches its fact
             if (before != Fault.None && before != Fault.PowerDip && _ld.ActiveFault != before)
@@ -716,11 +798,18 @@ namespace TitanGate.Game
             if (n.StartsWith("found_") && n != "found_rover_part" && n != "found_mystery")
             {
                 string k = n.Substring(6);
-                string what = k == "absorber" ? TT("a CO₂ absorber canister", "กระป๋องดูดซับ CO₂") : k == "food" ? LdRes(Res.Food) : k == "battery" ? LdRes(Res.Battery) : k == "oxygen" ? TT("an oxygen tank", "ถังออกซิเจน") : LdRes(Res.Parts);
-                return TT("Found: ", "เจอ: ") + what + " +1";
+                string what = k == "absorber" ? TT("a CO₂ absorber canister", "กระป๋องดูดซับ CO₂") : k == "food" ? LdRes(Res.Food) : k == "battery" ? LdRes(Res.Battery) : k == "oxygen" ? TT("an oxygen tank", "ถังออกซิเจน")
+                    : k == "water" ? TT("a water container", "ถังน้ำ") + " +2" : k == "ice" ? TT("ice", "น้ำแข็ง") : LdRes(Res.Parts);
+                return TT("Found: ", "เจอ: ") + what + (k == "water" || k == "ice" ? "" : " +1");
             }
+            if (n.StartsWith("serviced_")) return TT("Serviced. It will last longer now.", "บำรุงแล้ว เครื่องจะทนขึ้น");
+            if (n.StartsWith("power_")) return null;
             switch (n)
             {
+                case "radio_board": return TT("New radio board fitted (1/3).", "เปลี่ยนแผงวงจรวิทยุแล้ว (1/3)");
+                case "radio_tested": return TT("Power test passed (2/3). Next: the antenna outside.", "ทดสอบไฟผ่าน (2/3) ต่อไป: เสาอากาศข้างนอก");
+                case "beacon_built": return TT("The beacon is up! It sent its first ping.", "ตั้งเสาสัญญาณแล้ว! ส่งสัญญาณครั้งแรกไปแล้ว");
+                case "panels_clean": return TT("Panels clean: full solar power again.", "แผงสะอาดแล้ว ไฟโซลาร์กลับมาเต็ม");
                 case "signal_sent": return TT($"Location sent! ({_ld.Signal}/{_ld.C.signalNeeded})", $"ส่งพิกัดแล้ว! ({_ld.Signal}/{_ld.C.signalNeeded})");
                 case "signal_cancelled": return TT("Send cancelled. Battery saved.", "ยกเลิกการส่ง เก็บแบตไว้");
                 case "power_dip": return TT("Power dip! Choose what to do.", "ไฟตก! เลือกว่าจะทำอย่างไร");
@@ -790,6 +879,19 @@ namespace TitanGate.Game
                 case "rover_broke": return TT("The rover broke down.", "รถสำรวจเสีย");
                 case "signal_missing": return TT("The rescue ship arrived, but it never got our location.", "ยานกู้ภัยมาถึง แต่ไม่ได้รับพิกัดของเรา");
                 case "dock_power_missing": return TT("The rescue ship arrived, but there was not enough battery to open the docking port.", "ยานกู้ภัยมาถึง แต่แบตไม่พอเปิดช่องเทียบท่า");
+                case "cold": return TT("The heater was off: a cold night, one less work unit tomorrow.", "ปิดฮีตเตอร์: คืนหนาว พรุ่งนี้เวลาทำงานลดลง 1");
+                case "thirsty": return TT("No water left — the crew got weaker.", "น้ำหมด ลูกเรืออ่อนแรง");
+                case "beacon_signal": return TT("The beacon sent our location.", "เสาสัญญาณส่งพิกัดแล้ว");
+                case "no_oxygen_o2gen_off": return TT("The O₂ maker was off and the tanks were empty — the crew got hurt.", "เครื่องผลิต O₂ ปิดอยู่และถังหมด ลูกเรือบาดเจ็บ");
+                case "radio_board": return TT("A new radio board was fitted.", "เปลี่ยนแผงวงจรวิทยุแล้ว");
+                case "radio_tested": return TT("The radio passed its power test.", "วิทยุผ่านการทดสอบไฟ");
+                case "beacon_built": return TT("The rescue beacon was built.", "สร้างเสาสัญญาณแล้ว");
+                case "ice": return TT("Ice was dug for water.", "ขุดน้ำแข็งมาทำน้ำ");
+            }
+            if (e.StartsWith("shed_"))
+            {
+                var key = e.Substring(5);
+                foreach (Sys s in System.Enum.GetValues(typeof(Sys))) if (StationSimulation.Key(s) == key) return TT($"Not enough power: the {LdSysName(s)} switched itself off.", $"ไฟไม่พอ: {LdSysName(s)} ถูกปิดเอง");
             }
             if (e.StartsWith("fixed_")) return TT("Something was repaired.", "ซ่อมอุปกรณ์สำเร็จ");
             return null;
@@ -803,8 +905,8 @@ namespace TitanGate.Game
             _ui.ShowModal(p =>
             {
                 LdHeader(p, TT($"Night {day}", $"คืนที่ {day}"));
-                p.Add(LdPara(TT($"Everyone ate 1 food. Solar panels gave +{_ld.C.solarPerDay} battery; the station used {_ld.C.baseLoad}" + (_ld.BackupCircuit ? " (+1 for the backup fan)." : "."),
-                    $"ทุกคนกินอาหาร 1 โซลาร์เซลล์ให้แบต +{_ld.C.solarPerDay} สถานีใช้ไป {_ld.C.baseLoad}" + (_ld.BackupCircuit ? " (+1 พัดลมสำรอง)" : "")), GameUI.CText, 22));
+                p.Add(LdPara(TT($"Everyone ate 1 food and drank 1 water. Tonight's plan: solar +{_ld.SolarToday}, the station uses {_ld.DrawTonight()}.",
+                    $"ทุกคนกินอาหาร 1 ดื่มน้ำ 1 แผนไฟคืนนี้: โซลาร์ +{_ld.SolarToday} สถานีใช้ {_ld.DrawTonight()}"), GameUI.CText, 22));
                 foreach (var l in lines) p.Add(LdPara("• " + l, GameUI.CDim, 22));
                 p.Add(LdPara(TT($"Morning of day {_ld.Day}. {_ld.C.days - _ld.Day} more night(s) until rescue. Work units today: {_ld.WorkUnits}.",
                     $"เช้าวันที่ {_ld.Day} อีก {_ld.C.days - _ld.Day} คืนยานกู้ภัยจะมา วันนี้มีเวลาทำงาน {_ld.WorkUnits} ช่วง"), GameUI.CAmber, 24));
@@ -979,9 +1081,14 @@ namespace TitanGate.Game
             _ui.CloseModal();
             var walkTo = BSpotById("ld_lockers"); if (walkTo != null) { BGoTo(walkTo.stand, null); yield return new WaitForSeconds(0.6f); yield return Shot("ld02_walk"); }
             var outSite = BSpotById("site_0"); if (outSite != null) { BGoTo(outSite.stand, null); float tw = 0; while (_bPath != null && tw < 12f) { tw += Time.deltaTime; yield return null; } yield return Shot("ld04_outside"); }
+            // the management screens: the station board (forecast, power plan, machines, rescue) and Life Support
+            _ui.CloseModal();
+            yield return AutoWalkUse("ld_board"); yield return new WaitForSeconds(0.6f); yield return Shot("ld08_board"); _ui.CloseModal();
+            yield return AutoWalkUse("ld_o2gen"); yield return new WaitForSeconds(0.6f); yield return Shot("ld09_life"); _ui.CloseModal();
+            yield return AutoWalkUse("ld_airlock"); yield return new WaitForSeconds(0.6f); yield return Shot("ld09_airlock"); _ui.CloseModal();
             float start = _playClock;
             int shots = 0, guard = 0; bool faultShot = false;
-            while (_ld.Outcome == Outcome.Ongoing && guard++ < 120)
+            while (_ld.Outcome == Outcome.Ongoing && guard++ < 300)
             {
                 while (_ui.ModalOpen && !_ld.PowerDipPending && !_ld.RaiderPending) { if (shots < 12 && _ld.Day >= 2) { shots++; yield return Shot($"ld{10 + shots:00}_modal"); } _ui.CloseModal(); yield return new WaitForSeconds(0.2f); }
                 if (_ld.DinnerPending) { if (!_ldSeq) StartCoroutine(LdDinnerAndDay(_ld.Day, _ld.Log.Count)); float wd = 0; while ((_ldSeq || _ld.DinnerPending) && wd < 20f) { wd += Time.deltaTime; yield return null; } continue; }
@@ -997,11 +1104,17 @@ namespace TitanGate.Game
                     yield return new WaitForSeconds(0.8f); _ui.CloseModal();
                 }
                 string a = LastDockBot.Choose(_ld, plan);
-                if (!a.StartsWith("dip_") && !a.StartsWith("raid_"))
+                if (!a.StartsWith("dip_") && !a.StartsWith("raid_") && !a.StartsWith("power_"))
                 {
-                    string spot = a == "end_day" || a == "open_mystery" ? "ld_table" : a.StartsWith("explore_") || a.Contains("rover") ? "ld_airlock"
-                        : a == "use_medkit" || a == "prepare_shelter" || a == "open_mystery" ? "ld_board" : a == "send" || a == "cannibalize" || a == "repair_radio" ? "ld_radio" : a == "search" ? "ld_lockers" : a == "shed_load" || a == "repair_thermal" ? "ld_thermal"
-                        : a == "shelter" || a == "repair_leak" || a == "seal_room" || a == "detach_storage" ? "ld_board"
+                    // repairs are only offered at the broken machine, so the bot walks to the incident's room
+                    bool incidentAction = _ld.ActiveFault != Fault.None && LdIncidentOf(_ld.ActiveFault).actions.Contains(a) && a != "shelter";
+                    string spot = a.StartsWith("power_") ? null
+                        : a.StartsWith("service_") ? (a == "service_thermal" ? "ld_thermal" : "ld_" + a.Substring(8))
+                        : a == "ice" || a == "clean_panels" || a == "radio_antenna" || a == "build_beacon" ? "ld_airlock"
+                        : a == "end_day" || a == "open_mystery" ? "ld_table" : a.StartsWith("explore_") || a.Contains("rover") ? "ld_airlock"
+                        : incidentAction ? LdSpotOfRoom(LdIncidentOf(_ld.ActiveFault).room)
+                        : a == "use_medkit" || a == "prepare_shelter" || a == "shelter" ? "ld_board" : a == "send" || a == "repair_radio" ? "ld_radio" : a == "search" ? "ld_lockers" : a == "shed_load" || a == "repair_thermal" ? "ld_thermal"
+                        : a == "repair_leak" ? "ld_board"
                         : a == "repair_fan" || a == "backup_fan" ? "ld_fan" : a == "repair_o2gen" || a == "low_activity" ? "ld_o2gen" : "ld_scrubber";
                     if (spot != "ld_board" && !_ld.Usable(LdRoomOfSpot(spot))) spot = "ld_board";
                     yield return AutoWalkUse(spot);

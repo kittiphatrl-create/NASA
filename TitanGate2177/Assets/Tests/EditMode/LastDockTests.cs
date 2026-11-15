@@ -386,19 +386,154 @@ namespace TitanGate.Tests
         static Dictionary<Res, int> With(Res item) { var k = Kit(); k[item] = 1; return k; }
 
         [Test]
-        public void Radio_NeedsThreeDays_OrOneWithTheKit()
+        public void Radio_IsBoard_PowerTest_Antenna_KitSkipsTwo()
         {
             var s = New(1);
             s.Director.Silent = true;
             Assert.IsFalse(s.Can("send", out var why)); Assert.AreEqual("radio_broken", why);
+            Assert.IsFalse(s.Can("radio_antenna", out why)); Assert.AreEqual("radio_steps", why);
+            int parts = s.Parts;
             s.Do("repair_radio");
-            Assert.IsFalse(s.Can("repair_radio", out why), "one session a day"); Assert.AreEqual("once_a_day", why);
-            s.Do("end_day"); s.Do("repair_radio"); s.Do("end_day"); s.Do("repair_radio");
-            Assert.IsTrue(s.RadioFixed); Assert.AreEqual(3, s.Day);
+            Assert.AreEqual(parts - 1, s.Parts, "the board uses a part");
+            s.ForceFault(Fault.Thermal);
+            Assert.IsFalse(s.Can("repair_radio", out why), "the power test needs the coolant loop"); Assert.AreEqual("needs_cooling", why);
+            s.Parts = 5; s.Do("repair_thermal");
+            s.Do("repair_radio");
+            Assert.IsFalse(s.RadioFixed);
+            s.Do("radio_antenna");
+            Assert.IsTrue(s.RadioFixed);
             var k = New(1, With(Res.RadioKit));
-            k.Do("repair_radio");
-            Assert.IsTrue(k.RadioFixed, "the kit fixes it in one session");
-            Assert.AreEqual(1, k.Day);
+            Assert.IsTrue(k.Can("radio_antenna", out _), "the kit did the board and the power test");
+            k.Do("radio_antenna");
+            Assert.IsTrue(k.RadioFixed);
+        }
+
+        // ---------------------------------------------------------------- management core (docs/LASTDOCK_MANAGEMENT.md)
+
+        static StationSimulation Plenty(int seed = 1)
+        {
+            var s = New(seed); s.Director.Silent = true;
+            s.Water = 40; s.Food = 40; s.Oxygen = 40;
+            return s;
+        }
+
+        [Test]
+        public void PowerPlan_IsFree_AndTheNightPaysIt()
+        {
+            var s = Plenty();
+            int wu = s.WorkUnits;
+            s.Do("power_on_recycler");
+            Assert.AreEqual(wu, s.WorkUnits, "switching power is planning, not work");
+            var f = s.Look();
+            Assert.AreEqual(s.C.baseLoad + s.C.drawScrubber + s.C.drawO2Gen + s.C.drawHeater + s.C.drawRecycler, f.draw);
+            int bat = s.Battery;
+            s.Do("end_day");
+            Assert.AreEqual(System.Math.Min(s.C.batteryCap, bat + f.solar - f.draw), s.Battery);
+        }
+
+        [Test]
+        public void ShortBattery_SwitchesOffExtrasFirst()
+        {
+            var s = Plenty();
+            s.Battery = 0; s.Dust = 50;   // dusty panels: tonight's sun cannot pay for everything
+            s.Do("power_on_recycler");
+            s.Do("end_day");
+            Assert.Contains("shed_recycler", s.Log);
+            Assert.IsTrue(s.On[(int)Sys.Scrubber], "life support is the last to go");
+            Assert.AreEqual(Outcome.Ongoing, s.Outcome);
+        }
+
+        [Test]
+        public void Dust_LowersSolar_CleaningRestoresIt()
+        {
+            var s = Plenty();
+            int fresh = s.SolarToday;
+            s.Do("end_day"); s.Do("end_day"); s.Do("end_day");
+            if (s.StormToday) return;
+            Assert.Less(s.SolarToday, fresh, "dust builds up every night");
+            s.Do("clean_panels");
+            Assert.AreEqual(fresh, s.SolarToday);
+        }
+
+        [Test]
+        public void Machines_Wear_ServiceIsCheaperThanRepair()
+        {
+            var s = Plenty();
+            int c0 = s.Cond[(int)Machine.Fan];
+            s.Do("end_day");
+            Assert.AreEqual(System.Math.Max(0, c0 - s.C.wearPerNight), s.Cond[(int)Machine.Fan], "the fan always runs, so it wears");
+            int parts = s.Parts;
+            s.Do("service_fan");
+            Assert.AreEqual(parts, s.Parts, "service uses no parts");
+            Assert.Greater(s.Cond[(int)Machine.Fan], c0 - s.C.wearPerNight);
+            s.ForceFault(Fault.Fan);
+            Assert.IsFalse(s.Can("service_fan", out var why)); Assert.AreEqual("broken", why);
+            s.Do("repair_fan");
+            Assert.AreEqual(parts - 1, s.Parts, "repair needs a part");
+            Assert.AreEqual(s.C.repairCond, s.Cond[(int)Machine.Fan]);
+        }
+
+        [Test]
+        public void BreakdownsComeFromWear_NotFromLuck()
+        {
+            Assert.AreEqual(0, IncidentDirector.BreakChance(60), "a machine in good shape never breaks");
+            Assert.Greater(IncidentDirector.BreakChance(15), IncidentDirector.BreakChance(45));
+            // a station whose machines are all kept above 60 % sees no machine faults
+            for (int seed = 1; seed <= 20; seed++)
+            {
+                var s = New(seed); s.Water = 40; s.Food = 40; s.Oxygen = 40;
+                for (int day = 0; day < 6 && s.Outcome == Outcome.Ongoing; day++)
+                {
+                    for (int i = 0; i < s.Cond.Length; i++) s.Cond[i] = 100;
+                    if (s.ActiveFault == Fault.Leak) { s.Parts = 5; s.Do("repair_leak"); }
+                    s.Do("end_day");
+                }
+                Assert.IsFalse(s.Log.Exists(e => e.StartsWith("fault_") && !e.StartsWith("fault_Leak")), "seed " + seed + ": " + string.Join(",", s.Log));
+            }
+        }
+
+        [Test]
+        public void Water_FeedsOxygen_RecyclerAndIceRefill()
+        {
+            var s = New(1); s.Director.Silent = true; s.Food = 40;
+            int w = s.Water, o2 = s.Oxygen;
+            s.Do("end_day");
+            Assert.AreEqual(w - 2, s.Water, "drink 1 + the O2 maker splits 1");
+            Assert.AreEqual(o2 + 1, s.Oxygen, "electrolysis tops up the tanks");
+            w = s.Water;
+            s.Do("power_on_recycler"); s.Do("end_day");
+            Assert.AreEqual(w - 1, s.Water, "the recycler gives one back");
+            w = s.Water;
+            if (!s.StormToday) { s.Do("ice"); Assert.AreEqual(w + s.C.iceWater, s.Water); Assert.IsFalse(s.Can("ice", out _), "one trip a day"); }
+        }
+
+
+        [Test]
+        public void Beacon_IsTheSecondRoute_SendsEveryPoweredNight()
+        {
+            var s = Plenty();
+            Assert.IsFalse(s.Can("build_beacon", out var why)); Assert.AreEqual("rover_parts", why);
+            s.RoverParts = s.C.beaconParts;
+            s.Do("build_beacon");
+            Assert.IsTrue(s.BeaconBuilt); Assert.AreEqual(0, s.RoverParts, "the parts went into the beacon, not a rover");
+            Assert.IsFalse(s.Can("assemble_rover", out _));
+            Assert.AreEqual(1, s.Signal, "the first ping goes out when it is built");
+            s.Do("end_day");
+            Assert.AreEqual(2, s.Signal, "then one signal a night while powered");
+            s.Do("power_off_beacon"); s.Do("end_day");
+            Assert.AreEqual(2, s.Signal);
+        }
+
+        [Test]
+        public void Forecast_ShowsHowLongThingsLast()
+        {
+            var s = New(1);
+            var f = s.Look();
+            Assert.AreEqual(s.SolarToday, f.solar);
+            Assert.AreEqual(-2, f.waterPerNight);
+            Assert.AreEqual(s.Water / 2, f.waterDays);
+            s.Do("power_off_o2gen");
+            Assert.Less(s.Look().o2PerDay, 0, "without the O2 maker the tanks drain");
         }
 
         [Test]
@@ -455,7 +590,7 @@ namespace TitanGate.Tests
         {
             for (int seed = 1; seed <= 20; seed++)
             {
-                var s = New(seed); s.Director.Silent = true;
+                var s = Plenty(seed);
                 Assert.GreaterOrEqual(s.StormDay, s.C.stormEarliest);
                 while (!s.StormTomorrow) s.Do("end_day");
                 Assert.IsFalse(s.StormToday);
@@ -485,7 +620,7 @@ namespace TitanGate.Tests
             Assert.LessOrEqual(c.Battery, bat - 1, "a trip costs a big charge");
             s.Do("rover_solar");
             Assert.IsFalse(s.HasSolar, "the panel moved from the base to the rover");
-            Assert.AreEqual(s.C.solarPerDay, s.SolarToday);
+            Assert.AreEqual(s.C.solarBase, s.SolarToday);
             int b2 = s.Battery; s.Do("send_rover");
             Assert.GreaterOrEqual(s.Battery, b2, "a solar rover charges itself");
             Assert.IsFalse(s.Can("send_rover", out why));
@@ -525,10 +660,10 @@ namespace TitanGate.Tests
         [Test]
         public void TwoDarkNights_BringAnIntruder_WithAWarningFirst()
         {
-            var s = New(1); s.Director.Silent = true; s.Battery = 0;
+            var s = New(1); s.Director.Silent = true; s.Battery = 0; s.Dust = 90;   // no sun on dusty panels: the base goes dark
             s.Do("end_day");
             Assert.Contains("dark_warning", s.Log);
-            s.Battery = 0; s.Do("end_day");
+            s.Battery = 0; s.Dust = 90; s.Do("end_day");
             Assert.Contains("intruder_stole", s.Log);
         }
 
@@ -641,7 +776,7 @@ namespace TitanGate.Tests
         {
             var s = New(1, Kit(5, 5, 5, 5));
             s.Director.Silent = true;
-            s.Signal = 3; s.Battery = 1; s.Day = 7;
+            s.Signal = 3; s.Battery = 0; s.Day = 7; s.Dust = 90;   // dusty panels: tonight's power cannot reach the dock reserve
             s.Do("end_day");
             Assert.AreEqual(Outcome.Lost, s.Outcome);
             Assert.Contains("dock_power_missing", s.Log);
@@ -650,6 +785,53 @@ namespace TitanGate.Tests
             t.Signal = 3; t.Battery = 4; t.Day = 7;
             t.Do("end_day");
             Assert.AreEqual(Outcome.Rescued, t.Outcome);
+        }
+
+        // ---------------------------------------------------------------- playtest fixes (2026-11-15)
+
+        /// <summary>Eating and sleeping never starts a new incident: a fault that appeared during "Dinner and sleep"
+        /// read as "the problem came with the end of the day" and confused players.</summary>
+        [Test]
+        public void Resting_NeverStartsAnIncident()
+        {
+            for (int seed = 1; seed <= 40; seed++)
+            {
+                var s = New(seed);
+                while (s.Outcome == Outcome.Ongoing && s.Day < 7)
+                {
+                    bool quiet = s.ActiveFault == Fault.None;
+                    int faultsBefore = s.Log.FindAll(e => e.StartsWith("fault_")).Count;
+                    int day = s.Day;
+                    s.Do("end_day");
+                    if (!quiet || s.Outcome != Outcome.Ongoing) break;
+                    // the only fault allowed is the next morning's (step 0), never one during the rest itself
+                    var newFaults = s.Log.FindAll(e => e.StartsWith("fault_")).Count - faultsBefore;
+                    Assert.LessOrEqual(newFaults, 1, "seed " + seed);
+                    Assert.AreEqual(day + 1, s.Day, "seed " + seed + ": resting runs to the next morning");
+                }
+            }
+        }
+
+        /// <summary>CONTINUE replays the saved actions with the saved kit and seed; that only works if a replay lands
+        /// in exactly the same state.</summary>
+        [Test]
+        public void SameKitSeedAndActions_ReplayToTheSameState()
+        {
+            for (int seed = 1; seed <= 20; seed++)
+            {
+                var a = New(seed);
+                var actions = new List<string>();
+                for (int i = 0; i < 40 && a.Outcome == Outcome.Ongoing; i++)
+                {
+                    string act = LastDockBot.Choose(a, BotPlan.Balanced);
+                    if (a.Do(act).ok) actions.Add(act);
+                }
+                var b = New(seed);
+                foreach (var act in actions) Assert.IsTrue(b.Do(act).ok, "seed " + seed + " " + act);
+                Assert.AreEqual((a.Day, a.WorkUnits, a.Food, a.Oxygen, a.Battery, a.Parts, a.Co2, a.Heat, a.Signal, a.Health, a.ActiveFault, a.Outcome),
+                                (b.Day, b.WorkUnits, b.Food, b.Oxygen, b.Battery, b.Parts, b.Co2, b.Heat, b.Signal, b.Health, b.ActiveFault, b.Outcome), "seed " + seed);
+                CollectionAssert.AreEqual(a.Log, b.Log, "seed " + seed);
+            }
         }
     }
 }

@@ -63,6 +63,9 @@ namespace TitanGate.Game
             BDeco(Art.Station("rover_wreck", false) ?? Art.CargoPod(false), LdSitePos[1].x, LdSitePos[1].y, 2);
             BDeco(Art.Crates(), LdSitePos[2].x, LdSitePos[2].y, 2);
             BProp("ld_airlock", TT("Airlock: go outside", "ประตูออกข้างนอก"), null, 31.6f, 21.0f, new Vector2(30.8f, 20.6f));
+            // the way out glows (it used to melt into the wall): a pulsing frame and a warm light at the outer door
+            LdAddDoorFrame(new RectInt(32, 20, 1, 2), () => _ld != null && _ld.ExploredToday && (_ld.RoverToday || !_ld.RoverBuilt) ? new Color(0.6f, 0.6f, 0.65f, 0.5f) : LdGold);
+            BLamp(new Vector2(31.6f, 21.0f), new Color(1f, 0.75f, 0.35f), 3.2f, 0.7f);
             for (int i = 0; i < StationSimulation.Sites; i++)
             {
                 _ldHot[i] = BSprite("hot", Art.SoftLight(), LdSitePos[i] + new Vector2(0, 0.4f), 30001);
@@ -103,9 +106,13 @@ namespace TitanGate.Game
         (string text, Color color)? LdAlert()
         {
             var f = _ld.ActiveFault;
-            if (f != Fault.None) { var inc = LdIncidentOf(f); return ("! " + inc.title + "  ·  " + TT($"Fix at {LdRoomName(inc.room)} or the station board", $"แก้ที่{LdRoomName(inc.room)} หรือแผงสถานะสถานี"), GameUI.CRed); }
+            if (f != Fault.None) { var inc = LdIncidentOf(f); return ("! " + inc.title + "  ·  " + (f == Fault.PowerDip ? TT("choose now", "เลือกตอนนี้") : TT($"Go to {LdRoomName(inc.room)} and fix it at the machine", $"ไปที่{LdRoomName(inc.room)} แล้วซ่อมที่ตัวเครื่อง")), GameUI.CRed); }
             if (_ld.StormToday) return (TT("SOLAR STORM today: outside is dangerous. Power the shelter tonight (station board).", "พายุสุริยะวันนี้: ข้างนอกอันตราย เปิดห้องหลบรังสีคืนนี้ (แผงสถานะสถานี)"), GameUI.CAmber);
             if (_ld.StormTomorrow) return (TT("ORBI: a solar storm arrives TOMORROW. Keep 1 battery for the shelter.", "ORBI: พายุสุริยะจะมาพรุ่งนี้ เก็บแบต 1 ไว้เปิดห้องหลบรังสี"), GameUI.CAmber);
+            var fc = _ld.Look();
+            if (fc.shortTonight) return (TT("Tonight's power plan costs more than you have: switch something off at the station board.", "แผนไฟคืนนี้ใช้มากกว่าที่มี: ปิดบางระบบที่แผงสถานะสถานี"), GameUI.CAmber);
+            if (fc.o2Days <= 1) return (TT("Oxygen runs out tomorrow: switch the O₂ maker on, or repair it.", "ออกซิเจนจะหมดพรุ่งนี้: เปิดหรือซ่อมเครื่องผลิต O₂"), GameUI.CAmber);
+            if (fc.waterDays <= 1) return (TT("Water runs out tomorrow: dig ice outside, or run the recycler.", "น้ำจะหมดพรุ่งนี้: ออกไปขุดน้ำแข็ง หรือเปิดเครื่องรีไซเคิล"), GameUI.CAmber);
             if (_ld.DarkNights > 0) return (TT("The base went dark last night. Something scratched at the door... (story)", "เมื่อคืนฐานมืด มีเสียงขูดที่ประตู... (เรื่องแต่ง)"), GameUI.CAmber);
             if (_ld.Sick) return (TT("Upset stomach from bad food: one less work unit tomorrow.", "ท้องเสียจากอาหารเสีย พรุ่งนี้เวลาทำงานลดลง 1"), GameUI.CAmber);
             return null;

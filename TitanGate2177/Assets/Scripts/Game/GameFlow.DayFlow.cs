@@ -103,7 +103,7 @@ namespace TitanGate.Game
                 var l = _ui.L((d > 0 ? "+" : "−") + Mathf.Abs(d), size - 2, true, c); l.style.marginLeft = 3; LdFont(l); chip.Add(l);
                 row.Add(chip);
             }
-            Add("food", r.food); Add("o2", r.oxygen); Add("battery", r.battery); Add("parts", r.parts); Add("can", r.absorbers);
+            Add("food", r.food); Add("water", r.water); Add("o2", r.oxygen); Add("battery", r.battery); Add("parts", r.parts); Add("can", r.absorbers);
             Add("co2", r.co2, false); Add("heat", r.heat, false); Add("signal", r.signal); Add("heart", r.health);
             if (row.childCount == 0) row.Add(_ui.L(TT("no change", "ไม่เปลี่ยน"), size - 4, false, GameUI.CDim));
             return row;
@@ -135,13 +135,27 @@ namespace TitanGate.Game
                 info.Add(LdPara(TT(" One trip a day. Pick where to go:", " ออกได้วันละครั้ง เลือกที่จะไป:"), GameUI.CCyan, 22));
                 p.Add(info);
                 if (_ld.StormToday) p.Add(LdPara("! " + TT("SOLAR STORM: every site is a radiation hot spot today.", "พายุสุริยะ: วันนี้ทุกจุดรังสีสูง"), GameUI.CRed, 22));
+                p.Add(LdCard("ice"));   // water for the O₂ maker and drinking
                 for (int i = 0; i < StationSimulation.Sites; i++) p.Add(LdSiteCard(i));
+                // jobs just outside the door (not a trip: they do not use up today's trip)
+                var jobs = new List<string>();
+                foreach (var a in new[] { "clean_panels", "radio_antenna" })
+                    if (_ld.Can(a, out var why) || why == "storm" || a == "radio_antenna" && why == "radio_steps") jobs.Add(a);
+                if (jobs.Count > 0)
+                {
+                    var jh = new VisualElement(); jh.style.flexDirection = FlexDirection.Row; jh.style.alignItems = Align.Center; jh.style.marginTop = 10;
+                    jh.Add(LdIconImage("sun", 26, LdGold));
+                    jh.Add(LdPara(TT(" Jobs by the door (no trip needed)", " งานหน้าประตู (ไม่นับเป็นการออกไป)"), LdGold, 22));
+                    p.Add(jh);
+                    foreach (var a in jobs) p.Add(LdCard(a));
+                }
                 var rover = new List<string>();
-                foreach (var a in new[] { "assemble_rover", "rover_solar", "send_rover", "repair_rover" })
-                    if (_ld.Can(a, out var why) || why != "not_needed" && why != "rover_parts") rover.Add(a);
+                foreach (var a in new[] { "build_beacon", "assemble_rover", "rover_solar", "send_rover", "repair_rover" })
+                    if (_ld.Can(a, out var why) || why != "not_needed" && why != "rover_parts" && why != "done") rover.Add(a);
                 var head = new VisualElement(); head.style.flexDirection = FlexDirection.Row; head.style.alignItems = Align.Center; head.style.marginTop = 10;
                 head.Add(LdIconImage("rover", 26, LdGold));
-                head.Add(LdPara(_ld.RoverBuilt ? TT(" Rover", " รถสำรวจ") : TT($" Rover parts {_ld.RoverParts}/{_ld.C.roverPartsNeeded} (old rover wreck)", $" ชิ้นส่วนรถ {_ld.RoverParts}/{_ld.C.roverPartsNeeded} (ซากรถสำรวจเก่า)"), LdGold, 22));
+                head.Add(LdPara(_ld.RoverBuilt ? TT(" Rover", " รถสำรวจ") : TT($" Rover parts {_ld.RoverParts} (old rover wreck): {_ld.C.beaconParts} build a beacon, {_ld.C.roverPartsNeeded} build a rover",
+                    $" ชิ้นส่วนรถ {_ld.RoverParts} (ซากรถสำรวจเก่า): {_ld.C.beaconParts} ชิ้นสร้างเสาสัญญาณ {_ld.C.roverPartsNeeded} ชิ้นสร้างรถ"), LdGold, 22));
                 p.Add(head);
                 foreach (var a in rover) p.Add(LdActionRow(a));
             });
@@ -171,23 +185,23 @@ namespace TitanGate.Game
             _ui.CloseModal();
             bool rover = a == "send_rover";
             int day = _ld.Day, logMark = _ld.Log.Count;
+            // short and snappy: the cadet already stands at the airlock, so cut out at once (it used to walk to the
+            // door, hold a black card for 1.6 s and then walk back in: about 8 seconds of waiting)
             var door = new Vector2(31.2f, 20.6f);
-            BGoTo(door, null);
-            float t = 0; while (_bPath != null && t < 4f) { t += Time.deltaTime; yield return null; }
+            _bPath = null; _bGoal = null;
             _sfx.Play("door_open");
-            yield return Fade(1f, 0.5f);
+            yield return Fade(1f, 0.25f);
+            string where = a.StartsWith("explore_") ? LdSiteName(a[8] - '0') : a == "ice" ? TT("Ice field", "ลานน้ำแข็ง") : a == "clean_panels" ? TT("Solar panels", "แผงโซลาร์")
+                : a == "radio_antenna" ? TT("Radio antenna", "เสาอากาศวิทยุ") : a == "build_beacon" ? TT("Beacon site", "จุดตั้งเสาสัญญาณ") : "";
             _ui.FadeText(rover ? TT("The rover rolls out across the red dust...", "รถสำรวจแล่นออกไปบนฝุ่นสีแดง...")
-                               : TT("You step out onto Mars...", "คุณก้าวออกไปบนดาวอังคาร...") + "\n" + LdSiteName(a.StartsWith("explore_") ? a[8] - '0' : 0), 40);
+                               : TT("You step out onto Mars...", "คุณก้าวออกไปบนดาวอังคาร...") + "\n" + where, 40);
             _sfx.Play(rover ? "rover" : "whoosh");
-            yield return new WaitForSeconds(_playtest ? 0.6f : 1.6f);
-            var r = _ld.Do(a);
-            if (r.ok) LdRecord(a);
-            _bPos = door; _bLastMove = Vector2.left; _bPath = null; _bGoal = null;
+            yield return new WaitForSeconds(_playtest ? 0.4f : 0.7f);
+            var r = LdRun(a);   // records the action for the save
+            _bPos = door + new Vector2(-1.4f, 0f); _bLastMove = Vector2.left; _bPath = null; _bGoal = null;
             _ui.FadeText(null);
             _sfx.Play("door_close");
-            yield return Fade(0f, 0.5f);
-            BGoTo(new Vector2(29f, 20.6f), null);
-            t = 0; while (_bPath != null && t < 3f) { t += Time.deltaTime; yield return null; }
+            yield return Fade(0f, 0.25f);
             _busy = false;
             if (!r.ok) { _ldSeq = false; _ui.Toast(LdBlockedText(r.reason), GameUI.CRed); yield break; }
             bool closed = false;
@@ -197,6 +211,10 @@ namespace TitanGate.Game
                 var row = LdTileRow();
                 void Tile(string icon, int d, string name) { if (d != 0) row.Add(LdTile(icon, (d > 0 ? "+" : "−") + Mathf.Abs(d), name, d > 0 ? GameUI.CGreen : GameUI.CRed)); }
                 Tile("parts", r.parts, LdRes(Res.Parts)); Tile("battery", r.battery, LdRes(Res.Battery)); Tile("o2", r.oxygen, "O₂"); Tile("food", r.food, LdRes(Res.Food));
+                Tile("water", r.water, TT("water", "น้ำ")); Tile("signal", r.signal, TT("signal", "สัญญาณ"));
+                if (r.notes.Contains("panels_clean")) row.Add(LdTile("sun", "100%", TT("panels clean", "แผงสะอาด"), GameUI.CGreen));
+                if (r.notes.Contains("radio_fixed")) row.Add(LdTile("signal", "✓", TT("radio works", "วิทยุใช้ได้"), GameUI.CGreen));
+                if (r.notes.Contains("beacon_built")) row.Add(LdTile("signal", "✓", TT("beacon up", "ตั้งเสาสัญญาณแล้ว"), GameUI.CGreen));
                 if (r.notes.Contains("found_rover_part")) row.Add(LdTile("rover", "+1", TT($"rover part ({_ld.RoverParts}/{_ld.C.roverPartsNeeded})", $"ชิ้นส่วนรถ ({_ld.RoverParts}/{_ld.C.roverPartsNeeded})"), LdGold));
                 if (r.notes.Contains("found_mystery") || rover) row.Add(LdTile("food", "?", TT("unlabelled food", "อาหารไม่มีฉลาก"), GameUI.CAmber));
                 if (r.notes.Contains("explore_radiation")) row.Add(LdTile("storm", "−1", TT("radiation hot spot!", "โดนรังสีสูง!"), GameUI.CRed));
@@ -227,13 +245,10 @@ namespace TitanGate.Game
         {
             _ldSeq = true; _busy = true;
             _ui.CloseModal();
-            // dinner at the table: sit on the left chair and eat
-            var seat = new Vector2(20.6f, 10.3f);   // in front of the table (the chairs and table block their tiles)
-            BGoTo(seat, null);
-            float t = 0; while (_bPath != null && t < 5f) { t += Time.deltaTime; yield return null; }
-            _bLastMove = Vector2.right;
-            _ui.Toast(TT("Dinner time.", "ได้เวลาอาหารเย็น"), GameUI.CAmber);
-            yield return Act("lift", _playtest ? 0.5f : 1.0f, null);
+            // the day is over: straight to the dinner screen (no walk to the table and frozen pose first — the
+            // owner found that wait confusing), then the night card
+            var seat = new Vector2(20.6f, 10.3f);   // where the cadet wakes up: in front of the dinner table
+            _bPath = null; _bGoal = null; _bMoving = false; _actionPose = null;
             int foodBefore = _ld.Food;
             if (_ld.DinnerPending)
             {
@@ -243,15 +258,18 @@ namespace TitanGate.Game
                 if (_ld.Outcome != Outcome.Ongoing) { _busy = false; _ldSeq = false; StartCoroutine(LdEnd()); yield break; }
                 LdWriteSave();
             }
-            yield return Fade(1f, 0.7f);
+            yield return Fade(1f, 0.35f);
             var lines = new List<(string icon, string text, Color c)>();
             for (int i = logMark; i < _ld.Log.Count; i++)
             {
                 string e = _ld.Log[i]; var txt = LdEventText(e);
+                if (e.StartsWith("fault_")) continue;   // a new fault is announced after "Start the day", not with the night
                 if (txt == null || lines.Exists(x => x.text == txt)) continue;
                 string icon = e.Contains("storm") || e.Contains("radiation") || e.Contains("shelter") ? "storm" : e.Contains("food") || e.Contains("hungry") || e.Contains("raid") ? "food"
-                    : e.Contains("power") || e.Contains("dark") || e.Contains("intruder") ? "battery" : e.Contains("tired") || e.Contains("sick") ? "heart" : e.StartsWith("fault") ? "parts" : "signal";
-                bool bad = e.Contains("stole") || e.Contains("hungry") || e.Contains("no_power") || e.Contains("radiation") || e.Contains("sick") || e.Contains("tired") || e.StartsWith("fault") || e.Contains("dark");
+                    : e.StartsWith("shed_") || e.Contains("power") || e.Contains("dark") || e.Contains("intruder") ? "battery" : e == "cold" ? "heat"
+                    : e == "thirsty" || e == "ice" ? "water" : e.Contains("tired") || e.Contains("sick") ? "heart" : e.StartsWith("fault") ? "parts" : "signal";
+                bool bad = e.Contains("stole") || e.Contains("hungry") || e.Contains("no_power") || e.Contains("radiation") || e.Contains("sick") || e.Contains("tired") || e.StartsWith("fault") || e.Contains("dark")
+                    || e.StartsWith("shed_") || e == "cold" || e == "thirsty" || e.StartsWith("no_oxygen");
                 lines.Add((icon, txt, bad ? GameUI.CRed : GameUI.CGreen));
             }
             bool go = false;
@@ -264,7 +282,7 @@ namespace TitanGate.Game
                 var big = _ui.L(TT($"DAY {_ld.Day}", $"วันที่ {_ld.Day}"), 96, true, LdGold); LdFont(big); box.Add(big); LdAnimateIn(big, 0);
                 var row = LdTileRow();
                 row.Add(LdTile("food", "−" + Mathf.Max(0, foodBefore - _ld.Food), TT("meals eaten", "มื้อที่กิน"), GameUI.CAmber));
-                int net = _ld.SolarToday - _ld.C.baseLoad - (_ld.BackupCircuit ? 1 : 0);
+                int net = _ld.SolarToday - _ld.DrawTonight();
                 row.Add(LdTile("battery", (net >= 0 ? "+" : "−") + Mathf.Abs(net), TT("solar − base", "โซลาร์ − ฐานใช้"), net >= 0 ? GameUI.CGreen : GameUI.CRed));
                 row.Add(LdTile("time", _ld.WorkUnits.ToString(), TT("work units today", "เวลาทำงานวันนี้"), GameUI.CCyan));
                 row.Add(LdTile("rescue", (_ld.C.days - _ld.Day + 1).ToString(), TT("days to rescue", "วันจนยานกู้ภัยมา"), LdGold));
@@ -286,8 +304,7 @@ namespace TitanGate.Game
             _ui.HideScreen();
             _bPos = seat + new Vector2(0, -0.8f);
             yield return Fade(0f, 0.6f);
-            _busy = false; _ldSeq = false;
-            if (_ld.ActiveFault != Fault.None) _ui.Toast("! " + LdIncidentOf(_ld.ActiveFault).title, GameUI.CRed);
+            _busy = false; _ldSeq = false;   // a fault that started at dawn now sounds its alarm (LdUpdate)
         }
     }
 }

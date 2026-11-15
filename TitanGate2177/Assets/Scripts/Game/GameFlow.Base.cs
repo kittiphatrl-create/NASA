@@ -250,6 +250,7 @@ namespace TitanGate.Game
 
             BuildHabitatLook();
             BBuildDoors();   // sliding doors on every doorway (GameFlow.Feel.cs)
+            if (_bMode != 0) LdRingUsables();   // outline everything you can use (GameFlow.LdHands.cs)
             _bShadows.Clear();
             _bPlayer = BSprite("cadet", Art.Astronaut(false, Pose.Idle0), _bPos, 0);
             _bPet = BSprite("pet", Art.Pet("comet"), _bPos, 0);
@@ -336,7 +337,8 @@ namespace TitanGate.Game
             {
                 sp.solid = true;
                 if (s != null) BShadowFor(sp.sr, blockW);
-                sp.block = new RectInt(Mathf.FloorToInt(x - blockW / 2f + 0.01f), Mathf.FloorToInt(y), blockW, Mathf.Max(1, blockH));
+                sp.block = new RectInt(Mathf.FloorToInt(x - blockW / 2f + 0.5f), Mathf.FloorToInt(y), blockW, Mathf.Max(1, blockH));
+                BFitBlock(sp);
                 for (int bx = sp.block.xMin; bx < sp.block.xMax; bx++)
                     for (int by = sp.block.yMin; by < sp.block.yMax; by++)
                         if (bx >= 0 && by >= 0 && bx < _bW && by < _bH) _bSolid[bx, by] = true;
@@ -346,6 +348,44 @@ namespace TitanGate.Game
         }
 
         void BDeco(Sprite s, float x, float y, int blockW = 0) => BProp("deco", null, s, x, y, Vector2.zero, blockW);
+
+        /// <summary>
+        /// Fit a prop's blocked tiles to what you SEE: the opaque pixels of its sprite (after flipX), taking each tile
+        /// it covers at least half of. The old rule used the requested width around the given x, but many sprites
+        /// sit off-centre in their canvas (the pilot seat is an L on the left of its canvas), so the blocked tiles
+        /// drifted onto empty floor: invisible hitboxes beside chairs, sofas, cabinets and fridges.
+        /// </summary>
+        void BFitBlock(BSpot sp)
+        {
+            if (sp.sr == null || sp.sr.sprite == null || !sp.solid) return;
+            var (minX, maxX) = Art.OpaqueSpanX(sp.sr.sprite);
+            if (maxX < minX) return;
+            var s = sp.sr.sprite; float ppu = s.pixelsPerUnit, sx = sp.sr.transform.lossyScale.x, px = sp.sr.transform.position.x;
+            float left = px + (minX - s.pivot.x) / ppu * sx, right = px + (maxX + 1 - s.pivot.x) / ppu * sx;
+            if (sp.sr.flipX) { float l = 2 * px - right, r = 2 * px - left; left = l; right = r; }
+            int first = int.MaxValue, last = int.MinValue, best = Mathf.FloorToInt((left + right) / 2f); float bestOver = 0;
+            for (int tx = Mathf.FloorToInt(left); tx <= Mathf.FloorToInt(right - 0.001f); tx++)
+            {
+                float over = Mathf.Min(right, tx + 1) - Mathf.Max(left, tx);
+                if (over > bestOver) { bestOver = over; best = tx; }
+                if (over >= 0.5f) { first = Mathf.Min(first, tx); last = Mathf.Max(last, tx); }
+            }
+            if (first > last) first = last = best;   // narrow sprite: the one tile it covers most
+            sp.block = new RectInt(first, sp.block.y, last - first + 1, sp.block.height);
+        }
+
+        /// <summary>Re-fit a prop's block after changing it (flipping it): free its old tiles, then block the new ones.</summary>
+        void BRefitBlock(BSpot sp)
+        {
+            if (!sp.solid) return;
+            for (int bx = sp.block.xMin; bx < sp.block.xMax; bx++)
+                for (int by = sp.block.yMin; by < sp.block.yMax; by++)
+                    if (bx >= 0 && by >= 0 && bx < _bW && by < _bH && !_bWall[bx, by]) _bSolid[bx, by] = false;
+            BFitBlock(sp);
+            for (int bx = sp.block.xMin; bx < sp.block.xMax; bx++)
+                for (int by = sp.block.yMin; by < sp.block.yMax; by++)
+                    if (bx >= 0 && by >= 0 && bx < _bW && by < _bH) _bSolid[bx, by] = true;
+        }
 
         BSpot BSpotById(string id) => _bSpots.Find(s => s.id == id);
 
@@ -907,6 +947,8 @@ namespace TitanGate.Game
                 {
                     if (s.id == "hatch" && _bDoor != null && _bDoor.bounds.Contains(new Vector3(w.x, w.y, _bDoor.transform.position.z))) return s;
                     if (s.id == "lifeboat" && _sHatchSr != null && _sHatchSr.bounds.Contains(new Vector3(w.x, w.y, _sHatchSr.transform.position.z))) return s;
+                    // doors without a sprite of their own (vault doors, the airlock) can be clicked too, not only used with E
+                    if (s.nameKey != null && (s.id == "vault_power" || s.id == "vault_comms" || s.id == "ld_airlock") && Vector2.Distance(w, s.pos) < 1.3f) return s;
                     continue;
                 }
                 var b = s.sr.bounds;

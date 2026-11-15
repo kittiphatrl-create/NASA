@@ -201,6 +201,7 @@ namespace TitanGate.Game
                 var sp = BProp(id, LastDockMode ? LdSupName(id) : $"sup.{id}.name", Art.LooseSupply(id), x, y, new Vector2(x, y - 0.5f));
                 sp.sr.sortingOrder = SortY(y) + 1;
                 BLamp(new Vector2(x, y + 0.4f), new Color(1f, 0.85f, 0.4f), 1.6f, 0.5f);
+                LdAddPickRing(sp);   // a bright outline so it does not melt into the floor (GameFlow.LdHands.cs)
             }
             _busy = true;
             yield return Say("mentor", LastDockMode ? "ld.mentor.emergency" : "story.mentor.emergency");
@@ -238,6 +239,7 @@ namespace TitanGate.Game
                 }
             }
             if (_sSitting) _bMoving = false;
+            LdHighlightsUpdate();
 
             if (!_sScramble || _sDone) return;
             if (!_ui.Blocking) _sLeft -= dt;
@@ -296,7 +298,7 @@ namespace TitanGate.Game
             _busy = true;
             yield return Say("orbi", full ? "ship.scramble.full" : "ship.scramble.time", _stowed.Count, StowSlots);
             if (lost > 0) yield return Say("orbi", "ship.scramble.lost", lost);
-            Settings.SaveCheckpoint("lifeboat", _cfg.chapter1.cabinO2Start, _stowed, _sPet);
+            if (!LastDockMode) Settings.SaveCheckpoint("lifeboat", _cfg.chapter1.cabinO2Start, _stowed, _sPet);   // LAST DOCK saves itself when the station week starts
             yield return Fade(1f, 0.8f);
             yield return LastDockMode ? LdCinLaunch() : BCutscene("evacuate");
             if (LastDockMode) { _busy = false; StartCoroutine(LdAfterScramble()); yield break; }   // LAST DOCK: dock at the station
