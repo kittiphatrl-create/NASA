@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.Video;
 using T = TitanGate.Game.Menu.MenuTokens;
 
 namespace TitanGate.Game.Menu
@@ -38,6 +39,10 @@ namespace TitanGate.Game.Menu
             public VisualElement Box;      // canvas-sized, carries the parallax transform
             public Image A, B;             // B fades in over A between sheet frames
             public int Frame;
+            public VideoPlayer Vp;         // a looping video drawn over the still A once its first frame is ready
+            public Image V;
+            public RenderTexture Rt;
+            public float VideoIn;
         }
 
         readonly List<LayerView> _layers = new List<LayerView>();
@@ -69,6 +74,7 @@ namespace TitanGate.Game.Menu
                 v.Box.Add(v.A); if (def.IsSheet) v.Box.Add(v.B);
                 if (def.Role == "planet") { v.A.style.transformOrigin = new TransformOrigin(Length.Percent(50), Length.Percent(50)); }
                 if (def.IsSheet) SetFrame(v, 0);
+                if (!string.IsNullOrEmpty(def.Video)) StartVideo(v);
                 Root.Add(v.Box); _layers.Add(v);
             }
             if (!farDustAdded) Root.Add(_farDust);
@@ -104,7 +110,37 @@ namespace TitanGate.Game.Menu
             _black = T.Fill(); _black.style.backgroundColor = Color.black; _black.style.opacity = 0;   // added last by the menu, above the UI
 
             Root.RegisterCallback<GeometryChangedEvent>(_ => Layout());
+            Root.RegisterCallback<DetachFromPanelEvent>(_ => StopVideos());
             BuildDust(Quality);
+        }
+
+        /// <summary>Play the layer's clip into a render texture shown over the still (the still covers the first frames).</summary>
+        void StartVideo(LayerView v)
+        {
+            var clip = Resources.Load<VideoClip>(v.Def.Video);
+            if (clip == null) { Debug.LogWarning("Menu video missing: " + v.Def.Video); return; }
+            var go = new GameObject("MenuVideo_" + v.Def.Name);
+            UnityEngine.Object.DontDestroyOnLoad(go);
+            var vp = go.AddComponent<VideoPlayer>();
+            vp.playOnAwake = false; vp.isLooping = true; vp.skipOnDrop = true; vp.waitForFirstFrame = true;
+            vp.audioOutputMode = VideoAudioOutputMode.None;
+            vp.renderMode = VideoRenderMode.RenderTexture;
+            v.Rt = new RenderTexture((int)clip.width, (int)clip.height, 0) { name = "MenuVideoRT" };
+            v.Rt.Create();
+            vp.targetTexture = v.Rt; vp.clip = clip;
+            vp.Play();
+            v.Vp = vp;
+            v.V = Img(v.Def); v.V.image = v.Rt; v.V.style.opacity = 0;
+            v.Box.Add(v.V);
+        }
+
+        void StopVideos()
+        {
+            foreach (var v in _layers)
+            {
+                if (v.Vp != null) { v.Vp.Stop(); UnityEngine.Object.Destroy(v.Vp.gameObject); v.Vp = null; }
+                if (v.Rt != null) { v.Rt.Release(); UnityEngine.Object.Destroy(v.Rt); v.Rt = null; }
+            }
         }
 
         static Image Img(SceneLayer def)
@@ -162,7 +198,7 @@ namespace TitanGate.Game.Menu
             _builtFor = q;
             foreach (var m in _motes) m.e.RemoveFromHierarchy();
             _motes.Clear();
-            bool space = Spec.Name == "ship";   // inside the ship: a few slow floating motes in the cabin light, not wind-blown dust
+            bool space = Spec.Name == "ship" || Spec.Name == "space";   // in space: a few slow floating motes in the cabin light, not wind-blown dust
             int far = (q == MenuQuality.Low ? 16 : q == MenuQuality.Medium ? 30 : 40) / (space ? 2 : 1), near = q == MenuQuality.High ? 10 : q == MenuQuality.Medium ? 4 : 0;
             for (int i = 0; i < far + near; i++)
             {
@@ -203,6 +239,15 @@ namespace TitanGate.Game.Menu
                     v.A.style.rotate = new Rotate(new Angle(Mathf.Sin(t * Mathf.PI * 2f / 90f) * 1.6f, AngleUnit.Degree));
                     v.A.style.translate = new Translate(Length.Percent(Mathf.Sin(t * Mathf.PI * 2f / 70f) * 1.2f), Length.Percent(Mathf.Cos(t * Mathf.PI * 2f / 85f) * 0.8f));
                 }
+            }
+
+            // video layers fade in over their still once the first frame has been drawn
+            foreach (var v in _layers)
+            {
+                if (v.Vp == null || v.V == null) continue;
+                if (v.Vp.isPlaying && v.Vp.frame > 1) v.VideoIn = Mathf.MoveTowards(v.VideoIn, 1f, dt / 0.4f);
+                v.V.style.opacity = v.VideoIn;
+                if (reduced && v.Vp.isPlaying) v.Vp.Pause(); else if (!reduced && !v.Vp.isPlaying && v.Vp.isPrepared) v.Vp.Play();
             }
 
             // idle loops: step the sheet at its fps and cross-fade the next frame in over an opaque current frame

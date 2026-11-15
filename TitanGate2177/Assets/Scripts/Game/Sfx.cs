@@ -12,7 +12,8 @@ namespace TitanGate.Game
     /// </summary>
     public class Sfx : MonoBehaviour
     {
-        AudioSource _src, _collected, _srcVar;
+        AudioSource _src, _collected, _srcVar, _impact;
+        bool _cineAlarm;
         float _collectedLevel = .95f;
         readonly Dictionary<string, float> _cinematicTargets = new Dictionary<string, float>();
         readonly Dictionary<string, float> _cinematicGains = new Dictionary<string, float>();
@@ -79,6 +80,39 @@ namespace TitanGate.Game
             _collected.spatialBlend = 0f;
             _collected.priority = 32;
 
+            // The debris strike in the cutscenes: a deep boom, a hard crunch, the hull ringing like a struck
+            // tank and loose parts rattling down. Played together with the recorded explosion and metal hits.
+            Make("crash", 2.6f, t =>
+            {
+                float atk = Mathf.Clamp01(t / 0.003f);
+                float boom = Sine(t, Mathf.Lerp(64f, 26f, Mathf.Clamp01(t / 1.1f))) * Mathf.Exp(-t * 1.5f) * 0.95f;
+                float crunch = Noise() * Mathf.Exp(-t * 16f) * 0.9f;
+                float body = LowNoise(0.9f) * Mathf.Exp(-t * 2.4f) * 0.45f;
+                float ring = (Sine(t, 187) * 0.5f + Sine(t, 311) * 0.42f + Sine(t, 467) * 0.3f + Sine(t, 733) * 0.2f + Sine(t, 1093) * 0.12f)
+                             * Mathf.Exp(-t * 2.2f) * 0.4f * (1f + 0.25f * Sine(t, 5.5f));
+                float rattle = (Mathf.PerlinNoise(t * 38f, 1.7f) > 0.72f ? Noise() : 0f) * Mathf.Exp(-t * 1.3f) * 0.35f;
+                float x = atk * (boom + crunch + body + ring + rattle);
+                return x / (1f + Mathf.Abs(x) * 0.6f) * 1.5f;   // soft saturation: loud, but no hard clipping
+            });
+            // A real ship's red-alert klaxon: a buzzy rising "whoop", 0.8 s on, then a short gap (loops).
+            Make("klaxon", 1.15f, t =>
+            {
+                const float on = 0.8f;
+                if (t >= on) return 0f;
+                float ph = 330f * t + (620f - 330f) * t * t / (2f * on);          // a linear 330 -> 620 Hz sweep (integrated phase)
+                float w = 0f;
+                for (int h = 1; h <= 7; h++) w += Mathf.Sin(2 * Mathf.PI * h * ph) / h;
+                float env = Mathf.Clamp01(t / 0.03f) * Mathf.Clamp01((on - t) / 0.06f);
+                return w * env * 0.55f * (0.9f + 0.1f * Sine(t, 31f));
+            });
+            if (_clips.TryGetValue("thud", out var boomRec)) _clips["crash_boom"] = boomRec;
+            var metalA = Resources.Load<AudioClip>("Audio/KenneySciFi/impactMetal_000");
+            var metalB = Resources.Load<AudioClip>("Audio/KenneySciFi/impactMetal_002");
+            if (metalA != null) _clips["crash_metalA"] = metalA;
+            if (metalB != null) _clips["crash_metalB"] = metalB;
+            _impact = gameObject.AddComponent<AudioSource>();
+            _impact.playOnAwake = false; _impact.priority = 0; _impact.spatialBlend = 0f;
+
             // A continuous bed under the silent rendered videos, rather than a single short rumble.
             _clips["cine_engine"] = _clips["rumble"];
             _clips["cine_base"] = _clips["hum"];
@@ -96,6 +130,7 @@ namespace TitanGate.Game
             Loopable("rumble", 0.5f, false);
             Loopable("hum", 0.35f, true);
             Loopable("ship_alarm", 0.35f, false);
+            Loopable("klaxon", 0.42f, false);
             Settings.Changed += ApplyVolumes;
             ApplyVolumes();
         }
@@ -122,6 +157,30 @@ namespace TitanGate.Game
             else if (shot == "l03_chute") Layer("cine_air", .65f);
             else if (shot == "l04_land") { Layer("cine_engine"); Layer("cine_air", .35f); }
             else if (shot == "l05_base") { Layer("cine_wind"); Layer("cine_base"); }
+        }
+
+        /// <summary>A heavy hit on the hull: the synthesised crash layered with the recorded explosion and metal
+        /// impacts, on its own voice, with the music ducked so it lands.</summary>
+        public void Impact(float vol = 1f)
+        {
+            if (_impact == null) return;
+            if (_lastPlayed.TryGetValue("impact", out var last) && Time.unscaledTime - last < 0.25f) return;
+            _lastPlayed["impact"] = Time.unscaledTime;
+            if (_clips.TryGetValue("crash", out var c)) _impact.PlayOneShot(c, vol);
+            if (_clips.TryGetValue("crash_boom", out c)) _impact.PlayOneShot(c, vol);
+            if (_clips.TryGetValue("crash_metalA", out c)) _impact.PlayOneShot(c, vol * 0.9f);
+            if (_clips.TryGetValue("crash_metalB", out c)) _impact.PlayOneShot(c, vol * 0.7f);
+            GetComponent<StageMusicPlayer>()?.DuckFor(1.6f);
+        }
+
+        /// <summary>The red-alert alarm for the cutscenes: the klaxon plus the ship's alarm recording at full level.
+        /// Off again returns the recording to its normal in-game level and stops the klaxon.</summary>
+        public void CinematicAlarm(bool on)
+        {
+            _cineAlarm = on;
+            Loop("klaxon", on);
+            if (on) Loop("ship_alarm", true);
+            ApplyVolumes();
         }
 
         public void StopCinematicAudio(bool immediate = false)
@@ -173,10 +232,12 @@ namespace TitanGate.Game
             _src.volume = Settings.Master * Settings.Effects;
             if (_collected != null) _collected.volume = Settings.Master * Settings.Effects * _collectedLevel;
             if (_srcVar != null) _srcVar.volume = _src.volume;
+            if (_impact != null) _impact.volume = _src.volume;
             foreach (var kv in _loops)
             {
                 float b = _loopBase[kv.Key];
                 float gain = _cinematicGains.TryGetValue(kv.Key, out var cineGain) ? cineGain : 1f;
+                if (_cineAlarm && kv.Key == "ship_alarm") gain *= 2.8f;   // the recording is quiet (about -30 dB): full level in the cutscene
                 kv.Value.volume = Settings.Master * Mathf.Abs(b) * (b < 0 ? Settings.Ambience : Settings.Effects) * gain;
             }
         }

@@ -179,3 +179,21 @@ The user approved a background that follows the story. With no save, the menu sh
 ## Debug
 
 Press **F3** on the main menu to show FPS, the active input device, the focus target, the effects quality and the reduce-motion flag.
+
+## Update: space backdrop (evening of 15 November)
+
+The user asked for the ship menu to drop the cadet and the porthole frame. It now shows open space: the Kestrel in orbit, a galaxy behind it and a large Mars on the right, with a camera that slowly zooms in on the ship. The rest of the menu UI is unchanged.
+
+- **Backdrop.**
+  - The new scene `menu_scene_space.json` has one layer: `menu_space.jpg` (the first frame) with the looping video `Resources/Cine/menu_space.mp4` drawn over it.
+  - The video is 1920×1080 at 24 fps and loops seamlessly every 16 s. The camera swings about 8° round the ship and zooms in mid-loop (dolly plus 30→39 mm), then eases back out.
+  - The ship's engines flicker. It shows a red and a green navigation light and a white double strobe.
+  - The galaxy band has a warm core and dust lanes. Phobos sits near the limb of Mars.
+- **Engine.**
+  - `SceneLayer.Video` and the `"video"` key in the manifest add a `VideoPlayer` with a render texture over the still. The video fades in once its first frame is drawn, and it is stopped and freed when the menu closes.
+  - Reduce Motion pauses the video.
+  - Parallax, the departure push (toward `focus`), floating motes, the scrim, the vignette and the grain all work as before.
+- **Which scene.** Before a run the menu shows the space scene, falling back to `ship`. Once a run is saved it shows `mars` (unchanged).
+- **Re-rendering.** `blender -b --factory-startup --python Art/Blender/menu_space.py -- video` writes `Art/Blender/renders/menu/menu_space.mp4` and `menu_space_0001.jpg` (about 6 min). It reuses the cutscene asset kit and textures. Copy the video to `Assets/Resources/Cine/menu_space.mp4`, and the still to `Assets/Resources/Sprites/KeyArt/menu_space.jpg.bytes`.
+- **Scroll sound.** The ring's ratchet tick is now a soft, glassy console tick, and the servo whir is about 8 dB quieter (`Menu/MenuAudio.cs`).
+- **Music.** The menu has its own track, `Resources/Audio/UserScore/menu.mp3` (`StageMusicPlayer.Cue.Menu`), and the opening cutscene keeps `opening.mp3`. `mars.mp3` was replaced with the user's new Mars track and plays 3 dB lower, to match the others. See `docs/AUDIO_CREDITS.md`.

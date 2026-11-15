@@ -9,6 +9,7 @@ namespace TitanGate.Game.Menu
     public class SceneLayer
     {
         public string Name, File, Role;
+        public string Video;                      // optional looping clip (Resources path) played over the still, e.g. "Cine/menu_space"
         public float Depth;                       // 0 = farthest, 1 = nearest
         public Rect Rect = new Rect(0, 0, 1, 1);  // normalised, top-left origin
         public int Cols = 1, Rows = 1, Frames = 1;

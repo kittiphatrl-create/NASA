@@ -110,8 +110,8 @@ namespace TitanGate.Game
         bool BuildMainMenuV2()
         {
             bool hasSaveNow = LdHasSave();
-            // the background follows the story: aboard the Kestrel before a run, the Mars base once a run is saved
-            var spec = MmSceneSpec(hasSaveNow ? "mars" : "ship") ?? MmLegacySpec();
+            // the background follows the story: the Kestrel in orbit before a run (a looping 3D video), the Mars base once a run is saved
+            var spec = (hasSaveNow ? MmSceneSpec("mars") : MmSceneSpec("space") ?? MmSceneSpec("ship")) ?? MmLegacySpec();
             if (spec == null) return false;
             var logoTex = MmPng("menu_logo");
             LdMusicEnsure();
