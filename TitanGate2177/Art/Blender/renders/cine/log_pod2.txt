@@ -1,0 +1,21 @@
+00:06.907  blend            | Read blend: "F:\NASA\TitanGate2177\Art\Blender\pixel_cine.blend"
+00:52.766  render           | Video append frame 1
+01:26.172  render           | Video append frame 2
+01:59.172  render           | Video append frame 3
+02:33.000  render           | Video append frame 4
+03:06.250  render           | Video append frame 5
+03:40.688  render           | Video append frame 6
+04:14.266  render           | Video append frame 7
+04:47.438  render           | Video append frame 8
+05:20.485  render           | Video append frame 9
+05:57.110  render           | Video append frame 10
+06:14.375  render           | Video append frame 11
+06:59.282  render           | Video append frame 12
+07:50.657  render           | Video append frame 13
+08:30.500  render           | Video append frame 14
+09:10.532  render           | Video append frame 15
+09:49.844  render           | Video append frame 16
+10:30.344  render           | Video append frame 17
+11:11.500  render           | Video append frame 18
+12:02.578  render           | Video append frame 19
+13:11.922  render           | Video append frame 20

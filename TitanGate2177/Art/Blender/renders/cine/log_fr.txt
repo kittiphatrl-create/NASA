@@ -1,0 +1,13 @@
+00:06.813  blend            | Read blend: "F:\NASA\TitanGate2177\Art\Blender\pixel_cine.blend"
+00:52.610  render           | Saved: 'F:\NASA\TitanGate2177\Art\Blender\renders\cine\fr_i01_debris_0020.png'
+00:55.766  render           | Saved: 'F:\NASA\TitanGate2177\Art\Blender\renders\cine\fr_i01_debris_0050.png'
+00:58.641  render           | Saved: 'F:\NASA\TitanGate2177\Art\Blender\renders\cine\fr_i01_debris_0060.png'
+01:01.453  render           | Saved: 'F:\NASA\TitanGate2177\Art\Blender\renders\cine\fr_i01_debris_0090.png'
+01:05.828  render           | Saved: 'F:\NASA\TitanGate2177\Art\Blender\renders\cine\fr_l04_land_0050.png'
+01:09.563  render           | Saved: 'F:\NASA\TitanGate2177\Art\Blender\renders\cine\fr_l04_land_0090.png'
+BlenderMCP addon registered
+FRDONE
+BlenderMCP addon unregistered
+Blender 5.3.0 (hash 02f0899d78e3 built 2026-11-10 01:33:43)
+
+Blender quit
