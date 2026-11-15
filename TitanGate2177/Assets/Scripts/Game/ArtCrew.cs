@@ -40,7 +40,9 @@ namespace TitanGate.Game
             return c.ToSprite(new Vector2(.5f, .5f));
         });
         public static Sprite Crew(string id, int dir, int frame, bool suit = false, bool run = false, bool wave = false)
-            => id == "tik" || id == "pip" || id == "mu" || id == "nok" ? VisitorForm(id, dir, frame, wave) : CrewHD(id, dir, frame, suit, run, wave);
+            => ModelCrew(id, dir, frame, suit, run, wave)
+                ?? (id == "tik" || id == "pip" || id == "mu" || id == "nok"
+                    ? VisitorForm(id, dir, frame, wave) : CrewHD(id, dir, frame, suit, run, wave));
 
         static Sprite LegacyCrew(string id, int dir, int frame, bool suit, bool run, bool wave) => Cached($"crew-v3-{id}-{dir}-{frame}-{suit}-{run}-{wave}", () =>
         {
@@ -134,7 +136,13 @@ namespace TitanGate.Game
             return c.ToSprite(new Vector2(.5f, .5f));
         });
 
-        public static Sprite PetFrame(string id, int frame, int dir) => Cached($"pet-v3-{id}-{frame}-{dir}", () =>
+        public static Sprite PetFrame(string id, int frame, int dir)
+        {
+            string key = frame == -1 ? "idle" : frame == -2 ? "blink" : "w" + (Mathf.Max(0, frame) % 8);
+            return ModelPet(id, $"d{Mathf.Clamp(dir, 0, 2)}_{key}") ?? DrawPetFrame(id, frame, dir);
+        }
+
+        static Sprite DrawPetFrame(string id, int frame, int dir) => Cached($"pet-v3-{id}-{frame}-{dir}", () =>
         {
             var c = new PixelCanvas(26, 32);
             Color32 fur = id == "comet" ? PixelCanvas.Hex("#dc9b66") : id == "pixel" ? PetGrey : Pal.White;

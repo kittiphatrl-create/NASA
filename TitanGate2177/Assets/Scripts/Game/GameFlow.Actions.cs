@@ -80,11 +80,17 @@ namespace TitanGate.Game
             string pose = sit ? "sit" : ActionLocked ? _actionPose : _bMode == 1 && (_sCarry != null || _sHands.Count > 0) ? "carry" : null;
             if (pose != null)
             {
-                _bPlayer.sprite = Art.CrewAction("cadet", pose, pose == "carry" ? (_bMoving ? (int)_bGaitPhase % 4 : 0) : (int)(_bAnim * 6) % 4, BIsOutside(_bPos));
+                bool outside = BIsOutside(_bPos);
+                _bPlayer.sprite = Art.CrewAction("cadet", pose, pose == "carry" ? (_bMoving ? (int)_bGaitPhase % 4 : 0) : (int)(_bAnim * 6) % 4, outside);
                 // drawn poses face right; turn them toward the machine being used
                 _bPlayer.flipX = pose == "sit" || !BFacesMachine(pose) ? !_bRight : false;
-                if (pose != "sit") BCadetActionSprite(pose);   // carry/use in 8 directions (GameFlow.Feel.cs)
-                if (pose == "sit") _bPlayer.sortingOrder = SortY(_bPos.y) + 8;
+                if (pose == "carry" || pose == "lift" || (outside && pose != "sit")) BCadetActionSprite(pose);   // carry/use in 8 directions (GameFlow.Feel.cs)
+                if (pose == "sit")
+                {
+                    if (_bMode == 1 && _sSitting)
+                        _bPlayer.transform.position = _sSeatPosition + Vector2.up * .03f;
+                    _bPlayer.sortingOrder = SortY(_bMode == 1 && _sSitting ? _sSeatPosition.y : _bPos.y) + 8;
+                }
             }
             if (_petCommand == null) _petCommand = BSprite("pet-command", Art.PetCommandIcon(PetId), Vector2.zero, 31002);
             if (_petStay) _bPet.sprite = Art.PetRest(PetId);

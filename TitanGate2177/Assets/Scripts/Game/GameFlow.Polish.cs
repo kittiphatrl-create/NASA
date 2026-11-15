@@ -25,13 +25,18 @@ namespace TitanGate.Game
             if (_ldFx == null || _ldFx.gameObject != _bCam.gameObject) _ldFx = _bCam.gameObject.GetComponent<LdPostFx>() ?? _bCam.gameObject.AddComponent<LdPostFx>();
             bool station = _bMode == 2 && _ld != null && _ld.Outcome == Outcome.Ongoing;
             bool danger = station && (_ld.ActiveFault != Fault.None || _ld.Health <= 1) || _bMode == 1 && _sScramble && _sLeft < 15f;
+            bool shipFault = _bMode == 1 && SPowerFault;
             _ldDangerPulse += dt * (danger ? 3.2f : 0);
             float pulse = danger ? 0.35f + 0.35f * Mathf.Sin(_ldDangerPulse) : 0f;
-            _ldFx.danger = Mathf.Lerp(_ldFx.danger, Settings.ReducedMotion && danger ? 0.4f : pulse, dt * 6);
-            _ldFx.dark = Mathf.Lerp(_ldFx.dark, station && _ld.Battery <= 0 ? 1f : station && _ld.Battery == 1 ? 0.45f : 0f, dt * 2);
+            if (shipFault) pulse = .32f + .35f * SFailedLight(.2f, 1.15f);
+            float warning = Settings.ReducedMotion && (danger || shipFault) ? .45f : pulse;
+            _ldFx.danger = Mathf.Lerp(_ldFx.danger, warning, dt * (shipFault ? 10f : 6f));
+            bool outside = _bMode == 2 && BIsOutside(_bPos);
+            _ldFx.dark = Mathf.Lerp(_ldFx.dark, station && !outside && _ld.Battery <= 0 ? .62f : station && !outside && _ld.Battery == 1 ? .25f : 0f, dt * 2);
             _ldFx.storm = Mathf.Lerp(_ldFx.storm, station && _ld.StormToday ? 1f : 0f, dt * 2);
-            _ldFx.vignette = _bMode == 1 && _sScramble ? 1.6f : 1.1f;
-            _ldFx.tint = _bMode == 2 && BIsOutside(_bPos) ? new Color(1.06f, 0.96f, 0.9f) : Color.white;
+            _ldFx.vignette = _bMode == 1 && _sScramble ? .94f : .58f;
+            _ldFx.glow = shipFault ? .84f : .58f;
+            _ldFx.tint = outside ? new Color(1.065f, .98f, .91f) : Color.white;
             LdMusicUpdate(dt);
             LdVfxUpdate(dt);
         }
@@ -137,7 +142,7 @@ namespace TitanGate.Game
         // ------------------------------------------------------------------ particles
 
         Material _ldPartMat;
-        ParticleSystem _ldDust, _ldSparks;
+        ParticleSystem _ldDust, _ldSparks, _bItemParticles;
         readonly System.Collections.Generic.Dictionary<string, ParticleSystem> _ldSmoke = new System.Collections.Generic.Dictionary<string, ParticleSystem>();
 
         ParticleSystem MakeParticles(string name, Vector2 at, Vector2 area, Color color, float size, float life, float rate, Vector2 velocity, int order)
@@ -208,10 +213,57 @@ namespace TitanGate.Game
             _ldSparks.Emit(24);
         }
 
+        void BItemEffect(BSpot spot, string item)
+        {
+            if (_bRoot == null || spot == null || Settings.ReducedMotion) return;
+            bool water = item == "sup_water" || item == "ice";
+            bool card = item == CaptainCard || item == "keycard" || item == CaptainDoor;
+            bool power = item == "sup_battery" || item == "sup_cell" || item == "sup_solar";
+            Color tint = item switch
+            {
+                "sup_water" or "ice" => Pal.CyanL,
+                CaptainCard or "keycard" or CaptainDoor => Pal.Green,
+                "sup_battery" or "sup_cell" or "sup_solar" => Pal.Amber,
+                "sup_seeds" or "seeds" => Color.Lerp(Pal.Green, Pal.Ice, .3f),
+                "sup_o2" => Pal.Ice,
+                _ => Pal.Gold
+            };
+            Vector3 center = spot.sr != null && spot.sr.sprite != null
+                ? spot.sr.bounds.center : (Vector3)spot.pos;
+            if (_bItemParticles == null)
+            {
+                _bItemParticles = MakeParticles("item-pickup-particles", center, Vector2.zero, Color.white,
+                    .14f, .35f, 0f, Vector2.zero, 30006);
+                var shape = _bItemParticles.shape;
+                shape.enabled = false;
+                var velocity = _bItemParticles.velocityOverLifetime;
+                velocity.enabled = false;
+                var size = _bItemParticles.sizeOverLifetime;
+                size.enabled = true;
+                size.size = new ParticleSystem.MinMaxCurve(1f, AnimationCurve.Linear(0f, 1f, 1f, .15f));
+            }
+
+            int count = power ? 9 : 6;
+            for (int i = 0; i < count; i++)
+            {
+                float angle = i * 2f * Mathf.PI / count;
+                Vector2 outward = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
+                var particle = new ParticleSystem.EmitParams
+                {
+                    position = center + (Vector3)(outward * .12f),
+                    velocity = outward * (power ? 1.35f : water ? .54f : .90f) + Vector2.up * (water ? .78f : .30f),
+                    startLifetime = water ? .48f : .30f + i * .02f,
+                    startColor = new Color(tint.r, tint.g, tint.b, .9f),
+                    startSize = water ? .15f : card ? .12f : .13f
+                };
+                _bItemParticles.Emit(particle, 1);
+            }
+        }
+
         /// <summary>Forget particle systems of the map that was just torn down (EndBase destroys their objects).</summary>
         void LdPolishReset()
         {
-            _ldDust = null; _ldSparks = null; _ldSmoke.Clear(); _ldFx = null;
+            _ldDust = null; _ldSparks = null; _bItemParticles = null; _ldSmoke.Clear(); _ldFx = null;
             LdMusicStop();
         }
     }

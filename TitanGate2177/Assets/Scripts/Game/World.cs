@@ -125,7 +125,12 @@ namespace TitanGate.Game
             }
 
             bool mars = kind == RoomKind.Hab;
-            Quad(r, "back", backWall, new Vector3(cx, 0, ZBack), Quaternion.identity, OrderWall);
+            var wall = Quad(r, "back", backWall, new Vector3(cx, 0, ZBack), Quaternion.identity, OrderWall);
+            wall.color = mars ? new Color(.84f, .80f, .75f) : new Color(.82f, .86f, .94f);
+            var bounce = Quad(r, "overhead-light-bounce", Art.SoftLight(),
+                new Vector3(cx, 4.35f, ZBack - .015f), Quaternion.identity, OrderWall + 1);
+            bounce.transform.localScale = new Vector3(8.5f, 3.2f, 1f);
+            bounce.color = mars ? new Color(1f, .79f, .60f, .21f) : new Color(.72f, .86f, 1f, .19f);
             Quad(r, "floor", Art.Floor(mars), new Vector3(cx, 0, (ZFront + ZBack) / 2f), Quaternion.Euler(90, 0, 0), OrderWall + 2);
             Quad(r, "ceil", Art.Ceiling(), new Vector3(cx, RoomH, (ZFront + ZBack) / 2f), Quaternion.Euler(90, 0, 0), OrderWall + 2);
             Quad(r, "sideL", Art.SideWall(), new Vector3(cx - RoomW / 2f, 0, (ZFront + ZBack) / 2f), Quaternion.Euler(0, 90, 0), OrderWall + 1);

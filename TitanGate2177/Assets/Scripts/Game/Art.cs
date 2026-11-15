@@ -61,14 +61,18 @@ namespace TitanGate.Game
         static Sprite Cached(string key, System.Func<Sprite> make)
         {
             if (!Cache.TryGetValue(key, out var s) || s == null) { s = make(); Cache[key] = s; }
-            return s;
+            return KestrelHDReplacement(key, s);
         }
 
-        public static void ClearCache() => Cache.Clear();
+        public static void ClearCache()
+        {
+            Cache.Clear();
+            ClearKestrelHDCache();
+        }
 
         // ------------------------------------------------------------------ characters
 
-        public static Sprite Astronaut(bool suit, Pose pose) => Cached($"astro_{suit}_{pose}", () => DrawAstronaut(suit, pose).ToSprite());
+        public static Sprite Astronaut(bool suit, Pose pose) => ModelAstronaut(suit, pose) ?? Cached($"astro_{suit}_{pose}", () => DrawAstronaut(suit, pose).ToSprite());
 
         public static PixelCanvas DrawAstronaut(bool suit, Pose pose)
         {
@@ -175,7 +179,7 @@ namespace TitanGate.Game
             c.Rect(x, 1 + lift, 3, 2, boot);
         }
 
-        public static Sprite Orbi(int frame) => Cached("orbi" + frame, () =>
+        public static Sprite Orbi(int frame) => ModelOrbi(frame) ?? Cached("orbi" + frame, () =>
         {
             var c = new PixelCanvas(18, 16);
             c.Rect(2, 7, 1, 4, Pal.Steel); c.Rect(15, 7, 1, 4, Pal.Steel);

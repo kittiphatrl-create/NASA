@@ -8511,6 +8511,26 @@
    "th": "รดน้ำผักกาดในห้องทดลอง"
   },
   {
+   "k": "ship.q.captain_card",
+   "en": "Find the green key card that opens the captain's room",
+   "th": "หาคีย์การ์ดกรอบสีเขียวสำหรับเปิดห้องกัปตัน"
+  },
+  {
+   "k": "ship.q.captain_door",
+   "en": "Use the green key card at the captain's door",
+   "th": "นำคีย์การ์ดกรอบสีเขียวไปใช้ที่ประตูห้องกัปตัน"
+  },
+  {
+   "k": "ship.spot.captain_card",
+   "en": "Green key card — for the captain's room",
+   "th": "คีย์การ์ดกรอบเขียว สำหรับเปิดห้องกัปตัน"
+  },
+  {
+   "k": "ship.spot.captain_door",
+   "en": "Captain's door",
+   "th": "ประตูห้องกัปตัน"
+  },
+  {
    "k": "ship.q.radio",
    "en": "Send the report from the cockpit",
    "th": "ส่งรายงานจากห้องบังคับ"

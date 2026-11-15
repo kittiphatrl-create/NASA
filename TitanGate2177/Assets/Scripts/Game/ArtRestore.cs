@@ -67,7 +67,7 @@ namespace TitanGate.Game
         });
 
         /// <summary>ORBI's face for chat bubbles: the round companion drone, eye lit cyan.</summary>
-        public static Sprite ROrbiFace() => Cached("rorbi-face", () =>
+        public static Sprite ROrbiFace() => ModelOrbi(0) ?? Cached("rorbi-face", () =>
         {
             var c = new PixelCanvas(24, 24);
             c.Disc(12, 12, 11, Pal.SteelL); c.Disc(12, 12, 9, Pal.White);

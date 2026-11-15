@@ -26,7 +26,6 @@ namespace TitanGate.Game
 
         void LdShipRoomsLayout()
         {
-            Art.UseStationTiles = true;   // the ship gets the same weathered Blender walls and floors as the Mars base
             LRoom(9, 21, 16, 26, 1, "ship.room.medbay");
             LRoom(18, 21, 25, 26, 4, "ship.room.eva");
             LRoom(27, 21, 34, 26, 7, "ship.room.pantry");
@@ -51,33 +50,32 @@ namespace TitanGate.Game
 
             // ---- Medbay (x 9-16, y 21-26): a bed for check-ups, the medicine cabinet, a body scanner
             BDeco(Art.Bed(), 11.2f, 24.6f, 3);
-            BDeco(Art.Locker(true), 15.6f, 26.12f, 1);
-            BDeco(Art.Console("medscan", 22, 26, Pal.Green), 13.2f, 26.12f, 1);
-            BLamp(new Vector2(12.5f, 23.5f), new Color(0.75f, 1f, 0.85f), 5.5f, 0.45f);
+            BDeco(Art.KestrelLocker(true), 15.6f, 26.12f, 1);
+            BDeco(Art.KestrelConsole(2), 13.2f, 26.12f, 1);
+            BLamp(new Vector2(12.5f, 23.5f), new Color(.75f, 1f, .85f), 5.5f, .45f);
 
             // ---- EVA prep (x 18-25, y 21-26): suit lockers and the tool rack used before spacewalks
-            BDeco(Art.Locker(false), 19.0f, 26.12f, 1);
-            BDeco(Art.Locker(false), 20.6f, 26.12f, 1);
+            BDeco(Art.KestrelLocker(false), 19.0f, 26.12f, 1);
+            BDeco(Art.KestrelLocker(false), 20.6f, 26.12f, 1);
             BDeco(Art.Shelf(false), 24.0f, 26.12f, 2);
             BDeco(Art.Table(), 22.0f, 22.4f, 3);
-            BLamp(new Vector2(21.5f, 23.5f), new Color(1f, 0.85f, 0.6f), 5.5f, 0.45f);
+            BLamp(new Vector2(21.5f, 23.5f), new Color(1f, .85f, .6f), 5.5f, .45f);
 
             // ---- Cold pantry (x 27-34, y 21-26): freezers keep months of meals for the trip
-            BDeco(Art.FoodLocker(), 28.4f, 26.12f, 1);
-            BDeco(Art.FoodLocker(), 29.8f, 26.12f, 1);
+            BDeco(Art.KestrelLocker(false, true), 28.4f, 26.12f, 1);
+            BDeco(Art.KestrelLocker(false, true), 29.8f, 26.12f, 1);
             BDeco(Art.Shelf(true), 33.2f, 26.12f, 2);
             BDeco(Art.Crates(), 33.4f, 21.6f, 2);
-            BLamp(new Vector2(30.5f, 23.5f), new Color(0.6f, 0.85f, 1f), 5.5f, 0.45f);
+            BLamp(new Vector2(30.5f, 23.5f), new Color(.6f, .85f, 1f), 5.5f, .45f);
 
             // ---- Power vault (x 37-41, y 17-21): spare batteries and the folded solar panel, locked for safety
             BDeco(Art.BatteryBank(3), 38.4f, 21.12f, 2);
             BDeco(Art.FuelTank(0.8f, false), 40.9f, 17.4f, 1);
-            BLamp(new Vector2(39.5f, 19.5f), new Color(1f, 0.85f, 0.4f), 4f, 0.45f);
+            BLamp(new Vector2(39.5f, 19.5f), new Color(1f, .85f, .4f), 4f, .45f);
 
             // ---- Comms vault (x 37-41, y 1-5): expensive radio spares, locked
-            BDeco(Art.Console("vaultradio", 26, 30, Pal.Cyan), 40.4f, 5.12f, 1);
             BDeco(Art.Shelf(true), 38.0f, 5.12f, 1);
-            BLamp(new Vector2(39.5f, 3f), new Color(0.4f, 0.9f, 1f), 4f, 0.45f);
+            BLamp(new Vector2(39.5f, 3f), new Color(.4f, .9f, 1f), 4f, .45f);
 
             // the locked doors: walk up and press E
             BProp("vault_power", TT("Locked: power vault — inside: ", "ล็อก: ห้องเก็บอุปกรณ์ไฟฟ้า — ข้างในมี ") + VaultPrize("power"), null, 39f, 16.6f, new Vector2(39f, 14.8f));
@@ -91,6 +89,7 @@ namespace TitanGate.Game
             var card = BProp("keycard", TT("Key card", "คีย์การ์ด"), Art.LooseSupply("keycard"), p.x, p.y, p + new Vector2(0, -0.6f));
             card.sr.sortingOrder = SortY(p.y) + 1;
             BLamp(p + new Vector2(0, 0.3f), new Color(1f, 0.9f, 0.5f), 1.4f, 0.55f);
+            SAddPickupGlow(card);
             LdAddPickRing(card);
             // the vault doors glow so they read as doors you can open, not wall
             LdFrameVaults();
@@ -136,6 +135,7 @@ namespace TitanGate.Game
             if (s.id == "keycard")
             {
                 _ldHasCard = true;
+                BItemEffect(s, s.id);
                 s.sr.enabled = false; s.on = false;
                 _sfx.Play("collected");
                 _ui.Toast(TT("Key card! It opens ONE locked room, then it is used up: the power vault or the comms vault.",

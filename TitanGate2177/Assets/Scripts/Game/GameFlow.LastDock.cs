@@ -231,6 +231,7 @@ namespace TitanGate.Game
         void LdLayout()
         {
             Art.UseStationTiles = true;   // Blender walls and floors for this map
+            Art.UseLastDockLook = true;
             _bW = 56; _bH = 26;   // the base on the left, Mars outside on the right
             _bKind = new int[_bW, _bH];
             for (int x = 0; x < _bW; x++) for (int y = 0; y < _bH; y++) _bKind[x, y] = KGround;   // the base sits on Mars
@@ -315,10 +316,24 @@ namespace TitanGate.Game
             // ---- Core (x 16-28, y 7-16): station board, bunks for the night, seats
             // the board sits on the wall between the Life Support and airlock doors (it used to cover a door frame)
             BProp("ld_board", TT("Station board", "แผงสถานะสถานี"), Art.Station("board", false) ?? Art.MissionBoard(false), 24.5f, 17.05f, new Vector2(24.5f, 16.3f), order: SortY(17) + 1);
+            // Non-blocking interior furnishings keep doorways and paths open.
+            if (Art.Station("hab_rug", false) is Sprite rug)
+            {
+                var rSr = BSprite("ld_rug", rug, new Vector2(22.0f, 11.4f), -29995);
+                rSr.transform.localScale = new Vector3(1.85f, 1.35f, 1f);
+            }
+            if (Art.Station("hab_planter", false) is Sprite planter)
+            {
+                BDeco(planter, 17.0f, 13.7f);
+                BDeco(planter, 24.6f, 18.35f);
+            }
+            if (Art.Station("hab_rack", false) is Sprite rack)
+                BDeco(rack, 27.9f, 7.3f);
             // the crew table: dinner ends the day; the two chairs face each other across it
-            BProp("ld_table", TT("Dinner table (end the day)", "โต๊ะกินข้าว (จบวัน)"), Art.Table(), 22.0f, 11.2f, new Vector2(22.0f, 10.2f), 3);
-            BProp("deco", null, Art.PilotSeat(), 19.6f, 11.0f, Vector2.zero, 1);
-            var rightSeat = BProp("deco", null, Art.PilotSeat(), 24.4f, 11.0f, Vector2.zero, 1);
+            BProp("ld_table", TT("Dinner table (end the day)", "โต๊ะกินข้าว (จบวัน)"), Art.Station("table", false) ?? Art.Table(), 22.0f, 11.2f, new Vector2(22.0f, 10.2f), 3);
+            var bench = Art.Station("bench", false) ?? Art.PilotSeat();
+            BProp("deco", null, bench, 19.6f, 11.0f, Vector2.zero, 1);
+            var rightSeat = BProp("deco", null, bench, 24.4f, 11.0f, Vector2.zero, 1);
             rightSeat.sr.flipX = true; BRefitBlock(rightSeat);   // the hitbox follows the flipped chair
             BLamp(new Vector2(22f, 12f), new Color(1f, 0.85f, 0.6f), 8f, 0.5f);
 
@@ -332,6 +347,8 @@ namespace TitanGate.Game
             BProp("ld_thermal", TT("Coolant loop", "ระบบท่อระบายความร้อน"), Art.Station("thermal", false) ?? Art.Console("ldthermal", 26, 30, Pal.Amber), 33.0f, 15.12f, new Vector2(33.0f, 14.3f), 2, 1);
             BDeco(Art.FuelTank(0.7f, false), 35.6f, 9.4f, 1);
             BDeco(Art.FuelTank(0.5f, false), 31.0f, 9.4f, 1);
+            if (Art.Station("hab_heater", false) is Sprite heater)
+                BDeco(heater, 33.3f, 9.35f);
             BLamp(new Vector2(33f, 12f), new Color(1f, 0.6f, 0.35f), 5f, 0.45f);
 
             // ---- Storage (x 16-21, y 1-5)
@@ -445,6 +462,7 @@ namespace TitanGate.Game
         {
             if (_bMode == 2) _sfx.Loop("siren", false);
             Art.UseStationTiles = false;
+            Art.UseLastDockLook = false;
             LdPolishReset();
         }
 

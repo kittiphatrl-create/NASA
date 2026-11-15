@@ -21,6 +21,7 @@ namespace TitanGate.Game
         static readonly SStep[] ShipStepsNoPet =
         {
             new SStep { target = "radio", textKey = "ship.q.radio", factKey = "ship.fact.radio" },
+            FindCaptainCard, UnlockCaptainDoor,
             new SStep { target = "sofa", textKey = "ship.q.sofa" },
         };
 
@@ -49,16 +50,12 @@ namespace TitanGate.Game
             }
         }
 
-        /// <summary>Walk, run, idle and blink in 8 directions; falls back to the code-drawn cadet outside (suit).</summary>
+        /// <summary>Walk, run, idle and blink in 8 directions, with the EVA suit outside.</summary>
         void BCadetSprite(int frame, bool outside)
         {
             BUpdateDir8();
-            Sprite s = null;
-            if (!outside)
-            {
-                string key = frame == -1 ? "idle" : frame == -2 ? "blink" : (_bRun && _bMoving ? "r" : "w") + (((frame % 8) + 8) % 8);
-                s = Art.Cadet8(_bGather ? 0 : _bDir5, key);
-            }
+            string key = frame == -1 ? "idle" : frame == -2 ? "blink" : (_bRun && _bMoving ? "r" : "w") + (((frame % 8) + 8) % 8);
+            var s = Art.Cadet8(_bGather ? 0 : _bDir5, key, outside);
             if (s != null) { _bPlayer.sprite = s; _bPlayer.flipX = !_bGather && _bFlip8; return; }
             _bPlayer.sprite = Art.Cadet(_bGather ? 0 : _bFacing, frame, outside, _bRun && _bMoving);
             _bPlayer.flipX = _bFacing == 2 && !_bRight;
@@ -67,14 +64,14 @@ namespace TitanGate.Game
         /// <summary>Carry and use poses facing the way the cadet looks (called after the code-drawn action pose).</summary>
         void BCadetActionSprite(string pose)
         {
-            if (_bPlayer == null || BIsOutside(_bPos)) return;
+            if (_bPlayer == null) return;
             // the 8-direction sheet has carrying and a "hands on the machine" pose that faces what is used: right for
             // consoles and repairs on the walls. Lifting a box, planting, watering, feeding and petting keep their own
             // drawn pose so the hands match the object.
             if (!BFacesMachine(pose)) return;
             BUpdateDir8();
             string key = pose == "carry" ? (_bMoving ? "c" + ((int)_bGaitPhase % 8) : "ci") : "u" + ((int)(_bAnim * 6) % 4);
-            var s = Art.Cadet8(_bDir5, key);
+            var s = Art.Cadet8(_bDir5, key, BIsOutside(_bPos));
             if (s == null) return;
             _bPlayer.sprite = s; _bPlayer.flipX = _bFlip8;
         }
@@ -166,22 +163,41 @@ namespace TitanGate.Game
                 bool horiz = x1 > x0 || y1 == y0 && LMakesWallAt(x0 - 1, y0) && LMakesWallAt(x1 + 1, y0);
                 var g = new BDoorGroup { rect = new RectInt(x0, y0, x1 - x0 + 1, y1 - y0 + 1), horizontal = horiz };
                 g.center = new Vector2(x0 + g.rect.width * .5f, y0 + g.rect.height * .5f);
-                var sprite = Art.Door(horiz, false, 0);
+                bool captain = _bMode == 1 && g.rect.Contains(CaptainDoorTile);
+                if (!horiz && !captain) continue;
+                var sprite = BDoorSprite(g, false, 0);
                 if (sprite == null) continue;
                 g.sr = BSprite("door", sprite, new Vector2(x0, y0), horiz ? SortY(y0) + 2 : -29990);
                 g.sr.transform.localScale = horiz ? new Vector3(g.rect.width / 2f, 1, 1) : new Vector3(1, g.rect.height / 2f, 1);
+                bool locked = BDoorLocked(g);
+                sprite = BDoorSprite(g, locked, 0);
+                if (sprite != null) g.sr.sprite = sprite;
+                if (captain)
+                {
+                    BSetDoorBlocked(g, locked);
+                    var spot = BSpotById(CaptainDoor);
+                    if (spot != null) spot.sr = g.sr;
+                }
                 _bDoorGroups.Add(g);
             }
         }
 
         bool BDoorLocked(BDoorGroup g)
         {
-            if (_bMode == 1) return ShipVaultDoorLocked(g.rect);
+            if (_bMode == 1)
+                return g.rect.Contains(CaptainDoorTile) ? !_sCaptainUnlocked : ShipVaultDoorLocked(g.rect);
             if (_bMode != 2 || _ld == null) return false;
             for (int x = g.rect.xMin; x < g.rect.xMax; x++)
                 for (int y = g.rect.yMin; y < g.rect.yMax; y++)
                     if (LdDoorTileLocked(new Vector2Int(x, y))) return true;
             return false;
+        }
+
+        void BSetDoorBlocked(BDoorGroup door, bool blocked)
+        {
+            for (int x = door.rect.xMin; x < door.rect.xMax; x++)
+                for (int y = door.rect.yMin; y < door.rect.yMax; y++)
+                    _bSolid[x, y] = blocked;
         }
 
         /// <summary>Doors slide open when the cadet comes near and close behind them, with a hiss.</summary>
@@ -190,8 +206,7 @@ namespace TitanGate.Game
             foreach (var g in _bDoorGroups)
             {
                 bool locked = BDoorLocked(g), shut = locked || LdDoorAlwaysShut(g.rect);
-                for (int x = g.rect.xMin; x < g.rect.xMax; x++)
-                    for (int y = g.rect.yMin; y < g.rect.yMax; y++) _bSolid[x, y] = shut;   // a locked door blocks the way
+                BSetDoorBlocked(g, shut);   // a locked door blocks the way
                 float reach = g.horizontal ? Mathf.Max(Mathf.Abs(_bPos.x - g.center.x) - g.rect.width * .5f, 0) + Mathf.Abs(_bPos.y - g.center.y) * .8f
                                            : Mathf.Max(Mathf.Abs(_bPos.y - g.center.y) - g.rect.height * .5f, 0) + Mathf.Abs(_bPos.x - g.center.x) * .8f;
                 bool want = !shut && reach < (g.wantOpen ? 2.4f : 1.7f);   // opens at 1.7, closes past 2.4: no flicker at the edge
@@ -202,11 +217,16 @@ namespace TitanGate.Game
                     if (vol > 0.05f && Time.time - g.lastSound > 0.6f) { g.lastSound = Time.time; _sfx.Play(want ? "door_open" : "door_close", vol * 0.7f); }
                 }
                 g.open = Mathf.MoveTowards(g.open, want ? 1f : 0f, dt * 4.5f);
-                var s = Art.Door(g.horizontal, locked, Mathf.RoundToInt(g.open * 3));
+                var s = BDoorSprite(g, locked, Mathf.RoundToInt(g.open * 3));
                 if (s != null && g.sr.sprite != s) g.sr.sprite = s;
             }
             LdPolishUpdate(dt);   // grade, music, particles (GameFlow.Polish.cs)
             BUnstick();
         }
+
+        Sprite BDoorSprite(BDoorGroup group, bool locked, int frame)
+            => _bMode == 1
+                ? group.rect.Contains(CaptainDoorTile) ? Art.KestrelCaptainDoor(locked, frame) : Art.KestrelDoor(group.horizontal, locked, frame)
+                : Art.Door(group.horizontal, locked, frame);
     }
 }

@@ -5,7 +5,7 @@ namespace TitanGate.Game
     public static partial class Art
     {
         public static Sprite CrewAction(string id, string action, int phase = 0, bool suit = false)
-            => id == "cadet" && !suit && UseBlenderCadet && BlenderAction(action, phase) is Sprite blender ? blender : CrewActionDrawn(id, action, phase, suit);
+            => ModelCrewAction(id, action, phase, suit) ?? CrewActionDrawn(id, action, phase, suit);
 
         static Sprite CrewActionDrawn(string id, string action, int phase, bool suit)
             => Cached($"action-v1-{id}-{action}-{phase % 4}-{suit}", () =>
@@ -77,7 +77,7 @@ namespace TitanGate.Game
             return c.ToSprite(new Vector2(.5f, 0), 24);
         });
 
-        public static Sprite PetRest(string id) => Cached("pet-rest-" + id, () =>
+        public static Sprite PetRest(string id) => ModelPet(id, "rest") ?? Cached("pet-rest-" + id, () =>
         {
             var c = new PixelCanvas(26, 32); var face = PetFrame(id, -1, 0);
             for (int y = 10; y < 32; y++) for (int x = 0; x < 26; x++)

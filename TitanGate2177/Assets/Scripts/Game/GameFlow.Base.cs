@@ -163,7 +163,8 @@ namespace TitanGate.Game
             if (_bGlowMaterial != null) { Destroy(_bGlowMaterial); _bGlowMaterial = null; }
             if (_bRoot != null) Destroy(_bRoot.gameObject);
             _bRoot = null; _bCam = null;
-            _bSpots.Clear(); _bGuests.Clear(); _bLamps.Clear(); _bShadows.Clear(); _sFx.Clear(); _bFaceWalls.Clear();
+            _sGlows.Clear(); _sFaultDisplays.Clear(); _sHullLights.Clear(); _sPowerFaultAt = null;
+            _bSpots.Clear(); _bGuests.Clear(); _bLamps.Clear(); _bShadows.Clear(); _sFx.Clear(); _sAlarms.Clear(); _sPickGlows.Clear(); _bFaceWalls.Clear();
             if (_bHud != null) { _bHud.RemoveFromHierarchy(); _bHud = null; }
             if (_bHudPortrait != null) { _bHudPortrait.RemoveFromHierarchy(); _bHudPortrait = null; }
             PaceEndBase();
@@ -188,7 +189,10 @@ namespace TitanGate.Game
 
         void BBuildMap()
         {
+            _bShadows.Clear();
+            Art.UseKestrelHD = true;
             BLayout();
+            bool kestrel = _bMode == 1;
             _bWall = new bool[_bW, _bH];
             _bSolid = new bool[_bW, _bH];
             for (int x = 0; x < _bW; x++)
@@ -202,18 +206,50 @@ namespace TitanGate.Game
                     int k = _bKind[x, y];
                     _bSolid[x, y] = _bWall[x, y] || k < 0;
                     var p = new Vector2(x, y);
+                    // Spatial hash keeps the same art on reload without diagonal bands of repeated tiles.
+                    uint surfaceSeed = (uint)x * 2654435761u ^ (uint)y * 2246822519u;
+                    surfaceSeed ^= surfaceSeed >> 16;
+                    surfaceSeed *= 3266489917u;
+                    surfaceSeed ^= surfaceSeed >> 16;
                     if (_bWall[x, y])
                     {
                         bool face = y > 0 && _bKind[x, y - 1] >= 0;
+                        // The wall just below the captain's doorway is a plain, opaque bulkhead cap.
+                        bool captainBulkhead = kestrel && y == CaptainDoorTile.y - 1
+                            && (x == CaptainDoorTile.x || x == CaptainDoorTile.x - 1);
+                        if (captainBulkhead) face = false;
                         bool hull = LIsHull(x, y);
-                        var ws = BSprite("wall", Art.BaseWall(face, hull, (x * 3 + y * 5) % 8), p, SortY(y));
+                        int variant = (x * 3 + y * 5) % 8;
+                        var wall = kestrel
+                            ? captainBulkhead ? Art.KestrelWall(false, false, 0, 3)
+                                : hull && !face && KestrelRoomAt(x - 1, y) == KestrelRoomLook.Cockpit
+                                ? Art.KestrelObservationGlass()
+                                : Art.KestrelRoomWall(KestrelWallRoomAt(x, y, face), face, hull, variant, KestrelWallSides(x, y))
+                            : Art.BaseWall(face, hull, variant, WallOpenSides(x, y));
+                        var ws = BSprite("wall", wall, p, SortY(y));
+                        if (kestrel && hull && !captainBulkhead && wall != Art.KestrelObservationGlass())
+                        {
+                            Color alloy = x <= 8 ? new Color(.77f, .69f, .59f)
+                                : x >= 36 ? new Color(.76f, .88f, .97f)
+                                : new Color(.79f, .82f, .85f);
+                            float finish = face ? .72f : .94f;
+                            ws.color = Color.Lerp(Color.white, alloy, finish - ((surfaceSeed & 3u) * .08f));
+                        }
+                        else if (!captainBulkhead && face && (kestrel || _bMode == 2))
+                        {
+                            int finish = (int)((surfaceSeed >> 10) & 3u);
+                            if (finish == 1) ws.color = new Color(.96f, .98f, 1f);
+                            else if (finish == 2) ws.color = new Color(1f, .97f, .93f);
+                        }
                         if (face) _bFaceWalls.Add((ws, x, y));
-                        // little details on wall faces: vents, pipes, warning stripes
-                        if (face && rng.NextDouble() < 0.22) _bFaceWalls.Add((BSprite("walldeco", Art.WallDetail(rng.Next(4), hull), p, SortY(y) + 1), x, y));
+                        // little details on wall faces: vents, pipes, warning stripes (legacy Mars Base only; LastDock uses calm 3D panels)
+                        if (_bMode == 0 && face && rng.NextDouble() < 0.22) _bFaceWalls.Add((BSprite("walldeco", Art.WallDetail(rng.Next(4), hull), p, SortY(y) + 1), x, y));
                     }
                     else if (k >= 0)
                     {
-                        BSprite("floor", Art.BaseFloor(k, (x * 7 + y * 13) % 9), p, -30000);
+                        int variant = (int)(surfaceSeed % 9u);
+                        var floor = kestrel ? Art.KestrelRoomFloor(KestrelRoomAt(x, y), k, variant) : Art.BaseFloor(k, variant);
+                        BSprite("floor", floor, p, -30000);
                         if (k != KOutside)
                         {
                             int shade = 0;
@@ -233,6 +269,7 @@ namespace TitanGate.Game
                 // Mars ground everywhere around the base (LAST DOCK's base sits on Mars too)
                 var g = BSprite("ground", Art.BaseFloor(2, 0), new Vector2(-14, -12), -30001);
                 g.drawMode = SpriteDrawMode.Tiled; g.size = new Vector2(_bW + 28, _bH + 24);
+                var marsRocks = _bMode == 2 ? Art.Station("rocks", false) : null;
                 for (int i = 0; i < 60; i++)
                 {
                     var rp = new Vector2((float)rng.NextDouble() * (_bW + 16) - 8, (float)rng.NextDouble() * (_bH + 12) - 6);
@@ -240,22 +277,31 @@ namespace TitanGate.Game
                     bool inMap = cx >= 0 && cy >= 0 && cx < _bW && cy < _bH;
                     if (inMap && (_bWall[cx, cy] || _bKind[cx, cy] >= 0 && _bKind[cx, cy] != KOutside)) continue;
                     if (inMap && _bKind[cx, cy] == KOutside && rng.NextDouble() < 0.7) continue;
-                    BSprite("rock", Art.Rock(rng.Next(3)), rp, SortY(rp.y));
+                    int variant = rng.Next(3);
+                    var rockSprite = (_bMode == 2 ? Art.Station(variant == 0 ? "rocks" : "rocks_" + variant, false) : null) ?? marsRocks;
+                    var rock = BSprite("rock", rockSprite ?? Art.Rock(variant), rp, SortY(rp.y));
+                    if (rockSprite != null)
+                    {
+                        rock.flipX = variant == 1;
+                        rock.transform.localScale = Vector3.one * (.74f + (variant % 2) * .20f);
+                    }
                 }
                 if (_bMode == 2) LdBuildProps(); else BBuildProps();
             }
             else
             {
-                var sp = BSprite("space", Art.SpaceTile(), new Vector2(-16, -12), -30002);
-                sp.drawMode = SpriteDrawMode.Tiled; sp.size = new Vector2(_bW + 32, _bH + 24);
+                BSprite("space", Art.KestrelSpace(), new Vector2(-16, -12), -30002);
+                BuildKestrelSky();
                 BBuildShipProps();
+                BuildKestrelExteriorLights();
             }
 
             BuildHabitatLook();
             BBuildDoors();   // sliding doors on every doorway (GameFlow.Feel.cs)
             if (_bMode != 0) LdRingUsables();   // outline everything you can use (GameFlow.LdHands.cs)
-            _bShadows.Clear();
-            _bPlayer = BSprite("cadet", Art.Astronaut(false, Pose.Idle0), _bPos, 0);
+            if (_bMode == 1) SBuildScreenGlows();   // screens and LEDs give off light (GameFlow.ShipGlow.cs)
+            else _sGlows.Clear();
+            _bPlayer = BSprite("cadet", Art.Crew("cadet", 0, -1), _bPos, 0);
             _bPet = BSprite("pet", Art.Pet("comet"), _bPos, 0);
             _bPet.gameObject.SetActive(false);
             _bMarker = BSprite("marker", Art.Marker(false), Vector2.zero, 31000);
@@ -278,6 +324,7 @@ namespace TitanGate.Game
             vig.transform.localPosition = new Vector3(0, 0, 5);
             vig.sprite = Art.Vignette();
             vig.sortingOrder = 30500;
+            vig.color = new Color(1f, 1f, 1f, _bMode == 0 ? .52f : .28f);
             float vh = BCamSize * 2.05f;
             vig.transform.localScale = new Vector3(vh * 16f / 9f * 1.05f / vig.sprite.bounds.size.x, vh / vig.sprite.bounds.size.y, 1);
             _bVignette = vig;
@@ -312,11 +359,15 @@ namespace TitanGate.Game
         {
             foreach (var (sh, owner) in _bShadows)
             {
-                bool on = owner != null && owner.gameObject.activeInHierarchy && owner.sprite != null;
+                bool on = owner != null && owner.enabled && owner.gameObject.activeInHierarchy && owner.sprite != null;
                 sh.gameObject.SetActive(on);
                 if (!on) continue;
-                sh.transform.position = owner.transform.position + new Vector3(0, 0.02f, 0);
-                sh.transform.localScale = new Vector3(Mathf.Max(0.8f, owner.sprite.bounds.size.x * 0.9f), 1, 1);
+                bool outside = _bMode != 1 && BIsOutside(owner.transform.position);
+                bool storm = outside && _bMode == 2 && _ld != null && _ld.StormToday;
+                var offset = outside && !storm ? new Vector3(.16f, -.09f, 0f) : new Vector3(.035f, .02f, 0f);
+                sh.transform.position = owner.transform.position + offset;
+                sh.transform.localScale = new Vector3(Mathf.Max(.65f, owner.bounds.size.x * .9f), outside ? 1.25f : .88f, 1f);
+                sh.color = new Color(.07f, .095f, .14f, storm ? .57f : .86f);
             }
         }
 
@@ -920,6 +971,7 @@ namespace TitanGate.Game
             ActionPresentation();
             CrewUpdate(dt);
             BUpdateShadows();
+            WorldDetailsUpdate();
             UpdateHabitatLook(dt);
             BFadeWalls(dt);
             if (_bMode == 1) { SUpdate(dt); SLight(dt); } else BLight(dt);

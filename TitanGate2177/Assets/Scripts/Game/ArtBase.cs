@@ -81,7 +81,7 @@ namespace TitanGate.Game
         /// Wall tile. face = the tile below is open, so the wall shows its front: 16 px of face under an 8 px cap
         /// (sprite 16x24, pivot bottom-left). Otherwise only the cap shows (16x16).
         /// </summary>
-        public static Sprite BaseWall(bool face, bool outerHull, int variant = 0) => UseStationTiles && StationWall(face, outerHull, variant) is Sprite st ? st : HabitatWall(face, outerHull, variant);
+        public static Sprite BaseWall(bool face, bool outerHull, int variant = 0, int deckSides = 12) => UseStationTiles && StationWall(face, outerHull, variant, deckSides) is Sprite st ? st : HabitatWall(face, outerHull, variant);
         static Sprite LegacyBaseWall(bool face, bool outerHull) => Cached($"bwall{face}{outerHull}", () =>
         {
             var cap = outerHull ? PixelCanvas.Hex("#e0d5bf") : Pal.Navy3;
@@ -392,23 +392,6 @@ namespace TitanGate.Game
             c.RoundRect(0, 8, 40, 12, Pal.Steel);
             c.Rect(2, 10, 36, 8, Pal.SteelL);
             c.Rect(8, 13, 6, 3, Pal.Amber); c.Rect(25, 12, 4, 4, Pal.White); c.Set(30, 14, Pal.Red);
-        });
-
-        /// <summary>The lifeboat parked in the bay, its hatch facing the cadet. 64x44.</summary>
-        public static Sprite LifeboatPod(bool open, int fill, int slots) => Prop($"lbpod{open}{fill}_{slots}", 64, 44, c =>
-        {
-            c.Ellipse(32, 22, 31, 21, Pal.Orange);
-            c.Ellipse(32, 25, 27, 16, Pal.OrangeL);
-            c.Ellipse(32, 12, 30, 9, Pal.OrangeD);
-            c.Rect(4, 18, 56, 3, Pal.White);
-            c.Disc(14, 28, 4, Pal.Ink); c.Disc(14, 28, 3, Pal.CyanD);
-            c.Disc(50, 28, 4, Pal.Ink); c.Disc(50, 28, 3, Pal.CyanD);
-            c.RoundRect(22, 2, 20, 26, Pal.Ink);
-            c.RoundRect(24, 3, 16, 23, open ? PixelCanvas.Hex("#1b2140") : Pal.Steel);
-            if (open)
-                for (int i = 0; i < slots; i++) c.Rect(25 + i * (14 / Mathf.Max(1, slots)), 5, Mathf.Max(1, 14 / Mathf.Max(1, slots) - 1), 3, i < fill ? Pal.Green : Pal.Navy2);
-            else c.Rect(24, 14, 16, 2, Pal.Steel0);
-            c.Rect(26, 0, 12, 2, Pal.Amber);
         });
 
         /// <summary>Painted floor arrow (points right). 12x8, pivot centre.</summary>

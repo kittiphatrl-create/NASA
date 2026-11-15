@@ -105,6 +105,7 @@ namespace TitanGate.Game
             if (!BTimedTask(d, 0.5f)) return true;
             if (what == "seeds") _bSeeds++;
             if (what == "scrap") { string part = rng.NextDouble() < 0.5 ? "fuse" : rng.NextDouble() < 0.5 ? "tape" : "cable"; ToolboxAdd(part); _ui.Toast(TT("Spare part for the toolbox: ", "ได้อะไหล่เก็บเข้าตู้เครื่องมือ: ") + ItemName(part), GameUI.CGreen); }
+            if (what != "dust") BItemEffect(s, what);
             s.sr.enabled = false;
             _sfx.Play(what == "dust" ? "bad" : "card");
             _ui.Toast(_loc.T("base.salvage." + what), what == "dust" ? GameUI.CDim : GameUI.CGreen);

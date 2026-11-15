@@ -18,6 +18,11 @@ namespace TitanGate.Game
     {
         bool TopDownCh1 => _cfg.chapter1.topDown && !ForceDiary && !ForceOutpost;
 
+        const string CaptainCard = "captain_keycard", CaptainDoor = "captain_door";
+        static readonly Vector2Int CaptainDoorTile = new Vector2Int(36, 11);
+        static SStep FindCaptainCard => new SStep { target = CaptainCard, textKey = "ship.q.captain_card" };
+        static SStep UnlockCaptainDoor => new SStep { target = CaptainDoor, textKey = "ship.q.captain_door" };
+
         struct SStep { public string target, carry, textKey, factKey; }
 
         static readonly SStep[] ShipSteps =
@@ -26,6 +31,7 @@ namespace TitanGate.Game
             new SStep { target = "bowl", textKey = "ship.q.bowl", factKey = "ship.fact.food" },
             // trimmed for a ~20-minute run (spec 2026-11-14 §6.1): the filter, water and plant jobs now live in the base restoration
             new SStep { target = "radio", textKey = "ship.q.radio", factKey = "ship.fact.radio" },
+            FindCaptainCard, UnlockCaptainDoor,
             new SStep { target = "sofa", textKey = "ship.q.sofa" },
         };
 
@@ -44,6 +50,9 @@ namespace TitanGate.Game
         int _sStep;
         string _sTarget, _sCarry;
         bool _sScramble, _sDone, _sSitting;
+        bool _sCaptainHasCard, _sCaptainUnlocked;
+        Vector2 _sSeatPosition;
+        bool SCanStand => _bMode == 1 && _sSitting && _sTarget != null;
         float _sLeft, _sRumbleT, _sShake;
         int _sPhaseFire;
         bool _sTilted;
@@ -109,6 +118,7 @@ namespace TitanGate.Game
         void SUse(BSpot s)
         {
             if (_sDone || _sSitting || ActionLocked) return;
+            if (SUseCaptainAccess(s)) return;
             if (LdShipUse(s)) return;   // LAST DOCK: key card and locked vaults (GameFlow.ShipRooms.cs)
             if (s.id == "mentor") { StartCoroutine(SMentorAdvice()); return; }
             if (s.id == "pet") { _bHeartT = 1.2f; _sfx.Play("good", 0.6f); _ui.Toast(_loc.T("base.pet", s.nameKey), GameUI.CGreen); return; }
@@ -119,13 +129,65 @@ namespace TitanGate.Game
                 else _ui.Toast(_loc.T("ship.scramble.notime"), GameUI.CRed);
                 return;
             }
+            if (s.id == "sofa")
+            {
+                if (_sTarget == s.id) SCompleteStep(s);
+                else SSeat(s);
+                return;
+            }
             if (s.id != _sTarget)
             {
                 _ui.Toast(_loc.T("ship.look." + (_loc.Has("ship.look." + s.id) ? s.id : "other"), s.nameKey != null ? _loc.T(s.nameKey) : ""), GameUI.CDim);
                 return;
             }
-            if (s.id != "sofa") { StartCoroutine(Act(TaskPose(s.id), .85f, () => SCompleteStep(s))); return; }
-            SCompleteStep(s);
+            StartCoroutine(Act(TaskPose(s.id), .85f, () => SCompleteStep(s)));
+        }
+
+        bool SUseCaptainAccess(BSpot spot)
+        {
+            if (spot.id == CaptainCard)
+            {
+                if (!spot.on) return true;
+                if (_sTarget != CaptainCard)
+                {
+                    _ui.Toast(_loc.T("ship.spot.captain_card"), GameUI.CDim);
+                    return true;
+                }
+                _sCaptainHasCard = true;
+                BItemEffect(spot, CaptainCard);
+                spot.on = false;
+                spot.sr.gameObject.SetActive(false);
+                SCompleteStep(spot);
+                return true;
+            }
+            if (spot.id != CaptainDoor || _sCaptainUnlocked) return spot.id == CaptainDoor;
+            if (!_sCaptainHasCard)
+            {
+                _sfx.Play("bad");
+                _ui.Toast(_loc.T("ship.q.captain_card"), GameUI.CRed);
+                return true;
+            }
+
+            _sCaptainHasCard = false;
+            _sCaptainUnlocked = true;
+            spot.nameKey = null;
+            foreach (var door in _bDoorGroups)
+                if (door.rect.Contains(CaptainDoorTile))
+                    BSetDoorBlocked(door, false);
+            BItemEffect(spot, CaptainDoor);
+            SCompleteStep(spot);
+            return true;
+        }
+
+        void SSeat(BSpot sofa)
+        {
+            _sSeatPosition = sofa.pos;
+            _sSitting = true;
+            _bMoving = false;
+            _bPath = null;
+            _bGoal = null;
+            _bRight = true;
+            if (BFree(sofa.stand)) _bPos = sofa.stand;
         }
 
         void SCompleteStep(BSpot s)
@@ -134,10 +196,11 @@ namespace TitanGate.Game
             var step = SSteps[_sStep];
             _sfx.Play(step.carry != null ? "collected" : "complete");
             _sCarry = step.carry;
+            if (step.carry != null) BItemEffect(s, step.carry);
             if (step.target == "bowl") BSpotById("bowl").sr.sprite = Art.PetBowl(true);
             if (step.target == "can") BSpotById("can").sr.enabled = false;
             if (step.factKey != null) _ui.Toast(_loc.T("speaker.mentor") + ": " + _loc.T(step.factKey), GameUI.CGreen);
-            if (step.target == "sofa") { StartCoroutine(SImpact()); return; }
+            if (step.target == "sofa") { StartCoroutine(SImpact(s)); return; }
             _sStep++;
             _sTarget = SSteps[_sStep].target;
             _ui.Toast(_loc.T(SSteps[_sStep].textKey, _loc.T($"pet.{_sPet}.name")), GameUI.CCyan);
@@ -147,6 +210,7 @@ namespace TitanGate.Game
         {
             if (_sHands.Count >= HandSlots || LastDockMode && !LdPick(s.id)) { _sfx.Play("bad"); _ui.Toast(_loc.T("ship.scramble.hands_full", HandSlots), GameUI.CRed); return; }
             _sHands.Add(s.id);
+            BItemEffect(s, s.id);
             StartCoroutine(Act("lift", .35f, null));
             s.sr.enabled = false;
             s.on = false;
@@ -169,24 +233,24 @@ namespace TitanGate.Game
 
         // ------------------------------------------------------------------ impact and scramble
 
-        IEnumerator SImpact()
+        IEnumerator SImpact(BSpot sofa)
         {
             // Preserve the reachable floor position; the seated pose is inside the sofa collider.
             Vector2 standingPosition = _bPos;
-            _sSitting = true;
+            SSeat(sofa);
             _sTarget = null;
-            _bPath = null; _bGoal = null;
-            _bPos = new Vector2(31.2f, 16.45f); _bRight = true;
             yield return Say("orbi", "ship.rest");
             yield return new WaitForSeconds(1.4f);
             _sfx.Loop("ship_alarm", true);
             _sfx.Play("thud");
             _sShake = 0.7f;
-            _ui.Flash(new Color(1f, 0.15f, 0.2f, 0.6f));
+            _sPowerFaultAt = _bAnim;
+            if (!Settings.ReducedMotion) _ui.Flash(new Color(1f, .15f, .2f, .43f));
             yield return new WaitForSeconds(0.6f);
             yield return Fade(1f, 0.3f);
             yield return LastDockMode ? LdCinImpact() : BCutscene("impact");
             _bPos = standingPosition;
+            _sPowerFaultAt = _bAnim;
             yield return Fade(0f, 0.3f);
             _sSitting = false; _petStay = false;
             _sScramble = true;
@@ -195,14 +259,14 @@ namespace TitanGate.Game
             _sfx.Play("alarm");
             _sfx.Loop("rumble", true);
             _sShake = 1.2f;
-            _ui.Flash(new Color(1f, 0.15f, 0.2f, 0.5f));
             _sHatchSr.sprite = Art.LifeboatPod(true, 0, StowSlots);
             if (LastDockMode) LdNewInventory();
+            SSpawnAlarmLights();
             foreach (var (id, x, y) in LastDockMode ? (IEnumerable<(string id, float x, float y)>)LdScrambleItems() : ShipSupplies)
             {
                 var sp = BProp(id, LastDockMode ? LdSupName(id) : $"sup.{id}.name", Art.LooseSupply(id), x, y, new Vector2(x, y - 0.5f));
                 sp.sr.sortingOrder = SortY(y) + 1;
-                BLamp(new Vector2(x, y + 0.4f), new Color(1f, 0.85f, 0.4f), 1.6f, 0.5f);
+                SAddPickupGlow(sp);
                 LdAddPickRing(sp);   // a bright outline so it does not melt into the floor (GameFlow.LdHands.cs)
             }
             _busy = true;
@@ -313,20 +377,94 @@ namespace TitanGate.Game
 
         // ------------------------------------------------------------------ light and HUD
 
+        /// <summary>Red warning beacons on the ship's equipment, one per prop, each blinking on its own beat.</summary>
+        readonly List<(SpriteRenderer core, SpriteRenderer glow, float phase, float speed)> _sAlarms = new List<(SpriteRenderer, SpriteRenderer, float, float)>();
+
+        void SSpawnAlarmLights()
+        {
+            _sAlarms.Clear();
+            int n = 0;
+            // Backup beacons are mounted near passageways and the launch bay.
+            foreach (var p in new[] { new Vector2(7.6f, 11.6f), new Vector2(13.4f, 12.7f),
+                new Vector2(22.4f, 12.7f), new Vector2(31.4f, 9.05f), new Vector2(36.7f, 12.6f),
+                new Vector2(28.7f, 6.6f), new Vector2(33.1f, 6.6f) })
+            {
+                var core = BSprite("alarm-bulb", WorldBuilder.WhitePixel(), p, 30002);
+                core.transform.localScale = new Vector3(2.2f, 1.15f, 1f);
+                core.color = new Color(1f, 0.12f, 0.12f, 0f);
+                var glow = BSprite("alarm-glow", Art.SoftLight(), p, 30001);
+                if (_bGlowMaterial != null) glow.sharedMaterial = _bGlowMaterial;
+                glow.transform.localScale = Vector3.one * 1.6f;
+                glow.color = new Color(1f, 0.08f, 0.08f, 0f);
+                // stagger the beat so the ship doesn't blink in unison
+                _sAlarms.Add((core, glow, (n * .37f) % 1f, .72f + (n % 3) * .13f));
+                n++;
+            }
+        }
+
+        void SAlarmLights()
+        {
+            foreach (var (core, glow, phase, speed) in _sAlarms)
+            {
+                if (core == null || glow == null) continue;
+                float t = Mathf.Repeat(_bAnim * speed + phase, 1f);
+                float on = SPowerFault ? (Settings.ReducedMotion ? .6f : .22f + .78f * Mathf.Pow(Mathf.Sin(Mathf.PI * t), 2f)) : 0f;
+                core.color = new Color(1f, 0.15f + on * 0.15f, 0.12f, on);
+                glow.color = new Color(1f, .13f, .09f, on * .44f);
+            }
+        }
+
+        readonly List<(BSpot spot, SpriteRenderer outline, float phase)> _sPickGlows =
+            new List<(BSpot, SpriteRenderer, float)>();
+
+        void SAddPickupGlow(BSpot sp, Color? tint = null)
+        {
+            if (sp?.sr?.sprite == null) return;
+            var outline = BSprite("pickup-outline", Art.KestrelPickupOutline(sp.sr.sprite),
+                sp.sr.transform.position, sp.sr.sortingOrder - 1);
+            outline.transform.SetParent(sp.sr.transform, false);
+            outline.transform.localPosition = Vector3.zero;
+            outline.flipX = sp.sr.flipX;
+            var color = tint ?? new Color(1f, .82f, .20f);
+            color.a = .65f;
+            outline.color = color;
+            _sPickGlows.Add((sp, outline, _sPickGlows.Count * 2.7f));
+        }
+
+        void SPickupGlows()
+        {
+            foreach (var (spot, outline, phase) in _sPickGlows)
+            {
+                if (outline == null) continue;
+                outline.enabled = spot.on && spot.sr != null && spot.sr.enabled;
+                if (!outline.enabled) continue;
+                float pulse = Settings.ReducedMotion ? .65f : .5f + .5f * Mathf.Sin(_bAnim * 3.6f + phase);
+                var color = outline.color;
+                color.a = .25f + pulse * .75f;
+                outline.color = color;
+            }
+        }
+
         void SLight(float dt)
         {
-            float dark = _sScramble ? 0.22f + (Mathf.PerlinNoise(_bAnim * 3f, 0) > 0.8f ? 0.3f : 0f) : 0.04f;
-            var col = new Color(0.03f, 0.04f, 0.14f, dark);
-            if (_sScramble)
+            float dark = SPowerFault ? .25f : .065f;
+            var col = new Color(.04f, .054f, .085f, dark);
+            if (SPowerFault)
             {
-                float pulse = 0.06f + Mathf.Abs(Mathf.Sin(_bAnim * 4)) * 0.16f;
-                col = new Color(0.75f, 0.03f, 0.08f, pulse + dark * 0.35f);
+                // keep only a faint red cast; the warning light now comes from the blinking beacons on equipment
+                float pulse = Settings.ReducedMotion ? 0f : Mathf.Abs(Mathf.Sin(_bAnim * 2.5f)) * .025f;
+                col = new Color(.15f, .042f, .059f, dark + pulse);
             }
             _bDark.color = Color.Lerp(_bDark.color, col, dt * 6f);
+            SAlarmLights();
+            SScreenGlows(dt);
+            SUpdateHullLights();
+            SPickupGlows();
             foreach (var (sr, strength) in _bLamps)
             {
                 var c = sr.color;
-                c.a = Mathf.Lerp(c.a, Mathf.Clamp01(0.1f + dark * 1.1f) * strength, dt * 4f);
+                float intensity = SPowerFault ? (Settings.ReducedMotion ? .115f : Mathf.Lerp(.07f, .115f, Mathf.Clamp01(SPowerFaultAge))) : .17f;
+                c.a = Mathf.Lerp(c.a, Mathf.Clamp01(intensity * strength), dt * 4f);
                 sr.color = c;
             }
             if (_sHatchSr != null && _sScramble) _sHatchSr.sprite = Art.LifeboatPod(true, _stowed.Count, StowSlots);

@@ -51,11 +51,14 @@ namespace TitanGate.Game
         void LdBuildOutside()
         {
             // airlock: suit lockers by the outer door
-            BDeco(Art.Locker(false), 28.0f, 22.12f, 1);
-            BDeco(Art.Locker(true), 30.6f, 22.12f, 1);
+            var lockers = Art.Station("lockers", false);
+            BDeco(lockers ?? Art.Locker(false), 28.0f, 22.12f, 1);
+            BDeco(lockers ?? Art.Locker(true), 30.6f, 22.12f, 1);
             BLamp(new Vector2(29.5f, 20f), new Color(1f, 0.7f, 0.3f), 4.5f, 0.45f);
 
             // outside: solar panels that feed the base, the three sites and the rover pad
+            if (Art.Station("vent", false) is Sprite vent)
+                BDeco(vent, 39.5f, 22.8f);
             BDeco(Art.SolarArray(false, false), 41.5f, 17.6f, 4);
             BDeco(Art.SolarArray(false, true), 41.5f, 13.6f, 4);
             // the sites are scenery now: trips outside start at the airlock door and happen off screen (60 Seconds style)
@@ -93,7 +96,7 @@ namespace TitanGate.Game
             }
             _ldRover.sprite = !_ld.RoverBuilt ? null : Art.Station(_ld.RoverSolar ? "rover_solar" : "rover", false);
             _ldRover.color = _ld.RoverBroken ? new Color(1f, 0.6f, 0.6f) : Color.white;
-            float dark = _ld.Battery <= 0 ? 0.45f : _ld.Battery == 1 ? 0.22f : 0f;
+            float dark = BIsOutside(_bPos) ? 0f : _ld.Battery <= 0 ? .31f : _ld.Battery == 1 ? .13f : 0f;
             _ldDark.color = Color.Lerp(_ldDark.color, new Color(0.02f, 0.03f, 0.1f, dark), dt * 2);
             _ldStormTint.color = Color.Lerp(_ldStormTint.color, _ld.StormToday ? new Color(1f, 0.35f, 0.1f, 0.12f + 0.06f * pulse) : Color.clear, dt * 2);
             _sfx.Loop("heart", _ld.Health == 1 && _ld.Outcome == Outcome.Ongoing);

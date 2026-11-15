@@ -61,7 +61,9 @@ namespace TitanGate.Game
                 LRoom(18, 3, 25, 8, 0, "ship.room.life");
                 LRoom(27, 3, 34, 8, 8, "ship.room.bay");
                 LRoom(37, 7, 41, 15, 0, "ship.room.cockpit");
-                for (int y = 10; y <= 12; y++) { LDoor(8, y); LDoor(36, y); }
+                for (int y = 10; y <= 12; y++) LDoor(8, y);
+                for (int y = 11; y <= 12; y++) LDoor(36, y);
+                _bKind[CaptainDoorTile.x - 1, CaptainDoorTile.y - 1] = KVoid;
                 foreach (int x in new[] { 12, 13, 21, 22, 30, 31 }) { LDoor(x, 13); LDoor(x, 9); }
                 foreach (int y in new[] { 16, 17 }) { LDoor(17, y, 4); LDoor(26, y, 4); LDoor(8, y, 5); }
                 foreach (int y in new[] { 5, 6 }) { LDoor(17, y, 0); LDoor(26, y, 0); LDoor(8, y, 5); }
@@ -112,6 +114,40 @@ namespace TitanGate.Game
 
         bool LMakesWallAt(int x, int y) => x >= 0 && y >= 0 && x < _bW && y < _bH && _bWall != null && _bWall[x, y];
 
+        KestrelRoomLook KestrelRoomAt(int x, int y) => BRoomAt(new Vector2(x, y)) switch
+        {
+            "ship.room.lab" => KestrelRoomLook.Lab,
+            "ship.room.quarters" => KestrelRoomLook.Quarters,
+            "ship.room.galley" => KestrelRoomLook.Galley,
+            "ship.room.cockpit" => KestrelRoomLook.Cockpit,
+            _ => KestrelRoomLook.Deck,
+        };
+
+        KestrelRoomLook KestrelWallRoomAt(int x, int y, bool face)
+        {
+            if (face) return KestrelRoomAt(x, y - 1);
+            var left = KestrelRoomAt(x - 1, y);
+            if (left != KestrelRoomLook.Deck) return left;
+            var right = KestrelRoomAt(x + 1, y);
+            return right != KestrelRoomLook.Deck ? right : KestrelRoomAt(x, y + 1);
+        }
+
+        int KestrelWallSides(int x, int y)
+        {
+            bool DeckAt(int col, int row) => col >= 0 && row >= 0 && col < _bW && row < _bH && _bKind[col, row] >= 0;
+            return (DeckAt(x - 1, y) ? 1 : 0) | (DeckAt(x + 1, y) ? 2 : 0)
+                | (DeckAt(x, y + 1) ? 4 : 0) | (DeckAt(x, y - 1) ? 8 : 0);
+        }
+
+        int WallOpenSides(int x, int y)
+        {
+            bool OpenAt(int col, int row) => !LMakesWallAt(col, row);
+            return (OpenAt(x - 1, y) ? 1 : 0)
+                | (OpenAt(x + 1, y) ? 2 : 0)
+                | (OpenAt(x, y + 1) ? 4 : 0)
+                | (OpenAt(x, y - 1) ? 8 : 0);
+        }
+
         /// <summary>A floor tile cut through a horizontal wall: floor above and below, wall a short way left and right.</summary>
         bool LDoorwayRow(int x, int y)
         {
@@ -140,67 +176,80 @@ namespace TitanGate.Game
 
         void BBuildShipProps()
         {
-            // ---- Lab (x 9-16, y 14-19): lettuce under grow lamps
-            BProp("deco", null, Art.Plot(3, false), 10.8f, 16.4f, Vector2.zero, 2, 1);
-            BProp("plants", "ship.spot.plants", Art.Plot(3, false), 13.4f, 16.4f, new Vector2(13.4f, 15.6f), 2, 1);
-            BProp("deco", null, Art.Plot(2, false), 16.0f, 16.4f, Vector2.zero, 2, 1);
-            BDeco(Art.Shelf(false), 10.4f, 19.12f, 2);
+            _sCaptainHasCard = _sCaptainUnlocked = false;
+            var captainCard = BProp(CaptainCard, "ship.spot.captain_card", Art.LooseSupply("keycard"),
+                29.2f, 17.65f, new Vector2(29.2f, 17.05f));
+            SAddPickupGlow(captainCard, new Color(.28f, 1f, .42f));
+            BProp(CaptainDoor, "ship.spot.captain_door", null, 36.5f, 12f, new Vector2(35.45f, 12f));
+
+            // ---- Hydroponics: new artwork uses the existing rack and shelf footprints.
+            BProp("deco", null, Art.KestrelHydroponicsRack(0), 10.8f, 16.4f, Vector2.zero, 2, 1);
+            BProp("plants", "ship.spot.plants", Art.KestrelHydroponicsRack(1), 13.4f, 16.4f, new Vector2(13.4f, 15.6f), 2, 1);
+            BDeco(Art.KestrelHydroponicsTanks(), 10.4f, 19.12f, 2);
             BProp("can", "ship.spot.can", Art.LooseSupply("sup_water"), 15.6f, 18.8f, new Vector2(15.4f, 18.2f));
-            BSprite("porthole", Art.Porthole(false), new Vector2(12.6f, 20f), SortY(20) + 1);
-            for (int i = 0; i < 3; i++) BLamp(new Vector2(10.8f + i * 2.6f, 17.2f), new Color(0.95f, 0.35f, 0.95f), 3.2f, 0.6f);
+            foreach (float x in new[] { 10.8f, 13.4f })
+            {
+                var warmth = new Color(1f, .80f, .38f);
+                BLamp(new Vector2(x, 18.43f), warmth, 2.1f, 1.15f);
+                var spill = BSprite("grow-light-floor", Art.SoftLight(), new Vector2(x, 15.95f), -29998);
+                spill.transform.localScale = new Vector3(3.45f, 2.75f, 1f);
+                spill.color = new Color(warmth.r, warmth.g, warmth.b, .58f);
+            }
 
             // ---- Crew quarters (x 18-25, y 14-19): bunks, the pet's bowl
-            // beds sit clear of the lab door at x 17 (they used to block it); no pet bowl without pets
-            if (!LastDockMode) { BDeco(Art.Bed(), NoPets ? 22.4f : 19.8f, 18.6f, 3); BDeco(Art.Bed(), NoPets ? 22.4f : 19.8f, 16.4f, 3); }   // the user asked for the beds to go
-            else { BDeco(Art.Locker(false), 18.6f, 19.12f, 1); BDeco(Art.Locker(true), 25.1f, 15.12f, 1); }   // crew lockers against the walls, clear of every door
+            // The bunks leave both side doors and the centre aisle open.
+            BDeco(Art.KestrelBunk(), 20.15f, 18.15f, 3);
+            BDeco(Art.KestrelBunk(), 20.15f, 15.12f, 3);
+            if (LastDockMode) BDeco(Art.KestrelLocker(true), 25.1f, 15.12f, 1);
             if (!NoPets) BProp("bowl", "ship.spot.bowl", Art.PetBowl(false), 24.4f, 14.6f, new Vector2(23.6f, 15.0f));
-            BDeco(Art.Locker(false), 25.1f, 19.12f, 1);
-            BSprite("porthole", Art.Porthole(false), new Vector2(22.2f, 20f), SortY(20) + 1);
-            BLamp(new Vector2(21.5f, 16.5f), new Color(1f, 0.85f, 0.6f), 5.5f, 0.5f);
+            BDeco(Art.KestrelLocker(false), 25.1f, 19.12f, 1);
+            BLamp(new Vector2(21.5f, 16.5f), new Color(.72f, .68f, 1f), 5.5f, .38f);
 
             // ---- Galley and lounge (x 27-34, y 14-19): sofa, table, food locker, parts cabinet
-            BProp("sofa", "ship.spot.sofa", Art.Sofa(), 31.2f, 16.6f, new Vector2(31.2f, 15.8f), 3, 1);
-            BProp("food", "ship.spot.food", Art.FoodLocker(), 33.9f, 19.12f, new Vector2(33.6f, 18.4f), 1, 1);
-            BProp("cabinet", "ship.spot.cabinet", Art.Cabinet(true), 27.8f, 19.12f, new Vector2(28.4f, 18.4f), 1, 1);
+            BProp("sofa", "ship.spot.sofa", Art.KestrelGalleySofa(), 31.2f, 16.6f, new Vector2(31.2f, 15.8f), 3, 1);
+            BProp("food", "ship.spot.food", Art.KestrelGalleyFridge(), 33.9f, 19.12f, new Vector2(33.6f, 18.4f), 1, 1);
+            BProp("cabinet", "ship.spot.cabinet", Art.KestrelGalleyRack(), 27.8f, 19.12f, new Vector2(28.4f, 18.4f), 1, 1);
             BDeco(Art.Table(), 29.4f, 14.3f, 2);
-            BLamp(new Vector2(31f, 16.5f), new Color(1f, 0.85f, 0.6f), 6f, 0.5f);
+            BLamp(new Vector2(31f, 16.5f), new Color(1f, .85f, .6f), 6f, .5f);
 
             // ---- Storage (x 9-16, y 3-8)
             BDeco(Art.Shelf(true), 10.6f, 8.12f, 2);
             BDeco(Art.Shelf(false), 13.0f, 8.12f, 2);
             BDeco(Art.Crates(), 15.4f, 3.4f, 2);
-            BLamp(new Vector2(12.5f, 5.5f), new Color(0.75f, 0.85f, 1f), 5f, 0.4f);
+            BLamp(new Vector2(12.5f, 5.5f), new Color(.75f, .85f, 1f), 5f, .4f);
 
             // ---- Life support (x 18-25, y 3-8)
             BProp("recycler", "ship.spot.recycler", Art.Recycler(), 19.6f, 8.12f, new Vector2(19.6f, 7.4f), 2, 1);
-            BDeco(Art.Moxie(true), 23.4f, 8.12f, 2);
             BDeco(Art.FuelTank(0.7f, false), 25.2f, 3.3f, 1);
-            BLamp(new Vector2(21.5f, 5.5f), new Color(0.6f, 1f, 0.7f), 5f, 0.45f);
+            BLamp(new Vector2(21.5f, 5.5f), new Color(.6f, 1f, .7f), 5f, .45f);
 
             // ---- Lifeboat bay (x 27-34, y 3-8): the lifeboat waits on the floor, hatch facing down
             _sHatchSr = BSprite("lbpod", Art.LifeboatPod(false, 0, StowSlots), new Vector2(30.5f, 5.0f), SortY(5.0f));
             BProp("lifeboat", "ship.spot.lifeboat", null, 30.5f, 5.0f, new Vector2(30.5f, 4.2f), 4, 2);
-            BLamp(new Vector2(30.5f, 6f), new Color(1f, 0.7f, 0.3f), 5f, 0.45f);
+            BLamp(new Vector2(30.5f, 6f), new Color(1f, .7f, .3f), 5f, .45f);
 
             // ---- Engine room (x 2-7, y 4-17): tanks and the fuel maker
             BDeco(Art.FuelTank(0.9f, false), 3.0f, 17.12f, 1);
             BDeco(Art.FuelTank(0.6f, false), 4.6f, 17.12f, 1);
             BDeco(Art.Sabatier(true, true), 4.5f, 11.4f, 2);
             BDeco(Art.Rtg(true), 6.6f, 4.4f, 1);
-            BLamp(new Vector2(4.5f, 10f), new Color(1f, 0.55f, 0.3f), 6f, 0.45f);
+            BLamp(new Vector2(4.5f, 10f), new Color(1f, .55f, .3f), 6f, .45f);
 
             // ---- Cockpit (x 37-41, y 7-15): window, two seats, the radio
             BSprite("window", Art.ShipWindow(), new Vector2(37.5f, 16f), SortY(16) + 1);
-            BDeco(Art.PilotSeat(), 39.0f, 12.6f, 1);
-            BDeco(Art.PilotSeat(), 39.0f, 9.6f, 1);
-            BProp("radio", "ship.spot.radio", Art.Console("sradio", 26, 30, Pal.Cyan), 40.6f, 15.12f, new Vector2(40.4f, 14.4f), 1, 1);
-            BDeco(Art.NavComputer(false), 38.0f, 15.12f, 1);
-            BLamp(new Vector2(39.5f, 11f), new Color(0.5f, 0.8f, 1f), 5.5f, 0.45f);
+            BDeco(Art.KestrelSeat(), 39.0f, 12.6f, 1);
+            BDeco(Art.KestrelSeat(), 39.0f, 9.6f, 1);
+            BProp("radio", "ship.spot.radio", Art.KestrelConsole(1), 40.6f, 15.12f, new Vector2(40.4f, 14.4f), 1, 1);
+            BDeco(Art.KestrelCockpitScreens(), 41.42f, 10.05f);
+            // The window-side workstations light the nose. A small fill keeps the aft aisle readable.
+            var cockpitKey = new Color(.70f, .87f, 1f);
+            BLamp(new Vector2(40.65f, 14.15f), cockpitKey, 4.5f, 2.15f);
+            BLamp(new Vector2(40.95f, 11.15f), new Color(.38f, .78f, 1f), 4.05f, 1.85f);
+            BLamp(new Vector2(40.50f, 8.75f), cockpitKey, 3.65f, 1.5f);
+            BLamp(new Vector2(37.75f, 11.85f), new Color(.65f, .74f, .91f), 2.8f, .35f);
 
             // ---- Corridor: arrows on the floor that light up during the scramble, pointing to the bay
             _sArrows.Clear();   // no floor guide arrows: the "!" over the bay door is enough
-            BLamp(new Vector2(16f, 11.5f), new Color(0.7f, 0.8f, 1f), 4f, 0.35f);
-            BLamp(new Vector2(26f, 11.5f), new Color(0.7f, 0.8f, 1f), 4f, 0.35f);
             if (LastDockMode) LdShipRoomsProps();
         }
 

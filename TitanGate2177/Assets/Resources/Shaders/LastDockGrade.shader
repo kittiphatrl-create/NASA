@@ -17,7 +17,7 @@ Shader "Hidden/TitanGate/LastDockGrade"
             float _Vignette, _Danger, _Dark, _Storm, _Glow;
             float4 _Tint;
 
-            fixed3 Bright(float2 uv) { return max(tex2D(_MainTex, uv).rgb - 0.62, 0); }
+            fixed3 Bright(float2 uv) { return max(tex2D(_MainTex, uv).rgb - 0.78, 0); }
 
             fixed4 frag(v2f_img i) : SV_Target
             {
