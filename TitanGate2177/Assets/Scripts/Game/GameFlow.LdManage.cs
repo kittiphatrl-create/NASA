@@ -51,7 +51,7 @@ namespace TitanGate.Game
 
         static string LdSysIcon(Sys s) => s switch { Sys.Scrubber => "co2", Sys.O2Gen => "o2", Sys.Recycler => "water", Sys.Heater => "heat", _ => "signal" };
 
-        static Color LdCondColor(int c) => c >= 60 ? GameUI.CGreen : c >= 40 ? GameUI.CAmber : GameUI.CRed;
+        static Color LdCondColor(int c) => c >= 60 ? GameUI.CGreen : c >= 30 ? GameUI.CAmber : GameUI.CRed;
 
         Label LdSectionLabel(string text)
         {
@@ -72,16 +72,16 @@ namespace TitanGate.Game
                 var chip = new VisualElement(); chip.style.flexDirection = FlexDirection.Row; chip.style.alignItems = Align.Center; chip.style.marginRight = 8; chip.style.marginBottom = 6;
                 chip.style.paddingLeft = 8; chip.style.paddingRight = 10; chip.style.paddingTop = 4; chip.style.paddingBottom = 4;
                 chip.style.backgroundColor = FieldBook.Paper; GameUI.Border(chip, c, 3, 8);
-                chip.Add(FieldBook.Icon(icon, 22)); var l = _ui.L(" " + text, 19, true, FieldBook.Ink); chip.Add(l);
+                chip.Add(OpIcon(icon,32)); var l = _ui.L(" " + text, 19, true, FieldBook.Ink); chip.Add(l);
                 row.Add(chip);
             }
-            Chip("sun", TT($"Solar +{f.solar}", $"โซลาร์ +{f.solar}") + (_ld.Dust > 0 ? TT($" (dust {_ld.Dust}%)", $" (ฝุ่น {_ld.Dust}%)") : ""), _ld.Dust >= 30 ? GameUI.CAmber : GameUI.CText);
-            Chip("battery", TT($"Uses −{f.draw}", $"ใช้ −{f.draw}"), GameUI.CText);
-            Chip("battery", TT($"Battery tonight → {Mathf.Max(0, f.batteryTonight)}", $"แบตหลังคืนนี้ → {Mathf.Max(0, f.batteryTonight)}"), f.shortTonight ? GameUI.CRed : f.batteryTonight < _ld.C.dockPower ? GameUI.CAmber : GameUI.CGreen);
+            Chip("sun", $"+{f.solar}", _ld.Dust >= 30 ? GameUI.CAmber : GameUI.CText);
+            Chip("battery", $"−{f.draw}", GameUI.CText);
+            Chip("battery", $"= {Mathf.Max(0, f.batteryTonight)}", f.shortTonight ? GameUI.CRed : f.batteryTonight < _ld.C.dockPower ? GameUI.CAmber : GameUI.CGreen);
             string Days(int d) => d >= 99 ? "∞" : d.ToString();
-            Chip("o2", TT($"O₂ lasts {Days(f.o2Days)} d", $"O₂ พอ {Days(f.o2Days)} วัน"), f.o2Days <= 1 ? GameUI.CRed : f.o2Days <= 3 ? GameUI.CAmber : GameUI.CGreen);
-            Chip("water", TT($"Water lasts {Days(f.waterDays)} d", $"น้ำพอ {Days(f.waterDays)} วัน"), f.waterDays <= 1 ? GameUI.CRed : f.waterDays <= 3 ? GameUI.CAmber : GameUI.CGreen);
-            Chip("food", TT($"Food lasts {Days(f.foodDays)} d", $"อาหารพอ {Days(f.foodDays)} วัน"), f.foodDays <= 1 ? GameUI.CRed : f.foodDays <= 3 ? GameUI.CAmber : GameUI.CGreen);
+            Chip("o2", TT($"{Days(f.o2Days)} d", $"{Days(f.o2Days)} วัน"), f.o2Days <= 1 ? GameUI.CRed : f.o2Days <= 3 ? GameUI.CAmber : GameUI.CGreen);
+            Chip("water", TT($"{Days(f.waterDays)} d", $"{Days(f.waterDays)} วัน"), f.waterDays <= 1 ? GameUI.CRed : f.waterDays <= 3 ? GameUI.CAmber : GameUI.CGreen);
+            Chip("food", TT($"{Days(f.foodDays)} d", $"{Days(f.foodDays)} วัน"), f.foodDays <= 1 ? GameUI.CRed : f.foodDays <= 3 ? GameUI.CAmber : GameUI.CGreen);
             box.Add(row);
             if (f.shortTonight) box.Add(LdPara("! " + TT("Low power. Switch off a machine, or some will stop overnight.",
                 "ไฟไม่พอ ปิดบางเครื่องก่อนที่ระบบจะตัดไฟคืนนี้"), GameUI.CRed, 19));
@@ -100,14 +100,14 @@ namespace TitanGate.Game
                 row.style.paddingLeft = 10; row.style.paddingRight = 10; row.style.paddingTop = 4; row.style.paddingBottom = 4;
                 row.style.backgroundColor = on ? GameUI.CPanel2 : GameUI.CPanel;
                 GameUI.Border(row, on ? new Color(0.36f, 0.89f, 0.54f, 0.45f) : new Color(1, 1, 1, 0.1f), 1, 8);
-                row.Add(LdIconImage(LdSysIcon(s), 26, on ? GameUI.CGreen : GameUI.CDim));
+                row.Add(OpIcon(LdSysIcon(s),40));
                 var mid = new VisualElement(); mid.style.flexGrow = 1; mid.style.marginLeft = 10;
                 var name = _ui.L(LdSysName(s), 21, true, on ? GameUI.CText : GameUI.CDim); LdFont(name); mid.Add(name);
-                mid.Add(_ui.L(on ? LdSysOn(s) : LdSysOff(s), 16, false, on ? GameUI.CDim : GameUI.CAmber));
+                row.tooltip=on?LdSysOn(s):LdSysOff(s);
                 row.Add(mid);
-                var draw = _ui.L(TT($"−{_ld.DrawOf(s)} power", $"ไฟ −{_ld.DrawOf(s)}"), 18, true, on ? GameUI.CText : GameUI.CDim); draw.style.marginRight = 10; row.Add(draw);
+                var draw = _ui.L($"−{_ld.DrawOf(s)}", 18, true, on ? GameUI.CText : GameUI.CDim); draw.style.marginRight = 10; row.Add(draw);
                 string act = (on ? "power_off_" : "power_on_") + StationSimulation.Key(s);
-                var b = _ui.B(on ? TT("Switch off", "ปิดเครื่อง") : TT("Switch on", "เปิดเครื่อง"), () => LdDo(act), 18, on);
+                var b = _ui.B(on ? TT("ON  ●", "เปิด  ●") : TT("OFF  ○", "ปิด  ○"), () => { _sfx.Play(on ? "toggle_off" : "toggle_on",.55f); LdDo(act); }, 18, on);
                 b.style.minWidth = 140 * Settings.TextScale; b.style.marginLeft = 0; b.style.marginRight = 0;
                 row.Add(b);
                 box.Add(row);
@@ -131,10 +131,8 @@ namespace TitanGate.Game
                 var l = _ui.L("  " + state, 18, true, ok ? LdCondColor(c) : GameUI.CRed); LdFont(l); row.Add(l);
                 if (ok && !_ld.Running(m)) row.Add(_ui.L(TT("  off: no wear", "  ปิด: ไม่สึก"), 16, false, GameUI.CDim));
                 else if (ok && IncidentDirector.BreakChance(c) > 0) row.Add(_ui.L(TT($"  may break {Mathf.RoundToInt((float)IncidentDirector.BreakChance(c) * 100)}%", $"  อาจเสีย {Mathf.RoundToInt((float)IncidentDirector.BreakChance(c) * 100)}%"), 16, false, LdCondColor(c)));
-                box.Add(row);
+                row.tooltip=TT($"Service +{_ld.C.serviceGain}% · 1 turn",$"บำรุง +{_ld.C.serviceGain}% · 1 ช่วง"); box.Add(row);
             }
-            if (!compact) box.Add(LdPara(TT($"Service = 1 turn, no parts, +{_ld.C.serviceGain}%. Repair after it breaks = 1 part. Running machines wear about {_ld.C.wearPerNight}% a night.",
-                $"บำรุง = 1 ช่วง ไม่ใช้อะไหล่ +{_ld.C.serviceGain}% ซ่อมหลังเสีย = อะไหล่ 1 เครื่องที่ทำงานสึกราว {_ld.C.wearPerNight}% ต่อคืน"), GameUI.CDim, 16));
             return box;
         }
 
@@ -147,14 +145,13 @@ namespace TitanGate.Game
             var head = _ui.L(TT($"Rescue · Day {_ld.C.days} · Reserve {_ld.C.dockPower} battery",
                 $"กู้ภัย · วันที่ {_ld.C.days} · สำรองแบต {_ld.C.dockPower}"), 19, true, LdGold);
             head.style.whiteSpace = WhiteSpace.Normal; box.Add(head);
-            void Step(bool done, string text)
-            {
-                var l = _ui.L((done ? "✓  " : "○  ") + text, 18, done, done ? GameUI.CGreen : GameUI.CText); l.style.whiteSpace = WhiteSpace.Normal; box.Add(l);
-            }
+            var steps=OpRow();int index=0;
+            void Step(bool done,string text){index++;string[] en={"Board","Power","Antenna","Signal"};string[] th={"วงจร","ไฟ","เสา","พิกัด"};var step=OpBadge("radio",(done?"✓ ":index+" ")+TT(en[index-1],th[index-1]),text,done?FieldBook.Green:FieldBook.Amber);step.style.width=Length.Percent(46);step.style.flexGrow=1;steps.Add(step);}
             Step(_ld.RadioRepair >= 1, TT("Radio: new board (1 part)", "วิทยุ: เปลี่ยนแผงวงจร (อะไหล่ 1)"));
             Step(_ld.RadioRepair >= 2, TT("Test power · 1 battery · Coolant working", "ทดสอบไฟ · แบต 1 · ท่อระบายความร้อนต้องใช้ได้"));
             Step(_ld.RadioFixed, TT("Align antenna · Outside", "ตั้งเสาอากาศ · นอกสถานี"));
             Step(_ld.Signal >= _ld.C.signalNeeded, TT($"Signals sent: {_ld.Signal}/{_ld.C.signalNeeded}", $"ส่งสัญญาณแล้ว: {_ld.Signal}/{_ld.C.signalNeeded}"));
+            box.Add(steps);
             var or = _ui.L(_ld.BeaconBuilt ? TT("Beacon · +1 signal per powered night", "เสาสัญญาณ · ส่ง 1 ครั้งทุกคืนที่มีไฟ")
                 : TT($"Beacon · Rover parts {_ld.RoverParts}/{_ld.C.beaconParts} + 1 part · Needs power",
                      $"เสาสัญญาณ · ชิ้นส่วนรถ {_ld.RoverParts}/{_ld.C.beaconParts} + อะไหล่ 1 · ใช้ไฟ"), 17, false, GameUI.CCyan);

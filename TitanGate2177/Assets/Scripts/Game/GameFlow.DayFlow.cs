@@ -96,7 +96,7 @@ namespace TitanGate.Game
             }
             Add("food", r.food); Add("water", r.water); Add("o2", r.oxygen); Add("battery", r.battery); Add("parts", r.parts); Add("can", r.absorbers);
             Add("co2", r.co2, false); Add("heat", r.heat, false); Add("signal", r.signal); Add("heart", r.health);
-            if (row.childCount == 0) row.Add(_ui.L(TT("no change", "ไม่เปลี่ยน"), size - 4, false, GameUI.CDim));
+
             return row;
         }
 
@@ -123,7 +123,7 @@ namespace TitanGate.Game
                 LdHeader(p, TT("Airlock — go outside", "ประตูออกข้างนอก"));
                 var info = new VisualElement(); info.style.flexDirection = FlexDirection.Row; info.style.alignItems = Align.Center; info.style.marginBottom = 4;
                 info.Add(LdIconImage("time", 22, GameUI.CCyan));
-                info.Add(LdPara(TT(" One trip a day. Pick where to go:", " ออกได้วันละครั้ง เลือกที่จะไป:"), GameUI.CCyan, 22));
+                info.Add(LdPara(TT(" 1 trip / day", " 1 ครั้ง / วัน"), GameUI.CCyan, 22));
                 p.Add(info);
                 if (_ld.StormToday) p.Add(LdPara("! " + TT("SOLAR STORM: every site is a radiation hot spot today.", "พายุสุริยะ: วันนี้ทุกจุดรังสีสูง"), GameUI.CRed, 22));
                 p.Add(LdCard("ice"));   // water for the O₂ maker and drinking

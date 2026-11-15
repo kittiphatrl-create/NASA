@@ -33,6 +33,13 @@ namespace TitanGate.Game
             _srcVar = gameObject.AddComponent<AudioSource>();
             _srcVar.playOnAwake = false;
 
+            Make("tick",.04f,t=>Sine(t,620)*Pluck(t,.04f)*.24f);
+            Make("tick_hi",.04f,t=>Sine(t,880)*Pluck(t,.04f)*.24f);
+            Make("stamp",.22f,t=>(Sine(t,90)+LowNoise(.8f)*.5f)*Pluck(t,.22f)*.35f);
+            Make("slot",.16f,t=>Sine(t,t<.08f?530:760)*Soft(t,.16f,.005f)*.25f);
+            Make("stinger",.5f,t=>Sine(t,Mathf.Lerp(160,70,t/.5f))*Soft(t,.5f,.02f)*.35f);
+            Make("toggle_on",.09f,t=>Sine(t,600)*Pluck(t,.09f)*.25f);
+            Make("toggle_off",.09f,t=>Sine(t,390)*Pluck(t,.09f)*.25f);
             // UI: short, soft, low
             Make("click", 0.07f, t => Sine(t, 520) * Pluck(t, 0.07f) * 0.5f + Sine(t, 1040) * Pluck(t, 0.03f) * 0.15f);
             Make("hover", 0.04f, t => Sine(t, 880) * Pluck(t, 0.04f) * 0.12f);
@@ -152,8 +159,12 @@ namespace TitanGate.Game
 
         void OnDestroy() => Settings.Changed -= ApplyVolumes;
 
+        readonly HashSet<string> _pausedForUi = new HashSet<string>();
         void Update()
         {
+            if(Time.timeScale==0){foreach(var kv in _loops)if(kv.Value!=null&&kv.Value.isPlaying){kv.Value.Pause();_pausedForUi.Add(kv.Key);}}
+            else if(_pausedForUi.Count>0){foreach(var id in _pausedForUi)if(_loops.TryGetValue(id,out var source)&&source!=null)source.UnPause();_pausedForUi.Clear();}
+
             foreach (var id in _cinematicTargets.Keys)
             {
                 float gain = Mathf.MoveTowards(_cinematicGains[id], _cinematicTargets[id], Time.unscaledDeltaTime / .25f);
@@ -253,7 +264,7 @@ namespace TitanGate.Game
                 float b = _loopBase[kv.Key];
                 float gain = _cinematicGains.TryGetValue(kv.Key, out var cineGain) ? cineGain : 1f;
                 if (_cineAlarm && kv.Key == "ship_alarm") gain *= 2.8f;   // the recording is quiet (about -30 dB): full level in the cutscene
-                kv.Value.volume = Settings.Master * Mathf.Abs(b) * (b < 0 ? Settings.Ambience : Settings.Effects) * gain;
+                kv.Value.volume = (Time.timeScale==0?0f:1f) * Settings.Master * Mathf.Abs(b) * (b < 0 ? Settings.Ambience : Settings.Effects) * gain;
             }
         }
 
@@ -312,7 +323,9 @@ namespace TitanGate.Game
         /// <summary>Start or stop a looping sound ("heart", "siren", "rumble", "hum").</summary>
         public void Loop(string id, bool on)
         {
-            if (!_loops.TryGetValue(id, out var a) || a == null) return;   // the source is already gone while play mode shuts down
+            if (!_loops.TryGetValue(id, out var a) || a == null) return;
+            if(!on&&_pausedForUi.Remove(id)){a.Stop();return;}
+            if(on&&Time.timeScale==0){if(!_pausedForUi.Contains(id)){a.Play();a.Pause();_pausedForUi.Add(id);}return;}   // the source is already gone while play mode shuts down
             if (on && !a.isPlaying) a.Play();
             else if (!on && a.isPlaying) a.Stop();
         }

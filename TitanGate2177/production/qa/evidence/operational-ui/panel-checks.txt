@@ -1,0 +1,16 @@
+board stress=False scroll=True viewport=0 root=1080
+life stress=False scroll=True viewport=0 root=1080
+thermal stress=False scroll=True viewport=0 root=1080
+storage stress=False scroll=True viewport=0 root=1080
+communications stress=False scroll=True viewport=0 root=1080
+dinner stress=False scroll=True viewport=0 root=1080
+dock stress=False scroll=True viewport=0 root=1080
+airlock stress=False scroll=True viewport=0 root=1080
+board stress=True scroll=True viewport=0 root=720
+life stress=True scroll=True viewport=0 root=720
+thermal stress=True scroll=True viewport=0 root=720
+storage stress=True scroll=True viewport=0 root=720
+communications stress=True scroll=True viewport=0 root=720
+dinner stress=True scroll=True viewport=0 root=720
+dock stress=True scroll=True viewport=0 root=720
+airlock stress=True scroll=True viewport=0 root=720

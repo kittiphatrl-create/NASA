@@ -77,6 +77,7 @@ namespace TitanGate.Game
             if (_playAlert != null) _playAlert.style.display = DisplayStyle.None;
             // The normal blocking UI pauses the evacuation timer. UpdateFieldBook consumes
             // the gameplay update while open, preserving that behavior and stopping movement.
+            if(_opDayBadge!=null)_opDayBadge.style.display=DisplayStyle.None;if(_opEvac!=null)_opEvac.style.display=DisplayStyle.None;
             _fieldBookClosing = false;
             _fieldBook = new FieldBook(_ui, _bMode == 2 ? BookWord("station") : "KESTREL",
                 new[] { BookWord("status"), BookWord("mission"), BookWord("items") },
@@ -103,6 +104,7 @@ namespace TitanGate.Game
         void EndPlayOverlay()
         {
             EndFieldBook();
+            _opDayBadge?.RemoveFromHierarchy();_opEvac?.RemoveFromHierarchy();_opDayBadge=null;_opEvac=null;_opDaySeen=_opWorkSeen=_opSecondSeen=_opStored=_opHeld=-1;
             _bookHint?.RemoveFromHierarchy();
             _playAlert?.RemoveFromHierarchy();
             _bookHint = null;
@@ -112,16 +114,19 @@ namespace TitanGate.Game
         void RefreshPlayOverlay(string alert = null, Color? accent = null)
         {
             bool show = IsBookLevel && !InCutscene && !_ui.Blocking && _fieldBook == null;
+            OpHud(show);
             if (_bookHint == null)
             {
                 var button = new Button(OpenFieldBook) { name = "open-field-book" };
-                var label = _ui.CutButton(button, true, "M", 22, LdIcon("book"));
+                button.Add(OpIcon("book",48));
+                var label = _ui.CutButton(button, true, "M", 22);
                 label.name = "open-book-label";
                 button.style.position = Position.Absolute;
                 button.style.right = 24;
                 button.style.bottom = 20;
                 button.style.paddingLeft = button.style.paddingRight = 18;
-                button.style.height = 52;
+                button.style.height = 72;
+                button.style.flexDirection=FlexDirection.Row;button.style.alignItems=Align.Center;
                 _ui.Root.Add(button);
                 _bookHint = button;
                 _playAlert = _ui.L("", 23, true, FieldBook.Ink);
@@ -135,9 +140,9 @@ namespace TitanGate.Game
                 _ui.Root.Add(_playAlert);
             }
             _bookHint.style.display = show && CanOpenBook ? DisplayStyle.Flex : DisplayStyle.None;
-            _bookHint.Q<Label>("open-book-label").text = BookWord("open");
+            _bookHint.Q<Label>("open-book-label").text = "";
             _bookHint.tooltip = BookWord("open");
-            _playAlert.style.display = show && !string.IsNullOrEmpty(alert) ? DisplayStyle.Flex : DisplayStyle.None;
+            _playAlert.style.display = show && !_sScramble && !string.IsNullOrEmpty(alert) ? DisplayStyle.Flex : DisplayStyle.None;
             if (show && !string.IsNullOrEmpty(alert))
             {
                 _playAlert.text = GameUI.Thai(alert);

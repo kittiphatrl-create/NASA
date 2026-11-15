@@ -1,0 +1,8 @@
+{
+  "pauseStopsLoop": true,
+  "pauseStopsTime": true,
+  "resumeRestartsLoop": true,
+  "reducedPopStill": true,
+  "reducedPanelVisible": true,
+  "switchCostsNoTurn": true
+}

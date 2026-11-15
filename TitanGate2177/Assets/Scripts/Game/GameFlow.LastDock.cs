@@ -633,13 +633,14 @@ namespace TitanGate.Game
                 }
                 if (spot == "ld_board")
                 {
+                    p.style.width=1180;
                     // the manager's desk: tonight's forecast, the power plan for every system, and the rescue plan
                     p.Add(LdSectionLabel(TT("Tonight", "คืนนี้")));
                     p.Add(LdForecastBlock());
                     var cols = new VisualElement(); cols.style.flexDirection = FlexDirection.Row; cols.style.flexShrink = 0;
-                    var left = new VisualElement(); left.style.width = 560; left.style.marginRight = 20;
-                    var right = new VisualElement(); right.style.width = 520;
-                    left.Add(LdSectionLabel(TT("Power plan · Free to switch", "แผนไฟ · เปิดปิดฟรี")));
+                    var left = new VisualElement(); left.style.flexGrow=1;left.style.flexBasis=0; left.style.marginRight = 20;
+                    var right = new VisualElement(); right.style.flexGrow=1;right.style.flexBasis=0;
+                    left.Add(LdSectionLabel(TT("Power · Free", "พลังงาน · ฟรี")));
                     left.Add(LdPowerRows(new[] { Sys.Scrubber, Sys.O2Gen, Sys.Heater, Sys.Recycler, Sys.Beacon }));
                     right.Add(LdSectionLabel(TT("Machines", "สภาพเครื่อง")));
                     right.Add(LdConditionBlock(new[] { Machine.Scrubber, Machine.O2Gen, Machine.Fan, Machine.Thermal, Machine.Recycler }, true));
@@ -944,17 +945,7 @@ namespace TitanGate.Game
         /// <summary>The rules, read before the clock starts (the clock waits while a panel is open).</summary>
         void LdScrambleRules()
         {
-            _ui.ShowModal(p =>
-            {
-                LdHeader(p, TT($"Evacuate · {_cfg.chapter1.scrambleSeconds:0}s", $"อพยพ · {_cfg.chapter1.scrambleSeconds:0} วิ"));
-                p.Add(_ui.L(TT("Load the lifeboat in the bay", "ขนเสบียงขึ้นยานชูชีพที่ห้องจอด"), 28, true, FieldBook.Amber));
-                p.Add(LdPara(TT($"E · Pick up or load\nCarry {ScavengeInventory.CarryMax} at once · Pod holds {ScavengeInventory.PodMax}",
-                    $"E · หยิบหรือขนของขึ้นยาน\nถือครั้งละ {ScavengeInventory.CarryMax} ชิ้น · ยานจุ {ScavengeInventory.PodMax} ชิ้น")));
-                p.Add(LdPara(TT("Time up: the pod leaves. Supplies in hand stay behind.", "หมดเวลา ยานจะออกทันที ของที่ยังถือจะตกค้าง"), GameUI.CRed));
-                p.Add(LdPara(TT("One hidden key card opens one cockpit vault.", "คีย์การ์ดที่ซ่อนอยู่เปิดห้องเก็บของข้างห้องนักบินได้หนึ่งห้อง"), GameUI.CDim));
-                var go = _ui.B(TT("Start evacuation", "เริ่มอพยพ"), _ui.CloseModal, 30, true); go.style.marginTop = 14; go.style.alignSelf = Align.Center;
-                p.Add(go);
-            }, false);
+            OpEvacuationRules();
         }
 
         IEnumerator LdAfterScramble()

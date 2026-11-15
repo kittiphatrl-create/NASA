@@ -88,17 +88,9 @@ namespace TitanGate.Game
 
         Label LdHeader(VisualElement p, string title)
         {
-            _ldCardIndex = 0;
-            var head = new VisualElement(); head.style.marginBottom = 10;
-            var t = _ui.L(title, 36, true, LdGold); LdFont(t);
-            head.Add(t);
-            var rule = new VisualElement(); rule.style.height = 2; rule.style.marginTop = 4; rule.style.backgroundColor = LdGoldDim;
-            var gem = new VisualElement(); gem.style.width = 10; gem.style.height = 10; gem.style.backgroundColor = LdGold; gem.style.rotate = new Rotate(new Angle(45f));
-            gem.style.position = Position.Absolute; gem.style.left = 0; gem.style.top = -4;
-            rule.Add(gem); head.Add(rule);
-            p.Add(head);
-            LdAnimateIn(head, 0);
-            return t;
+            _ldCardIndex=0; p.schedule.Execute(()=>{if(p.Q<ScrollView>()==null)OpPanel(p);}).StartingIn(1);
+            var head=OpRow();head.style.marginBottom=12;head.Add(OpIcon("gear",46));
+            var titleLabel=_ui.L(title,38,true,FieldBook.Paper);titleLabel.style.marginLeft=12;titleLabel.style.flexShrink=1;titleLabel.style.whiteSpace=WhiteSpace.Normal;head.Add(titleLabel);p.Add(head);return titleLabel;
         }
 
         int _ldCardIndex;
@@ -129,7 +121,7 @@ namespace TitanGate.Game
             card.style.borderLeftWidth = 5; card.style.borderLeftColor = can ? LdGold : new Color(0.5f, 0.5f, 0.55f, 0.6f);
             var iconBox = new VisualElement(); iconBox.style.width = 48; iconBox.style.height = 48; iconBox.style.alignItems = Align.Center; iconBox.style.justifyContent = Justify.Center;
             iconBox.style.backgroundColor = new Color(1, 1, 1, 0.05f); GameUI.Border(iconBox, LdGoldDim, 1, 24);
-            iconBox.Add(LdIconImage(LdActionIcon(a), 30, can ? LdGold : GameUI.CDim));
+            iconBox.Add(OpIcon(can ? LdActionIcon(a) : "lock", 48));
             card.Add(iconBox);
             var mid = new VisualElement(); mid.style.marginLeft = 14; mid.style.flexGrow = 1; mid.style.flexShrink = 1;
             var title = _ui.L(name, 24, true, can ? GameUI.CText : GameUI.CDim); title.style.whiteSpace = WhiteSpace.Normal; LdFont(title);
@@ -138,25 +130,27 @@ namespace TitanGate.Game
             bool random = a.StartsWith("explore") || a == "send_rover" || a == "open_mystery";
             bool service = a.StartsWith("service_");
             if (!random && !service) eff.style.display = DisplayStyle.None;
-            if (can) mid.Add(eff);
+            if (can && service) { eff.text=GameUI.Thai(effect); mid.Add(eff); }
             if (can && service) eff.style.color = GameUI.CGreen;
             else if (can && !random) mid.Add(LdDeltaRow(_ld.Preview(a), 20));   // what changes, as icons
-            else mid.Add(LdPara(can ? "? " + LdPreviewText(a) : LdBlockedText(why), can ? GameUI.CAmber : GameUI.CRed, 18));
+            else mid.Add(LdPara(can ? TT("Random find", "สุ่มของที่พบ") : LdBlockedText(why), can ? GameUI.CAmber : GameUI.CRed, 18));
             card.Add(mid);
             // the cost on the right: one turn, the rest of the day, or nothing (answers to an event)
             bool free = a.StartsWith("dip_") || a.StartsWith("raid_");
             var cost = new VisualElement(); cost.style.alignItems = Align.Center; cost.style.marginLeft = 12; cost.style.minWidth = 70;
-            cost.Add(LdIconImage("time", 26, free ? GameUI.CDim : GameUI.CCyan));
-            cost.Add(_ui.L(free ? TT("free", "ฟรี") : a == "end_day" ? TT("all day", "ทั้งวัน") : TT("1 turn", "1 ช่วง"), 17, true, free ? GameUI.CDim : GameUI.CCyan));
+            cost.Add(OpIcon("time",28));
+            cost.Add(_ui.L(free ? TT("free", "ฟรี") : a == "end_day" ? TT("all day", "ทั้งวัน") : TT("1", "1"), 17, true, free ? GameUI.CDim : GameUI.CCyan));
             card.Add(cost);
             if (can)
             {
-                card.RegisterCallback<MouseEnterEvent>(_ => { card.style.backgroundColor = LdCardHover; eff.style.display = DisplayStyle.Flex; _sfx.Play("hover"); });
-                card.RegisterCallback<MouseLeaveEvent>(_ => { card.style.backgroundColor = LdCardBg; if (!random && !service) eff.style.display = DisplayStyle.None; });
-                card.RegisterCallback<FocusInEvent>(_ => eff.style.display = DisplayStyle.Flex);
-                card.RegisterCallback<FocusOutEvent>(_ => { if (!random && !service) eff.style.display = DisplayStyle.None; });
+                card.RegisterCallback<MouseEnterEvent>(_ => { card.style.backgroundColor = LdCardHover; _sfx.Play("hover"); });
+                card.RegisterCallback<MouseLeaveEvent>(_ => { card.style.backgroundColor = LdCardBg; });
+                card.RegisterCallback<FocusInEvent>(_ => GameUI.Border(card,FieldBook.Amber,3,9));
+                card.RegisterCallback<FocusOutEvent>(_ => GameUI.Border(card,FieldBook.Rim,1,9));
                 GameUI.BindCard(card, () => { _sfx.Play("click"); LdDo(a); });
             }
+            card.tooltip=effect;
+            if(!can){card.focusable=true;card.RegisterCallback<KeyDownEvent>(e=>{if(e.keyCode==KeyCode.Return)UiMotion.Shake(card);});}
             LdAnimateIn(card, ++_ldCardIndex);
             return card;
         }
@@ -164,12 +158,7 @@ namespace TitanGate.Game
         /// <summary>Slide and fade in, one after another (motion off with Reduced Motion).</summary>
         void LdAnimateIn(VisualElement e, int index)
         {
-            if (Settings.ReducedMotion) return;
-            e.style.opacity = 0; e.style.translate = new Translate(0, 14);
-            e.style.transitionProperty = new List<StylePropertyName> { "opacity", "translate" };
-            e.style.transitionDuration = new List<TimeValue> { new TimeValue(0.22f, TimeUnit.Second), new TimeValue(0.22f, TimeUnit.Second) };
-            e.style.transitionDelay = new List<TimeValue> { new TimeValue(0.04f * index, TimeUnit.Second), new TimeValue(0.04f * index, TimeUnit.Second) };
-            e.schedule.Execute(() => { e.style.opacity = 1; e.style.translate = new Translate(0, 0); }).StartingIn(16);
+            UiMotion.FadeSlideIn(e,index);
         }
     }
 }
