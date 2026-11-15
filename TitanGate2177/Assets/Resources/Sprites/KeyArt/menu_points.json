@@ -1,0 +1,234 @@
+{
+ "frame": {
+  "width": 2560,
+  "height": 1440,
+  "origin": "top-left",
+  "units": "normalized 0..1 of frame width (x) and height (y)",
+  "camera": {
+   "lens_mm": 50.0,
+   "hfov_deg": 39.6
+  }
+ },
+ "sun": {
+  "x": 0.8111,
+  "y": 0.244,
+  "radius": 0.0283,
+  "glow_radius": 0.1696,
+  "radius_note": "disc radius as a fraction of frame height; glow_radius is the visible halo"
+ },
+ "sun_radius": 0.0283,
+ "beacons": [
+  {
+   "x": 0.572,
+   "y": 0.5845,
+   "name": "hab_a_port1",
+   "kind": "window",
+   "color": "#FF9A4A",
+   "size": 0.006,
+   "dist_m": 36.8,
+   "behind_cadet": false
+  },
+  {
+   "x": 0.5332,
+   "y": 0.5269,
+   "name": "hab_a_doorlamp",
+   "kind": "door",
+   "color": "#FFB066",
+   "size": 0.006,
+   "dist_m": 37.1,
+   "behind_cadet": false
+  },
+  {
+   "x": 0.6573,
+   "y": 0.5812,
+   "name": "hab_a_win",
+   "kind": "window",
+   "color": "#FF9A4A",
+   "size": 0.006,
+   "dist_m": 37.8,
+   "behind_cadet": true
+  },
+  {
+   "x": 0.4894,
+   "y": 0.5566,
+   "name": "hab_b_doorlamp",
+   "kind": "door",
+   "color": "#FFB066",
+   "size": 0.006,
+   "dist_m": 52.2,
+   "behind_cadet": false
+  },
+  {
+   "x": 0.8048,
+   "y": 0.5827,
+   "name": "hab_c_win",
+   "kind": "window",
+   "color": "#FF9A4A",
+   "size": 0.006,
+   "dist_m": 46.9,
+   "behind_cadet": false
+  },
+  {
+   "x": 0.9045,
+   "y": 0.3916,
+   "name": "beacon",
+   "kind": "beacon",
+   "color": "#FF3A24",
+   "size": 0.007,
+   "dist_m": 46.0,
+   "behind_cadet": false
+  }
+ ],
+ "airlock": {
+  "x": 0.5332,
+  "y": 0.5269,
+  "name": "hab_a_doorlamp"
+ },
+ "antenna_tip": {
+  "x": 0.9045,
+  "y": 0.3843
+ },
+ "astronaut": {
+  "x0": 0.6043,
+  "y0": 0.3032,
+  "x1": 0.7412,
+  "y1": 0.8054
+ },
+ "astronaut_feet": {
+  "x": 0.6702,
+  "y": 0.8054,
+  "w": 0.0786
+ },
+ "astronaut_head_top": {
+  "x": 0.6748,
+  "y": 0.3934
+ },
+ "horizon": [
+  [
+   0.0,
+   0.6314,
+   39.7
+  ],
+  [
+   0.05,
+   0.6334,
+   37.1
+  ],
+  [
+   0.1,
+   0.6394,
+   37.8
+  ],
+  [
+   0.15,
+   0.6416,
+   81.6
+  ],
+  [
+   0.2,
+   0.6398,
+   105.7
+  ],
+  [
+   0.25,
+   0.6463,
+   66.8
+  ],
+  [
+   0.3,
+   0.6436,
+   58.5
+  ],
+  [
+   0.35,
+   0.6406,
+   103.4
+  ],
+  [
+   0.4,
+   0.6356,
+   107.1
+  ],
+  [
+   0.45,
+   0.6458,
+   107.2
+  ],
+  [
+   0.5,
+   0.6543,
+   107.3
+  ],
+  [
+   0.55,
+   0.6506,
+   98.5
+  ],
+  [
+   0.6,
+   0.6585,
+   96.1
+  ],
+  [
+   0.65,
+   0.6482,
+   90.7
+  ],
+  [
+   0.7,
+   0.6515,
+   91.3
+  ],
+  [
+   0.75,
+   0.6601,
+   104.7
+  ],
+  [
+   0.8,
+   0.6643,
+   78.6
+  ],
+  [
+   0.85,
+   0.6665,
+   89.4
+  ],
+  [
+   0.9,
+   0.6641,
+   55.7
+  ],
+  [
+   0.95,
+   0.663,
+   104.1
+  ],
+  [
+   1.0,
+   0.6805,
+   102.2
+  ]
+ ],
+ "horizon_note": "[x, y, distance_m]: far edge of the plain in front of the mountains; habitats and the cadet stand in front of it between x~0.45 and 1.0",
+ "rover_scale_hint": {
+  "length_at_horizon": 0.0261,
+  "note": "a 1.6 m rover ~85 m out spans this fraction of frame width"
+ },
+ "rover_sprite": {
+  "file": "menu_rover.png",
+  "width": 256,
+  "height": 128,
+  "faces": "right",
+  "ground_y": 0.937,
+  "x0": 0.3059,
+  "x1": 0.6941,
+  "note": "ground_y = wheel contact line in the sprite (top-down); flip X to drive left"
+ },
+ "layers": {
+  "menu_bg": "jpg, no cadet, no cadet shadow",
+  "menu_cadet": "png RGBA, same canvas; includes the cadet's soft ground shadow + contact shadow as partial alpha",
+  "menu_cadet_look": "as menu_cadet, head turned 15 deg toward the base (11 neck + 4 upper body)",
+  "blend": "straight alpha, composited in sRGB (gamma) space like Unity UI in Gamma colour space"
+ }
+}

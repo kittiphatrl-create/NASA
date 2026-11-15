@@ -1,0 +1,64 @@
+{
+ "ring": {
+  "file": "menu_ring.png",
+  "width": 1600,
+  "height": 1600,
+  "center_px": [
+   800.0,
+   800.0
+  ],
+  "units": "radii are fractions of the half-size (800 px)",
+  "outer_radius": 0.97,
+  "band_outer": 0.97,
+  "band_inner": 0.905,
+  "tick_outer": 0.901,
+  "tick_inner_short": 0.89,
+  "tick_inner_long": 0.878,
+  "tick_radius": 0.8895,
+  "tick_count": 72,
+  "long_tick_every": 6,
+  "inner_rim_outer": 0.8675,
+  "inner_rim_inner": 0.8485,
+  "transparent_inside": 0.8485,
+  "latch_count": 12,
+  "latch_angles_deg": [
+   0.0,
+   30.0,
+   60.0,
+   90.0,
+   120.0,
+   150.0,
+   180.0,
+   210.0,
+   240.0,
+   270.0,
+   300.0,
+   330.0
+  ],
+  "angle_convention": "0 deg = 3 o'clock, counter-clockwise on screen; latches and long ticks share these angles (12-fold symmetric, step 30 deg)"
+ },
+ "clamp": {
+  "file": "menu_clamp.png",
+  "width": 320,
+  "height": 320,
+  "origin": "top-left pixels",
+  "anchor_px": [
+   88.0,
+   160.0
+  ],
+  "tip_px": [
+   259.8,
+   160.0
+  ],
+  "indicator_px": [
+   164.8,
+   160.0
+  ],
+  "anchor_note": "anchor = point on the ring's outer rim at 3 o'clock; the clamp is authored at the ring's scale, so place it with anchor_px on ring pixel (1576, 800) and scale both by the same factor",
+  "ring_px_for_anchor": [
+   1576.0,
+   800.0
+  ]
+ },
+ "style": "LAST DOCK logo metal: cream #FFF4E0 -> gold #F0A030 -> copper, Standard view transform (as menu_logo), glow #F0A030 at 30 % (sigma 9/22 px)"
+}

@@ -1,0 +1,129 @@
+{
+ "scene": "ship",
+ "canvas": [
+  2560,
+  1440
+ ],
+ "layers": [
+  {
+   "name": "space",
+   "file": "menu_ship_space.jpg",
+   "depth": 0.0,
+   "rect": [
+    0,
+    0,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "planet",
+   "file": "menu_ship_planet.png",
+   "depth": 0.04,
+   "rect": [
+    0.49883,
+    0.29375,
+    0.89609,
+    0.82569
+   ],
+   "role": "planet"
+  },
+  {
+   "name": "cabin",
+   "file": "menu_ship_cabin.png",
+   "depth": 0.35,
+   "rect": [
+    0,
+    0,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "cadet",
+   "file": "menu_ship_cadet.png",
+   "depth": 0.5,
+   "rect": [
+    0.58437,
+    0.36481,
+    0.7474,
+    0.93889
+   ],
+   "role": "cadet",
+   "sheet": {
+    "cols": 8,
+    "rows": 4,
+    "frames": 32,
+    "fps": 8
+   }
+  },
+  {
+   "name": "foreground",
+   "file": "menu_ship_fg.png",
+   "depth": 0.9,
+   "rect": [
+    0.68711,
+    0.87083,
+    1.0,
+    1.0
+   ]
+  }
+ ],
+ "points": {
+  "window": {
+   "x": 0.6761,
+   "y": 0.4351,
+   "r": 0.3304
+  },
+  "beacons": [
+   {
+    "x": 0.0902,
+    "y": 0.4442,
+    "color": "#FFB060",
+    "layer": "cabin"
+   },
+   {
+    "x": 0.0763,
+    "y": 0.7784,
+    "color": "#FFB060",
+    "layer": "cabin"
+   },
+   {
+    "x": 0.3378,
+    "y": 0.7866,
+    "color": "#FFB060",
+    "layer": "cabin"
+   },
+   {
+    "x": 0.9713,
+    "y": 0.8065,
+    "color": "#FFB060",
+    "layer": "cabin"
+   },
+   {
+    "x": 0.3455,
+    "y": 0.4884,
+    "color": "#FF9A30",
+    "layer": "cabin"
+   },
+   {
+    "x": 0.3448,
+    "y": 0.525,
+    "color": "#62E08A",
+    "layer": "cabin"
+   },
+   {
+    "x": 0.3442,
+    "y": 0.5618,
+    "color": "#FF9A30",
+    "layer": "cabin"
+   }
+  ],
+  "astronaut": {
+   "x0": 0.5908,
+   "y0": 0.3772,
+   "x1": 0.7414,
+   "y1": 0.9301
+  }
+ }
+}

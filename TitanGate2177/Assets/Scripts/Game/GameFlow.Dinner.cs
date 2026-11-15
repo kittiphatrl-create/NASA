@@ -124,7 +124,15 @@ namespace TitanGate.Game
         bool _ldReplaying;
 
         public static bool LdHasSave() => PlayerPrefs.HasKey(LdSaveKey);
-        static void LdClearSave() { PlayerPrefs.DeleteKey(LdSaveKey); PlayerPrefs.Save(); }
+        static void LdClearSave() { PlayerPrefs.DeleteKey(LdSaveKey); PlayerPrefs.DeleteKey(LdSaveKey + "_day"); PlayerPrefs.DeleteKey(LdSaveKey + "_at"); PlayerPrefs.Save(); }
+
+        /// <summary>Day reached and when the run was saved, for the main menu's Continue card (day 0 = unknown, older saves).</summary>
+        public static (int day, System.DateTime? at) LdSaveInfo()
+        {
+            int day = PlayerPrefs.GetInt(LdSaveKey + "_day", 0);
+            System.DateTime? at = long.TryParse(PlayerPrefs.GetString(LdSaveKey + "_at", ""), out var bin) ? System.DateTime.FromBinary(bin) : (System.DateTime?)null;
+            return (day, at);
+        }
 
         /// <summary>The run is deterministic from its seed, so a save is the seed, the kit and every action taken.</summary>
         void LdWriteSave()
@@ -133,6 +141,8 @@ namespace TitanGate.Game
             var kit = new int[System.Enum.GetValues(typeof(Res)).Length];
             foreach (var kv in _ldKit) kit[(int)kv.Key] = kv.Value;
             PlayerPrefs.SetString(LdSaveKey, JsonUtility.ToJson(new LdSave { seed = _ldSeed, kit = kit, actions = string.Join("|", _ldActions) }));
+            PlayerPrefs.SetInt(LdSaveKey + "_day", _ld.Day);
+            PlayerPrefs.SetString(LdSaveKey + "_at", System.DateTime.UtcNow.ToBinary().ToString());
             PlayerPrefs.Save();
         }
 
