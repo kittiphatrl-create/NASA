@@ -45,7 +45,7 @@ Read this first. Details live in `docs/LAST_DOCK_MARS_PLAN_2026-11-15.md`, `docs
   - `station_tiles.blend`: walls, floors and doors.
 - Each `.blend` has text blocks that re-render everything: `render8`, `render_all`, `tiles`, `decay`. Run them, then outline the renders and copy them into `Assets/Resources/Sprites/...` as `*.png.bytes` (see git history for the PIL snippet).
 - Post grade shader: `Resources/Shaders/LastDockGrade.shader` with `LdPostFx.cs`.
-- Music and sound are CC0 (Dark Sci-Fi Audio Pack, Kenney Sci-Fi/RPG/UI). The door sound came from the user. Credits are in `docs/AUDIO_CREDITS.md`.
+- Bundled Dark Sci-Fi and Kenney Sci-Fi/RPG/UI packs have their existing license credits. The door, chapter music and collection/alarm recordings were supplied by the user; their redistribution rights are not established by that fact. See `docs/AUDIO_CREDITS.md`, `USER_SOUNDTRACK_2026-11-15.md` and `AUDIO_POLISH_2026-11-15.md` for current routing, provenance and checks.
 - The dialogue blip is muted on purpose: the user asked for it.
 
 ## How to test

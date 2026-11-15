@@ -36,7 +36,7 @@ namespace TitanGate.Game
             LdVfxUpdate(dt);
         }
 
-        // ------------------------------------------------------------------ music (generated, no audio files)
+        // ------------------------------------------------------------------ legacy adaptive soundtrack and generated fallback
 
         AudioSource _musCalm, _musTension, _musStorm;
         const int MusRate = 22050;
@@ -68,6 +68,7 @@ namespace TitanGate.Game
         /// <summary>A one-shot music cue (rescued / the end), at the music volume.</summary>
         void LdStinger(string file)
         {
+            if (UserScoreActive) return;   // the requested ending track owns this transition
             var clip = Resources.Load<AudioClip>("Audio/Music/" + file);
             if (clip == null || _sfx == null) return;
             var src = _sfx.gameObject.AddComponent<AudioSource>();
@@ -110,6 +111,12 @@ namespace TitanGate.Game
 
         void LdMusicUpdate(float dt)
         {
+            if (UserScoreActive)
+            {
+                foreach (var layer in new[] { _musCalm, _musTension, _musStorm })
+                    if (layer != null) layer.volume = 0f;
+                return;
+            }
             LdMusicEnsure();
             bool station = _bMode == 2 && _ld != null && _ld.Outcome == Outcome.Ongoing;
             bool tense = station && (_ld.ActiveFault != Fault.None || _ld.Health <= 1 || _ld.DarkNights > 0) || _bMode == 1 && _sScramble;

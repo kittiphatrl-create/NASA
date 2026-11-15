@@ -190,6 +190,7 @@ namespace TitanGate.Game
             _ld = new StationSimulation(StationConfig.Game(), _ldKit, seed);   // you alone; a dinner to plan each night (GameFlow.Dinner.cs)
             if (!resume) { _ldActions.Clear(); LdClearSave(); }
             _ldEnded = false; _ldLogMark = 0; _ldIncidents.Clear(); _ldSeenFault = Fault.None;
+            LdScore(StageMusicPlayer.Cue.Mars);
             _chapter = 3;
             _busy = false;
             if (!_playFast) Time.timeScale = 1f;
@@ -781,7 +782,8 @@ namespace TitanGate.Game
             _ui.CloseModal();
             var r = LdRun(a);   // records the action for the save (GameFlow.Dinner.cs)
             if (!r.ok) { _sfx.Play("bad"); _ui.Toast(LdBlockedText(r.reason), GameUI.CRed); return; }
-            _sfx.Play(a.StartsWith("repair") ? "good" : "card");
+            bool foundSupplies = r.food > 0 || r.oxygen > 0 || r.battery > 0 || r.parts > 0 || r.water > 0 || r.absorbers > 0;
+            _sfx.Play(foundSupplies ? "collected" : "complete");
             if (a.StartsWith("repair") || a == "assemble_rover") _sfx.Play("clank");
             if (a == "prepare_shelter") _sfx.Play("shield");
             if (a.StartsWith("repair") || a == "assemble_rover") LdSparks();
@@ -952,6 +954,7 @@ namespace TitanGate.Game
             LdClearSave();
             _sfx.Loop("siren", false);
             bool won = _ld.Outcome == Outcome.Rescued;
+            LdScore(StageMusicPlayer.Cue.Ending);
             _sfx.Play(won ? "good" : "bad");
             LdStinger(won ? "victory" : "transmission");
             yield return new WaitForSeconds(0.8f);

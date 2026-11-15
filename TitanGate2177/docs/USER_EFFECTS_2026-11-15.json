@@ -1,0 +1,24 @@
+{
+  "date": "2026-11-15",
+  "effects": [
+    {
+      "cue": "item_collected",
+      "sourceFilename": "alexis_gaming_cam-item-collected-1-367087.mp3",
+      "resource": "Audio/UserEffects/item_collected",
+      "durationSeconds": 6.456,
+      "sha256": "b671a254db59b01a7793651f656bc0384f14ca8cb82e50bf9da1c2e8c4fe5556",
+      "provenance": "user-supplied",
+      "license": "not supplied or independently verified"
+    },
+    {
+      "cue": "ship_alarm",
+      "sourceFilename": "alex_jauk-spaceship-alarm-ambience-192220.mp3",
+      "resource": "Audio/UserEffects/ship_alarm",
+      "durationSeconds": 18.808156,
+      "sha256": "5ccb6e721280d4109ef7836877fac248827e6db887b8aea37235ff847133e611",
+      "provenance": "user-supplied",
+      "license": "not supplied or independently verified"
+    }
+  ],
+  "implementationAssistance": "OpenAI Codex; integration code only, not audio generation"
+}

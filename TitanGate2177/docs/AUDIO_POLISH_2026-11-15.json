@@ -1,0 +1,11 @@
+{
+  "item_collected.mp3": {
+    "bytes": 206592,
+    "sha256": "b671a254db59b01a7793651f656bc0384f14ca8cb82e50bf9da1c2e8c4fe5556"
+  },
+  "item_collected_game.wav": {
+    "bytes": 202938,
+    "sha256": "536ad5ec123b3bb132646c4d159eb88c090f5c1a579a825fc3bb69b3c59a7d64"
+  },
+  "edit": "atrim=end=1.15,asetpts=PTS-STARTPTS,volume=9dB,afade=t=in:d=0.004,afade=t=out:st=1.05:d=0.1; PCM16 44100 Hz"
+}

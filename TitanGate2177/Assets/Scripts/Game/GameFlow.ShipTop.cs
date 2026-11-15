@@ -64,6 +64,7 @@ namespace TitanGate.Game
             _busy = true;
             yield return Fade(1f, 0f);
             yield return LastDockMode ? LdCinIntro() : PlayCutscene("intro");   // LAST DOCK: Blender cinematic (GameFlow.Cinema.cs)
+            LdScore(StageMusicPlayer.Cue.Ship);
             _player.gameObject.SetActive(false);
             _orbi.gameObject.SetActive(false);
             _ui.SetHudVisible(false);
@@ -131,7 +132,7 @@ namespace TitanGate.Game
         {
             if (_sDone || _sScramble) return;
             var step = SSteps[_sStep];
-            _sfx.Play(step.carry != null ? "card" : "good");
+            _sfx.Play(step.carry != null ? "collected" : "complete");
             _sCarry = step.carry;
             if (step.target == "bowl") BSpotById("bowl").sr.sprite = Art.PetBowl(true);
             if (step.target == "can") BSpotById("can").sr.enabled = false;
@@ -149,7 +150,7 @@ namespace TitanGate.Game
             StartCoroutine(Act("lift", .35f, null));
             s.sr.enabled = false;
             s.on = false;
-            _sfx.Play("card");
+            _sfx.Play("collected");
             _ui.Toast(_loc.T("ship.scramble.grab", LastDockMode ? LdSupName(s.id) : _loc.T($"sup.{s.id}.name"), _sHands.Count, HandSlots), GameUI.CAmber);
         }
 
@@ -161,7 +162,7 @@ namespace TitanGate.Game
             else while (_sHands.Count > 0 && _stowed.Count < StowSlots) { _stowed.Add(_sHands[0]); _sHands.RemoveAt(0); put++; }
             _sfx.Play("thud");
             StartCoroutine(Act("lift", .35f, null));
-            _sfx.Play("good");
+            _sfx.Play("complete");
             _ui.Toast(_loc.T("ship.scramble.stowed", put, _stowed.Count, StowSlots), GameUI.CGreen);
             if (_stowed.Count >= StowSlots) StartCoroutine(SEndScramble(true));
         }
@@ -178,6 +179,7 @@ namespace TitanGate.Game
             _bPos = new Vector2(31.2f, 16.45f); _bRight = true;
             yield return Say("orbi", "ship.rest");
             yield return new WaitForSeconds(1.4f);
+            _sfx.Loop("ship_alarm", true);
             _sfx.Play("thud");
             _sShake = 0.7f;
             _ui.Flash(new Color(1f, 0.15f, 0.2f, 0.6f));
@@ -292,6 +294,7 @@ namespace TitanGate.Game
             _sDone = true;
             _sScramble = false;
             _bPath = null; _bGoal = null;
+            _sfx.Loop("ship_alarm", false);
             _sfx.Loop("rumble", false);
             int lost = _sHands.Count;
             _sHands.Clear();

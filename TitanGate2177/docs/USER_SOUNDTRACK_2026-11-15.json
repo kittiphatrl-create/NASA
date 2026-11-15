@@ -1,0 +1,57 @@
+{
+  "date": "2026-11-15",
+  "tracks": [
+    {
+      "cue": "opening",
+      "sourceFilename": "atlasaudio-sci-fi-ambient-587603.mp3",
+      "resourcePath": "Audio/UserScore/opening",
+      "file": "Assets/Resources/Audio/UserScore/opening.mp3",
+      "scene": "Opening menu/cutscene",
+      "sourceDurationSeconds": 135.706094,
+      "sha256": "a37298d7b01da20a9682bed1c2d18724251fa407145a8d92319a5a4362720a04",
+      "provenance": "user-supplied",
+      "license": "not supplied or verified",
+      "siGeneratedAudio": "not established; do not infer from AI-assisted integration"
+    },
+    {
+      "cue": "ship",
+      "sourceFilename": "tunetank-sci-fi-ambient-347390.mp3",
+      "resourcePath": "Audio/UserScore/ship",
+      "file": "Assets/Resources/Audio/UserScore/ship.mp3",
+      "scene": "Ship chapter until Mars entry",
+      "sourceDurationSeconds": 145.946094,
+      "sha256": "5782060db2950c17a3c8458c31f311841cdf55d3fc0f89819fd8b7ad024df52d",
+      "provenance": "user-supplied",
+      "license": "not supplied or verified",
+      "siGeneratedAudio": "not established; do not infer from AI-assisted integration"
+    },
+    {
+      "cue": "ending",
+      "sourceFilename": "Cornfield Chase.mp3",
+      "resourcePath": "Audio/UserScore/ending",
+      "file": "Assets/Resources/Audio/UserScore/ending.mp3",
+      "scene": "Ending, one-shot",
+      "sourceDurationSeconds": 126.920272,
+      "sha256": "e28cd1ab9db0c9377977a2d5749984c8af8f66282781b8a6fce38915a5406aac",
+      "provenance": "user-supplied",
+      "license": "not supplied or verified",
+      "siGeneratedAudio": "not established; do not infer from AI-assisted integration"
+    },
+    {
+      "cue": "mars",
+      "sourceFilename": "Blind Spots.mp3",
+      "resourcePath": "Audio/UserScore/mars",
+      "file": "Assets/Resources/Audio/UserScore/mars.mp3",
+      "scene": "Mars entry and base",
+      "sourceDurationSeconds": 332.519909,
+      "sha256": "c337f6ad54c658a20802a61ab1520ba12d5dc0917ea32be5c8e97e2c0e288c94",
+      "provenance": "user-supplied",
+      "license": "not supplied or verified",
+      "siGeneratedAudio": "not established; do not infer from AI-assisted integration"
+    }
+  ],
+  "implementationAssistance": {
+    "tool": "OpenAI Codex",
+    "scope": "music routing, crossfade code and integration documentation; not the supplied recordings"
+  }
+}

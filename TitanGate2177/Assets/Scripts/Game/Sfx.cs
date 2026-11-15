@@ -12,7 +12,10 @@ namespace TitanGate.Game
     /// </summary>
     public class Sfx : MonoBehaviour
     {
-        AudioSource _src;
+        AudioSource _src, _collected;
+        float _collectedLevel = .95f;
+        readonly Dictionary<string, float> _cinematicTargets = new Dictionary<string, float>();
+        readonly Dictionary<string, float> _cinematicGains = new Dictionary<string, float>();
         readonly Dictionary<string, AudioClip> _clips = new Dictionary<string, AudioClip>();
         readonly Dictionary<string, float> _lastPlayed = new Dictionary<string, float>();
         readonly Dictionary<string, AudioSource> _loops = new Dictionary<string, AudioSource>();
@@ -60,15 +63,73 @@ namespace TitanGate.Game
                 ("step0", "footstep00"), ("step1", "footstep01"), ("step2", "footstep02"), ("step3", "footstep03") })
             { var clip = Resources.Load<AudioClip>("Audio/KenneyRPG/" + file); if (clip != null) _clips[id] = clip; }
 
+            // User-selected effects. Keep collection separate from card/UI and ordinary handling sounds.
+            var collected = Resources.Load<AudioClip>("Audio/UserEffects/item_collected_game")
+                ?? Resources.Load<AudioClip>("Audio/UserEffects/item_collected");
+            if (collected != null) _clips["collected"] = collected;
+            else _clips["collected"] = _clips.TryGetValue("pickup", out var fallbackPickup) ? fallbackPickup : _clips["card"];
+            _clips["complete"] = _clips["collected"];
+            var shipAlarm = Resources.Load<AudioClip>("Audio/UserEffects/ship_alarm");
+            _clips["ship_alarm"] = shipAlarm != null ? shipAlarm : _clips["siren"];
+            _collected = gameObject.AddComponent<AudioSource>();
+            _collected.playOnAwake = false;
+            _collected.loop = false;
+            _collected.spatialBlend = 0f;
+            _collected.priority = 32;
+
+            // A continuous bed under the silent rendered videos, rather than a single short rumble.
+            _clips["cine_engine"] = _clips["rumble"];
+            _clips["cine_base"] = _clips["hum"];
+            Make("cine_air", 4f, t => LowNoise(.85f) * .30f * (.85f + .15f * Mathf.Sin(t * Mathf.PI / 2f)));
+            Make("cine_wind", 6f, t => LowNoise(.95f) * .44f * (.7f + .3f * Mathf.Sin(t * Mathf.PI / 3f)));
+            foreach (var id in new[] { "cine_engine", "cine_air", "cine_wind", "cine_base" })
+            {
+                _cinematicTargets[id] = 0f;
+                _cinematicGains[id] = 0f;
+                Loopable(id, id == "cine_base" ? .28f : .55f, id == "cine_wind" || id == "cine_base");
+            }
+
             Loopable("heart", 0.45f, false);
             Loopable("siren", 0.25f, false);
             Loopable("rumble", 0.5f, false);
             Loopable("hum", 0.35f, true);
+            Loopable("ship_alarm", 0.35f, false);
             Settings.Changed += ApplyVolumes;
             ApplyVolumes();
         }
 
         void OnDestroy() => Settings.Changed -= ApplyVolumes;
+
+        void Update()
+        {
+            foreach (var id in _cinematicTargets.Keys)
+            {
+                float gain = Mathf.MoveTowards(_cinematicGains[id], _cinematicTargets[id], Time.unscaledDeltaTime / .25f);
+                _cinematicGains[id] = gain;
+                if (gain <= 0f && _loops[id].isPlaying) _loops[id].Stop();
+            }
+            ApplyVolumes();
+        }
+
+        public void CinematicShot(string shot)
+        {
+            StopCinematicAudio();
+            void Layer(string id, float gain = 1f) { _cinematicTargets[id] = gain; Loop(id, true); }
+            if (shot == "l01_away") Layer("cine_engine");
+            else if (shot == "l02_entry") { Layer("cine_engine"); Layer("cine_air"); }
+            else if (shot == "l03_chute") Layer("cine_air", .65f);
+            else if (shot == "l04_land") { Layer("cine_engine"); Layer("cine_air", .35f); }
+            else if (shot == "l05_base") { Layer("cine_wind"); Layer("cine_base"); }
+        }
+
+        public void StopCinematicAudio(bool immediate = false)
+        {
+            foreach (var id in new[] { "cine_engine", "cine_air", "cine_wind", "cine_base" })
+            {
+                _cinematicTargets[id] = 0f;
+                if (immediate) { _cinematicGains[id] = 0f; Loop(id, false); }
+            }
+        }
 
         // ---- wave helpers
         static float Sine(float t, float f) => Mathf.Sin(t * 2 * Mathf.PI * f);
@@ -108,10 +169,12 @@ namespace TitanGate.Game
         void ApplyVolumes()
         {
             _src.volume = Settings.Master * Settings.Effects;
+            if (_collected != null) _collected.volume = Settings.Master * Settings.Effects * _collectedLevel;
             foreach (var kv in _loops)
             {
                 float b = _loopBase[kv.Key];
-                kv.Value.volume = Settings.Master * Mathf.Abs(b) * (b < 0 ? Settings.Ambience : Settings.Effects);
+                float gain = _cinematicGains.TryGetValue(kv.Key, out var cineGain) ? cineGain : 1f;
+                kv.Value.volume = Settings.Master * Mathf.Abs(b) * (b < 0 ? Settings.Ambience : Settings.Effects) * gain;
             }
         }
 
@@ -119,11 +182,27 @@ namespace TitanGate.Game
         public void Play(string id, float vol = 1f)
         {
             if (id == "blip") return;   // no sound when a dialogue line appears or advances (the user asked to remove it)
+            if (id == "alarm" && _loops.TryGetValue("ship_alarm", out var shipAlarm) && shipAlarm.isPlaying) return;
+            bool footstep = id == "step" || id.StartsWith("step");
+            bool reward = id == "collected" || id == "complete";
             if (id == "step" && _clips.ContainsKey("step0")) id = "step" + Rng.Next(4);   // real footsteps, varied
             if (_src == null || !_clips.TryGetValue(id, out var c)) return;
-            float cool = id == "hover" ? 0.08f : id == "step" ? 0.12f : id == "blip" ? 0.06f : 0.05f;
-            if (_lastPlayed.TryGetValue(id, out var last) && Time.unscaledTime - last < cool) return;
-            _lastPlayed[id] = Time.unscaledTime;
+            float cool = reward ? .18f : id == "hover" ? .08f : footstep ? .12f : .05f;
+            string family = footstep ? "step" : reward ? "reward" : id;
+            if (_lastPlayed.TryGetValue(family, out var last) && Time.unscaledTime - last < cool) return;
+            _lastPlayed[family] = Time.unscaledTime;
+            if (reward)
+            {
+                // Short, boosted user recording; one reward voice avoids overlapping transients.
+                _collectedLevel = .95f * vol;
+                _collected.Stop();
+                _collected.clip = c;
+                ApplyVolumes();
+                _collected.Play();
+                GetComponent<StageMusicPlayer>()?.DuckFor(1.1f);
+                return;
+            }
+            if (footstep) vol *= .75f;
             if (id == "hover") vol *= .16f; else if (id == "click") vol *= .38f; else if (id == "open" || id == "close" || id == "good" || id == "ship" || id == "drone") vol *= .55f;
             _src.PlayOneShot(c, vol);
         }

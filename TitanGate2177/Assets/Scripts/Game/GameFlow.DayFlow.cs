@@ -204,6 +204,8 @@ namespace TitanGate.Game
             yield return Fade(0f, 0.25f);
             _busy = false;
             if (!r.ok) { _ldSeq = false; _ui.Toast(LdBlockedText(r.reason), GameUI.CRed); yield break; }
+            bool foundSupplies = r.food > 0 || r.oxygen > 0 || r.battery > 0 || r.parts > 0 || r.water > 0 || r.notes.Contains("found_rover_part") || r.notes.Contains("found_mystery");
+            _sfx.Play(foundSupplies ? "collected" : "complete");
             bool closed = false;
             _ui.ShowModal(p =>
             {
@@ -223,7 +225,7 @@ namespace TitanGate.Game
                 p.Add(row);
                 if (r.notes.Contains("explore_radiation")) p.Add(LdPara("NASA: " + LdStormFact, GameUI.CCyan, 19));
             }, true, () => closed = true);
-            _sfx.Play(r.notes.Contains("explore_radiation") ? "bad" : "good");
+            if (r.notes.Contains("explore_radiation")) _sfx.Play("bad");
             if (_playtest) { yield return new WaitForSeconds(0.6f); if (!_ldShotTrip) { _ldShotTrip = true; yield return Shot("ld06_trip"); } _ui.CloseModal(); }
             while (!closed) yield return null;
             _ldSeq = false;

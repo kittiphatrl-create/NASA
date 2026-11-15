@@ -155,6 +155,8 @@ namespace TitanGate.Game
         /// <summary>Called by ClearWorld: drop the base and give the camera back to the side-view rig.</summary>
         void EndBase()
         {
+            if (_sfx != null) _sfx.StopCinematicAudio(true);
+            if (_sfx != null) _sfx.Loop("ship_alarm", false);
             ResetActions();
             CrewReset();
             if (_bGlowMaterial != null) { Destroy(_bGlowMaterial); _bGlowMaterial = null; }

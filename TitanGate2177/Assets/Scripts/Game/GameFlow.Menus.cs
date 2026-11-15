@@ -22,6 +22,7 @@ namespace TitanGate.Game
         {
             _chapter = 0; _menuLaunching = false;
             Time.timeScale = 1f;
+            LdScore(StageMusicPlayer.Cue.Opening);
             ClearWorld();
             _player.gameObject.SetActive(false);
             _orbi.gameObject.SetActive(false);

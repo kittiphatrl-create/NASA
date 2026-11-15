@@ -137,7 +137,7 @@ namespace TitanGate.Game
             {
                 _ldHasCard = true;
                 s.sr.enabled = false; s.on = false;
-                _sfx.Play("card");
+                _sfx.Play("collected");
                 _ui.Toast(TT("Key card! It opens ONE locked room, then it is used up: the power vault or the comms vault.",
                              "ได้คีย์การ์ด! เปิดห้องล็อกได้ห้องเดียว แล้วการ์ดจะใช้ไม่ได้อีก: ห้องเก็บอุปกรณ์ไฟฟ้า หรือ ห้องอะไหล่สื่อสาร"), GameUI.CAmber);
                 return true;
