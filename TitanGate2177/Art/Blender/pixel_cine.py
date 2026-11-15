@@ -142,8 +142,8 @@ def pshot(name, world, frames):
     sc = bpy.data.scenes.new(name); sc.world = world
     sc.render.engine = 'BLENDER_EEVEE'
     e = sc.eevee
-    for k, v in (('taa_render_samples', 24), ('use_shadows', True), ('use_volumetric_shadows', True), ('volumetric_tile_size', '4'),
-                 ('use_raytracing', True), ('shadow_ray_count', 2), ('volumetric_samples', 64),
+    for k, v in (('taa_render_samples', 32), ('use_shadows', True), ('use_volumetric_shadows', True), ('volumetric_tile_size', '4'),
+                 ('use_raytracing', True), ('shadow_ray_count', 2), ('volumetric_samples', 32),
                  ('volumetric_start', 0.2), ('volumetric_end', 1200.0), ('volumetric_sample_distribution', 0.9)):
         try: setattr(e, k, v)
         except Exception: pass
@@ -164,7 +164,8 @@ def pshot(name, world, frames):
         try: sc.view_settings.look = lk; break
         except TypeError: continue
     # one-pixel ink outlines, like a pixel artist's line
-    sc.render.use_freestyle = True; sc.render.line_thickness_mode = 'ABSOLUTE'; sc.render.line_thickness = 1.4
+    sc.render.use_freestyle = False;   # ink lines (Freestyle) cost up to 40 s a frame on one CPU core; set True for outlines
+    sc.render.line_thickness_mode = 'ABSOLUTE'; sc.render.line_thickness = 1.4
     vl = sc.view_layers[0]; fs = vl.freestyle_settings
     ls = fs.linesets[0] if len(fs.linesets) else fs.linesets.new('ink')
     ls.select_by_visibility = True; ls.select_by_edge_types = True
@@ -351,9 +352,56 @@ def make_extras():
     L(nt, rp.outputs['Color'], bs.inputs['Base Color']); L(nt, bs.outputs['BSDF'], out.inputs['Surface'])
     lines = cb.clay('chuteL', [cb.limb((2.6 * math.cos(a), 2.6 * math.sin(a), -0.4), (0, 0, -9.0), 0.05) for a in [k * math.tau / 8 for k in range(8)]], res=0.03, disp=0, smooth=0)
     A['chute'] = cb.join('Chute', [(dome, m), (lines, cb.M['hullDark'])])
+    make_pod()
+    sofa = cb.clay('sofaM', [cb.egg((0, 0, 0.32), (2.0, 0.9, 0.34)), cb.egg((0, 0.36, 0.72), (2.0, 0.3, 0.8)), cb.egg((-1.0, 0, 0.5), (0.3, 0.9, 0.62)),
+                             cb.egg((1.0, 0, 0.5), (0.3, 0.9, 0.62)), cb.egg((0, 0, 0.1), (1.9, 0.8, 0.22))], res=0.03, disp=0.01, dscale=0.2)
+    A['sofa'] = cb.join('Sofa', [(sofa, cb.clay_mat('sofaMat', (0.25, 0.36, 0.56), (0.18, 0.26, 0.42), scale=3, bump=0.05))])
+    # the rescue ship: the same pod family, but white and blue so it never reads as our lifeboat
+    m = bpy.data.materials.new('rescueShell'); m.use_nodes = True; nt = m.node_tree
+    bs = next(n for n in nt.nodes if n.type == 'BSDF_PRINCIPLED')
+    bs.inputs['Base Color'].default_value = (0.86, 0.9, 0.95, 1); bs.inputs['Roughness'].default_value = 0.3; bs.inputs['Coat Weight'].default_value = 0.4
+    M['rescueShell'] = m
     # heat shield (glowing hot under the lifeboat)
     me = cb.clay('shield', [cb.egg((0, 0, 0), (0.4, 2.3, 2.3)), cb.dent((-0.25, 0, 0), 2.0)], res=0.03, disp=0.01, dscale=0.2)
     A['shield'] = cb.join('Shield', [(me, cb.emit_mat('hotShield', (1.0, 0.45, 0.12), 8))])
+
+
+def pod_mat():
+    """Glossy toy-orange shell: light on top, deeper orange underneath."""
+    m = bpy.data.materials.new('podShell'); m.use_nodes = True; nt = m.node_tree; nt.nodes.clear()
+    out = node(nt, 'ShaderNodeOutputMaterial', (800, 0)); bs = node(nt, 'ShaderNodeBsdfPrincipled', (500, 0))
+    bs.inputs['Roughness'].default_value = 0.32; bs.inputs['Coat Weight'].default_value = 0.35
+    tc = node(nt, 'ShaderNodeTexCoord', (-700, 0)); sp = node(nt, 'ShaderNodeSeparateXYZ', (-500, 0)); L(nt, tc.outputs['Object'], sp.inputs['Vector'])
+    mr = node(nt, 'ShaderNodeMapRange', (-300, 0)); mr.inputs['From Min'].default_value = -0.35; mr.inputs['From Max'].default_value = 0.05
+    L(nt, sp.outputs['X'], mr.inputs['Value'])
+    mx = node(nt, 'ShaderNodeMix', (0, 0)); mx.data_type = 'RGBA'; L(nt, mr.outputs['Result'], mx.inputs[0])
+    mx.inputs[6].default_value = (0.78, 0.26, 0.04, 1); mx.inputs[7].default_value = (1.0, 0.52, 0.1, 1)
+    L(nt, mx.outputs[2], bs.inputs['Base Color'])
+    L(nt, bs.outputs['BSDF'], out.inputs['Surface'])
+    return m
+
+def make_pod():
+    """The lifeboat as in the game: a round orange pod, white light strip, two blue windows, a grey hatch, a thruster below.
+    Built upright, then turned so its top points along +X (the shots treat +X as the nose)."""
+    shell = cb.clay('podShell', [cb.egg((0, 0, 0.25), (3.4, 2.6, 2.7)), cb.egg((0, 0, -0.45), (3.3, 2.5, 1.3)), cb.dent((0, 0, -2.75), 2.9)],
+                    res=0.03, disp=0.006, dscale=0.3, smooth=3)
+    strip = cb.clay('podStrip', [cb.egg((0, 0, -0.12), (3.47, 2.67, 0.14))], res=0.02, disp=0, smooth=1)
+    wins = cb.clay('podWin', [cb.ball((x, -1.02, 0.42), 0.5) for x in (-0.95, 0.95)], res=0.015, disp=0, smooth=1)
+    rims = cb.clay('podRim', [cb.ball((x, -0.98, 0.42), 0.62) for x in (-0.95, 0.95)], res=0.015, disp=0, smooth=1)
+    door = cb.clay('podDoor', [('CUBE', (0, -1.2, -0.38), 0.18, (0.36 / 1.15 * 1.4, 0.06, 0.55 / 1.15 * 1.4), None, 2.0)], res=0.015, disp=0, smooth=1)
+    frame = cb.clay('podFrame', [('CUBE', (0, -1.13, -0.38), 0.22, (0.42 / 1.15 * 1.4, 0.07, 0.62 / 1.15 * 1.4), None, 2.0)], res=0.015, disp=0, smooth=1)
+    step = cb.clay('podStep', [cb.egg((0, -1.22, -1.12), (0.75, 0.32, 0.1))], res=0.015, disp=0, smooth=1)
+    noz = cb.clay('podNoz', [cb.ball((0, 0, -1.3), 0.95), cb.dent((0, 0, -1.75), 0.75)], res=0.02, disp=0, smooth=1)
+    glow = cb.clay('podGlow', [cb.ball((0, 0, -1.48), 0.5)], res=0.015, disp=0, smooth=0)
+    winM = cb.emit_mat('podWinE', (0.1, 0.5, 0.85), 1.2)
+    stripM = cb.emit_mat('podStripE', (1.0, 0.97, 0.9), 4.0)
+    doorM = cb.clay_mat('podDoorM', (0.5, 0.52, 0.62), (0.4, 0.42, 0.5), rough=0.4, scale=3, bump=0.02)
+    darkM = cb.clay_mat('podDarkM', (0.12, 0.12, 0.16), (0.08, 0.08, 0.1), rough=0.5, scale=3, bump=0.02)
+    stepM = cb.emit_mat('podStepE', (1.0, 0.65, 0.15), 2.0)
+    ob = cb.join('LifePod', [(shell, pod_mat()), (strip, stripM), (rims, darkM), (wins, winM), (frame, darkM), (door, doorM), (step, stepM),
+                             (noz, darkM), (glow, cb.M['engine'])])
+    ob.data.transform(Matrix.Rotation(math.radians(90), 4, 'Y'))
+    A['lifeboat'] = ob
 
 def moon_set(sc):
     t = cb.put(sc, 'terrain', (0, 0, 0)); remat(t, M['moonGround'])
@@ -426,13 +474,13 @@ def p03_mars():
     sc = pshot('p03_mars', cb.world_sky('pw03', (1.0, 0.6, 0.32), (0.4, 0.24, 0.18), sdir, (1.0, 0.8, 0.55), 2.5, 6.0, 1.0), N)
     cb.mars_set(sc)
     cb.sun(sc, sdir, (1.0, 0.75, 0.48), 4.0, 0.02)
-    cb.haze_box(sc, (0, 40, 30), (420, 360, 90), (1.0, 0.7, 0.45), 0.004, 0.7)
+    cb.haze_box(sc, (0, 40, 30), (420, 360, 90), (1.0, 0.7, 0.45), 0.0025, 0.7)
     cm = cb.cam(sc, (-40, -52, 7), (5, 10, 8), lens=30)
     ld = cb.put(sc, 'lifeboat', (0, 0, 0), (0, 0, 0), 2.2, name='p03_lander')
     fl = cb.put(sc, 'flame', (0, 0, 0), (0, 0, 0), (1.0, 1.0, 1.0), name='p03_flame')
     for f, z in ((1, 34), (N, 12)):
         key(ld, f, loc=(28, 10, z), rot=(0, math.radians(-90), 0))
-        key(fl, f, loc=(28, 10, z - 4.6), rot=(0, math.radians(90), 0), scale=(1.4, 0.8, 0.8))
+        key(fl, f, loc=(28, 10, z - 5.3), rot=(0, math.radians(90), 0), scale=(1.4, 0.8, 0.8))
     linear(ld); linear(fl)
     lp = cb.lamp(sc, (28, 10, 20), (1.0, 0.6, 0.3), 4000, 1.0, name='flameLight')
     for f, z in ((1, 28), (N, 6)): key(lp, f, loc=(28, 10, z))
@@ -472,39 +520,87 @@ def p06_walk():
 
 @shot
 def i01_debris():
-    """Rocks tumbling out of the dark straight at the ship; its warning light blinks."""
-    N = 36
-    sc = pshot('i01_debris', cb.world_space('pi01', band=(0.9, 0.3, 0.4), core=(1.0, 0.45, 0.7), haze=(0.4, 0.2, 0.8), mw=2.0, stars=50), N)
-    cm = cb.cam(sc, (0, 0, 0), (0, 1, 0), lens=26)
-    sh = cb.put(sc, 'ship', tuple(cb.at(cm, 0.25, -0.15, 45)), (0, 0, 0), 1.0)
-    cb.face(sh, Vector((-1, 0.4, 0.05)))
-    cb.sun(sc, cb.at(cm, 0.6, 0.4, 3000), (1.0, 0.72, 0.5), 5.0, 0.02)
-    cb.lamp(sc, (-20, -10, 10), (0.5, 0.3, 1.0), 2e4, 20, 'AREA', target=tuple(sh.location), name='fill')
-    rr = random.Random(11)
+    """Rocks streak past the Kestrel; one grazes the top of the hull, a burst of fire and sparks, the ship lurches."""
+    N = 48
+    sc = pshot('i01_debris', cb.world_space('pi01', band=(0.9, 0.3, 0.4), core=(1.0, 0.45, 0.7), haze=(0.4, 0.2, 0.8), mw=1.0, stars=50), N)
+    cm = cb.cam(sc, (0, 0, 0), (0, 1, 0), lens=32)
+    sh = cb.put(sc, 'ship', tuple(cb.at(cm, 0.0, -0.08, 30)))
+    cb.face(sh, Vector((-1, 0.35, 0.05))); cb.roll(sh, 0.35)
+    r0 = sh.rotation_euler.copy()
+    cb.attach_engines(sc, sh)
+    cb.sun(sc, cb.mat_of(cm).to_3x3() @ Vector((-0.5, 0.7, 0.6)), (1.0, 0.86, 0.72), 2.6, 0.02)
+    cb.lamp(sc, tuple(sh.location + Vector((10, -8, 6))), (0.5, 0.35, 1.0), 6e3, 10, 'AREA', target=tuple(sh.location), name='fill')
+    cb.lamp(sc, tuple(sh.location + Vector((-6, 14, 10))), (0.9, 0.8, 1.0), 5e3, 8, 'AREA', target=tuple(sh.location), name='rim')
+    # near misses: rocks rush from deep behind toward the camera, passing well above or below the ship
+    rr = random.Random(21)
+    for i in range(14):
+        side = rr.choice((-1, 1))
+        sy0, sy1 = side * rr.uniform(0.7, 1.1), side * rr.uniform(1.4, 2.2)
+        sx0 = rr.uniform(-1.3, 1.3); sx1 = sx0 * 1.4 + rr.uniform(-0.3, 0.3)
+        f0 = rr.randint(1, 30); f1 = min(N, f0 + rr.randint(12, 22))
+        p0 = cb.at(cm, sx0, sy0, rr.uniform(120, 170)); p1 = cb.at(cm, sx1, sy1, rr.uniform(16, 26))
+        o = cb.put(sc, 'debris%d' % rr.randint(0, 5), (0, 0, 0), (0, 0, 0), rr.uniform(1.0, 2.4), name='i01_d%d' % i)
+        a0 = Vector((rr.uniform(0, 6), rr.uniform(0, 6), rr.uniform(0, 6)))
+        a1 = a0 + Vector((rr.uniform(-4, 4), rr.uniform(-4, 4), rr.uniform(-4, 4)))
+        key(o, 1, loc=tuple(p0), rot=tuple(a0)); key(o, f0, loc=tuple(p0), rot=tuple(a0)); key(o, f1, loc=tuple(p1), rot=tuple(a1))
+        linear(o)
+    # the graze: a rock skims the top of the habitat ring at frame 24 and glances off
+    M0 = cb.mat_of(sh)
+    up = (M0.to_3x3() @ Vector((0, 0, 1))).normalized()
+    C = M0 @ Vector((0.6, 0, 1.85))
+    hitter = cb.put(sc, 'debris3', (0, 0, 0), (0, 0, 0), 2.4, name='i01_hitter')
+    pa, pc_ = C + Vector((-34, 40, 20)), C + up * 2.0
+    pb = C + up * 4 + Vector((10, -22, 9))
+    key(hitter, 1, loc=tuple(pa), rot=(0, 0, 0)); key(hitter, 24, loc=tuple(pc_), rot=(1.5, 0.8, 0.4)); key(hitter, N, loc=tuple(pb), rot=(5.5, 3.0, 2.2))
+    linear(hitter)
+    # the ship lurches from the blow
+    key(sh, 1, rot=tuple(r0)); key(sh, 23, rot=tuple(r0))
+    key(sh, 27, rot=(r0.x + 0.07, r0.y - 0.05, r0.z + 0.06)); key(sh, N, rot=(r0.x + 0.1, r0.y - 0.07, r0.z + 0.09))
+    # fire, smoke, flash, sparks and chips at the impact point
+    fb = cb.put(sc, 'fireball', tuple(C), (0, 0, 0), 0.01, name='i01_fire')
+    for f, sz in ((23, 0.01), (25, 2.0), (30, 3.0), (N, 2.2)): key(fb, f, scale=(sz, sz, sz))
+    sm = cb.put(sc, 'smokeball', tuple(C + up * 1.5), (0, 0, 0), 0.01, name='i01_smoke')
+    for f, sz, dz in ((25, 0.01, 0), (36, 2.6, 2.5), (N, 4.0, 5)): key(sm, f, loc=tuple(C + up * (1.2 + dz)), scale=(sz, sz, sz * 0.8))
+    fl = cb.lamp(sc, tuple(C + up * 1.2), (1.0, 0.55, 0.2), 0, 1.0, name='blast')
+    for f, e in ((1, 0), (23, 0), (24, 2.5e5), (27, 4e4), (32, 1.6e4), (N, 1.2e4)): fl.data.energy = e; fl.data.keyframe_insert('energy', frame=f)
+    for f in range(33, N + 1, 2):
+        fl.data.energy = 1.2e4 * (0.7 + 0.6 * random.Random(f).random()); fl.data.keyframe_insert('energy', frame=f)
     for i in range(26):
-        d0 = rr.uniform(60, 160); sx, sy = rr.uniform(-1.2, 1.2), rr.uniform(-1.0, 1.0)
-        p0 = cb.at(cm, sx * 0.5, sy * 0.5, d0)
-        p1 = cb.at(cm, sx * 1.6, sy * 1.6, max(4, d0 - rr.uniform(50, 110)))
-        o = cb.put(sc, 'debris%d' % rr.randint(0, 5), (0, 0, 0), (0, 0, 0), rr.uniform(1.5, 4.5), name='i01_d%d' % i)
-        r0 = Vector((rr.uniform(0, 6), rr.uniform(0, 6), rr.uniform(0, 6)))
-        r1 = r0 + Vector((rr.uniform(-3, 3), rr.uniform(-3, 3), rr.uniform(-3, 3)))
-        move(o, [(1, tuple(p0), tuple(r0)), (N, tuple(p1), tuple(r1))])
-    bl = cb.lamp(sc, tuple(sh.location + Vector((0, 0, 3))), (1.0, 0.1, 0.05), 0, 0.2, name='warn')
+        d = (up * rr.uniform(0.3, 1.0) + Vector((rr.uniform(-1, 1), rr.uniform(-1, 0.5), rr.uniform(-0.3, 1)))).normalized()
+        sp = cb.put(sc, 'streak', (0, 0, 0), (0, 0, 0), 0.01, name='i01_s%d' % i)
+        cb.face(sp, d); key(sp, 1, loc=tuple(C), rot=tuple(sp.rotation_euler), scale=(0.01, 0.01, 0.01))
+        key(sp, 24, loc=tuple(C), scale=(0.01, 0.01, 0.01))
+        key(sp, 26, loc=tuple(C + d * rr.uniform(1.5, 3)), scale=(rr.uniform(1.0, 2.2), 1.6, 1.6))
+        key(sp, 34, loc=tuple(C + d * rr.uniform(6, 10)), scale=(0.01, 0.01, 0.01))
+    for i in range(10):
+        d = (up + Vector((rr.uniform(-1, 1), rr.uniform(-1, 1), rr.uniform(-0.2, 0.8)))).normalized()
+        ch = cb.put(sc, 'debris%d' % rr.randint(0, 5), (0, 0, 0), (0, 0, 0), 0.01, name='i01_chip%d' % i)
+        key(ch, 1, loc=tuple(C), scale=(0.01, 0.01, 0.01)); key(ch, 24, loc=tuple(C), scale=(0.01, 0.01, 0.01))
+        key(ch, 25, loc=tuple(C + d * 0.8), scale=(0.25, 0.25, 0.25), rot=(0, 0, 0))
+        key(ch, N, loc=tuple(C + d * rr.uniform(8, 14)), scale=(0.2, 0.2, 0.2), rot=(rr.uniform(3, 9), rr.uniform(3, 9), 0))
+    # red warning light on the hull, blinking after the hit
+    bl = cb.lamp(sc, tuple(M0 @ Vector((3.0, 0, 1.6))), (1.0, 0.1, 0.05), 0, 0.2, name='warn')
     for f in range(1, N + 1, 3):
-        bl.data.energy = 3000 if (f // 3) % 2 == 0 else 0; bl.data.keyframe_insert('energy', frame=f)
+        bl.data.energy = (2500 if (f // 3) % 2 == 0 else 0) if f > 26 else 0; bl.data.keyframe_insert('energy', frame=f)
+    key(cm, 1, loc=(0, 0, 0)); shake(cm, 24, 36, 0.5, 9)
+    key(cm, N, loc=(0, -2.0, 0.3))
 
 @shot
 def i02_hit():
-    """IMPACT: the corridor jolts, a white flash, the lights die to red, the cadet is thrown down."""
+    """IMPACT: the cadet is resting on the lounge sofa (as in the game); the ship jolts, a white flash,
+    the lights die to red, and the cadet is thrown onto the floor."""
     N = 30
     sc = pshot('i02_hit', cb.world_space('pi02', mw=0.0, stars=0.0), N)
     cb.put(sc, 'corridor', (0, 0, 0))
-    c = cadet(sc, 'cad', (7.2, 0.3, -0.1), rot_z=math.radians(-90))
-    pose(c, 1); pose(c, 8)
-    pose(c, 12, hipL=-20, hipR=10, armL=(-120, 0, -30), armR=(-110, 0, 30), body=(25, 0, 0), head=(-20, 0, 0))
-    pose(c, 18, hipL=-80, hipR=-70, armL=(-60, 0, -40), armR=(-50, 0, 40), body=(-10, 0, 0), head=(10, 0, 0), bodyz=0.58)
-    key(c['Root'], 8, loc=(7.2, 0.3, -0.1)); key(c['Root'], 18, loc=(7.6, 0.2, -0.45)); key(c['Root'], N, loc=(7.6, 0.2, -0.45))
-    pose(c, N, hipL=-80, hipR=-70, armL=(-60, 0, -40), armR=(-50, 0, 40), body=(-14, 0, 0), head=(16, 0, 8))
+    cb.put(sc, 'sofa', (7.4, 1.45, -0.1))
+    c = cadet(sc, 'cad', (7.4, 1.35, -0.12), rot_z=0.0)
+    for f in (1, 8):
+        pose(c, f, hipL=-82, hipR=-78, armL=(-20, 0, -14), armR=(-20, 0, 14), head=(6, 0, 0))
+    blink(c, 4)
+    pose(c, 11, hipL=-50, hipR=-40, armL=(-120, 0, -30), armR=(-110, 0, 30), body=(28, 0, 0), head=(-18, 0, 0))
+    pose(c, 16, hipL=10, hipR=-20, armL=(-80, 0, -40), armR=(-70, 0, 40), body=(55, 0, 0), head=(-10, 0, 0))
+    pose(c, N, hipL=20, hipR=-10, armL=(-70, 0, -40), armR=(-60, 0, 40), body=(60, 0, 0), head=(-24, 0, 6))
+    key(c['Root'], 8, loc=(7.4, 1.35, -0.12)); key(c['Root'], 13, loc=(7.4, 0.6, -0.2)); key(c['Root'], 17, loc=(7.4, 0.05, -0.42)); key(c['Root'], N, loc=(7.4, 0.0, -0.44))
     lamps = []
     for i, x in enumerate([2, 7.2, 12.4, 17.6]):
         w = cb.lamp(sc, (x + 1.3, 0, 3.0), (1.0, 0.86, 0.68), 160, 0.4, name='ceil%d' % i)
@@ -519,8 +615,8 @@ def i02_hit():
         key(s, 9, loc=(9.5, -1.9, 2.6), scale=(0.01, 0.01, 0.01)); cb.face(s, d); s.keyframe_insert('rotation_euler', frame=9)
         key(s, 12, loc=tuple(Vector((9.5, -1.9, 2.6)) + d * 1.2), scale=(0.35, 1, 1)); key(s, 16, loc=tuple(Vector((9.5, -1.9, 2.6)) + d * 2.0), scale=(0.01, 0.01, 0.01))
     cb.haze_box(sc, (10, 0, 1.5), (24, 4.6, 3.6), (0.75, 0.7, 0.7), 0.05, 0.4)
-    cm = cb.cam(sc, (2.0, -1.0, 1.4), (10, 0.4, 0.9), lens=26, dof=5.6, fstop=2.8)
-    key(cm, 1, loc=(2.0, -1.0, 1.4)); shake(cm, 9, 20, 0.18)
+    cm = cb.cam(sc, (3.7, 0.2, 1.6), (7.5, 0.9, 0.5), lens=28, dof=4.0, fstop=2.8)
+    key(cm, 1, loc=(3.7, 0.2, 1.6)); shake(cm, 9, 20, 0.18)
 
 @shot
 def i03_run():
@@ -564,10 +660,10 @@ def l01_away():
     move(lb, [(1, tuple(p0), (0, 0, 0)), (N, tuple(p1), (0, 0, 0))])
     d = (p1 - p0).normalized(); rot = d.to_track_quat('X', 'Z').to_euler()
     for f in (1, N): key(lb, f, rot=rot)
-    fl = cb.put(sc, 'flame', (0, 0, 0), (0, 0, 0), name='l01_flame'); fl.parent = lb; fl.location = (-3.9, 0, 0); fl.scale = (1.0, 0.7, 0.7)
+    fl = cb.put(sc, 'flame', (0, 0, 0), (0, 0, 0), name='l01_flame'); fl.parent = lb; fl.location = (-3.0, 0, 0); fl.scale = (1.0, 0.7, 0.7)
     for f in range(1, N + 1, 2):
         fl.scale = (1.0 + 0.25 * random.Random(f).random(), 0.7, 0.7); fl.keyframe_insert('scale', frame=f)
-    tl = cb.lamp(sc, (0, 0, 0), (1.0, 0.6, 0.3), 2500, 0.5, name='thrust'); tl.parent = lb; tl.location = (-3.0, 0, 0)
+    tl = cb.lamp(sc, (0, 0, 0), (1.0, 0.6, 0.3), 2500, 0.5, name='thrust'); tl.parent = lb; tl.location = (-2.2, 0, 0)
     cb.lamp(sc, (-6, -3, 3), (0.35, 0.5, 0.9), 300, 6, 'AREA', target=tuple(p1), name='fill')
 
 @shot
@@ -580,12 +676,12 @@ def l02_entry():
     cb.put(sc, 'mars', tuple(mp), (0.4, 0.1, 0), R0); cb.put(sc, 'marsAtm', tuple(mp), (0, 0, 0), R0 * 1.004)
     cb.sun(sc, cb.at(cm, 1.6, 0.35, 8000), (1.0, 0.8, 0.62), 1.3, 0.01)
     lb = cb.put(sc, 'lifeboat', tuple(cb.at(cm, 0.05, 0.05, 11)))
-    cb.face(lb, Vector((1.0, -0.1, -0.6)))
-    sh = cb.attach(sc, lb, 'shield', (2.3, 0, 0), (0, 0, 0), 1.0)
-    pl = cb.attach(sc, lb, 'plasma', (0.2, 0, 0), (0, 0, 0), 1.0)
+    cb.face(lb, Vector((-1.0, 0.1, 0.6)))   # the pod falls bottom first, heat shield leading
+    sh = cb.attach(sc, lb, 'shield', (-1.5, 0, 0), (0, 0, math.pi), 1.45)
+    pl = cb.attach(sc, lb, 'plasma', (-0.4, 0, 0), (0, 0, math.pi), 1.15)
     for f in range(1, N + 1, 2):
         s = 1.0 + 0.15 * random.Random(f).random(); pl.scale = (s, s * 0.95, s * 0.95); pl.keyframe_insert('scale', frame=f)
-    g = cb.lamp(sc, tuple(cb.mat_of(lb) @ Vector((2.8, 0, 0))), (1.0, 0.45, 0.18), 9000, 1.0, name='glow'); flicker(g, N, 9000, 0.35, 4, 1)
+    g = cb.lamp(sc, tuple(cb.mat_of(lb) @ Vector((-2.6, 0, 0))), (1.0, 0.45, 0.18), 9000, 1.0, name='glow'); flicker(g, N, 9000, 0.35, 4, 1)
     shake(cm, 1, N, 0.08, 6)
 
 @shot
@@ -596,7 +692,7 @@ def l03_chute():
     sc = pshot('l03_chute', cb.world_sky('pl03', (1.0, 0.62, 0.34), (0.38, 0.24, 0.2), sdir, (1.0, 0.82, 0.58), 2.5, 6.0, 1.0), N)
     cb.mars_set(sc)
     cb.sun(sc, sdir, (1.0, 0.76, 0.5), 4.0, 0.02)
-    cb.haze_box(sc, (0, 40, 30), (420, 360, 120), (1.0, 0.7, 0.45), 0.004, 0.7)
+    cb.haze_box(sc, (0, 40, 30), (420, 360, 120), (1.0, 0.7, 0.45), 0.0022, 0.7)
     piv = bpy.data.objects.new('swing', None); sc.collection.objects.link(piv); piv.location = (-20, -30, 95)
     ch = cb.put(sc, 'chute', (0, 0, 0)); ch.parent = piv; ch.location = (0, 0, 0)
     lb = cb.put(sc, 'lifeboat', (0, 0, 0), (0, math.radians(-90), 0), 1.0); lb.parent = piv; lb.location = (0, 0, -10.5)
@@ -615,12 +711,12 @@ def l04_land():
     sc = pshot('l04_land', cb.world_sky('pl04', (1.0, 0.62, 0.34), (0.42, 0.26, 0.19), sdir, (1.0, 0.82, 0.58), 3.0, 6.0, 1.0), N)
     cb.mars_set(sc)
     cb.sun(sc, sdir, (1.0, 0.74, 0.47), 4.0, 0.02)
-    cb.haze_box(sc, (0, 40, 30), (420, 360, 90), (1.0, 0.72, 0.48), 0.003, 0.75)
+    cb.haze_box(sc, (0, 40, 30), (420, 360, 90), (1.0, 0.72, 0.48), 0.002, 0.75)
     gx, gy = -30.0, -40.0; gz = cb.ground_h(gx, gy)
     lb = cb.put(sc, 'lifeboat', (0, 0, 0), (0, math.radians(-90), 0), 1.0)
     fl = cb.put(sc, 'flame', (0, 0, 0), (0, math.radians(90), 0), (1.0, 0.7, 0.7), name='l04_flame')
-    for f, z, fs in ((1, gz + 14, 1.2), (30, gz + 3.2, 1.0), (36, gz + 1.7, 0.6), (40, gz + 1.7, 0.01), (N, gz + 1.7, 0.01)):
-        key(lb, f, loc=(gx, gy, z)); key(fl, f, loc=(gx, gy, z - 3.9 * fs - 0.4), scale=(fs, 0.7 * max(fs, 0.01), 0.7 * max(fs, 0.01)))
+    for f, z, fs in ((1, gz + 14, 1.2), (30, gz + 3.0, 1.0), (36, gz + 1.35, 0.6), (40, gz + 1.35, 0.01), (N, gz + 1.35, 0.01)):
+        key(lb, f, loc=(gx, gy, z)); key(fl, f, loc=(gx, gy, z - 1.4 - 1.75 * fs), scale=(fs, 0.7 * max(fs, 0.01), 0.7 * max(fs, 0.01)))
     lp = cb.lamp(sc, (gx, gy, gz + 6), (1.0, 0.6, 0.3), 3000, 1.0, name='flameLight')
     for f, e in ((1, 3000), (36, 2500), (40, 0), (N, 0)): lp.data.energy = e; lp.data.keyframe_insert('energy', frame=f)
     for i in range(8):
@@ -628,7 +724,7 @@ def l04_land():
         d = cb.put(sc, 'smokeball', (0, 0, 0), (0, 0, 0), 0.1, name='l04_dust%d' % i); remat(d, cb.smoke_mat('marsDust%d' % i, (0.55, 0.3, 0.16), 0.8))
         key(d, 18, loc=(gx, gy, gz + 0.3), scale=(0.1, 0.1, 0.1))
         key(d, N, loc=(gx + math.cos(a) * 7, gy + math.sin(a) * 7, gz + 1.0), scale=(2.4, 2.4, 1.2))
-    cm = cb.cam(sc, (gx - 10, gy - 16, gz + 3.5), (gx, gy, gz + 5), lens=28)
+    cm = cb.cam(sc, (gx - 8, gy - 13, gz + 3.0), (gx, gy, gz + 4.5), lens=30)
     shake(cm, 20, 40, 0.15, 8)
 
 @shot
@@ -665,13 +761,18 @@ def w01_rescue():
     for f in range(1, N + 1, 3):
         s = math.sin(f * 0.7)
         pose(c, f, armR=(-150 + 25 * s, 0, 10 + 20 * s), armL=(-10, 0, -4), head=(-20, 0, 0), bodyz=0.58 + 0.05 * max(0, math.sin(f * 0.35)))
-    sp0, sp1 = cb.at(cm, -0.3, 0.7, 90), cb.at(cm, -0.05, 0.35, 60)
-    ship = cb.put(sc, 'lifeboat', (0, 0, 0), (0, 0, 0), 4.0, name='w01_ship')
-    move(ship, [(1, tuple(sp0), (0, math.radians(15), math.radians(170))), (N, tuple(sp1), (0, math.radians(10), math.radians(170)))])
-    for i, x in enumerate((-1.0, 1.0)):
-        b = cb.put(sc, 'beam', (0, 0, 0), (0, 0, 0), name='w01_beam%d' % i); b.parent = ship; b.location = (x, 0, -5.5); b.scale = (1.3, 1.3, 1.2)
-    lt = cb.lamp(sc, (0, 0, 0), (1.0, 0.95, 0.85), 3e5, 1.0, 'SPOT', spot=0.5, name='land'); lt.parent = ship; lt.location = (0, 0, -1.0)
-    fl = cb.put(sc, 'flameBlue', (0, 0, 0), (0, 0, 0), name='w01_fl'); fl.parent = ship; fl.location = (-3.9, 0, 0); fl.scale = (1.2, 0.8, 0.8)
+    sp0, sp1 = cb.at(cm, -0.3, 0.75, 90), cb.at(cm, -0.08, 0.4, 60)
+    S = 4.0
+    ship = cb.put(sc, 'lifeboat', (0, 0, 0), (0, 0, 0), S, name='w01_ship'); ship.material_slots[0].link = 'OBJECT'; ship.material_slots[0].material = M['rescueShell']
+    fl = cb.put(sc, 'flameBlue', (0, 0, 0), (0, 0, 0), (1.4, 1.0, 1.0), name='w01_fl')
+    beams = [cb.put(sc, 'beam', (0, 0, 0), (0, 0, 0), (1.3, 1.3, 1.3), name='w01_beam%d' % i) for i in range(2)]
+    lt = cb.lamp(sc, (0, 0, 0), (1.0, 0.95, 0.85), 3e5, 1.0, 'SPOT', spot=0.6, name='land')
+    for f, p, tilt in ((1, sp0, 8), (N, sp1, 3)):
+        key(ship, f, loc=tuple(p), rot=(math.radians(tilt), math.radians(-90), 0))
+        key(fl, f, loc=tuple(p - Vector((0, 0, 1.4 * S + 1.7 * 1.4))), rot=(0, math.radians(90), 0))
+        for i, b in enumerate(beams): key(b, f, loc=tuple(p + Vector(((-1.6 if i == 0 else 1.6), 0, -1.2 * S - 5.8))))
+        key(lt, f, loc=tuple(p - Vector((0, 0, 1.2 * S))), rot=(0, 0, 0))
+    for o in [ship, fl, lt] + beams: linear(o)
 
 @shot
 def w02_home():
@@ -682,10 +783,10 @@ def w02_home():
     cb.mars_set(sc)
     cb.sun(sc, sdir, (1.0, 0.78, 0.5), 4.5, 0.02)
     cb.haze_box(sc, (0, 30, 35), (440, 380, 100), (1.0, 0.74, 0.52), 0.0012, 0.75)
-    ship = cb.put(sc, 'lifeboat', (0, 0, 0), (0, math.radians(-90), 0), 3.0, name='w02_ship')
+    ship = cb.put(sc, 'lifeboat', (0, 0, 0), (0, math.radians(-90), 0), 3.0, name='w02_ship'); ship.material_slots[0].link = 'OBJECT'; ship.material_slots[0].material = M['rescueShell']
     fl = cb.put(sc, 'flame', (0, 0, 0), (0, math.radians(90), 0), (2.2, 1.3, 1.3), name='w02_fl')
     for f, z in ((1, 8), (N, 52)):
-        key(ship, f, loc=(-10, 20, z)); key(fl, f, loc=(-10, 20, z - 10))
+        key(ship, f, loc=(-10, 20, z)); key(fl, f, loc=(-10, 20, z - 8.2))
     for o in (ship, fl):
         for fc in (o.animation_data.action.fcurves if hasattr(o.animation_data.action, 'fcurves') else []):
             for k in fc.keyframe_points: k.interpolation = 'QUAD'; k.easing = 'EASE_IN'

@@ -81,6 +81,7 @@ namespace TitanGate.Game
             foreach (var s in shots)
             {
                 if (skip) break;
+                LdScoreShot(s.art);
                 var clip = Resources.Load<VideoClip>("Cine/" + s.art);
                 float len = 2f;
                 if (clip != null)
@@ -94,13 +95,21 @@ namespace TitanGate.Game
                     len = (float)clip.length;
                 }
                 line.text = TT(s.en, s.th); line.style.opacity = 0;
+                _sfx.CinematicShot(s.art);
                 if (!string.IsNullOrEmpty(s.sfx)) _sfx.Play(s.sfx);
                 if (s.flash) flash.style.backgroundColor = new Color(1f, 0.95f, 0.85f, 0.95f);
                 float t = 0, dur = _playtest ? Mathf.Min(1.2f, len + s.hold) : len + s.hold;
-                bool shotTaken = false; float shown = -1f;
+                bool shotTaken = false, touchdown = false; float shown = -1f;
                 while (t < dur && !skip)
                 {
                     float dt = Time.unscaledDeltaTime; t += dt;
+                    // The landing impact belongs at touchdown, after the braking engines have run.
+                    if (s.art == "l04_land" && !touchdown && t >= len * .65f)
+                    {
+                        touchdown = true;
+                        _sfx.Play("thud", .7f);
+                        _sfx.StopCinematicAudio();
+                    }
                     // stay black until the new video has drawn its first frame, then a quick fade up
                     if (shown < 0 && (clip == null || _cineVp.time > 0.06 || t > 1.5f)) shown = t;
                     black.style.opacity = shown < 0 ? 1f : 1f - Mathf.Clamp01((t - shown) / 0.25f);
@@ -118,6 +127,7 @@ namespace TitanGate.Game
                 float o = 0;
                 while (o < 0.2f && !skip) { o += Time.unscaledDeltaTime; black.style.opacity = Mathf.Clamp01(o / 0.2f); yield return null; }
             }
+            _sfx.StopCinematicAudio();
             if (_cineVp != null) { _cineVp.Stop(); _cineVp.clip = null; }
             yield return Fade(1f, 0.3f);
             _ui.HideScreen();
@@ -126,33 +136,36 @@ namespace TitanGate.Game
 
         // ------------------------------------------------------------------ the scenes
 
-        /// <summary>The world in 2177, then you: the youngest trainee, first day on the Kestrel.</summary>
+        /// <summary>The world in 2177, then you: the youngest trainee boards the Kestrel, and that night the first orders arrive.
+        /// The game then starts the next morning in the cadet's quarters (ORBI's greeting, the radio report).</summary>
         IEnumerator LdCinIntro() => LdCinema(
             Cut("p01_earth", "The year 2177.", "ปี 2177", 0.8f, "whoosh"),
             Cut("p02_moon", "People have built towns on the Moon,", "มนุษย์สร้างเมืองบนดวงจันทร์", 0.3f),
             Cut("p03_mars", "bases on Mars,", "ตั้งฐานบนดาวอังคาร", 0.3f),
             Cut("p04_jupiter", "and ships that reach as far as Jupiter.", "และส่งยานไปไกลถึงดาวพฤหัส", 0.5f),
-            Cut("p05_cabin", "You are the youngest trainee pilot of your class.", "คุณคือนักบินฝึกหัดที่อายุน้อยที่สุดในรุ่น", 1.0f),
-            Cut("p06_walk", "Today is your first day of work on the ship Kestrel.", "วันนี้คือวันแรกที่คุณทำงานบนยาน Kestrel", 1.0f));
+            Cut("p06_walk", "You are the youngest trainee pilot of your class. Today you join the ship Kestrel.", "คุณคือนักบินฝึกหัดที่อายุน้อยที่สุดในรุ่น วันนี้คุณย้ายขึ้นยาน Kestrel", 1.2f),
+            Cut("p05_cabin", "That night your first job arrives: send the morning report by radio.", "คืนนั้นงานแรกมาถึง: พรุ่งนี้เช้าส่งรายงานทางวิทยุ", 1.2f));
 
+        /// <summary>Plays while the cadet rests on the lounge sofa after the report. Afterwards the 60-second scramble starts.</summary>
         IEnumerator LdCinImpact() => LdCinema(
-            Cut("i01_debris", "Space debris! Heading straight for us.", "ขยะอวกาศ! พุ่งตรงมาทางเรา", 0.3f, "alarm"),
+            Cut("i01_debris", "Space debris! One rock clips the hull.", "ขยะอวกาศ! ก้อนหนึ่งเฉียดชนตัวยาน", 0.4f, "alarm"),
             Cut("i02_hit", "IMPACT!", "โดนชน!", 0.4f, "thud", 1.2f, true),
-            Cut("i03_run", "The hull is breached. Get to the lifeboat!", "ยานรั่ว! รีบไปที่ยานชูชีพ", 0.5f, "rumble", 0.3f));
+            Cut("i03_run", "The hull is leaking. 60 seconds: load supplies into the lifeboat!", "ยานรั่ว! มีเวลา 60 วินาที ขนเสบียงขึ้นยานชูชีพ", 0.8f, "rumble", 0.3f));
 
+        /// <summary>After the scramble: away from the Kestrel, the real Mars landing steps, then the old base where the week begins.</summary>
         IEnumerator LdCinLaunch() => LdCinema(
-            Cut("l01_away", "The lifeboat breaks free.", "ยานชูชีพหลุดออกมาได้", 0.3f, "whoosh"),
-            Cut("l02_entry", "Entry: the heat shield glows at 1,300 °C.", "เข้าชั้นบรรยากาศ · โล่กันความร้อนร้อนถึง 1,300 °C", 0.6f, "rumble", 0.5f),
-            Cut("l03_chute", "The parachute opens and slows us down.", "ร่มชูชีพกาง · ชะลอความเร็วลง", 0.3f),
-            Cut("l04_land", "Braking rockets... touchdown!", "จรวดชะลอ · แตะพื้นแล้ว!", 0.4f, "thud", 0.3f),
-            Cut("l05_base", "An old, empty base. Rescue can reach us in 7 days.", "ฐานเก่าที่ไม่มีใคร · ยานกู้ภัยจะมาถึงใน 7 วัน", 1.2f));
+            Cut("l01_away", "The lifeboat breaks free of the Kestrel.", "ยานชูชีพหลุดออกจากยาน Kestrel ได้ทัน", 0.3f, "whoosh"),
+            Cut("l02_entry", "Entry: the heat shield glows at 1,300 °C.", "เข้าชั้นบรรยากาศ · โล่กันความร้อนร้อนถึง 1,300 °C", 0.6f, null, 0.5f),
+            Cut("l03_chute", "The parachute opens and slows us down.", "ร่มชูชีพกาง · ชะลอความเร็วลง", 0.3f, "whoosh"),
+            Cut("l04_land", "Braking rockets... touchdown!", "จรวดชะลอ · แตะพื้นแล้ว!", 0.4f, null, 0.3f),
+            Cut("l05_base", "An old, empty base. Fix the radio, call for help, and hold on for 7 days.", "ฐานเก่าที่ไม่มีใคร · ซ่อมวิทยุ ส่งสัญญาณขอความช่วยเหลือ แล้วอยู่ให้รอด 7 วัน", 1.6f));
 
         IEnumerator LdCinWin() => LdCinema(
-            Cut("w01_rescue", "The rescue ship! They heard us.", "ยานกู้ภัยมาแล้ว! พวกเขาได้ยินเรา", 0.8f, "whoosh"),
-            Cut("w02_home", "We're going home.", "เรากำลังกลับบ้าน", 1.2f, "rumble"));
+            Cut("w01_rescue", "A rescue ship! They heard your radio call.", "ยานกู้ภัยมาแล้ว! พวกเขาได้ยินสัญญาณวิทยุของคุณ", 0.8f, "whoosh"),
+            Cut("w02_home", "You're going home.", "คุณได้กลับบ้านแล้ว", 1.2f, "rumble"));
 
         IEnumerator LdCinLose() => LdCinema(
-            Cut("x01_dusk", "Night falls over the quiet base.", "ความมืดปกคลุมฐานที่เงียบสงัด", 0.8f),
-            Cut("x02_stars", "Every mission teaches something. Try again.", "ทุกภารกิจสอนอะไรเราเสมอ ลองอีกครั้ง", 1.2f));
+            Cut("x01_dusk", "One by one, the base's systems go dark.", "ระบบของฐานดับลงทีละอย่าง", 0.8f),
+            Cut("x02_stars", "Not this time. Every mission teaches something. Try again.", "ครั้งนี้ยังไม่สำเร็จ ทุกภารกิจสอนอะไรเราเสมอ ลองอีกครั้ง", 1.4f));
     }
 }

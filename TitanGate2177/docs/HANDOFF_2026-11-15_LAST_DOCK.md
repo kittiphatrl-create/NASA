@@ -10,12 +10,12 @@ Read this first. Details live in `docs/LAST_DOCK_MARS_PLAN_2026-11-15.md`, `docs
    - Icon tiles for How to play, Settings, Cards, Sources, Credits, Quit and Language. The label shows on hover.
    - Click the cadet and they hop and say a line.
 2. **Cutscenes** (`GameFlow.Cinema.cs`): short animated 3D videos made in Blender, with toon light, haze, depth of field and ink outlines. 18 shots, 960x540 at 24 fps, each with one short line. Space skips.
-   - Story, in this order:
-     - **Intro:** the year 2177, towns on the Moon, bases on Mars, ships out to Jupiter. Then you: the youngest trainee pilot, reading orders in your bunk, then carrying a crate on your first day on the Kestrel.
-     - **Impact:** debris rushes in, impact (flash, red alarm, you fall), you run for the lifeboat.
-     - **Launch:** the lifeboat breaks free. Then the real Mars landing steps: entry with the heat shield at 1,300 °C, parachute, braking rockets and touchdown. Last, you walk to the old empty base.
-     - **Win:** the rescue ship comes down on beams of light, then lifts off home.
-     - **Lose:** the base lights go out at dusk, then you sit alone under the stars.
+   - Story, in this order. Each scene hands over to the gameplay that follows it:
+     - **Intro:** the year 2177; towns on the Moon, bases on Mars, ships out to Jupiter. You, the youngest trainee pilot, board the Kestrel with a crate. That night your first job arrives on your tablet: send the morning radio report. The game then starts that morning in your quarters.
+     - **Impact** (plays while you rest on the lounge sofa after the report): rocks streak past the Kestrel and one grazes the hull (fire, sparks, the ship lurches). Inside, the sofa throws you to the floor and the lights go red. You run: 60 seconds to load the lifeboat, then the scramble starts.
+     - **Launch:** the lifeboat (the orange pod from the game) breaks free. Then the real Mars landing steps: heat shield first at 1,300 °C, parachute, braking rockets, touchdown. Last, the old empty base, with the goal: fix the radio, call for help, survive 7 days.
+     - **Win:** a white rescue ship (not our orange pod) answers the radio call and takes you home.
+     - **Lose:** the base's systems go dark one by one. Then you alone under the stars: try again.
    - The cadet in every shot is the game's own model (`cadet.blend`), posed and animated by script, with a helmet and backpack added outside.
    - Videos: `Assets/Resources/Cine/<shot>.mp4`, played by a VideoPlayer into a RenderTexture. End-screen stills: `Sprites/KeyArt/end_win`, `end_lose`.
    - Source: `Art/Blender/pixel_cine.py` builds every shot into `Art/Blender/pixel_cine.blend`. Despite the name, the output is no longer pixel art. It reuses the asset kit in `cinematics_build.py` (ship, lifeboat, base, Mars ground, rocks).
