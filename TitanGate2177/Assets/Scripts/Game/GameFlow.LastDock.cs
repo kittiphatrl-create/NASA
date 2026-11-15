@@ -164,11 +164,12 @@ namespace TitanGate.Game
         // ------------------------------------------------------------------ start
 
         /// <summary>Begin the station week with what the lifeboat delivered.</summary>
-        void StartLastDock(Dictionary<Res, int> kit, int seed)
+        void StartLastDock(Dictionary<Res, int> kit, int seed, bool resume = false)
         {
             _ldKit = kit ?? new Dictionary<Res, int> { [Res.Food] = 2, [Res.Oxygen] = 2, [Res.Battery] = 2, [Res.Parts] = 2 };
             _ldSeed = seed;
-            _ld = new StationSimulation(new StationConfig(), _ldKit, seed);
+            _ld = new StationSimulation(StationConfig.Game(), _ldKit, seed);   // you alone; a dinner to plan each night (GameFlow.Dinner.cs)
+            if (!resume) { _ldActions.Clear(); LdClearSave(); }
             _ldEnded = false; _ldLogMark = 0; _ldIncidents.Clear(); _ldSeenFault = Fault.None;
             _chapter = 3;
             _busy = false;
@@ -177,12 +178,12 @@ namespace TitanGate.Game
             BBegin(2, new Vector2(12f, 11.5f));
             LdBuildHud();
             _ui.FadeTo(0f, 0.6f);
-            LdIntro();
+            if (!resume) LdIntro();
         }
 
         void LdIntro()
         {
-            var c = new StationConfig();
+            var c = _ld.C;
             _ui.ShowModal(p =>
             {
                 LdHeader(p, "LAST DOCK");
@@ -696,6 +697,7 @@ namespace TitanGate.Game
             if ((a.StartsWith("explore_") || a == "send_rover") && _ld.Can(a, out _)) { StartCoroutine(LdExpedition(a)); return; }   // off-screen trip (GameFlow.DayFlow.cs)
             _ui.CloseModal();
             var r = _ld.Do(a);
+            if (r.ok) LdRecord(a);
             if (!r.ok) { _sfx.Play("bad"); _ui.Toast(LdBlockedText(r.reason), GameUI.CRed); return; }
             _sfx.Play(a.StartsWith("repair") ? "good" : "card");
             if (a.StartsWith("repair") || a == "assemble_rover") _sfx.Play("clank");
@@ -845,6 +847,7 @@ namespace TitanGate.Game
         IEnumerator LdEnd()
         {
             _ldEnded = true;
+            LdClearSave();
             _sfx.Loop("siren", false);
             bool won = _ld.Outcome == Outcome.Rescued;
             _sfx.Play(won ? "good" : "bad");
@@ -966,6 +969,8 @@ namespace TitanGate.Game
             yield return PlayLastDock(LdPlanFromArgs());
         }
 
+        bool _ldContinueChecked;
+
         IEnumerator PlayLastDock(BotPlan plan)
         {
             PNote($"LAST DOCK start, plan {plan}, kit F{_ld.Food} O{_ld.Oxygen} B{_ld.Battery} P{_ld.Parts}");
@@ -979,6 +984,18 @@ namespace TitanGate.Game
             while (_ld.Outcome == Outcome.Ongoing && guard++ < 120)
             {
                 while (_ui.ModalOpen && !_ld.PowerDipPending && !_ld.RaiderPending) { if (shots < 12 && _ld.Day >= 2) { shots++; yield return Shot($"ld{10 + shots:00}_modal"); } _ui.CloseModal(); yield return new WaitForSeconds(0.2f); }
+                if (_ld.DinnerPending) { if (!_ldSeq) StartCoroutine(LdDinnerAndDay(_ld.Day, _ld.Log.Count)); float wd = 0; while ((_ldSeq || _ld.DinnerPending) && wd < 20f) { wd += Time.deltaTime; yield return null; } continue; }
+                if (_ld.Day == 3 && !_ldContinueChecked && !_ld.DinnerPending && !_ldSeq)
+                {
+                    // Continue check: save, rebuild the run from the save, and compare
+                    _ldContinueChecked = true; _ui.CloseModal();
+                    var before = (_ld.Day, _ld.Food, _ld.Battery, _ld.Signal, _ld.Health, _ld.WorkUnits);
+                    LdWriteSave();
+                    bool ok = LdContinue();
+                    var after = (_ld.Day, _ld.Food, _ld.Battery, _ld.Signal, _ld.Health, _ld.WorkUnits);
+                    Check(ok && before.Equals(after), $"continue restores the run {before} -> {after}");
+                    yield return new WaitForSeconds(0.8f); _ui.CloseModal();
+                }
                 string a = LastDockBot.Choose(_ld, plan);
                 if (!a.StartsWith("dip_") && !a.StartsWith("raid_"))
                 {

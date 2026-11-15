@@ -32,7 +32,19 @@ namespace TitanGate.Core.LastDock
         public int stormEarliest = 3, stormLatest = 6;
         public int roverPartsNeeded = 3, roverCharge = 2;
         public float roverBreakChance = 0.2f, raiderChance = 0.15f, mysterySpoilChance = 0.25f;
+        /// <summary>People to feed each night (1 = the old single-mouth rule). With dinnerChoice the day ends in a dinner the
+        /// player plans: who eats a meal, who eats an unlabelled box, who goes without.</summary>
+        public int crew = 1;
+        public bool dinnerChoice;
+        /// <summary>Hunger: 1 = hungry (no effect), 2 = weak (one less work unit tomorrow), 3 = starving (the crew gets hurt).</summary>
+        public int hungerWeak = 2, hungerStarve = 3;
+
+        /// <summary>The settings the game plays with: just you, and a dinner to plan each night.</summary>
+        public static StationConfig Game() => new StationConfig { crew = 1, dinnerChoice = true };   // you are alone: one person, one dinner to plan
     }
+
+    /// <summary>What each person gets at dinner.</summary>
+    public enum Meal { None = 0, Food = 1, Mystery = 2 }
 
     /// <summary>What an action would do (or did): the change in every number, and the messages.</summary>
     public class ActionResult
@@ -69,6 +81,10 @@ namespace TitanGate.Core.LastDock
         /// <summary>Phase 3 (Mars outside): storm, sites, rover, mystery food, raiders, dark nights.</summary>
         public int StormDay, MysteryFood, RoverParts, DarkNights;
         public bool ShelterReady, RoverBuilt, RoverSolar, RoverBroken, RoverToday, RaiderPending, RaidTonight, Sick;
+        /// <summary>Dinner: hunger per person, and the plan the player sets before the "dinner" action.</summary>
+        public int[] Hunger;
+        public Meal[] MealPlan;
+        public bool DinnerPending;
         bool _stepShelter, _stepLowActivity, _stepSent;
         int _actionsToday, _seed, _explores;
         public const int Sites = 3;   // 0 supply-drop wreck, 1 old rover wreck, 2 ridge cache
@@ -96,6 +112,7 @@ namespace TitanGate.Core.LastDock
                 Medkits = Get(delivered, Res.Medkit);
             }
             Health = c.health; WorkUnits = c.workUnits;
+            Hunger = new int[Math.Max(1, c.crew)];
             StormDay = new Random(seed * 977 + 5).Next(c.stormEarliest, c.stormLatest + 1);
             Director = new IncidentDirector(seed, c);
         }
@@ -117,6 +134,8 @@ namespace TitanGate.Core.LastDock
             s.Sealed = new HashSet<Room>(Sealed);
             s.Detached = new HashSet<Room>(Detached);
             s.Log = new List<string>(Log);
+            s.Hunger = (int[])Hunger.Clone();
+            if (MealPlan != null) s.MealPlan = (Meal[])MealPlan.Clone();
             s.Director = Director.Clone();
             return s;
         }
@@ -136,6 +155,8 @@ namespace TitanGate.Core.LastDock
         {
             reason = null;
             if (Outcome != Outcome.Ongoing) { reason = "over"; return false; }
+            if (DinnerPending != (action == "dinner")) { reason = DinnerPending ? "dinner_pending" : "not_needed"; return false; }
+            if (action == "dinner") return true;
             bool dip = action.StartsWith("dip_"), raid = action.StartsWith("raid_");
             if (PowerDipPending != dip) { reason = dip ? "no_dip" : "dip_pending"; return false; }
             if (RaiderPending != raid) { reason = raid ? "no_raid" : "raid_pending"; return false; }
@@ -303,14 +324,15 @@ namespace TitanGate.Core.LastDock
                         var faultBefore = ActiveFault;
                         WorkUnits -= 1; _actionsToday++; Step();
                         if (Outcome != Outcome.Ongoing) break;
-                        if (WorkUnits <= 0) { Night(); break; }
+                        if (WorkUnits <= 0) { EndOfDay(); break; }
                         Director.MaybeTrigger(this, _actionsToday);
                         if (faultBefore == Fault.None && ActiveFault != Fault.None) { notes.Add("rest_interrupted"); break; }
                     }
-                    if (WorkUnits <= 0 && Outcome == Outcome.Ongoing && Day == dayAtStart) Night();
+                    if (WorkUnits <= 0 && Outcome == Outcome.Ongoing && Day == dayAtStart && !DinnerPending) EndOfDay();
                     break;
             }
-            if (step) { WorkUnits -= 1; _actionsToday++; Step(); if (WorkUnits <= 0 && Outcome == Outcome.Ongoing) Night(); else if (Outcome == Outcome.Ongoing) Director.MaybeTrigger(this, _actionsToday); }
+            if (action == "dinner") { DinnerPending = false; Night(); }
+            if (step && action != "dinner") { WorkUnits -= 1; _actionsToday++; Step(); if (WorkUnits <= 0 && Outcome == Outcome.Ongoing) EndOfDay(); else if (Outcome == Outcome.Ongoing) Director.MaybeTrigger(this, _actionsToday); }
             var r = Diff(before); r.ok = true; r.notes.AddRange(notes);
             return r;
         }
@@ -319,7 +341,7 @@ namespace TitanGate.Core.LastDock
         {
             // the send already took its Work Unit; the power dip resolves inside the same step
             Step();
-            if (WorkUnits <= 0 && Outcome == Outcome.Ongoing) Night();
+            if (WorkUnits <= 0 && Outcome == Outcome.Ongoing) EndOfDay();
         }
 
         /// <summary>One step of time: every fault that is not under control gets a little worse.</summary>
@@ -357,11 +379,71 @@ namespace TitanGate.Core.LastDock
 
         void Lose() { if (Outcome == Outcome.Ongoing) { Outcome = Outcome.Lost; Log.Add("lost"); } }
 
+        /// <summary>The day's work is done: either straight to the night, or to a dinner the player plans first.</summary>
+        void EndOfDay()
+        {
+            if (Outcome != Outcome.Ongoing) return;
+            if (C.dinnerChoice) { DinnerPending = true; if (MealPlan == null) MealPlan = AutoMeals(); return; }
+            Night();
+        }
+
+        /// <summary>A sensible default plan: feed the hungriest first while meals last, then unlabelled boxes.</summary>
+        public Meal[] AutoMeals()
+        {
+            var plan = new Meal[Hunger.Length];
+            // ration: spread the meals over the nights still to come; anyone about to go weak eats first
+            int nightsLeft = Math.Max(1, C.days - Day + 1);
+            int budget = Math.Min(Food, (Food + nightsLeft - 1) / nightsLeft);
+            foreach (var h in Hunger) if (h >= C.hungerWeak - 1) budget = Math.Max(budget, 0);
+            int urgent = 0; foreach (var h in Hunger) if (h >= C.hungerWeak - 1) urgent++;
+            int food = Math.Min(Food, Math.Max(budget, urgent)), boxes = MysteryFood;
+            var order = new List<int>(); for (int i = 0; i < Hunger.Length; i++) order.Add(i);
+            order.Sort((a, b) => Hunger[b].CompareTo(Hunger[a]));
+            foreach (var i in order)
+            {
+                if (food > 0) { plan[i] = Meal.Food; food--; }
+                else if (boxes > 0 && Hunger[i] >= C.hungerWeak - 1) { plan[i] = Meal.Mystery; boxes--; }
+            }
+            return plan;
+        }
+
+        /// <summary>Is this plan possible with what is in stock?</summary>
+        public bool PlanFits(Meal[] plan)
+        {
+            int f = 0, m = 0; foreach (var x in plan) { if (x == Meal.Food) f++; if (x == Meal.Mystery) m++; }
+            return f <= Food && m <= MysteryFood;
+        }
+
+        /// <summary>Dinner: everyone in the plan eats; whoever goes without gets hungrier.</summary>
+        void Eat()
+        {
+            if (C.crew <= 1 && !C.dinnerChoice) { if (Food > 0) Food -= 1; else Hurt("hungry"); return; }
+            var plan = MealPlan != null && MealPlan.Length == Hunger.Length && PlanFits(MealPlan) ? MealPlan : AutoMeals();
+            var rng = new Random(_seed * 7151 + Day * 13);
+            for (int i = 0; i < Hunger.Length; i++)
+            {
+                switch (plan[i])
+                {
+                    case Meal.Food: Food--; Hunger[i] = 0; break;
+                    case Meal.Mystery:
+                        MysteryFood--; Hunger[i] = 0;
+                        if (rng.NextDouble() < C.mysterySpoilChance) { Sick = true; Log.Add("food_poisoning"); }
+                        break;
+                    default:
+                        Hunger[i]++;
+                        if (Hunger[i] >= C.hungerStarve) { Hunger[i] = C.hungerStarve - 1; Hurt("hungry"); }
+                        break;
+                }
+            }
+            Log.Add("dinner");
+            MealPlan = null;
+        }
+
         /// <summary>The night: food, power for life support, fatigue from CO₂; then the next day or the end.</summary>
         void Night()
         {
             if (Outcome != Outcome.Ongoing) return;
-            if (Food > 0) Food -= 1; else Hurt("hungry");
+            Eat();
             int net = SolarToday - C.baseLoad - (BackupCircuit ? 1 : 0);
             Battery += net;
             // solar storm night: the shelter needs power, or radiation gets through the roof
@@ -377,7 +459,9 @@ namespace TitanGate.Core.LastDock
                 if (HasFlashlight) Log.Add("intruder_scared");
                 else { if (Parts > 0) Parts--; else Food = Math.Max(0, Food - 1); Log.Add("intruder_stole"); }
             }
-            FatigueTomorrow = (Co2 >= C.co2High ? 1 : 0) + (Sick ? 1 : 0);
+            bool weak = false; foreach (var h in Hunger) if (h >= C.hungerWeak) weak = true;
+            if (weak && C.dinnerChoice) Log.Add("weak");
+            FatigueTomorrow = (Co2 >= C.co2High ? 1 : 0) + (Sick ? 1 : 0) + (weak && C.dinnerChoice ? 1 : 0);
             if (Co2 >= C.co2High) Log.Add("tired");
             if (Sick) Log.Add("sick");
             Sick = false;

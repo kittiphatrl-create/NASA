@@ -541,6 +541,101 @@ namespace TitanGate.Tests
             Assert.AreEqual(1, inv.Delivered()[Res.Solar]);
         }
 
+        // ---------------------------------------------------------------- dinner for three (the old shared-meal system)
+
+        // the dinner rules still support a table of three; the game itself plays with one person (StationConfig.Game)
+        static StationSimulation Game(int seed = 1) => new StationSimulation(new StationConfig { crew = 3, dinnerChoice = true, baseFood = 7 }, Kit(), seed);
+
+        [Test]
+        public void Dinner_WaitsForThePlayersPlan()
+        {
+            var s = Game(); s.Director.Silent = true;
+            s.Do("search"); s.Do("search"); s.Do("search");
+            Assert.IsTrue(s.DinnerPending); Assert.AreEqual(1, s.Day, "the day ends only after dinner");
+            Assert.IsFalse(s.Can("search", out var why)); Assert.AreEqual("dinner_pending", why);
+            int food = s.Food;
+            s.MealPlan = new[] { Meal.Food, Meal.Food, Meal.None };
+            s.Do("dinner");
+            Assert.AreEqual(2, s.Day); Assert.AreEqual(food - 2, s.Food);
+            CollectionAssert.AreEqual(new[] { 0, 0, 1 }, s.Hunger);
+        }
+
+        [Test]
+        public void Hunger_Weak_ThenStarving_HurtsTheCrew()
+        {
+            var s = Game(); s.Director.Silent = true;
+            for (int d = 0; d < 2; d++) { s.Do("end_day"); s.MealPlan = new[] { Meal.Food, Meal.Food, Meal.None }; s.Do("dinner"); }
+            Assert.AreEqual(2, s.Hunger[2]);
+            Assert.AreEqual(s.C.workUnits - 1, s.WorkUnits, "a weak crew member: one less work unit");
+            int hp = s.Health;
+            s.Do("end_day"); s.MealPlan = new[] { Meal.Food, Meal.Food, Meal.None }; s.Do("dinner");
+            Assert.AreEqual(hp - 1, s.Health, "starving hurts");
+        }
+
+        [Test]
+        public void Dinner_PlanMustFitTheStock_MysteryBoxesCanBeServed()
+        {
+            var s = Game(); s.Director.Silent = true; s.Food = 1; s.MysteryFood = 1;
+            Assert.IsFalse(s.PlanFits(new[] { Meal.Food, Meal.Food, Meal.None }));
+            Assert.IsTrue(s.PlanFits(new[] { Meal.Food, Meal.Mystery, Meal.None }));
+            s.Do("end_day"); s.MealPlan = new[] { Meal.Food, Meal.Mystery, Meal.None }; s.Do("dinner");
+            Assert.AreEqual(0, s.Food); Assert.AreEqual(0, s.MysteryFood);
+        }
+
+        [Test]
+        public void GameBalanceReport()
+        {
+            var sb = new System.Text.StringBuilder(); var causes = new Dictionary<string, int>(); int wins = 0; double days = 0;
+            for (int seed = 1; seed <= 30; seed++)
+            {
+                var s = LastDockBot.Play(StationConfig.Game(), Kit(), seed, BotPlan.Balanced, 400);
+                days += s.Day;
+                if (s.Outcome == Outcome.Rescued) wins++;
+                else { string c = s.Outcome == Outcome.Ongoing ? "ongoing@" + s.Day + (s.DinnerPending ? "dp" : "") : s.Log.Count > 1 ? s.Log[s.Log.Count - 2] : "?"; causes[c] = causes.TryGetValue(c, out var n) ? n + 1 : 1; }
+            }
+            sb.Append($"game wins {wins}/30 avgDay {days / 30:0.0} "); foreach (var c in causes) sb.Append(c.Key + "=" + c.Value + " ");
+            Assert.Pass(sb.ToString());
+        }
+
+        [Test]
+        public void Alone_DinnerChoice_SkippingTwiceMakesYouWeak()
+        {
+            var s = new StationSimulation(StationConfig.Game(), Kit(), 1); s.Director.Silent = true;
+            Assert.AreEqual(1, s.Hunger.Length);
+            for (int d = 0; d < 2; d++) { s.Do("end_day"); Assert.IsTrue(s.DinnerPending); s.MealPlan = new[] { Meal.None }; s.Do("dinner"); }
+            Assert.AreEqual(2, s.Hunger[0]); Assert.AreEqual(s.C.workUnits - 1, s.WorkUnits);
+            int food = s.Food; s.Do("end_day"); s.MealPlan = new[] { Meal.Food }; s.Do("dinner");
+            Assert.AreEqual(0, s.Hunger[0]); Assert.AreEqual(food - 1, s.Food);
+        }
+
+        [Test]
+        public void GameSettings_StillWinnable_AndNeglectLoses()
+        {
+            int wins = 0, neglect = 0;
+            for (int seed = 1; seed <= 30; seed++)
+            {
+                if (LastDockBot.Play(StationConfig.Game(), Kit(), seed, BotPlan.Balanced, 400).Outcome == Outcome.Rescued) wins++;
+                if (LastDockBot.Play(StationConfig.Game(), Kit(), seed, BotPlan.Neglect, 400).Outcome == Outcome.Rescued) neglect++;
+            }
+            TestContext.WriteLine($"game settings: balanced {wins}/30, neglect {neglect}/30");
+            Assert.GreaterOrEqual(wins, 15, "balanced " + wins);
+            Assert.LessOrEqual(neglect, 3);
+        }
+
+        [Test]
+        public void Replay_SameSeedSameActions_SameState()
+        {
+            var a = Game(4); var actions = new List<string>();
+            for (int i = 0; i < 400 && a.Outcome == Outcome.Ongoing; i++) { var x = LastDockBot.Choose(a, BotPlan.Balanced); actions.Add(x == "dinner" ? "dinner:" + string.Join(",", a.MealPlan) : x); a.Do(x); }
+            var b = Game(4);
+            foreach (var x in actions)
+            {
+                if (x.StartsWith("dinner:")) { var parts = x.Substring(7).Split(','); b.MealPlan = System.Array.ConvertAll(parts, p => (Meal)System.Enum.Parse(typeof(Meal), p)); b.Do("dinner"); }
+                else b.Do(x);
+            }
+            Assert.AreEqual((a.Day, a.Food, a.Battery, a.Signal, a.Health, a.Outcome), (b.Day, b.Food, b.Battery, b.Signal, b.Health, b.Outcome));
+        }
+
         [Test]
         public void Win_NeedsSignalAndDockPower()
         {

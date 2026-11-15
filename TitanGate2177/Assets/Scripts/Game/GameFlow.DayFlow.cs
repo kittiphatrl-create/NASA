@@ -181,6 +181,7 @@ namespace TitanGate.Game
             _sfx.Play(rover ? "rover" : "whoosh");
             yield return new WaitForSeconds(_playtest ? 0.6f : 1.6f);
             var r = _ld.Do(a);
+            if (r.ok) LdRecord(a);
             _bPos = door; _bLastMove = Vector2.left; _bPath = null; _bGoal = null;
             _ui.FadeText(null);
             _sfx.Play("door_close");
@@ -217,7 +218,7 @@ namespace TitanGate.Game
             if (_ld.PowerDipPending) { LdShowDip(); return; }
             if (_ld.RaiderPending) { LdShowRaid(); return; }
             if (_ld.Outcome != Outcome.Ongoing) { StartCoroutine(LdEnd()); return; }
-            if (_ld.Day != day) StartCoroutine(LdDinnerAndDay(day, logMark));
+            if (_ld.DinnerPending || _ld.Day != day) StartCoroutine(LdDinnerAndDay(day, logMark));
         }
 
         // ------------------------------------------------------------------ dinner, then the DAY card
@@ -231,8 +232,17 @@ namespace TitanGate.Game
             BGoTo(seat, null);
             float t = 0; while (_bPath != null && t < 5f) { t += Time.deltaTime; yield return null; }
             _bLastMove = Vector2.right;
-            _ui.Toast(TT("Dinner time. Everyone eats 1 meal.", "ได้เวลาอาหารเย็น ทุกคนกิน 1 มื้อ"), GameUI.CAmber);
-            yield return Act("lift", _playtest ? 0.5f : 1.4f, null);
+            _ui.Toast(TT("Dinner time.", "ได้เวลาอาหารเย็น"), GameUI.CAmber);
+            yield return Act("lift", _playtest ? 0.5f : 1.0f, null);
+            int foodBefore = _ld.Food;
+            if (_ld.DinnerPending)
+            {
+                yield return LdDinnerScreen();
+                LdRecord("dinner:" + string.Join(",", System.Array.ConvertAll(_ld.MealPlan, m => ((int)m).ToString())));
+                _ld.Do("dinner");
+                if (_ld.Outcome != Outcome.Ongoing) { _busy = false; _ldSeq = false; StartCoroutine(LdEnd()); yield break; }
+                LdWriteSave();
+            }
             yield return Fade(1f, 0.7f);
             var lines = new List<(string icon, string text, Color c)>();
             for (int i = logMark; i < _ld.Log.Count; i++)
@@ -253,7 +263,7 @@ namespace TitanGate.Game
                 var night = _ui.L(TT($"Night {nightOf}", $"คืนที่ {nightOf}"), 26, false, GameUI.CDim); LdFont(night); box.Add(night);
                 var big = _ui.L(TT($"DAY {_ld.Day}", $"วันที่ {_ld.Day}"), 96, true, LdGold); LdFont(big); box.Add(big); LdAnimateIn(big, 0);
                 var row = LdTileRow();
-                row.Add(LdTile("food", "−1", TT("dinner", "อาหารเย็น"), GameUI.CAmber));
+                row.Add(LdTile("food", "−" + Mathf.Max(0, foodBefore - _ld.Food), TT("meals eaten", "มื้อที่กิน"), GameUI.CAmber));
                 int net = _ld.SolarToday - _ld.C.baseLoad - (_ld.BackupCircuit ? 1 : 0);
                 row.Add(LdTile("battery", (net >= 0 ? "+" : "−") + Mathf.Abs(net), TT("solar − base", "โซลาร์ − ฐานใช้"), net >= 0 ? GameUI.CGreen : GameUI.CRed));
                 row.Add(LdTile("time", _ld.WorkUnits.ToString(), TT("work units today", "เวลาทำงานวันนี้"), GameUI.CCyan));

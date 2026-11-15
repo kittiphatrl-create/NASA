@@ -103,9 +103,9 @@ namespace TitanGate.Game
                     return c;
                 }
                 Big("play", TT("START MISSION", "เริ่มภารกิจ"), TT("New game · about 15 minutes", "เกมใหม่ · ประมาณ 15 นาที"),
-                    () => MenuDepart(() => { Settings.ClearCheckpoint(); _ui.HideScreen(); StartCoroutine(StartChapter1()); }), true, true);
-                Big("continue", TT("CONTINUE", "เล่นต่อ"), Settings.HasSave ? TT("Back to your last save", "กลับไปที่เซฟล่าสุด") : TT("No save yet", "ยังไม่มีเซฟ"),
-                    () => { _ui.HideScreen(); ContinueGame(); }, false, Settings.HasSave);
+                    () => MenuDepart(() => { Settings.ClearCheckpoint(); LdClearSave(); _ui.HideScreen(); StartCoroutine(StartChapter1()); }), true, true);
+                Big("continue", TT("CONTINUE", "เล่นต่อ"), LdHasSave() ? TT("Back to the base, start of your last day", "กลับฐาน เริ่มวันล่าสุดที่เล่นค้างไว้") : TT("No save yet", "ยังไม่มีเซฟ"),
+                    () => { _ui.HideScreen(); if (!LdContinue()) ContinueGame(); }, false, LdHasSave());
                 // ---- icon tiles with a label that appears on hover
                 var tiles = new VisualElement(); tiles.style.flexDirection = FlexDirection.Row; tiles.style.marginTop = 8;
                 var tip = _ui.L("", 20, true, LdGold); tip.style.marginTop = 8; tip.style.height = 26; LdFont(tip);

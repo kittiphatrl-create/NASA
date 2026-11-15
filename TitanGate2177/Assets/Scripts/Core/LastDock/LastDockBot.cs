@@ -17,6 +17,7 @@ namespace TitanGate.Core.LastDock
 
         static IEnumerable<string> Wishes(StationSimulation s, BotPlan plan)
         {
+            if (s.DinnerPending) { s.MealPlan = s.AutoMeals(); yield return "dinner"; yield break; }
             if (s.RaiderPending)
             {
                 if (s.Food >= 5) yield return "raid_food";

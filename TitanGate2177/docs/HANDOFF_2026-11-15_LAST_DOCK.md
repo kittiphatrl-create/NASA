@@ -23,7 +23,9 @@ Read this first. Details live in `docs/LAST_DOCK_MARS_PLAN_2026-11-15.md`, `docs
    - Trips outside: airlock, cut to black, a results card (`GameFlow.DayFlow.cs`).
    - Rover, solar storm, mystery food, raiders.
    - Each day ends with dinner and then a "DAY N" card.
-5. **Win**: signal 3/3 and 2 battery on day 7. **Lose**: shows the chain of causes.
+5. **Dinner** (`GameFlow.Dinner.cs`, rules: `Hunger`, `MealPlan`, `"dinner"` in StationSimulation): you are alone. Each night choose: a meal, an unlabelled box (25% spoiled), or skip. Skipping twice makes you weak (−1 work unit), three times hurts you. `StationConfig.Game()` holds the game's settings.
+6. **Continue**: the run is saved after each dinner as seed + kit + every action, and rebuilt by replaying (`LdWriteSave` / `LdContinue`). The bot playtest checks that Continue restores the same state.
+7. **Win**: signal 3/3 and 2 battery on day 7. **Lose**: shows the chain of causes.
 
 ## Look and sound
 

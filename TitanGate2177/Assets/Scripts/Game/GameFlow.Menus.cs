@@ -78,6 +78,7 @@ namespace TitanGate.Game
 
         void ContinueGame()
         {
+            if (LastDockMode && LdContinue()) return;   // LAST DOCK: replay the saved run (GameFlow.Dinner.cs)
             if (Settings.SaveRoute == "lifeboat") { _lbContinueDay = HasDaySave; StartLifeboat(Settings.SaveItems, Settings.SavePet); return; }
             _cabinO2 = Settings.SaveCabin;
             _stowed.Clear();
