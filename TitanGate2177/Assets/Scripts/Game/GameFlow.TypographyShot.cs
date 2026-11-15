@@ -14,11 +14,15 @@ namespace TitanGate.Game
             _loc.Current = Lang.TH;
             yield return new WaitForSeconds(2);
             ShowMainMenu(); yield return Shot("01_title_th");
-            var regular = Resources.Load<Font>("Fonts/Sarabun-Regular");
-            var bold = Resources.Load<Font>("Fonts/Sarabun-SemiBold");
+            var regular = Resources.Load<Font>("Fonts/TitanGateUI-Regular");
+            var bold = Resources.Load<Font>("Fonts/TitanGateUI-Bold");
             const string sample = "ที่นี่ เชื้อเพลิง น้ำ ผู้กู้ภัย ฟื้นฟู ตั้งค่า สำเร็จ ABC xyz 0123456789";
             Check(regular != null && bold != null && sample.Where(c => !char.IsWhiteSpace(c)).All(c => regular.HasCharacter(c) && bold.HasCharacter(c)), "both bundled font weights cover Thai, marks, Latin and digits");
-            Check(GameUI.Thai(sample) == sample, "Thai combining sequences remain intact for shaping");
+            const string clusters = "น้ำ ที่ อุณหภูมิ CO₂";
+            string display = GameUI.Thai(clusters);
+            Check(display == "\ue255า \ue218 อุณหภูมิ CO₂", "water and stacked vowels use shaped clusters");
+            Check(display.Where(c => c >= '\ue000' && c <= '\uf8ff').All(c => regular.HasCharacter(c) && bold.HasCharacter(c)),
+                "both loaded faces contain the shaped glyphs");
             _ui.ShowModal(p => {
                 p.style.width = 1100;
                 p.Add(_ui.L("ที่นี่ · เชื้อเพลิง · น้ำ · ผู้กู้ภัย", 42, true));
@@ -49,7 +53,15 @@ namespace TitanGate.Game
             }
             // UI-only staging: no balance, collision, visitor or story rules are changed.
             ShowMainMenu();
-            Check(_ui.Press(_loc.T("menu.settings")), "settings opens using the menu callback");
+            var settingsTile = _ui.Root.Q<VisualElement>("title-tile-gear");
+            if (settingsTile != null)
+            {
+                using var click = ClickEvent.GetPooled();
+                click.target = settingsTile;
+                settingsTile.SendEvent(click);
+            }
+            else _ui.Press(_loc.T("menu.settings"));
+            Check(_ui.ModalOpen, "settings opens using the menu callback");
             yield return Shot("ui_01_settings"); _ui.CloseModal();
             StartLifeboat(null, "comet"); yield return new WaitForSeconds(1.5f);
             yield return Shot("ui_02_hud");
@@ -60,8 +72,11 @@ namespace TitanGate.Game
             _ui.Say("orbi", "c2_base_intro"); yield return new WaitForSeconds(1);
             Check(_ui.DialogOpen, "dialogue opens with background shade");
             yield return Shot("ui_04_dialogue");
-            _autoAdvance = true; yield return new WaitForSeconds(1); _autoAdvance = false;
-            while (_ui.DialogOpen) { _ui.Advance(); yield return new WaitForSeconds(.3f); }
+            _ui.Advance();
+            Check(_ui.DialogOpen && !_ui.Typing, "first advance finishes typing without closing the line");
+            _ui.Advance();
+            Check(!_ui.DialogOpen, "second advance closes the line");
+            yield return CheckDialoguePresentation();
             var beforeCard = _lbCard;
             _lbCard = LC.cards.First(c => !string.IsNullOrEmpty(c.visitor));
             BShowPeep(); yield return Shot("ui_05_peephole");
@@ -75,6 +90,53 @@ namespace TitanGate.Game
             Log($"done errors={_errors} checksFailed={_checksFailed}"); _autoLog?.Close(); _autoLog = null;
             yield return new WaitForSeconds(.5f); Application.Quit();
         }
+
+        IEnumerator CheckDialoguePresentation()
+        {
+            int speed = Settings.TextSpeed;
+            float size = Settings.TextScale;
+            bool reduced = Settings.ReducedMotion;
+            var language = _loc.Current;
+            try
+            {
+                Settings.TextScale = 1.3f;
+                Settings.TextSpeed = 70;
+                Settings.ReducedMotion = true;
+                _ui.Say("mentor", "c2_base_intro");
+                yield return new WaitForSecondsRealtime(.6f);
+                var portrait = _ui.Root.Q<Image>("dialogue-portrait");
+                var resting = portrait.style.translate.value;
+                Check(_ui.Typing && portrait.image != null &&
+                      resting.x.value == 0 && resting.y.value == 0,
+                    "portrait is displayed and stays still with Reduced Motion");
+                _ui.Advance();
+                yield return Shot("ui_04_mentor_th_large");
+                _ui.Advance();
+
+                _loc.Current = Lang.EN;
+                Settings.TextSpeed = 0;
+                _ui.Say("you", "c1_bed_look");
+                yield return Shot("ui_04_player_en_large");
+                Check(!_ui.Typing && portrait.image != null && portrait.layout.x > _ui.Root.layout.width * .5f,
+                    "player portrait uses the right side and instant text");
+                _ui.Advance();
+
+                _loc.Current = Lang.TH;
+                _ui.Say("sys", "c2_base_intro");
+                yield return Shot("ui_04_system_th_large");
+                Check(portrait.image == null && portrait.style.display.value == DisplayStyle.None,
+                    "dialogue without a portrait gives the text the full frame");
+                _ui.Advance();
+            }
+            finally
+            {
+                Settings.TextSpeed = speed;
+                Settings.TextScale = size;
+                Settings.ReducedMotion = reduced;
+                _loc.Current = language;
+            }
+        }
+
         IEnumerator AutoRestFlow()
         {
             ForceOutpost = false; ForceDiary = false; _loc.Current = Lang.EN;

@@ -75,6 +75,7 @@ namespace TitanGate.Game
             _orbi.follow = _player;
 
             _ui = new GameObject("UI").AddComponent<GameUI>();
+            _ui.InCutscene = () => InCutscene;
             _ui.sfx = _sfx;
             _ui.Init(_loc);
             _ui.CardsClicked += OnCards;
@@ -117,6 +118,13 @@ namespace TitanGate.Game
         void Update()
         {
             var kb = Keyboard.current;
+            if (_pauseDeckOpen && _ui.ModalOpen)
+            {
+                if (kb?.escapeKey.wasPressedThisFrame == true) PauseDeckBack();
+                if (kb?.f12Key.wasPressedThisFrame == true) Capture("manual");
+                return;
+            }
+            if (UpdateFieldBook(kb)) return;
             var mouse = Mouse.current;
             if (kb != null)
             {
@@ -413,8 +421,9 @@ namespace TitanGate.Game
         {
             _loc.Current = _loc.Current == Lang.TH ? Lang.EN : Lang.TH;
             PlayerPrefs.SetInt("lang", (int)_loc.Current);
+            if (_chapter == 0 && _pauseDeckOpen) BuildMainMenu();
             _ui.RefreshText();
-            if (_chapter == 0) BuildMainMenu();
+            if (_chapter == 0 && !_pauseDeckOpen) BuildMainMenu();
             RefreshAll();
         }
 

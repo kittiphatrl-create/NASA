@@ -106,15 +106,20 @@ namespace TitanGate.Game
         (string text, Color color)? LdAlert()
         {
             var f = _ld.ActiveFault;
-            if (f != Fault.None) { var inc = LdIncidentOf(f); return ("! " + inc.title + "  ·  " + (f == Fault.PowerDip ? TT("choose now", "เลือกตอนนี้") : TT($"Go to {LdRoomName(inc.room)} and fix it at the machine", $"ไปที่{LdRoomName(inc.room)} แล้วซ่อมที่ตัวเครื่อง")), GameUI.CRed); }
-            if (_ld.StormToday) return (TT("SOLAR STORM today: outside is dangerous. Power the shelter tonight (station board).", "พายุสุริยะวันนี้: ข้างนอกอันตราย เปิดห้องหลบรังสีคืนนี้ (แผงสถานะสถานี)"), GameUI.CAmber);
-            if (_ld.StormTomorrow) return (TT("ORBI: a solar storm arrives TOMORROW. Keep 1 battery for the shelter.", "ORBI: พายุสุริยะจะมาพรุ่งนี้ เก็บแบต 1 ไว้เปิดห้องหลบรังสี"), GameUI.CAmber);
+            if (f != Fault.None)
+            {
+                var incident = LdIncidentOf(f);
+                return ("! " + incident.title + "  ·  " + (f == Fault.PowerDip ? TT("Open the emergency panel", "เปิดแผงเหตุฉุกเฉิน") :
+                    LdRoomName(incident.room)), GameUI.CRed);
+            }
+            if (_ld.StormToday) return (TT("Solar storm · Power the shelter at the board", "พายุสุริยะ · เปิดห้องหลบรังสีที่แผงสถานะ"), GameUI.CAmber);
+            if (_ld.StormTomorrow) return (TT("Solar storm tomorrow · Reserve 1 battery", "พายุสุริยะพรุ่งนี้ · สำรองแบต 1"), GameUI.CAmber);
             var fc = _ld.Look();
-            if (fc.shortTonight) return (TT("Tonight's power plan costs more than you have: switch something off at the station board.", "แผนไฟคืนนี้ใช้มากกว่าที่มี: ปิดบางระบบที่แผงสถานะสถานี"), GameUI.CAmber);
-            if (fc.o2Days <= 1) return (TT("Oxygen runs out tomorrow: switch the O₂ maker on, or repair it.", "ออกซิเจนจะหมดพรุ่งนี้: เปิดหรือซ่อมเครื่องผลิต O₂"), GameUI.CAmber);
-            if (fc.waterDays <= 1) return (TT("Water runs out tomorrow: dig ice outside, or run the recycler.", "น้ำจะหมดพรุ่งนี้: ออกไปขุดน้ำแข็ง หรือเปิดเครื่องรีไซเคิล"), GameUI.CAmber);
-            if (_ld.DarkNights > 0) return (TT("The base went dark last night. Something scratched at the door... (story)", "เมื่อคืนฐานมืด มีเสียงขูดที่ประตู... (เรื่องแต่ง)"), GameUI.CAmber);
-            if (_ld.Sick) return (TT("Upset stomach from bad food: one less work unit tomorrow.", "ท้องเสียจากอาหารเสีย พรุ่งนี้เวลาทำงานลดลง 1"), GameUI.CAmber);
+            if (fc.shortTonight) return (TT("Low power tonight · Switch off a machine at the board", "คืนนี้ไฟไม่พอ · ปิดบางเครื่องที่แผงสถานะ"), GameUI.CAmber);
+            if (fc.o2Days <= 1) return (TT("Low oxygen · Check the O₂ maker", "ออกซิเจนใกล้หมด · ตรวจเครื่องผลิต O₂"), GameUI.CAmber);
+            if (fc.waterDays <= 1) return (TT("Low water · Dig ice or run the recycler", "น้ำใกล้หมด · ขุดน้ำแข็งหรือเปิดเครื่องรีไซเคิล"), GameUI.CAmber);
+            if (_ld.DarkNights > 0) return (TT("Blackout last night · Something scratched at the door…", "เมื่อคืนไฟดับ · มีเสียงขูดที่ประตู…"), GameUI.CAmber);
+            if (_ld.Sick) return (TT("Sick · −1 work slot tomorrow", "ป่วย · พรุ่งนี้ทำงานน้อยลง 1 ช่วง"), GameUI.CAmber);
             return null;
         }
 

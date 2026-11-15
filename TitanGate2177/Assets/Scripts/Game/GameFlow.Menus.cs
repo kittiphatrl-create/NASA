@@ -103,99 +103,12 @@ namespace TitanGate.Game
 
         void OpenPause()
         {
-            if (InCutscene || (_bRoot == null && (_busy || _chapter < 1 || _chapter > 2))) return;
-            Time.timeScale = 0;
-            _ui.ShowModal(p =>
-            {
-                p.style.width = 940; ThemePanel(p);
-                _ui.Title(p, _loc.T("pause.title"));
-                var body = new VisualElement(); body.style.flexDirection = FlexDirection.Row; body.style.marginTop = 15;
-                var main = new VisualElement(); main.style.width = 490;
-                void ButtonIn(VisualElement box, string key, Action action, bool primary = false)
-                {
-                    var button = _ui.B(_loc.T(key), action, 25, primary); StyleFlightButton(button, primary);
-                    button.style.minHeight = primary ? 84 : 58; box.Add(button);
-                }
-                ButtonIn(main, "pause.resume", () => _ui.CloseModal(), true);
-                ButtonIn(main, "menu.settings", () => { _ui.CloseModal(); ShowSettings(); });
-                var aux = new VisualElement(); aux.style.flexGrow = 1; aux.style.marginLeft = 20;
-                var badge = new Image { sprite = Art.ConditionFace(_life == null ? 0 : BMood()), scaleMode = ScaleMode.ScaleToFit }; badge.style.height = 80; aux.Add(badge);
-                if (_life != null) aux.Add(_ui.L(BClockText(), 20, true, GameUI.CAmber));
-                ButtonIn(aux, "menu.howto", () => { _ui.CloseModal(); ShowHowTo(); });
-                ButtonIn(aux, "menu.cards", () => { _ui.CloseModal(); ShowCardBook(); });
-                body.Add(main); body.Add(aux); p.Add(body);
-                var footer = new VisualElement(); footer.style.flexDirection = FlexDirection.Row; footer.style.marginTop = 24;
-                ButtonIn(footer, "pause.restart", () => { Time.timeScale = 1; Restart(); });
-                ButtonIn(footer, "pause.menu", () => { Time.timeScale = 1; RestartToTitle(); }); p.Add(footer);
-            }, true, () => Time.timeScale = 1);
+            if (InCutscene || _ui.Blocking || (_bRoot == null && (_busy || _chapter < 1 || _chapter > 2))) return;
+            OpenPauseDeck(PausePage.Menu);
         }
 
-        // ------------------------------------------------------------------ settings
-
-        void ShowSettings()
-        {
-            bool paused = _chapter >= 1 && _chapter <= 3;
-            if (paused) Time.timeScale = 0f;
-            _ui.ShowModal(p =>
-            {
-                p.style.width = 900; ThemePanel(p);
-                _ui.Title(p, _loc.T("menu.settings"));
-                void Row(string key, string value, Action minus, Action plus)
-                {
-                    var r = new VisualElement(); r.style.flexDirection = FlexDirection.Row; r.style.alignItems = Align.Center; r.style.marginBottom = 4;
-                    var name = _ui.L(_loc.T(key), 26); name.style.width = 380; r.Add(name);
-                    var m = _ui.B("−", () => { minus(); _ui.RebuildModal(); }, 28); m.style.width = 70; r.Add(m);
-                    var v = _ui.L(value, 26, true, GameUI.CCyan); v.style.width = 190; v.style.unityTextAlign = TextAnchor.MiddleCenter; r.Add(v);
-                    var pl = _ui.B("+", () => { plus(); _ui.RebuildModal(); }, 28); pl.style.width = 70; r.Add(pl);
-                    p.Add(r);
-                }
-                string Pct(float f) => Mathf.RoundToInt(f * 100) + "%";
-                Row("set.master", Pct(Settings.Master), () => Settings.Master -= 0.1f, () => Settings.Master += 0.1f);
-                Row("set.effects", Pct(Settings.Effects), () => Settings.Effects -= 0.1f, () => Settings.Effects += 0.1f);
-                Row("set.ambience", Pct(Settings.Ambience), () => Settings.Ambience -= 0.1f, () => Settings.Ambience += 0.1f);
-                float[] sizes = { 1f, 1.15f, 1.3f };
-                int si = Mathf.Max(0, Array.FindIndex(sizes, x => Mathf.Approximately(x, Settings.TextScale)));
-                Row("set.textsize", Pct(sizes[si]), () => { Settings.TextScale = sizes[Mathf.Max(0, si - 1)]; RefreshAll(); },
-                    () => { Settings.TextScale = sizes[Mathf.Min(sizes.Length - 1, si + 1)]; RefreshAll(); });
-                int[] speeds = { 35, 70, 140, 0 };
-                string[] speedKeys = { "set.speed.slow", "set.speed.normal", "set.speed.fast", "set.speed.instant" };
-                int sp = Mathf.Max(0, Array.IndexOf(speeds, Settings.TextSpeed));
-                Row("set.textspeed", _loc.T(speedKeys[sp]), () => Settings.TextSpeed = speeds[Mathf.Max(0, sp - 1)], () => Settings.TextSpeed = speeds[Mathf.Min(speeds.Length - 1, sp + 1)]);
-                Row("set.motion", _loc.T(Settings.ReducedMotion ? "set.on" : "set.off"), () => Settings.ReducedMotion = false, () => Settings.ReducedMotion = true);
-                Row("set.fullscreen", _loc.T(Screen.fullScreen ? "set.on" : "set.off"), () => Screen.fullScreen = false, () => Screen.fullScreen = true);
-                var lang = _ui.B(_loc.T("set.language") + ":  " + (_loc.Current == Lang.TH ? "ภาษาไทย" : "English"), () => { ToggleLang(); }, 26);
-                lang.style.marginTop = 10;
-                p.Add(lang);
-                var note = _ui.L(_loc.T("set.note"), 20, false, GameUI.CDim); note.style.marginTop = 8;
-                p.Add(note);
-            }, true, () => { if (paused) Time.timeScale = 1f; if (_chapter == 0) BuildMainMenu(); });
-        }
-
-        // ------------------------------------------------------------------ how to play / credits
-
-        void ShowHowTo()
-        {
-            _ui.ShowModal(p =>
-            {
-                p.style.width = 1120;
-                _ui.Title(p, _loc.T("menu.howto"));
-                var scroll = new ScrollView(ScrollViewMode.Vertical);
-                scroll.style.maxHeight = 640;
-                for (int i = 1; i <= 11; i++)
-                {
-                    var box = new VisualElement();
-                    box.style.flexDirection = FlexDirection.Row; box.style.marginBottom = 10;
-                    var n = _ui.L(i.ToString(), 30, true, GameUI.CAmber); n.style.width = 46;
-                    box.Add(n);
-                    var c = new VisualElement(); c.style.flexShrink = 1;
-                    c.Add(_ui.L(_loc.T($"howto.{i}.title"), 26, true, GameUI.CCyan));
-                    c.Add(_ui.L(_loc.T($"howto.{i}.body"), 23));
-                    box.Add(c);
-                    scroll.Add(box);
-                }
-                p.Add(scroll);
-            });
-        }
+        void ShowSettings() => OpenPauseDeck(PausePage.Settings);
+        void ShowHowTo() => OpenPauseDeck(PausePage.Help);
 
         /// <summary>
         /// Where the science comes from, in three kinds the player can tell apart: measured by NASA,
@@ -254,42 +167,6 @@ namespace TitanGate.Game
             Settings.CardsEver = string.Join(",", set);
         }
 
-        void ShowCardBook()
-        {
-            var have = CardsEver();
-            _ui.ShowModal(p =>
-            {
-                p.style.width = 1180;
-                _ui.Title(p, _loc.T("ui.codex_title", have.Count, _cfg.cards.Count));
-                var scroll = new ScrollView(ScrollViewMode.Vertical);
-                scroll.style.height = 620;
-                string lastGroup = null;
-                foreach (var c in _cfg.cards)
-                {
-                    string group = "codex.group." + c.chapter;
-                    if (group != lastGroup)
-                    {
-                        lastGroup = group;
-                        var g = _ui.L(_loc.T(group), 24, true, GameUI.CAmber);
-                        g.style.marginTop = 8; g.style.marginBottom = 4;
-                        scroll.Add(g);
-                    }
-                    bool got = have.Contains(c.id);
-                    var box = new VisualElement();
-                    box.style.marginBottom = 10;
-                    box.style.backgroundColor = GameUI.CPanel2;
-                    GameUI.Border(box, got ? GameUI.CCyanD : new Color(0.25f, 0.28f, 0.4f), 2, 8);
-                    box.style.paddingLeft = box.style.paddingRight = 14; box.style.paddingTop = box.style.paddingBottom = 8;
-                    if (got)
-                    {
-                        box.Add(_ui.L(_loc.T($"card.{c.id}.title"), 26, true, GameUI.CCyan));
-                        box.Add(_ui.L(_loc.T($"card.{c.id}.body"), 23));
-                    }
-                    else box.Add(_ui.L(_loc.T("ui.card_locked"), 24, false, GameUI.CDim));
-                    scroll.Add(box);
-                }
-                p.Add(scroll);
-            }, true, () => { if (_chapter == 0) BuildMainMenu(); });
-        }
+        void ShowCardBook() => OpenPauseDeck(PausePage.Cards);
     }
 }

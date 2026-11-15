@@ -132,7 +132,7 @@ namespace TitanGate.Game
             _bPos = start;
             _bPetPos = _bPos + new Vector2(-1, 0);
             BBuildMap();
-            BBuildHud();
+            if (mode == 0) BBuildHud();
             BSnapCamera();
         }
 
@@ -157,6 +157,7 @@ namespace TitanGate.Game
         {
             if (_sfx != null) _sfx.StopCinematicAudio(true);
             if (_sfx != null) _sfx.Loop("ship_alarm", false);
+            EndPlayOverlay();
             ResetActions();
             CrewReset();
             if (_bGlowMaterial != null) { Destroy(_bGlowMaterial); _bGlowMaterial = null; }
@@ -865,7 +866,19 @@ namespace TitanGate.Game
                     }
                 }
             }
-            if (hover != null)
+            if (IsBookLevel)
+            {
+                var nearby = !_ui.Blocking && !_busy && !ActionLocked && !(_bMode == 1 && _sSitting) ? BNearestSpot() : null;
+                if (nearby != null)
+                {
+                    Vector3 anchor = nearby.sr != null && nearby.sr.sprite != null
+                        ? new Vector3(nearby.sr.bounds.center.x, nearby.sr.bounds.max.y + .2f, 0)
+                        : (Vector3)(nearby.pos + Vector2.up);
+                    _ui.SetHover(BookInteraction(nearby), _ui.WorldToPanel(anchor, _bCam), "E");
+                }
+                else _ui.SetHover(null, Vector2.zero);
+            }
+            else if (hover != null)
             {
                 string name = hover.nameKey == null ? "" : _loc.Has(hover.nameKey) ? _loc.T(hover.nameKey) : hover.nameKey;
                 if (BHasTask(hover.id)) name = "! " + name;
@@ -1324,6 +1337,12 @@ namespace TitanGate.Game
 
         void BHud(float dt)
         {
+            if (_bMode == 1 || _bMode == 2)
+            {
+                if (_bMode == 1) SHud();
+                else LdHud();
+                return;
+            }
             if (_bHud == null) return;
             var kbd = UnityEngine.InputSystem.Keyboard.current;
             if (kbd != null && kbd.tabKey.wasPressedThisFrame && _bMode == 0 && _life != null && !InCutscene)
@@ -1340,8 +1359,6 @@ namespace TitanGate.Game
             string room = BRoomAt(_bPos);
             _bHudRoom.text = room == null ? "" : GameUI.Thai("▸ " + _loc.T(room));
             _bHudRoom.style.display = room == null ? DisplayStyle.None : DisplayStyle.Flex;
-            if (_bMode == 1) { SHud(); return; }
-            if (_bMode == 2) { LdHud(); return; }
             if (MarsWalkOnly) { _bHud.style.display = DisplayStyle.None; _bHudPortrait?.Clear(); return; }   // just the map
             bool show = _life != null && !_ui.ScreenOpen;
             _bHud.style.display = show ? DisplayStyle.Flex : DisplayStyle.None;

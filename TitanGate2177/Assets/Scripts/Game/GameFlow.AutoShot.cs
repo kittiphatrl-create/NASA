@@ -53,6 +53,8 @@ namespace TitanGate.Game
             else if (lifeboat) _autoRoute = "lifeboat";
             else if (_ch1Lifeboat) _autoRoute = "ch1lifeboat";
             else ForceOutpost = true;   // the default pass checks the old walk-and-click outpost
+            if (BookCheckRequested) _autoRoute = "book-" + Screen.width + (System.Array.IndexOf(args, "-lastdock") >= 0 ? "-station" : "-full");
+            if (play && System.Array.IndexOf(args, "-english") >= 0) _autoRoute += "-en";
             _shotDir = Path.Combine(Directory.GetParent(Application.dataPath).FullName, "Captures", _autoRoute);
             Directory.CreateDirectory(_shotDir);
             _autoLog = new StreamWriter(Path.Combine(_shotDir, "autoshot-log.txt"), false);

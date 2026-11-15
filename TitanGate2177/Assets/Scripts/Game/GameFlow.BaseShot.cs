@@ -209,18 +209,25 @@ namespace TitanGate.Game
             yield return new WaitForSeconds(2f);
             StartCoroutine(StartChapter1());
             float t = 0;
-            while (!_lbPickForScramble && t < 40) { if (InCutscene) SkipCutscene(); t += Time.deltaTime; yield return null; }
-            Check(_lbPickForScramble, "pet pick shown before the ship");
-            yield return Shot("s00_pet_pick");
-            _lbScramblePet = "pixel"; _lbPickForScramble = false; _ui.HideScreen();
+            while (!_lbPickForScramble && _bRoot == null && t < 40) { if (InCutscene) SkipCutscene(); t += Time.deltaTime; yield return null; }
+            if (!NoPets)
+            {
+                Check(_lbPickForScramble, "pet pick shown before the ship");
+                yield return Shot("s00_pet_pick");
+                _lbScramblePet = "pixel"; _lbPickForScramble = false; _ui.HideScreen();
+            }
             t = 0;
             while ((_bRoot == null || _bMode != 1 || _busy) && t < 20) { t += Time.deltaTime; yield return null; }
             Check(_bRoot != null && _bMode == 1, "top-down ship built");
             yield return new WaitForSeconds(0.6f);
             yield return Shot("s01_ship_start");
-            Check(_bHudDay.text == "วันที่ 0", "ship opening is Day 0");
-            Check(_bHudPortrait.childCount == 3, "ship uses shared status, carrying and mission HUD panels");
-            Check(_bHudStock.text == "06:00", "ship clock uses the morning briefing time");
+            Check(_bHud == null && _bHudPortrait == null, "ship gameplay does not create the old HUD");
+            OpenFieldBook();
+            yield return WaitForBook();
+            Check(BookShows(BookWord("morning")), "ship book shows the morning briefing time");
+            yield return Shot("s01_ship_book");
+            CloseFieldBook();
+            yield return new WaitForSecondsRealtime(.8f);
             if (System.Array.IndexOf(System.Environment.GetCommandLineArgs(), "-shiphudonly") >= 0)
             {
                 OpenPause(); yield return new WaitForSecondsRealtime(.3f);

@@ -22,6 +22,8 @@ namespace TitanGate.Game
         readonly Dictionary<string, float> _loopBase = new Dictionary<string, float>();
         const int Rate = 22050;
         static readonly System.Random Rng = new System.Random(1);
+        float _dialogueKeyAt = float.NegativeInfinity;
+        int _dialogueKey;
 
         void Awake()
         {
@@ -96,6 +98,19 @@ namespace TitanGate.Game
             Loopable("rumble", 0.5f, false);
             Loopable("hum", 0.35f, true);
             Loopable("ship_alarm", 0.35f, false);
+            // Short mechanical keystrokes, isolated from the shared sound generator's seed.
+            var keys = new System.Random(142215);
+            for (int i = 0; i < 4; i++)
+            {
+                float previous = 0, hz = 152 + i * 15;
+                Make("dialogue_key_" + i, .062f, t =>
+                {
+                    float noise = (float)(keys.NextDouble() * 2 - 1);
+                    float bright = noise - previous * .72f;
+                    previous = noise;
+                    return .38f * bright * Mathf.Exp(-235 * t) + .56f * Sine(t, hz) * Mathf.Exp(-110 * t);
+                });
+            }
             Settings.Changed += ApplyVolumes;
             ApplyVolumes();
         }
@@ -224,6 +239,13 @@ namespace TitanGate.Game
         {
             _pitchJitter = jitter;
             try { Play(id, vol); } finally { _pitchJitter = 0; }
+        }
+
+        public void PlayDialogueKey()
+        {
+            if (Time.unscaledTime - _dialogueKeyAt < .046f) return;
+            _dialogueKeyAt = Time.unscaledTime;
+            Play("dialogue_key_" + (_dialogueKey++ % 4), .36f);
         }
 
         /// <summary>Start or stop a looping sound ("heart", "siren", "rumble", "hum").</summary>
