@@ -1,0 +1,19 @@
+00:00.312  blend            | Read blend: "F:\NASA\TitanGate2177\Art\Blender\cinematics.blend"
+00:00.500  cycles           | WARNING CUEW initialization failed: Error opening the library
+00:12.797  render           | Saved: 'F:\NASA\TitanGate2177\Art\Blender\renders\cin\c01_cruise.png'
+00:24.453  render           | Saved: 'F:\NASA\TitanGate2177\Art\Blender\renders\cin\c02_mars.png'
+01:09.125  render           | Saved: 'F:\NASA\TitanGate2177\Art\Blender\renders\cin\c03_cadet.png'
+01:18.453  render           | Saved: 'F:\NASA\TitanGate2177\Art\Blender\renders\cin\c04_debris.png'
+01:59.266  render           | Saved: 'F:\NASA\TitanGate2177\Art\Blender\renders\cin\c05_impact.png'
+02:52.641  render           | Saved: 'F:\NASA\TitanGate2177\Art\Blender\renders\cin\c06_alarm.png'
+03:38.328  render           | Saved: 'F:\NASA\TitanGate2177\Art\Blender\renders\cin\c07_launch.png'
+03:55.969  render           | Saved: 'F:\NASA\TitanGate2177\Art\Blender\renders\cin\c08_entry.png'
+04:35.484  render           | Saved: 'F:\NASA\TitanGate2177\Art\Blender\renders\cin\c09_arrive.png'
+05:27.781  render           | Saved: 'F:\NASA\TitanGate2177\Art\Blender\renders\cin\c10_rescue.png'
+06:15.016  render           | Saved: 'F:\NASA\TitanGate2177\Art\Blender\renders\cin\c11_home.png'
+06:49.844  render           | Saved: 'F:\NASA\TitanGate2177\Art\Blender\renders\cin\c12_dusk.png'
+07:18.312  render           | Saved: 'F:\NASA\TitanGate2177\Art\Blender\renders\cin\c13_lone.png'
+ALLDONE 437.8174042701721
+Blender 5.3.0 (hash 02f0899d78e3 built 2026-11-10 01:33:43)
+
+Blender quit

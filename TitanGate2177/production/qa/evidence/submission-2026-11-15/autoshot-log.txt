@@ -1,0 +1,156 @@
+[   0.0s] player brain: careful
+shot p00_menu
+[  72.7s] start mission from the menu
+shot p01_intro
+shot cin_p01_earth
+shot p02_intro
+shot cin_p02_moon
+shot p03_intro
+shot cin_p03_mars
+shot cin_p04_jupiter
+shot cin_p05_cabin
+shot cin_p06_walk
+[  85.4s] intro took 11s
+PASS ship: every use spot reachable
+PASS walked to radio
+PASS walked to sofa
+[  96.5s] morning jobs took 10s
+shot p07_ship_done
+shot cin_i01_debris
+shot cin_i02_hit
+shot cin_i03_run
+shot p07b_rules
+PASS walked to keycard
+PASS walked to vault_comms
+[ 113.4s] bot: key card used on the comms vault
+PASS walked to sup_o2
+PASS walked to sup_o2
+PASS walked to sup_o2
+shot p08_tilt
+PASS walked to lifeboat
+PASS walked to sup_o2
+PASS walked to sup_o2
+PASS walked to sup_o2
+PASS walked to lifeboat
+PASS walked to sup_o2
+PASS walked to sup_o2
+PASS walked to sup_o2
+PASS walked to lifeboat
+[ 135.1s] scramble: stowed 8/8 in 28s, fire phases 1, tilted True
+shot cin_l01_away
+shot cin_l02_entry
+shot cin_l03_chute
+shot cin_l04_land
+shot cin_l05_base
+[ 146.8s] lifeboat to station took 12s; delivered Food=0,Oxygen=8,Battery=0,Parts=0,Solar=0,RadioKit=0,RadMeter=0,FrozenFood=0,Flashlight=0,Medkit=0
+PASS station started after the scramble
+[ 147.8s] LAST DOCK start, plan Balanced, kit F4 O10 B6 P2
+shot ld01_intro
+PASS base: every use spot reachable
+shot ld02_walk
+PASS walked to ld_board
+shot ld08_board
+PASS walked to ld_o2gen
+shot ld09_life
+PASS walked to ld_airlock
+shot ld09_airlock
+PASS walked to ld_radio
+[ 167.3s] day 1 wu 3: repair_radio  [F4 O10 B6 P2 CO2 0 H0 S0 HP3 fault None]
+PASS walked to ld_radio
+[ 168.4s] day 1 wu 2: repair_radio  [F4 O10 B6 P1 CO2 0 H0 S0 HP3 fault None]
+PASS walked to ld_airlock
+shot ld07_airlock
+[ 174.9s] day 1 wu 1: radio_antenna  [F4 O10 B5 P1 CO2 0 H0 S0 HP3 fault None]
+shot ld06_trip
+shot ld08_dinner
+shot ld05_day
+PASS walked to ld_thermal
+shot ld03_fault
+[ 186.1s] day 2 wu 3: power_on_recycler  [F3 O11 B6 P1 CO2 0 H0 S0 HP3 fault Leak]
+PASS walked to ld_thermal
+shot ld11_panel
+[ 187.7s] day 2 wu 3: seal_room  [F3 O11 B6 P1 CO2 0 H0 S0 HP3 fault Leak]
+PASS walked to ld_radio
+[ 190.7s] day 2 wu 2: send  [F3 O11 B6 P1 CO2 0 H0 S0 HP3 fault None]
+PASS walked to ld_radio
+[ 191.8s] day 2 wu 1: send  [F3 O11 B5 P1 CO2 0 H0 S1 HP3 fault None]
+PASS continue restores the run (3, 2, 3, 2, 3, 3) -> (3, 2, 3, 2, 3, 3)
+PASS walked to ld_radio
+[ 200.7s] day 3 wu 3: send  [F2 O12 B3 P1 CO2 0 H0 S2 HP3 fault None]
+[ 201.1s] day 3 wu 2: dip_shed  [F2 O12 B2 P1 CO2 0 H0 S2 HP3 fault PowerDip]
+PASS walked to ld_lockers
+[ 205.4s] day 3 wu 2: search  [F2 O12 B2 P1 CO2 0 H0 S3 HP3 fault None]
+PASS walked to ld_lockers
+[ 206.5s] day 3 wu 1: search  [F2 O12 B2 P2 CO2 0 H0 S3 HP3 fault None]
+[ 209.6s] day 4 wu 3: power_off_o2gen  [F1 O13 B2 P2 CO2 0 H0 S3 HP3 fault None]
+[ 210.1s] day 4 wu 3: power_off_recycler  [F1 O13 B2 P2 CO2 0 H0 S3 HP3 fault None]
+[ 210.5s] day 4 wu 3: power_off_heater  [F1 O13 B2 P2 CO2 0 H0 S3 HP3 fault None]
+PASS walked to ld_board
+[ 213.4s] day 4 wu 3: prepare_shelter  [F1 O13 B2 P2 CO2 0 H0 S3 HP3 fault None]
+PASS walked to ld_scrubber
+[ 216.7s] day 4 wu 2: service_scrubber  [F1 O13 B2 P2 CO2 0 H0 S3 HP3 fault None]
+PASS walked to ld_airlock
+[ 222.0s] day 4 wu 1: ice  [F1 O13 B2 P2 CO2 0 H0 S3 HP3 fault None]
+PASS walked to ld_airlock
+[ 231.0s] day 5 wu 2: clean_panels  [F0 O12 B0 P2 CO2 0 H0 S3 HP2 fault None]
+[ 232.5s] day 5 wu 1: power_on_o2gen  [F0 O12 B0 P2 CO2 0 H0 S3 HP2 fault None]
+[ 232.9s] day 5 wu 1: power_on_heater  [F0 O12 B0 P2 CO2 0 H0 S3 HP2 fault None]
+PASS walked to ld_airlock
+[ 234.1s] day 5 wu 1: ice  [F0 O12 B0 P2 CO2 0 H0 S3 HP2 fault None]
+PASS walked to ld_board
+shot ld12_panel
+[ 242.0s] day 6 wu 3: repair_thermal  [F0 O13 B1 P2 CO2 0 H0 S3 HP2 fault Thermal]
+PASS walked to ld_fan
+[ 245.3s] day 6 wu 2: service_fan  [F0 O13 B1 P1 CO2 0 H0 S3 HP2 fault None]
+PASS walked to ld_airlock
+[ 250.6s] day 6 wu 1: ice  [F0 O13 B1 P1 CO2 0 H0 S3 HP2 fault None]
+[ 255.2s] day 7 wu 2: power_off_heater  [F0 O14 B1 P1 CO2 0 H0 S3 HP2 fault None]
+PASS walked to ld_lockers
+[ 257.8s] day 7 wu 2: search  [F0 O14 B1 P1 CO2 0 H0 S3 HP2 fault None]
+PASS walked to ld_o2gen
+shot ld13_panel
+[ 264.0s] day 7 wu 1: repair_o2gen  [F0 O14 B1 P1 CO2 0 H0 S3 HP2 fault O2Gen]
+[ 265.0s] LAST DOCK Rescued on day 7 in 103s; log: radio_board,radio_tested,radio_fixed,dinner,fault_Leak_Thermal,sealed,signal_sent,signal_sent,recycled,dinner,power_dip,signal_sent,recycled,dinner,serviced_scrubber,radiation,shelter_on,dinner,cold,dark_warning,panels_clean,ice,dinner,fault_Thermal,fixed_thermal,serviced_fan,ice,dinner,weak,fault_O2Gen,fixed_o2gen,hungry,dinner,cold,weak,rescued
+PASS LAST DOCK run finished
+shot ld90_end
+shot cin_w01_rescue
+PASS restart clears the run
+shot ld91_restart
+[   0.0s] player brain: careful
+[  72.7s] start mission from the menu
+[  85.4s] intro took 11s
+[  96.5s] morning jobs took 10s
+[ 113.4s] bot: key card used on the comms vault
+[ 135.1s] scramble: stowed 8/8 in 28s, fire phases 1, tilted True
+[ 146.8s] lifeboat to station took 12s; delivered Food=0,Oxygen=8,Battery=0,Parts=0,Solar=0,RadioKit=0,RadMeter=0,FrozenFood=0,Flashlight=0,Medkit=0
+[ 147.8s] LAST DOCK start, plan Balanced, kit F4 O10 B6 P2
+[ 167.3s] day 1 wu 3: repair_radio  [F4 O10 B6 P2 CO2 0 H0 S0 HP3 fault None]
+[ 168.4s] day 1 wu 2: repair_radio  [F4 O10 B6 P1 CO2 0 H0 S0 HP3 fault None]
+[ 174.9s] day 1 wu 1: radio_antenna  [F4 O10 B5 P1 CO2 0 H0 S0 HP3 fault None]
+[ 186.1s] day 2 wu 3: power_on_recycler  [F3 O11 B6 P1 CO2 0 H0 S0 HP3 fault Leak]
+[ 187.7s] day 2 wu 3: seal_room  [F3 O11 B6 P1 CO2 0 H0 S0 HP3 fault Leak]
+[ 190.7s] day 2 wu 2: send  [F3 O11 B6 P1 CO2 0 H0 S0 HP3 fault None]
+[ 191.8s] day 2 wu 1: send  [F3 O11 B5 P1 CO2 0 H0 S1 HP3 fault None]
+[ 200.7s] day 3 wu 3: send  [F2 O12 B3 P1 CO2 0 H0 S2 HP3 fault None]
+[ 201.1s] day 3 wu 2: dip_shed  [F2 O12 B2 P1 CO2 0 H0 S2 HP3 fault PowerDip]
+[ 205.4s] day 3 wu 2: search  [F2 O12 B2 P1 CO2 0 H0 S3 HP3 fault None]
+[ 206.5s] day 3 wu 1: search  [F2 O12 B2 P2 CO2 0 H0 S3 HP3 fault None]
+[ 209.6s] day 4 wu 3: power_off_o2gen  [F1 O13 B2 P2 CO2 0 H0 S3 HP3 fault None]
+[ 210.1s] day 4 wu 3: power_off_recycler  [F1 O13 B2 P2 CO2 0 H0 S3 HP3 fault None]
+[ 210.5s] day 4 wu 3: power_off_heater  [F1 O13 B2 P2 CO2 0 H0 S3 HP3 fault None]
+[ 213.4s] day 4 wu 3: prepare_shelter  [F1 O13 B2 P2 CO2 0 H0 S3 HP3 fault None]
+[ 216.7s] day 4 wu 2: service_scrubber  [F1 O13 B2 P2 CO2 0 H0 S3 HP3 fault None]
+[ 222.0s] day 4 wu 1: ice  [F1 O13 B2 P2 CO2 0 H0 S3 HP3 fault None]
+[ 231.0s] day 5 wu 2: clean_panels  [F0 O12 B0 P2 CO2 0 H0 S3 HP2 fault None]
+[ 232.5s] day 5 wu 1: power_on_o2gen  [F0 O12 B0 P2 CO2 0 H0 S3 HP2 fault None]
+[ 232.9s] day 5 wu 1: power_on_heater  [F0 O12 B0 P2 CO2 0 H0 S3 HP2 fault None]
+[ 234.1s] day 5 wu 1: ice  [F0 O12 B0 P2 CO2 0 H0 S3 HP2 fault None]
+[ 242.0s] day 6 wu 3: repair_thermal  [F0 O13 B1 P2 CO2 0 H0 S3 HP2 fault Thermal]
+[ 245.3s] day 6 wu 2: service_fan  [F0 O13 B1 P1 CO2 0 H0 S3 HP2 fault None]
+[ 250.6s] day 6 wu 1: ice  [F0 O13 B1 P1 CO2 0 H0 S3 HP2 fault None]
+[ 255.2s] day 7 wu 2: power_off_heater  [F0 O14 B1 P1 CO2 0 H0 S3 HP2 fault None]
+[ 257.8s] day 7 wu 2: search  [F0 O14 B1 P1 CO2 0 H0 S3 HP2 fault None]
+[ 264.0s] day 7 wu 1: repair_o2gen  [F0 O14 B1 P1 CO2 0 H0 S3 HP2 fault O2Gen]
+[ 265.0s] LAST DOCK Rescued on day 7 in 103s; log: radio_board,radio_tested,radio_fixed,dinner,fault_Leak_Thermal,sealed,signal_sent,signal_sent,recycled,dinner,power_dip,signal_sent,recycled,dinner,serviced_scrubber,radiation,shelter_on,dinner,cold,dark_warning,panels_clean,ice,dinner,fault_Thermal,fixed_thermal,serviced_fan,ice,dinner,weak,fault_O2Gen,fixed_o2gen,hungry,dinner,cold,weak,rescued
+
+done errors=0 checksFailed=0

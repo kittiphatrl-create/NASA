@@ -1,0 +1,1388 @@
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "result": {
+    "_meta": {
+      "fastmcp": {
+        "wrap_result": true
+      }
+    },
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"success\":true,\"message\":\"Test job status retrieved.\",\"error\":null,\"data\":{\"job_id\":\"be7ef6df15c04bc0baa7620f5ced655d\",\"status\":\"succeeded\",\"mode\":\"EditMode\",\"started_unix_ms\":1794734188144,\"finished_unix_ms\":1794734194470,\"last_update_unix_ms\":1794734194470,\"progress\":{\"completed\":147,\"total\":147,\"current_test_full_name\":null,\"current_test_started_unix_ms\":null,\"last_finished_test_full_name\":\"TitanGate.Tests.TemporaryVisitorTests.PermanentVisitorDoesNotDepartWithTemporaryGuests\",\"last_finished_unix_ms\":1794734194269,\"stuck_suspected\":false,\"editor_is_focused\":false,\"run_in_background\":false,\"focus_nudge_attempts\":null,\"focus_nudge_limit\":null,\"focus_nudge_status\":null,\"blocked_reason\":null,\"failures_so_far\":[],\"failures_capped\":false},\"error\":null,\"result\":{\"mode\":\"EditMode\",\"summary\":{\"total\":147,\"passed\":147,\"failed\":0,\"skipped\":0,\"durationSeconds\":2.8870928,\"resultState\":\"Passed\"},\"results\":[{\"name\":\"FailedWorkPreservesTimeReservedForStory\",\"fullName\":\"TitanGate.Tests.DailyScheduleTests.FailedWorkPreservesTimeReservedForStory\",\"state\":\"Passed\",\"durationSeconds\":0.011189,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"InvalidDurationsCannotCreateTime\",\"fullName\":\"TitanGate.Tests.DailyScheduleTests.InvalidDurationsCannotCreateTime\",\"state\":\"Passed\",\"durationSeconds\":0.0003425,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"NightBoundaryAndResetAreExact\",\"fullName\":\"TitanGate.Tests.DailyScheduleTests.NightBoundaryAndResetAreExact\",\"state\":\"Passed\",\"durationSeconds\":0.0002419,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Alone_DinnerChoice_SkippingTwiceMakesYouWeak\",\"fullName\":\"TitanGate.Tests.LastDockTests.Alone_DinnerChoice_SkippingTwiceMakesYouWeak\",\"state\":\"Passed\",\"durationSeconds\":0.0011924,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"BalanceReport\",\"fullName\":\"TitanGate.Tests.LastDockTests.BalanceReport\",\"state\":\"Passed\",\"durationSeconds\":0.2885962,\"message\":\"even/Balanced: 41/50 dock_power_missing=8 signal_missing=1 \\r\\neven/BatteryFirst: 35/50 signal_missing=4 radiation=4 dock_power_missing=3 lost=4 \\r\\neven/Neglect: 0/50 no_oxygen_o2gen_off=2 co2_critical=8 cold=19 transmitter_tripped@7=1 no_oxygen_o2gen_down=4 no_oxygen_leak=8 storm_radiation=2 intruder_stole=1 dark_warning=2 lost=3 \\r\\nlowParts/Balanced: 38/50 signal_missing=5 dock_power_missing=7 \\r\\nlowParts/BatteryFirst: 33/50 dock_power_missing=3 signal_missing=10 radiation=4 \\r\\nlowParts/Neglect: 0/50 lost=11 co2_critical=6 cold=14 transmitter_tripped@7=1 no_oxygen_o2gen_down=4 no_oxygen_leak=7 storm_radiation=2 intruder_stole=2 no_oxygen_o2gen_off=1 thirsty=1 dark_warning=1 \\r\\nbatteryHeavy/Balanced: 35/50 hungry=5 dock_power_missing=7 signal_missing=2 lost=1 \\r\\nbatteryHeavy/BatteryFirst: 31/50 signal_missing=3 lost=8 radiation=4 hungry=3 dock_power_missing=1 \\r\\nbatteryHeavy/Neglect: 0/50 thirsty=3 co2_critical=7 cold=16 no_oxygen_o2gen_down=4 no_oxygen_leak=11 dark_warning=1 hungry=6 lost=2 \\r\\nnoFood/Balanced: 16/50 hungry=17 dock_power_missing=5 cold=3 lost=9 \\r\\nnoFood/BatteryFirst: 21/50 lost=16 cold=1 hungry=7 radiation=4 dock_power_missing=1 \\r\\nnoFood/Neglect: 0/50 lost=13 co2_critical=6 cold=12 no_oxygen_leak=6 hungry=8 no_oxygen_o2gen_off=2 intruder_stole=1 dark_warning=1 no_oxygen_o2gen_down=1 \\r\\nempty/Balanced: 17/50 cold=11 hungry=10 lost=10 dock_power_missing=1 signal_missing=1 \\r\\nempty/BatteryFirst: 16/50 beacon_signal=2 lost=13 hungry=7 radiation=4 cold=5 signal_missing=2 dock_power_missing=1 \\r\\nempty/Neglect: 0/50 no_oxygen_leak=11 co2_critical=7 cold=17 no_oxygen_o2gen_down=3 lost=5 hungry=5 intruder_stole=1 dark_warning=1 \\r\\nfoodAir/Balanced: 37/50 cold=1 dock_power_missing=4 signal_missing=8 \\r\\nfoodAir/BatteryFirst: 31/50 signal_missing=12 radiation=4 lost=1 dock_power_missing=2 \\r\\nfoodAir/Neglect: 0/50 no_oxygen_leak=8 co2_critical=7 cold=21 transmitter_tripped@7=1 no_oxygen_o2gen_down=4 dock_power_missing=2 dark_warning=2 lost=3 intruder_stole=1 no_oxygen_o2gen_off=1 \\r\\n\",\"stackTrace\":\"at TitanGate.Tests.LastDockTests.BalanceReport () [0x00230] in F:\\\\NASA\\\\TitanGate2177\\\\Assets\\\\Tests\\\\EditMode\\\\LastDockTests.cs:347\\r\\n\",\"output\":\"\"},{\"name\":\"Beacon_IsTheSecondRoute_SendsEveryPoweredNight\",\"fullName\":\"TitanGate.Tests.LastDockTests.Beacon_IsTheSecondRoute_SendsEveryPoweredNight\",\"state\":\"Passed\",\"durationSeconds\":0.0004085,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"BreakdownsComeFromWear_NotFromLuck\",\"fullName\":\"TitanGate.Tests.LastDockTests.BreakdownsComeFromWear_NotFromLuck\",\"state\":\"Passed\",\"durationSeconds\":0.0034744,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"ClosingAndReopening_PanelChangesNothing\",\"fullName\":\"TitanGate.Tests.LastDockTests.ClosingAndReopening_PanelChangesNothing\",\"state\":\"Passed\",\"durationSeconds\":0.0015078,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Co2_And_O2_AreIndependent\",\"fullName\":\"TitanGate.Tests.LastDockTests.Co2_And_O2_AreIndependent\",\"state\":\"Passed\",\"durationSeconds\":0.0005395,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"DayOne_IsQuiet\",\"fullName\":\"TitanGate.Tests.LastDockTests.DayOne_IsQuiet\",\"state\":\"Passed\",\"durationSeconds\":0.00073,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"DetachedRoom_StaysInactive_AndIsNeverTargeted\",\"fullName\":\"TitanGate.Tests.LastDockTests.DetachedRoom_StaysInactive_AndIsNeverTargeted\",\"state\":\"Passed\",\"durationSeconds\":0.0164278,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Dinner_PlanMustFitTheStock_MysteryBoxesCanBeServed\",\"fullName\":\"TitanGate.Tests.LastDockTests.Dinner_PlanMustFitTheStock_MysteryBoxesCanBeServed\",\"state\":\"Passed\",\"durationSeconds\":0.0006473,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Dinner_WaitsForThePlayersPlan\",\"fullName\":\"TitanGate.Tests.LastDockTests.Dinner_WaitsForThePlayersPlan\",\"state\":\"Passed\",\"durationSeconds\":0.0007769,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Director_IsSeeded_OneAtATime_NoRepeats\",\"fullName\":\"TitanGate.Tests.LastDockTests.Director_IsSeeded_OneAtATime_NoRepeats\",\"state\":\"Passed\",\"durationSeconds\":0.0280933,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Dust_LowersSolar_CleaningRestoresIt\",\"fullName\":\"TitanGate.Tests.LastDockTests.Dust_LowersSolar_CleaningRestoresIt\",\"state\":\"Passed\",\"durationSeconds\":0.0005619,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"EveryIncident_HasAtLeastTwoWorkingOptions\",\"fullName\":\"TitanGate.Tests.LastDockTests.EveryIncident_HasAtLeastTwoWorkingOptions\",\"state\":\"Passed\",\"durationSeconds\":0.0009038,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Fan_Failure_RaisesCo2_UntilBackupOrRepair\",\"fullName\":\"TitanGate.Tests.LastDockTests.Fan_Failure_RaisesCo2_UntilBackupOrRepair\",\"state\":\"Passed\",\"durationSeconds\":0.0001431,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Flashlight_IsAFreeAnswerToAPowerDip\",\"fullName\":\"TitanGate.Tests.LastDockTests.Flashlight_IsAFreeAnswerToAPowerDip\",\"state\":\"Passed\",\"durationSeconds\":0.0001632,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Forecast_ShowsHowLongThingsLast\",\"fullName\":\"TitanGate.Tests.LastDockTests.Forecast_ShowsHowLongThingsLast\",\"state\":\"Passed\",\"durationSeconds\":0.0001366,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"FrozenFood_AddsSafeMeals_Medkit_Heals\",\"fullName\":\"TitanGate.Tests.LastDockTests.FrozenFood_AddsSafeMeals_Medkit_Heals\",\"state\":\"Passed\",\"durationSeconds\":0.0001214,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"GameBalanceReport\",\"fullName\":\"TitanGate.Tests.LastDockTests.GameBalanceReport\",\"state\":\"Passed\",\"durationSeconds\":0.0112305,\"message\":\"game wins 25/30 avgDay 7.0 dock_power_missing=4 signal_missing=1 \",\"stackTrace\":\"at TitanGate.Tests.LastDockTests.GameBalanceReport () [0x0016d] in F:\\\\NASA\\\\TitanGate2177\\\\Assets\\\\Tests\\\\EditMode\\\\LastDockTests.cs:732\\r\\n\",\"output\":\"\"},{\"name\":\"GameSettings_StillWinnable_AndNeglectLoses\",\"fullName\":\"TitanGate.Tests.LastDockTests.GameSettings_StillWinnable_AndNeglectLoses\",\"state\":\"Passed\",\"durationSeconds\":0.0203816,\"message\":null,\"stackTrace\":null,\"output\":\"game settings: balanced 25/30, neglect 0/30\\r\\n\"},{\"name\":\"HeatTripsTransmitter_ShedLoadCoolsIt\",\"fullName\":\"TitanGate.Tests.LastDockTests.HeatTripsTransmitter_ShedLoadCoolsIt\",\"state\":\"Passed\",\"durationSeconds\":0.000247,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Hunger_Weak_ThenStarving_HurtsTheCrew\",\"fullName\":\"TitanGate.Tests.LastDockTests.Hunger_Weak_ThenStarving_HurtsTheCrew\",\"state\":\"Passed\",\"durationSeconds\":0.0001948,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"IncidentsStart_OnlyWithAMoveLeft\",\"fullName\":\"TitanGate.Tests.LastDockTests.IncidentsStart_OnlyWithAMoveLeft\",\"state\":\"Passed\",\"durationSeconds\":0.0097586,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"LowParts_StillWinnable\",\"fullName\":\"TitanGate.Tests.LastDockTests.LowParts_StillWinnable\",\"state\":\"Passed\",\"durationSeconds\":0.0062202,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Machines_Wear_ServiceIsCheaperThanRepair\",\"fullName\":\"TitanGate.Tests.LastDockTests.Machines_Wear_ServiceIsCheaperThanRepair\",\"state\":\"Passed\",\"durationSeconds\":0.0004171,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"MysteryFood_IsAGamble_MedicineFixesASickDay\",\"fullName\":\"TitanGate.Tests.LastDockTests.MysteryFood_IsAGamble_MedicineFixesASickDay\",\"state\":\"Passed\",\"durationSeconds\":0.0005929,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Neglect_Loses_WithACauseChain\",\"fullName\":\"TitanGate.Tests.LastDockTests.Neglect_Loses_WithACauseChain\",\"state\":\"Passed\",\"durationSeconds\":0.0024954,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Night_ComesAfterLastWorkUnit\",\"fullName\":\"TitanGate.Tests.LastDockTests.Night_ComesAfterLastWorkUnit\",\"state\":\"Passed\",\"durationSeconds\":0.0001737,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"NoParts_StillHasAWayOut\",\"fullName\":\"TitanGate.Tests.LastDockTests.NoParts_StillHasAWayOut\",\"state\":\"Passed\",\"durationSeconds\":0.0001456,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"OneAction_IsOneStep\",\"fullName\":\"TitanGate.Tests.LastDockTests.OneAction_IsOneStep\",\"state\":\"Passed\",\"durationSeconds\":0.0001022,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"OneSiteIsHotEachDay_AMeterShowsWhich\",\"fullName\":\"TitanGate.Tests.LastDockTests.OneSiteIsHotEachDay_AMeterShowsWhich\",\"state\":\"Passed\",\"durationSeconds\":0.0009076,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"PortableSolar_AddsOnePowerEachNight\",\"fullName\":\"TitanGate.Tests.LastDockTests.PortableSolar_AddsOnePowerEachNight\",\"state\":\"Passed\",\"durationSeconds\":0.0001437,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"PowerDip_HasThreeAnswers\",\"fullName\":\"TitanGate.Tests.LastDockTests.PowerDip_HasThreeAnswers\",\"state\":\"Passed\",\"durationSeconds\":0.0001624,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"PowerPlan_IsFree_AndTheNightPaysIt\",\"fullName\":\"TitanGate.Tests.LastDockTests.PowerPlan_IsFree_AndTheNightPaysIt\",\"state\":\"Passed\",\"durationSeconds\":0.0001533,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Preview_MatchesRealResult\",\"fullName\":\"TitanGate.Tests.LastDockTests.Preview_MatchesRealResult\",\"state\":\"Passed\",\"durationSeconds\":0.0002171,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Radio_IsBoard_PowerTest_Antenna_KitSkipsTwo\",\"fullName\":\"TitanGate.Tests.LastDockTests.Radio_IsBoard_PowerTest_Antenna_KitSkipsTwo\",\"state\":\"Passed\",\"durationSeconds\":0.0002018,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Raiders_MustBeAnswered_FlashlightScaresThem\",\"fullName\":\"TitanGate.Tests.LastDockTests.Raiders_MustBeAnswered_FlashlightScaresThem\",\"state\":\"Passed\",\"durationSeconds\":0.0001588,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Reading_And_Preview_DoNotMoveTime\",\"fullName\":\"TitanGate.Tests.LastDockTests.Reading_And_Preview_DoNotMoveTime\",\"state\":\"Passed\",\"durationSeconds\":0.0004869,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Repairs_EndTheFault\",\"fullName\":\"TitanGate.Tests.LastDockTests.Repairs_EndTheFault\",\"state\":\"Passed\",\"durationSeconds\":0.0005949,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Replay_SameSeedSameActions_SameState\",\"fullName\":\"TitanGate.Tests.LastDockTests.Replay_SameSeedSameActions_SameState\",\"state\":\"Passed\",\"durationSeconds\":0.0019147,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Restart_ClearsEverything\",\"fullName\":\"TitanGate.Tests.LastDockTests.Restart_ClearsEverything\",\"state\":\"Passed\",\"durationSeconds\":0.0011936,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Resting_NeverStartsAnIncident\",\"fullName\":\"TitanGate.Tests.LastDockTests.Resting_NeverStartsAnIncident\",\"state\":\"Passed\",\"durationSeconds\":0.0052796,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Rover_NeedsThreeParts_AssembleCharge_AndSolarUpgrade\",\"fullName\":\"TitanGate.Tests.LastDockTests.Rover_NeedsThreeParts_AssembleCharge_AndSolarUpgrade\",\"state\":\"Passed\",\"durationSeconds\":0.0002752,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"SameKitSeedAndActions_ReplayToTheSameState\",\"fullName\":\"TitanGate.Tests.LastDockTests.SameKitSeedAndActions_ReplayToTheSameState\",\"state\":\"Passed\",\"durationSeconds\":0.0169143,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Scavenge_CarryThree_PodEight_OnlyDepositedCount\",\"fullName\":\"TitanGate.Tests.LastDockTests.Scavenge_CarryThree_PodEight_OnlyDepositedCount\",\"state\":\"Passed\",\"durationSeconds\":0.0005127,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"SealedRoom_CannotBeUsed_UntilRepaired\",\"fullName\":\"TitanGate.Tests.LastDockTests.SealedRoom_CannotBeUsed_UntilRepaired\",\"state\":\"Passed\",\"durationSeconds\":0.0003257,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"ShortBattery_SwitchesOffExtrasFirst\",\"fullName\":\"TitanGate.Tests.LastDockTests.ShortBattery_SwitchesOffExtrasFirst\",\"state\":\"Passed\",\"durationSeconds\":0.0002334,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"SolarStorm_IsWarnedTheDayBefore_ShelterCostsPower\",\"fullName\":\"TitanGate.Tests.LastDockTests.SolarStorm_IsWarnedTheDayBefore_ShelterCostsPower\",\"state\":\"Passed\",\"durationSeconds\":0.0011774,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"SpecialItems_TakeALifeboatSlot\",\"fullName\":\"TitanGate.Tests.LastDockTests.SpecialItems_TakeALifeboatSlot\",\"state\":\"Passed\",\"durationSeconds\":0.0001493,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Station_AddsDeliveredOnTopOfMinimumStock\",\"fullName\":\"TitanGate.Tests.LastDockTests.Station_AddsDeliveredOnTopOfMinimumStock\",\"state\":\"Passed\",\"durationSeconds\":0.0001141,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"TwoDarkNights_BringAnIntruder_WithAWarningFirst\",\"fullName\":\"TitanGate.Tests.LastDockTests.TwoDarkNights_BringAnIntruder_WithAWarningFirst\",\"state\":\"Passed\",\"durationSeconds\":0.0001213,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"TwoDifferentPlans_CanWin\",\"fullName\":\"TitanGate.Tests.LastDockTests.TwoDifferentPlans_CanWin\",\"state\":\"Passed\",\"durationSeconds\":0.0134956,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Water_FeedsOxygen_RecyclerAndIceRefill\",\"fullName\":\"TitanGate.Tests.LastDockTests.Water_FeedsOxygen_RecyclerAndIceRefill\",\"state\":\"Passed\",\"durationSeconds\":0.0005861,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Win_NeedsSignalAndDockPower\",\"fullName\":\"TitanGate.Tests.LastDockTests.Win_NeedsSignalAndDockPower\",\"state\":\"Passed\",\"durationSeconds\":0.0002787,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"CloggedFilter_AndEmptyBattery_EachCostExtraO2\",\"fullName\":\"TitanGate.Tests.LifeboatAirTests.CloggedFilter_AndEmptyBattery_EachCostExtraO2\",\"state\":\"Passed\",\"durationSeconds\":0.0049886,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"DaysOfSupplies_CountsTheWholeCrew\",\"fullName\":\"TitanGate.Tests.LifeboatAirTests.DaysOfSupplies_CountsTheWholeCrew\",\"state\":\"Passed\",\"durationSeconds\":0.0004327,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"LettingSomeoneIn_OrSpendingAir_IsRefused_WhenTonightsAirWouldNotCoverIt\",\"fullName\":\"TitanGate.Tests.LifeboatAirTests.LettingSomeoneIn_OrSpendingAir_IsRefused_WhenTonightsAirWouldNotCoverIt\",\"state\":\"Passed\",\"durationSeconds\":0.0003541,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"NotEnoughO2ForEveryoneInside_FailsTheRun\",\"fullName\":\"TitanGate.Tests.LifeboatAirTests.NotEnoughO2ForEveryoneInside_FailsTheRun\",\"state\":\"Passed\",\"durationSeconds\":0.0001416,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Options_NeedTheirItem_TheirPetTrait_AndEnoughStock\",\"fullName\":\"TitanGate.Tests.LifeboatChoiceTests.Options_NeedTheirItem_TheirPetTrait_AndEnoughStock\",\"state\":\"Passed\",\"durationSeconds\":0.0010947,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"ScrambleSupplies_BecomeStartingStock\",\"fullName\":\"TitanGate.Tests.LifeboatChoiceTests.ScrambleSupplies_BecomeStartingStock\",\"state\":\"Passed\",\"durationSeconds\":0.0005786,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Thief_IsStoppedByAFedBravePet_OrByTheLock\",\"fullName\":\"TitanGate.Tests.LifeboatChoiceTests.Thief_IsStoppedByAFedBravePet_OrByTheLock\",\"state\":\"Passed\",\"durationSeconds\":0.0008401,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Thief_TakesFoodAndAnItem_ThenLeaves\",\"fullName\":\"TitanGate.Tests.LifeboatChoiceTests.Thief_TakesFoodAndAnItem_ThenLeaves\",\"state\":\"Passed\",\"durationSeconds\":0.0003419,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"FedGuest_GivesItsGift_AndStays\",\"fullName\":\"TitanGate.Tests.LifeboatDayTests.FedGuest_GivesItsGift_AndStays\",\"state\":\"Passed\",\"durationSeconds\":0.0005939,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Guest_BreathesEvenWhenNotFed_AndLeavesHungry\",\"fullName\":\"TitanGate.Tests.LifeboatDayTests.Guest_BreathesEvenWhenNotFed_AndLeavesHungry\",\"state\":\"Passed\",\"durationSeconds\":0.0005512,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"HungryPet_GivesNoHint_UntilItIsFedAgain\",\"fullName\":\"TitanGate.Tests.LifeboatDayTests.HungryPet_GivesNoHint_UntilItIsFedAgain\",\"state\":\"Passed\",\"durationSeconds\":0.0007998,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"LastDay_IsRescuedOnlyWithCoordinatesSent_AndAShortRunCanStopEarlier\",\"fullName\":\"TitanGate.Tests.LifeboatDayTests.LastDay_IsRescuedOnlyWithCoordinatesSent_AndAShortRunCanStopEarlier\",\"state\":\"Passed\",\"durationSeconds\":0.0011887,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Night_CadetUsesOneOfEach_PetEatsFood_SunPaysForLifeSupport\",\"fullName\":\"TitanGate.Tests.LifeboatDayTests.Night_CadetUsesOneOfEach_PetEatsFood_SunPaysForLifeSupport\",\"state\":\"Passed\",\"durationSeconds\":0.0002614,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"PlanThatCostsMoreThanTheStock_IsRefused\",\"fullName\":\"TitanGate.Tests.LifeboatDayTests.PlanThatCostsMoreThanTheStock_IsRefused\",\"state\":\"Passed\",\"durationSeconds\":0.0001791,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"SkippingYourOwnRation_CostsHealth_AndThreeTimesFails\",\"fullName\":\"TitanGate.Tests.LifeboatDayTests.SkippingYourOwnRation_CostsHealth_AndThreeTimesFails\",\"state\":\"Passed\",\"durationSeconds\":0.0001458,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Data_IsConsistent\",\"fullName\":\"TitanGate.Tests.LifeboatShippedDataTests.Data_IsConsistent\",\"state\":\"Passed\",\"durationSeconds\":0.081344,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"MinimalLoot_CarefulPlayer_IsRescued_WithEveryPet\",\"fullName\":\"TitanGate.Tests.LifeboatShippedDataTests.MinimalLoot_CarefulPlayer_IsRescued_WithEveryPet\",\"state\":\"Passed\",\"durationSeconds\":0.0051534,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"RandomWeeks_NeverDeadlock_ReachEveryEnding_AndLootHelps\",\"fullName\":\"TitanGate.Tests.LifeboatShippedDataTests.RandomWeeks_NeverDeadlock_ReachEveryEnding_AndLootHelps\",\"state\":\"Passed\",\"durationSeconds\":0.4666225,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Strings_CoverEveryCardPetAndVisitor\",\"fullName\":\"TitanGate.Tests.LifeboatShippedDataTests.Strings_CoverEveryCardPetAndVisitor\",\"state\":\"Passed\",\"durationSeconds\":0.1011685,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"FedCarefulPet_GivesOneExtraScan\",\"fullName\":\"TitanGate.Tests.LifeboatVisitorTests.FedCarefulPet_GivesOneExtraScan\",\"state\":\"Passed\",\"durationSeconds\":0.0020059,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"LettingAMonsterIn_EndsTheRunAtOnce\",\"fullName\":\"TitanGate.Tests.LifeboatVisitorTests.LettingAMonsterIn_EndsTheRunAtOnce\",\"state\":\"Passed\",\"durationSeconds\":0.0002209,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Scans_ReadWrongOnAMonster_NormalOnALivingVisitor_AndAreLimited\",\"fullName\":\"TitanGate.Tests.LifeboatVisitorTests.Scans_ReadWrongOnAMonster_NormalOnALivingVisitor_AndAreLimited\",\"state\":\"Passed\",\"durationSeconds\":0.0003205,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Cards_AppearOnlyWhenTheirConditionHolds\",\"fullName\":\"TitanGate.Tests.LifeboatWeekTests.Cards_AppearOnlyWhenTheirConditionHolds\",\"state\":\"Passed\",\"durationSeconds\":0.001218,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Options_CanNeedAFlagOrAGuest_AndCanCostHealthButNeverTheLastOfIt\",\"fullName\":\"TitanGate.Tests.LifeboatWeekTests.Options_CanNeedAFlagOrAGuest_AndCanCostHealthButNeverTheLastOfIt\",\"state\":\"Passed\",\"durationSeconds\":0.0003001,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"OxygenMaker_TurnsPowerIntoAir_WhenThereIsPowerForIt\",\"fullName\":\"TitanGate.Tests.LifeboatWeekTests.OxygenMaker_TurnsPowerIntoAir_WhenThereIsPowerForIt\",\"state\":\"Passed\",\"durationSeconds\":0.0003275,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"StormNight_HurtsOnlyWhatWasNotPrepared_AndOnlyOnItsNight\",\"fullName\":\"TitanGate.Tests.LifeboatWeekTests.StormNight_HurtsOnlyWhatWasNotPrepared_AndOnlyOnItsNight\",\"state\":\"Passed\",\"durationSeconds\":0.0007115,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Action_AppliesCosts_ThenItsHoursPass\",\"fullName\":\"TitanGate.Tests.OutpostActionTests.Action_AppliesCosts_ThenItsHoursPass\",\"state\":\"Passed\",\"durationSeconds\":0.0049516,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"ItemAction_UsesUpItsFlag\",\"fullName\":\"TitanGate.Tests.OutpostActionTests.ItemAction_UsesUpItsFlag\",\"state\":\"Passed\",\"durationSeconds\":0.0005394,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"LowEnergy_CostsAnExtraHour_AndZeroEnergyCollapses\",\"fullName\":\"TitanGate.Tests.OutpostActionTests.LowEnergy_CostsAnExtraHour_AndZeroEnergyCollapses\",\"state\":\"Passed\",\"durationSeconds\":0.0007622,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Outside_AddsDose_AndMinDayGatesScience\",\"fullName\":\"TitanGate.Tests.OutpostActionTests.Outside_AddsDose_AndMinDayGatesScience\",\"state\":\"Passed\",\"durationSeconds\":0.0003099,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"SendCoords_NeedsTheBeaconOn_AndIsAcknowledgedOnARescuePass\",\"fullName\":\"TitanGate.Tests.OutpostActionTests.SendCoords_NeedsTheBeaconOn_AndIsAcknowledgedOnARescuePass\",\"state\":\"Passed\",\"durationSeconds\":0.0003909,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Clock_StartsAtDawnOfDay1_AndDayChangesAt0600\",\"fullName\":\"TitanGate.Tests.OutpostClockTests.Clock_StartsAtDawnOfDay1_AndDayChangesAt0600\",\"state\":\"Passed\",\"durationSeconds\":0.0048267,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Rescue_IsCheckedAtHour168_PreparedWins_UnpreparedIsStranded\",\"fullName\":\"TitanGate.Tests.OutpostClockTests.Rescue_IsCheckedAtHour168_PreparedWins_UnpreparedIsStranded\",\"state\":\"Passed\",\"durationSeconds\":0.0004854,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Stranded_NamesTheFirstMissingRescueStep\",\"fullName\":\"TitanGate.Tests.OutpostClockTests.Stranded_NamesTheFirstMissingRescueStep\",\"state\":\"Passed\",\"durationSeconds\":0.0005919,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"CarryOver_CabinAirAndSupplies\",\"fullName\":\"TitanGate.Tests.OutpostEventTests.CarryOver_CabinAirAndSupplies\",\"state\":\"Passed\",\"durationSeconds\":0.0008599,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"EarthMessages_RideTheRelayPasses\",\"fullName\":\"TitanGate.Tests.OutpostEventTests.EarthMessages_RideTheRelayPasses\",\"state\":\"Passed\",\"durationSeconds\":0.000995,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Encounters_DrawnOnFreeMornings_OptionNeedsItsSupply\",\"fullName\":\"TitanGate.Tests.OutpostEventTests.Encounters_DrawnOnFreeMornings_OptionNeedsItsSupply\",\"state\":\"Passed\",\"durationSeconds\":0.0014386,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"NightEvent_IsNumberedByTheDayItEnds_FirstNightIsNight1\",\"fullName\":\"TitanGate.Tests.OutpostEventTests.NightEvent_IsNumberedByTheDayItEnds_FirstNightIsNight1\",\"state\":\"Passed\",\"durationSeconds\":0.000613,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"NightEvent_PreventedBySolFlag_ElseHurts\",\"fullName\":\"TitanGate.Tests.OutpostEventTests.NightEvent_PreventedBySolFlag_ElseHurts\",\"state\":\"Passed\",\"durationSeconds\":0.0003496,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"NoSupplies_For24Hours_FailsTheMission\",\"fullName\":\"TitanGate.Tests.OutpostEventTests.NoSupplies_For24Hours_FailsTheMission\",\"state\":\"Passed\",\"durationSeconds\":0.000129,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Sleep_FromHealthyAir_RingsBothAlarmsInTurn\",\"fullName\":\"TitanGate.Tests.OutpostEventTests.Sleep_FromHealthyAir_RingsBothAlarmsInTurn\",\"state\":\"Passed\",\"durationSeconds\":0.0006381,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Sleep_RestoresEnergy_ButALowAirAlarmWakesYou\",\"fullName\":\"TitanGate.Tests.OutpostEventTests.Sleep_RestoresEnergy_ButALowAirAlarmWakesYou\",\"state\":\"Passed\",\"durationSeconds\":0.0001987,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Sleep_StartedWithLowAir_IsWokenAgainAtTheCriticalLevel\",\"fullName\":\"TitanGate.Tests.OutpostEventTests.Sleep_StartedWithLowAir_IsWokenAgainAtTheCriticalLevel\",\"state\":\"Passed\",\"durationSeconds\":0.0002639,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"SolarParticleEvent_HitsOnce_ShelterAndPowerDecideHowHard\",\"fullName\":\"TitanGate.Tests.OutpostEventTests.SolarParticleEvent_HitsOnce_ShelterAndPowerDecideHowHard\",\"state\":\"Passed\",\"durationSeconds\":0.0002847,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"SpeWarning_ArrivesAtItsHour\",\"fullName\":\"TitanGate.Tests.OutpostEventTests.SpeWarning_ArrivesAtItsHour\",\"state\":\"Passed\",\"durationSeconds\":0.0001233,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"LifeSupport_SlowsAirLoss_AndCostsPower\",\"fullName\":\"TitanGate.Tests.OutpostSystemTests.LifeSupport_SlowsAirLoss_AndCostsPower\",\"state\":\"Passed\",\"durationSeconds\":0.0004151,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"NotEnoughPower_SwitchesASystemOff_AndLogsIt\",\"fullName\":\"TitanGate.Tests.OutpostSystemTests.NotEnoughPower_SwitchesASystemOff_AndLogsIt\",\"state\":\"Passed\",\"durationSeconds\":0.0003625,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"PowerNeededUntilSunrise_CountsSwitchedOnSystems\",\"fullName\":\"TitanGate.Tests.OutpostSystemTests.PowerNeededUntilSunrise_CountsSwitchedOnSystems\",\"state\":\"Passed\",\"durationSeconds\":0.000408,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Solar_OnlyInDaylight_ScaledByDust\",\"fullName\":\"TitanGate.Tests.OutpostSystemTests.Solar_OnlyInDaylight_ScaledByDust\",\"state\":\"Passed\",\"durationSeconds\":0.0002423,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Code_TrimmedExactMatch\",\"fullName\":\"TitanGate.Tests.PuzzleTests.Code_TrimmedExactMatch\",\"state\":\"Passed\",\"durationSeconds\":0.000297,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Codex_UnlocksOnce\",\"fullName\":\"TitanGate.Tests.PuzzleTests.Codex_UnlocksOnce\",\"state\":\"Passed\",\"durationSeconds\":0.0003472,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Edl_FindsFirstWrongStep\",\"fullName\":\"TitanGate.Tests.PuzzleTests.Edl_FindsFirstWrongStep\",\"state\":\"Passed\",\"durationSeconds\":0.0010323,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Inventory_CombinesByRecipeEitherOrder\",\"fullName\":\"TitanGate.Tests.PuzzleTests.Inventory_CombinesByRecipeEitherOrder\",\"state\":\"Passed\",\"durationSeconds\":0.0004665,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Nav_OnlyMarsIsReachable\",\"fullName\":\"TitanGate.Tests.PuzzleTests.Nav_OnlyMarsIsReachable\",\"state\":\"Passed\",\"durationSeconds\":0.0002662,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Blackout_UnpowersRestoredRoomsAndAddsReset\",\"fullName\":\"TitanGate.Tests.RestoreSimTests.Blackout_UnpowersRestoredRoomsAndAddsReset\",\"state\":\"Passed\",\"durationSeconds\":0.0041279,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"CommsOpensAfterThreeRooms_AnyOrder\",\"fullName\":\"TitanGate.Tests.RestoreSimTests.CommsOpensAfterThreeRooms_AnyOrder\",\"state\":\"Passed\",\"durationSeconds\":0.000309,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Do_NeedsItsItem\",\"fullName\":\"TitanGate.Tests.RestoreSimTests.Do_NeedsItsItem\",\"state\":\"Passed\",\"durationSeconds\":0.0001065,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Do_RefusesWhenDayTooShort\",\"fullName\":\"TitanGate.Tests.RestoreSimTests.Do_RefusesWhenDayTooShort\",\"state\":\"Passed\",\"durationSeconds\":0.0001447,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Do_SpendsShownHours\",\"fullName\":\"TitanGate.Tests.RestoreSimTests.Do_SpendsShownHours\",\"state\":\"Passed\",\"durationSeconds\":0.0001086,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"EatDrinkSleep_Restore\",\"fullName\":\"TitanGate.Tests.RestoreSimTests.EatDrinkSleep_Restore\",\"state\":\"Passed\",\"durationSeconds\":0.0001547,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"HotInside_ThirstFaster_UntilCoolingFixed\",\"fullName\":\"TitanGate.Tests.RestoreSimTests.HotInside_ThirstFaster_UntilCoolingFixed\",\"state\":\"Passed\",\"durationSeconds\":0.0001987,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Mistakes_AddHalfHourEach_CappedAtOneHour\",\"fullName\":\"TitanGate.Tests.RestoreSimTests.Mistakes_AddHalfHourEach_CappedAtOneHour\",\"state\":\"Passed\",\"durationSeconds\":0.000067,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Nap_SpendsTime_GivesBackRest\",\"fullName\":\"TitanGate.Tests.RestoreSimTests.Nap_SpendsTime_GivesBackRest\",\"state\":\"Passed\",\"durationSeconds\":0.0001697,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Needs_DropWithTime_AndWorkTires\",\"fullName\":\"TitanGate.Tests.RestoreSimTests.Needs_DropWithTime_AndWorkTires\",\"state\":\"Passed\",\"durationSeconds\":0.0000912,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"OpenTasks_ListsOnlyReachableUndone\",\"fullName\":\"TitanGate.Tests.RestoreSimTests.OpenTasks_ListsOnlyReachableUndone\",\"state\":\"Passed\",\"durationSeconds\":0.0008782,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Percent_CountsDoneTasks\",\"fullName\":\"TitanGate.Tests.RestoreSimTests.Percent_CountsDoneTasks\",\"state\":\"Passed\",\"durationSeconds\":0.0001883,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"PowerRestored_OpensOtherRoomsNotComms\",\"fullName\":\"TitanGate.Tests.RestoreSimTests.PowerRestored_OpensOtherRoomsNotComms\",\"state\":\"Passed\",\"durationSeconds\":0.0001042,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"ResetTask_RepowersRoom\",\"fullName\":\"TitanGate.Tests.RestoreSimTests.ResetTask_RepowersRoom\",\"state\":\"Passed\",\"durationSeconds\":0.0001079,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Send_BeforeCommsRestored_Fails\",\"fullName\":\"TitanGate.Tests.RestoreSimTests.Send_BeforeCommsRestored_Fails\",\"state\":\"Passed\",\"durationSeconds\":0.0002449,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Send_InsideWindow_Succeeds\",\"fullName\":\"TitanGate.Tests.RestoreSimTests.Send_InsideWindow_Succeeds\",\"state\":\"Passed\",\"durationSeconds\":0.0002693,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Send_OutsideWindow_Fails_NextWindowLater\",\"fullName\":\"TitanGate.Tests.RestoreSimTests.Send_OutsideWindow_Fails_NextWindowLater\",\"state\":\"Passed\",\"durationSeconds\":0.0001578,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"ShippedConfig_CanBeFinished\",\"fullName\":\"TitanGate.Tests.RestoreSimTests.ShippedConfig_CanBeFinished\",\"state\":\"Passed\",\"durationSeconds\":0.0015857,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"ShippedConfig_IsPlayable\",\"fullName\":\"TitanGate.Tests.RestoreSimTests.ShippedConfig_IsPlayable\",\"state\":\"Passed\",\"durationSeconds\":0.001292,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Snapshot_RoundTrips\",\"fullName\":\"TitanGate.Tests.RestoreSimTests.Snapshot_RoundTrips\",\"state\":\"Passed\",\"durationSeconds\":0.0003491,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Start_OnlyPowerRoomOpen\",\"fullName\":\"TitanGate.Tests.RestoreSimTests.Start_OnlyPowerRoomOpen\",\"state\":\"Passed\",\"durationSeconds\":0.000141,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Tire_DrainsRestOnly_ClockUnchanged\",\"fullName\":\"TitanGate.Tests.RestoreSimTests.Tire_DrainsRestOnly_ClockUnchanged\",\"state\":\"Passed\",\"durationSeconds\":0.000083,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Warnings_ListDangerBeforeLoss\",\"fullName\":\"TitanGate.Tests.RestoreSimTests.Warnings_ListDangerBeforeLoss\",\"state\":\"Passed\",\"durationSeconds\":0.0005599,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Weather_DayOneAlwaysNormal\",\"fullName\":\"TitanGate.Tests.RestoreSimTests.Weather_DayOneAlwaysNormal\",\"state\":\"Passed\",\"durationSeconds\":0.0001713,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Weather_DeterministicPerSeed\",\"fullName\":\"TitanGate.Tests.RestoreSimTests.Weather_DeterministicPerSeed\",\"state\":\"Passed\",\"durationSeconds\":0.000175,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Weather_NoFlareOnDayOne\",\"fullName\":\"TitanGate.Tests.RestoreSimTests.Weather_NoFlareOnDayOne\",\"state\":\"Passed\",\"durationSeconds\":0.0000911,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Weather_VariesFromDayToDay\",\"fullName\":\"TitanGate.Tests.RestoreSimTests.Weather_VariesFromDayToDay\",\"state\":\"Passed\",\"durationSeconds\":0.0003897,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Outpost_DataIsConsistent\",\"fullName\":\"TitanGate.Tests.ShippedDataTests.Outpost_DataIsConsistent\",\"state\":\"Passed\",\"durationSeconds\":0.0018197,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Outpost_IgnoringForecasts_HurtsHealthAndSometimesFails\",\"fullName\":\"TitanGate.Tests.ShippedDataTests.Outpost_IgnoringForecasts_HurtsHealthAndSometimesFails\",\"state\":\"Passed\",\"durationSeconds\":0.0163516,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Outpost_PreparedPlayerIsRescued_MinimalAndStrongLoot\",\"fullName\":\"TitanGate.Tests.ShippedDataTests.Outpost_PreparedPlayerIsRescued_MinimalAndStrongLoot\",\"state\":\"Passed\",\"durationSeconds\":0.0790893,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Strings_BothLanguages_AndMatchingArguments\",\"fullName\":\"TitanGate.Tests.ShippedDataTests.Strings_BothLanguages_AndMatchingArguments\",\"state\":\"Passed\",\"durationSeconds\":0.0211955,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"Strings_CoverEverything\",\"fullName\":\"TitanGate.Tests.ShippedDataTests.Strings_CoverEverything\",\"state\":\"Passed\",\"durationSeconds\":0.0107776,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"ExhaustionRequiresRecoveryBeforeSprintingAgain\",\"fullName\":\"TitanGate.Tests.SprintMeterTests.ExhaustionRequiresRecoveryBeforeSprintingAgain\",\"state\":\"Passed\",\"durationSeconds\":0.0003989,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"PauseAndInvalidTimeCannotChangeStamina\",\"fullName\":\"TitanGate.Tests.SprintMeterTests.PauseAndInvalidTimeCannotChangeStamina\",\"state\":\"Passed\",\"durationSeconds\":0.0002186,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"RecoveryWaitsThenClampsToFull\",\"fullName\":\"TitanGate.Tests.SprintMeterTests.RecoveryWaitsThenClampsToFull\",\"state\":\"Passed\",\"durationSeconds\":0.0001348,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"FedTemporaryVisitorHelpsThenLeavesAfterOneNight\",\"fullName\":\"TitanGate.Tests.TemporaryVisitorTests.FedTemporaryVisitorHelpsThenLeavesAfterOneNight\",\"state\":\"Passed\",\"durationSeconds\":0.0013983,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"PermanentVisitorDoesNotDepartWithTemporaryGuests\",\"fullName\":\"TitanGate.Tests.TemporaryVisitorTests.PermanentVisitorDoesNotDepartWithTemporaryGuests\",\"state\":\"Passed\",\"durationSeconds\":0.000648,\"message\":null,\"stackTrace\":null,\"output\":\"\"}]}},\"hint\":null}"
+      }
+    ],
+    "structuredContent": {
+      "result": {
+        "success": true,
+        "message": "Test job status retrieved.",
+        "error": null,
+        "data": {
+          "job_id": "be7ef6df15c04bc0baa7620f5ced655d",
+          "status": "succeeded",
+          "mode": "EditMode",
+          "started_unix_ms": 1794734188144,
+          "finished_unix_ms": 1794734194470,
+          "last_update_unix_ms": 1794734194470,
+          "progress": {
+            "completed": 147,
+            "total": 147,
+            "current_test_full_name": null,
+            "current_test_started_unix_ms": null,
+            "last_finished_test_full_name": "TitanGate.Tests.TemporaryVisitorTests.PermanentVisitorDoesNotDepartWithTemporaryGuests",
+            "last_finished_unix_ms": 1794734194269,
+            "stuck_suspected": false,
+            "editor_is_focused": false,
+            "run_in_background": false,
+            "focus_nudge_attempts": null,
+            "focus_nudge_limit": null,
+            "focus_nudge_status": null,
+            "blocked_reason": null,
+            "failures_so_far": [],
+            "failures_capped": false
+          },
+          "error": null,
+          "result": {
+            "mode": "EditMode",
+            "summary": {
+              "total": 147,
+              "passed": 147,
+              "failed": 0,
+              "skipped": 0,
+              "durationSeconds": 2.8870928,
+              "resultState": "Passed"
+            },
+            "results": [
+              {
+                "name": "FailedWorkPreservesTimeReservedForStory",
+                "fullName": "TitanGate.Tests.DailyScheduleTests.FailedWorkPreservesTimeReservedForStory",
+                "state": "Passed",
+                "durationSeconds": 0.011189,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "InvalidDurationsCannotCreateTime",
+                "fullName": "TitanGate.Tests.DailyScheduleTests.InvalidDurationsCannotCreateTime",
+                "state": "Passed",
+                "durationSeconds": 0.0003425,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "NightBoundaryAndResetAreExact",
+                "fullName": "TitanGate.Tests.DailyScheduleTests.NightBoundaryAndResetAreExact",
+                "state": "Passed",
+                "durationSeconds": 0.0002419,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Alone_DinnerChoice_SkippingTwiceMakesYouWeak",
+                "fullName": "TitanGate.Tests.LastDockTests.Alone_DinnerChoice_SkippingTwiceMakesYouWeak",
+                "state": "Passed",
+                "durationSeconds": 0.0011924,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "BalanceReport",
+                "fullName": "TitanGate.Tests.LastDockTests.BalanceReport",
+                "state": "Passed",
+                "durationSeconds": 0.2885962,
+                "message": "even/Balanced: 41/50 dock_power_missing=8 signal_missing=1 \r\neven/BatteryFirst: 35/50 signal_missing=4 radiation=4 dock_power_missing=3 lost=4 \r\neven/Neglect: 0/50 no_oxygen_o2gen_off=2 co2_critical=8 cold=19 transmitter_tripped@7=1 no_oxygen_o2gen_down=4 no_oxygen_leak=8 storm_radiation=2 intruder_stole=1 dark_warning=2 lost=3 \r\nlowParts/Balanced: 38/50 signal_missing=5 dock_power_missing=7 \r\nlowParts/BatteryFirst: 33/50 dock_power_missing=3 signal_missing=10 radiation=4 \r\nlowParts/Neglect: 0/50 lost=11 co2_critical=6 cold=14 transmitter_tripped@7=1 no_oxygen_o2gen_down=4 no_oxygen_leak=7 storm_radiation=2 intruder_stole=2 no_oxygen_o2gen_off=1 thirsty=1 dark_warning=1 \r\nbatteryHeavy/Balanced: 35/50 hungry=5 dock_power_missing=7 signal_missing=2 lost=1 \r\nbatteryHeavy/BatteryFirst: 31/50 signal_missing=3 lost=8 radiation=4 hungry=3 dock_power_missing=1 \r\nbatteryHeavy/Neglect: 0/50 thirsty=3 co2_critical=7 cold=16 no_oxygen_o2gen_down=4 no_oxygen_leak=11 dark_warning=1 hungry=6 lost=2 \r\nnoFood/Balanced: 16/50 hungry=17 dock_power_missing=5 cold=3 lost=9 \r\nnoFood/BatteryFirst: 21/50 lost=16 cold=1 hungry=7 radiation=4 dock_power_missing=1 \r\nnoFood/Neglect: 0/50 lost=13 co2_critical=6 cold=12 no_oxygen_leak=6 hungry=8 no_oxygen_o2gen_off=2 intruder_stole=1 dark_warning=1 no_oxygen_o2gen_down=1 \r\nempty/Balanced: 17/50 cold=11 hungry=10 lost=10 dock_power_missing=1 signal_missing=1 \r\nempty/BatteryFirst: 16/50 beacon_signal=2 lost=13 hungry=7 radiation=4 cold=5 signal_missing=2 dock_power_missing=1 \r\nempty/Neglect: 0/50 no_oxygen_leak=11 co2_critical=7 cold=17 no_oxygen_o2gen_down=3 lost=5 hungry=5 intruder_stole=1 dark_warning=1 \r\nfoodAir/Balanced: 37/50 cold=1 dock_power_missing=4 signal_missing=8 \r\nfoodAir/BatteryFirst: 31/50 signal_missing=12 radiation=4 lost=1 dock_power_missing=2 \r\nfoodAir/Neglect: 0/50 no_oxygen_leak=8 co2_critical=7 cold=21 transmitter_tripped@7=1 no_oxygen_o2gen_down=4 dock_power_missing=2 dark_warning=2 lost=3 intruder_stole=1 no_oxygen_o2gen_off=1 \r\n",
+                "stackTrace": "at TitanGate.Tests.LastDockTests.BalanceReport () [0x00230] in F:\\NASA\\TitanGate2177\\Assets\\Tests\\EditMode\\LastDockTests.cs:347\r\n",
+                "output": ""
+              },
+              {
+                "name": "Beacon_IsTheSecondRoute_SendsEveryPoweredNight",
+                "fullName": "TitanGate.Tests.LastDockTests.Beacon_IsTheSecondRoute_SendsEveryPoweredNight",
+                "state": "Passed",
+                "durationSeconds": 0.0004085,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "BreakdownsComeFromWear_NotFromLuck",
+                "fullName": "TitanGate.Tests.LastDockTests.BreakdownsComeFromWear_NotFromLuck",
+                "state": "Passed",
+                "durationSeconds": 0.0034744,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "ClosingAndReopening_PanelChangesNothing",
+                "fullName": "TitanGate.Tests.LastDockTests.ClosingAndReopening_PanelChangesNothing",
+                "state": "Passed",
+                "durationSeconds": 0.0015078,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Co2_And_O2_AreIndependent",
+                "fullName": "TitanGate.Tests.LastDockTests.Co2_And_O2_AreIndependent",
+                "state": "Passed",
+                "durationSeconds": 0.0005395,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "DayOne_IsQuiet",
+                "fullName": "TitanGate.Tests.LastDockTests.DayOne_IsQuiet",
+                "state": "Passed",
+                "durationSeconds": 0.00073,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "DetachedRoom_StaysInactive_AndIsNeverTargeted",
+                "fullName": "TitanGate.Tests.LastDockTests.DetachedRoom_StaysInactive_AndIsNeverTargeted",
+                "state": "Passed",
+                "durationSeconds": 0.0164278,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Dinner_PlanMustFitTheStock_MysteryBoxesCanBeServed",
+                "fullName": "TitanGate.Tests.LastDockTests.Dinner_PlanMustFitTheStock_MysteryBoxesCanBeServed",
+                "state": "Passed",
+                "durationSeconds": 0.0006473,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Dinner_WaitsForThePlayersPlan",
+                "fullName": "TitanGate.Tests.LastDockTests.Dinner_WaitsForThePlayersPlan",
+                "state": "Passed",
+                "durationSeconds": 0.0007769,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Director_IsSeeded_OneAtATime_NoRepeats",
+                "fullName": "TitanGate.Tests.LastDockTests.Director_IsSeeded_OneAtATime_NoRepeats",
+                "state": "Passed",
+                "durationSeconds": 0.0280933,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Dust_LowersSolar_CleaningRestoresIt",
+                "fullName": "TitanGate.Tests.LastDockTests.Dust_LowersSolar_CleaningRestoresIt",
+                "state": "Passed",
+                "durationSeconds": 0.0005619,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "EveryIncident_HasAtLeastTwoWorkingOptions",
+                "fullName": "TitanGate.Tests.LastDockTests.EveryIncident_HasAtLeastTwoWorkingOptions",
+                "state": "Passed",
+                "durationSeconds": 0.0009038,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Fan_Failure_RaisesCo2_UntilBackupOrRepair",
+                "fullName": "TitanGate.Tests.LastDockTests.Fan_Failure_RaisesCo2_UntilBackupOrRepair",
+                "state": "Passed",
+                "durationSeconds": 0.0001431,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Flashlight_IsAFreeAnswerToAPowerDip",
+                "fullName": "TitanGate.Tests.LastDockTests.Flashlight_IsAFreeAnswerToAPowerDip",
+                "state": "Passed",
+                "durationSeconds": 0.0001632,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Forecast_ShowsHowLongThingsLast",
+                "fullName": "TitanGate.Tests.LastDockTests.Forecast_ShowsHowLongThingsLast",
+                "state": "Passed",
+                "durationSeconds": 0.0001366,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "FrozenFood_AddsSafeMeals_Medkit_Heals",
+                "fullName": "TitanGate.Tests.LastDockTests.FrozenFood_AddsSafeMeals_Medkit_Heals",
+                "state": "Passed",
+                "durationSeconds": 0.0001214,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "GameBalanceReport",
+                "fullName": "TitanGate.Tests.LastDockTests.GameBalanceReport",
+                "state": "Passed",
+                "durationSeconds": 0.0112305,
+                "message": "game wins 25/30 avgDay 7.0 dock_power_missing=4 signal_missing=1 ",
+                "stackTrace": "at TitanGate.Tests.LastDockTests.GameBalanceReport () [0x0016d] in F:\\NASA\\TitanGate2177\\Assets\\Tests\\EditMode\\LastDockTests.cs:732\r\n",
+                "output": ""
+              },
+              {
+                "name": "GameSettings_StillWinnable_AndNeglectLoses",
+                "fullName": "TitanGate.Tests.LastDockTests.GameSettings_StillWinnable_AndNeglectLoses",
+                "state": "Passed",
+                "durationSeconds": 0.0203816,
+                "message": null,
+                "stackTrace": null,
+                "output": "game settings: balanced 25/30, neglect 0/30\r\n"
+              },
+              {
+                "name": "HeatTripsTransmitter_ShedLoadCoolsIt",
+                "fullName": "TitanGate.Tests.LastDockTests.HeatTripsTransmitter_ShedLoadCoolsIt",
+                "state": "Passed",
+                "durationSeconds": 0.000247,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Hunger_Weak_ThenStarving_HurtsTheCrew",
+                "fullName": "TitanGate.Tests.LastDockTests.Hunger_Weak_ThenStarving_HurtsTheCrew",
+                "state": "Passed",
+                "durationSeconds": 0.0001948,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "IncidentsStart_OnlyWithAMoveLeft",
+                "fullName": "TitanGate.Tests.LastDockTests.IncidentsStart_OnlyWithAMoveLeft",
+                "state": "Passed",
+                "durationSeconds": 0.0097586,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "LowParts_StillWinnable",
+                "fullName": "TitanGate.Tests.LastDockTests.LowParts_StillWinnable",
+                "state": "Passed",
+                "durationSeconds": 0.0062202,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Machines_Wear_ServiceIsCheaperThanRepair",
+                "fullName": "TitanGate.Tests.LastDockTests.Machines_Wear_ServiceIsCheaperThanRepair",
+                "state": "Passed",
+                "durationSeconds": 0.0004171,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "MysteryFood_IsAGamble_MedicineFixesASickDay",
+                "fullName": "TitanGate.Tests.LastDockTests.MysteryFood_IsAGamble_MedicineFixesASickDay",
+                "state": "Passed",
+                "durationSeconds": 0.0005929,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Neglect_Loses_WithACauseChain",
+                "fullName": "TitanGate.Tests.LastDockTests.Neglect_Loses_WithACauseChain",
+                "state": "Passed",
+                "durationSeconds": 0.0024954,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Night_ComesAfterLastWorkUnit",
+                "fullName": "TitanGate.Tests.LastDockTests.Night_ComesAfterLastWorkUnit",
+                "state": "Passed",
+                "durationSeconds": 0.0001737,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "NoParts_StillHasAWayOut",
+                "fullName": "TitanGate.Tests.LastDockTests.NoParts_StillHasAWayOut",
+                "state": "Passed",
+                "durationSeconds": 0.0001456,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "OneAction_IsOneStep",
+                "fullName": "TitanGate.Tests.LastDockTests.OneAction_IsOneStep",
+                "state": "Passed",
+                "durationSeconds": 0.0001022,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "OneSiteIsHotEachDay_AMeterShowsWhich",
+                "fullName": "TitanGate.Tests.LastDockTests.OneSiteIsHotEachDay_AMeterShowsWhich",
+                "state": "Passed",
+                "durationSeconds": 0.0009076,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "PortableSolar_AddsOnePowerEachNight",
+                "fullName": "TitanGate.Tests.LastDockTests.PortableSolar_AddsOnePowerEachNight",
+                "state": "Passed",
+                "durationSeconds": 0.0001437,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "PowerDip_HasThreeAnswers",
+                "fullName": "TitanGate.Tests.LastDockTests.PowerDip_HasThreeAnswers",
+                "state": "Passed",
+                "durationSeconds": 0.0001624,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "PowerPlan_IsFree_AndTheNightPaysIt",
+                "fullName": "TitanGate.Tests.LastDockTests.PowerPlan_IsFree_AndTheNightPaysIt",
+                "state": "Passed",
+                "durationSeconds": 0.0001533,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Preview_MatchesRealResult",
+                "fullName": "TitanGate.Tests.LastDockTests.Preview_MatchesRealResult",
+                "state": "Passed",
+                "durationSeconds": 0.0002171,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Radio_IsBoard_PowerTest_Antenna_KitSkipsTwo",
+                "fullName": "TitanGate.Tests.LastDockTests.Radio_IsBoard_PowerTest_Antenna_KitSkipsTwo",
+                "state": "Passed",
+                "durationSeconds": 0.0002018,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Raiders_MustBeAnswered_FlashlightScaresThem",
+                "fullName": "TitanGate.Tests.LastDockTests.Raiders_MustBeAnswered_FlashlightScaresThem",
+                "state": "Passed",
+                "durationSeconds": 0.0001588,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Reading_And_Preview_DoNotMoveTime",
+                "fullName": "TitanGate.Tests.LastDockTests.Reading_And_Preview_DoNotMoveTime",
+                "state": "Passed",
+                "durationSeconds": 0.0004869,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Repairs_EndTheFault",
+                "fullName": "TitanGate.Tests.LastDockTests.Repairs_EndTheFault",
+                "state": "Passed",
+                "durationSeconds": 0.0005949,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Replay_SameSeedSameActions_SameState",
+                "fullName": "TitanGate.Tests.LastDockTests.Replay_SameSeedSameActions_SameState",
+                "state": "Passed",
+                "durationSeconds": 0.0019147,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Restart_ClearsEverything",
+                "fullName": "TitanGate.Tests.LastDockTests.Restart_ClearsEverything",
+                "state": "Passed",
+                "durationSeconds": 0.0011936,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Resting_NeverStartsAnIncident",
+                "fullName": "TitanGate.Tests.LastDockTests.Resting_NeverStartsAnIncident",
+                "state": "Passed",
+                "durationSeconds": 0.0052796,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Rover_NeedsThreeParts_AssembleCharge_AndSolarUpgrade",
+                "fullName": "TitanGate.Tests.LastDockTests.Rover_NeedsThreeParts_AssembleCharge_AndSolarUpgrade",
+                "state": "Passed",
+                "durationSeconds": 0.0002752,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "SameKitSeedAndActions_ReplayToTheSameState",
+                "fullName": "TitanGate.Tests.LastDockTests.SameKitSeedAndActions_ReplayToTheSameState",
+                "state": "Passed",
+                "durationSeconds": 0.0169143,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Scavenge_CarryThree_PodEight_OnlyDepositedCount",
+                "fullName": "TitanGate.Tests.LastDockTests.Scavenge_CarryThree_PodEight_OnlyDepositedCount",
+                "state": "Passed",
+                "durationSeconds": 0.0005127,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "SealedRoom_CannotBeUsed_UntilRepaired",
+                "fullName": "TitanGate.Tests.LastDockTests.SealedRoom_CannotBeUsed_UntilRepaired",
+                "state": "Passed",
+                "durationSeconds": 0.0003257,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "ShortBattery_SwitchesOffExtrasFirst",
+                "fullName": "TitanGate.Tests.LastDockTests.ShortBattery_SwitchesOffExtrasFirst",
+                "state": "Passed",
+                "durationSeconds": 0.0002334,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "SolarStorm_IsWarnedTheDayBefore_ShelterCostsPower",
+                "fullName": "TitanGate.Tests.LastDockTests.SolarStorm_IsWarnedTheDayBefore_ShelterCostsPower",
+                "state": "Passed",
+                "durationSeconds": 0.0011774,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "SpecialItems_TakeALifeboatSlot",
+                "fullName": "TitanGate.Tests.LastDockTests.SpecialItems_TakeALifeboatSlot",
+                "state": "Passed",
+                "durationSeconds": 0.0001493,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Station_AddsDeliveredOnTopOfMinimumStock",
+                "fullName": "TitanGate.Tests.LastDockTests.Station_AddsDeliveredOnTopOfMinimumStock",
+                "state": "Passed",
+                "durationSeconds": 0.0001141,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "TwoDarkNights_BringAnIntruder_WithAWarningFirst",
+                "fullName": "TitanGate.Tests.LastDockTests.TwoDarkNights_BringAnIntruder_WithAWarningFirst",
+                "state": "Passed",
+                "durationSeconds": 0.0001213,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "TwoDifferentPlans_CanWin",
+                "fullName": "TitanGate.Tests.LastDockTests.TwoDifferentPlans_CanWin",
+                "state": "Passed",
+                "durationSeconds": 0.0134956,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Water_FeedsOxygen_RecyclerAndIceRefill",
+                "fullName": "TitanGate.Tests.LastDockTests.Water_FeedsOxygen_RecyclerAndIceRefill",
+                "state": "Passed",
+                "durationSeconds": 0.0005861,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Win_NeedsSignalAndDockPower",
+                "fullName": "TitanGate.Tests.LastDockTests.Win_NeedsSignalAndDockPower",
+                "state": "Passed",
+                "durationSeconds": 0.0002787,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "CloggedFilter_AndEmptyBattery_EachCostExtraO2",
+                "fullName": "TitanGate.Tests.LifeboatAirTests.CloggedFilter_AndEmptyBattery_EachCostExtraO2",
+                "state": "Passed",
+                "durationSeconds": 0.0049886,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "DaysOfSupplies_CountsTheWholeCrew",
+                "fullName": "TitanGate.Tests.LifeboatAirTests.DaysOfSupplies_CountsTheWholeCrew",
+                "state": "Passed",
+                "durationSeconds": 0.0004327,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "LettingSomeoneIn_OrSpendingAir_IsRefused_WhenTonightsAirWouldNotCoverIt",
+                "fullName": "TitanGate.Tests.LifeboatAirTests.LettingSomeoneIn_OrSpendingAir_IsRefused_WhenTonightsAirWouldNotCoverIt",
+                "state": "Passed",
+                "durationSeconds": 0.0003541,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "NotEnoughO2ForEveryoneInside_FailsTheRun",
+                "fullName": "TitanGate.Tests.LifeboatAirTests.NotEnoughO2ForEveryoneInside_FailsTheRun",
+                "state": "Passed",
+                "durationSeconds": 0.0001416,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Options_NeedTheirItem_TheirPetTrait_AndEnoughStock",
+                "fullName": "TitanGate.Tests.LifeboatChoiceTests.Options_NeedTheirItem_TheirPetTrait_AndEnoughStock",
+                "state": "Passed",
+                "durationSeconds": 0.0010947,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "ScrambleSupplies_BecomeStartingStock",
+                "fullName": "TitanGate.Tests.LifeboatChoiceTests.ScrambleSupplies_BecomeStartingStock",
+                "state": "Passed",
+                "durationSeconds": 0.0005786,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Thief_IsStoppedByAFedBravePet_OrByTheLock",
+                "fullName": "TitanGate.Tests.LifeboatChoiceTests.Thief_IsStoppedByAFedBravePet_OrByTheLock",
+                "state": "Passed",
+                "durationSeconds": 0.0008401,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Thief_TakesFoodAndAnItem_ThenLeaves",
+                "fullName": "TitanGate.Tests.LifeboatChoiceTests.Thief_TakesFoodAndAnItem_ThenLeaves",
+                "state": "Passed",
+                "durationSeconds": 0.0003419,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "FedGuest_GivesItsGift_AndStays",
+                "fullName": "TitanGate.Tests.LifeboatDayTests.FedGuest_GivesItsGift_AndStays",
+                "state": "Passed",
+                "durationSeconds": 0.0005939,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Guest_BreathesEvenWhenNotFed_AndLeavesHungry",
+                "fullName": "TitanGate.Tests.LifeboatDayTests.Guest_BreathesEvenWhenNotFed_AndLeavesHungry",
+                "state": "Passed",
+                "durationSeconds": 0.0005512,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "HungryPet_GivesNoHint_UntilItIsFedAgain",
+                "fullName": "TitanGate.Tests.LifeboatDayTests.HungryPet_GivesNoHint_UntilItIsFedAgain",
+                "state": "Passed",
+                "durationSeconds": 0.0007998,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "LastDay_IsRescuedOnlyWithCoordinatesSent_AndAShortRunCanStopEarlier",
+                "fullName": "TitanGate.Tests.LifeboatDayTests.LastDay_IsRescuedOnlyWithCoordinatesSent_AndAShortRunCanStopEarlier",
+                "state": "Passed",
+                "durationSeconds": 0.0011887,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Night_CadetUsesOneOfEach_PetEatsFood_SunPaysForLifeSupport",
+                "fullName": "TitanGate.Tests.LifeboatDayTests.Night_CadetUsesOneOfEach_PetEatsFood_SunPaysForLifeSupport",
+                "state": "Passed",
+                "durationSeconds": 0.0002614,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "PlanThatCostsMoreThanTheStock_IsRefused",
+                "fullName": "TitanGate.Tests.LifeboatDayTests.PlanThatCostsMoreThanTheStock_IsRefused",
+                "state": "Passed",
+                "durationSeconds": 0.0001791,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "SkippingYourOwnRation_CostsHealth_AndThreeTimesFails",
+                "fullName": "TitanGate.Tests.LifeboatDayTests.SkippingYourOwnRation_CostsHealth_AndThreeTimesFails",
+                "state": "Passed",
+                "durationSeconds": 0.0001458,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Data_IsConsistent",
+                "fullName": "TitanGate.Tests.LifeboatShippedDataTests.Data_IsConsistent",
+                "state": "Passed",
+                "durationSeconds": 0.081344,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "MinimalLoot_CarefulPlayer_IsRescued_WithEveryPet",
+                "fullName": "TitanGate.Tests.LifeboatShippedDataTests.MinimalLoot_CarefulPlayer_IsRescued_WithEveryPet",
+                "state": "Passed",
+                "durationSeconds": 0.0051534,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "RandomWeeks_NeverDeadlock_ReachEveryEnding_AndLootHelps",
+                "fullName": "TitanGate.Tests.LifeboatShippedDataTests.RandomWeeks_NeverDeadlock_ReachEveryEnding_AndLootHelps",
+                "state": "Passed",
+                "durationSeconds": 0.4666225,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Strings_CoverEveryCardPetAndVisitor",
+                "fullName": "TitanGate.Tests.LifeboatShippedDataTests.Strings_CoverEveryCardPetAndVisitor",
+                "state": "Passed",
+                "durationSeconds": 0.1011685,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "FedCarefulPet_GivesOneExtraScan",
+                "fullName": "TitanGate.Tests.LifeboatVisitorTests.FedCarefulPet_GivesOneExtraScan",
+                "state": "Passed",
+                "durationSeconds": 0.0020059,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "LettingAMonsterIn_EndsTheRunAtOnce",
+                "fullName": "TitanGate.Tests.LifeboatVisitorTests.LettingAMonsterIn_EndsTheRunAtOnce",
+                "state": "Passed",
+                "durationSeconds": 0.0002209,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Scans_ReadWrongOnAMonster_NormalOnALivingVisitor_AndAreLimited",
+                "fullName": "TitanGate.Tests.LifeboatVisitorTests.Scans_ReadWrongOnAMonster_NormalOnALivingVisitor_AndAreLimited",
+                "state": "Passed",
+                "durationSeconds": 0.0003205,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Cards_AppearOnlyWhenTheirConditionHolds",
+                "fullName": "TitanGate.Tests.LifeboatWeekTests.Cards_AppearOnlyWhenTheirConditionHolds",
+                "state": "Passed",
+                "durationSeconds": 0.001218,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Options_CanNeedAFlagOrAGuest_AndCanCostHealthButNeverTheLastOfIt",
+                "fullName": "TitanGate.Tests.LifeboatWeekTests.Options_CanNeedAFlagOrAGuest_AndCanCostHealthButNeverTheLastOfIt",
+                "state": "Passed",
+                "durationSeconds": 0.0003001,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "OxygenMaker_TurnsPowerIntoAir_WhenThereIsPowerForIt",
+                "fullName": "TitanGate.Tests.LifeboatWeekTests.OxygenMaker_TurnsPowerIntoAir_WhenThereIsPowerForIt",
+                "state": "Passed",
+                "durationSeconds": 0.0003275,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "StormNight_HurtsOnlyWhatWasNotPrepared_AndOnlyOnItsNight",
+                "fullName": "TitanGate.Tests.LifeboatWeekTests.StormNight_HurtsOnlyWhatWasNotPrepared_AndOnlyOnItsNight",
+                "state": "Passed",
+                "durationSeconds": 0.0007115,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Action_AppliesCosts_ThenItsHoursPass",
+                "fullName": "TitanGate.Tests.OutpostActionTests.Action_AppliesCosts_ThenItsHoursPass",
+                "state": "Passed",
+                "durationSeconds": 0.0049516,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "ItemAction_UsesUpItsFlag",
+                "fullName": "TitanGate.Tests.OutpostActionTests.ItemAction_UsesUpItsFlag",
+                "state": "Passed",
+                "durationSeconds": 0.0005394,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "LowEnergy_CostsAnExtraHour_AndZeroEnergyCollapses",
+                "fullName": "TitanGate.Tests.OutpostActionTests.LowEnergy_CostsAnExtraHour_AndZeroEnergyCollapses",
+                "state": "Passed",
+                "durationSeconds": 0.0007622,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Outside_AddsDose_AndMinDayGatesScience",
+                "fullName": "TitanGate.Tests.OutpostActionTests.Outside_AddsDose_AndMinDayGatesScience",
+                "state": "Passed",
+                "durationSeconds": 0.0003099,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "SendCoords_NeedsTheBeaconOn_AndIsAcknowledgedOnARescuePass",
+                "fullName": "TitanGate.Tests.OutpostActionTests.SendCoords_NeedsTheBeaconOn_AndIsAcknowledgedOnARescuePass",
+                "state": "Passed",
+                "durationSeconds": 0.0003909,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Clock_StartsAtDawnOfDay1_AndDayChangesAt0600",
+                "fullName": "TitanGate.Tests.OutpostClockTests.Clock_StartsAtDawnOfDay1_AndDayChangesAt0600",
+                "state": "Passed",
+                "durationSeconds": 0.0048267,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Rescue_IsCheckedAtHour168_PreparedWins_UnpreparedIsStranded",
+                "fullName": "TitanGate.Tests.OutpostClockTests.Rescue_IsCheckedAtHour168_PreparedWins_UnpreparedIsStranded",
+                "state": "Passed",
+                "durationSeconds": 0.0004854,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Stranded_NamesTheFirstMissingRescueStep",
+                "fullName": "TitanGate.Tests.OutpostClockTests.Stranded_NamesTheFirstMissingRescueStep",
+                "state": "Passed",
+                "durationSeconds": 0.0005919,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "CarryOver_CabinAirAndSupplies",
+                "fullName": "TitanGate.Tests.OutpostEventTests.CarryOver_CabinAirAndSupplies",
+                "state": "Passed",
+                "durationSeconds": 0.0008599,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "EarthMessages_RideTheRelayPasses",
+                "fullName": "TitanGate.Tests.OutpostEventTests.EarthMessages_RideTheRelayPasses",
+                "state": "Passed",
+                "durationSeconds": 0.000995,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Encounters_DrawnOnFreeMornings_OptionNeedsItsSupply",
+                "fullName": "TitanGate.Tests.OutpostEventTests.Encounters_DrawnOnFreeMornings_OptionNeedsItsSupply",
+                "state": "Passed",
+                "durationSeconds": 0.0014386,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "NightEvent_IsNumberedByTheDayItEnds_FirstNightIsNight1",
+                "fullName": "TitanGate.Tests.OutpostEventTests.NightEvent_IsNumberedByTheDayItEnds_FirstNightIsNight1",
+                "state": "Passed",
+                "durationSeconds": 0.000613,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "NightEvent_PreventedBySolFlag_ElseHurts",
+                "fullName": "TitanGate.Tests.OutpostEventTests.NightEvent_PreventedBySolFlag_ElseHurts",
+                "state": "Passed",
+                "durationSeconds": 0.0003496,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "NoSupplies_For24Hours_FailsTheMission",
+                "fullName": "TitanGate.Tests.OutpostEventTests.NoSupplies_For24Hours_FailsTheMission",
+                "state": "Passed",
+                "durationSeconds": 0.000129,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Sleep_FromHealthyAir_RingsBothAlarmsInTurn",
+                "fullName": "TitanGate.Tests.OutpostEventTests.Sleep_FromHealthyAir_RingsBothAlarmsInTurn",
+                "state": "Passed",
+                "durationSeconds": 0.0006381,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Sleep_RestoresEnergy_ButALowAirAlarmWakesYou",
+                "fullName": "TitanGate.Tests.OutpostEventTests.Sleep_RestoresEnergy_ButALowAirAlarmWakesYou",
+                "state": "Passed",
+                "durationSeconds": 0.0001987,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Sleep_StartedWithLowAir_IsWokenAgainAtTheCriticalLevel",
+                "fullName": "TitanGate.Tests.OutpostEventTests.Sleep_StartedWithLowAir_IsWokenAgainAtTheCriticalLevel",
+                "state": "Passed",
+                "durationSeconds": 0.0002639,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "SolarParticleEvent_HitsOnce_ShelterAndPowerDecideHowHard",
+                "fullName": "TitanGate.Tests.OutpostEventTests.SolarParticleEvent_HitsOnce_ShelterAndPowerDecideHowHard",
+                "state": "Passed",
+                "durationSeconds": 0.0002847,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "SpeWarning_ArrivesAtItsHour",
+                "fullName": "TitanGate.Tests.OutpostEventTests.SpeWarning_ArrivesAtItsHour",
+                "state": "Passed",
+                "durationSeconds": 0.0001233,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "LifeSupport_SlowsAirLoss_AndCostsPower",
+                "fullName": "TitanGate.Tests.OutpostSystemTests.LifeSupport_SlowsAirLoss_AndCostsPower",
+                "state": "Passed",
+                "durationSeconds": 0.0004151,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "NotEnoughPower_SwitchesASystemOff_AndLogsIt",
+                "fullName": "TitanGate.Tests.OutpostSystemTests.NotEnoughPower_SwitchesASystemOff_AndLogsIt",
+                "state": "Passed",
+                "durationSeconds": 0.0003625,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "PowerNeededUntilSunrise_CountsSwitchedOnSystems",
+                "fullName": "TitanGate.Tests.OutpostSystemTests.PowerNeededUntilSunrise_CountsSwitchedOnSystems",
+                "state": "Passed",
+                "durationSeconds": 0.000408,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Solar_OnlyInDaylight_ScaledByDust",
+                "fullName": "TitanGate.Tests.OutpostSystemTests.Solar_OnlyInDaylight_ScaledByDust",
+                "state": "Passed",
+                "durationSeconds": 0.0002423,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Code_TrimmedExactMatch",
+                "fullName": "TitanGate.Tests.PuzzleTests.Code_TrimmedExactMatch",
+                "state": "Passed",
+                "durationSeconds": 0.000297,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Codex_UnlocksOnce",
+                "fullName": "TitanGate.Tests.PuzzleTests.Codex_UnlocksOnce",
+                "state": "Passed",
+                "durationSeconds": 0.0003472,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Edl_FindsFirstWrongStep",
+                "fullName": "TitanGate.Tests.PuzzleTests.Edl_FindsFirstWrongStep",
+                "state": "Passed",
+                "durationSeconds": 0.0010323,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Inventory_CombinesByRecipeEitherOrder",
+                "fullName": "TitanGate.Tests.PuzzleTests.Inventory_CombinesByRecipeEitherOrder",
+                "state": "Passed",
+                "durationSeconds": 0.0004665,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Nav_OnlyMarsIsReachable",
+                "fullName": "TitanGate.Tests.PuzzleTests.Nav_OnlyMarsIsReachable",
+                "state": "Passed",
+                "durationSeconds": 0.0002662,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Blackout_UnpowersRestoredRoomsAndAddsReset",
+                "fullName": "TitanGate.Tests.RestoreSimTests.Blackout_UnpowersRestoredRoomsAndAddsReset",
+                "state": "Passed",
+                "durationSeconds": 0.0041279,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "CommsOpensAfterThreeRooms_AnyOrder",
+                "fullName": "TitanGate.Tests.RestoreSimTests.CommsOpensAfterThreeRooms_AnyOrder",
+                "state": "Passed",
+                "durationSeconds": 0.000309,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Do_NeedsItsItem",
+                "fullName": "TitanGate.Tests.RestoreSimTests.Do_NeedsItsItem",
+                "state": "Passed",
+                "durationSeconds": 0.0001065,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Do_RefusesWhenDayTooShort",
+                "fullName": "TitanGate.Tests.RestoreSimTests.Do_RefusesWhenDayTooShort",
+                "state": "Passed",
+                "durationSeconds": 0.0001447,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Do_SpendsShownHours",
+                "fullName": "TitanGate.Tests.RestoreSimTests.Do_SpendsShownHours",
+                "state": "Passed",
+                "durationSeconds": 0.0001086,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "EatDrinkSleep_Restore",
+                "fullName": "TitanGate.Tests.RestoreSimTests.EatDrinkSleep_Restore",
+                "state": "Passed",
+                "durationSeconds": 0.0001547,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "HotInside_ThirstFaster_UntilCoolingFixed",
+                "fullName": "TitanGate.Tests.RestoreSimTests.HotInside_ThirstFaster_UntilCoolingFixed",
+                "state": "Passed",
+                "durationSeconds": 0.0001987,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Mistakes_AddHalfHourEach_CappedAtOneHour",
+                "fullName": "TitanGate.Tests.RestoreSimTests.Mistakes_AddHalfHourEach_CappedAtOneHour",
+                "state": "Passed",
+                "durationSeconds": 6.7e-05,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Nap_SpendsTime_GivesBackRest",
+                "fullName": "TitanGate.Tests.RestoreSimTests.Nap_SpendsTime_GivesBackRest",
+                "state": "Passed",
+                "durationSeconds": 0.0001697,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Needs_DropWithTime_AndWorkTires",
+                "fullName": "TitanGate.Tests.RestoreSimTests.Needs_DropWithTime_AndWorkTires",
+                "state": "Passed",
+                "durationSeconds": 9.12e-05,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "OpenTasks_ListsOnlyReachableUndone",
+                "fullName": "TitanGate.Tests.RestoreSimTests.OpenTasks_ListsOnlyReachableUndone",
+                "state": "Passed",
+                "durationSeconds": 0.0008782,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Percent_CountsDoneTasks",
+                "fullName": "TitanGate.Tests.RestoreSimTests.Percent_CountsDoneTasks",
+                "state": "Passed",
+                "durationSeconds": 0.0001883,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "PowerRestored_OpensOtherRoomsNotComms",
+                "fullName": "TitanGate.Tests.RestoreSimTests.PowerRestored_OpensOtherRoomsNotComms",
+                "state": "Passed",
+                "durationSeconds": 0.0001042,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "ResetTask_RepowersRoom",
+                "fullName": "TitanGate.Tests.RestoreSimTests.ResetTask_RepowersRoom",
+                "state": "Passed",
+                "durationSeconds": 0.0001079,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Send_BeforeCommsRestored_Fails",
+                "fullName": "TitanGate.Tests.RestoreSimTests.Send_BeforeCommsRestored_Fails",
+                "state": "Passed",
+                "durationSeconds": 0.0002449,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Send_InsideWindow_Succeeds",
+                "fullName": "TitanGate.Tests.RestoreSimTests.Send_InsideWindow_Succeeds",
+                "state": "Passed",
+                "durationSeconds": 0.0002693,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Send_OutsideWindow_Fails_NextWindowLater",
+                "fullName": "TitanGate.Tests.RestoreSimTests.Send_OutsideWindow_Fails_NextWindowLater",
+                "state": "Passed",
+                "durationSeconds": 0.0001578,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "ShippedConfig_CanBeFinished",
+                "fullName": "TitanGate.Tests.RestoreSimTests.ShippedConfig_CanBeFinished",
+                "state": "Passed",
+                "durationSeconds": 0.0015857,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "ShippedConfig_IsPlayable",
+                "fullName": "TitanGate.Tests.RestoreSimTests.ShippedConfig_IsPlayable",
+                "state": "Passed",
+                "durationSeconds": 0.001292,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Snapshot_RoundTrips",
+                "fullName": "TitanGate.Tests.RestoreSimTests.Snapshot_RoundTrips",
+                "state": "Passed",
+                "durationSeconds": 0.0003491,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Start_OnlyPowerRoomOpen",
+                "fullName": "TitanGate.Tests.RestoreSimTests.Start_OnlyPowerRoomOpen",
+                "state": "Passed",
+                "durationSeconds": 0.000141,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Tire_DrainsRestOnly_ClockUnchanged",
+                "fullName": "TitanGate.Tests.RestoreSimTests.Tire_DrainsRestOnly_ClockUnchanged",
+                "state": "Passed",
+                "durationSeconds": 8.3e-05,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Warnings_ListDangerBeforeLoss",
+                "fullName": "TitanGate.Tests.RestoreSimTests.Warnings_ListDangerBeforeLoss",
+                "state": "Passed",
+                "durationSeconds": 0.0005599,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Weather_DayOneAlwaysNormal",
+                "fullName": "TitanGate.Tests.RestoreSimTests.Weather_DayOneAlwaysNormal",
+                "state": "Passed",
+                "durationSeconds": 0.0001713,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Weather_DeterministicPerSeed",
+                "fullName": "TitanGate.Tests.RestoreSimTests.Weather_DeterministicPerSeed",
+                "state": "Passed",
+                "durationSeconds": 0.000175,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Weather_NoFlareOnDayOne",
+                "fullName": "TitanGate.Tests.RestoreSimTests.Weather_NoFlareOnDayOne",
+                "state": "Passed",
+                "durationSeconds": 9.11e-05,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Weather_VariesFromDayToDay",
+                "fullName": "TitanGate.Tests.RestoreSimTests.Weather_VariesFromDayToDay",
+                "state": "Passed",
+                "durationSeconds": 0.0003897,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Outpost_DataIsConsistent",
+                "fullName": "TitanGate.Tests.ShippedDataTests.Outpost_DataIsConsistent",
+                "state": "Passed",
+                "durationSeconds": 0.0018197,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Outpost_IgnoringForecasts_HurtsHealthAndSometimesFails",
+                "fullName": "TitanGate.Tests.ShippedDataTests.Outpost_IgnoringForecasts_HurtsHealthAndSometimesFails",
+                "state": "Passed",
+                "durationSeconds": 0.0163516,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Outpost_PreparedPlayerIsRescued_MinimalAndStrongLoot",
+                "fullName": "TitanGate.Tests.ShippedDataTests.Outpost_PreparedPlayerIsRescued_MinimalAndStrongLoot",
+                "state": "Passed",
+                "durationSeconds": 0.0790893,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Strings_BothLanguages_AndMatchingArguments",
+                "fullName": "TitanGate.Tests.ShippedDataTests.Strings_BothLanguages_AndMatchingArguments",
+                "state": "Passed",
+                "durationSeconds": 0.0211955,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "Strings_CoverEverything",
+                "fullName": "TitanGate.Tests.ShippedDataTests.Strings_CoverEverything",
+                "state": "Passed",
+                "durationSeconds": 0.0107776,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "ExhaustionRequiresRecoveryBeforeSprintingAgain",
+                "fullName": "TitanGate.Tests.SprintMeterTests.ExhaustionRequiresRecoveryBeforeSprintingAgain",
+                "state": "Passed",
+                "durationSeconds": 0.0003989,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "PauseAndInvalidTimeCannotChangeStamina",
+                "fullName": "TitanGate.Tests.SprintMeterTests.PauseAndInvalidTimeCannotChangeStamina",
+                "state": "Passed",
+                "durationSeconds": 0.0002186,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "RecoveryWaitsThenClampsToFull",
+                "fullName": "TitanGate.Tests.SprintMeterTests.RecoveryWaitsThenClampsToFull",
+                "state": "Passed",
+                "durationSeconds": 0.0001348,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "FedTemporaryVisitorHelpsThenLeavesAfterOneNight",
+                "fullName": "TitanGate.Tests.TemporaryVisitorTests.FedTemporaryVisitorHelpsThenLeavesAfterOneNight",
+                "state": "Passed",
+                "durationSeconds": 0.0013983,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              },
+              {
+                "name": "PermanentVisitorDoesNotDepartWithTemporaryGuests",
+                "fullName": "TitanGate.Tests.TemporaryVisitorTests.PermanentVisitorDoesNotDepartWithTemporaryGuests",
+                "state": "Passed",
+                "durationSeconds": 0.000648,
+                "message": null,
+                "stackTrace": null,
+                "output": ""
+              }
+            ]
+          }
+        },
+        "hint": null
+      }
+    },
+    "isError": false
+  }
+}

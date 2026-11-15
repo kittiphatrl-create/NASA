@@ -1,0 +1,34 @@
+{
+  "date": "2026-11-15",
+  "timezone": "Asia/Bangkok",
+  "project": "F:/NASA/TitanGate2177",
+  "method": "existing AutoPlay/AutoHelper started through Unity MCP execute_code in Editor",
+  "seed": 12,
+  "simulationSpeed": 3,
+  "outcome": "Rescued",
+  "day": 7,
+  "runtimeChecks": {
+    "passed": 45,
+    "failed": 0,
+    "errors": 0
+  },
+  "editmode": {
+    "total": 147,
+    "passed": 147,
+    "failed": 0,
+    "skipped": 0,
+    "lastDockNamedCases": 53
+  },
+  "limitations": [
+    "Automated gameplay, not manual input",
+    "Repair minigames bypassed by existing playtest mode",
+    "One seed only",
+    "Cutscene video assets missing; black scene backgrounds observed"
+  ],
+  "sha256": {
+    "F:\\NASA\\TitanGate2177\\Assets\\Scripts\\Game\\GameFlow.Cinema.cs": "78cef94bff1704fc06e65e2e2d06df3aa3dc62f88f548c4f8378f187d1f5a564",
+    "F:\\NASA\\TitanGate2177\\Assets\\Scripts\\Core\\LastDock\\StationSimulation.cs": "e165e243d5a167becfce03008db289e8bac13ffa2520c2b3f7167e3e40dea7b2",
+    "F:\\NASA\\TitanGate2177\\Assets\\Scripts\\Game\\GameFlow.LastDock.cs": "8847b257e6391f5ce3c8321bbb1613366e308e76dc7e31d334a24d8bd521cee6",
+    "F:\\NASA\\TitanGate2177\\Builds\\Polish\\TitanGate2177_Data\\Managed\\TitanGate.Game.dll": "7e58c09af4a1735a543e165f522fcf8791d8a757cc6ee113cc78ebd711a95729"
+  }
+}
