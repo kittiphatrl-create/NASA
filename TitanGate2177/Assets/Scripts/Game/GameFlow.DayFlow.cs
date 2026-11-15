@@ -21,16 +21,7 @@ namespace TitanGate.Game
     {
         /// <summary>True while a cut-scene sequence of the day flow runs (the playtest bot waits on it).</summary>
         bool _ldSeq, _ldShotDay, _ldShotTrip, _ldShotAirlock;
-        static Font _ldChakra;
-
-        /// <summary>Chakra Petch (Thai and Latin) for titles, chips and numbers.</summary>
-        void LdFont(TextElement t)
-        {
-            if (_ldChakra == null) _ldChakra = Resources.Load<Font>("Fonts/ChakraPetch-Bold");
-            if (_ldChakra == null) return;
-            t.style.unityFontDefinition = FontDefinition.FromFont(_ldChakra);
-            t.style.unityTextGenerator = TextGeneratorType.Advanced;
-        }
+        void LdFont(TextElement text) => _ui.DisplayFont(text);
 
         // ------------------------------------------------------------------ Blender key art (Art/Blender/mars_keyart.blend)
 

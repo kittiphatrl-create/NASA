@@ -13,19 +13,26 @@ namespace TitanGate.Game
     public partial class GameFlow
     {
         static readonly Color LdGold = new Color(0.95f, 0.78f, 0.42f), LdGoldDim = new Color(0.95f, 0.78f, 0.42f, 0.35f);
-        static readonly Color LdCardBg = new Color(0.07f, 0.08f, 0.12f, 0.96f), LdCardHover = new Color(0.13f, 0.14f, 0.2f, 0.98f);
+        static readonly Color LdCardBg = GameUI.CPanel2, LdCardHover = new Color32(52, 93, 82, 255);
 
         // ------------------------------------------------------------------ icon set (16 px line icons)
 
         static readonly Dictionary<string, Sprite> LdIcons = new Dictionary<string, Sprite>();
 
-        static Sprite LdIcon(string id)
+        internal static Sprite LdIcon(string id)
         {
             if (LdIcons.TryGetValue(id, out var s) && s != null) return s;
             var c = new PixelCanvas(16, 16);
             Color32 w = new Color32(255, 246, 225, 255);
             switch (id)
             {
+                case "gauge": c.Disc(8, 8, 7, w); c.Disc(8, 8, 5, Pal.Clear); c.Line(8, 8, 11, 11, w); c.Disc(8, 8, 1, w); c.Set(4, 8, w); c.Set(8, 12, w); c.Set(8, 4, w); break;
+                case "radio": c.Rect(3, 1, 10, 11, w); c.Rect(10, 11, 2, 5, w); c.Rect(5, 7, 6, 3, Pal.Clear); c.Rect(5, 3, 2, 2, Pal.Clear); c.Rect(9, 3, 2, 2, Pal.Clear); break;
+                case "bag": c.Rect(1, 3, 14, 9, w); c.Frame(5, 11, 6, 4, w); c.HLine(2, 13, 7, Pal.Clear); c.Rect(6, 6, 4, 3, w); c.Set(8, 7, Pal.Clear); break;
+                case "bolt": for (int y = 1; y < 8; y++) c.HLine(9 - y / 2, 9 + y / 2, y, w); for (int y = 7; y < 16; y++) c.HLine(3 + (y - 7) / 2, Mathf.Max(8, 14 - (y - 7)), y, w); break;
+                case "moon": c.Disc(7, 8, 7, w); c.Disc(11, 11, 6, Pal.Clear); break;
+                case "check": c.Line(2, 7, 6, 3, w); c.Line(2, 8, 6, 4, w); c.Line(6, 3, 13, 12, w); c.Line(6, 4, 13, 13, w); break;
+                case "marker": c.Frame(3, 3, 10, 10, w); break;
                 case "food": c.HLine(2, 13, 7, w); c.Line(2, 7, 4, 3, w); c.Line(13, 7, 11, 3, w); c.HLine(4, 11, 3, w); c.Line(6, 9, 5, 12, w); c.Line(9, 9, 10, 12, w); break;
                 case "o2": c.Frame(5, 1, 6, 11, w); c.HLine(6, 9, 12, w); c.Rect(7, 13, 2, 2, w); c.HLine(6, 9, 6, w); break;
                 case "battery": c.Frame(1, 4, 13, 8, w); c.Rect(14, 6, 1, 4, w); c.Line(8, 10, 6, 7, w); c.HLine(6, 9, 7, w); c.Line(9, 7, 7, 5, w); break;
@@ -75,39 +82,6 @@ namespace TitanGate.Game
             var img = new Image { sprite = LdIcon(id), scaleMode = ScaleMode.ScaleToFit, pickingMode = PickingMode.Ignore };
             img.style.width = size; img.style.height = size; img.tintColor = tint; img.style.flexShrink = 0;
             return img;
-        }
-
-        // ------------------------------------------------------------------ HUD chips
-
-        readonly Dictionary<string, (VisualElement chip, Label value, Image icon)> _ldChips = new Dictionary<string, (VisualElement, Label, Image)>();
-
-        VisualElement LdChipRow()
-        {
-            _ldChips.Clear();
-            var row = new VisualElement { pickingMode = PickingMode.Ignore };
-            row.style.flexDirection = FlexDirection.Row; row.style.flexWrap = Wrap.Wrap; row.style.justifyContent = Justify.Center;
-            foreach (var id in new[] { "day", "time", "food", "water", "o2", "battery", "sun", "parts", "co2", "heat", "signal", "heart", "rescue" })
-            {
-                var chip = new VisualElement { pickingMode = PickingMode.Ignore };
-                chip.style.flexDirection = FlexDirection.Row; chip.style.alignItems = Align.Center;
-                chip.style.backgroundColor = new Color(0.04f, 0.05f, 0.09f, 0.88f);
-                GameUI.Border(chip, LdGoldDim, 1, 7);
-                chip.style.paddingLeft = 8; chip.style.paddingRight = 10; chip.style.paddingTop = 3; chip.style.paddingBottom = 3;
-                chip.style.marginLeft = 3; chip.style.marginRight = 3; chip.style.marginBottom = 4;
-                var icon = LdIconImage(id, 22, GameUI.CText);
-                var val = _ui.L("", 21, true, GameUI.CText); val.pickingMode = PickingMode.Ignore; val.style.marginLeft = 6; LdFont(val);
-                chip.Add(icon); chip.Add(val); row.Add(chip);
-                _ldChips[id] = (chip, val, icon);
-            }
-            return row;
-        }
-
-        void LdChip(string id, string text, Color color, bool alarm = false)
-        {
-            if (!_ldChips.TryGetValue(id, out var c)) return;
-            c.value.text = text; c.value.style.color = color; c.icon.tintColor = color;
-            float pulse = alarm && !Settings.ReducedMotion ? 0.5f + 0.5f * Mathf.Sin(Time.unscaledTime * 6f) : 0f;
-            c.chip.style.backgroundColor = alarm ? Color.Lerp(new Color(0.25f, 0.03f, 0.05f, 0.92f), new Color(0.45f, 0.05f, 0.08f, 0.95f), pulse) : new Color(0.04f, 0.05f, 0.09f, 0.88f);
         }
 
         // ------------------------------------------------------------------ panel header and action cards
@@ -161,13 +135,13 @@ namespace TitanGate.Game
             var title = _ui.L(name, 24, true, can ? GameUI.CText : GameUI.CDim); title.style.whiteSpace = WhiteSpace.Normal; LdFont(title);
             mid.Add(title);
             var eff = LdPara(effect, can ? GameUI.CDim : new Color(0.6f, 0.6f, 0.62f), 18);
-            bool random0 = a.StartsWith("explore") || a == "send_rover" || a == "open_mystery";
-            if (can && !random0) eff.style.display = DisplayStyle.None;   // less text: icons say it; the line shows on hover
-            mid.Add(eff);
             bool random = a.StartsWith("explore") || a == "send_rover" || a == "open_mystery";
-            if (can && a.StartsWith("service_")) mid.Add(LdPara(effect, GameUI.CGreen, 18));   // it changes condition, not stock: say it in words
+            bool service = a.StartsWith("service_");
+            if (!random && !service) eff.style.display = DisplayStyle.None;
+            if (can) mid.Add(eff);
+            if (can && service) eff.style.color = GameUI.CGreen;
             else if (can && !random) mid.Add(LdDeltaRow(_ld.Preview(a), 20));   // what changes, as icons
-            else mid.Add(LdPara(can ? "? " + LdPreviewText(a) : TT("Can't: ", "ทำไม่ได้: ") + LdBlockedText(why), can ? GameUI.CAmber : GameUI.CRed, 18));
+            else mid.Add(LdPara(can ? "? " + LdPreviewText(a) : LdBlockedText(why), can ? GameUI.CAmber : GameUI.CRed, 18));
             card.Add(mid);
             // the cost on the right: one turn, the rest of the day, or nothing (answers to an event)
             bool free = a.StartsWith("dip_") || a.StartsWith("raid_");
@@ -178,8 +152,10 @@ namespace TitanGate.Game
             if (can)
             {
                 card.RegisterCallback<MouseEnterEvent>(_ => { card.style.backgroundColor = LdCardHover; eff.style.display = DisplayStyle.Flex; _sfx.Play("hover"); });
-                card.RegisterCallback<MouseLeaveEvent>(_ => { card.style.backgroundColor = LdCardBg; if (!random0) eff.style.display = DisplayStyle.None; });
-                card.RegisterCallback<ClickEvent>(_ => { _sfx.Play("click"); LdDo(a); });
+                card.RegisterCallback<MouseLeaveEvent>(_ => { card.style.backgroundColor = LdCardBg; if (!random && !service) eff.style.display = DisplayStyle.None; });
+                card.RegisterCallback<FocusInEvent>(_ => eff.style.display = DisplayStyle.Flex);
+                card.RegisterCallback<FocusOutEvent>(_ => { if (!random && !service) eff.style.display = DisplayStyle.None; });
+                GameUI.BindCard(card, () => { _sfx.Play("click"); LdDo(a); });
             }
             LdAnimateIn(card, ++_ldCardIndex);
             return card;

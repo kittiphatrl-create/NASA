@@ -30,8 +30,6 @@ namespace TitanGate.Game
         ScavengeInventory _ldInv;
         int _ldSeed, _ldLogMark;
         bool _ldEnded;
-        VisualElement _ldHud;
-        Label _ldHudTop, _ldHudAlert, _ldHudRoom;
         readonly List<(int day, Fault f, string room)> _ldIncidents = new List<(int, Fault, string)>();
         readonly Dictionary<DockRoom, SpriteRenderer> _ldShade = new Dictionary<DockRoom, SpriteRenderer>();
         Fault _ldSeenFault;
@@ -197,7 +195,6 @@ namespace TitanGate.Game
             _ui.HideScreen();
             LdClearHighlights();
             BBegin(2, new Vector2(12f, 11.5f));
-            LdBuildHud();
             _ui.FadeTo(0f, 0.6f);
             if (!resume) LdIntro();
         }
@@ -208,21 +205,17 @@ namespace TitanGate.Game
             _ui.ShowModal(p =>
             {
                 LdHeader(p, "LAST DOCK");
-                p.Add(LdPara(TT("The lifeboat landed on Mars, docked to an old, empty base. A rescue ship can reach us in 7 days.",
-                    "ยานชูชีพลงจอดบนดาวอังคาร เทียบกับฐานเก่าที่ไม่มีใคร ยานกู้ภัยจะมาถึงใน 7 วัน")));
-                p.Add(LdPara(TT($"To be picked up: ① send our location {c.signalNeeded} times from Communications, ② keep {c.dockPower} battery to open the docking port on day 7, ③ keep the crew safe.",
-                    $"เพื่อให้ยานกู้ภัยรับเราได้: ① ส่งพิกัด {c.signalNeeded} ครั้งจากห้องสื่อสาร ② เก็บแบตไว้ {c.dockPower} เพื่อเปิดช่องเทียบท่าในวันที่ 7 ③ ดูแลลูกเรือให้ปลอดภัย"), GameUI.CAmber));
-                p.Add(LdPara(TT($"Each day has {c.workUnits} work units. Every action costs 1. Walking and reading panels are free — take your time.",
-                    $"แต่ละวันมีเวลาทำงาน {c.workUnits} ช่วง ทุกการกระทำใช้ 1 ช่วง เดินและอ่านแผงฟรี ไม่ต้องรีบ")));
+                p.Add(_ui.L(TT($"Rescue on day {c.days}", $"กู้ภัยวันที่ {c.days}"), 30, true, FieldBook.Amber));
+                p.Add(LdPara(TT($"Send {c.signalNeeded} signals. Reserve {c.dockPower} battery for docking.",
+                    $"ส่งพิกัด {c.signalNeeded} ครั้ง สำรองแบต {c.dockPower} ไว้เปิดช่องเทียบท่า")));
+                p.Add(LdPara(TT("Start at the radio in Communications.", "เริ่มที่วิทยุในห้องสื่อสาร"), GameUI.CCyan));
+                p.Add(LdPara(TT($"{c.workUnits} work slots a day. Walking, reading and switching machines are free.",
+                    $"ทำงานได้วันละ {c.workUnits} ช่วง เดิน อ่านแผง และเปิดปิดเครื่องได้ฟรี")));
                 var kit = string.Join("   ", new[] { Res.Food, Res.Oxygen, Res.Battery, Res.Parts }.Select(r => LdRes(r) + " +" + (_ldKit.TryGetValue(r, out var n) ? n : 0)));
                 p.Add(LdPara(TT("From the lifeboat: ", "ขนมาจากยานชูชีพ: ") + kit, GameUI.CGreen));
                 var extras = new[] { Res.Solar, Res.RadioKit, Res.RadMeter, Res.FrozenFood, Res.Flashlight, Res.Medkit }.Where(r => _ldKit.TryGetValue(r, out var n) && n > 0).Select(LdRes).ToList();
-                p.Add(LdPara(extras.Count == 0 ? TT("No special items came along.", "ไม่มีของพิเศษติดมา") : TT("Special items: ", "ของพิเศษ: ") + string.Join(", ", extras), extras.Count == 0 ? GameUI.CDim : GameUI.CAmber));
-                p.Add(LdPara(TT("Quest 1: repair the radio in Communications (one session a day). Then send our location.", "เควส 1: ซ่อมวิทยุที่ห้องสื่อสาร (ซ่อมได้วันละครั้ง) แล้วค่อยส่งพิกัด"), GameUI.CCyan));
-                p.Add(LdPara(TT($"Already in the base: Food {c.baseFood}, Oxygen {c.baseOxygen}, Battery {c.baseBattery}, Parts {c.baseParts}, 1 CO₂ absorber.",
-                    $"ของที่ฐานมีอยู่แล้ว: อาหาร {c.baseFood} ออกซิเจน {c.baseOxygen} แบต {c.baseBattery} อะไหล่ {c.baseParts} กระป๋องดูดซับ CO₂ 1"), GameUI.CDim));
-                p.Add(LdPara(TT("Walk with WASD, press E at a console. Things will break: read the panel, then pick a fix.",
-                    "เดินด้วย WASD กด E ที่คอนโซล ของจะเสีย: อ่านแผงก่อน แล้วค่อยเลือกวิธีแก้"), GameUI.CCyan));
+                if (extras.Count > 0) p.Add(LdPara(TT("Special items: ", "ของพิเศษ: ") + string.Join(", ", extras), GameUI.CAmber));
+                p.Add(LdPara(TT("E · Use a console    M · Field book", "E · เปิดคอนโซล    M · สมุดภารกิจ"), GameUI.CCyan));
             });
         }
 
@@ -440,7 +433,6 @@ namespace TitanGate.Game
                     var inc = LdIncidentOf(f);
                     _ldIncidents.Add((_ld.Day, f, LdRoomName(inc.room)));
                     _sfx.Play("alarm"); _ui.Flash(new Color(1f, 0.2f, 0.1f, 0.35f));
-                    _ui.Toast("! " + inc.title + " — " + TT($"go to {LdRoomName(inc.room)} and fix it by hand", $"ไปที่{LdRoomName(inc.room)} แล้วลงมือซ่อม"), GameUI.CRed);
                 }
                 _ldSeenFault = f;
             }
@@ -449,87 +441,17 @@ namespace TitanGate.Game
 
         // ------------------------------------------------------------------ HUD
 
-        void LdBuildHud()
-        {
-            LdEndBase();
-            _ldHud = new VisualElement { pickingMode = PickingMode.Ignore };
-            _ldHud.style.position = Position.Absolute; _ldHud.style.left = 16; _ldHud.style.right = 16; _ldHud.style.top = 12;
-            _ldHud.style.alignItems = Align.Center;
-            _ldHudTop = _ui.L("", 24, true, GameUI.CText);
-            _ldHudTop.pickingMode = PickingMode.Ignore;
-            _ldHudTop.style.backgroundColor = new Color(0.04f, 0.05f, 0.09f, 0.88f);
-            _ldHudTop.style.paddingLeft = _ldHudTop.style.paddingRight = 18; _ldHudTop.style.paddingTop = _ldHudTop.style.paddingBottom = 6;
-            GameUI.Border(_ldHudTop, new Color(1f, .92f, .76f, .5f), 2, 10);
-            _ldHudTop.enableRichText = true;
-            _ldHud.Add(_ldHudTop);
-            _ldHudTop.style.display = DisplayStyle.None;   // replaced by the chip row below
-            _ldHud.Add(LdChipRow());
-            _ldHudAlert = _ui.L("", 22, true, GameUI.CRed);
-            _ldHudAlert.pickingMode = PickingMode.Ignore;
-            _ldHudAlert.style.marginTop = 6; _ldHudAlert.style.backgroundColor = new Color(0.25f, 0.03f, 0.05f, 0.9f);
-            _ldHudAlert.style.paddingLeft = _ldHudAlert.style.paddingRight = 14; _ldHudAlert.style.paddingTop = _ldHudAlert.style.paddingBottom = 4;
-            _ldHud.Add(_ldHudAlert);
-            _ldHudRoom = _ui.L("", 20, false, GameUI.CDim);
-            _ldHudRoom.pickingMode = PickingMode.Ignore;
-            _ldHudRoom.style.marginTop = 4;
-            _ldHud.Add(_ldHudRoom);
-            _ui.Root.Add(_ldHud);
-        }
-
-        /// <summary>Remove the station HUD (called when the top-down map is torn down).</summary>
         void LdEndBase()
         {
-            if (_ldHud != null) { _ldHud.RemoveFromHierarchy(); _ldHud = null; }
             if (_bMode == 2) _sfx.Loop("siren", false);
             Art.UseStationTiles = false;
             LdPolishReset();
         }
 
-        static string Hex(Color c) => "#" + ColorUtility.ToHtmlStringRGB(c);
-
         void LdHud()
         {
-            if (_bHud != null) _bHud.style.display = DisplayStyle.None;
-            if (_bHudPortrait != null) _bHudPortrait.style.display = DisplayStyle.None;
-            if (_ldHud == null || _ld == null) return;
-            _ldHud.style.display = _ui.ScreenOpen ? DisplayStyle.None : DisplayStyle.Flex;
-            var s = _ld;
-            string wu = new string('●', Mathf.Max(0, s.WorkUnits)) + new string('○', Mathf.Max(0, s.C.workUnits - s.WorkUnits));
-            string Num(string name, int v, int warn) => $"{name} <color={Hex(v <= warn ? GameUI.CRed : GameUI.CText)}>{v}</color>";
-            string hearts = new string('♥', Mathf.Max(0, s.Health)) + new string('·', Mathf.Max(0, s.C.health - s.Health));
-            _ldHudTop.text = string.Join("   ", new[]
-            {
-                $"<color={Hex(GameUI.CAmber)}>{TT("DAY", "วันที่")} {s.Day}/{s.C.days}</color>",
-                TT("Time", "เวลา") + $" <color={Hex(GameUI.CCyan)}>{wu}</color>",
-                Num(LdRes(Res.Food), s.Food, 1), Num("O₂", s.Oxygen, 0), Num(LdRes(Res.Battery), s.Battery, s.C.dockPower), Num(LdRes(Res.Parts), s.Parts, -1),
-                $"CO₂ <color={Hex(LdLevelColor(s.Co2Level))}>{LdLevel(s.Co2Level)}</color>",
-                $"{TT("Heat", "ความร้อน")} <color={Hex(LdLevelColor(s.HeatLevel))}>{LdLevel(s.HeatLevel)}</color>",
-                $"{TT("Signal", "สัญญาณ")} <color={Hex(s.Signal >= s.C.signalNeeded ? GameUI.CGreen : GameUI.CCyan)}>{s.Signal}/{s.C.signalNeeded}</color>",
-                $"<color={Hex(s.Health <= 1 ? GameUI.CRed : GameUI.CGreen)}>{hearts}</color>",
-                $"<color={Hex(GameUI.CAmber)}>{TT("Rescue in", "ยานกู้ภัยมาใน")} {s.C.days - s.Day + 1} {TT("days", "วัน")}</color>",
-            });
-            var f = s.ActiveFault;
-            LdChip("day", $"{s.Day}/{s.C.days}", GameUI.CAmber);
-            LdChip("time", wu, GameUI.CCyan);
-            LdChip("food", s.Food.ToString() + (s.MysteryFood > 0 ? $" +{s.MysteryFood}?" : ""), s.Food <= 1 ? GameUI.CRed : GameUI.CText, s.Food == 0);
-            LdChip("water", s.Water.ToString(), s.Water <= 1 ? GameUI.CRed : s.Water <= 3 ? GameUI.CAmber : GameUI.CText, s.Water == 0);
-            LdChip("o2", s.Oxygen.ToString(), s.Oxygen <= 0 ? GameUI.CRed : GameUI.CText, s.Oxygen <= 0 && (s.LeakRoom != null || !s.O2GenOk));
-            LdChip("battery", s.Battery.ToString(), s.Battery < s.C.dockPower ? GameUI.CRed : GameUI.CText, s.Battery <= 0);
-            var fc = s.Look();
-            int net = fc.solar - fc.draw;
-            LdChip("sun", (net >= 0 ? "+" : "−") + Mathf.Abs(net) + TT("/night", "/คืน"), fc.shortTonight ? GameUI.CRed : net < 0 ? GameUI.CAmber : GameUI.CGreen, fc.shortTonight);
-            LdChip("parts", s.Parts.ToString(), s.Parts == 0 ? GameUI.CAmber : GameUI.CText);
-            LdChip("co2", LdLevel(s.Co2Level), LdLevelColor(s.Co2Level), s.Co2Level == "critical");
-            LdChip("heat", LdLevel(s.HeatLevel), LdLevelColor(s.HeatLevel), s.HeatLevel == "critical");
-            LdChip("signal", s.RadioFixed ? $"{s.Signal}/{s.C.signalNeeded}" : TT($"radio {s.RadioRepair}/{s.C.radioRepairDays}", $"วิทยุ {s.RadioRepair}/{s.C.radioRepairDays}"), s.Signal >= s.C.signalNeeded ? GameUI.CGreen : s.RadioFixed ? GameUI.CCyan : GameUI.CAmber);
-            LdChip("heart", hearts, s.Health <= 1 ? GameUI.CRed : GameUI.CGreen, s.Health <= 1);
-            LdChip("rescue", TT($"{s.C.days - s.Day + 1} days", $"อีก {s.C.days - s.Day + 1} วัน"), GameUI.CAmber);
-            var al = s.Outcome == Outcome.Ongoing ? LdAlert() : null;
-            _ldHudAlert.style.display = al != null ? DisplayStyle.Flex : DisplayStyle.None;
-            if (al != null) { _ldHudAlert.text = al.Value.text; _ldHudAlert.style.color = al.Value.color; }
-            var room = BRoomAt(_bPos);
-            var r = room == null ? null : LdRoomOfKey(room);
-            _ldHudRoom.text = (r == null ? "" : "▸ " + (room == "ld.dock" ? TT("Docking port", "ช่องเทียบท่า") : LdRoomName(r.Value)) + "   ") + TT("WASD walk · E use · reading is free", "WASD เดิน · E ใช้ · อ่านฟรี");
+            var alert = _ld != null && _ld.Outcome == Outcome.Ongoing ? LdAlert() : null;
+            RefreshPlayOverlay(alert?.text, alert?.color);
         }
 
         // ------------------------------------------------------------------ consoles
@@ -707,7 +629,7 @@ namespace TitanGate.Game
                     var inc = LdIncidentOf(f);
                     if (spot == "ld_board" || spot == "ld_dock" || inc.room == room) p.Add(LdIncidentBlock(f));
                     if ((spot == "ld_board" || spot == "ld_dock" || inc.room != room) && f != Fault.PowerDip && _ld.Usable(inc.room))
-                        p.Add(LdPara("→ " + TT($"Walk to {LdRoomName(inc.room)} and repair it at the machine.", $"เดินไปที่{LdRoomName(inc.room)} แล้วซ่อมที่ตัวเครื่อง"), GameUI.CAmber, 22));
+                        p.Add(LdPara("→ " + TT($"Repair in {LdRoomName(inc.room)}.", $"ซ่อมที่{LdRoomName(inc.room)}"), GameUI.CAmber, 22));
                 }
                 if (spot == "ld_board")
                 {
@@ -717,7 +639,7 @@ namespace TitanGate.Game
                     var cols = new VisualElement(); cols.style.flexDirection = FlexDirection.Row; cols.style.flexShrink = 0;
                     var left = new VisualElement(); left.style.width = 560; left.style.marginRight = 20;
                     var right = new VisualElement(); right.style.width = 520;
-                    left.Add(LdSectionLabel(TT("Power plan (switching is free)", "แผนไฟฟ้า (เปิด/ปิดฟรี ไม่เสียเวลา)")));
+                    left.Add(LdSectionLabel(TT("Power plan · Free to switch", "แผนไฟ · เปิดปิดฟรี")));
                     left.Add(LdPowerRows(new[] { Sys.Scrubber, Sys.O2Gen, Sys.Heater, Sys.Recycler, Sys.Beacon }));
                     right.Add(LdSectionLabel(TT("Machines", "สภาพเครื่อง")));
                     right.Add(LdConditionBlock(new[] { Machine.Scrubber, Machine.O2Gen, Machine.Fan, Machine.Thermal, Machine.Recycler }, true));
@@ -931,7 +853,9 @@ namespace TitanGate.Game
                 var e = _ld.Log[i];
                 if (e.StartsWith("fixed_") || e == "signal_sent" || e == "tired" && chain.Count > 3) continue;
                 var t = LdEventText(e);
-                if (t != null && (chain.Count == 0 || chain[chain.Count - 1] != t)) chain.Add(t);
+                if (t == null) continue;
+                chain.Remove(t);
+                chain.Add(t);
             }
             if (chain.Count == 0) chain.Add(TT("The crew ran out of strength.", "ลูกเรือหมดแรง"));
             if (chain.Count > 5) chain.RemoveRange(1, chain.Count - 5);
@@ -941,10 +865,15 @@ namespace TitanGate.Game
         string LdTip()
         {
             var log = _ld.Log;
-            if (log.Contains("signal_missing")) return TT("Tip: start the radio repair on day 1 (one session a day), then send early. The radio repair kit saves two days.", "เคล็ดลับ: เริ่มซ่อมวิทยุตั้งแต่วันแรก (ซ่อมได้วันละครั้ง) แล้วรีบส่งพิกัด ชุดซ่อมวิทยุช่วยประหยัด 2 วัน");
-            if (log.Contains("dock_power_missing")) return TT("Tip: keep 2 battery for the docking port. Search the lockers for spare batteries.", "เคล็ดลับ: เก็บแบต 2 ไว้เปิดช่องเทียบท่า และค้นตู้หาแบตสำรอง");
+            if (log.Contains("signal_missing")) return TT("Start radio repairs early. The repair kit completes the first two steps.", "ซ่อมวิทยุตั้งแต่ต้น ชุดซ่อมช่วยข้ามสองขั้นแรก");
+            if (log.Contains("dock_power_missing")) return TT($"Reserve {_ld.C.dockPower} battery for docking. Check the lockers for spares.", $"สำรองแบต {_ld.C.dockPower} ไว้เทียบท่า หาแบตเพิ่มในตู้");
             if (log.Contains("co2_critical")) return TT("Tip: when CO₂ rises, fix the scrubber or fan first, or use an absorber canister.", "เคล็ดลับ: ถ้า CO₂ สูง ให้ซ่อมเครื่องกรองหรือพัดลมก่อน หรือใช้กระป๋องดูดซับ");
-            if (log.Exists(e => e.StartsWith("no_oxygen"))) return TT("Tip: a leak empties the oxygen tanks fast. Close the hatch, then patch it.", "เคล็ดลับ: รอยรั่วทำให้ออกซิเจนหมดเร็ว ปิดประตูกั้นก่อน แล้วค่อยอุด");
+            switch (log.FindLast(e => e.StartsWith("no_oxygen_")))
+            {
+                case "no_oxygen_leak": return TT("Close the hatch, then patch the leak.", "ปิดประตูกั้น แล้วอุดรอยรั่ว");
+                case "no_oxygen_o2gen_down": return TT("Repair the O₂ maker before the tanks run dry.", "ซ่อมเครื่องผลิต O₂ ก่อนถังหมด");
+                case "no_oxygen_o2gen_off": return TT("Run the O₂ maker overnight. Keep water and power for it.", "เปิดเครื่องผลิต O₂ ตอนกลางคืน สำรองน้ำกับไฟไว้");
+            }
             return TT("Tip: read the station board each morning. Every problem has more than one fix.", "เคล็ดลับ: อ่านแผงสถานะทุกเช้า ทุกปัญหามีทางแก้มากกว่าหนึ่งทาง");
         }
 
@@ -965,28 +894,34 @@ namespace TitanGate.Game
             {
                 root.Add(LdArtBackdrop(won ? "end_win" : "end_lose", 0f));
                 root.Add(GameUI.Backdrop(new Color(0.02f, 0.03f, 0.07f, 0.78f)));
-                var box = new VisualElement(); box.style.alignItems = Align.Center; box.style.maxWidth = 1300;
-                var head = _ui.L(won ? TT("RESCUED! The ship docked at LAST DOCK.", "รอดแล้ว! ยานกู้ภัยเทียบท่าที่ LAST DOCK") : TT("The station could not hold on this time.", "ครั้งนี้สถานีไปต่อไม่ไหว"), 50, true, won ? GameUI.CAmber : GameUI.CRed);
+                var box = new VisualElement { name = "lastdock-result" }; box.style.alignItems = Align.Center; box.style.maxWidth = 1300;
+                box.style.paddingLeft = box.style.paddingRight = 48;
+                box.style.paddingTop = box.style.paddingBottom = 30;
+                GameUI.PanelFrame(box, won ? FieldBook.Rim : FieldBook.Red);
+                var head = _ui.L(won ? TT("Rescued", "กู้ภัยสำเร็จ") : TT("Mission failed", "ภารกิจไม่สำเร็จ"), 50, true, won ? GameUI.CAmber : GameUI.CRed);
                 head.style.whiteSpace = WhiteSpace.Normal; head.style.unityTextAlign = TextAnchor.MiddleCenter;
                 box.Add(head);
+                var result = new ScrollView(ScrollViewMode.Vertical);
+                result.style.width = 1100;
+                result.style.maxHeight = 620;
+                result.style.marginTop = 10;
                 if (won)
                 {
-                    box.Add(LdPara(TT($"You kept the crew safe for {_ld.C.days} days, sent the location {_ld.Signal} times and opened the docking port with {_ld.Battery} battery.",
-                        $"คุณดูแลลูกเรือได้ {_ld.C.days} วัน ส่งพิกัด {_ld.Signal} ครั้ง และเปิดช่องเทียบท่าด้วยแบต {_ld.Battery}"), GameUI.CText, 28));
-                    box.Add(LdPara(TT($"Problems solved: {_ldIncidents.Count}. Crew health: {_ld.Health}/{_ld.C.health}.", $"ปัญหาที่แก้ได้: {_ldIncidents.Count} ครั้ง สุขภาพลูกเรือ: {_ld.Health}/{_ld.C.health}"), GameUI.CGreen, 26));
+                    result.Add(LdPara(TT($"Day {_ld.C.days} · Signals {_ld.Signal} · Dock battery {_ld.Battery}",
+                        $"วันที่ {_ld.C.days} · ส่งพิกัด {_ld.Signal} ครั้ง · แบตเทียบท่า {_ld.Battery}"), GameUI.CText, 28));
+                    result.Add(LdPara(TT($"Crew health {_ld.Health}/{_ld.C.health}", $"สุขภาพลูกเรือ {_ld.Health}/{_ld.C.health}"), GameUI.CGreen, 26));
                 }
                 else
                 {
-                    box.Add(LdPara(TT("What happened:", "เกิดอะไรขึ้น:"), GameUI.CDim, 26));
                     var chain = LdCauseChain();
-                    for (int i = 0; i < chain.Count; i++) box.Add(LdPara((i == 0 ? "" : "↓ ") + chain[i], i == chain.Count - 1 ? GameUI.CRed : GameUI.CText, 26));
-                    box.Add(LdPara(LdTip(), GameUI.CCyan, 24));
+                    for (int i = 0; i < chain.Count; i++) result.Add(LdPara((i == 0 ? "" : "↓ ") + chain[i], i == chain.Count - 1 ? GameUI.CRed : GameUI.CText, 26));
+                    result.Add(LdPara(LdTip(), GameUI.CCyan, 24));
                 }
                 if (_ldIncidents.Count > 0)
                 {
-                    box.Add(LdPara(TT("What you learned:", "สิ่งที่ได้เรียนรู้:"), GameUI.CDim, 22));
-                    foreach (var f in _ldIncidents.Select(i => i.f).Distinct().Take(3)) box.Add(LdPara("NASA: " + LdIncidentOf(f).fact, GameUI.CCyan, 20));
+                    foreach (var f in _ldIncidents.Select(i => i.f).Distinct().Take(3)) result.Add(LdPara("NASA: " + LdIncidentOf(f).fact, GameUI.CCyan, 20));
                 }
+                box.Add(result);
                 var row = new VisualElement(); row.style.flexDirection = FlexDirection.Row; row.style.marginTop = 24;
                 row.Add(_ui.B(TT("Restart the week (same supplies)", "เริ่มสัปดาห์ใหม่ (ของเดิม)"), () => StartLastDock(_ldKit, _ldSeed + 1), 26, true));
                 row.Add(_ui.B(_loc.T("end.title"), RestartToTitle, 24));
@@ -1011,16 +946,13 @@ namespace TitanGate.Game
         {
             _ui.ShowModal(p =>
             {
-                LdHeader(p, TT("60 SECONDS TO THE LIFEBOAT", "60 วินาที ขนของขึ้นยานชูชีพ"));
-                p.Add(LdPara(TT("The ship is breaking up. Grab supplies and carry them to the lifeboat in the bay.", "ยานกำลังแตก หยิบเสบียงแล้วขนไปที่ยานชูชีพในห้องจอด")));
-                p.Add(LdPara(TT($"• Carry up to {ScavengeInventory.CarryMax} things at a time (E to pick up).", $"• ถือได้ครั้งละ {ScavengeInventory.CarryMax} ชิ้น (กด E เพื่อหยิบ)")));
-                p.Add(LdPara(TT($"• The lifeboat holds {ScavengeInventory.PodMax}. Only what is IN the lifeboat comes with you.", $"• ยานชูชีพจุได้ {ScavengeInventory.PodMax} ชิ้น เฉพาะของที่อยู่ในยานเท่านั้นที่ไปกับเรา")));
-                p.Add(LdPara(TT("• When time runs out the lifeboat launches; things in your hands are lost.", "• หมดเวลายานชูชีพจะออกทันที ของที่ยังถืออยู่จะหายไป")));
-                p.Add(LdPara(TT("• Two rooms by the cockpit are locked. ONE key card is hidden on the ship — it opens only one of them.", "• ห้องข้างห้องบังคับยาน 2 ห้องล็อกอยู่ มีคีย์การ์ดใบเดียวซ่อนบนยาน เปิดได้แค่ห้องเดียว"), GameUI.CAmber));
-                p.Add(LdPara(TT("• Special items (medicine, radiation meter, flashlight, frozen food) are somewhere different every time.", "• ของพิเศษ (ยา เครื่องวัดรังสี ไฟฉาย อาหารแช่แข็ง) อยู่คนละที่ทุกรอบ"), GameUI.CCyan));
-                p.Add(LdPara(TT("Food keeps the crew going, Oxygen refills the tanks, Battery powers the radio and docking port, Parts fix machines.", "อาหารให้ลูกเรือมีแรง ออกซิเจนเติมถัง แบตเตอรี่ใช้ส่งสัญญาณและเปิดช่องเทียบท่า อะไหล่ใช้ซ่อมเครื่อง"), GameUI.CCyan));
-                p.Add(LdPara(TT("The station you will reach has a little of everything, so any mix can work.", "สถานีที่จะไปมีของอยู่บ้างทุกอย่าง จึงเลือกแบบไหนก็รอดได้"), GameUI.CDim, 20));
-                var go = _ui.B(TT("Start!", "เริ่ม!"), _ui.CloseModal, 30, true); go.style.marginTop = 14; go.style.alignSelf = Align.Center;
+                LdHeader(p, TT($"Evacuate · {_cfg.chapter1.scrambleSeconds:0}s", $"อพยพ · {_cfg.chapter1.scrambleSeconds:0} วิ"));
+                p.Add(_ui.L(TT("Load the lifeboat in the bay", "ขนเสบียงขึ้นยานชูชีพที่ห้องจอด"), 28, true, FieldBook.Amber));
+                p.Add(LdPara(TT($"E · Pick up or load\nCarry {ScavengeInventory.CarryMax} at once · Pod holds {ScavengeInventory.PodMax}",
+                    $"E · หยิบหรือขนของขึ้นยาน\nถือครั้งละ {ScavengeInventory.CarryMax} ชิ้น · ยานจุ {ScavengeInventory.PodMax} ชิ้น")));
+                p.Add(LdPara(TT("Time up: the pod leaves. Supplies in hand stay behind.", "หมดเวลา ยานจะออกทันที ของที่ยังถือจะตกค้าง"), GameUI.CRed));
+                p.Add(LdPara(TT("One hidden key card opens one cockpit vault.", "คีย์การ์ดที่ซ่อนอยู่เปิดห้องเก็บของข้างห้องนักบินได้หนึ่งห้อง"), GameUI.CDim));
+                var go = _ui.B(TT("Start evacuation", "เริ่มอพยพ"), _ui.CloseModal, 30, true); go.style.marginTop = 14; go.style.alignSelf = Align.Center;
                 p.Add(go);
             }, false);
         }
@@ -1059,7 +991,12 @@ namespace TitanGate.Game
             }
             StartLastDock(kit, SeedOverride);
             yield return new WaitForSeconds(1.2f);
-            yield return PlayLastDock(LdPlanFromArgs());
+            if (BookCheckRequested)
+            {
+                _ui.CloseModal();
+                yield return CheckFieldBook("station", true);
+            }
+            if (!PauseCheckRequested) yield return PlayLastDock(LdPlanFromArgs());
         }
 
         /// <summary>After the scramble in a full -play run: wait for the station, then play it.</summary>
@@ -1071,7 +1008,12 @@ namespace TitanGate.Game
             Check(_ld != null && _bMode == 2, "station started after the scramble");
             if (_ld == null) yield break;
             yield return new WaitForSeconds(1f);
-            yield return PlayLastDock(LdPlanFromArgs());
+            if (BookCheckRequested)
+            {
+                _ui.CloseModal();
+                yield return CheckFieldBook("station", true);
+            }
+            if (!PauseCheckRequested) yield return PlayLastDock(LdPlanFromArgs());
         }
 
         bool _ldContinueChecked;
@@ -1105,6 +1047,7 @@ namespace TitanGate.Game
                     var after = (_ld.Day, _ld.Food, _ld.Battery, _ld.Signal, _ld.Health, _ld.WorkUnits);
                     Check(ok && before.Equals(after), $"continue restores the run {before} -> {after}");
                     yield return new WaitForSeconds(0.8f); _ui.CloseModal();
+                    if (BookCheckRequested && ok) yield return CheckBookAfterContinue();
                 }
                 string a = LastDockBot.Choose(_ld, plan);
                 if (!a.StartsWith("dip_") && !a.StartsWith("raid_") && !a.StartsWith("power_"))
@@ -1133,11 +1076,12 @@ namespace TitanGate.Game
             }
             PNote($"LAST DOCK {_ld.Outcome} on day {_ld.Day} in {_playClock - start:0}s; log: {string.Join(",", _ld.Log)}");
             Check(_ld.Outcome != Outcome.Ongoing, "LAST DOCK run finished");
-            yield return new WaitForSeconds(1.5f);
+            float resultDeadline = Time.unscaledTime + 25f;
+            while (_ui.Root.Q<VisualElement>("lastdock-result") == null && Time.unscaledTime < resultDeadline)
+                yield return null;
+            Check(_ui.Root.Q<VisualElement>("lastdock-result") != null, "ending cutscene reaches the results screen");
             yield return Shot("ld90_end");
-            // Restart clears everything
-            var kit = _ldKit;
-            StartLastDock(kit, _ldSeed);
+            Check(_ui.Press(TT("Restart the week (same supplies)", "เริ่มสัปดาห์ใหม่ (ของเดิม)")), "results screen can restart the week");
             yield return new WaitForSeconds(0.8f);
             Check(_ld.Day == 1 && _ld.Outcome == Outcome.Ongoing && _ld.Log.Count == 0 && _ldIncidents.Count == 0 && !_ldEnded, "restart clears the run");
             yield return Shot("ld91_restart");

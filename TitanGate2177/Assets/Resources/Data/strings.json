@@ -8512,13 +8512,13 @@
   },
   {
    "k": "ship.q.radio",
-   "en": "Send the morning report from the cockpit radio",
-   "th": "ส่งรายงานตอนเช้าจากวิทยุในห้องบังคับ"
+   "en": "Send the report from the cockpit",
+   "th": "ส่งรายงานจากห้องบังคับ"
   },
   {
    "k": "ship.q.sofa",
-   "en": "All done! Take a break on the sofa in the galley",
-   "th": "เสร็จหมดแล้ว! ไปนั่งพักที่โซฟาในห้องครัว"
+   "en": "Rest on the galley sofa",
+   "th": "พักที่โซฟาในห้องครัว"
   },
   {
    "k": "ship.fact.food",
@@ -8562,33 +8562,33 @@
   },
   {
    "k": "ship.scramble.notime",
-   "en": "No time for that! Grab supplies and get to the lifeboat!",
-   "th": "ไม่มีเวลาแล้ว! หยิบเสบียงแล้วรีบไปที่ยานชูชีพ!"
+   "en": "Take supplies to the lifeboat",
+   "th": "ขนเสบียงไปที่ยานชูชีพ"
   },
   {
    "k": "ship.scramble.hands_full",
-   "en": "Hands full ({0})! Take them to the lifeboat first.",
-   "th": "มือเต็มแล้ว ({0} ชิ้น)! เอาไปเก็บที่ยานชูชีพก่อน"
+   "en": "Hands full ({0}) · Load the lifeboat",
+   "th": "มือเต็ม ({0} ชิ้น) · ขนของขึ้นยานชูชีพ"
   },
   {
    "k": "ship.scramble.grab",
-   "en": "Grabbed {0}  ({1}/{2} in hands)",
-   "th": "หยิบ{0}แล้ว  (ในมือ {1}/{2})"
+   "en": "{0} · Hands {1}/{2}",
+   "th": "{0} · ถือ {1}/{2}"
   },
   {
    "k": "ship.scramble.empty",
-   "en": "Your hands are empty. Bring supplies here!",
-   "th": "มือว่างอยู่ ไปหยิบเสบียงมาเก็บที่นี่!"
+   "en": "Pick up supplies first",
+   "th": "หยิบเสบียงก่อน"
   },
   {
    "k": "ship.scramble.stowed",
-   "en": "Stowed {0} in the lifeboat ({1}/{2})",
-   "th": "เก็บเข้ายานชูชีพ {0} ชิ้น ({1}/{2})"
+   "en": "Loaded {0} · Lifeboat {1}/{2}",
+   "th": "ขนขึ้นยาน {0} ชิ้น · ยานชูชีพ {1}/{2}"
   },
   {
    "k": "ship.scramble.fire",
-   "en": "FIRE! A doorway is blocked. Find another way around!",
-   "th": "ไฟไหม้! ประตูถูกปิดทาง หาทางอ้อม!"
+   "en": "Fire blocks the door · Find another route",
+   "th": "ไฟขวางประตู · หาทางอ้อม"
   },
   {
    "k": "ship.scramble.full",
@@ -10132,8 +10132,8 @@
   },
   {
    "k": "ship.scramble.tilt",
-   "en": "The ship is tilting! Hold on and keep running!",
-   "th": "ยานกำลังเอียง! เกาะไว้แล้ววิ่งต่อ!"
+   "en": "Ship tilting · Keep moving",
+   "th": "ยานเอียง · วิ่งต่อ"
   },
   {
    "k": "speaker.mentor",
@@ -10634,6 +10634,331 @@
    "k": "mm.footer",
    "en": "v{0} · © {1}",
    "th": "v{0} · © {1}"
+  },
+  {
+   "k": "book.station",
+   "en": "Last Dock Station",
+   "th": "สถานี Last Dock"
+  },
+  {
+   "k": "book.status",
+   "en": "Status",
+   "th": "สถานะ"
+  },
+  {
+   "k": "book.mission",
+   "en": "Mission",
+   "th": "ภารกิจ"
+  },
+  {
+   "k": "book.items",
+   "en": "Items",
+   "th": "ของ"
+  },
+  {
+   "k": "book.open",
+   "en": "Field book",
+   "th": "สมุดภารกิจ"
+  },
+  {
+   "k": "book.day",
+   "en": "Day {0}/{1}",
+   "th": "วันที่ {0}/{1}"
+  },
+  {
+   "k": "book.morning",
+   "en": "06:00 · Briefing",
+   "th": "06:00 · รายงานเช้า"
+  },
+  {
+   "k": "book.water",
+   "en": "Water",
+   "th": "น้ำ"
+  },
+  {
+   "k": "book.heat",
+   "en": "Temperature",
+   "th": "อุณหภูมิ"
+  },
+  {
+   "k": "book.done",
+   "en": "Complete",
+   "th": "สำเร็จ"
+  },
+  {
+   "k": "book.radio",
+   "en": "Repair radio  {0}/{1}",
+   "th": "ซ่อมวิทยุ  {0}/{1}"
+  },
+  {
+   "k": "book.board",
+   "en": "Install the board",
+   "th": "ใส่แผงวงจร"
+  },
+  {
+   "k": "book.board.cost",
+   "en": "1 part",
+   "th": "ใช้อะไหล่ 1"
+  },
+  {
+   "k": "book.power",
+   "en": "Test the power",
+   "th": "ทดสอบไฟ"
+  },
+  {
+   "k": "book.power.cost",
+   "en": "1 battery · Cooling online",
+   "th": "ใช้แบต 1 · ระบบระบายความร้อนพร้อม"
+  },
+  {
+   "k": "book.antenna",
+   "en": "Align the antenna",
+   "th": "ตั้งเสาอากาศ"
+  },
+  {
+   "k": "book.antenna.site",
+   "en": "Outside · Airlock",
+   "th": "นอกสถานี · ประตูปรับแรงดัน"
+  },
+  {
+   "k": "book.rescue",
+   "en": "Rescue",
+   "th": "ขอความช่วยเหลือ"
+  },
+  {
+   "k": "book.signal",
+   "en": "Send location  {0}/{1}",
+   "th": "ส่งพิกัด  {0}/{1}"
+  },
+  {
+   "k": "book.dock",
+   "en": "Open docking port · Day {0}",
+   "th": "เปิดช่องเทียบท่า · วันที่ {0}"
+  },
+  {
+   "k": "book.dock.reserve",
+   "en": "Reserve {0} battery",
+   "th": "สำรองแบต {0}"
+  },
+  {
+   "k": "book.beacon",
+   "en": "Rescue beacon",
+   "th": "เสาสัญญาณกู้ภัย"
+  },
+  {
+   "k": "book.beacon.parts",
+   "en": "Rover parts {0}/{1} · 1 spare part",
+   "th": "ชิ้นส่วนรถ {0}/{1} · อะไหล่ 1"
+  },
+  {
+   "k": "book.beacon.power",
+   "en": "Sends each night with power",
+   "th": "ส่งพิกัดทุกคืนที่มีไฟ"
+  },
+  {
+   "k": "book.ship.evac",
+   "en": "Evacuate · {0}s",
+   "th": "อพยพ · {0} วิ"
+  },
+  {
+   "k": "book.ship.evac.title",
+   "en": "Evacuate",
+   "th": "อพยพ"
+  },
+  {
+   "k": "book.ship.storage",
+   "en": "Hands {0}/{1} · Pod {2}/{3}",
+   "th": "ถือ {0}/{1} · ยานชูชีพ {2}/{3}"
+  },
+  {
+   "k": "book.ship.hands",
+   "en": "Carried",
+   "th": "ของที่ถือ"
+  },
+  {
+   "k": "book.ship.pod",
+   "en": "Lifeboat",
+   "th": "ยานชูชีพ"
+  },
+  {
+   "k": "book.ship.report",
+   "en": "Morning briefing",
+   "th": "งานช่วงเช้า"
+  },
+  {
+   "k": "book.ship.collect",
+   "en": "Gather supplies",
+   "th": "เก็บของจำเป็น"
+  },
+  {
+   "k": "book.ship.carry.limit",
+   "en": "Carry up to {0}",
+   "th": "ถือได้ครั้งละ {0} ชิ้น"
+  },
+  {
+   "k": "book.ship.stow",
+   "en": "Load the lifeboat  {0}/{1}",
+   "th": "ขนของขึ้นยานชูชีพ  {0}/{1}"
+  },
+  {
+   "k": "book.storage",
+   "en": "Station supplies",
+   "th": "คลังสถานี"
+  },
+  {
+   "k": "book.empty",
+   "en": "Empty",
+   "th": "ว่าง"
+  },
+  {
+   "k": "book.absorber",
+   "en": "CO₂ absorber",
+   "th": "กระป๋องดูดซับ CO₂"
+  },
+  {
+   "k": "book.mystery",
+   "en": "Salvaged food",
+   "th": "กล่องอาหารที่เก็บได้"
+  },
+  {
+   "k": "book.rover.parts",
+   "en": "Rover parts",
+   "th": "ชิ้นส่วนรถสำรวจ"
+  },
+  {
+   "k": "book.keycard",
+   "en": "Key card",
+   "th": "คีย์การ์ด"
+  },
+  {
+   "k": "book.item.food",
+   "en": "Plan meals at the dinner table.",
+   "th": "จัดมื้ออาหารที่โต๊ะกินข้าว"
+  },
+  {
+   "k": "book.item.oxygen",
+   "en": "Air for the station.",
+   "th": "ใช้หายใจในสถานี"
+  },
+  {
+   "k": "book.item.battery",
+   "en": "Powers machines, the radio, and docking.",
+   "th": "จ่ายไฟให้เครื่อง วิทยุ และช่องเทียบท่า"
+  },
+  {
+   "k": "book.item.parts",
+   "en": "Repairs machines at their consoles.",
+   "th": "ใช้ซ่อมเครื่องที่คอนโซล"
+  },
+  {
+   "k": "book.item.solar",
+   "en": "Adds 1 power each night while on the station.",
+   "th": "เพิ่มไฟคืนละ 1 เมื่อติดที่สถานี"
+  },
+  {
+   "k": "book.item.radiokit",
+   "en": "Completes the first two radio repairs.",
+   "th": "ซ่อมวิทยุสองขั้นแรก"
+  },
+  {
+   "k": "book.item.radmeter",
+   "en": "Shows radiation risk outside.",
+   "th": "บอกความเสี่ยงรังสีข้างนอก"
+  },
+  {
+   "k": "book.item.frozenfood",
+   "en": "Adds safe meals at the station.",
+   "th": "เป็นอาหารพร้อมกินเมื่อถึงสถานี"
+  },
+  {
+   "k": "book.item.flashlight",
+   "en": "Helps send through a power dip.",
+   "th": "ช่วยส่งพิกัดตอนไฟตก"
+  },
+  {
+   "k": "book.item.medkit",
+   "en": "Use at the station board.",
+   "th": "ใช้ที่แผงสถานะสถานี"
+  },
+  {
+   "k": "book.item.water",
+   "en": "For drinking and making oxygen.",
+   "th": "ใช้ดื่มและผลิตออกซิเจน"
+  },
+  {
+   "k": "book.item.absorber",
+   "en": "Lowers CO₂ at the life support console.",
+   "th": "ลด CO₂ ที่แผงระบบช่วยชีวิต"
+  },
+  {
+   "k": "book.item.mystery",
+   "en": "Open at the dinner table.",
+   "th": "เปิดที่โต๊ะกินข้าว"
+  },
+  {
+   "k": "book.item.rover",
+   "en": "Build the rescue beacon at the airlock.",
+   "th": "ใช้สร้างเสาสัญญาณที่ประตูปรับแรงดัน"
+  },
+  {
+   "k": "book.item.keycard",
+   "en": "Opens one locked vault.",
+   "th": "เปิดห้องเก็บของที่ล็อกได้หนึ่งห้อง"
+  },
+  {
+   "k": "book.item.stowed",
+   "en": "Packed for Last Dock.",
+   "th": "ขนขึ้นยานชูชีพแล้ว"
+  },
+  {
+   "k": "book.use.alert",
+   "en": "Open emergency panel",
+   "th": "เปิดแผงเหตุฉุกเฉิน"
+  },
+  {
+   "k": "book.use.comms",
+   "en": "Open radio console",
+   "th": "เปิดแผงวิทยุ"
+  },
+  {
+   "k": "book.use.repair",
+   "en": "Open repair panel",
+   "th": "เปิดแผงซ่อม"
+  },
+  {
+   "k": "book.use.dinner",
+   "en": "Open dinner options",
+   "th": "เปิดเมนูอาหารเย็น"
+  },
+  {
+   "k": "book.use.open",
+   "en": "Open · {0}",
+   "th": "เปิด · {0}"
+  },
+  {
+   "k": "book.use.take",
+   "en": "Take {0}",
+   "th": "หยิบ {0}"
+  },
+  {
+   "k": "book.use.stow",
+   "en": "Load supplies",
+   "th": "ขนของขึ้นยาน"
+  },
+  {
+   "k": "book.use.report",
+   "en": "Send report",
+   "th": "ส่งรายงาน"
+  },
+  {
+   "k": "book.use.rest",
+   "en": "Sit and rest",
+   "th": "นั่งพัก"
+  },
+  {
+   "k": "book.use.look",
+   "en": "Inspect · {0}",
+   "th": "ดู · {0}"
   }
  ]
 }

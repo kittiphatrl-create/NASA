@@ -29,7 +29,7 @@ namespace TitanGate.Game
             if (_writer == null) return;
             while (_blocks.TryDequeue(out var block)) foreach (var sample in block) _writer.Write(sample);
         }
-        void Finish()
+        public void Finish()
         {
             if (_writer == null) return;
             _recording = false; Drain(); _writer.Close(); _writer = null;

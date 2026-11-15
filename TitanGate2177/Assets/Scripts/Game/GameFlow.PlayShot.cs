@@ -38,7 +38,7 @@ namespace TitanGate.Game
             _playFast = System.Array.IndexOf(args, "-fast") >= 0;
             if (_playFast) Time.timeScale = 3f;
             PNote(_playDumb ? "player brain: careless (ignores repairs, lets everyone in)" : "player brain: careful");
-            _loc.Current = Lang.TH;
+            _loc.Current = System.Array.IndexOf(args, "-english") >= 0 ? Lang.EN : Lang.TH;
             _autoAdvance = true;
             StartCoroutine(PlayTimer());
             yield return new WaitForSeconds(2f);
@@ -52,7 +52,13 @@ namespace TitanGate.Game
                 Application.Quit();
                 yield break;
             }
-            ShowMainMenu(); yield return new WaitForSeconds(2.6f); yield return Shot("p00_menu"); _ui.HideScreen();
+            ShowMainMenu(); yield return new WaitForSeconds(2.6f); yield return Shot("p00_menu");
+            if (BookCheckRequested)
+            {
+                ShowHowTo(); yield return Shot("p00_help"); _ui.CloseModal();
+                ShowSettings(); yield return Shot("p00_settings"); _ui.CloseModal();
+            }
+            _ui.HideScreen();
             PNote("start mission from the menu");
             StartCoroutine(StartChapter1());
             // watch the intro once, photograph a few moments, skip nothing
@@ -66,13 +72,21 @@ namespace TitanGate.Game
             PNote($"intro took {t:0}s");
             if (_lbPickForScramble) { yield return Shot("p06_pet_pick"); _lbScramblePet = "comet"; _lbPickForScramble = false; _ui.HideScreen(); }
             t = 0; while ((_bRoot == null || _bMode != 1 || _busy) && t < 30) { t += Time.deltaTime; yield return null; }
+            if (BookCheckRequested) yield return CheckFieldBook("kestrel", false);
             BReachReport("ship");
             float shipStart = _playClock;
             int guard = 0;
             while (_sTarget != null && guard++ < 12)
             {
                 string target = _sTarget;
+                bool recordDialogue = target == "sofa" && System.Array.IndexOf(args, "-dialoguecheck") >= 0;
+                if (recordDialogue) _autoAdvance = false;
                 yield return AutoWalkUse(target);
+                if (recordDialogue)
+                {
+                    yield return CaptureLiveDialogue();
+                    _autoAdvance = true;
+                }
                 if (target == "sofa") break;
             }
             PNote($"morning jobs took {_playClock - shipStart:0}s");
@@ -85,9 +99,11 @@ namespace TitanGate.Game
                 if (LastDockMode && _ui.ModalOpen) { if (!rulesShot) { rulesShot = true; yield return Shot("p07b_rules"); } _ui.CloseModal(); }
                 t += Time.deltaTime; yield return null;
             }
+            if (BookCheckRequested) yield return CheckFieldBook("evacuation", false);
             float scr = _playClock;
             if (LastDockMode) yield return LdBotKeycard(System.Array.IndexOf(args, "-battery") >= 0 ? "power" : "comms");
             // grab whatever is closest, three at a time, then run to the pod
+            bool cargoChecked = false;
             while (!_sDone && _playClock - scr < 70)
             {
                 BSpot best = null; float bd = float.MaxValue;
@@ -95,6 +111,11 @@ namespace TitanGate.Game
                     if (s.id.StartsWith("sup_") && s.sr.enabled && !(LastDockMode && LdShipItemLocked(s))) { float d = Vector2.Distance(s.stand, _bPos); if (d < bd) { bd = d; best = s; } }
                 if (best == null || _sHands.Count >= HandSlots) yield return AutoWalkUse("lifeboat");
                 else yield return AutoWalkUse(best.id);
+                if (BookCheckRequested && !cargoChecked && _ldInv != null && _stowed.Count > 0 && _sHands.Count > 0)
+                {
+                    cargoChecked = true;
+                    yield return CheckEvacuationSupplies();
+                }
                 if (_sTiltT > 3f) yield return Shot("p08_tilt");
             }
             PNote($"scramble: stowed {_stowed.Count}/{StowSlots} in {_playClock - scr:0}s, fire phases {_sPhaseFire}, tilted {_sTilted}");
@@ -119,6 +140,38 @@ namespace TitanGate.Game
         }
 
         IEnumerator PlayTimer() { while (true) { _playClock += Time.unscaledDeltaTime; yield return null; } }
+
+        IEnumerator CaptureLiveDialogue()
+        {
+            Check(_ui.DialogOpen && _ui.Typing, "the regular sofa interaction opens the live ORBI dialogue");
+            if (!_ui.DialogOpen) yield break;
+            string folder = System.IO.Path.Combine(_shotDir, "dialogue-frames");
+            System.IO.Directory.CreateDirectory(folder);
+            var listener = FindFirstObjectByType<AudioListener>();
+            var audio = listener != null ? listener.gameObject.AddComponent<WalkthroughAudioCapture>() : null;
+            audio?.Begin(System.IO.Path.Combine(folder, "audio.f32"));
+            using (var times = new System.IO.StreamWriter(System.IO.Path.Combine(folder, "times.csv")))
+            {
+                int frame = 0;
+                float start = Time.unscaledTime, next = start;
+                bool typed = false;
+                while (Time.unscaledTime < start + 6.5f)
+                {
+                    yield return new WaitForEndOfFrame();
+                    float now = Time.unscaledTime;
+                    if (now < next) continue;
+                    typed |= _ui.Typing;
+                    ScreenCapture.CaptureScreenshot(System.IO.Path.Combine(folder, $"frame_{frame:00000}.png"));
+                    times.WriteLine(frame + "," + (now - start).ToString("F5", System.Globalization.CultureInfo.InvariantCulture));
+                    frame++;
+                    next = now + 1f / 25;
+                }
+                Check(typed && !_ui.Typing, "dialogue types out and reaches the continue state");
+            }
+            audio?.Finish();
+            Check(audio != null, "recorded the game's listener audio");
+            yield return Shot(_loc.Current == Lang.TH ? "dialogue-orbi-th" : "dialogue-orbi-en");
+        }
 
         IEnumerator PlayWeek()
         {

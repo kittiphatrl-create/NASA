@@ -71,8 +71,8 @@ namespace TitanGate.Game
             {
                 var chip = new VisualElement(); chip.style.flexDirection = FlexDirection.Row; chip.style.alignItems = Align.Center; chip.style.marginRight = 8; chip.style.marginBottom = 6;
                 chip.style.paddingLeft = 8; chip.style.paddingRight = 10; chip.style.paddingTop = 4; chip.style.paddingBottom = 4;
-                chip.style.backgroundColor = new Color(0.05f, 0.07f, 0.11f, 0.95f); GameUI.Border(chip, c * new Color(1, 1, 1, 0.6f), 1, 8);
-                chip.Add(LdIconImage(icon, 22, c)); var l = _ui.L(" " + text, 19, true, c); LdFont(l); chip.Add(l);
+                chip.style.backgroundColor = FieldBook.Paper; GameUI.Border(chip, c, 3, 8);
+                chip.Add(FieldBook.Icon(icon, 22)); var l = _ui.L(" " + text, 19, true, FieldBook.Ink); chip.Add(l);
                 row.Add(chip);
             }
             Chip("sun", TT($"Solar +{f.solar}", $"โซลาร์ +{f.solar}") + (_ld.Dust > 0 ? TT($" (dust {_ld.Dust}%)", $" (ฝุ่น {_ld.Dust}%)") : ""), _ld.Dust >= 30 ? GameUI.CAmber : GameUI.CText);
@@ -83,8 +83,8 @@ namespace TitanGate.Game
             Chip("water", TT($"Water lasts {Days(f.waterDays)} d", $"น้ำพอ {Days(f.waterDays)} วัน"), f.waterDays <= 1 ? GameUI.CRed : f.waterDays <= 3 ? GameUI.CAmber : GameUI.CGreen);
             Chip("food", TT($"Food lasts {Days(f.foodDays)} d", $"อาหารพอ {Days(f.foodDays)} วัน"), f.foodDays <= 1 ? GameUI.CRed : f.foodDays <= 3 ? GameUI.CAmber : GameUI.CGreen);
             box.Add(row);
-            if (f.shortTonight) box.Add(LdPara("! " + TT("Not enough power tonight: the least important systems will switch themselves off. Choose yourself below.",
-                "คืนนี้ไฟไม่พอ ระบบที่สำคัญน้อยจะถูกปิดเอง เลือกปิดเองด้านล่างดีกว่า"), GameUI.CRed, 19));
+            if (f.shortTonight) box.Add(LdPara("! " + TT("Low power. Switch off a machine, or some will stop overnight.",
+                "ไฟไม่พอ ปิดบางเครื่องก่อนที่ระบบจะตัดไฟคืนนี้"), GameUI.CRed, 19));
             return box;
         }
 
@@ -98,7 +98,7 @@ namespace TitanGate.Game
                 bool on = _ld.On[(int)s];
                 var row = new VisualElement(); row.style.flexDirection = FlexDirection.Row; row.style.alignItems = Align.Center; row.style.marginTop = 4;
                 row.style.paddingLeft = 10; row.style.paddingRight = 10; row.style.paddingTop = 4; row.style.paddingBottom = 4;
-                row.style.backgroundColor = on ? new Color(0.06f, 0.12f, 0.1f, 0.95f) : new Color(0.08f, 0.08f, 0.1f, 0.95f);
+                row.style.backgroundColor = on ? GameUI.CPanel2 : GameUI.CPanel;
                 GameUI.Border(row, on ? new Color(0.36f, 0.89f, 0.54f, 0.45f) : new Color(1, 1, 1, 0.1f), 1, 8);
                 row.Add(LdIconImage(LdSysIcon(s), 26, on ? GameUI.CGreen : GameUI.CDim));
                 var mid = new VisualElement(); mid.style.flexGrow = 1; mid.style.marginLeft = 10;
@@ -107,8 +107,8 @@ namespace TitanGate.Game
                 row.Add(mid);
                 var draw = _ui.L(TT($"−{_ld.DrawOf(s)} power", $"ไฟ −{_ld.DrawOf(s)}"), 18, true, on ? GameUI.CText : GameUI.CDim); draw.style.marginRight = 10; row.Add(draw);
                 string act = (on ? "power_off_" : "power_on_") + StationSimulation.Key(s);
-                var b = _ui.B(on ? TT("ON", "เปิดอยู่") : TT("OFF", "ปิดอยู่"), () => LdDo(act), 18, on);
-                b.style.width = 140; b.style.whiteSpace = WhiteSpace.NoWrap; b.style.marginLeft = 0; b.style.marginRight = 0;
+                var b = _ui.B(on ? TT("Switch off", "ปิดเครื่อง") : TT("Switch on", "เปิดเครื่อง"), () => LdDo(act), 18, on);
+                b.style.minWidth = 140 * Settings.TextScale; b.style.marginLeft = 0; b.style.marginRight = 0;
                 row.Add(b);
                 box.Add(row);
             }
@@ -144,19 +144,20 @@ namespace TitanGate.Game
         VisualElement LdRescueBlock()
         {
             var box = new VisualElement(); box.style.flexShrink = 0; box.style.marginBottom = 8;
-            var head = _ui.L(TT("Rescue: send our location 3 times, keep 2 battery for the docking port on day 7", "ภารกิจกู้ภัย: ส่งพิกัด 3 ครั้ง และเก็บแบต 2 ไว้เปิดช่องเทียบท่าวันที่ 7"), 19, true, LdGold);
+            var head = _ui.L(TT($"Rescue · Day {_ld.C.days} · Reserve {_ld.C.dockPower} battery",
+                $"กู้ภัย · วันที่ {_ld.C.days} · สำรองแบต {_ld.C.dockPower}"), 19, true, LdGold);
             head.style.whiteSpace = WhiteSpace.Normal; box.Add(head);
             void Step(bool done, string text)
             {
                 var l = _ui.L((done ? "✓  " : "○  ") + text, 18, done, done ? GameUI.CGreen : GameUI.CText); l.style.whiteSpace = WhiteSpace.Normal; box.Add(l);
             }
             Step(_ld.RadioRepair >= 1, TT("Radio: new board (1 part)", "วิทยุ: เปลี่ยนแผงวงจร (อะไหล่ 1)"));
-            Step(_ld.RadioRepair >= 2, TT("Radio: power test (1 battery, the coolant loop must work)", "วิทยุ: ทดสอบไฟ (แบต 1 ท่อระบายความร้อนต้องใช้ได้)"));
-            Step(_ld.RadioFixed, TT("Radio: fix the antenna outside (airlock)", "วิทยุ: ซ่อมเสาอากาศข้างนอก (ประตูออกข้างนอก)"));
+            Step(_ld.RadioRepair >= 2, TT("Test power · 1 battery · Coolant working", "ทดสอบไฟ · แบต 1 · ท่อระบายความร้อนต้องใช้ได้"));
+            Step(_ld.RadioFixed, TT("Align antenna · Outside", "ตั้งเสาอากาศ · นอกสถานี"));
             Step(_ld.Signal >= _ld.C.signalNeeded, TT($"Signals sent: {_ld.Signal}/{_ld.C.signalNeeded}", $"ส่งสัญญาณแล้ว: {_ld.Signal}/{_ld.C.signalNeeded}"));
-            var or = _ui.L(_ld.BeaconBuilt ? TT("Beacon built: it sends one signal every night it has power.", "สร้างเสาสัญญาณแล้ว: ส่งสัญญาณ 1 ครั้งทุกคืนที่มีไฟ")
-                : TT($"Or: build a beacon outside from {_ld.C.beaconParts} rover parts + 1 part (found {_ld.RoverParts}). It sends by itself each night, but costs power.",
-                     $"หรือ: สร้างเสาสัญญาณข้างนอกจากชิ้นส่วนรถ {_ld.C.beaconParts} + อะไหล่ 1 (มี {_ld.RoverParts}) ส่งเองทุกคืน แต่กินไฟ"), 17, false, GameUI.CCyan);
+            var or = _ui.L(_ld.BeaconBuilt ? TT("Beacon · +1 signal per powered night", "เสาสัญญาณ · ส่ง 1 ครั้งทุกคืนที่มีไฟ")
+                : TT($"Beacon · Rover parts {_ld.RoverParts}/{_ld.C.beaconParts} + 1 part · Needs power",
+                     $"เสาสัญญาณ · ชิ้นส่วนรถ {_ld.RoverParts}/{_ld.C.beaconParts} + อะไหล่ 1 · ใช้ไฟ"), 17, false, GameUI.CCyan);
             or.style.whiteSpace = WhiteSpace.Normal; or.style.marginTop = 4; box.Add(or);
             return box;
         }

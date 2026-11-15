@@ -49,7 +49,10 @@ namespace TitanGate.Game
                 {
                     root.Add(GameUI.Backdrop(new Color(0.02f, 0.03f, 0.06f, 0.92f)));
                     var box = new VisualElement(); box.style.alignItems = Align.Center;
-                    var title = _ui.L(TT("DINNER", "อาหารเย็น"), 64, true, LdGold); LdFont(title); box.Add(title);
+                    box.style.paddingLeft = box.style.paddingRight = 36;
+                    box.style.paddingTop = box.style.paddingBottom = 26;
+                    GameUI.PanelFrame(box, FieldBook.Rim);
+                    var title = _ui.L(TT("Dinner", "อาหารเย็น"), 52, true, FieldBook.Amber); LdFont(title); box.Add(title);
                     // the tray: what is left after this plan
                     int food = _ld.Food - plan.Count(m => m == Meal.Food), boxes = _ld.MysteryFood - plan.Count(m => m == Meal.Mystery);
                     var tray = LdTileRow();
@@ -61,7 +64,7 @@ namespace TitanGate.Game
                     {
                         int who = i;
                         var card = new VisualElement(); card.style.width = 300; card.style.marginLeft = 10; card.style.marginRight = 10; card.style.alignItems = Align.Center;
-                        card.style.paddingTop = 12; card.style.paddingBottom = 12; card.style.backgroundColor = new Color(0.07f, 0.08f, 0.12f, 0.96f);
+                        card.style.paddingTop = 12; card.style.paddingBottom = 12; card.style.backgroundColor = GameUI.CPanel2;
                         int h = _ld.Hunger[i], after = plan[i] == Meal.None ? h + 1 : 0;
                         GameUI.Border(card, after >= _ld.C.hungerStarve ? GameUI.CRed : after >= _ld.C.hungerWeak ? GameUI.CAmber : LdGoldDim, 2, 14);
                         var face = new Image { sprite = LdCrewSprite(i), scaleMode = ScaleMode.ScaleToFit }; face.style.width = 120; face.style.height = 140; card.Add(face);
@@ -87,7 +90,7 @@ namespace TitanGate.Game
                             c.Add(LdIconImage(icon, 26, on ? GameUI.Ink : ok ? GameUI.CText : GameUI.CDim));
                             c.Add(_ui.L(label, 15, true, on ? GameUI.Ink : ok ? GameUI.CText : GameUI.CDim));
                             c.SetEnabled(ok || on);
-                            c.RegisterCallback<ClickEvent>(_ => { if (!ok) return; plan[who] = m; _sfx.Play(m == Meal.None ? "click" : "pickup"); Build(); });
+                            if (ok) GameUI.BindCard(c, () => { plan[who] = m; _sfx.Play(m == Meal.None ? "click" : "pickup"); Build(); });
                             choices.Add(c);
                         }
                         Choice(Meal.Food, "food", TT("meal", "อาหาร"));
@@ -97,8 +100,13 @@ namespace TitanGate.Game
                         people.Add(card);
                     }
                     box.Add(people);
-                    box.Add(LdPara(TT("Unlabelled boxes are a gamble: some are spoiled (−1 turn tomorrow).", "กล่องไม่มีฉลากเสี่ยงดวง: บางกล่องเสีย (พรุ่งนี้ −1 ช่วง)"), GameUI.CDim, 18));
-                    var eat = _ui.B(TT("Eat", "กินข้าว"), () => done = true, 30, true); eat.style.marginTop = 14; box.Add(eat);
+                    if (_ld.MysteryFood > 0)
+                        box.Add(LdPara(TT("Spoiled food costs 1 work slot tomorrow.", "ถ้าอาหารเสีย พรุ่งนี้ทำงานน้อยลง 1 ช่วง"), GameUI.CDim, 18));
+                    var eat = _ui.B(TT("Confirm dinner", "ยืนยันมื้อเย็น"), () => done = true, 30, true);
+                    eat.style.paddingTop = 16;
+                    eat.style.paddingBottom = 12;
+                    eat.style.marginTop = 14;
+                    box.Add(eat);
                     root.Add(box);
                 });
             }
@@ -115,7 +123,7 @@ namespace TitanGate.Game
         // ------------------------------------------------------------------ save and Continue
 
         readonly List<string> _ldActions = new List<string>();
-        const string LdSaveKey = "lastdock_save";
+        static string LdSaveKey => BookCheckRequested ? "lastdock_book_check" : "lastdock_save";
 
         [System.Serializable]
         class LdSave { public int seed; public int[] kit; public string actions; }

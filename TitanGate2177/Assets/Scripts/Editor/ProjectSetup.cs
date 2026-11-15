@@ -34,10 +34,14 @@ namespace TitanGate.EditorTools
         [MenuItem("Titan Gate/Build Windows")]
         public static void BuildWindows()
         {
+            var args = System.Environment.GetCommandLineArgs();
+            int outputArg = System.Array.IndexOf(args, "-buildOutput");
+            string output = outputArg >= 0 && outputArg + 1 < args.Length ? args[outputArg + 1] :
+                System.Array.IndexOf(args, "-uxbuild") >= 0 ? "Builds/UX/TitanGate2177.exe" : "Builds/Win/TitanGate2177.exe";
             var opts = new BuildPlayerOptions
             {
                 scenes = new[] { ScenePath },
-                locationPathName = System.Array.IndexOf(System.Environment.GetCommandLineArgs(), "-uxbuild") >= 0 ? "Builds/UX/TitanGate2177.exe" : "Builds/Win/TitanGate2177.exe",
+                locationPathName = output,
                 target = BuildTarget.StandaloneWindows64,
                 options = BuildOptions.None
             };
