@@ -43,6 +43,7 @@ namespace TitanGate.Game.Menu
             public Image V;
             public RenderTexture Rt;
             public float VideoIn;
+            public bool IsLive;            // V shows the live 3D scene (MenuLive3D) instead of a video
         }
 
         readonly List<LayerView> _layers = new List<LayerView>();
@@ -74,7 +75,8 @@ namespace TitanGate.Game.Menu
                 v.Box.Add(v.A); if (def.IsSheet) v.Box.Add(v.B);
                 if (def.Role == "planet") { v.A.style.transformOrigin = new TransformOrigin(Length.Percent(50), Length.Percent(50)); }
                 if (def.IsSheet) SetFrame(v, 0);
-                if (!string.IsNullOrEmpty(def.Video)) StartVideo(v);
+                if (def.Role == "live3d") { if (!StartLive(v) && !string.IsNullOrEmpty(def.Video)) StartVideo(v); }
+                else if (!string.IsNullOrEmpty(def.Video)) StartVideo(v);
                 Root.Add(v.Box); _layers.Add(v);
             }
             if (!farDustAdded) Root.Add(_farDust);
@@ -134,8 +136,29 @@ namespace TitanGate.Game.Menu
             v.Box.Add(v.V);
         }
 
+        /// <summary>The live 3D backdrop the player can turn and zoom; null when the scene has none or it failed.</summary>
+        public MenuLive3D Live { get; private set; }
+
+        static Vector2Int LiveSize(float aspect)
+        {
+            int w = Mathf.Max(Screen.width, Mathf.RoundToInt(Screen.height * aspect));
+            return new Vector2Int(w, Mathf.RoundToInt(w / aspect));
+        }
+
+        bool StartLive(LayerView v)
+        {
+            var size = LiveSize(Spec.Aspect);
+            Live = MenuLive3D.Create(size.x, size.y);
+            if (Live == null) return false;
+            v.IsLive = true;
+            v.V = Img(v.Def); v.V.image = Live.Target; v.V.style.opacity = 0;
+            v.Box.Add(v.V);
+            return true;
+        }
+
         void StopVideos()
         {
+            if (Live != null) { UnityEngine.Object.Destroy(Live.gameObject); Live = null; }
             foreach (var v in _layers)
             {
                 if (v.Vp != null) { v.Vp.Stop(); UnityEngine.Object.Destroy(v.Vp.gameObject); v.Vp = null; }
@@ -198,7 +221,7 @@ namespace TitanGate.Game.Menu
             _builtFor = q;
             foreach (var m in _motes) m.e.RemoveFromHierarchy();
             _motes.Clear();
-            bool space = Spec.Name == "ship" || Spec.Name == "space";   // in space: a few slow floating motes in the cabin light, not wind-blown dust
+            bool space = Spec.Name == "ship" || Spec.Name == "space" || Spec.Name == "live";   // in space: a few slow floating motes in the cabin light, not wind-blown dust
             int far = (q == MenuQuality.Low ? 16 : q == MenuQuality.Medium ? 30 : 40) / (space ? 2 : 1), near = q == MenuQuality.High ? 10 : q == MenuQuality.Medium ? 4 : 0;
             for (int i = 0; i < far + near; i++)
             {
@@ -244,6 +267,16 @@ namespace TitanGate.Game.Menu
             // video layers fade in over their still once the first frame has been drawn
             foreach (var v in _layers)
             {
+                if (v.IsLive && Live != null)
+                {
+                    Live.Reduced = reduced;
+                    var size = LiveSize(Spec.Aspect);
+                    Live.Resize(size.x, size.y);
+                    if (v.V.image != Live.Target) v.V.image = Live.Target;
+                    v.VideoIn = Mathf.MoveTowards(v.VideoIn, 1f, dt / 0.5f);
+                    v.V.style.opacity = v.VideoIn;
+                    continue;
+                }
                 if (v.Vp == null || v.V == null) continue;
                 if (v.Vp.isPlaying && v.Vp.frame > 1) v.VideoIn = Mathf.MoveTowards(v.VideoIn, 1f, dt / 0.4f);
                 v.V.style.opacity = v.VideoIn;

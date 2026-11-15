@@ -197,3 +197,30 @@ The user asked for the ship menu to drop the cadet and the porthole frame. It no
 - **Re-rendering.** `blender -b --factory-startup --python Art/Blender/menu_space.py -- video` writes `Art/Blender/renders/menu/menu_space.mp4` and `menu_space_0001.jpg` (about 6 min). It reuses the cutscene asset kit and textures. Copy the video to `Assets/Resources/Cine/menu_space.mp4`, and the still to `Assets/Resources/Sprites/KeyArt/menu_space.jpg.bytes`.
 - **Scroll sound.** The ring's ratchet tick is now a soft, glassy console tick, and the servo whir is about 8 dB quieter (`Menu/MenuAudio.cs`).
 - **Music.** The menu has its own track, `Resources/Audio/UserScore/menu.mp3` (`StageMusicPlayer.Cue.Menu`), and the opening cutscene keeps `opening.mp3`. `mars.mp3` was replaced with the user's new Mars track and plays 3 dB lower, to match the others. See `docs/AUDIO_CREDITS.md`.
+
+## Update: live 3D ship the player can turn and zoom
+
+The user asked to make the menu ship interactive and to fill the empty left side. Before a run, the menu now draws the scene live in 3D. The looping video stays as the fallback.
+
+- **Interaction.**
+  - Press on empty space over the ship (right of the ring) and drag to turn the camera round it. A fling keeps turning briefly.
+  - The mouse wheel over the ship zooms between 17 and 95 units. Over the ring, it still turns the ring.
+  - Touch drag works the same way.
+  - The footer says "Drag the ship to turn it · Scroll to zoom".
+  - Clicks on menu items are never taken by the drag.
+- **Idle.** After 4 s with no input, the camera eases back onto the video's path: a slow ±9° sway round the ship with a gentle push in, over 32 s. Reduce Motion stops the sway and the rocking.
+- **Scene** (`Menu/MenuLive3D.cs`, a hidden camera on layer 30 rendering into a render texture that `MenuScene` shows as the `live3d` layer):
+  - The Kestrel uses baked albedo, emission and normal maps. Its engine plumes are soft glows, and it has blinking red and green navigation lights and a strobe.
+  - Mars, with a soft terminator and an atmosphere rim, is framed large on the right of the opening view. Phobos sits beside it.
+  - Ten slowly tumbling asteroids sit mostly on the left.
+  - The galaxy sky is a Blender panorama with a teal and violet nebula to the left. The stars are drawn in the shader, so they stay sharp at any zoom.
+  - Lighting is computed in the menu's own shaders (`Resources/MenuLive/*.shader`), so scene lights cannot change it.
+- **Assets.** `Art/Blender/menu_live.py` builds the same scene as the video and exports these files to `Art/Blender/renders/menu/live/`:
+  - meshes in a small binary format (`.mlm`)
+  - baked maps (`.jpg`)
+  - `sky.jpg`, a 4096×2048 equirectangular panorama
+  - `menu_live.json` (camera, lights, planets, engines, lights, asteroids)
+
+  `Art/Blender/menu_pipeline/copy_live.sh` copies them into `Assets/Resources/MenuLive/`, about 6 MB in all.
+- **Fallback.** If a file or shader is missing, `MenuLive3D.Create` returns null and the `live` layer plays `Cine/menu_space.mp4` instead.
+- **Playtest.** `TitanGate2177.exe -autoshot -menulive` opens the menu and captures 5 views into `Captures/menulive/`: the default view, a drag, a zoom in, the far side and idle. It drives the drag and zoom through code and sends no desktop input. Result on 15 November: errors 0, and Mars at viewport (1.04, 0.44) in the opening view.

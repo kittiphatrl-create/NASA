@@ -110,8 +110,9 @@ namespace TitanGate.Game
         bool BuildMainMenuV2()
         {
             bool hasSaveNow = LdHasSave();
-            // the background follows the story: the Kestrel in orbit before a run (a looping 3D video), the Mars base once a run is saved
-            var spec = (hasSaveNow ? MmSceneSpec("mars") : MmSceneSpec("space") ?? MmSceneSpec("ship")) ?? MmLegacySpec();
+            // the background follows the story: the Kestrel in orbit before a run (live 3D the player can turn and zoom,
+            // else the looping video), the Mars base once a run is saved
+            var spec = (hasSaveNow ? MmSceneSpec("mars") : MmSceneSpec("live") ?? MmSceneSpec("space") ?? MmSceneSpec("ship")) ?? MmLegacySpec();
             if (spec == null) return false;
             var logoTex = MmPng("menu_logo");
             LdMusicEnsure();
@@ -231,6 +232,12 @@ namespace TitanGate.Game
                 footer.style.left = Length.Percent(T.Safe * 100); footer.style.right = Length.Percent(T.Safe * 100); footer.style.bottom = Length.Percent(T.Safe * 100 * 0.9f);
                 var ver = T.Text(_loc.T("mm.footer", Application.version, Application.companyName), MenuFont.Ui, T.FooterSize, T.TextSecondary); T.Shadow(ver);
                 footer.Add(ver);
+                if (scene.Live != null)
+                {
+                    // the live ship can be handled: say so quietly in the footer
+                    var hint = T.Text(TT("Drag the ship to turn it  ·  Scroll to zoom", "ลากเพื่อหมุนยาน  ·  เลื่อนลูกกลิ้งเพื่อซูม"), MenuFont.Ui, T.FooterSize, T.TextSecondary);
+                    T.Shadow(hint); hint.pickingMode = PickingMode.Ignore; footer.Add(hint);
+                }
                 var prompts = new InputPrompts(k => _loc.T(k)); footer.Add(prompts); prompts.Show(_mmInput.Device);
                 host.Add(footer);
 
@@ -302,12 +309,39 @@ namespace TitanGate.Game
                         b.Clicked = x => Activate(x);
                     }
                 float wheelGate = 0;
+                var live = scene.Live; _mmLive = live;
+                bool OverShip(Vector2 p) => live != null && p.x > host.resolvedStyle.width * 0.4f;
                 host.RegisterCallback<WheelEvent>(e =>
                 {
+                    // over the ship the wheel zooms; over the ring it still turns the ring
+                    if (OverShip(e.mousePosition) && !launching && !_ui.ModalOpen && Mathf.Abs(e.delta.y) > 0.01f) { live.Zoom(Mathf.Sign(e.delta.y)); e.StopPropagation(); return; }
                     if (launching || _ui.ModalOpen || Time.unscaledTime < wheelGate || Mathf.Abs(e.delta.y) < 0.01f) return;
                     wheelGate = Time.unscaledTime + 0.12f;   // one step per notch, even on smooth-scrolling wheels
                     DialStep(e.delta.y > 0 ? 1 : -1);
                 });
+                if (live != null)
+                {
+                    // press on empty space over the ship and drag to turn the camera round it (mouse or touch)
+                    bool dragging = false; int dragId = -1; Vector2 lastP = default;
+                    host.RegisterCallback<PointerDownEvent>(e =>
+                    {
+                        if (launching || _ui.ModalOpen || (e.pointerType == "mouse" && e.button != 0)) return;
+                        if (!(e.target is VisualElement ve) || (ve != host && ve != scene.Root && !scene.Root.Contains(ve))) return;   // never steal clicks from the menu
+                        if (!OverShip(e.position)) return;
+                        dragging = true; dragId = e.pointerId; lastP = e.position;
+                        host.CapturePointer(e.pointerId);
+                    });
+                    host.RegisterCallback<PointerMoveEvent>(e =>
+                    {
+                        if (!dragging || e.pointerId != dragId) return;
+                        Vector2 p = e.position;
+                        float toPx = Screen.width / Mathf.Max(1f, host.resolvedStyle.width);
+                        live.Drag((p - lastP) * toPx); lastP = p;
+                    });
+                    void EndDrag(int id) { if (!dragging || id != dragId) return; dragging = false; if (host.HasPointerCapture(id)) host.ReleasePointer(id); live.EndDrag(); }
+                    host.RegisterCallback<PointerUpEvent>(e => EndDrag(e.pointerId));
+                    host.RegisterCallback<PointerCaptureOutEvent>(e => EndDrag(e.pointerId));
+                }
 
                 // ---- primary actions
                 start.OnSubmit = () =>

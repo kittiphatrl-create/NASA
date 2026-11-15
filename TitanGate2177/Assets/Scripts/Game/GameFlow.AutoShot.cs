@@ -40,6 +40,7 @@ namespace TitanGate.Game
             bool walkBase = System.Array.IndexOf(args, "-base") >= 0;       // the walkable Mars base week
             bool play = System.Array.IndexOf(args, "-play") >= 0;           // a full playthrough with the real clock
             bool shipTop = System.Array.IndexOf(args, "-ship") >= 0;        // the top-down Chapter 1
+            bool menuLive = System.Array.IndexOf(args, "-menulive") >= 0;   // the live 3D menu: turn and zoom the ship by code, then capture
             _ch1Lifeboat = System.Array.IndexOf(args, "-ch1lifeboat") >= 0; // Chapter 1, then the landing into the diary
             if (_ch1Lifeboat) ForceDiary = true;
             if (restFlow) _autoRoute = "restflow-" + Screen.width;
@@ -48,7 +49,8 @@ namespace TitanGate.Game
             else if (story) _autoRoute = "story";
             else if (ux) _autoRoute = "ux";
             else if (shipTop) _autoRoute = "ship-" + Screen.width;
-            if (play) _autoRoute = "play";
+            if (menuLive) _autoRoute = "menulive";
+            else if (play) _autoRoute = "play";
             else if (walkBase) _autoRoute = "base";
             else if (lifeboat) _autoRoute = "lifeboat";
             else if (_ch1Lifeboat) _autoRoute = "ch1lifeboat";
@@ -70,7 +72,7 @@ namespace TitanGate.Game
             int seedArg = System.Array.IndexOf(args, "-seed");
             SeedOverride = seedArg >= 0 && seedArg + 1 < args.Length && int.TryParse(args[seedArg + 1], out var sv) ? sv : 7;
             Application.runInBackground = true;
-            StartCoroutine(restFlow ? AutoRestFlow() : art ? AutoArt() : typography ? AutoTypography() : play ? AutoPlay() : story ? AutoStory() : ux ? AutoUX() : shipTop ? AutoShip() : walkBase ? AutoBase() : lifeboat ? AutoLifeboat() : AutoShot());
+            StartCoroutine(menuLive ? AutoMenuLive() : restFlow ? AutoRestFlow() : art ? AutoArt() : typography ? AutoTypography() : play ? AutoPlay() : story ? AutoStory() : ux ? AutoUX() : shipTop ? AutoShip() : walkBase ? AutoBase() : lifeboat ? AutoLifeboat() : AutoShot());
             StartCoroutine(AutoHelper());
         }
 

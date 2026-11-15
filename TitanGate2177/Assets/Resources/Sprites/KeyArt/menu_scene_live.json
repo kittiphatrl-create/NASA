@@ -1,0 +1,17 @@
+{
+ "scene": "live",
+ "canvas": [1920, 1080],
+ "layers": [
+  {
+   "name": "live",
+   "file": "menu_space.jpg",
+   "video": "Cine/menu_space",
+   "role": "live3d",
+   "depth": 0.0,
+   "rect": [0, 0, 1, 1]
+  }
+ ],
+ "points": {
+  "focus": {"x": 0.6, "y": 0.56}
+ }
+}
