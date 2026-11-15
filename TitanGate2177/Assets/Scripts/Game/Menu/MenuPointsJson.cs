@@ -61,7 +61,7 @@ namespace TitanGate.Game.Menu
                 foreach (var o in ls)
                 {
                     if (!(o is Dictionary<string, object> d)) continue;
-                    var l = new SceneLayer { Name = Find(d, "name") as string ?? "", File = Find(d, "file") as string, Role = Find(d, "role") as string };
+                    var l = new SceneLayer { Name = Find(d, "name") as string ?? "", File = Find(d, "file") as string, Role = Find(d, "role") as string, Video = Find(d, "video") as string };
                     if (TryNum(Find(d, "depth"), out var dep)) l.Depth = dep;
                     if (Find(d, "rect") is List<object> r && r.Count >= 4 && TryNum(r[0], out var x0) && TryNum(r[1], out var y0) && TryNum(r[2], out var x1) && TryNum(r[3], out var y1))
                         l.Rect = Rect.MinMaxRect(x0, y0, x1, y1);

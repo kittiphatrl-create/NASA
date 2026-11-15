@@ -43,10 +43,11 @@ The user supplied these original MP3 files and specified the scene assignments. 
 
 | In-game file | User-supplied source filename | Cue |
 |---|---|---|
-| `opening.mp3` | `atlasaudio-sci-fi-ambient-587603.mp3` | Opening menu and opening cutscene; continuous playback without restarting between them. |
+| `menu.mp3` | `เพลงเมนเมนู.mp3` | Main menu (replaced the opening track there on 15 November 2026). |
+| `opening.mp3` | `atlasaudio-sci-fi-ambient-587603.mp3` | Opening cutscene. |
 | `ship.mp3` | `tunetank-sci-fi-ambient-347390.mp3` | Playable ship chapter, impact, supply scramble, and escape up to Mars atmospheric entry. |
 | `ending.mp3` | `Cornfield Chase.mp3` | Ending, including the win/loss cinematic and result screen; plays once. |
-| `mars.mp3` | `Blind Spots.mp3` | Starts at the Mars atmospheric-entry shot, continues into the base, and is restored by Continue/direct base entry. |
+| `mars.mp3` | `เพลงตอนดาวอังคาร.mp3` (replaced `Blind Spots.mp3` on 15 November 2026) | Starts at the Mars atmospheric-entry shot, continues into the base, and is restored by Continue/direct base entry. |
 
 Routing: `GameFlow.Score.cs`; two-source crossfades: `StageMusicPlayer.cs`. Chapter tracks use the existing Master and Ambience controls, stay at pitch 1 even in accelerated QA, and suppress the old music/stingers while active. Machine, UI, door, footstep, and alarm effects retain their own effects channel.
 

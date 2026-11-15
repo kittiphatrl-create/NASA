@@ -78,10 +78,15 @@ namespace TitanGate.Game
                 var skipBtn = _ui.B(TT("Skip  ▸▸", "ข้าม  ▸▸"), () => skip = true, 20); skipBtn.style.position = Position.Absolute; skipBtn.style.right = 36; skipBtn.style.top = Length.Percent(2); root.Add(skipBtn);
             });
             _ui.FadeTo(0f, 0.3f);
+            bool impactScene = System.Array.Exists(shots, x => x.art == "i01_debris");
             foreach (var s in shots)
             {
                 if (skip) break;
                 LdScoreShot(s.art);
+                bool redAlert = s.art == "i01_debris" || s.art == "i02_hit" || s.art == "i03_run";
+                if (_chapterMusic != null) _chapterMusic.ContextGain = redAlert ? .55f : 1f;   // leave room for the crash and the alarm
+                if (s.art == "i01_debris") { _sfx.CinematicAlarm(false); _sfx.Loop("ship_alarm", false); }   // quiet space until the rock hits
+                if (s.art == "i03_run") _sfx.CinematicAlarm(true);
                 var clip = Resources.Load<VideoClip>("Cine/" + s.art);
                 float len = 2f;
                 if (clip != null)
@@ -99,10 +104,22 @@ namespace TitanGate.Game
                 if (!string.IsNullOrEmpty(s.sfx)) _sfx.Play(s.sfx);
                 if (s.flash) flash.style.backgroundColor = new Color(1f, 0.95f, 0.85f, 0.95f);
                 float t = 0, dur = _playtest ? Mathf.Min(1.2f, len + s.hold) : len + s.hold;
-                bool shotTaken = false, touchdown = false; float shown = -1f;
+                bool shotTaken = false, touchdown = false, hit = false, alarmOn = false; float shown = -1f, kick = 0f;
                 while (t < dur && !skip)
                 {
                     float dt = Time.unscaledDeltaTime; t += dt;
+                    // timed to the picture: the video clock once it runs, else our own
+                    float vt = clip != null && _cineVp.isPlaying && _cineVp.time > 0 ? (float)_cineVp.time : t;
+                    // the rock grazes the hull 2.0 s into i01; in i02 the jolt lands at 0.75 s, the red lights at 1.15 s
+                    if (!hit && ((s.art == "i01_debris" && vt >= 2.0f) || (s.art == "i02_hit" && vt >= 0.72f)))
+                    {
+                        hit = true;
+                        bool inside = s.art == "i02_hit";
+                        _sfx.Impact(inside ? .9f : 1f);
+                        kick = inside ? 1.6f : 1.2f;
+                        flash.style.backgroundColor = inside ? new Color(1f, 0.95f, 0.85f, 0.95f) : new Color(1f, 0.6f, 0.25f, 0.55f);
+                    }
+                    if (!alarmOn && s.art == "i02_hit" && vt >= 1.12f) { alarmOn = true; _sfx.CinematicAlarm(true); }
                     // The landing impact belongs at touchdown, after the braking engines have run.
                     if (s.art == "l04_land" && !touchdown && t >= len * .65f)
                     {
@@ -114,7 +131,8 @@ namespace TitanGate.Game
                     if (shown < 0 && (clip == null || _cineVp.time > 0.06 || t > 1.5f)) shown = t;
                     black.style.opacity = shown < 0 ? 1f : 1f - Mathf.Clamp01((t - shown) / 0.25f);
                     float sx = 0, sy = 0;
-                    if (s.shake > 0 && !Settings.ReducedMotion) { float a = s.shake * Mathf.Clamp01(1 - t / dur); sx = (Mathf.PerlinNoise(t * 20, 0) - .5f) * 2 * a; sy = (Mathf.PerlinNoise(0, t * 20) - .5f) * 2 * a; }
+                    kick = Mathf.Max(0f, kick - dt * 1.6f);
+                    if ((s.shake > 0 || kick > 0) && !Settings.ReducedMotion) { float a = s.shake * Mathf.Clamp01(1 - t / dur) + kick; sx = (Mathf.PerlinNoise(t * 20, 0) - .5f) * 2 * a; sy = (Mathf.PerlinNoise(0, t * 20) - .5f) * 2 * a; }
                     pic.style.translate = new Translate(Length.Percent(sx), Length.Percent(sy));
                     line.style.opacity = Mathf.Clamp01((t - 0.2f) / 0.4f) * Mathf.Clamp01((dur - t) / 0.3f);
                     var fc = flash.resolvedStyle.backgroundColor; if (fc.a > 0) { fc.a = Mathf.Max(0, fc.a - dt * 1.8f); flash.style.backgroundColor = fc; }
@@ -128,6 +146,13 @@ namespace TitanGate.Game
                 while (o < 0.2f && !skip) { o += Time.unscaledDeltaTime; black.style.opacity = Mathf.Clamp01(o / 0.2f); yield return null; }
             }
             _sfx.StopCinematicAudio();
+            if (_chapterMusic != null) _chapterMusic.ContextGain = 1f;
+            if (impactScene)
+            {
+                // the scramble keeps the ship's alarm at its normal level; the klaxon belongs to the cutscene
+                _sfx.CinematicAlarm(false);
+                _sfx.Loop("ship_alarm", true);
+            }
             if (_cineVp != null) { _cineVp.Stop(); _cineVp.clip = null; }
             yield return Fade(1f, 0.3f);
             _ui.HideScreen();
@@ -148,8 +173,8 @@ namespace TitanGate.Game
 
         /// <summary>Plays while the cadet rests on the lounge sofa after the report. Afterwards the 60-second scramble starts.</summary>
         IEnumerator LdCinImpact() => LdCinema(
-            Cut("i01_debris", "Space debris! One rock clips the hull.", "ขยะอวกาศ! ก้อนหนึ่งเฉียดชนตัวยาน", 0.4f, "alarm"),
-            Cut("i02_hit", "IMPACT!", "โดนชน!", 0.4f, "thud", 1.2f, true),
+            Cut("i01_debris", "Space debris! One rock clips the hull.", "ขยะอวกาศ! ก้อนหนึ่งเฉียดชนตัวยาน", 0.4f, "whoosh"),
+            Cut("i02_hit", "IMPACT!", "โดนชน!", 0.6f),
             Cut("i03_run", "The hull is leaking. 60 seconds: load supplies into the lifeboat!", "ยานรั่ว! มีเวลา 60 วินาที ขนเสบียงขึ้นยานชูชีพ", 0.8f, "rumble", 0.3f));
 
         /// <summary>After the scramble: away from the Kestrel, the real Mars landing steps, then the old base where the week begins.</summary>

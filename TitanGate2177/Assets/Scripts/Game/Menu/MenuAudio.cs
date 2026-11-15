@@ -1,5 +1,5 @@
 // Mechanical sounds for the docking-ring menu, synthesised once at start-up (no new audio files):
-// a ratchet tick per item the ring passes, a servo whir that follows the ring's speed, a latch
+// a soft glassy tick per item the ring passes, a servo whir that follows the ring's speed, a latch
 // "clunk" when an item docks, and a warm two-note chime when an item is chosen.
 using System.Collections.Generic;
 using UnityEngine;
@@ -44,9 +44,15 @@ namespace TitanGate.Game.Menu
         static void Build()
         {
             const float Tau = Mathf.PI * 2f;
-            // ratchet: a tiny noise burst plus two short metallic rings
-            Make("tick", 0.06f, t => N() * Mathf.Exp(-t / 0.0035f) * 0.45f
-                + Mathf.Sin(Tau * 2650 * t) * Mathf.Exp(-t / 0.011f) * 0.35f + Mathf.Sin(Tau * 1320 * t) * Mathf.Exp(-t / 0.02f) * 0.22f);
+            // scroll tick: a soft, glassy console "tik" (a short FM blip on a warm low body), gentler than a metal ratchet
+            Make("tick", 0.09f, t =>
+            {
+                float atk = Mathf.Clamp01(t / 0.0015f);
+                float glass = Mathf.Sin(Tau * 1760 * t + 0.9f * Mathf.Sin(Tau * 3520 * t) * Mathf.Exp(-t / 0.008f)) * Mathf.Exp(-t / 0.02f) * 0.34f;
+                float body = Mathf.Sin(Tau * 880 * t) * Mathf.Exp(-t / 0.028f) * 0.16f;
+                float air = N() * Mathf.Exp(-t / 0.0012f) * 0.08f;
+                return atk * (glass + body + air);
+            });
             // lock: a falling low thump, a click, and an inharmonic metal ping that rings out
             float lp = 0;
             Make("lock", 0.6f, t =>
@@ -90,14 +96,14 @@ namespace TitanGate.Game.Menu
         {
             if (Time.unscaledTime - _lastTick < 0.035f) return;
             _lastTick = Time.unscaledTime;
-            Play("tick", 0.55f, 0.05f, 1f + Mathf.Clamp(speed * 0.04f, 0, 0.25f));
+            Play("tick", 0.5f, 0.02f, 1f + Mathf.Clamp(speed * 0.03f, 0, 0.18f));
         }
 
         /// <summary>Servo whir: louder and higher while the ring turns fast, silent when still.</summary>
         public static void Servo(float speed, float dt)
         {
             if (_servo == null) return;
-            float target = Mathf.Clamp01(speed / 6f) * 0.22f * Vol;
+            float target = Mathf.Clamp01(speed / 6f) * 0.09f * Vol;   // a low hum under the ticks, not a grinding whir
             _servo.volume = Mathf.MoveTowards(_servo.volume, target, dt * 1.6f);
             _servo.pitch = 0.75f + Mathf.Clamp01(speed / 8f) * 0.6f;
             if (_servo.volume > 0.001f && !_servo.isPlaying) _servo.Play();

@@ -1,0 +1,16 @@
+{
+ "scene": "space",
+ "canvas": [1920, 1080],
+ "layers": [
+  {
+   "name": "space",
+   "file": "menu_space.jpg",
+   "video": "Cine/menu_space",
+   "depth": 0.15,
+   "rect": [0, 0, 1, 1]
+  }
+ ],
+ "points": {
+  "focus": {"x": 0.6, "y": 0.56}
+ }
+}

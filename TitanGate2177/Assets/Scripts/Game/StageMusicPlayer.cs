@@ -6,7 +6,7 @@ namespace TitanGate.Game
     /// <summary>Two-source, unscaled crossfades for the user's chapter music. Does not alter SFX.</summary>
     public sealed class StageMusicPlayer : MonoBehaviour
     {
-        public enum Cue { None, Opening, Ship, Mars, Ending }
+        public enum Cue { None, Opening, Ship, Mars, Ending, Menu }
         public Cue CurrentCue { get; private set; }
         public bool HasOverride => CurrentCue != Cue.None && _current >= 0;
         public AudioSource CurrentSource => _current >= 0 ? _sources[_current] : null;
@@ -15,7 +15,7 @@ namespace TitanGate.Game
         readonly AudioSource[] _sources = new AudioSource[2];
         readonly float[] _gain = new float[2];
         int _current = -1;
-        float _duckUntil, _duckGain = 1f;
+        float _duckUntil, _duckGain = 1f, _cueGain = 1f;
         const float FadeSeconds = 1.2f;
         const float MusicGain = 0.72f;
 
@@ -45,7 +45,7 @@ namespace TitanGate.Game
             if (cue == Cue.None) { Stop(); return false; }
             // Repeated state refreshes, skipped cutscenes and Continue must not restart a song.
             if (cue == CurrentCue && CurrentSource != null && CurrentSource.clip != null) return true;
-            string file = cue == Cue.Opening ? "opening" : cue == Cue.Ship ? "ship" : cue == Cue.Mars ? "mars" : "ending";
+            string file = cue == Cue.Menu ? "menu" : cue == Cue.Opening ? "opening" : cue == Cue.Ship ? "ship" : cue == Cue.Mars ? "mars" : "ending";
             var clip = Resources.Load<AudioClip>("Audio/UserScore/" + file);
             if (clip == null)
             {
@@ -65,6 +65,7 @@ namespace TitanGate.Game
             _current = next;
             ContextGain = 1f;
             CurrentCue = cue;
+            _cueGain = cue == Cue.Mars ? .7f : 1f;   // the Mars track is mastered about 3.5 dB louder than the others
             Debug.Log("Chapter music: " + cue + " / " + file);
             return true;
         }
@@ -90,7 +91,7 @@ namespace TitanGate.Game
 
         void ApplyVolumes()
         {
-            float volume = Settings.Master * Settings.Ambience * MusicGain * _duckGain * Mathf.Clamp01(ContextGain);
+            float volume = Settings.Master * Settings.Ambience * MusicGain * _cueGain * _duckGain * Mathf.Clamp01(ContextGain);
             for (int i = 0; i < _sources.Length; i++)
                 if (_sources[i] != null) _sources[i].volume = _gain[i] * volume;
         }
