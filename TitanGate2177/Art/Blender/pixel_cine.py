@@ -855,6 +855,9 @@ def build(names=None):
                 if n.type == 'BUMP': n.inputs['Strength'].default_value *= 0.2
     for n, f in SHOTS.items():
         if names is None or n in names: f()
+    tx = {}
+    exec(open(BL + r"\cine_textures.py", encoding='utf-8').read(), tx)
+    print('textured:', tx['texture_pass'](M))
     bpy.ops.wm.save_as_mainfile(filepath=BL + r"\pixel_cine.blend")
 
 def render(names=None, still=None):
