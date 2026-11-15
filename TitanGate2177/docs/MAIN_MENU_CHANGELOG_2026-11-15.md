@@ -197,3 +197,37 @@ The user asked for the ship menu to drop the cadet and the porthole frame. It no
 - **Re-rendering.** `blender -b --factory-startup --python Art/Blender/menu_space.py -- video` writes `Art/Blender/renders/menu/menu_space.mp4` and `menu_space_0001.jpg` (about 6 min). It reuses the cutscene asset kit and textures. Copy the video to `Assets/Resources/Cine/menu_space.mp4`, and the still to `Assets/Resources/Sprites/KeyArt/menu_space.jpg.bytes`.
 - **Scroll sound.** The ring's ratchet tick is now a soft, glassy console tick, and the servo whir is about 8 dB quieter (`Menu/MenuAudio.cs`).
 - **Music.** The menu has its own track, `Resources/Audio/UserScore/menu.mp3` (`StageMusicPlayer.Cue.Menu`), and the opening cutscene keeps `opening.mp3`. `mars.mp3` was replaced with the user's new Mars track and plays 3 dB lower, to match the others. See `docs/AUDIO_CREDITS.md`.
+
+## Update: Mars base menu — life, music and the walk-in (night of 15 November)
+
+Scope: only the menu shown once a run is saved (the Mars base). The friend's pre-Mars space menu is unchanged.
+
+- **Music.** With a save, the menu plays the Mars song (`StageMusicPlayer.Cue.Mars`, "Blind Spots", `UserScore/mars.mp3`) instead of the menu song (`GameFlow.Menus.cs`, `MmMarsMenu()`). Continue enters the base with the same cue, so the song carries on without restarting. It is no longer ducked during the departure, and the sub-menu duck now eases instead of jumping.
+- **Life in the scene** (`Menu/MenuScene.cs`, textures in `Menu/MenuFx.cs`):
+  - **Wind gusts.** Gusts come and go about every 13 s. Two tiling dust ribbons scroll low over the plain, one behind the astronaut and one in front. They thicken with each gust, and the drifting motes speed up with them.
+  - **Sun rays.** Two slow, counter-rotating discs of pale blue crepuscular rays sit behind the sun glow (a Martian sunset is blue around the sun).
+  - **Meteors.** A meteor crosses the upper sky every 20–40 s (the first after about 10 s), right of the logo and behind the hills.
+  - **Quality.** Low turns all three off. Medium shows one ribbon and one ray disc. High shows everything. Reduce Motion freezes the ribbons and rays and stops the meteors.
+- **Continue: the walk-in** (`GameFlow.MainMenu.cs`, about 2.3 s; New Mission keeps the fade to black):
+  1. The menu UI fades out. The airlock latch clicks and its light comes on.
+  2. The camera pushes in toward the airlock, sliding it toward the middle of the view. It walks past the astronaut and the near rocks (they grow and fade), and the readability shading lifts.
+  3. The door opens (a play-once sheet, see below) with the door sound.
+  4. Its warm light spills out toward the camera, then fills the view.
+  5. The game starts under that light, which fades over 1.1 s to show the base (`MmLightIn`). There is no cut to black.
+  - With Reduce Motion, the same step is a plain 0.8 s cross-fade through the warm light.
+- **Manifest additions** (`SceneSpec`, `MenuPointsJson.ParseScene`):
+  - `points.door_light` (optional, with `layer`) sets where the light spills from. Without it, `points.airlock` is used.
+  - A sheet layer with `"role": "door"` is not looped. It rests on frame 0 and plays once when `MenuScene.PlayDoor()` is called.
+  - Every other sheet layer (the cadet, and `"role": "loop"` layers) loops as before.
+- **New art from Blender** (Cycles, premium clay; `Art/Blender/mars_keyart_sunset_v2.blend`; scripts `cadet_v2.py`, `mars_v2.py`, `mars_v2_anim.py`, `layers_mars_v2.py`, `loops_mars_v2.py`, `copy_mars.sh`, all in `run_all.sh`). The Mars scene's game copies total 11.6 MB.
+  - **Astronaut:** re-rendered (same rect, 8×4 sheet, 32 frames at 8 fps). Warm brown sculpted hair shows through a clear helmet with a rim light and a blue sunset sheen. Tapered limbs have fabric folds and cuffs.
+  - `dustdevil`: a distant twisting dust column behind the base (8×3, 24 frames at 8 fps, role `loop`).
+  - `flag`: a generic blue and cream mission flag with an abstract emblem, cloth-simulated in Mars gravity (8×3, 24 frames at 12 fps, role `loop`).
+  - `door`: the airlock's double door sliding open with warm light behind it (8×2, 16 frames at 16 fps, role `door`). Its frame 0 matches the base layer.
+  - `points.airlock` is now the door centre, and `points.door_light` is new.
+- **Checked in the Editor (1920×1080, plus 2560×1080 and 1280×720):**
+  - EN and TH menu text contrast is at least 7.58:1, measured at the peak of a dust gust.
+  - 60 fps with vSync.
+  - The Mars cue keeps playing through Continue (same clip, no restart).
+  - The walk-in and the Reduce Motion fade both end in the base with no black frame.
+- **Tests:** EditMode 147/147.

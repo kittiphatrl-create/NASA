@@ -16,9 +16,12 @@ M="$A/renders/menu"
 "$B" -b --python "$S/post.py" -- "$M" "$M/menu_points.json" 2>&1 | grep -iE "error|traceback|JPG|JSON|CONTACT" || true
 # Layered menu background scenes (renders/menu/scenes/): Mars blue sunset (save exists) and the Kestrel cabin (no save).
 MENU_VARIANT=sunset "$B" -b "$A/mars_keyart.blend" --python "$S/setup_menu.py" 2>&1 | grep -iE "error|traceback|SAVED" || true
-"$B" -b "$A/mars_keyart_sunset.blend" --python "$S/layers_mars.py" -- only=layers 2>&1 | grep -iE "error|traceback|LAYER|MARS TIMES" || true
-"$B" -b "$A/mars_keyart_sunset.blend" --python "$S/layers_mars.py" -- only=cadet 2>&1 | grep -iE "error|traceback|CADET RECT|LOOP|MARS TIMES" || true
+"$B" -b "$A/mars_keyart_sunset.blend" --python "$S/layers_mars.py" -- only=prep 2>&1 | grep -iE "error|traceback" || true   # adds the foreground rocks
 "$B" -b "$A/mars_keyart_menu.blend" --python "$S/ship_setup.py" 2>&1 | grep -iE "error|traceback|SAVED" || true
-"$B" -b "$A/menu_ship.blend" --python "$S/layers_ship.py" -- only=layers 2>&1 | grep -iE "error|traceback|CABIN|SHIP LAYERS" || true
-"$B" -b "$A/menu_ship.blend" --python "$S/layers_ship.py" -- only=cadet 2>&1 | grep -iE "error|traceback|CADET RECT|LOOP|SHIP TIMES" || true
-sh "$S/copy_scenes.sh"
+# v2 premium clay, Cycles (OptiX GPU if present): mars_keyart_sunset_v2.blend -> renders/menu/scenes/ (the no-save menu uses the space video, so the ship scene is not re-rendered)
+"$B" -b "$A/mars_keyart_sunset.blend" --python "$S/mars_v2.py" 2>&1 | grep -iE "error|traceback|SAVED" || true
+"$B" -b "$A/mars_keyart_sunset_v2.blend" --python "$S/mars_v2_anim.py" 2>&1 | grep -iE "error|traceback|FLAG loop|SAVED" || true   # airlock door, flag, dust devil
+"$B" -b "$A/mars_keyart_sunset_v2.blend" --python "$S/layers_mars_v2.py" -- s_c=192 rect=982,270,1468,999 2>&1 | grep -iE "error|traceback|LAYER|CADET RECT|LOOP|TIMES" || true
+"$B" -b "$A/mars_keyart_sunset_v2.blend" --python "$S/loops_mars_v2.py" 2>&1 | grep -iE "error|traceback|LOOP|DOOR|TIMES" || true
+"$B" -b --python "$S/png9.py" -- "$M"/scenes/menu_mars_*.png 2>&1 | grep -E "PNG9" || true   # lossless zlib-9
+sh "$S/copy_mars.sh"

@@ -48,6 +48,7 @@ namespace TitanGate.Game.Menu
         public ScenePoint Sun, Earth;
         public readonly List<ScenePoint> Beacons = new List<ScenePoint>();
         public Vector2 Airlock = new Vector2(0.6f, 0.5f);
+        public ScenePoint DoorLight;              // where the airlock's light spills out when the door opens (Mars)
         public Vector3? Window;                   // x, y, radius (ship scene)
 
         public SceneLayer Find(string name) => Layers.Find(l => l.Name == name);

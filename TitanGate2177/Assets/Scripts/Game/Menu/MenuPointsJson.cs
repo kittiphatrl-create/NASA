@@ -80,6 +80,7 @@ namespace TitanGate.Game.Menu
                 spec.Earth = Point(Find(pts, "earth"));
                 if (Find(pts, "beacons", "lights") is List<object> bl) foreach (var b in bl) { var p = Point(b); if (p != null) spec.Beacons.Add(p); }
                 if (TryVec(Find(pts, "airlock", "focus"), out var al)) spec.Airlock = al;
+                spec.DoorLight = Point(Find(pts, "door_light", "doorLight"));
                 if (Find(pts, "window") is Dictionary<string, object> w && TryVec(w, out var wc))
                 {
                     TryNum(Find(w, "r", "radius"), out var wr);

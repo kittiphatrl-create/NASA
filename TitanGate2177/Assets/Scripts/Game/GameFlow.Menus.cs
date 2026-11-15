@@ -22,7 +22,7 @@ namespace TitanGate.Game
         {
             _chapter = 0; _menuLaunching = false;
             Time.timeScale = 1f;
-            LdScore(StageMusicPlayer.Cue.Menu);
+            LdScore(MmMarsMenu() ? StageMusicPlayer.Cue.Mars : StageMusicPlayer.Cue.Menu);   // at the Mars base the menu already plays the base's song, which Continue carries on
             ClearWorld();
             _player.gameObject.SetActive(false);
             _orbi.gameObject.SetActive(false);

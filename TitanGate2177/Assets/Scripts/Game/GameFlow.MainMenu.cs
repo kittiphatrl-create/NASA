@@ -48,6 +48,27 @@ namespace TitanGate.Game
             try { return MenuPointsJson.ParseRing(ta.text); } catch (Exception e) { Debug.LogWarning("menu_ring.json: " + e.Message); return (0.97f, Vector2.zero, Vector2.zero, Vector2.zero); }
         }
 
+        /// <summary>The menu shows the Mars base (and plays its song) once a run is saved and the scene was rendered.</summary>
+        bool MmMarsMenu() => LastDockMode && LdHasSave() && Resources.Load<TextAsset>("Sprites/KeyArt/menu_scene_mars") != null;
+
+        /// <summary>After walking in through the airlock: the door's light covers the cut, then fades to show the base.</summary>
+        void MmLightIn(float from)
+        {
+            var root = _ui.Root;
+            if (root == null) return;
+            var light = new VisualElement { pickingMode = PickingMode.Ignore, name = "mm-light-in" };
+            light.style.position = Position.Absolute; light.style.left = light.style.top = light.style.right = light.style.bottom = 0;
+            light.style.backgroundColor = MenuScene.DoorLightColor; light.style.opacity = from;
+            root.Add(light);
+            float t0 = Time.unscaledTime;
+            light.schedule.Execute(() =>
+            {
+                float k = Mathf.Clamp01((Time.unscaledTime - t0) / 1.1f);
+                light.style.opacity = from * (1f - T.Ease(k));
+                if (k >= 1f) light.RemoveFromHierarchy();
+            }).Every(16).Until(() => light.parent == null);
+        }
+
         /// <summary>Load menu_scene_NAME.json and its layer images. Null if the scene was not rendered.</summary>
         static SceneSpec MmSceneSpec(string name)
         {
@@ -315,18 +336,27 @@ namespace TitanGate.Game
                     if (hasSave) { MmConfirmNew(() => Launch(() => { Settings.ClearCheckpoint(); LdClearSave(); _ui.HideScreen(); StartCoroutine(StartChapter1()); })); return; }
                     Launch(() => { Settings.ClearCheckpoint(); LdClearSave(); _ui.HideScreen(); StartCoroutine(StartChapter1()); });
                 };
-                cont.OnSubmit = () => Launch(() => { _ui.HideScreen(); if (!LdContinue()) ContinueGame(); });
+                // at the Mars base Continue walks in through the airlock: push in, the door light comes on, the door opens, its light carries into the game
+                bool viaDoor = spec.Name == "mars";
+                cont.OnSubmit = () => Launch(() =>
+                {
+                    _ui.HideScreen();
+                    if (!LdContinue()) ContinueGame();
+                    if (viaDoor) MmLightIn(0.92f);
+                }, viaDoor);
 
                 // ---- intro and departure timelines
                 var stagger = new List<VisualElement> { langChip, soundChip, fxChip, footer };
                 float introT = playIntro ? 0f : 99f, departT = -1f, last = Time.unscaledTime, t0 = Time.unscaledTime;
                 Action departAction = null;
-                bool stingPlayed = !playIntro, lockPlayed = !playIntro;
-                void Launch(Action act)
+                bool stingPlayed = !playIntro, lockPlayed = !playIntro, departDoor = false, doorOpened = false;
+                void Launch(Action act, bool door = false)
                 {
                     if (launching) return;
-                    launching = true; departT = 0; departAction = act; tooltip.Hide();
-                    _sfx.PlayVaried("console", 0.9f); _sfx.Play("whoosh", 0.5f);
+                    launching = true; departT = 0; departAction = act; departDoor = door; tooltip.Hide();
+                    _sfx.PlayVaried("console", 0.9f);
+                    if (door) { scene.PushCenter = 0.55f; _sfx.Play("clank", 0.55f); }   // the airlock's latch lets go
+                    else _sfx.Play("whoosh", 0.5f);
                 }
                 void ApplyIntro(float t)
                 {
@@ -394,12 +424,35 @@ namespace TitanGate.Game
                     else if (departT >= 0)
                     {
                         departT += dt;
-                        float dur = reduced ? 0.4f : 1.25f;
+                        float dur = departDoor ? (reduced ? 0.8f : 2.3f) : (reduced ? 0.4f : 1.25f);
                         float k = Mathf.Clamp01(departT / dur);
                         float ui = 1 - T.Ease(departT / 0.3f);
                         col.style.opacity = ui; chips.style.opacity = footer.style.opacity = ui; dial.style.opacity = 1 - T.Ease(departT / 0.5f);
-                        if (!reduced) { scene.Push = 0.24f * T.Ease(k); dial.Spin = -45f * T.Ease(departT / 0.5f); }
-                        scene.Black = reduced ? k : T.Ease((departT - 0.6f) / 0.65f);
+                        if (!reduced) dial.Spin = -45f * T.Ease(departT / 0.5f);
+                        if (departDoor)
+                        {
+                            // walk in: the door light comes on, a slow push that gathers pace past the astronaut,
+                            // the door opens, its light spills out toward the camera and fills the view
+                            scene.DoorGlow = reduced ? T.Ease(k * 2f) : T.Ease((departT - 0.15f) / 0.5f);
+                            if (!doorOpened && departT > (reduced ? 0.1f : 0.6f))
+                            {
+                                doorOpened = true; scene.PlayDoor();
+                                _sfx.Play("door_open", 0.7f);
+                            }
+                            if (reduced) scene.PassBy = T.Ease(k);
+                            else
+                            {
+                                scene.Push = 0.62f * Mathf.SmoothStep(0f, 1f, k);
+                                scene.PassBy = T.Ease((departT - 0.45f) / 1.1f);
+                                scene.Spill = T.Ease((departT - 1.05f) / 1.15f);
+                            }
+                            scene.Bloom = 0.92f * (reduced ? T.Ease((departT - 0.2f) / 0.6f) : T.Ease((departT - 1.75f) / 0.55f));
+                        }
+                        else
+                        {
+                            if (!reduced) scene.Push = 0.24f * T.Ease(k);
+                            scene.Black = reduced ? k : T.Ease((departT - 0.6f) / 0.65f);
+                        }
                         if (departT >= dur && departAction != null)
                         {
                             var a = departAction; departAction = null; a();
@@ -447,8 +500,10 @@ namespace TitanGate.Game
                     float musicVol = Settings.Master * Settings.Ambience * 0.7f * (modal ? 0.5f : 1f) * (departT >= 0 ? 1 - Mathf.Clamp01(departT / 1.25f) * 0.6f : 1f);   // −6 dB under sub-menus
                     if (UserScoreActive)
                     {
-                        // Keep the supplied opening score continuous into the intro, with the new menu's ducking.
-                        _chapterMusic.ContextGain = (modal ? .5f : 1f) * (departT >= 0 ? 1f - Mathf.Clamp01(departT / 1.25f) * .6f : 1f);
+                        // Keep the supplied score continuous with the menu's ducking. Walking into the base keeps the
+                        // Mars song at full level: the same song carries on into the game.
+                        float target = (modal ? .5f : 1f) * (departT >= 0 && !departDoor ? 1f - Mathf.Clamp01(departT / 1.25f) * .6f : 1f);
+                        _chapterMusic.ContextGain = Mathf.MoveTowards(_chapterMusic.ContextGain, target, dt * 1.6f);
                         if (s_mmMusic != null && s_mmMusic.isPlaying) s_mmMusic.Stop();
                         foreach (var layer in new[] { _musCalm, _musTension, _musStorm })
                             if (layer != null) layer.volume = 0f;

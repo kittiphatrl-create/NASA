@@ -88,6 +88,67 @@ namespace TitanGate.Game.Menu
             return new Color(g, g, g, 1);
         }, FilterMode.Point, TextureWrapMode.Repeat);
 
+        static float Hash(int x, int y, int seed)
+        {
+            unchecked
+            {
+                int h = x * 374761393 + y * 668265263 + seed * 982451653;
+                h = (h ^ (h >> 13)) * 1274126177;
+                return ((h ^ (h >> 16)) & 0x7fffffff) / (float)0x7fffffff;
+            }
+        }
+
+        /// <summary>Smooth value noise that repeats every px cells in x (and py in y), so textures tile.</summary>
+        static float PNoise(float x, float y, int px, int py, int seed)
+        {
+            int x0 = Mathf.FloorToInt(x), y0 = Mathf.FloorToInt(y);
+            float fx = x - x0, fy = y - y0;
+            fx = fx * fx * (3 - 2 * fx); fy = fy * fy * (3 - 2 * fy);
+            int Wx(int a) => (a % px + px) % px;
+            int Wy(int a) => (a % py + py) % py;
+            float a00 = Hash(Wx(x0), Wy(y0), seed), a10 = Hash(Wx(x0 + 1), Wy(y0), seed);
+            float a01 = Hash(Wx(x0), Wy(y0 + 1), seed), a11 = Hash(Wx(x0 + 1), Wy(y0 + 1), seed);
+            return Mathf.Lerp(Mathf.Lerp(a00, a10, fx), Mathf.Lerp(a01, a11, fx), fy);
+        }
+
+        /// <summary>Wispy wind-blown dust: long soft streaks that tile horizontally (tint it).</summary>
+        public static Texture2D Gust() => Make("gust", 512, 128, (u, v, r) =>
+        {
+            float warp = Mathf.Sin(u * Mathf.PI * 4f) * 0.06f + Mathf.Sin(u * Mathf.PI * 10f + 1.3f) * 0.025f;   // integer cycles: still tiles
+            float n = 0, amp = 0.5f, tot = 0;
+            for (int o = 0; o < 4; o++)
+            {
+                int px = 3 << o;
+                n += PNoise(u * px, (v + warp) * (2 << o) + o * 3.1f, px, 4096, 11 + o) * amp;
+                tot += amp; amp *= 0.5f;
+            }
+            n /= tot;
+            float env = Mathf.Pow(Mathf.Sin(Mathf.Clamp01(v) * Mathf.PI), 1.4f);
+            float a = Smooth(0.36f, 0.7f, n) * env + Dither(r);
+            return new Color(1, 1, 1, Mathf.Clamp01(a));
+        }, FilterMode.Bilinear, TextureWrapMode.Repeat);
+
+        /// <summary>Soft crepuscular rays around a centre, for the sun (tint it, rotate it slowly).</summary>
+        public static Texture2D Rays() => Make("rays", 512, 512, (u, v, r) =>
+        {
+            var p = new Vector2(u - 0.5f, v - 0.5f) * 2f; float d = p.magnitude;
+            float ang = Mathf.Atan2(p.y, p.x) / (Mathf.PI * 2f) + 0.5f;
+            float n = PNoise(ang * 26f, 0.5f, 26, 4096, 5) * 0.65f + PNoise(ang * 57f, 3.5f, 57, 4096, 9) * 0.35f;
+            float ray = Mathf.Pow(Smooth(0.38f, 1f, n), 1.5f);
+            float fall = Mathf.Pow(Mathf.Clamp01(1f - d), 1.7f) * Smooth(0.03f, 0.16f, d);
+            return new Color(1, 1, 1, Mathf.Clamp01(ray * fall + Dither(r)));
+        });
+
+        /// <summary>Meteor streak: a thin fading tail with a bright head at the right end.</summary>
+        public static Texture2D Streak() => Make("streak", 256, 16, (u, v, r) =>
+        {
+            float w = 0.12f + 0.5f * u;   // the tail thins out behind the head
+            float across = Mathf.Exp(-Mathf.Pow((v - 0.5f) * 2f / w, 2f) * 2.2f);
+            float tail = Mathf.Pow(u, 2.4f) * (1f - Smooth(0.94f, 1f, u));
+            float head = Mathf.Exp(-Mathf.Pow((u - 0.95f) / 0.025f, 2f)) * Mathf.Exp(-Mathf.Pow((v - 0.5f) / 0.2f, 2f));
+            return new Color(1, 1, 1, Mathf.Clamp01(tail * across * 0.85f + head));
+        });
+
         /// <summary>Soft white bar for the logo shimmer sweep (transparent at both ends).</summary>
         public static Texture2D Sheen() => Make("sheen", 128, 8, (u, v, r) =>
         {
