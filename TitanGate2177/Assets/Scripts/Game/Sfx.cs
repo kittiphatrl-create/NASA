@@ -12,7 +12,7 @@ namespace TitanGate.Game
     /// </summary>
     public class Sfx : MonoBehaviour
     {
-        AudioSource _src, _collected;
+        AudioSource _src, _collected, _srcVar;
         float _collectedLevel = .95f;
         readonly Dictionary<string, float> _cinematicTargets = new Dictionary<string, float>();
         readonly Dictionary<string, float> _cinematicGains = new Dictionary<string, float>();
@@ -27,6 +27,8 @@ namespace TitanGate.Game
         {
             _src = gameObject.AddComponent<AudioSource>();
             _src.playOnAwake = false;
+            _srcVar = gameObject.AddComponent<AudioSource>();
+            _srcVar.playOnAwake = false;
 
             // UI: short, soft, low
             Make("click", 0.07f, t => Sine(t, 520) * Pluck(t, 0.07f) * 0.5f + Sine(t, 1040) * Pluck(t, 0.03f) * 0.15f);
@@ -170,6 +172,7 @@ namespace TitanGate.Game
         {
             _src.volume = Settings.Master * Settings.Effects;
             if (_collected != null) _collected.volume = Settings.Master * Settings.Effects * _collectedLevel;
+            if (_srcVar != null) _srcVar.volume = _src.volume;
             foreach (var kv in _loops)
             {
                 float b = _loopBase[kv.Key];
@@ -204,13 +207,29 @@ namespace TitanGate.Game
             }
             if (footstep) vol *= .75f;
             if (id == "hover") vol *= .16f; else if (id == "click") vol *= .38f; else if (id == "open" || id == "close" || id == "good" || id == "ship" || id == "drone") vol *= .55f;
+            if (_pitchJitter > 0 && _srcVar != null)
+            {
+                // menu sounds: a small random pitch change so repeated ticks never sound identical
+                _srcVar.pitch = 1f + ((float)Rng.NextDouble() * 2f - 1f) * _pitchJitter;
+                _srcVar.PlayOneShot(c, vol);
+                return;
+            }
             _src.PlayOneShot(c, vol);
+        }
+
+        float _pitchJitter;
+
+        /// <summary>Play a one-shot with a random pitch of ±jitter (0.03 = ±3%).</summary>
+        public void PlayVaried(string id, float vol = 1f, float jitter = 0.03f)
+        {
+            _pitchJitter = jitter;
+            try { Play(id, vol); } finally { _pitchJitter = 0; }
         }
 
         /// <summary>Start or stop a looping sound ("heart", "siren", "rumble", "hum").</summary>
         public void Loop(string id, bool on)
         {
-            if (!_loops.TryGetValue(id, out var a)) return;
+            if (!_loops.TryGetValue(id, out var a) || a == null) return;   // the source is already gone while play mode shuts down
             if (on && !a.isPlaying) a.Play();
             else if (!on && a.isPlaying) a.Stop();
         }

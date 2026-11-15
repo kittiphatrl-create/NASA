@@ -1,0 +1,49 @@
+{
+ "layers": [
+  {
+   "name": "space",
+   "file": "menu_ship_space.jpg",
+   "depth": 0.0,
+   "rect": [
+    0,
+    0,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "planet",
+   "file": "menu_ship_planet.png",
+   "depth": 0.04,
+   "rect": [
+    0.49883,
+    0.29375,
+    0.89609,
+    0.82569
+   ],
+   "role": "planet"
+  },
+  {
+   "name": "cabin",
+   "file": "menu_ship_cabin.png",
+   "depth": 0.35,
+   "rect": [
+    0,
+    0,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "foreground",
+   "file": "menu_ship_fg.png",
+   "depth": 0.9,
+   "rect": [
+    0.68711,
+    0.87083,
+    1.0,
+    1.0
+   ]
+  }
+ ]
+}

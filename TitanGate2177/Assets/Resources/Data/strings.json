@@ -3502,8 +3502,8 @@
   },
   {
    "k": "credits.3.body",
-   "en": "Chakra Petch by Cadson Demak, SIL Open Font License.",
-   "th": "Chakra Petch โดย Cadson Demak สัญญาอนุญาต SIL Open Font License"
+   "en": "Chakra Petch, Sarabun and Taviraj by Cadson Demak; Cinzel and Cinzel Decorative by Natanael Gama. All under the SIL Open Font License.",
+   "th": "Chakra Petch, Sarabun และ Taviraj โดย Cadson Demak · Cinzel และ Cinzel Decorative โดย Natanael Gama · ทั้งหมดใช้สัญญาอนุญาต SIL Open Font License"
   },
   {
    "k": "credits.4.title",
@@ -10449,6 +10449,191 @@
    "k": "ld.mentor.emergency",
    "en": "Debris hit us! I'll hold the launch release. Fill the lifeboat with supplies, and look for the key card. Go!",
    "th": "ขยะอวกาศชนยาน! ฉันจะคุมตัวปล่อยยานไว้ เธอขนเสบียงขึ้นยานชูชีพ แล้วหาคีย์การ์ดด้วย ไปเร็ว!"
+  },
+  {
+   "k": "mm.location",
+   "en": "MARS · 2177",
+   "th": "ดาวอังคาร · 2177"
+  },
+  {
+   "k": "mm.tagline",
+   "en": "Seven days. One base. Get home.",
+   "th": "7 วัน ฐานเดียว กลับบ้านให้ได้"
+  },
+  {
+   "k": "mm.start",
+   "en": "Start Mission",
+   "th": "เริ่มภารกิจ"
+  },
+  {
+   "k": "mm.new",
+   "en": "New Mission",
+   "th": "ภารกิจใหม่"
+  },
+  {
+   "k": "mm.start.sub",
+   "en": "New game · about 15 minutes",
+   "th": "เกมใหม่ · ประมาณ 15 นาที"
+  },
+  {
+   "k": "mm.continue",
+   "en": "Continue",
+   "th": "เล่นต่อ"
+  },
+  {
+   "k": "mm.continue.none",
+   "en": "No save yet",
+   "th": "ยังไม่มีเซฟ"
+  },
+  {
+   "k": "mm.continue.tip",
+   "en": "Start a mission first",
+   "th": "เริ่มภารกิจก่อนนะ"
+  },
+  {
+   "k": "mm.continue.day",
+   "en": "Day {0} of {1} · Saved {2}",
+   "th": "วันที่ {0} จาก {1} · เซฟเมื่อ {2}"
+  },
+  {
+   "k": "mm.continue.saved",
+   "en": "Saved mission · pick up where you left off",
+   "th": "มีเซฟอยู่ · เล่นต่อจากที่ค้างไว้"
+  },
+  {
+   "k": "mm.ago.now",
+   "en": "just now",
+   "th": "สักครู่นี้"
+  },
+  {
+   "k": "mm.ago.min",
+   "en": "{0} min ago",
+   "th": "{0} นาทีก่อน"
+  },
+  {
+   "k": "mm.ago.hour",
+   "en": "{0} h ago",
+   "th": "{0} ชม. ก่อน"
+  },
+  {
+   "k": "mm.ago.day",
+   "en": "{0} d ago",
+   "th": "{0} วันก่อน"
+  },
+  {
+   "k": "mm.log",
+   "en": "Mission Log",
+   "th": "บันทึกภารกิจ"
+  },
+  {
+   "k": "mm.codex",
+   "en": "Codex",
+   "th": "คลังความรู้"
+  },
+  {
+   "k": "mm.sources",
+   "en": "NASA Sources",
+   "th": "แหล่งข้อมูล NASA"
+  },
+  {
+   "k": "mm.settings",
+   "en": "Settings",
+   "th": "ตั้งค่า"
+  },
+  {
+   "k": "mm.credits",
+   "en": "Credits",
+   "th": "เครดิต"
+  },
+  {
+   "k": "mm.quit",
+   "en": "Quit",
+   "th": "ออกจากเกม"
+  },
+  {
+   "k": "mm.lang.tip",
+   "en": "Switch to ภาษาไทย",
+   "th": "Switch to English"
+  },
+  {
+   "k": "mm.sound.tip",
+   "en": "Sound on · click to mute",
+   "th": "เปิดเสียงอยู่ · คลิกเพื่อปิด"
+  },
+  {
+   "k": "mm.muted.tip",
+   "en": "Muted · click to unmute",
+   "th": "ปิดเสียงอยู่ · คลิกเพื่อเปิด"
+  },
+  {
+   "k": "mm.fx.tip",
+   "en": "Visual effects quality",
+   "th": "คุณภาพเอฟเฟกต์ภาพ"
+  },
+  {
+   "k": "mm.fx.0",
+   "en": "Low",
+   "th": "ต่ำ"
+  },
+  {
+   "k": "mm.fx.1",
+   "en": "Medium",
+   "th": "กลาง"
+  },
+  {
+   "k": "mm.fx.2",
+   "en": "High",
+   "th": "สูง"
+  },
+  {
+   "k": "mm.p.navigate",
+   "en": "Navigate",
+   "th": "เลื่อน"
+  },
+  {
+   "k": "mm.p.select",
+   "en": "Select",
+   "th": "เลือก"
+  },
+  {
+   "k": "mm.p.back",
+   "en": "Back",
+   "th": "ย้อนกลับ"
+  },
+  {
+   "k": "mm.p.click",
+   "en": "Click to select",
+   "th": "คลิกเพื่อเลือก"
+  },
+  {
+   "k": "mm.p.tap",
+   "en": "Tap to select",
+   "th": "แตะเพื่อเลือก"
+  },
+  {
+   "k": "mm.new.confirm.title",
+   "en": "Start a new mission?",
+   "th": "เริ่มภารกิจใหม่?"
+  },
+  {
+   "k": "mm.new.confirm.body",
+   "en": "Your saved mission will be replaced.",
+   "th": "เซฟเดิมจะถูกแทนที่ด้วยภารกิจใหม่"
+  },
+  {
+   "k": "mm.new.confirm.yes",
+   "en": "Start new mission",
+   "th": "เริ่มภารกิจใหม่"
+  },
+  {
+   "k": "mm.cancel",
+   "en": "Cancel",
+   "th": "ยกเลิก"
+  },
+  {
+   "k": "mm.footer",
+   "en": "v{0} · © {1}",
+   "th": "v{0} · © {1}"
   }
  ]
 }

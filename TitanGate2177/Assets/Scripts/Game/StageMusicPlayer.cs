@@ -10,6 +10,7 @@ namespace TitanGate.Game
         public Cue CurrentCue { get; private set; }
         public bool HasOverride => CurrentCue != Cue.None && _current >= 0;
         public AudioSource CurrentSource => _current >= 0 ? _sources[_current] : null;
+        public float ContextGain { get; set; } = 1f;
 
         readonly AudioSource[] _sources = new AudioSource[2];
         readonly float[] _gain = new float[2];
@@ -62,6 +63,7 @@ namespace TitanGate.Game
             source.loop = cue != Cue.Ending;
             source.Play();
             _current = next;
+            ContextGain = 1f;
             CurrentCue = cue;
             Debug.Log("Chapter music: " + cue + " / " + file);
             return true;
@@ -88,7 +90,7 @@ namespace TitanGate.Game
 
         void ApplyVolumes()
         {
-            float volume = Settings.Master * Settings.Ambience * MusicGain * _duckGain;
+            float volume = Settings.Master * Settings.Ambience * MusicGain * _duckGain * Mathf.Clamp01(ContextGain);
             for (int i = 0; i < _sources.Length; i++)
                 if (_sources[i] != null) _sources[i].volume = _gain[i] * volume;
         }
