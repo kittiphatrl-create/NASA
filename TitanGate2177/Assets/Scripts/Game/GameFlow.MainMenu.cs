@@ -109,10 +109,9 @@ namespace TitanGate.Game
         /// <summary>Build the main menu. Returns false only if no key art exists (the old menu is used then).</summary>
         bool BuildMainMenuV2()
         {
-            bool hasSaveNow = LdHasSave();
             // the background follows the story: the Kestrel in orbit before a run (live 3D the player can turn and zoom,
             // else the looping video), the Mars base once a run is saved
-            var spec = (hasSaveNow ? MmSceneSpec("mars") : MmSceneSpec("live") ?? MmSceneSpec("space") ?? MmSceneSpec("ship")) ?? MmLegacySpec();
+            var spec = MmSceneSpec("live") ?? MmSceneSpec("space") ?? MmSceneSpec("ship") ?? MmLegacySpec();
             if (spec == null) return false;
             var logoTex = MmPng("menu_logo");
             LdMusicEnsure();
