@@ -102,8 +102,8 @@ namespace TitanGate.Game
             _sfx.Play("alarm"); _sShake = 0.6f;
             EmAlert(_loc.T($"base.em.{type}.title"), _loc.T($"base.em.{type}.body"));
             DayNote(type == "power" ? TT("A fuse blew and the power room locked.", "ฟิวส์ขาด ห้องไฟฟ้าล็อก") : type == "leak" ? TT("An air leak in the hub.", "อากาศรั่วที่โถงกลาง") : TT("ORBI saw a solar flare.", "ORBI ตรวจพบเปลวสุริยะ"));
-            if (type == "flare") _ui.Toast(TT("ORBI: X-rays and gamma rays from the flare arrive first, at the speed of light. The fast protons follow within minutes. Get to the storage shelter!",
-                "ORBI: รังสีเอกซ์และรังสีแกมมาจากเปลวสุริยะมาถึงก่อนด้วยความเร็วแสง อนุภาคโปรตอนพลังงานสูงจะตามมาในไม่กี่นาที รีบไปที่หลบพายุในคลัง!"), GameUI.CAmber);
+            if (type == "flare") OrbiSay(TT("X-rays and gamma rays from the flare arrive first, at the speed of light. The fast protons follow within minutes. Get to the storage shelter!",
+                "รังสีเอกซ์และรังสีแกมมาจากเปลวสุริยะมาถึงก่อนด้วยความเร็วแสง อนุภาคโปรตอนพลังงานสูงจะตามมาในไม่กี่นาที รีบไปที่หลบพายุในคลัง!"), GameUI.CAmber);
             if (type == "power")
             {
                 foreach (var d in PowerDoors) _bSolid[d.x, d.y] = true;
@@ -173,27 +173,12 @@ namespace TitanGate.Game
                 icon.style.marginRight = 12; icon.style.flexShrink = 0;
                 lower.Add(icon);
             }
-            var action = _ui.L(body, 28, true, GameUI.Paper);
-            action.style.unityTextAlign = TextAnchor.MiddleCenter;
+            var action = _ui.SpokenCallout("orbi", body, GameUI.CRed);
+            action.style.flexGrow = 1;
             action.style.flexShrink = 1;
             lower.Add(action);
             panel.Add(lower);
             a.Add(panel);
-            if (radiation)
-            {
-                var portrait = ConversationPortrait(ArtRestore.OrbiFace(), false);
-                portrait.style.width = Length.Percent(21); portrait.style.height = Length.Percent(34);
-                a.Add(portrait);
-                var status = new VisualElement { pickingMode = PickingMode.Ignore };
-                status.style.position = Position.Absolute; status.style.left = Length.Percent(18); status.style.right = Length.Percent(7); status.style.bottom = 35;
-                status.style.paddingLeft = status.style.paddingRight = 28; status.style.paddingBottom = 16;
-                status.Add(GameUI.Plate(GameUI.Paper, GameUI.Ink, 26, true, 6));
-                var nameplate = _ui.PrintedLabel("ORBI", 24, GameUI.CAmber, GameUI.Ink);
-                nameplate.style.marginTop = -28; nameplate.style.alignSelf = Align.FlexStart;
-                status.Add(nameplate);
-                status.Add(_ui.L(body, 30, true, GameUI.Ink));
-                a.Add(status);
-            }
             _ui.Root.Add(a);
             _emAlert = a;
             a.schedule.Execute(() => { a.RemoveFromHierarchy(); if (_emAlert == a) _emAlert = null; }).StartingIn(3400);

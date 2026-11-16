@@ -44,7 +44,7 @@ namespace TitanGate.Game
             {
                 for (int i = 0; i < flashes.Count; i++) flashes[i].enabled = Mathf.Repeat(t * 7 + i * 0.37f, 1f) < 0.08f;
             }
-            yield return Shot(4.5f, "story.intro.press1", t => { Flash(t); official.sprite = Art.Crew("official", 0, (t * 6) % 2 < 1 ? -1 : -2); });
+            yield return Shot(4.5f, "story.intro.press1", t => { Flash(t); official.sprite = Art.Crew("official", 0, (t * 6) % 2 < 1 ? -1 : -2); }, "official");
             yield return Shot(5f, "story.intro.press2", t =>
             {
                 Flash(t);
@@ -52,13 +52,13 @@ namespace TitanGate.Game
                 bool walking = t < 0.7f;
                 cadet.sprite = walking ? Art.Crew("cadet", 2, (int)(t * 40) % 8) : Art.Crew("cadet", 0, -1, false, false, t > 0.8f);
                 Pos(cadet, x, -1.95f);
-            });
+            }, "official");
             yield return Shot(5f, "story.intro.press3", t =>
             {
                 Flash(t * 0.5f);
                 mentor.sprite = Art.Crew("mentor", 0, -1, false, false, t > 0.3f && t < 0.7f);
                 cadet.sprite = Art.Crew("cadet", 0, -1, false, false, t > 0.5f);
-            });
+            }, "official");
 
             // ---- the jump to Mars
             Clear(); Background(Art.QuietSpace()); Stars(14);
@@ -71,7 +71,7 @@ namespace TitanGate.Game
             var m2 = S(Art.Crew("mentor", 0, -1, false, false, true), -1.8f, -2.3f, 0, 1.5f, 5);
             var c2 = S(Art.Crew("cadet", 0, -1), 1.6f, -2.3f, 0, 1.5f, 6);
             yield return Shot(5.5f, "story.intro.crew", t => { Pos(m2, -1.8f, -2.3f + Mathf.Sin(t * 5) * .02f); });
-            yield return Shot(5f, "story.intro.crew2", t => { m2.sprite = Art.Crew("mentor", 2, -1); c2.sprite = Art.Crew("cadet", 0, (t * 4) % 2 < 1 ? -1 : -2); });
+            yield return Shot(5f, "story.intro.crew2", t => { m2.sprite = Art.Crew("mentor", 2, -1); c2.sprite = Art.Crew("cadet", 0, (t * 4) % 2 < 1 ? -1 : -2); }, "mentor");
         }
 
         /// <summary>The release jams: Arun stays at the console, the pod separates, and the Kestrel breaks apart behind it.</summary>
@@ -86,7 +86,7 @@ namespace TitanGate.Game
             {
                 mentor.sprite = Art.CrewAction("mentor", "repair", (int)(t * 20) % 4);
                 for (int i = 0; i < sparks.Count; i++) { float k = Mathf.Repeat(t * 3 + i * 0.13f, 1f); Pos(sparks[i], (i - 4) * 1.4f + k * 0.6f, 2.6f - k * 3f); sparks[i].enabled = k < 0.6f; }
-            });
+            }, "mentor");
 
             Clear(); Background(Art.QuietSpace()); Stars(18);
             ShipWithFlame(-1.5f, .6f, .65f, flame: false); _ship.sprite = Art.ShipExterior(false, false, true);
@@ -97,7 +97,7 @@ namespace TitanGate.Game
                 pod.transform.rotation = Quaternion.Euler(0, 0, -t * 40);
                 _ship.transform.rotation = Quaternion.Euler(0, 0, -t * 6);
                 _ship.color = Color.Lerp(Color.white, new Color(.6f, .55f, .6f), t);
-            });
+            }, "mentor");
 
             // the Kestrel breaks apart: fireball, flash, debris; the pod tumbles away in front
             var blast = S(Art.Blast(0), -1.5f, .6f, -0.4f, 1.1f, 12);

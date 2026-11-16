@@ -187,19 +187,18 @@ namespace TitanGate.Game
             BProp("plants", "ship.spot.plants", Art.KestrelHydroponicsRack(1), 13.4f, 16.4f, new Vector2(13.4f, 15.6f), 2, 1);
             BDeco(Art.KestrelHydroponicsTanks(), 10.4f, 19.12f, 2);
             BProp("can", "ship.spot.can", Art.LooseSupply("sup_water"), 15.6f, 18.8f, new Vector2(15.4f, 18.2f));
+            int growIdx = 0;
             foreach (float x in new[] { 10.8f, 13.4f })
             {
                 var warmth = new Color(1f, .80f, .38f);
                 BLamp(new Vector2(x, 18.43f), warmth, 2.1f, 1.15f);
-                var spill = BSprite("grow-light-floor", Art.SoftLight(), new Vector2(x, 15.95f), -29998);
-                spill.transform.localScale = new Vector3(3.45f, 2.75f, 1f);
-                spill.color = new Color(warmth.r, warmth.g, warmth.b, .58f);
+                var spill = BSprite("grow-light-floor", Art.SoftLight(), new Vector2(x, 15.95f), -29998 + growIdx++);
+                spill.transform.localScale = new Vector3(3.15f, 2.55f, 1f);
+                spill.color = new Color(warmth.r, warmth.g, warmth.b, .38f);
+                BBoundRoomLight(spill, new Vector2(x, 16.4f));
             }
 
-            // ---- Crew quarters (x 18-25, y 14-19): bunks, the pet's bowl
-            // The bunks leave both side doors and the centre aisle open.
-            BDeco(Art.KestrelBunk(), 20.15f, 18.15f, 3);
-            BDeco(Art.KestrelBunk(), 20.15f, 15.12f, 3);
+            // ---- Crew quarters (x 18-25, y 14-19): the pet's bowl
             if (LastDockMode) BDeco(Art.KestrelLocker(true), 25.1f, 15.12f, 1);
             if (!NoPets) BProp("bowl", "ship.spot.bowl", Art.PetBowl(false), 24.4f, 14.6f, new Vector2(23.6f, 15.0f));
             BDeco(Art.KestrelLocker(false), 25.1f, 19.12f, 1);
@@ -209,8 +208,7 @@ namespace TitanGate.Game
             BProp("sofa", "ship.spot.sofa", Art.KestrelGalleySofa(), 31.2f, 16.6f, new Vector2(31.2f, 15.8f), 3, 1);
             BProp("food", "ship.spot.food", Art.KestrelGalleyFridge(), 33.9f, 19.12f, new Vector2(33.6f, 18.4f), 1, 1);
             BProp("cabinet", "ship.spot.cabinet", Art.KestrelGalleyRack(), 27.8f, 19.12f, new Vector2(28.4f, 18.4f), 1, 1);
-            BDeco(Art.Table(), 29.4f, 14.3f, 2);
-            BLamp(new Vector2(31f, 16.5f), new Color(1f, .85f, .6f), 6f, .5f);
+            BLamp(new Vector2(31f, 16.5f), DeckWarmLight, 6f, .5f);
 
             // ---- Storage (x 9-16, y 3-8)
             BDeco(Art.Shelf(true), 10.6f, 8.12f, 2);
@@ -221,22 +219,20 @@ namespace TitanGate.Game
             // ---- Life support (x 18-25, y 3-8)
             BProp("recycler", "ship.spot.recycler", Art.Recycler(), 19.6f, 8.12f, new Vector2(19.6f, 7.4f), 2, 1);
             BDeco(Art.FuelTank(0.7f, false), 25.2f, 3.3f, 1);
-            BLamp(new Vector2(21.5f, 5.5f), new Color(.6f, 1f, .7f), 5f, .45f);
+            BLamp(new Vector2(21.5f, 5.5f), DeckServiceLight, 5f, .45f);
 
             // ---- Lifeboat bay (x 27-34, y 3-8): the lifeboat waits on the floor, hatch facing down
             _sHatchSr = BSprite("lbpod", Art.LifeboatPod(false, 0, StowSlots), new Vector2(30.5f, 5.0f), SortY(5.0f));
             BProp("lifeboat", "ship.spot.lifeboat", null, 30.5f, 5.0f, new Vector2(30.5f, 4.2f), 4, 2);
             BLamp(new Vector2(30.5f, 6f), new Color(1f, .7f, .3f), 5f, .45f);
 
-            // ---- Engine room (x 2-7, y 4-17): tanks and the fuel maker
+            // ---- Engine room (x 2-7, y 4-17): tanks
             BDeco(Art.FuelTank(0.9f, false), 3.0f, 17.12f, 1);
             BDeco(Art.FuelTank(0.6f, false), 4.6f, 17.12f, 1);
-            BDeco(Art.Sabatier(true, true), 4.5f, 11.4f, 2);
-            BDeco(Art.Rtg(true), 6.6f, 4.4f, 1);
             BLamp(new Vector2(4.5f, 10f), new Color(1f, .55f, .3f), 6f, .45f);
 
             // ---- Cockpit (x 37-41, y 7-15): window, two seats, the radio
-            BSprite("window", Art.ShipWindow(), new Vector2(37.5f, 16f), SortY(16) + 1);
+            if (!LastDockMode) BSprite("window", Art.ShipWindow(), new Vector2(37.5f, 16f), SortY(16) + 1);
             BDeco(Art.KestrelSeat(), 39.0f, 12.6f, 1);
             BDeco(Art.KestrelSeat(), 39.0f, 9.6f, 1);
             BProp("radio", "ship.spot.radio", Art.KestrelConsole(1), 40.6f, 15.12f, new Vector2(40.4f, 14.4f), 1, 1);

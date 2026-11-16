@@ -44,6 +44,61 @@ namespace TitanGate.Game
                 ?? (id == "tik" || id == "pip" || id == "mu" || id == "nok"
                     ? VisitorForm(id, dir, frame, wave) : CrewHD(id, dir, frame, suit, run, wave));
 
+        internal static Sprite ConversationBust(string id) => Cached("conversation-bust/" + id, () =>
+        {
+            if (id == "sys")
+            {
+                var console = new PixelCanvas(84, 78);
+                var shell = PixelCanvas.Hex("#405963");
+                var light = PixelCanvas.Hex("#8fafae");
+                console.RoundRect(6, 9, 72, 62, Pal.Ink);
+                console.RoundRect(9, 12, 66, 56, shell);
+                console.HLine(16, 67, 66, light);
+                console.RoundRect(14, 27, 56, 34, Pal.Ink);
+                console.RoundRect(17, 30, 50, 28, PixelCanvas.Hex("#172b34"));
+                console.Line(22, 41, 32, 41, Pal.Cyan);
+                console.Line(32, 41, 37, 50, Pal.Cyan);
+                console.Line(37, 50, 44, 35, Pal.Cyan);
+                console.Line(44, 35, 49, 41, Pal.Cyan);
+                console.Line(49, 41, 61, 41, Pal.Cyan);
+                console.HLine(16, 67, 24, light);
+                console.Rect(17, 17, 8, 3, Pal.Gold);
+                console.Rect(28, 17, 4, 3, Pal.Cyan);
+                console.Rect(54, 17, 13, 3, Pal.Ink);
+                var indicator = console.ToSprite();
+                indicator.texture.filterMode = FilterMode.Point;
+                return indicator;
+            }
+
+            var texture = (id switch
+            {
+                "orbi" => Orbi(0),
+                "tik" or "pip" or "mu" or "nok" => VisitorForm(id, 0, -1, false),
+                _ => Crew(id, 0, -1)
+            }).texture;
+            var pixels = texture.GetPixels32();
+            int left = texture.width, right = 0, bottom = texture.height, top = 0;
+            for (int y = 0; y < texture.height; y++)
+            for (int x = 0; x < texture.width; x++)
+            {
+                if (pixels[y * texture.width + x].a < 128) continue;
+                left = Mathf.Min(x, left);
+                right = Mathf.Max(x, right);
+                bottom = Mathf.Min(y, bottom);
+                top = Mathf.Max(y, top);
+            }
+
+            if (id is "cadet" or "mentor" or "aya" or "jules" or "kira" or "rex" or "vela" or "zee" or "official")
+                bottom += Mathf.RoundToInt((top - bottom) * .34f);
+            var bust = new PixelCanvas(right - left + 3, top - bottom + 2);
+            for (int y = bottom; y <= top; y++)
+            for (int x = left; x <= right; x++)
+                bust.Set(x - left + 1, y - bottom, pixels[y * texture.width + x]);
+            var portrait = bust.ToSprite();
+            portrait.texture.filterMode = FilterMode.Point;
+            return portrait;
+        });
+
         static Sprite LegacyCrew(string id, int dir, int frame, bool suit, bool run, bool wave) => Cached($"crew-v3-{id}-{dir}-{frame}-{suit}-{run}-{wave}", () =>
         {
             var c = new PixelCanvas(32, 40);

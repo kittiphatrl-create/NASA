@@ -12,6 +12,89 @@ namespace TitanGate.Game
         public static Color32 HabitatAmber => PixelCanvas.Hex("#f7a72e");
         public static Color32 HabitatCyan => PixelCanvas.Hex("#63dce8");
 
+        public static Sprite DockTubeLight() => Cached("dock-tube-light", () =>
+        {
+            var c = new PixelCanvas(96, 44);
+            var ink = PixelCanvas.Hex("#1a1d24");
+            var bracket = PixelCanvas.Hex("#3a3c42");
+            var housing = PixelCanvas.Hex("#6d675f");
+            var highlight = PixelCanvas.Hex("#9c9387");
+            var recess = PixelCanvas.Hex("#2b2928");
+            var warmRim = PixelCanvas.Hex("#f3b352");
+            var warmCore = PixelCanvas.Hex("#ffebba");
+            c.RoundRect(8, 10, 80, 26, ink);
+            c.RoundRect(11, 13, 74, 20, bracket);
+            c.Rect(14, 17, 68, 14, housing);
+            c.Rect(16, 28, 64, 3, highlight);
+            c.Rect(18, 12, 60, 13, recess);
+            c.Rect(21, 14, 54, 9, warmRim);
+            c.Rect(24, 16, 48, 5, warmCore);
+            c.Rect(15, 21, 3, 4, ink);
+            c.Rect(78, 21, 3, 4, ink);
+            var s = c.ToSprite(new Vector2(.5f, .5f), 96);
+            s.texture.filterMode = FilterMode.Bilinear;
+            return s;
+        });
+
+        public static Sprite KestrelWallLight() => Cached("kestrel-wall-light", () =>
+        {
+            var c = new PixelCanvas(96, 40);
+            var ink = PixelCanvas.Hex("#121c2c");
+            var bracket = PixelCanvas.Hex("#364960");
+            var housing = PixelCanvas.Hex("#7890a8");
+            var highlight = PixelCanvas.Hex("#b8cde0");
+            var recess = PixelCanvas.Hex("#1e2b3c");
+            var warmRim = PixelCanvas.Hex("#f5be6b");
+            var warmCore = PixelCanvas.Hex("#fff0c9");
+            c.RoundRect(8, 9, 80, 24, ink);
+            c.RoundRect(11, 12, 74, 18, bracket);
+            c.Rect(14, 16, 68, 12, housing);
+            c.Rect(16, 25, 64, 3, highlight);
+            c.Rect(18, 11, 60, 12, recess);
+            c.Rect(21, 13, 54, 8, warmRim);
+            c.Rect(24, 15, 48, 4, warmCore);
+            c.Rect(15, 19, 3, 4, ink);
+            c.Rect(78, 19, 3, 4, ink);
+            var s = c.ToSprite(new Vector2(.5f, .5f), 96);
+            s.texture.filterMode = FilterMode.Bilinear;
+            return s;
+        });
+
+        /// <summary>Soft directional light cone (pivot at top centre) for wall wash and floor falloff.</summary>
+        public static Sprite WallLightCone() => Cached("wall-light-cone", () =>
+        {
+            const int w = 96, h = 112;
+            var c = new PixelCanvas(w, h);
+            for (int y = 0; y < h; y++)
+            {
+                float t = 1f - (y + .5f) / h; // 0 at top source, 1 at bottom edge
+                float halfSpan = Mathf.Lerp(.18f, .96f, Mathf.Pow(t, .82f));
+                float vFade = Mathf.SmoothStep(0f, .12f, t) * Mathf.Pow(1f - t, 1.45f);
+                for (int x = 0; x < w; x++)
+                {
+                    float dx = Mathf.Abs((x + .5f) / w * 2f - 1f) / halfSpan;
+                    if (dx >= 1f) continue;
+                    float hFade = Mathf.Pow(1f - dx * dx, 1.6f);
+                    float a = Mathf.Clamp01(vFade * hFade);
+                    c.Set(x, y, new Color32(255, 255, 255, (byte)Mathf.RoundToInt(a * 255f)));
+                }
+            }
+            var tex = c.ToTexture();
+            tex.filterMode = FilterMode.Bilinear;
+            return Sprite.Create(tex, new Rect(0, 0, w, h), new Vector2(.5f, 1f), 64f, 0, SpriteMeshType.FullRect);
+        });
+
+        public static Sprite DeckRouteMarker() => Cached("deck-route-marker", () =>
+        {
+            var c = new PixelCanvas(64, 64);
+            c.RoundRect(7, 10, 50, 8, Color.Lerp(HabitatInk, HabitatShade, .25f));
+            c.Rect(10, 12, 44, 4, Color.Lerp(HabitatAmber, HabitatShade, .18f));
+            c.Rect(12, 14, 40, 2, Color.Lerp(Pal.Gold, HabitatAmber, .35f));
+            var s = c.ToSprite(Vector2.zero, 64);
+            s.texture.filterMode = FilterMode.Bilinear;
+            return s;
+        });
+
         static void HBPanel(PixelCanvas c, int x, int y, int w, int h, Color32 face)
         {
             c.Rect(x, y, w, h, HabitatInk);
@@ -69,14 +152,17 @@ namespace TitanGate.Game
             var c = new PixelCanvas(64, 64);
             for (int y = 0; y < 64; y++) for (int x = 0; x < 64; x++)
             {
-                int distance = 64;
-                if ((mask & 1) != 0) distance = Mathf.Min(distance, 63 - y);
-                if ((mask & 2) != 0) distance = Mathf.Min(distance, x);
-                if ((mask & 4) != 0) distance = Mathf.Min(distance, 63 - x);
-                if ((mask & 8) != 0) distance = Mathf.Min(distance, y);
-                if (distance < 14) c.Set(x, y, new Color32(7, 13, 24, (byte)((14 - distance) * 6)));
+                float a = 0f;
+                if ((mask & 1) != 0) a += .48f * Mathf.Pow(Mathf.Clamp01(1f - (63 - y) / 20f), 1.65f);
+                if ((mask & 2) != 0) a += .36f * Mathf.Pow(Mathf.Clamp01(1f - x / 15f), 1.65f);
+                if ((mask & 4) != 0) a += .36f * Mathf.Pow(Mathf.Clamp01(1f - (63 - x) / 15f), 1.65f);
+                if ((mask & 8) != 0) a += .28f * Mathf.Pow(Mathf.Clamp01(1f - y / 13f), 1.65f);
+                byte alpha = (byte)Mathf.RoundToInt(Mathf.Clamp01(a) * 142f);
+                if (alpha > 0) c.Set(x, y, new Color32(8, 16, 32, alpha));
             }
-            return c.ToSprite(Vector2.zero, 64);
+            var s = c.ToSprite(Vector2.zero, 64);
+            s.texture.filterMode = FilterMode.Bilinear;
+            return s;
         });
 
         public static Sprite HabitatWall(bool face, bool hull, int variant) => Cached($"hab-wall-{HabitatTheme}-{face}-{hull}-{variant}", () =>

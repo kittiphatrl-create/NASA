@@ -340,92 +340,14 @@ namespace TitanGate.Game
 
         // ------------------------------------------------------------------ visual-novel conversation
 
-        /// <summary>
-        /// A conversation shown like a visual novel: the speaker large on the left, name plate, text box at the
-        /// bottom, and reply choices. Each line is (speaker id or null for the cadet, text).
-        /// </summary>
-        void BShowVN(string id, List<(string who, string text)> lines, List<(string label, System.Action act)> replies, int index = 0)
+        void BShowVN(List<(string who, string text)> lines, List<(string label, System.Action act)> replies, int index = 0)
         {
-            _ui.ShowScreen(root =>
-            {
-                root.style.alignItems = Align.FlexStart; root.style.justifyContent = Justify.FlexEnd;
-                root.Add(GameUI.Backdrop(GameUI.DialogueShade));
-                var (who, text) = lines[Mathf.Clamp(index, 0, lines.Count - 1)];
-                var sp = who == null ? Art.Crew("cadet", 0, -1) : Art.Crew(who, 0, -1, false, false, index == 0);
-                bool player = who == null;
-                bool last = index >= lines.Count - 1;
-                root.Add(ConversationPortrait(sp, player));
-                if (last && !player && replies.Count > 1)
-                    root.Add(ConversationPortrait(Art.Crew("cadet", 0, -1), true));
-                var boxv = new VisualElement(); boxv.style.position = Position.Absolute;
-                bool choice = last && replies.Count > 1;
-                boxv.style.left = Length.Percent(player ? 7 : 20);
-                boxv.style.right = Length.Percent(choice ? 53 : player ? 20 : 12);
-                boxv.style.bottom = 40; boxv.style.maxHeight = Length.Percent(34);
-                boxv.Add(GameUI.Plate(GameUI.Paper, GameUI.Ink, 26, printed: true, weight: 7));
-                boxv.style.paddingLeft = boxv.style.paddingRight = 34; boxv.style.paddingTop = 18; boxv.style.paddingBottom = 18;
-                var plate = _ui.PrintedLabel(player ? _loc.T("life.crew.me") : LbName(who), 24, GameUI.CAmber, GameUI.Ink);
-                plate.style.alignSelf = player ? Align.FlexEnd : Align.FlexStart;
-                plate.style.marginTop = -45;
-                boxv.Add(plate);
-                if (who != null && _life != null && _life.State.guests.Contains(who))
-                {
-                    var hearts = BondHearts(who, 22); hearts.style.position = Position.Absolute; hearts.style.top = -18; hearts.style.right = 30; boxv.Add(hearts);
-                }
-                var body = _ui.L(text, 28, false, GameUI.Ink); body.style.marginTop = 6;
-                var dialogue = new ScrollView(); dialogue.style.flexShrink = 1;
-                dialogue.Add(body); boxv.Add(dialogue);
-                root.Add(boxv);
-                if (!last)
-                {
-                    // "next" sits in the box's corner where the eye ends the line
-                    var next = _ui.B(_loc.T("life.continue"), () => BShowVN(id, lines, replies, index + 1), 24, true);
-                    next.style.alignSelf = Align.FlexEnd;
-                    _ui.CutButton(next, true, size: 20);
-                    boxv.Add(next);
-                }
-                else
-                {
-                    // choices: one big button each, stacked in the middle of the screen above the text box
-                    var opts = new ScrollView(); opts.style.position = Position.Absolute;
-                    opts.style.right = Length.Percent(18); opts.style.width = Length.Percent(34);
-                    opts.style.bottom = Length.Percent(choice ? 9 : 35); opts.style.maxHeight = Length.Percent(60);
-                    opts.style.flexDirection = FlexDirection.Column; opts.style.alignItems = Align.Stretch;
-                    Button initial = null;
-                    foreach (var (label, act) in replies)
-                    {
-                        var a = act;
-                        var bt = _ui.B(label, () => { _ui.HideScreen(); a?.Invoke(); }, 26, replies.Count == 1);
-                        bt.style.minHeight = 62; bt.style.marginTop = 8; bt.style.marginLeft = bt.style.marginRight = 0;
-                        bt.style.unityTextAlign = TextAnchor.MiddleLeft;
-                        var glyph = replies.Count == 1 ? null : Art.TalkBubble();
-                        _ui.CutButton(bt, replies.Count == 1, icon: glyph);
-                        initial ??= bt;
-                        opts.Add(bt);
-                    }
-                    root.Add(opts);
-                    initial?.Focus();
-                }
-            });
-        }
-
-        static VisualElement ConversationPortrait(Sprite sprite, bool right)
-        {
-            var group = new VisualElement { pickingMode = PickingMode.Ignore };
-            group.style.position = Position.Absolute;
-            group.style.width = Length.Percent(24); group.style.height = Length.Percent(49);
-            group.style.bottom = 0;
-            if (right) group.style.right = 0;
-            else group.style.left = 0;
-            var print = GameUI.Plate(right ? GameUI.Paper : GameUI.CAmber, GameUI.Ink, 55, true, 7);
-            print.style.top = Length.Percent(28);
-            group.Add(print);
-            var portrait = new Image { sprite = sprite, scaleMode = ScaleMode.ScaleToFit, pickingMode = PickingMode.Ignore };
-            portrait.style.position = Position.Absolute;
-            portrait.style.width = Length.Percent(100); portrait.style.height = Length.Percent(94);
-            portrait.style.bottom = 0;
-            group.Add(portrait);
-            return group;
+            var (who, text) = lines[index];
+            bool last = index == lines.Count - 1;
+            System.Func<VisualElement> detail = who != null && _life != null && _life.State.guests.Contains(who)
+                ? () => BondHearts(who, 22) : null;
+            _ui.SayText(who ?? "you", text,
+                last ? null : () => BShowVN(lines, replies, index + 1), last ? replies : null, detail);
         }
     }
 }

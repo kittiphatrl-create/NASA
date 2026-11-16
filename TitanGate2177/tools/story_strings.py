@@ -15,7 +15,7 @@ def extend_story(entries):
         ('story.escape.release', 'ARUN: Manual release engaged. I have to stay at this console. Get everyone into the escape pod. That is an order, cadet.', 'อรุณ: เปิดตัวปล่อยแบบมือแล้ว ฉันต้องอยู่ที่แผงนี้ พาทุกคนขึ้นยานกู้ชีพ นี่คือคำสั่งนะ นักบิน'),
         ('story.escape.signal', 'ARUN: Look after them… astronaut. The signal breaks. Kestrel disappears into the debris. His fate is unknown.', 'อรุณ: ดูแลทุกคนด้วย… นักบิน สัญญาณขาดหาย Kestrel ลับเข้าไปในกลุ่มเศษซาก ยังไม่มีใครรู้ชะตากรรมของเขา'),
         ('story.dock', 'ORBI locates an old Mars emergency habitat. Your one-room escape pod docks with its access tube. A different home. A chance to call for help.', 'ORBI พบฐานฉุกเฉินเก่าบนดาวอังคาร ยานกู้ชีพหนึ่งห้องเชื่อมกับท่อทางเข้าฐาน บ้านหลังใหม่ และโอกาสส่งสัญญาณขอความช่วยเหลือ'),
-        ('ship.rest', 'ARUN: Good work. Take a short rest on the sofa. I will keep watch from the cockpit.', 'อรุณ: ทำได้ดี พักบนโซฟาสักนิดนะ ฉันจะเฝ้าระวังจากห้องนักบิน'),
+        ('ship.rest', 'Good work. Take a short rest on the sofa. I will keep watch from the cockpit.', 'ทำได้ดี พักบนโซฟาสักนิดนะ ฉันจะเฝ้าระวังจากห้องนักบิน'),
         ('life.night.GuestDeparted', '{0} thanks the crew and leaves after the storm. Their short stay is over.', '{0} ขอบคุณทุกคนแล้วออกเดินทางหลังพายุ การพักชั่วคราวสิ้นสุดลงแล้ว'),
     ]
     for row in rows: put(*row)

@@ -22,7 +22,7 @@ namespace TitanGate.Game
             {
                 var ta = Resources.Load<TextAsset>("Sprites/Cadet/" + name);
                 if (ta == null) return null;
-                var t = new Texture2D(2, 2, TextureFormat.RGBA32, false) { filterMode = FilterMode.Point, wrapMode = TextureWrapMode.Clamp };
+                var t = new Texture2D(2, 2, TextureFormat.RGBA32, true) { filterMode = FilterMode.Trilinear, wrapMode = TextureWrapMode.Clamp, mipMapBias = -0.35f };
                 t.LoadImage(ta.bytes);
                 return Sprite.Create(t, new Rect(0, 0, t.width, t.height), new Vector2(.5f, 0), 44, 0, SpriteMeshType.FullRect);
             });
@@ -40,10 +40,12 @@ namespace TitanGate.Game
             {
                 var ta = StationArtAsset("Station", name, out bool isLastDock);
                 if (ta == null) return null;
-                var t = new Texture2D(2, 2, TextureFormat.RGBA32, false)
+                var t = new Texture2D(2, 2, TextureFormat.RGBA32, true)
                 {
-                    filterMode = isLastDock ? FilterMode.Bilinear : FilterMode.Point,
-                    wrapMode = TextureWrapMode.Clamp
+                    filterMode = FilterMode.Trilinear,
+                    wrapMode = TextureWrapMode.Clamp,
+                    anisoLevel = 4,
+                    mipMapBias = -0.35f
                 };
                 t.LoadImage(ta.bytes);
                 float ppu = isLastDock ? 132f : 44f;
@@ -68,15 +70,58 @@ namespace TitanGate.Game
             {
                 var ta = StationArtAsset("Tiles", name, out bool isLastDock);
                 if (ta == null) return null;
-                var t = new Texture2D(2, 2, TextureFormat.RGBA32, false)
+                var t = new Texture2D(2, 2, TextureFormat.RGBA32, true)
                 {
-                    filterMode = isLastDock ? FilterMode.Bilinear : FilterMode.Point,
-                    wrapMode = name.StartsWith("floor_k2_") ? TextureWrapMode.Repeat : TextureWrapMode.Clamp
+                    filterMode = FilterMode.Trilinear,
+                    wrapMode = name.StartsWith("floor_k2_") ? TextureWrapMode.Repeat : TextureWrapMode.Clamp,
+                    anisoLevel = 4,
+                    mipMapBias = -0.35f
                 };
                 t.LoadImage(ta.bytes);
+                if (isLastDock && (name.StartsWith("floor_k5_") || name.StartsWith("floor_k3_") || name.StartsWith("floor_k6_") || name.Contains("_v4")))
+                    SoftenHighFrequencyTile(t);
                 float ppu = t.width / (name.StartsWith("door_h_") ? 2f : 1f);
                 return Sprite.Create(t, new Rect(0, 0, t.width, t.height), Vector2.zero, ppu, 0, SpriteMeshType.FullRect);
             });
+
+        internal static void SoftenHighFrequencyTile(Texture2D t, float blend = .42f)
+        {
+            int w = t.width, h = t.height;
+            var src = t.GetPixels32();
+            var dst = (Color32[])src.Clone();
+            for (int y = 1; y < h - 1; y++)
+            {
+                int row = y * w;
+                for (int x = 1; x < w - 1; x++)
+                {
+                    Color c = src[row + x];
+                    if (c.a == 0) continue;
+                    Color l = src[row + x - 1], r = src[row + x + 1], d = src[row - w + x], u = src[row + w + x];
+                    Color avg = (l + r + d + u) * .25f;
+                    float diff = Mathf.Abs(c.r - avg.r) + Mathf.Abs(c.g - avg.g) + Mathf.Abs(c.b - avg.b);
+                    if (diff > .11f)
+                    {
+                        Color m = Color.Lerp(c, avg, blend);
+                        m.a = c.a;
+                        dst[row + x] = m;
+                    }
+                }
+            }
+            t.SetPixels32(dst);
+            t.Apply(true, false);
+        }
+
+        public static void PrewarmCadetSprites(bool includeEva)
+        {
+            if (!UseBlenderCadet) return;
+            string[] keys = { "idle", "blink", "w0", "w1", "w2", "w3", "w4", "w5", "w6", "w7", "r0", "r1", "r2", "r3", "r4", "r5", "r6", "r7" };
+            for (int d = 0; d <= 4; d++)
+                foreach (var k in keys)
+                {
+                    Cadet8(d, k, false);
+                    if (includeEva) Cadet8(d, k, true);
+                }
+        }
 
         /// <summary>
         /// The cadet in 5 rendered directions (0 S, 1 SE, 2 E, 3 NE, 4 N; the game mirrors the west side).
@@ -95,7 +140,7 @@ namespace TitanGate.Game
             {
                 var ta = Resources.Load<TextAsset>($"Sprites/{name}.png");
                 if (ta == null) return null;
-                var t = new Texture2D(2, 2, TextureFormat.RGBA32, false) { filterMode = FilterMode.Bilinear, wrapMode = TextureWrapMode.Clamp };
+                var t = new Texture2D(2, 2, TextureFormat.RGBA32, true) { filterMode = FilterMode.Trilinear, wrapMode = TextureWrapMode.Clamp, mipMapBias = -0.35f };
                 if (!t.LoadImage(ta.bytes))
                 {
                     Object.Destroy(t);
@@ -120,7 +165,7 @@ namespace TitanGate.Game
                     Mathf.Clamp01(c.b * contrast + .023f * (1f - light)), c.a);
             }
             texture.SetPixels32(pixels);
-            texture.Apply();
+            texture.Apply(true, false);
         }
 
         static Sprite ModelCrew(string id, int dir, int frame, bool eva, bool run, bool wave)

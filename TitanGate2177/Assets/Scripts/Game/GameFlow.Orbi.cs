@@ -11,8 +11,7 @@ namespace TitanGate.Game
 {
     /// <summary>
     /// ORBI in the abandoned base: it rode down on a chip, comes back when the chip is plugged into the lounge
-    /// console, reports the base on its terminal, and warns about real dangers in Messenger-style bubbles on the
-    /// left. The screen itself shows only the cadet's own needs (food, water, rest).
+    /// console, reports the base on its terminal, and warns about real dangers while the cadet can still move.
     /// </summary>
     public partial class GameFlow
     {
@@ -23,29 +22,13 @@ namespace TitanGate.Game
 
         bool OrbiOnline => _restore != null && _restore.IsDone("chip");
 
-        // ------------------------------------------------------------------ chat bubbles
+        // ------------------------------------------------------------------ spoken notices
 
-        /// <summary>A chat bubble on the left with ORBI's face. Up to three stay on screen; each fades after a few seconds.</summary>
         void OrbiSay(string text, Color tone)
         {
             if (_ui?.Root == null) return;
-            var row = new VisualElement { pickingMode = PickingMode.Ignore };
-            row.style.flexDirection = FlexDirection.Row; row.style.alignItems = Align.Center; row.style.minHeight = 64; row.style.width = Length.Percent(100); row.style.maxWidth = Length.Percent(100);
-            var face = new Image { sprite = ArtRestore.OrbiFace(), scaleMode = ScaleMode.ScaleToFit, pickingMode = PickingMode.Ignore };
-            face.style.width = 56; face.style.height = 56; face.style.marginRight = 10; face.style.flexShrink = 0;
-            var bubble = new VisualElement { pickingMode = PickingMode.Ignore };
-            bubble.Add(GameUI.Plate(tone == GameUI.CRed ? GameUI.Paper : GameUI.CAmber, GameUI.Ink, 18, true, 5));
-            bubble.style.paddingLeft = 38; bubble.style.paddingRight = 24; bubble.style.paddingTop = 8; bubble.style.paddingBottom = 8;
-            bubble.style.flexShrink = 1; bubble.style.flexGrow = 1;
-            bubble.Add(_ui.L(text, 24, true, GameUI.Ink));
-            row.Add(bubble);
-            face.style.position = Position.Absolute; face.style.left = -24;
-            row.Add(face);
-            _ui.PushNotice(row, 9600);
-            row.schedule.Execute(() => row.style.display = _ui.Blocking ? DisplayStyle.None : DisplayStyle.Flex).Every(100);
+            _ui.NotifySpeech("orbi", text, tone);
             _sfx.Play("blip", 0.7f);
-            row.schedule.Execute(() => row.style.opacity = 0.0f).StartingIn(9000);
-            row.schedule.Execute(() => row.RemoveFromHierarchy()).StartingIn(9600);
         }
 
         void OrbiBoot()

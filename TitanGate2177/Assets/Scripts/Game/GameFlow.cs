@@ -21,6 +21,7 @@ namespace TitanGate.Game
         public static GameFlow Instance { get; private set; }
         /// <summary>Set before a reload so a restart goes straight into the mission.</summary>
         public static bool SkipTitle;
+        static bool SkipToLastDock;
         public static int SeedOverride = -1;
 
         GameConfig _cfg;
@@ -58,7 +59,10 @@ namespace TitanGate.Game
         void Awake()
         {
             Instance = this;
-            Application.targetFrameRate = 60;
+            int refreshHz = Mathf.RoundToInt((float)Screen.currentResolution.refreshRateRatio.value);
+            Application.targetFrameRate = (!Application.isEditor && QualitySettings.vSyncCount > 0)
+                ? -1
+                : Mathf.Max(60, refreshHz > 0 ? refreshHz : 60);
             _cfg = GameConfig.FromJson(Resources.Load<TextAsset>("Data/config").text);
             _loc = Localization.FromJson(Resources.Load<TextAsset>("Data/strings").text,
                 (Lang)PlayerPrefs.GetInt("lang", (int)Lang.EN));
@@ -93,6 +97,12 @@ namespace TitanGate.Game
 
         void Start()
         {
+            if (SkipToLastDock)
+            {
+                SkipToLastDock = false;
+                StartLastDock(null, SeedOverride >= 0 ? SeedOverride : System.Environment.TickCount);
+                return;
+            }
             if (ContinueFromSave && Settings.HasSave) { ContinueFromSave = false; ContinueGame(); }
             else if (SkipTitle) { SkipTitle = false; StartCoroutine(StartChapter1()); }
             else ShowMainMenu();
@@ -118,6 +128,13 @@ namespace TitanGate.Game
         void Update()
         {
             var kb = Keyboard.current;
+            if (LastDockMode && _bRoot != null && _bMode == 1 && kb?.f8Key.wasPressedThisFrame == true)
+            {
+                // Reload Main so no ship coroutine or cutscene can carry over to the station.
+                SkipToLastDock = true;
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                return;
+            }
             if (_pauseDeckOpen && _ui.ModalOpen)
             {
                 if (kb?.escapeKey.wasPressedThisFrame == true) PauseDeckBack();
@@ -129,9 +146,9 @@ namespace TitanGate.Game
             if (kb != null)
             {
                 if (kb.escapeKey.wasPressedThisFrame && _ui.ModalOpen) { _ui.CloseModal(); return; }
-                if (kb.escapeKey.wasPressedThisFrame && _ui.ScreenOpen && _bRoot != null && !InCutscene && (_lbView == LbView.Card || _lbView == LbView.Ration)) { _bOpen = false; _ui.HideScreen(); return; }
+                if (kb.escapeKey.wasPressedThisFrame && !_ui.DialogOpen && _ui.ScreenOpen && _bRoot != null && !InCutscene && (_lbView == LbView.Card || _lbView == LbView.Ration)) { _bOpen = false; _ui.HideScreen(); return; }
                 if (kb.f12Key.wasPressedThisFrame) Capture("manual");
-                if (kb.enterKey.wasPressedThisFrame && _ui.DialogOpen) _ui.Advance();
+                if (kb.enterKey.wasPressedThisFrame && _ui.DialogOpen) { _ui.Advance(); return; }
                 if (_chapter > 0 && _chapter < 3 && !_ui.ScreenOpen)
                 {
                     if (kb.hKey.wasPressedThisFrame) OnHint();

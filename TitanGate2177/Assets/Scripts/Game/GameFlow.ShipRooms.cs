@@ -58,7 +58,7 @@ namespace TitanGate.Game
             BDeco(Art.KestrelLocker(false), 19.0f, 26.12f, 1);
             BDeco(Art.KestrelLocker(false), 20.6f, 26.12f, 1);
             BDeco(Art.Shelf(false), 24.0f, 26.12f, 2);
-            BDeco(Art.Table(), 22.0f, 22.4f, 3);
+            BDeco(Art.Table(), 22.0f, 23.4f, 3);
             BLamp(new Vector2(21.5f, 23.5f), new Color(1f, .85f, .6f), 5.5f, .45f);
 
             // ---- Cold pantry (x 27-34, y 21-26): freezers keep months of meals for the trip
@@ -75,7 +75,7 @@ namespace TitanGate.Game
 
             // ---- Comms vault (x 37-41, y 1-5): expensive radio spares, locked
             BDeco(Art.Shelf(true), 38.0f, 5.12f, 1);
-            BLamp(new Vector2(39.5f, 3f), new Color(.4f, .9f, 1f), 4f, .45f);
+            BLamp(new Vector2(39.5f, 3f), DeckCoolLight, 4f, .45f);
 
             // the locked doors: walk up and press E
             BProp("vault_power", TT("Locked: power vault — inside: ", "ล็อก: ห้องเก็บอุปกรณ์ไฟฟ้า — ข้างในมี ") + VaultPrize("power"), null, 39f, 16.6f, new Vector2(39f, 14.8f));

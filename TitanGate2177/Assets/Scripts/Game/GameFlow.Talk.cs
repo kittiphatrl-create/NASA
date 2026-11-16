@@ -260,14 +260,14 @@ namespace TitanGate.Game
             {
                 int i = _talkStory.TryGetValue(id, out var n) ? n : 0; _talkStory[id] = i + 1;
                 var s = bank.story[i % bank.story.Length];
-                BShowVN(id, new List<(string, string)> { (null, TT("Tell me about yourself.", "เล่าเรื่องตัวเองให้ฟังหน่อย")), (id, TL(s)) },
+                BShowVN(new List<(string, string)> { (null, TT("Tell me about yourself.", "เล่าเรื่องตัวเองให้ฟังหน่อย")), (id, TL(s)) },
                     new List<(string, System.Action)> { (TT("I see", "อ๋อ อย่างนี้นี่เอง"), () => CrewTalkMenu(id, spot, false)) });
             }));
             replies.Add((TT("What do you know about Mars?", "รู้อะไรเกี่ยวกับดาวอังคารบ้าง?"), () =>
             {
                 int i = _talkFact.TryGetValue(id, out var n) ? n : 0; _talkFact[id] = i + 1;
                 var s = bank.fact[i % bank.fact.Length];
-                BShowVN(id, new List<(string, string)> { (null, TT("What do you know about Mars?", "รู้อะไรเกี่ยวกับดาวอังคารบ้าง?")), (id, TL(s)) },
+                BShowVN(new List<(string, string)> { (null, TT("What do you know about Mars?", "รู้อะไรเกี่ยวกับดาวอังคารบ้าง?")), (id, TL(s)) },
                     new List<(string, System.Action)> { (TT("Good to know", "น่ารู้ดี"), () => CrewTalkMenu(id, spot, false)) });
             }));
             var job = CardJob ?? (_emType == "power" ? Jobs["em_power"] : _emType == "leak" ? Jobs["em_leak"] : null);
@@ -276,17 +276,17 @@ namespace TitanGate.Game
                 replies.Add((TT("Can you help me with a job?", "ช่วยงานหน่อยได้ไหม?"), () =>
                 {
                     CrewCall(id, jobSpot.stand);
-                    BShowVN(id, new List<(string, string)> { (id, TL(bank.help)) }, new List<(string, System.Action)> { (TT("Thanks!", "ขอบใจ!"), null) });
+                    BShowVN(new List<(string, string)> { (id, TL(bank.help)) }, new List<(string, System.Action)> { (TT("Thanks!", "ขอบใจ!"), null) });
                 }));
             if (!_bDone.Contains("vn_" + id))
                 replies.Add((TT("Thanks for being here", "ขอบใจนะที่อยู่ด้วยกัน"), () =>
                 {
                     BFriendTalk(id);
-                    BShowVN(id, new List<(string, string)> { (id, TL(bank.thanks)) }, new List<(string, System.Action)> { (TT("See you", "ไว้เจอกัน"), null) });
+                    BShowVN(new List<(string, string)> { (id, TL(bank.thanks)) }, new List<(string, System.Action)> { (TT("See you", "ไว้เจอกัน"), null) });
                 }));
             replies.Add((TT("Sorry... could you leave the base?", "ขอโทษนะ...ช่วยออกจากฐานได้ไหม"), () =>
             {
-                BShowVN(id, new List<(string, string)> { (null, TT("We are short of supplies. I'm sorry, but could you leave?", "เสบียงเราไม่พอจริง ๆ ขอโทษนะ ช่วยออกไปได้ไหม")) },
+                BShowVN(new List<(string, string)> { (null, TT("We are short of supplies. I'm sorry, but could you leave?", "เสบียงเราไม่พอจริง ๆ ขอโทษนะ ช่วยออกไปได้ไหม")) },
                     new List<(string, System.Action)>
                     {
                         (TT("Yes, I'm sure", "ใช่ ตัดสินใจแล้ว"), () => GuestLeave(id)),
@@ -294,7 +294,7 @@ namespace TitanGate.Game
                     });
             }));
             replies.Add((TT("See you around", "ไว้คุยกันใหม่นะ"), null));
-            BShowVN(id, lines, replies);
+            BShowVN(lines, replies);
         }
 
         /// <summary>You asked a guest to leave: one fewer mouth. Friends leave a small gift; upset guests take food.</summary>
@@ -309,7 +309,7 @@ namespace TitanGate.Game
             else if (f <= -1 && _life.State.stock.food >= 1) { _life.ApplyTask(new Stock { food = -1 }); _ui.Toast(TT(LbName(id) + " took some food on the way out.", LbName(id) + " หยิบอาหารติดมือไปด้วยตอนออกไป"), GameUI.CRed); }
             _life.State.morale = Mathf.Max(0, _life.State.morale - 6);
             _sfx.Play("open");
-            BShowVN(id, new List<(string, string)> { (id, TL(bank.leave)) }, new List<(string, System.Action)> { (TT("Goodbye", "ลาก่อน"), null) });
+            BShowVN(new List<(string, string)> { (id, TL(bank.leave)) }, new List<(string, System.Action)> { (TT("Goodbye", "ลาก่อน"), null) });
             BRefreshProps();
         }
     }

@@ -20,8 +20,8 @@ namespace TitanGate.Game
         /// <summary>Morning jobs without the pet: report from the radio, then rest on the sofa.</summary>
         static readonly SStep[] ShipStepsNoPet =
         {
-            new SStep { target = "radio", textKey = "ship.q.radio", factKey = "ship.fact.radio" },
             FindCaptainCard, UnlockCaptainDoor,
+            new SStep { target = "radio", textKey = "ship.q.radio", factKey = "ship.fact.radio" },
             new SStep { target = "sofa", textKey = "ship.q.sofa" },
         };
 
@@ -164,19 +164,23 @@ namespace TitanGate.Game
                 var g = new BDoorGroup { rect = new RectInt(x0, y0, x1 - x0 + 1, y1 - y0 + 1), horizontal = horiz };
                 g.center = new Vector2(x0 + g.rect.width * .5f, y0 + g.rect.height * .5f);
                 bool captain = _bMode == 1 && g.rect.Contains(CaptainDoorTile);
-                if (!horiz && !captain) continue;
+                bool airlock = LdDoorAlwaysShut(g.rect);
+                if (!horiz && !captain && !airlock) continue;
                 var sprite = BDoorSprite(g, false, 0);
                 if (sprite == null) continue;
-                g.sr = BSprite("door", sprite, new Vector2(x0, y0), horiz ? SortY(y0) + 2 : -29990);
+                g.sr = BSprite("door", sprite, new Vector2(x0, y0), horiz ? SortY(y0) + 2 : airlock ? SortY(y0) + 2 : -29990);
                 g.sr.transform.localScale = horiz ? new Vector3(g.rect.width / 2f, 1, 1) : new Vector3(1, g.rect.height / 2f, 1);
                 bool locked = BDoorLocked(g);
                 sprite = BDoorSprite(g, locked, 0);
                 if (sprite != null) g.sr.sprite = sprite;
-                if (captain)
+                if (captain || airlock)
                 {
-                    BSetDoorBlocked(g, locked);
-                    var spot = BSpotById(CaptainDoor);
-                    if (spot != null) spot.sr = g.sr;
+                    BSetDoorBlocked(g, locked || airlock);
+                    if (captain)
+                    {
+                        var spot = BSpotById(CaptainDoor);
+                        if (spot != null) spot.sr = g.sr;
+                    }
                 }
                 _bDoorGroups.Add(g);
             }

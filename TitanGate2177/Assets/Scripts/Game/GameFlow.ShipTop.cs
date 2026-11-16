@@ -30,8 +30,8 @@ namespace TitanGate.Game
             new SStep { target = "food", carry = "sup_food", textKey = "ship.q.food" },
             new SStep { target = "bowl", textKey = "ship.q.bowl", factKey = "ship.fact.food" },
             // trimmed for a ~20-minute run (spec 2026-11-14 §6.1): the filter, water and plant jobs now live in the base restoration
-            new SStep { target = "radio", textKey = "ship.q.radio", factKey = "ship.fact.radio" },
             FindCaptainCard, UnlockCaptainDoor,
+            new SStep { target = "radio", textKey = "ship.q.radio", factKey = "ship.fact.radio" },
             new SStep { target = "sofa", textKey = "ship.q.sofa" },
         };
 
@@ -199,7 +199,7 @@ namespace TitanGate.Game
             if (step.carry != null) BItemEffect(s, step.carry);
             if (step.target == "bowl") BSpotById("bowl").sr.sprite = Art.PetBowl(true);
             if (step.target == "can") BSpotById("can").sr.enabled = false;
-            if (step.factKey != null) _ui.Toast(_loc.T("speaker.mentor") + ": " + _loc.T(step.factKey), GameUI.CGreen);
+            if (step.factKey != null) _ui.NotifySpeech("mentor", _loc.T(step.factKey), GameUI.CGreen);
             if (step.target == "sofa") { StartCoroutine(SImpact(s)); return; }
             _sStep++;
             _sTarget = SSteps[_sStep].target;
@@ -239,7 +239,7 @@ namespace TitanGate.Game
             Vector2 standingPosition = _bPos;
             SSeat(sofa);
             _sTarget = null;
-            yield return Say("orbi", "ship.rest");
+            yield return Say("mentor", "ship.rest");
             yield return new WaitForSeconds(1.4f);
             _sfx.Loop("ship_alarm", true);
             _sfx.Play("thud");

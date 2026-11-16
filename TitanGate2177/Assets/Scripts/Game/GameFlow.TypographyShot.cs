@@ -105,10 +105,9 @@ namespace TitanGate.Game
                 _ui.Say("mentor", "c2_base_intro");
                 yield return new WaitForSecondsRealtime(.6f);
                 var portrait = _ui.Root.Q<Image>("dialogue-portrait");
-                var resting = portrait.style.translate.value;
-                Check(_ui.Typing && portrait.image != null &&
-                      resting.x.value == 0 && resting.y.value == 0,
-                    "portrait is displayed and stays still with Reduced Motion");
+                var stage = _ui.Root.Q("dialogue-portrait-stage");
+                Check(_ui.Typing && portrait.image != null && stage.worldBound.height > _ui.Root.layout.height * .5f,
+                    "mentor uses a large dialogue portrait during typing");
                 _ui.Advance();
                 yield return Shot("ui_04_mentor_th_large");
                 _ui.Advance();
@@ -117,15 +116,16 @@ namespace TitanGate.Game
                 Settings.TextSpeed = 0;
                 _ui.Say("you", "c1_bed_look");
                 yield return Shot("ui_04_player_en_large");
-                Check(!_ui.Typing && portrait.image != null && portrait.layout.x > _ui.Root.layout.width * .5f,
-                    "player portrait uses the right side and instant text");
+                var panel = _ui.Root.Q("dialogue-panel");
+                Check(!_ui.Typing && portrait.image != null && stage.worldBound.xMax < panel.worldBound.xMin,
+                    "player portrait sits to the left of the panel with instant text");
                 _ui.Advance();
 
                 _loc.Current = Lang.TH;
                 _ui.Say("sys", "c2_base_intro");
                 yield return Shot("ui_04_system_th_large");
-                Check(portrait.image == null && portrait.style.display.value == DisplayStyle.None,
-                    "dialogue without a portrait gives the text the full frame");
+                Check(portrait.image != null && stage.style.display.value == DisplayStyle.Flex,
+                    "system dialogue uses the communications console portrait");
                 _ui.Advance();
             }
             finally

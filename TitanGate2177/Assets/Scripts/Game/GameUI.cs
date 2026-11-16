@@ -45,6 +45,7 @@ namespace TitanGate.Game
         /// <summary>Cutscene mode: letterbox bars, subtitle and a skip button; the HUD is hidden.</summary>
         public void SetCinematic(bool on)
         {
+            ClearTimedDialogue();
             _cine.style.display = on ? DisplayStyle.Flex : DisplayStyle.None;
             if (on) { _cine.BringToFront(); _fader.BringToFront(); _skip.text = Thai(_loc.T("ui.skip")); }
             _caption.text = "";
@@ -52,6 +53,7 @@ namespace TitanGate.Game
 
         public void SetCaption(string text)
         {
+            ClearTimedDialogue();
             _caption.text = Thai(text ?? "");
             _caption.style.opacity = 0;
             _caption.schedule.Execute(() => _caption.style.opacity = 1).StartingIn(60);
@@ -60,10 +62,16 @@ namespace TitanGate.Game
         VisualElement _root, _hud, _topLeft, _topRight, _resRow, _forecast, _invBar, _hover, _dialog, _dialogBlocker, _modalLayer, _toastBox, _fader, _flash, _screen;
         Label _objective, _chapterLabel, _hoverLabel, _dialogSpeaker, _dialogText, _dialogMore, _forecastLabel, _invHint;
         Button _btnCards, _btnHint, _btnLang, _btnBase;
-        Image _dialogPortrait;
 
         // dialogue
-        struct Line { public string speaker, key; public object[] args; public Action done; }
+        struct Line
+        {
+            public string speaker, key, text;
+            public object[] args;
+            public Action done;
+            public IReadOnlyList<(string label, Action act)> replies;
+            public Func<VisualElement> detail;
+        }
         readonly Queue<Line> _lines = new Queue<Line>();
         Line _current;
         bool _lineOpen;
@@ -78,7 +86,7 @@ namespace TitanGate.Game
         public event Action CardsClicked, HintClicked, LangClicked, BaseClicked;
         public event Action<string> ItemClicked;
 
-        public bool DialogOpen => _lineOpen;
+        public bool DialogOpen => _lineOpen && !_timedDialogue;
         public bool ModalOpen => _modalBuild != null;
         public bool ScreenOpen => _screen != null && _screen.style.display == DisplayStyle.Flex;
         public bool Blocking => DialogOpen || ModalOpen || ScreenOpen;
@@ -723,10 +731,17 @@ namespace TitanGate.Game
 
         // ------------------------------------------------------------------ dialogue
 
-        /// <summary>Queue a line. Speaker: "orbi", "you" or "sys". Text is re-translated on language change.</summary>
+        /// <summary>Queue a localized line. Text is re-translated on language change.</summary>
         public void Say(string speaker, string key, Action done = null, params object[] args)
         {
             _lines.Enqueue(new Line { speaker = speaker, key = key, args = args, done = done });
+            if (!_lineOpen) Next();
+        }
+
+        internal void SayText(string speaker, string text, Action done = null,
+            IReadOnlyList<(string label, Action act)> replies = null, Func<VisualElement> detail = null)
+        {
+            _lines.Enqueue(new Line { speaker = speaker, text = text, done = done, replies = replies, detail = detail });
             if (!_lineOpen) Next();
         }
 
@@ -740,19 +755,43 @@ namespace TitanGate.Game
                 _dialog.style.display = DisplayStyle.None;
                 return;
             }
-            _current = _lines.Dequeue();
+            OpenDialogue(_lines.Dequeue());
+        }
+
+        void OpenDialogue(Line line)
+        {
+            _current = line;
             _lineOpen = true;
             _lineShownAt = Time.unscaledTime;
+            _dialogBlocker.pickingMode = _timedDialogue ? PickingMode.Ignore : PickingMode.Position;
             _dialogBlocker.style.display = DisplayStyle.Flex;
             _dialog.style.display = DisplayStyle.Flex;
+            _dialogBlocker.BringToFront();
+            _fader.BringToFront();
             RenderLine();
+        }
+
+        void ClearTimedDialogue()
+        {
+            if (!_timedDialogue) return;
+            _timedDialogue = false;
+            Next();
+        }
+
+        internal void SetTimedDialogue(string speaker, string text, float duration)
+        {
+            if (DialogOpen) return;
+            _timedDialogue = true;
+            _timedTextInterval = Mathf.Max(.015f, (duration - .9f) / Mathf.Max(1, text.Length));
+            OpenDialogue(new Line { speaker = speaker, text = text });
         }
 
         void RenderLine()
         {
             string sp = _current.speaker;
-            _dialogSpeaker.text = sp == "orbi" ? "ORBI" : Thai(_loc.T("speaker." + sp));
-            PrepareDialogue(sp, _loc.T(_current.key, _current.args));
+            _dialogSpeaker.text = Thai(DialogueSpeakerName(sp));
+            PrepareDialogueReplies();
+            PrepareDialogue(sp, _current.text ?? _loc.T(_current.key, _current.args));
         }
 
         /// <summary>
@@ -788,9 +827,15 @@ namespace TitanGate.Game
 
         public void Advance()
         {
-            if (!_lineOpen || Time.unscaledTime - _lineShownAt < 0.15f) return;
+            if (!DialogOpen || Time.unscaledTime - _lineShownAt < 0.15f) return;
             if (Typing) { FinishDialogue(); return; }
-            var done = _current.done;
+            var replies = _current.replies;
+            if (replies?.Count > 1) return;
+            CompleteDialogue(replies?.Count == 1 ? replies[0].act : _current.done);
+        }
+
+        void CompleteDialogue(Action done)
+        {
             Next();
             done?.Invoke();
         }

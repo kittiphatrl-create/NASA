@@ -72,8 +72,11 @@ namespace TitanGate.Game
                         yield return Shot("b04c_evidence");
                         _peepTalk = 0; BPeepTalkVN(_lbCard); _peepTalk = 1;
                         yield return new WaitForSeconds(0.4f);
+                        if (_ui.Typing) _ui.Advance();
+                        _ui.Advance();
                         yield return Shot("b04e_talk_vn");
-                        BShowPeep();
+                        if (_ui.Typing) _ui.Advance();
+                        _ui.Advance();
                         if (IsTrader(_lbCard.visitor))
                         {
                             BShowTrade();
@@ -106,8 +109,10 @@ namespace TitanGate.Game
                     if (!shots.Contains("crew") && _life.State.guests.Count > 0)
                     {
                         shots.Add("crew"); yield return AutoWalkUse("guest0");
-                        Check(_ui.ScreenOpen, "admitted visitor can be approached and talked to (visual-novel view)");
-                        yield return Shot("b05b_crew_conversation"); _ui.HideScreen();
+                        Check(_ui.DialogOpen, "admitted visitor can be approached and talked to");
+                        yield return Shot("b05b_crew_conversation");
+                        if (_ui.Typing) _ui.Advance();
+                        _ui.Press(TT("See you around", "ไว้คุยกันใหม่นะ"));
                     }
                 }
                 else if (_lbView == LbView.Ration && !_bOpen)

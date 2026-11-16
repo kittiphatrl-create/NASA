@@ -250,9 +250,21 @@ namespace TitanGate.Game
         /// <summary>Soft shadow under characters.</summary>
         public static Sprite Shadow() => Cached("shadow", () =>
         {
-            var c = new PixelCanvas(14, 5);
-            c.Ellipse(7, 2, 6, 2, new Color32(0, 0, 0, 90));
-            return c.ToSprite(new Vector2(0.5f, 0.5f));
+            const int w = 56, h = 24;
+            var c = new PixelCanvas(w, h);
+            for (int y = 0; y < h; y++)
+                for (int x = 0; x < w; x++)
+                {
+                    float dx = (x + 0.5f) / w * 2f - 1f;
+                    float dy = (y + 0.5f) / h * 2f - 1f;
+                    float d = Mathf.Sqrt(dx * dx + dy * dy);
+                    if (d >= 1f) continue;
+                    float a = Mathf.Pow(1f - d * d, 1.55f);
+                    c.Set(x, y, new Color32(8, 16, 30, (byte)Mathf.RoundToInt(a * 136f)));
+                }
+            var t = c.ToTexture();
+            t.filterMode = FilterMode.Bilinear;
+            return Sprite.Create(t, new UnityEngine.Rect(0, 0, w, h), new Vector2(0.5f, 0.5f), 64f, 0, SpriteMeshType.FullRect);
         });
         /// <summary>Detail on a wall face (16x16, pivot bottom-left): 0 vent, 1 pipes, 2 warning stripe, 3 light panel.</summary>
         public static Sprite WallDetail(int kind, bool hull) => UseStationTiles && StationWall(true, hull, 0) != null ? null : WallDetailDrawn(kind, hull);

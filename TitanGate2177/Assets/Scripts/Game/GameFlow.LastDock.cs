@@ -311,7 +311,26 @@ namespace TitanGate.Game
             BDeco(Art.LifeboatPod(false, 0, ScavengeInventory.PodMax), 5.0f, 12.4f, 4);
             BProp("ld_dock", TT("Docking port", "ช่องเทียบท่า"), Art.Station("dock", false) ?? Art.Console("lddock", 22, 20, Pal.Amber), 5.0f, 9.2f, new Vector2(5.0f, 10.2f), 1, 1);
             BLamp(new Vector2(5.5f, 12f), new Color(1f, 0.8f, 0.5f), 6f, 0.5f);
-            BLamp(new Vector2(12.5f, 12f), new Color(0.7f, 0.85f, 1f), 3f, 0.35f);
+            // Corridor pilot: visible wall fixtures cast small warm pools onto a cool deck.
+            int tubeIndex = 0;
+            foreach (float x in new[] { 10.75f, 13.75f })
+            {
+                int wx = Mathf.FloorToInt(x);
+                var contact = BSprite("tube-fixture-contact", Art.SoftLight(), new Vector2(x, 13.50f), SortY(13) + 2);
+                contact.transform.localScale = new Vector3(.95f, .28f, 1f);
+                contact.color = new Color(.03f, .06f, .12f, .48f);
+                _bFaceWalls.Add((contact, wx, 13));
+                var wash = BSprite("tube-wall-wash", Art.WallLightCone(), new Vector2(x, 13.48f), SortY(13) + 1);
+                wash.transform.localScale = new Vector3(.85f, .34f, 1f);
+                wash.color = new Color(1f, .82f, .52f, .22f);
+                _bFaceWalls.Add((wash, wx, 13));
+                var fixture = BSprite("tube-wall-fixture", Art.DockTubeLight(), new Vector2(x, 13.54f), SortY(13) + 3);
+                _bFaceWalls.Add((fixture, wx, 13));
+                var pool = BSprite("tube-floor-light", Art.WallLightCone(), new Vector2(x, 13.02f), -29997 + tubeIndex++);
+                pool.transform.localScale = new Vector3(1.15f, 1.12f, 1f);
+                pool.color = new Color(1f, .80f, .48f, .24f);
+                BLamp(new Vector2(x, 12.15f), DeckWarmLight, 2.2f, .36f);
+            }
 
             // ---- Core (x 16-28, y 7-16): station board, bunks for the night, seats
             // the board sits on the wall between the Life Support and airlock doors (it used to cover a door frame)
@@ -335,13 +354,13 @@ namespace TitanGate.Game
             BProp("deco", null, bench, 19.6f, 11.0f, Vector2.zero, 1);
             var rightSeat = BProp("deco", null, bench, 24.4f, 11.0f, Vector2.zero, 1);
             rightSeat.sr.flipX = true; BRefitBlock(rightSeat);   // the hitbox follows the flipped chair
-            BLamp(new Vector2(22f, 12f), new Color(1f, 0.85f, 0.6f), 8f, 0.5f);
+            BLamp(new Vector2(22f, 12f), DeckWarmLight, 8f, 0.5f);
 
             // ---- Life Support (x 16-25, y 18-23): scrubber, O₂ generator, fan
             BProp("ld_scrubber", TT("CO₂ scrubber", "เครื่องกรอง CO₂"), Art.Station("scrubber", false) ?? Art.Recycler(), 17.6f, 23.12f, new Vector2(17.8f, 22.2f), 2, 1);
             BProp("ld_o2gen", TT("O₂ generator", "เครื่องผลิต O₂"), Art.Station("o2gen", false) ?? Art.Moxie(true), 21.0f, 23.12f, new Vector2(21.0f, 22.2f), 2, 1);
             BProp("ld_fan", TT("Air fan", "พัดลมหมุนเวียนอากาศ"), Art.Station("fan", false) ?? Art.Console("ldfan", 22, 22, Pal.Cyan), 24.4f, 23.12f, new Vector2(24.2f, 22.2f), 1, 1);
-            BLamp(new Vector2(21f, 21f), new Color(0.6f, 1f, 0.7f), 6f, 0.45f);
+            BLamp(new Vector2(21f, 21f), DeckServiceLight, 6f, 0.45f);
 
             // ---- Thermal control (x 30-36, y 9-15): coolant pump console and tanks
             BProp("ld_thermal", TT("Coolant loop", "ระบบท่อระบายความร้อน"), Art.Station("thermal", false) ?? Art.Console("ldthermal", 26, 30, Pal.Amber), 33.0f, 15.12f, new Vector2(33.0f, 14.3f), 2, 1);
@@ -360,7 +379,7 @@ namespace TitanGate.Game
             // ---- Communications (x 23-28, y 1-5)
             BProp("ld_radio", TT("Transmitter", "เครื่องส่งสัญญาณ"), Art.Station("radio", false) ?? Art.Console("ldradio", 26, 30, Pal.Cyan), 27.4f, 5.12f, new Vector2(27.2f, 4.3f), 2, 1);
             BDeco(Art.NavComputer(true), 24.0f, 5.12f, 1);
-            BLamp(new Vector2(25.5f, 3f), new Color(0.4f, 0.9f, 1f), 5f, 0.45f);
+            BLamp(new Vector2(25.5f, 3f), DeckCoolLight, 5f, 0.45f);
 
             // a shade over each module, coloured by what is wrong there
             _ldShade.Clear();
@@ -407,6 +426,19 @@ namespace TitanGate.Game
 
         // ------------------------------------------------------------------ per frame
 
+        static readonly (string spot, string art, System.Func<StationSimulation, bool> isBad)[] LdConsoleStates =
+        {
+            ("ld_scrubber", "scrubber", s => !s.ScrubberOk),
+            ("ld_o2gen", "o2gen", s => !s.O2GenOk),
+            ("ld_fan", "fan", s => !s.FanOk && !s.BackupCircuit),
+            ("ld_thermal", "thermal", s => !s.ThermalOk || s.HeatLevel != "normal"),
+            ("ld_radio", "radio", s => s.TransmitterTripped || !s.Usable(DockRoom.Comms)),
+            ("ld_board", "board", s => s.ActiveFault != Fault.None),
+            ("ld_dock", "dock", s => s.Battery < s.C.dockPower),
+            ("ld_lockers", "lockers", s => s.FindsLeft == 0),
+            ("ld_recycler", "recycler", s => !s.RecyclerOk),
+        };
+
         void LdUpdate(float dt)
         {
             if (_ld == null) return;
@@ -431,13 +463,9 @@ namespace TitanGate.Game
                 kv.Value.color = Color.Lerp(kv.Value.color, c, dt * 5f);
             }
             // Blender consoles show their state: fault light and red screen when broken
-            foreach (var (spot, art, bad) in new[] {
-                ("ld_scrubber", "scrubber", !_ld.ScrubberOk), ("ld_o2gen", "o2gen", !_ld.O2GenOk), ("ld_fan", "fan", !_ld.FanOk && !_ld.BackupCircuit),
-                ("ld_thermal", "thermal", !_ld.ThermalOk || _ld.HeatLevel != "normal"), ("ld_radio", "radio", _ld.TransmitterTripped || !_ld.Usable(DockRoom.Comms)),
-                ("ld_board", "board", _ld.ActiveFault != Fault.None), ("ld_dock", "dock", _ld.Battery < _ld.C.dockPower), ("ld_lockers", "lockers", _ld.FindsLeft == 0),
-                ("ld_recycler", "recycler", !_ld.RecyclerOk) })
+            foreach (var (spot, art, isBad) in LdConsoleStates)
             {
-                var sp = BSpotById(spot); var sprite = Art.Station(art, bad);
+                var sp = BSpotById(spot); var sprite = Art.Station(art, isBad(_ld));
                 if (sp != null && sprite != null && sp.sr.sprite != sprite) sp.sr.sprite = sprite;
             }
             _sfx.Loop("siren", _ld.ActiveFault != Fault.None && _ld.Outcome == Outcome.Ongoing && !_ui.ModalOpen && !_ldSeq);

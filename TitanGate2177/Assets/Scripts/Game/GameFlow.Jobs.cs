@@ -489,7 +489,7 @@ namespace TitanGate.Game
                 : d.id.StartsWith("storm") ? TT("The shelter is ready.", "ที่หลบพายุพร้อมแล้ว")
                 : TT("Fixed! It works again.", "ซ่อมเสร็จ! กลับมาใช้ได้แล้ว");
             _ui.Toast(done, GameUI.CGreen);
-            if (mistakes > 0) _ui.Toast(TT("ORBI: a few sparks on the way. Keep an eye on the gauges.", "ORBI: มีพลาดไปบ้าง ลองดูมาตรวัดนะ"), GameUI.CAmber);
+            if (mistakes > 0) OrbiSay(TT("A few sparks on the way. Keep an eye on the gauges.", "มีพลาดไปบ้าง ลองดูมาตรวัดนะ"), GameUI.CAmber);
             JobRelease();
             if (em) { EmEnd(); _bOpen = false; return; }
             var opt = WayOption(d, w);

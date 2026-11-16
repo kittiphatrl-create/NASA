@@ -638,7 +638,7 @@ namespace TitanGate.Game
                 lines = new List<(string, string)> { (null, TL(chat[k * 2])), (card.visitor, TL(chat[k * 2 + 1])) };
             }
             var replies = new List<(string, System.Action)> { (_loc.T("base.peep.back_to_lens"), () => BShowPeep()) };
-            BShowVN(card.visitor, lines, replies);
+            BShowVN(lines, replies);
         }
 
         void BRunScan(string id, VisualElement who, VisualElement heat, VisualElement sweep, VisualElement glow, float ph)

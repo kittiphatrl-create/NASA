@@ -222,19 +222,18 @@ namespace TitanGate.Game
         }
 
         /// <summary>A pulsing frame around a door (tile rect), coloured by its state.</summary>
-        void LdAddDoorFrame(RectInt r, System.Func<Color> color)
+        void LdAddDoorFrame(RectInt r, System.Func<Color> color, float thickness = 0.14f)
         {
-            const float t = 0.14f;
             void Bar(float x, float y, float w, float h)
             {
                 var sr = BSprite("door_frame", LdPixel(), new Vector2(x, y), 30002);
                 sr.transform.localScale = new Vector3(w, h, 1);
                 _ldFrames.Add((sr, color));
             }
-            Bar(r.xMin - t, r.yMin - t, r.width + 2 * t, t);
-            Bar(r.xMin - t, r.yMax, r.width + 2 * t, t);
-            Bar(r.xMin - t, r.yMin, t, r.height);
-            Bar(r.xMax, r.yMin, t, r.height);
+            Bar(r.xMin - thickness, r.yMin - thickness, r.width + 2 * thickness, thickness);
+            Bar(r.xMin - thickness, r.yMax, r.width + 2 * thickness, thickness);
+            Bar(r.xMin - thickness, r.yMin, thickness, r.height);
+            Bar(r.xMax, r.yMin, thickness, r.height);
         }
 
         void LdClearHighlights() { _ldRings.Clear(); _ldFrames.Clear(); _ldUseRings.Clear(); }
@@ -264,8 +263,13 @@ namespace TitanGate.Game
         /// <summary>LAST DOCK ship: frame the two vault doors (amber locked, green open).</summary>
         void LdFrameVaults()
         {
-            LdAddDoorFrame(new RectInt(38, 16, 2, 1), () => _ldVaultOpen == "power" ? GameUI.CGreen : _ldVaultOpen == null ? LdGold : new Color(0.6f, 0.6f, 0.65f, 0.5f));
-            LdAddDoorFrame(new RectInt(39, 6, 2, 1), () => _ldVaultOpen == "comms" ? GameUI.CGreen : _ldVaultOpen == null ? LdGold : new Color(0.6f, 0.6f, 0.65f, 0.5f));
+            const float thickness = 0.035f;
+            LdAddDoorFrame(new RectInt(38, 16, 2, 1),
+                () => _ldVaultOpen == "power" ? GameUI.CGreen : _ldVaultOpen == null ? LdGold : new Color(0.6f, 0.6f, 0.65f, 0.5f),
+                thickness);
+            LdAddDoorFrame(new RectInt(39, 6, 2, 1),
+                () => _ldVaultOpen == "comms" ? GameUI.CGreen : _ldVaultOpen == null ? LdGold : new Color(0.6f, 0.6f, 0.65f, 0.5f),
+                thickness);
         }
 
         // ------------------------------------------------------------------ sealed rooms never trap the cadet

@@ -191,14 +191,17 @@ namespace TitanGate.Game
 
         public Texture2D ToTexture(TextureWrapMode wrap = TextureWrapMode.Clamp)
         {
-            var t = new Texture2D(W, H, TextureFormat.RGBA32, false)
+            bool mip = W >= 16 && H >= 16;
+            var t = new Texture2D(W, H, TextureFormat.RGBA32, mip)
             {
-                filterMode = FilterMode.Point,
+                filterMode = mip ? (W >= 32 || H >= 32 ? FilterMode.Trilinear : FilterMode.Bilinear) : FilterMode.Point,
                 wrapMode = wrap,
+                anisoLevel = mip ? 4 : 1,
+                mipMapBias = mip ? -0.35f : 0f,
                 name = "px"
             };
             t.SetPixels32(_px);
-            t.Apply(false, false);
+            t.Apply(mip, false);
             return t;
         }
 

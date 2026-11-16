@@ -118,8 +118,9 @@ namespace TitanGate.Game
         {
             if (UserScoreActive)
             {
-                foreach (var layer in new[] { _musCalm, _musTension, _musStorm })
-                    if (layer != null) layer.volume = 0f;
+                if (_musCalm != null) _musCalm.volume = 0f;
+                if (_musTension != null) _musTension.volume = 0f;
+                if (_musStorm != null) _musStorm.volume = 0f;
                 return;
             }
             LdMusicEnsure();
@@ -136,7 +137,9 @@ namespace TitanGate.Game
         /// <summary>Silence the music when the top-down map goes away.</summary>
         void LdMusicStop()
         {
-            foreach (var m in new[] { _musCalm, _musTension, _musStorm }) if (m != null) m.volume = 0;
+            if (_musCalm != null) _musCalm.volume = 0;
+            if (_musTension != null) _musTension.volume = 0;
+            if (_musStorm != null) _musStorm.volume = 0;
         }
 
         // ------------------------------------------------------------------ particles

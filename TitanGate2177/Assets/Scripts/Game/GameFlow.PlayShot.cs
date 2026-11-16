@@ -143,7 +143,7 @@ namespace TitanGate.Game
 
         IEnumerator CaptureLiveDialogue()
         {
-            Check(_ui.DialogOpen && _ui.Typing, "the regular sofa interaction opens the live ORBI dialogue");
+            Check(_ui.DialogOpen && _ui.Typing, "the regular sofa interaction opens Arun's live dialogue");
             if (!_ui.DialogOpen) yield break;
             string folder = System.IO.Path.Combine(_shotDir, "dialogue-frames");
             System.IO.Directory.CreateDirectory(folder);
@@ -170,7 +170,7 @@ namespace TitanGate.Game
             }
             audio?.Finish();
             Check(audio != null, "recorded the game's listener audio");
-            yield return Shot(_loc.Current == Lang.TH ? "dialogue-orbi-th" : "dialogue-orbi-en");
+            yield return Shot(_loc.Current == Lang.TH ? "dialogue-mentor-th" : "dialogue-mentor-en");
         }
 
         IEnumerator PlayWeek()

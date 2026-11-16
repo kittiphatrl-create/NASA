@@ -57,10 +57,37 @@ namespace TitanGate.Game
         static float Ease(float t) => t * t * (3f - 2f * t);
 
         /// <summary>One shot: caption, then tick(0..1) every frame for the duration (or until skipped).</summary>
-        IEnumerator Shot(float seconds, string captionKey, Action<float> tick)
+        IEnumerator Shot(float seconds, string captionKey, Action<float> tick, string speaker = null)
         {
             if (_skipCut) yield break;
-            _ui.SetCaption(captionKey != null && _loc.Has(captionKey) ? _loc.T(captionKey) : "");
+            string text = captionKey != null && _loc.Has(captionKey) ? _loc.T(captionKey) : "";
+            if (speaker == null)
+                _ui.SetCaption(text);
+            else
+            {
+                string narration = "";
+                int quote = text.IndexOf('"');
+                int endQuote = text.LastIndexOf('"');
+                if (quote >= 0 && endQuote > quote)
+                {
+                    string before = text.Substring(0, quote).Trim();
+                    narration = (before.EndsWith(":", StringComparison.Ordinal) ? "" : before + " ") + text.Substring(endQuote + 1).Trim();
+                    narration = narration.Trim();
+                    text = text.Substring(quote + 1, endQuote - quote - 1);
+                }
+                else
+                {
+                    int colon = text.IndexOf(':');
+                    if (colon >= 0) text = text.Substring(colon + 1).TrimStart();
+                    if (captionKey == "story.escape.signal")
+                    {
+                        int split = text.IndexOf(TT(" The signal", " สัญญาณ"), StringComparison.Ordinal);
+                        if (split > 0) { narration = text.Substring(split + 1); text = text.Substring(0, split); }
+                    }
+                }
+                _ui.SetCaption(narration);
+                _ui.SetTimedDialogue(speaker, text, seconds);
+            }
             float t = 0;
             while (t < seconds && !_skipCut)
             {
